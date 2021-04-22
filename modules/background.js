@@ -37,5 +37,17 @@ exports.Background = function(width, height, square_size) {
 
 	}
 
+	if (width === 19 && height === 19) {			// FIXME
+		for (let x = 3; x < 19; x += 6) {
+			for (let y = 3; y < 19; y += 6) {
+				let x1 = (x * square_size) + (square_size / 2) + 0.5;
+				let y1 = (y * square_size) + (square_size / 2) + 0.5;
+				ctx.beginPath();
+				ctx.arc(x1, y1, 2, 0, 3 * Math.PI);
+				ctx.fill();
+			}
+		}
+	}
+
 	return `url("${c.toDataURL("image/png")}")`;
 }
