@@ -16,8 +16,8 @@ exports.filepath = electron.app ?
 		path.join(querystring.parse(global.location.search)["?user_data_path"], exports.filename);		// in Renderer process
 
 exports.defaults = {
-	"width": 1280,
-	"height": 835,
+	"width": 608,
+	"height": 608,
 };
 
 exports.config = {};
