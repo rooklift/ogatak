@@ -1,5 +1,7 @@
 "use strict";
 
+// Remember this will run twice in 2 different processes, so don't autosave etc.
+
 const electron = require("electron");
 const fs = require("fs");
 const path = require("path");
@@ -13,26 +15,24 @@ exports.filepath = electron.app ?
 		path.join(electron.app.getPath("userData"), exports.filename) :									// in Main process
 		path.join(querystring.parse(global.location.search)["?user_data_path"], exports.filename);		// in Renderer process
 
-function Config() {};			// This exists solely to make instanceof work.
-Config.prototype = {};
-
 exports.defaults = {
 	"width": 1280,
 	"height": 835,
 };
 
-exports.load = () => {
+exports.config = {};
+exports.error = null;
 
-	let cfg = new Config();
-	let err_to_return = null;
+exports.load = () => {
 
 	try {
 		if (fs.existsSync(exports.filepath)) {
-			Object.assign(cfg, JSON.parse(fs.readFileSync(exports.filepath, "utf8")));
+			Object.assign(exports.config, JSON.parse(fs.readFileSync(exports.filepath, "utf8")));
+			exports.error = null;
 		}
 	} catch (err) {
 		console.log(err.toString());
-		err_to_return = err.toString();
+		exports.error = err.toString();
 	}
 
 	// Copy default values for any missing keys into the config...
@@ -41,19 +41,13 @@ exports.load = () => {
 	let defaults_copy = JSON.parse(JSON.stringify(exports.defaults));
 
 	for (let key of Object.keys(defaults_copy)) {
-		if (cfg.hasOwnProperty(key) === false) {
-			cfg[key] = defaults_copy[key];
+		if (exports.config.hasOwnProperty(key) === false) {
+			exports.config[key] = defaults_copy[key];
 		}
 	}
-
-	return [err_to_return, cfg];
 };
 
-exports.save = (cfg) => {
-
-	if (cfg instanceof Config === false) {
-		throw "Wrong type of object sent to config_io.save()";
-	}
+exports.save = () => {
 
 	// Make a copy of the defaults. Doing it this way seems to
 	// ensure the final JSON string has the same ordering...
@@ -62,9 +56,9 @@ exports.save = (cfg) => {
 
 	// Adjust that copy, but only for keys present in both.
 
-	for (let key of Object.keys(cfg)) {
+	for (let key of Object.keys(exports.config)) {
 		if (out.hasOwnProperty(key)) {
-			out[key] = cfg[key];
+			out[key] = exports.config[key];
 		}
 	}
 
@@ -75,17 +69,13 @@ exports.save = (cfg) => {
 	}
 };
 
-exports.create_if_needed = (cfg) => {
+exports.create_if_needed = () => {
 
 	// Note that this must be called fairly late, when userData directory exists.
-
-	if (cfg instanceof Config === false) {
-		throw "Wrong type of object sent to config_io.create_if_needed()";
-	}
 
 	if (fs.existsSync(exports.filepath)) {
 		return;
 	}
 
-	exports.save(cfg);
+	exports.save();
 };

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const XYtoS = require("./utils").XYtoS;
 
@@ -26,7 +26,7 @@ exports.NewBoard = function(width, height, state = null, ko = null, active = "b"
 	}
 
 	return ret;
-}
+};
 
 let board_prototype = {
 
@@ -70,6 +70,32 @@ let board_prototype = {
 		this.state[x][y] = colour;
 	},
 
+	one_liberty_singleton: function(s) {
+
+		let colour = this.state_at(s);
+
+		if (!colour) {
+			return false;
+		}
+
+		let liberties = 0;
+
+		for (let neighbour of this.neighbours(s)) {
+
+			let neighbour_colour = this.state_at(neighbour);
+
+			if (neighbour_colour === colour) {
+				return false;
+			}
+
+			if (!neighbour_colour) {
+				liberties++;
+			}
+		}
+
+		return liberties === 1;
+	},
+
 	neighbours: function(s) {
 
 		let ret = [];
@@ -91,6 +117,17 @@ let board_prototype = {
 		}
 
 		return ret;
+	},
+
+	ko_square_finder: function(s) {
+
+		for (let neighbour of this.neighbours(s)) {
+			if (!this.state_at(neighbour)) {
+				return neighbour;
+			}
+		}
+
+		return null;
 	},
 
 	destroy_group: function(s) {
@@ -154,18 +191,20 @@ let board_prototype = {
 		this.active = this.active === "b" ? "w" : "b";
 	},
 
-	play_stone: function(s, colour) {			// Mutate so we can build up a board from a sequence of SGF properties.
+	play_stone: function(s, colour) {			// No legality checks.
 
 		if (colour !== "b" && colour !== "w") {
 			throw "play_stone() - Invalid colour";
 		}
 
 		if (this.in_bounds(s) === false) {		// Treat as a pass.
+			this.ko = null;
 			this.switch_active();
 			return;
 		}
 
 		this.set_at(s, colour);
+		let caps = 0;
 
 		for (let neighbour of this.neighbours(s)) {
 
@@ -173,7 +212,7 @@ let board_prototype = {
 
 			if (neighbour_colour && neighbour_colour !== colour) {
 				if (this.has_liberties(neighbour) === false) {
-					this.destroy_group(neighbour);
+					caps += this.destroy_group(neighbour);
 				}
 			}
 		}
@@ -182,15 +221,17 @@ let board_prototype = {
 			this.destroy_group(s);
 		}
 
+		if (caps === 1) {
+			if (this.one_liberty_singleton(s)) {
+				this.ko = this.ko_square_finder(s);
+			}
+		}
+
 		this.switch_active();
 	},
 
-	play_black: function(s) {
-		this.play_stone(s, "b");
-	},
-
-	play_white: function() {
-		this.play_stone(s, "w");
+	play: function(s) {
+		this.play_stone(s, this.active);
 	},
 
 	add_stone: function(s, colour) {

@@ -6,7 +6,8 @@ const path = require("path");
 const stringify = require("./modules/stringify");
 const url = require("url");
 
-let config = config_io.load();
+config_io.load();
+let config = config_io.config;
 
 let menu = menu_build();
 let win;						// We're supposed to keep global references to every window we make.
@@ -88,7 +89,13 @@ function menu_build() {
 				},
 				{
 					role: "toggledevtools"
-				}
+				},
+				{
+					label: `Show ${config_io.filename}`,
+					click: () => {
+						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
 			]
 		}
 	];

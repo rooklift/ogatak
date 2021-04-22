@@ -11,3 +11,19 @@ body {
 canvas {
 	position: absolute;
 }
+
+#boardtable {
+	background-image: url("./gfx/subdued_board.png");
+	background-size: cover;
+	border-collapse: collapse;
+	table-layout: fixed;
+	z-index: 1;
+}
+
+td {
+	background-color: transparent;
+	background-size: contain;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
