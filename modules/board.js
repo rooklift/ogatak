@@ -271,5 +271,9 @@ let board_prototype = {
 		this.add_stone(s, "w");
 	},
 
+	add_empty: function() {
+		this.add_stone(s, "");
+	},
+
 };
 
