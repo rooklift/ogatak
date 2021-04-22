@@ -6,12 +6,15 @@ const boardtable = document.getElementById("boardtable");
 
 const black_stone = new Image();
 const white_stone = new Image();
+const ko_marker = new Image();
 black_stone.src = "./gfx/black_stone.png";
 white_stone.src = "./gfx/white_stone.png";
+ko_marker.src = "./gfx/ko.png";
 
 let width = null;
 let height = null;
 let current = null;
+let current_ko = null;
 
 exports.DrawTable = function(board) {
 
@@ -20,6 +23,7 @@ exports.DrawTable = function(board) {
 		width = board.width;
 		height = board.height;
 		current = [];
+		current_ko = null;
 
 		boardtable.innerHTML = "";
 
@@ -44,6 +48,27 @@ exports.DrawTable = function(board) {
 
 	}
 
+	if (current_ko !== board.ko) {
+
+		if (current_ko) {
+			let x = current_ko.charCodeAt(0) - 97;
+			let y = current_ko.charCodeAt(1) - 97;
+			let td = document.getElementById("td_" + XYtoS(x, y));
+			td.style["background-image"] = "";
+			current[x][y] = "";
+		}
+
+		if (board.ko) {
+			let x = board.ko.charCodeAt(0) - 97;
+			let y = board.ko.charCodeAt(1) - 97;
+			let td = document.getElementById("td_" + XYtoS(x, y));
+			td.style["background-image"] = `url("${ko_marker.src}")`;
+			current[x][y] = "";
+		}
+
+		current_ko = board.ko;
+	}
+
 	for (let x = 0; x < width; x++) {
 
 		for (let y = 0; y < height; y++) {
@@ -65,4 +90,6 @@ exports.DrawTable = function(board) {
 			current[x][y] = board.state[x][y]
 		}
 	}
+
+
 };
