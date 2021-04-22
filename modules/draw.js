@@ -49,9 +49,11 @@ exports.DrawTable = function(board) {
 			}
 		}
 
+		boardtable.style.width = (board.width * 32).toString() + "px";
+		boardtable.style.height = (board.height * 32).toString() + "px";
+
 		boardbg.style.left = boardtable.offsetLeft.toString() + "px";
 		boardbg.style.top = boardtable.offsetTop.toString() + "px";
-
 		boardbg.style.width = (board.width * 32).toString() + "px";
 		boardbg.style.height = (board.height * 32).toString() + "px";
 	}
