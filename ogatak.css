@@ -19,7 +19,6 @@ canvas {
 }
 
 #boardtable {
-	background-size: cover;
 	border-collapse: collapse;
 	position: fixed;
 	table-layout: fixed;
