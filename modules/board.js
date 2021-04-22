@@ -1,6 +1,10 @@
 "use strict"
 
+const XYtoS = require("./utils").XYtoS;
+
 exports.NewBoard = function(width, height, state = null, ko = null, active = "b") {
+
+	// FIXME - add captures
 
 	let ret = Object.create(board_prototype);
 
@@ -42,19 +46,143 @@ let board_prototype = {
 		return x >= 0 && x < this.width && y >= 0 && y < this.height;
 	},
 
+	state_at: function(s) {
+
+		if (this.in_bounds(s) === false) {
+			return "";
+		}
+
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+
+		return this.state[x][y];
+	},
+
+	set_at: function(s, colour) {
+
+		if (this.in_bounds(s) === false) {
+			return;
+		}
+
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+
+		this.state[x][y] = colour;
+	},
+
+	neighbours: function(s) {
+
+		let ret = [];
+
+		if (this.in_bounds(s) === false) {
+			return ret;
+		}
+
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+
+		for (let offset of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+
+			let z = XYtoS(x + offset[0], y + offset[1]);
+
+			if (this.in_bounds(z)) {
+				ret.push(z);
+			}
+		}
+
+		return ret;
+	},
+
+	destroy_group: function(s) {
+
+		let colour = this.state_at(s);
+
+		if (!colour) {
+			return 0;
+		}
+
+		this.set_at(s, "");
+		let caps = 1;
+
+		for (let neighbour of this.neighbours(s)) {
+			if (this.state_at(neighbour) === colour) {
+				caps += this.destroy_group(neighbour);
+			}
+		}
+
+		return caps;
+	},
+
+	has_liberties: function(s) {
+
+		if (!this.state_at(s)) {
+			return false;						// I guess?
+		}
+
+		let touched = Object.create(null);
+
+		return this.has_liberties_recurse(s, touched);
+	},
+
+	has_liberties_recurse: function(s, touched) {
+
+		touched[s] = true;
+
+		let colour = this.state_at(s);
+
+		for (let neighbour of this.neighbours(s)) {
+
+			let neighbour_colour = this.state_at(neighbour);
+
+			if (!neighbour_colour) {
+				return true;
+			}
+
+			if (neighbour_colour === colour) {
+				if (!touched[neighbour]) {
+					if (this.has_liberties_recurse(neighbour, touched)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	},
+
+	switch_active: function() {
+		this.active = this.active === "b" ? "w" : "b";
+	},
+
 	play_stone: function(s, colour) {			// Mutate so we can build up a board from a sequence of SGF properties.
 
 		if (colour !== "b" && colour !== "w") {
 			throw "play_stone() - Invalid colour";
 		}
 
-		if (this.in_bounds(s) === false) return;
+		if (this.in_bounds(s) === false) {		// Treat as a pass.
+			this.switch_active();
+			return;
+		}
 
-		let x = s.charCodeAt(0) - 97;
-		let y = s.charCodeAt(1) - 97;
+		this.set_at(s, colour);
 
-		// TODO
+		for (let neighbour of this.neighbours(s)) {
 
+			let neighbour_colour = this.state_at(neighbour);
+
+			if (neighbour_colour && neighbour_colour !== colour) {
+				if (this.has_liberties(neighbour) === false) {
+					this.destroy_group(neighbour);
+				}
+			}
+		}
+
+		if (this.has_liberties(s) === false) {
+			this.destroy_group(s);
+		}
+
+		this.switch_active();
 	},
 
 	play_black: function(s) {
