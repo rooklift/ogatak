@@ -1,7 +1,9 @@
 "use strict";
 
 const XYtoS = require("./utils").XYtoS;
+const Background = require("./background").Background;
 
+const boardbg = document.getElementById("boardbg");
 const boardtable = document.getElementById("boardtable");
 
 const black_stone = new Image();
@@ -26,6 +28,7 @@ exports.DrawTable = function(board) {
 		current_ko = null;
 
 		boardtable.innerHTML = "";
+		boardtable.style["background-image"] = Background(board.width, board.height, 32);
 
 		for (let y = 0; y < height; y++) {
 			let tr = document.createElement("tr");
@@ -46,6 +49,11 @@ exports.DrawTable = function(board) {
 			}
 		}
 
+		boardbg.style.left = boardtable.offsetLeft.toString() + "px";
+		boardbg.style.top = boardtable.offsetTop.toString() + "px";
+
+		boardbg.style.width = (board.width * 32).toString() + "px";
+		boardbg.style.height = (board.height * 32).toString() + "px";
 	}
 
 	if (current_ko !== board.ko) {
@@ -90,6 +98,4 @@ exports.DrawTable = function(board) {
 			current[x][y] = board.state[x][y]
 		}
 	}
-
-
 };

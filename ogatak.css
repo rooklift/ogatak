@@ -12,12 +12,18 @@ canvas {
 	position: absolute;
 }
 
-#boardtable {
+#boardbg {
 	background-image: url("./gfx/subdued_board.png");
+	position: fixed;
+	z-index: 1;
+}
+
+#boardtable {
 	background-size: cover;
 	border-collapse: collapse;
+	position: fixed;
 	table-layout: fixed;
-	z-index: 1;
+	z-index: 2;
 }
 
 td {

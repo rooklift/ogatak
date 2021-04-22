@@ -25,6 +25,3 @@ boardtable.addEventListener("mousedown", (event) => {
 		DrawTable(node.get_board());
 	}
 });
-
-exports.get_node = () => node;
-
