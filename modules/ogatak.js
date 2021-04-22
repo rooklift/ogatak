@@ -9,19 +9,22 @@ const config = config_io.config;
 
 const DrawTable = require("./draw").DrawTable;
 const EventPathString = require("./utils").EventPathString;
-const NewBoard = require("./board").NewBoard;
+const NewNode = require("./node").NewNode;
 
 const boardtable = document.getElementById("boardtable");
 
 // ---------------------------------------------------------------------
 
-let board = NewBoard(19, 19);
-DrawTable(board);
+let node = NewNode();
+DrawTable(node.get_board());
 
 boardtable.addEventListener("mousedown", (event) => {
 	let coords = EventPathString(event, "td_");
 	if (coords) {
-		board.play(coords);
-		DrawTable(board);
+		node = node.try_move(coords);
+		DrawTable(node.get_board());
 	}
 });
+
+exports.get_node = () => node;
+

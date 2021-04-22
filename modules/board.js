@@ -18,7 +18,7 @@ exports.NewBoard = function(width, height, state = null, ko = null, active = "b"
 		ret.state.push([]);
 		for (let y = 0; y < height; y++) {
 			if (state) {
-				ret.state[x].push(ret.state[x][y]);
+				ret.state[x].push(state[x][y]);
 			} else {
 				ret.state[x].push("");
 			}
@@ -31,7 +31,7 @@ exports.NewBoard = function(width, height, state = null, ko = null, active = "b"
 let board_prototype = {
 
 	copy: function() {
-		return NewBoard(this.width, this.height, this.state, this.ko, this.active);
+		return exports.NewBoard(this.width, this.height, this.state, this.ko, this.active);
 	},
 
 	in_bounds: function(s) {
@@ -187,8 +187,25 @@ let board_prototype = {
 		return false;
 	},
 
-	switch_active: function() {
-		this.active = this.active === "b" ? "w" : "b";
+	legal: function(s) {
+		return this.legal_colour(s, this.active);
+	},
+
+	legal_colour: function(s, colour) {
+
+		if (this.in_bounds(s) === false) {
+			return false;
+		}
+
+		if (this.state_at(s)) {
+			return false;
+		}
+
+		if (this.ko === s) {
+			return false;
+		}
+
+		return true;
 	},
 
 	play_stone: function(s, colour) {			// No legality checks.
@@ -197,9 +214,10 @@ let board_prototype = {
 			throw "play_stone() - Invalid colour";
 		}
 
+		this.ko = null;
+		this.active = colour === "b" ? "w" : "b";
+
 		if (this.in_bounds(s) === false) {		// Treat as a pass.
-			this.ko = null;
-			this.switch_active();
 			return;
 		}
 
@@ -226,12 +244,14 @@ let board_prototype = {
 				this.ko = this.ko_square_finder(s);
 			}
 		}
-
-		this.switch_active();
 	},
 
-	play: function(s) {
-		this.play_stone(s, this.active);
+	play_black: function(s) {
+		this.play_stone(s, "b");
+	},
+
+	play_white: function(s) {
+		this.play_stone(s, "w");
 	},
 
 	add_stone: function(s, colour) {
