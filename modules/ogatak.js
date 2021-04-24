@@ -7,22 +7,26 @@ const config = config_io.config;
 
 // ---------------------------------------------------------------------
 
-const DrawTable = require("./draw").DrawTable;
+const NewBoardDrawer = require("./draw").NewBoardDrawer;
 const EventPathString = require("./utils").EventPathString;
+const EventPathClassString = require("./utils").EventPathClassString;
 const NewNode = require("./node").NewNode;
 
+const boardbg = document.getElementById("boardbg");
 const boardtable = document.getElementById("boardtable");
 
 // ---------------------------------------------------------------------
 
+let maindrawer = NewBoardDrawer(boardbg, boardtable);
 let node = NewNode();
-DrawTable(node.get_board());
+
+maindrawer.Draw(node.get_board());
 
 boardtable.addEventListener("mousedown", (event) => {
-	let coords = EventPathString(event, "td_");
+	let coords = EventPathClassString(event, "td_");
 	if (coords) {
 		node = node.try_move(coords);
-		DrawTable(node.get_board());
+		maindrawer.Draw(node.get_board());
 	}
 });
 
@@ -45,7 +49,7 @@ document.addEventListener("wheel", (event) => {
 		if (event.deltaY && event.deltaY < 0) {
 			if (node.parent) {
 				node = node.parent;
-				DrawTable(node.get_board());
+				maindrawer.Draw(node.get_board());
 			}
 		}
 	}

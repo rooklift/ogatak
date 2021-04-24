@@ -3,101 +3,106 @@
 const XYtoS = require("./utils").XYtoS;
 const Background = require("./background").Background;
 
-const boardbg = document.getElementById("boardbg");
-const boardtable = document.getElementById("boardtable");
+const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
+const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
+const ko_marker   = new Image(); ko_marker.src   = "./gfx/ko.png";
 
-const black_stone = new Image();
-const white_stone = new Image();
-const ko_marker = new Image();
-black_stone.src = "./gfx/black_stone.png";
-white_stone.src = "./gfx/white_stone.png";
-ko_marker.src = "./gfx/ko.png";
+exports.NewBoardDrawer = function(backgrounddiv, htmltable) {
 
-let width = null;
-let height = null;
-let current = null;
-let current_ko = null;
+	let drawer = {};
 
-exports.DrawTable = function(board) {
+	drawer.width = null;
+	drawer.height = null;
+	drawer.current = null;
+	drawer.current_ko = null;
 
-	if (width !== board.width || height !== board.height) {
+	drawer.backgrounddiv = backgrounddiv;
+	drawer.htmltable = htmltable;
 
-		width = board.width;
-		height = board.height;
-		current = [];
-		current_ko = null;
+	drawer.Draw = function(board) {
 
-		boardtable.innerHTML = "";
-		boardtable.style["background-image"] = Background(board.width, board.height, 32);
+		if (this.width !== board.width || this.height !== board.height) {
 
-		for (let y = 0; y < height; y++) {
-			let tr = document.createElement("tr");
-			boardtable.appendChild(tr);
-			for (let x = 0; x < width; x++) {
-				let td = document.createElement("td");
-				td.id = "td_" + XYtoS(x, y);
-				td.width = 32;
-				td.height = 32;
-				tr.appendChild(td);
-			}
-		}
+			this.width = board.width;
+			this.height = board.height;
+			this.current = [];
+			this.current_ko = null;
 
-		for (let x = 0; x < width; x++) {
-			current.push([]);
-			for (let y = 0; y < height; y++) {
-				current[x].push("");
-			}
-		}
+			this.htmltable.innerHTML = "";
+			this.htmltable.style["background-image"] = Background(board.width, board.height, 32);
 
-		boardtable.style.width = (board.width * 32).toString() + "px";
-		boardtable.style.height = (board.height * 32).toString() + "px";
-
-		boardbg.style.left = boardtable.offsetLeft.toString() + "px";
-		boardbg.style.top = boardtable.offsetTop.toString() + "px";
-		boardbg.style.width = (board.width * 32).toString() + "px";
-		boardbg.style.height = (board.height * 32).toString() + "px";
-	}
-
-	if (current_ko !== board.ko) {
-
-		if (current_ko) {
-			let x = current_ko.charCodeAt(0) - 97;
-			let y = current_ko.charCodeAt(1) - 97;
-			let td = document.getElementById("td_" + XYtoS(x, y));
-			td.style["background-image"] = "";
-			current[x][y] = "";
-		}
-
-		if (board.ko) {
-			let x = board.ko.charCodeAt(0) - 97;
-			let y = board.ko.charCodeAt(1) - 97;
-			let td = document.getElementById("td_" + XYtoS(x, y));
-			td.style["background-image"] = `url("${ko_marker.src}")`;
-			current[x][y] = "";
-		}
-
-		current_ko = board.ko;
-	}
-
-	for (let x = 0; x < width; x++) {
-
-		for (let y = 0; y < height; y++) {
-
-			if (current[x][y] === board.state[x][y]) {
-				continue;
+			for (let y = 0; y < board.height; y++) {
+				let tr = document.createElement("tr");
+				htmltable.appendChild(tr);
+				for (let x = 0; x < board.width; x++) {
+					let td = document.createElement("td");
+					td.className = "td_" + XYtoS(x, y);
+					td.width = 32;
+					td.height = 32;
+					tr.appendChild(td);
+				}
 			}
 
-			let td = document.getElementById("td_" + XYtoS(x, y));
+			for (let x = 0; x < board.width; x++) {
+				this.current.push([]);
+				for (let y = 0; y < board.height; y++) {
+					this.current[x].push("");
+				}
+			}
 
-			if (board.state[x][y] === "b") {
-				td.style["background-image"] = `url("${black_stone.src}")`;
-			} else if (board.state[x][y] === "w") {
-				td.style["background-image"] = `url("${white_stone.src}")`;
-			} else {
+			this.htmltable.style.width = (board.width * 32).toString() + "px";
+			this.htmltable.style.height = (board.height * 32).toString() + "px";
+
+			this.backgrounddiv.style.left = this.htmltable.offsetLeft.toString() + "px";
+			this.backgrounddiv.style.top = this.htmltable.offsetTop.toString() + "px";
+			this.backgrounddiv.style.width = (board.width * 32).toString() + "px";
+			this.backgrounddiv.style.height = (board.height * 32).toString() + "px";
+		}
+
+		if (this.current_ko !== board.ko) {
+
+			if (this.current_ko) {
+				let x = this.current_ko.charCodeAt(0) - 97;
+				let y = this.current_ko.charCodeAt(1) - 97;
+				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
 				td.style["background-image"] = "";
+				this.current[x][y] = "";
 			}
 
-			current[x][y] = board.state[x][y]
+			if (board.ko) {
+				let x = board.ko.charCodeAt(0) - 97;
+				let y = board.ko.charCodeAt(1) - 97;
+				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
+				td.style["background-image"] = `url("${ko_marker.src}")`;
+				this.current[x][y] = "";
+			}
+
+			this.current_ko = board.ko;
 		}
-	}
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				if (this.current[x][y] === board.state[x][y]) {
+					continue;
+				}
+
+				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
+
+				if (board.state[x][y] === "b") {
+					td.style["background-image"] = `url("${black_stone.src}")`;
+				} else if (board.state[x][y] === "w") {
+					td.style["background-image"] = `url("${white_stone.src}")`;
+				} else {
+					td.style["background-image"] = "";
+				}
+
+				this.current[x][y] = board.state[x][y]
+			}
+		}
+	};
+
+	return drawer;
+
 };
