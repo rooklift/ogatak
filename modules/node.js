@@ -7,8 +7,13 @@ exports.NewNode = function(parent) {
 	let node = Object.create(node_prototype);
 
 	node.parent = parent;
+	node.children = [];
 	node.props = Object.create(null);
 	node.board = null;
+
+	if (parent) {
+		parent.children.push(node);
+	}
 
 	return node;
 };
@@ -60,13 +65,16 @@ let node_prototype = {
 			return this;
 		}
 
-		let node = exports.NewNode(this);
+		let propkey = board.active.toUpperCase();
 
-		if (board.active === "b") {
-			node.set("B", s);
-		} else {
-			node.set("W", s);
+		for (let child of this.children) {
+			if (child.get(propkey) === s) {
+				return child;
+			}
 		}
+
+		let node = exports.NewNode(this);
+		node.set(propkey, s);
 
 		return node;
 
