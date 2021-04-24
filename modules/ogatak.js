@@ -12,14 +12,16 @@ const EventPathString = require("./utils").EventPathString;
 const EventPathClassString = require("./utils").EventPathClassString;
 const NewNode = require("./node").NewNode;
 
+// ---------------------------------------------------------------------
+
 const boardbg = document.getElementById("boardbg");
 const boardtable = document.getElementById("boardtable");
 
 // ---------------------------------------------------------------------
 
-let maindrawer = NewBoardDrawer(boardbg, boardtable);
 let node = NewNode();
 
+let maindrawer = NewBoardDrawer(boardbg, boardtable);
 maindrawer.Draw(node.get_board());
 
 boardtable.addEventListener("mousedown", (event) => {
@@ -31,11 +33,8 @@ boardtable.addEventListener("mousedown", (event) => {
 });
 
 document.addEventListener("wheel", (event) => {
-
 	let allow = false;
-
 	let path = event.path || (event.composedPath && event.composedPath());
-
 	if (path) {
 		for (let item of path) {
 			if (item.id === "boardtable") {
@@ -44,13 +43,8 @@ document.addEventListener("wheel", (event) => {
 			}
 		}
 	}
-
-	if (allow) {
-		if (event.deltaY && event.deltaY < 0) {
-			if (node.parent) {
-				node = node.parent;
-				maindrawer.Draw(node.get_board());
-			}
-		}
+	if (allow && event.deltaY && event.deltaY < 0 && node.parent) {
+		node = node.parent;
+		maindrawer.Draw(node.get_board());
 	}
 });
