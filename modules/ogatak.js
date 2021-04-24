@@ -20,6 +20,7 @@ const boardtable = document.getElementById("boardtable");
 // ---------------------------------------------------------------------
 
 let node = NewNode();
+window.debug_node = () => node;
 
 let maindrawer = NewBoardDrawer(boardbg, boardtable);
 maindrawer.Draw(node.get_board());
@@ -48,3 +49,4 @@ document.addEventListener("wheel", (event) => {
 		maindrawer.Draw(node.get_board());
 	}
 });
+
