@@ -98,3 +98,20 @@ ipcRenderer.on("next", (event, msg) => {
 		maindrawer.Draw(node);
 	}
 });
+
+ipcRenderer.on("next_sibling", (event, msg) => {
+	if (node.parent && node.parent.children.length > 1) {
+		let nexti = 0;
+		for (let i = 0; i < node.parent.children.length; i++) {
+			if (node.parent.children[i] === node) {
+				nexti = i + 1;
+				if (nexti >= node.parent.children.length) {
+					nexti = 0;
+				}
+			}
+		}
+
+		node = node.parent.children[nexti];
+		maindrawer.Draw(node);
+	}
+});

@@ -145,6 +145,13 @@ function menu_build() {
 						win.webContents.send("next");
 					}
 				},
+				{
+					label: "Next sibling",
+					accelerator: "Down",
+					click: () => {
+						win.webContents.send("next_sibling");
+					}
+				},
 			]
 		},
 	];
