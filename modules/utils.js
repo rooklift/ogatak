@@ -36,7 +36,6 @@ exports.EventPathString = function(event, prefix) {
 exports.EventPathClassString = function(event, prefix) {
 
 	// As above, but looks at class rather than id.
-	// Assumes the relevant item has only 1 class.
 
 	if (!event || typeof prefix !== "string") {
 		return null;
@@ -46,9 +45,12 @@ exports.EventPathClassString = function(event, prefix) {
 
 	if (path) {
 		for (let item of path) {
-			if (typeof item.className === "string") {
-				if (item.className.startsWith(prefix)) {
-					return item.className.slice(prefix.length);
+			if (typeof item.className === "string" && item.className !== "") {
+				let classes = item.className.split(" ");
+				for (let cl of classes) {
+					if (cl.startsWith(prefix)) {
+						return cl.slice(prefix.length);
+					}
 				}
 			}
 		}
