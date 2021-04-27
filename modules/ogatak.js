@@ -33,7 +33,7 @@ maindrawer.Draw(node);
 function load(filepath) {
 	try {
 		let s = fs.readFileSync(filepath);
-		node = sgf.Load(s)[0];
+		node = sgf.Load(s, 0, null)[0];
 	} catch (err) {
 		console.log(err.toString());
 	}

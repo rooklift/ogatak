@@ -44,7 +44,7 @@ function new_byte_pusher(size) {
 	};
 }
 
-exports.Load = function(sgf, parent_of_local_root) {
+exports.Load = function(sgf, off, parent_of_local_root) {
 
 	let root = null;
 	let node = null;
@@ -55,7 +55,7 @@ exports.Load = function(sgf, parent_of_local_root) {
 	let key = new_byte_pusher();
 	let keycomplete = false;
 
-	for (let i = 0; i < sgf.length; i++) {
+	for (let i = off; i < sgf.length; i++) {
 
 		let c = sgf[i];
 
@@ -109,13 +109,13 @@ exports.Load = function(sgf, parent_of_local_root) {
 				if (!node) {
 					throw "SGF Load() error: new subtree started but node was null";
 				}
-				let chars_to_skip = exports.Load(sgf.slice(i), node)[1];
-				i += chars_to_skip - 1;		// Subtract 1: the ( character we have read is also counted by the recurse.
+				let chars_to_skip = exports.Load(sgf, i, node)[1];
+				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
 					throw "SGF Load() error: subtree ended but local root was null";
 				}
-				return [root, i + 1];
+				return [root, i + 1 - off];
 			} else if (c === 59) {						// that is ;
 				if (!node) {
 					node = NewNode(parent_of_local_root);
