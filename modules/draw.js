@@ -19,9 +19,13 @@ exports.NewBoardDrawer = function(backgrounddiv, htmltable) {
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 
-	drawer.Draw = function(board) {
+	drawer.Draw = function(node) {
+
+		let board = node.get_board();
 
 		if (this.width !== board.width || this.height !== board.height) {
+
+			// Reset all the things.
 
 			this.width = board.width;
 			this.height = board.height;
