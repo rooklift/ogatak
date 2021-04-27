@@ -1,6 +1,7 @@
 "use strict";
 
 const NewBoard = require("./board").NewBoard;
+const stringify = require("./stringify");
 
 exports.NewNode = function(parent) {
 
@@ -21,7 +22,7 @@ exports.NewNode = function(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		this.props[key] = [value];
+		this.props[key] = [stringify(value)];
 	},
 
 	get: function(key) {				// On the assumption there is only 1 value for this key.
@@ -44,13 +45,15 @@ let node_prototype = {
 
 		this.board = this.parent.get_board().copy();
 
+		// FIXME - add AB, AW, AE
+
 		let bmove = this.get("B");
-		if (bmove) {
+		if (typeof bmove === "string") {
 			this.board.play_black(bmove);
 		}
 
 		let wmove = this.get("W");
-		if (wmove) {
+		if (typeof wmove === "string") {
 			this.board.play_white(wmove);
 		}
 
@@ -77,7 +80,6 @@ let node_prototype = {
 		node.set(propkey, s);
 
 		return node;
-
 	},
 
 };
