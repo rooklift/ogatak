@@ -1,5 +1,6 @@
 "use strict";
 
+const OppositeColour = require("./utils").OppositeColour;
 const XYtoS = require("./utils").XYtoS;
 
 exports.NewBoard = function(width, height, state = null, ko = null, active = "b") {
@@ -216,7 +217,7 @@ let board_prototype = {
 
 		for (let neighbour of neighbours) {
 			if (!this.state_at(neighbour)) {
-				return true;								// New stone has a liberty.
+				return true;					// New stone has a liberty.
 			}
 		}
 
@@ -225,7 +226,13 @@ let board_prototype = {
 				let touched = Object.create(null);
 				touched[s] = true;
 				if (this.has_liberties_recurse(neighbour, touched)) {
-					return true;							// One of the groups we're joining has a liberty other than s.
+					return true;				// One of the groups we're joining has a liberty other than s.
+				}
+			} else if (this.state_at(neighbour) === OppositeColour(colour)) {
+				let touched = Object.create(null);
+				touched[s] = true;
+				if (this.has_liberties_recurse(neighbour, touched) === false) {
+					return true;				// One of the enemy groups has no liberties other than s.
 				}
 			}
 		}
