@@ -295,16 +295,16 @@ let board_prototype = {
 		this.state[x][y] = colour;
 	},
 
+	add_empty: function(s) {
+		this.add_stone(s, "");
+	},
+
 	add_black: function(s) {
 		this.add_stone(s, "b");
 	},
 
-	add_white: function() {
+	add_white: function(s) {
 		this.add_stone(s, "w");
-	},
-
-	add_empty: function() {
-		this.add_stone(s, "");
 	},
 
 };

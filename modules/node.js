@@ -52,7 +52,23 @@ let node_prototype = {
 
 		this.board = this.parent.get_board().copy();
 
-		// FIXME - add AB, AW, AE
+		if (this.props.AE) {
+			for (let s of this.props.AE) {
+				this.board.add_empty(s);
+			}
+		}
+
+		if (this.props.AB) {
+			for (let s of this.props.AB) {
+				this.board.add_black(s);
+			}
+		}
+
+		if (this.props.AW) {
+			for (let s of this.props.AW) {
+				this.board.add_white(s);
+			}
+		}
 
 		let bmove = this.get("B");
 		if (typeof bmove === "string") {
