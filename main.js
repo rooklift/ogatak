@@ -85,7 +85,7 @@ function startup() {
 function menu_build() {
 	const template = [
 		{
-			label: "Menu",
+			label: "App",
 			submenu: [
 				{
 					role: "quit"
@@ -113,7 +113,40 @@ function menu_build() {
 					}
 				},
 			]
-		}
+		},
+		{
+			label: "Tree",
+			submenu: [
+				{
+					label: "Root",
+					accelerator: "Home",
+					click: () => {
+						win.webContents.send("go_to_root");
+					}
+				},
+				{
+					label: "End",
+					accelerator: "End",
+					click: () => {
+						win.webContents.send("go_to_end");
+					}
+				},
+				{
+					label: "Backward",
+					accelerator: "Left",
+					click: () => {
+						win.webContents.send("prev");
+					}
+				},
+				{
+					label: "Forward",
+					accelerator: "Right",
+					click: () => {
+						win.webContents.send("next");
+					}
+				},
+			]
+		},
 	];
 
 	return electron.Menu.buildFromTemplate(template);

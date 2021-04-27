@@ -30,15 +30,6 @@ maindrawer.Draw(node);
 
 // ---------------------------------------------------------------------
 
-function load(filepath) {
-	try {
-		let s = fs.readFileSync(filepath);
-		node = sgf.Load(s, 0, null)[0];
-	} catch (err) {
-		console.log(err.toString());
-	}
-}
-
 boardtable.addEventListener("mousedown", (event) => {
 	let coords = EventPathClassString(event, "td_");
 	if (coords) {
@@ -68,6 +59,42 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+// ---------------------------------------------------------------------
+
 ipcRenderer.on("load", (event, msg) => {
-	load(msg);
+	try {
+		let s = fs.readFileSync(msg);
+		node = sgf.Load(s, 0, null)[0];
+		maindrawer.Draw(node);
+	} catch (err) {
+		console.log(err.toString());
+	}
+});
+
+ipcRenderer.on("go_to_end", (event, msg) => {
+	while (node.children.length > 0) {
+		node = node.children[0];
+	}
+	maindrawer.Draw(node);
+});
+
+ipcRenderer.on("go_to_root", (event, msg) => {
+	while (node.parent) {
+		node = node.parent;
+	}
+	maindrawer.Draw(node);
+});
+
+ipcRenderer.on("prev", (event, msg) => {
+	if (node.parent) {
+		node = node.parent;
+		maindrawer.Draw(node);
+	}
+});
+
+ipcRenderer.on("next", (event, msg) => {
+	if (node.children.length > 0) {
+		node = node.children[0];
+		maindrawer.Draw(node);
+	}
 });
