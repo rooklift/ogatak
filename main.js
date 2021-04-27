@@ -146,6 +146,13 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Previous sibling",
+					accelerator: "Up",
+					click: () => {
+						win.webContents.send("prev_sibling");
+					}
+				},
+				{
 					label: "Next sibling",
 					accelerator: "Down",
 					click: () => {

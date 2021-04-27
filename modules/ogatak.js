@@ -99,6 +99,24 @@ ipcRenderer.on("next", (event, msg) => {
 	}
 });
 
+ipcRenderer.on("prev_sibling", (event, msg) => {
+	if (node.parent && node.parent.children.length > 1) {
+		let previ = 0;
+		for (let i = 0; i < node.parent.children.length; i++) {
+			if (node.parent.children[i] === node) {
+				previ = i - 1;
+				if (previ < 0) {
+					previ = node.parent.children.length - 1;
+				}
+				break;
+			}
+		}
+
+		node = node.parent.children[previ];
+		maindrawer.Draw(node);
+	}
+});
+
 ipcRenderer.on("next_sibling", (event, msg) => {
 	if (node.parent && node.parent.children.length > 1) {
 		let nexti = 0;
@@ -108,6 +126,7 @@ ipcRenderer.on("next_sibling", (event, msg) => {
 				if (nexti >= node.parent.children.length) {
 					nexti = 0;
 				}
+				break;
 			}
 		}
 
