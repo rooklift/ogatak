@@ -25,6 +25,13 @@ let node_prototype = {
 		this.props[key] = [stringify(value)];
 	},
 
+	add_value: function(key, value) {
+		if (!this.props[key]) {
+			this.props[key] = [];
+		}
+		this.props[key].push(stringify(value));
+	},
+
 	get: function(key) {				// On the assumption there is only 1 value for this key.
 		if (!this.props[key]) {
 			return undefined;

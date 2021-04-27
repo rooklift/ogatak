@@ -7,10 +7,13 @@ const config = config_io.config;
 
 // ---------------------------------------------------------------------
 
-const NewBoardDrawer = require("./draw").NewBoardDrawer;
 const EventPathString = require("./utils").EventPathString;
 const EventPathClassString = require("./utils").EventPathClassString;
+const fs = require("fs");
+const ipcRenderer = require("electron").ipcRenderer;
+const NewBoardDrawer = require("./draw").NewBoardDrawer;
 const NewNode = require("./node").NewNode;
+const sgf = require("./sgf");
 
 // ---------------------------------------------------------------------
 
@@ -24,6 +27,17 @@ window.debug_node = () => node;
 
 let maindrawer = NewBoardDrawer(boardbg, boardtable);
 maindrawer.Draw(node);
+
+// ---------------------------------------------------------------------
+
+function load(filepath) {
+	try {
+		let s = fs.readFileSync(filepath);
+		node = sgf.Load(s)[0];
+	} catch (err) {
+		console.log(err.toString());
+	}
+}
 
 boardtable.addEventListener("mousedown", (event) => {
 	let coords = EventPathClassString(event, "td_");
@@ -54,3 +68,6 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+ipcRenderer.on("load", (event, msg) => {
+	load(msg);
+});

@@ -22,6 +22,9 @@ if (electron.app.isReady()) {
 
 // --------------------------------------------------------------------------------------------------------------
 
+const save_dialog = electron.dialog.showSaveDialogSync || electron.dialog.showSaveDialog;
+const open_dialog = electron.dialog.showOpenDialogSync || electron.dialog.showOpenDialog;
+
 function alert(msg) {
 	electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {});
 	// Providing a callback makes the window not block the process.
@@ -94,6 +97,19 @@ function menu_build() {
 					label: `Show ${config_io.filename}`,
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Open SGF...",
+					accelerator: "CommandOrControl+O",
+					click: () => {
+						let files = open_dialog();
+						if (Array.isArray(files) && files.length > 0) {
+							win.webContents.send("load", files[0]);
+						}
 					}
 				},
 			]
