@@ -169,6 +169,13 @@ let board_prototype = {
 
 		for (let neighbour of this.neighbours(s)) {
 
+			// Note that, by checking touched at the start, we allow suicide checking by
+			// setting the potentially suicidal stone as touched without actually playing it.
+
+			if (touched[neighbour]) {
+				continue;
+			}
+
 			let neighbour_colour = this.state_at(neighbour);
 
 			if (!neighbour_colour) {
@@ -176,10 +183,8 @@ let board_prototype = {
 			}
 
 			if (neighbour_colour === colour) {
-				if (!touched[neighbour]) {
-					if (this.has_liberties_recurse(neighbour, touched)) {
-						return true;
-					}
+				if (this.has_liberties_recurse(neighbour, touched)) {
+					return true;
 				}
 			}
 		}
@@ -205,7 +210,27 @@ let board_prototype = {
 			return false;
 		}
 
-		return true;
+		// Suicide checks...
+
+		let neighbours = this.neighbours(s);
+
+		for (let neighbour of neighbours) {
+			if (!this.state_at(neighbour)) {
+				return true;								// New stone has a liberty.
+			}
+		}
+
+		for (let neighbour of neighbours) {
+			if (this.state_at(neighbour) === colour) {
+				let touched = Object.create(null);
+				touched[s] = true;
+				if (this.has_liberties_recurse(neighbour, touched)) {
+					return true;							// One of the groups we're joining has a liberty other than s.
+				}
+			}
+		}
+
+		return false;
 	},
 
 	play_stone: function(s, colour) {			// No legality checks.
