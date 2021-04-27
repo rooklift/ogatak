@@ -200,7 +200,7 @@ let board_prototype = {
 	legal_colour: function(s, colour) {
 
 		if (this.in_bounds(s) === false) {
-			return false;
+			return false;						// Or should this be true, since it can be treated as a pass?
 		}
 
 		if (this.state_at(s)) {
@@ -211,7 +211,7 @@ let board_prototype = {
 			return false;
 		}
 
-		// Suicide checks...
+		// Move will be legal as long as it's not suicide...
 
 		let neighbours = this.neighbours(s);
 
