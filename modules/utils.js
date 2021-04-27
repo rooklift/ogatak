@@ -7,7 +7,15 @@ exports.XYtoS = function(x, y) {
 	}
 
 	return String.fromCharCode(x + 97) + String.fromCharCode(y + 97);
-}
+};
+
+exports.OppositeColour = function(s) {
+	if (s === "b") return "w";
+	if (s === "w") return "b";
+	if (s === "B") return "W";
+	if (s === "W") return "B";
+	return "";
+};
 
 exports.EventPathString = function(event, prefix) {
 
@@ -31,7 +39,7 @@ exports.EventPathString = function(event, prefix) {
 	}
 
 	return null;
-}
+};
 
 exports.EventPathClassString = function(event, prefix) {
 
@@ -57,4 +65,4 @@ exports.EventPathClassString = function(event, prefix) {
 	}
 
 	return null;
-}
+};
