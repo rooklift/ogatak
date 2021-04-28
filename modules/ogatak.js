@@ -64,7 +64,7 @@ document.addEventListener("wheel", (event) => {
 ipcRenderer.on("load", (event, msg) => {
 	try {
 		let s = fs.readFileSync(msg);
-		node = sgf.Load(s, 0, null)[0];
+		node = sgf.Load(s, 0, null).root;
 		maindrawer.Draw(node);
 	} catch (err) {
 		console.log(err.toString());

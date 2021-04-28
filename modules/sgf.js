@@ -103,19 +103,19 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 				inside_value = true;
 				keycomplete = true;
 				if (key.string() === "") {
-					throw "SGF Load() error: value started with [ but key was \"\"";
+					throw `SGF Load() error: value started with [ but key was ""`;
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
-					throw "SGF Load() error: new subtree started but node was null";
+					throw "SGF Load() error: new subtree started but node was nil";
 				}
-				let chars_to_skip = exports.Load(sgf, i, node)[1];
+				let chars_to_skip = exports.Load(sgf, i, node).readcount;
 				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
-					throw "SGF Load() error: subtree ended but local root was null";
+					throw "SGF Load() error: subtree ended but local root was nil";
 				}
-				return [root, i + 1 - off];
+				return {root: root, readcount: i + 1 - off};
 			} else if (c === 59) {						// that is ;
 				if (!node) {
 					node = NewNode(parent_of_local_root);
@@ -142,5 +142,5 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 	// We're not supposed to reach here, but if we do, we have reached the
 	// end of the file and can return what we have.
 
-	return [root, sgf.length];
+	return {root: root, readcount: sgf.length};
 }
