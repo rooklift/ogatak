@@ -134,3 +134,8 @@ ipcRenderer.on("next_sibling", (event, msg) => {
 		maindrawer.Draw(node);
 	}
 });
+
+ipcRenderer.on("return_to_main", (event, msg) => {
+	node = node.return_to_main_line_helper();
+	maindrawer.Draw(node);
+});

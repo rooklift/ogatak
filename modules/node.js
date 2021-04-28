@@ -105,4 +105,21 @@ let node_prototype = {
 		return node;
 	},
 
+	return_to_main_line_helper: function() {
+
+		// Returns the node that "return to main line" should go to.
+
+		let ret = this;
+		let node = this;
+
+		while (node.parent) {
+			if (node.parent.children[0] !== node) {
+				ret = node.parent;
+			}
+			node = node.parent;
+		}
+
+		return ret;
+	},
+
 };

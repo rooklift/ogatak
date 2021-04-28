@@ -159,6 +159,13 @@ function menu_build() {
 						win.webContents.send("next_sibling");
 					}
 				},
+				{
+					label: "Return to main line",
+					accelerator: "CommandOrControl+R",
+					click: () => {
+						win.webContents.send("return_to_main");
+					}
+				},
 			]
 		},
 	];
