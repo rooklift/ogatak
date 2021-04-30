@@ -51,6 +51,14 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+// ---------------------------------------------------------------------
+
+ipcRenderer.on("set", (event, msg) => {
+	global.config[msg.key] = msg.value;
+	config_io.save();
+	hub.draw();
+});
+
 ipcRenderer.on("load", (event, msg) => {
 	hub.load(msg);
 });

@@ -111,6 +111,37 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Choose engine...",
+					click: () => {
+						let files = open_dialog();
+						if (Array.isArray(files) && files.length > 0) {
+							let file = files[0];
+							win.webContents.send("set", {
+								key: "path",
+								value: file
+							});
+							alert("This requires a restart to take effect.");		// FIXME
+						}
+					},
+				},
+				{
+					label: "Choose weights...",
+					click: () => {
+						let files = open_dialog();
+						if (Array.isArray(files) && files.length > 0) {
+							let file = files[0];
+							win.webContents.send("set", {
+								key: "weights",
+								value: file
+							});
+							alert("This requires a restart to take effect.");		// FIXME
+						}
+					},
+				},
+				{
+					type: "separator",
+				},
+				{
 					role: "toggledevtools"
 				},
 				{
