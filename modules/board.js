@@ -307,5 +307,17 @@ let board_prototype = {
 		this.add_stone(s, "w");
 	},
 
+	gtp: function(s) {
+		if (this.in_bounds(s) === false) {
+			return "";
+		}
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+		let letter_adjust = x >= 8 ? 1 : 0;
+		let letter = String.fromCharCode(x + 65 + letter_adjust);
+		let number = this.height - y;
+		return letter + number.toString();
+	},
+
 };
 
