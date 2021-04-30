@@ -15,13 +15,17 @@ exports.filepath = electron.app ?
 		path.join(electron.app.getPath("userData"), exports.filename) :									// in Main process
 		path.join(querystring.parse(global.location.search)["?user_data_path"], exports.filename);		// in Renderer process
 
+// ---------------------------------------------------------------------------------------------------------------------------
+
+exports.config = {};
+exports.error = null;
+
 exports.defaults = {
 	"width": 608,
 	"height": 608,
 };
 
-exports.config = {};
-exports.error = null;
+// ---------------------------------------------------------------------------------------------------------------------------
 
 exports.load = () => {
 
@@ -47,6 +51,8 @@ exports.load = () => {
 	}
 };
 
+// ---------------------------------------------------------------------------------------------------------------------------
+
 exports.save = () => {
 
 	// Make a copy of the defaults. Doing it this way seems to
@@ -68,6 +74,8 @@ exports.save = () => {
 		console.log(err.toString());
 	}
 };
+
+// ---------------------------------------------------------------------------------------------------------------------------
 
 exports.create_if_needed = () => {
 
