@@ -2,19 +2,19 @@
 
 const fs = require("fs");
 
-const NewBoardDrawer = require("./new_board_drawer");
-const NewNode = require("./new_node");
-const LoadSGF = require("./load_sgf");
+const new_board_drawer = require("./new_board_drawer");
+const new_node = require("./new_node");
+const load_sgf = require("./load_sgf");
 
 // ---------------------------------------------------------------------
 
-exports.NewHub = function() {
+exports.new_hub = function() {
 
 	let hub = Object.create(null);
 
-	hub.node = NewNode();
+	hub.node = new_node();
 
-	hub.maindrawer = NewBoardDrawer(
+	hub.maindrawer = new_board_drawer(
 		document.getElementById("boardbg"),
 		document.getElementById("boardtable")
 	);
@@ -55,7 +55,7 @@ let hub_props = {
 	load: function(filepath) {
 		try {
 			let s = fs.readFileSync(filepath);
-			this.set_node(LoadSGF(s, 0, null).root);
+			this.set_node(load_sgf(s, 0, null).root);
 		} catch (err) {
 			console.log(err.toString());
 		}

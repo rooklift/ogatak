@@ -1,13 +1,13 @@
 "use strict";
 
 const Background = require("./background");
-const {XYtoS} = require("./utils");
+const {xy_to_s} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
 const ko_marker   = new Image(); ko_marker.src   = "./gfx/ko.png";
 
-function NewBoardDrawer(backgrounddiv, htmltable) {
+function new_board_drawer(backgrounddiv, htmltable) {
 
 	let drawer = {};
 
@@ -40,7 +40,7 @@ function NewBoardDrawer(backgrounddiv, htmltable) {
 				htmltable.appendChild(tr);
 				for (let x = 0; x < board.width; x++) {
 					let td = document.createElement("td");
-					td.className = "td_" + XYtoS(x, y);
+					td.className = "td_" + xy_to_s(x, y);
 					td.width = 32;
 					td.height = 32;
 					tr.appendChild(td);
@@ -68,7 +68,7 @@ function NewBoardDrawer(backgrounddiv, htmltable) {
 			if (this.current_ko) {
 				let x = this.current_ko.charCodeAt(0) - 97;
 				let y = this.current_ko.charCodeAt(1) - 97;
-				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
+				let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 				td.style["background-image"] = "";
 				this.current[x][y] = "";
 			}
@@ -76,7 +76,7 @@ function NewBoardDrawer(backgrounddiv, htmltable) {
 			if (board.ko) {
 				let x = board.ko.charCodeAt(0) - 97;
 				let y = board.ko.charCodeAt(1) - 97;
-				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
+				let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 				td.style["background-image"] = `url("${ko_marker.src}")`;
 				this.current[x][y] = "";
 			}
@@ -92,7 +92,7 @@ function NewBoardDrawer(backgrounddiv, htmltable) {
 					continue;
 				}
 
-				let td = this.htmltable.getElementsByClassName("td_" + XYtoS(x, y))[0];
+				let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 
 				if (board.state[x][y] === "b") {
 					td.style["background-image"] = `url("${black_stone.src}")`;
@@ -113,4 +113,4 @@ function NewBoardDrawer(backgrounddiv, htmltable) {
 
 
 
-module.exports = NewBoardDrawer;
+module.exports = new_board_drawer;

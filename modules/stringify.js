@@ -21,7 +21,7 @@ module.exports = (msg) => {
 
 	} catch (err) {
 
-		return "Stringify() failed";
+		return "stringify() failed";
 
 	}
 }

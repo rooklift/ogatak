@@ -5,7 +5,7 @@ const path = require("path");
 const url = require("url");
 
 const config_io = require("./modules/config_io");
-const Stringify = require("./modules/stringify");
+const stringify = require("./modules/stringify");
 
 config_io.load();
 let config = config_io.config;
@@ -27,7 +27,7 @@ const save_dialog = electron.dialog.showSaveDialogSync || electron.dialog.showSa
 const open_dialog = electron.dialog.showOpenDialogSync || electron.dialog.showOpenDialog;
 
 function alert(msg) {
-	electron.dialog.showMessageBox({message: Stringify(msg), title: "Alert", buttons: ["OK"]}, () => {});
+	electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {});
 	// Providing a callback makes the window not block the process.
 };
 

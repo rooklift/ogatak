@@ -1,6 +1,6 @@
 "use strict";
 
-const NewNode = require("./new_node");
+const new_node = require("./new_node");
 
 const util = require("util");
 const decoder = new util.TextDecoder("utf8");
@@ -44,7 +44,7 @@ function new_byte_pusher(size) {
 	};
 }
 
-function LoadSGF(sgf, off, parent_of_local_root) {
+function load_sgf(sgf, off, parent_of_local_root) {
 
 	let root = null;
 	let node = null;
@@ -66,7 +66,7 @@ function LoadSGF(sgf, off, parent_of_local_root) {
 				tree_started = true;
 				continue;
 			} else {
-				throw "LoadSGF() error: unexpected byte before (";
+				throw "load_sgf() error: unexpected byte before (";
 			}
 		}
 
@@ -74,14 +74,14 @@ function LoadSGF(sgf, off, parent_of_local_root) {
 
 			if (c === 92) {								// that is \
 				if (sgf.length <= i + 1) {
-					throw "LoadSGF() error: escape character at end of input";
+					throw "load_sgf() error: escape character at end of input";
 				}
 				value.push(sgf[i + 1]);
 				i++;
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
 				if (!node) {
-					throw "LoadSGF() error: value ended by ] but node was nil";
+					throw "load_sgf() error: value ended by ] but node was nil";
 				}
 				node.add_value(key.string(), value.string());
 			} else {
@@ -96,32 +96,32 @@ function LoadSGF(sgf, off, parent_of_local_root) {
 				if (!node) {
 					// The tree has ( but no ; before its first property.
 					// We tolerate this.
-					node = NewNode(parent_of_local_root);
+					node = new_node(parent_of_local_root);
 					root = node;
 				}
 				value.reset();
 				inside_value = true;
 				keycomplete = true;
 				if (key.string() === "") {
-					throw `LoadSGF() error: value started with [ but key was ""`;
+					throw `load_sgf() error: value started with [ but key was ""`;
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
-					throw "LoadSGF() error: new subtree started but node was nil";
+					throw "load_sgf() error: new subtree started but node was nil";
 				}
-				let chars_to_skip = LoadSGF(sgf, i, node).readcount;
+				let chars_to_skip = load_sgf(sgf, i, node).readcount;
 				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
-					throw "LoadSGF() error: subtree ended but local root was nil";
+					throw "load_sgf() error: subtree ended but local root was nil";
 				}
 				return {root: root, readcount: i + 1 - off};
 			} else if (c === 59) {						// that is ;
 				if (!node) {
-					node = NewNode(parent_of_local_root);
+					node = new_node(parent_of_local_root);
 					root = node;
 				} else {
-					node = NewNode(node);
+					node = new_node(node);
 				}
 			} else if (c >= 65 && c <= 90) {
 				if (keycomplete) {
@@ -130,13 +130,13 @@ function LoadSGF(sgf, off, parent_of_local_root) {
 				}
 				key.push(c);
 			} else {
-				throw "LoadSGF() error: unacceptable byte while expecting key";
+				throw "load_sgf() error: unacceptable byte while expecting key";
 			}
 		}
 	}
 
 	if (!root) {
-		throw "LoadSGF() error: local root was nil at function end";
+		throw "load_sgf() error: local root was nil at function end";
 	}
 
 	// We're not supposed to reach here, but if we do, we have reached the
@@ -147,4 +147,4 @@ function LoadSGF(sgf, off, parent_of_local_root) {
 
 
 
-module.exports = LoadSGF;
+module.exports = load_sgf;

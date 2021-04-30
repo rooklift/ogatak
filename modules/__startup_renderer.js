@@ -3,8 +3,8 @@
 const {ipcRenderer} = require("electron");
 
 const config_io = require("./config_io");
-const Stringify = require("./stringify");
-const {EventPathClassString} = require("./utils");
+const stringify = require("./stringify");
+const {event_path_class_string} = require("./utils");
 
 config_io.load();
 config_io.create_if_needed();
@@ -12,10 +12,10 @@ config_io.create_if_needed();
 // ---------------------------------------------------------------------
 
 global.config = config_io.config;
-global.hub = require("./hub").NewHub();
+global.hub = require("./hub").new_hub();
 
 global.alert = (msg) => {
-	ipcRenderer.send("alert", Stringify(msg));
+	ipcRenderer.send("alert", stringify(msg));
 };
 
 hub.draw();
@@ -23,7 +23,7 @@ hub.draw();
 // ---------------------------------------------------------------------
 
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
-	let coords = EventPathClassString(event, "td_");
+	let coords = event_path_class_string(event, "td_");
 	if (coords) {
 		hub.try_move(coords);
 	}

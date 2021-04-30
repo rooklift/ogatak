@@ -1,9 +1,9 @@
 "use strict";
 
 const NewBoard = require("./new_board");
-const Stringify = require("./stringify");
+const stringify = require("./stringify");
 
-function NewNode(parent) {
+function new_node(parent) {
 
 	let node = Object.create(node_prototype);
 
@@ -22,14 +22,14 @@ function NewNode(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		this.props[key] = [Stringify(value)];
+		this.props[key] = [stringify(value)];
 	},
 
 	add_value: function(key, value) {
 		if (!this.props[key]) {
 			this.props[key] = [];
 		}
-		this.props[key].push(Stringify(value));
+		this.props[key].push(stringify(value));
 	},
 
 	get: function(key) {				// On the assumption there is only 1 value for this key.
@@ -98,7 +98,7 @@ let node_prototype = {
 			}
 		}
 
-		let node = NewNode(this);
+		let node = new_node(this);
 		node.set(propkey, s);
 
 		return node;
@@ -125,4 +125,4 @@ let node_prototype = {
 
 
 
-module.exports = NewNode;
+module.exports = new_node;

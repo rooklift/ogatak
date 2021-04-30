@@ -1,8 +1,8 @@
 "use strict";
 
-const {OppositeColour, XYtoS} = require("./utils");
+const {opposite_colour, xy_to_s} = require("./utils");
 
-function NewBoard(width, height, state = null, ko = null, active = "b") {
+function new_board(width, height, state = null, ko = null, active = "b") {
 
 	// FIXME - add captures
 
@@ -31,7 +31,7 @@ function NewBoard(width, height, state = null, ko = null, active = "b") {
 let board_prototype = {
 
 	copy: function() {
-		return NewBoard(this.width, this.height, this.state, this.ko, this.active);
+		return new_board(this.width, this.height, this.state, this.ko, this.active);
 	},
 
 	in_bounds: function(s) {
@@ -109,7 +109,7 @@ let board_prototype = {
 
 		for (let offset of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
 
-			let z = XYtoS(x + offset[0], y + offset[1]);
+			let z = xy_to_s(x + offset[0], y + offset[1]);
 
 			if (this.in_bounds(z)) {
 				ret.push(z);
@@ -227,7 +227,7 @@ let board_prototype = {
 				if (this.has_liberties_recurse(neighbour, touched)) {
 					return true;				// One of the groups we're joining has a liberty other than s.
 				}
-			} else if (this.state_at(neighbour) === OppositeColour(colour)) {
+			} else if (this.state_at(neighbour) === opposite_colour(colour)) {
 				let touched = Object.create(null);
 				touched[s] = true;
 				if (this.has_liberties_recurse(neighbour, touched) === false) {
@@ -322,4 +322,4 @@ let board_prototype = {
 
 
 
-module.exports = NewBoard;
+module.exports = new_board;

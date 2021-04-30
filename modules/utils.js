@@ -1,6 +1,6 @@
 "use strict";
 
-exports.XYtoS = function(x, y) {
+exports.xy_to_s = function(x, y) {
 
 	if (x < 0 || x > 25 || y < 0 || y > 25) {
 		return "";
@@ -9,7 +9,7 @@ exports.XYtoS = function(x, y) {
 	return String.fromCharCode(x + 97) + String.fromCharCode(y + 97);
 };
 
-exports.OppositeColour = function(s) {
+exports.opposite_colour = function(s) {
 	if (s === "b") return "w";
 	if (s === "w") return "b";
 	if (s === "B") return "W";
@@ -17,7 +17,7 @@ exports.OppositeColour = function(s) {
 	return "";
 };
 
-exports.EventPathString = function(event, prefix) {
+exports.event_path_string = function(event, prefix) {
 
 	// Given an event with event.path like ["foo", "bar", "searchmove_e2e4", "whatever"]
 	// return the string "e2e4", assuming the prefix matches. Else return null.
@@ -41,7 +41,7 @@ exports.EventPathString = function(event, prefix) {
 	return null;
 };
 
-exports.EventPathClassString = function(event, prefix) {
+exports.event_path_class_string = function(event, prefix) {
 
 	// As above, but looks at class rather than id.
 
