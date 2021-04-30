@@ -13,7 +13,7 @@ function new_node(parent) {
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);
-	node.board = null;
+	node.__board = null;
 
 	if (parent) {
 		parent.children.push(node);
@@ -25,14 +25,14 @@ function new_node(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		if (this.board) {
+		if (this.__board) {
 			throw "set() called on node but board already existed";
 		}
 		this.props[key] = [stringify(value)];
 	},
 
 	add_value: function(key, value) {
-		if (this.board) {
+		if (this.__board) {
 			throw "add_value() called on node but board already existed";
 		}
 		if (!this.props[key]) {
@@ -68,8 +68,8 @@ let node_prototype = {
 	},
 
 	width: function() {
-		if (this.board) {
-			return this.board.width;
+		if (this.__board) {
+			return this.__board.width;
 		}
 		let sz_prop = this.get_root().get("SZ");
 		if (!sz_prop) {
@@ -83,8 +83,8 @@ let node_prototype = {
 	},
 
 	height: function() {
-		if (this.board) {
-			return this.board.height;
+		if (this.__board) {
+			return this.__board.height;
 		}
 		let sz_prop = this.get_root().get("SZ");
 		if (!sz_prop) {
@@ -116,43 +116,48 @@ let node_prototype = {
 
 	get_board: function() {
 
-		if (this.board) {
-			return this.board;
+		if (this.__board) {
+			return this.__board;
 		}
 
 		if (!this.parent) {
-			this.board = new_board(this.width(), this.height());
+			this.__board = new_board(this.width(), this.height());
 		} else {
-			this.board = this.parent.get_board().copy();
+			this.__board = this.parent.get_board().copy();
 		}
 
 		for (let s of this.all_values("AE")) {
-			this.board.add_empty(s);
+			this.__board.add_empty(s);
 		}
 
 		for (let s of this.all_values("AB")) {
-			this.board.add_black(s);
-			this.board.active = "w";
+			this.__board.add_black(s);
+			this.__board.active = "w";
 		}
 
 		for (let s of this.all_values("AW")) {
-			this.board.add_white(s);
-			this.board.active = "b";
+			this.__board.add_white(s);
+			this.__board.active = "b";
 		}
 
 		for (let s of this.all_values("B")) {
-			this.board.play_black(s);
+			this.__board.play_black(s);
 		}
 
 		for (let s of this.all_values("W")) {
-			this.board.play_white(s);
+			this.__board.play_white(s);
 		}
 
 		let pl = this.get("PL");
-		if (pl === "B" || pl === "b") this.board.active = "b";
-		if (pl === "W" || pl === "w") this.board.active = "w";
+		if (pl === "B" || pl === "b") this.__board.active = "b";
+		if (pl === "W" || pl === "w") this.__board.active = "w";
 
-		return this.board;
+		let km = parseFloat(this.get("KM"));
+		if (Number.isNaN(km) === false) {
+			this.__board.komi = km;
+		}
+
+		return this.__board;
 	},
 
 	try_move: function(s) {
@@ -248,6 +253,7 @@ let node_prototype = {
 		}
 		o.moves = moves;
 		o.rules = "aga";
+		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
 		o.maxVisits = 1000000;

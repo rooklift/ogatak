@@ -2,7 +2,7 @@
 
 const {opposite_colour, xy_to_s} = require("./utils");
 
-function new_board(width, height, state = null, ko = null, active = "b") {
+function new_board(width, height, state = null, ko = null, komi = 0, active = "b") {
 
 	// FIXME - add captures
 
@@ -12,6 +12,7 @@ function new_board(width, height, state = null, ko = null, active = "b") {
 	ret.height = height;
 	ret.state = [];
 	ret.ko = ko;
+	ret.komi = komi;
 	ret.active = active;
 
 	for (let x = 0; x < width; x++) {
@@ -31,7 +32,7 @@ function new_board(width, height, state = null, ko = null, active = "b") {
 let board_prototype = {
 
 	copy: function() {
-		return new_board(this.width, this.height, this.state, this.ko, this.active);
+		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.active);
 	},
 
 	in_bounds: function(s) {
