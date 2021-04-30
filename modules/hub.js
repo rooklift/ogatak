@@ -124,4 +124,12 @@ let hub_props = {
 
 		this.set_node(this.node.parent.children[nexti]);
 	},
+
+	go: function() {
+		this.engine.analyse(this.node);
+	},
+
+	halt: function() {
+		this.engine.halt();
+	},
 };

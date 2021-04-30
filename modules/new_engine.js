@@ -13,11 +13,42 @@ function new_engine() {
 	eng.filepath = "";
 	eng.weights = "";
 
+	eng.current_analysis_id = null;		// The full id of the running analysis, as a string.
+
 	Object.assign(eng, eng_props);
 	return eng;
 };
 
 let eng_props = {
+
+	__send: function(msg) {
+		if (!this.exe) {
+			return;
+		}
+		msg = msg.trim();
+		try {
+			this.exe.stdin.write(msg);
+			this.exe.stdin.write("\n");
+		} catch (err) {
+			console.log(err.toString());
+		}
+	},
+
+	analyse: function(node) {
+		let o = node.katago_query();
+		if (this.current_analysis_id === o.id) {
+			return;
+		}
+		this.halt();
+		this.current_analysis_id = o.id;
+		this.__send(JSON.stringify(o));
+	},
+
+	halt: function() {
+		if (this.current_analysis_id) {
+			this.__send(`{"id":"xxx","action":"terminate","terminateId":"${this.current_analysis_id}"}`);
+		}
+	},
 
 	setup: function(filepath, engineconfig, weights) {
 
@@ -48,6 +79,12 @@ let eng_props = {
 		});
 
 		this.scanner.on("line", (line) => {
+			let o = JSON.parse(line);
+			if (o.isDuringSearch === false) {
+				if (o.id === this.current_analysis_id) {
+					this.current_analysis_id = null;
+				}
+			}
 			console.log("> " + line);
 		});
 

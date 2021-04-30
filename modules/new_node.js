@@ -4,7 +4,6 @@ const new_board = require("./new_board");
 const stringify = require("./stringify");
 
 let next_node_id = 1;
-let next_query_id = 1;
 
 function new_node(parent) {
 
@@ -243,7 +242,7 @@ let node_prototype = {
 			}
 		}
 
-		o.id = `${next_query_id++}_${this.id}`;
+		o.id = this.id.toString();
 		if (initial.length > 0) {
 			o.initialStones = initial;
 		}
@@ -251,8 +250,10 @@ let node_prototype = {
 		o.rules = "aga";
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
+		o.maxVisits = 1000000;
+		o.reportDuringSearchEvery = 1;
 
-		return JSON.stringify(o);
+		return o;
 	},
 
 	katago_simple_query: function() {

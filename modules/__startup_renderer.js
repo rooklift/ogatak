@@ -11,7 +11,7 @@ config_io.create_if_needed();
 
 // ---------------------------------------------------------------------
 
-global.alert = (msg) => {						// Set this first.
+global.alert = (msg) => {							// Set this first.
 	ipcRenderer.send("alert", stringify(msg));
 };
 
@@ -86,4 +86,12 @@ ipcRenderer.on("prev_sibling", (event, msg) => {
 
 ipcRenderer.on("next_sibling", (event, msg) => {
 	hub.next_sibling();
+});
+
+ipcRenderer.on("go", (event, msg) => {
+	hub.go();
+});
+
+ipcRenderer.on("halt", (event, msg) => {
+	hub.halt();
 });

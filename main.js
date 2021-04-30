@@ -223,6 +223,25 @@ function menu_build() {
 			]
 		},
 		{
+			label: "Analysis",
+			submenu: [
+				{
+					label: "Go",
+					accelerator: "CommandOrControl+G",
+					click: () => {
+						win.webContents.send("go");
+					}
+				},
+				{
+					label: "Halt",
+					accelerator: "CommandOrControl+H",
+					click: () => {
+						win.webContents.send("halt");
+					}
+				},
+			]
+		},
+		{
 			label: "Dev",
 			submenu: [
 				{
