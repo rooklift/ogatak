@@ -43,6 +43,17 @@ let node_prototype = {
 		return this.props[key][0];
 	},
 
+	all_values: function(key) {
+		let ret = [];
+		if (!this.props[key]) {
+			return ret;
+		}
+		for (let value of this.props[key]) {
+			ret.push(value);
+		}
+		return ret;
+	},
+
 	get_root: function() {
 		let node = this;
 		while (node.parent) {
@@ -85,34 +96,26 @@ let node_prototype = {
 			this.board = this.parent.get_board().copy();
 		}
 
-		if (this.props.AE) {
-			for (let s of this.props.AE) {
-				this.board.add_empty(s);
-			}
+		for (let s of this.all_values("AE")) {
+			this.board.add_empty(s);
 		}
 
-		if (this.props.AB) {
-			for (let s of this.props.AB) {
-				this.board.add_black(s);
-			}
+		for (let s of this.all_values("AB")) {
+			this.board.add_black(s);
 			this.board.active = "w";
 		}
 
-		if (this.props.AW) {
-			for (let s of this.props.AW) {
-				this.board.add_white(s);
-			}
+		for (let s of this.all_values("AW")) {
+			this.board.add_white(s);
 			this.board.active = "b";
 		}
 
-		let bmove = this.get("B");
-		if (typeof bmove === "string") {
-			this.board.play_black(bmove);
+		for (let s of this.all_values("B")) {
+			this.board.play_black(s);
 		}
 
-		let wmove = this.get("W");
-		if (typeof wmove === "string") {
-			this.board.play_white(wmove);
+		for (let s of this.all_values("W")) {
+			this.board.play_white(s);
 		}
 
 		let pl = this.get("PL");
