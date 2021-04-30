@@ -29,6 +29,7 @@ let eng_props = {
 		try {
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
+			console.log("> " + msg);
 		} catch (err) {
 			console.log(err.toString());
 		}
@@ -85,7 +86,7 @@ let eng_props = {
 					this.current_analysis_id = null;
 				}
 			}
-			console.log("> " + line);
+			console.log("< " + line);
 		});
 
 		this.err_scanner.on("line", (line) => {
