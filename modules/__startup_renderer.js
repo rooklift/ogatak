@@ -11,12 +11,12 @@ config_io.create_if_needed();
 
 // ---------------------------------------------------------------------
 
-global.config = config_io.config;
-global.hub = require("./hub").new_hub();
-
-global.alert = (msg) => {
+global.alert = (msg) => {						// Set this first.
 	ipcRenderer.send("alert", stringify(msg));
 };
+
+global.config = config_io.config;
+global.hub = require("./hub").new_hub();
 
 hub.draw();
 

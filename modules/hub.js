@@ -3,6 +3,7 @@
 const fs = require("fs");
 
 const new_board_drawer = require("./new_board_drawer");
+const new_engine = require("./new_engine");
 const new_node = require("./new_node");
 const load_sgf = require("./load_sgf");
 
@@ -18,6 +19,9 @@ exports.new_hub = function() {
 		document.getElementById("boardbg"),
 		document.getElementById("boardtable")
 	);
+
+	hub.engine = new_engine();
+	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
 	Object.assign(hub, hub_props);
 	return hub;

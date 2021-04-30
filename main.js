@@ -117,7 +117,21 @@ function menu_build() {
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
 							win.webContents.send("set", {
-								key: "path",
+								key: "engine",
+								value: file
+							});
+							alert("This requires a restart to take effect.");		// FIXME
+						}
+					},
+				},
+				{
+					label: "Choose engine config...",
+					click: () => {
+						let files = open_dialog();
+						if (Array.isArray(files) && files.length > 0) {
+							let file = files[0];
+							win.webContents.send("set", {
+								key: "engineconfig",
 								value: file
 							});
 							alert("This requires a restart to take effect.");		// FIXME
