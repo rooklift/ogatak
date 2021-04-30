@@ -111,7 +111,7 @@ let node_prototype = {
 		}
 
 		if (!this.parent) {
-			this.board = new_board(this.width(), this.height());		// FIXME
+			this.board = new_board(this.width(), this.height());
 		} else {
 			this.board = this.parent.get_board().copy();
 		}
