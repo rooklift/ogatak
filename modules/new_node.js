@@ -104,6 +104,17 @@ let node_prototype = {
 		return 19;
 	},
 
+	node_history: function() {
+		let ret = [this];
+		let node = this;
+		while (node.parent) {
+			node = node.parent;
+			ret.push(node);
+		}
+		ret.reverse();
+		return ret;
+	},
+
 	get_board: function() {
 
 		if (this.board) {
@@ -188,13 +199,64 @@ let node_prototype = {
 
 		let o = {};
 
-		o.id = `${next_query_id++}_${next_node_id++}`;
-		o.initialStones = [];
-		o.moves = [];
+		let initial = [];
+		let moves = [];
+
+		let node_history = this.node_history();
+
+		let have_seen_play = false;
+
+		for (let node of node_history) {
+
+			if (node.props.AE) {
+				return this.katago_simple_query();
+			}
+
+			if (node.props.AB || node.props.AW) {
+				if (have_seen_play) {
+					return this.katago_simple_query();
+				}
+				for (let s of node.all_values("AB")) {
+					if (node.get_board().in_bounds(s)) {
+						initial.push(["B", node.get_board().gtp(s)]);
+					}
+				}
+				for (let s of node.all_values("AW")) {
+					if (node.get_board().in_bounds(s)) {
+						initial.push(["W", node.get_board().gtp(s)]);
+					}
+				}
+			}
+
+			if (node.props.B || node.props.W) {		// There's an argument for doing this before the above, but...
+				have_seen_play = true;
+				for (let s of node.all_values("B")) {
+					if (node.get_board().in_bounds(s)) {
+						moves.push(["B", node.get_board().gtp(s)]);
+					}
+				}
+				for (let s of node.all_values("W")) {
+					if (node.get_board().in_bounds(s)) {
+						moves.push(["W", node.get_board().gtp(s)]);
+					}
+				}
+			}
+		}
+
+		o.id = `${next_query_id++}_${this.id}`;
+		if (initial.length > 0) {
+			o.initialStones = initial;
+		}
+		o.moves = moves;
 		o.rules = "aga";
+		o.boardXSize = this.width();
+		o.boardYSize = this.height();
 
-		// TODO
+		return JSON.stringify(o);
+	},
 
+	katago_simple_query: function() {
+		throw "todo";
 	},
 
 };
