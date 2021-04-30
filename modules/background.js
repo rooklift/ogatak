@@ -1,6 +1,6 @@
 "use strict";
 
-exports.Background = function(width, height, square_size) {
+module.exports = function(width, height, square_size) {
 
 	let c = document.createElement("canvas");
 

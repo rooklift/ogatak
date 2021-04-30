@@ -2,9 +2,9 @@
 
 const {ipcRenderer} = require("electron");
 
-const {EventPathClassString} = require("./utils");
 const config_io = require("./config_io");
-const stringify = require("./stringify");
+const {EventPathClassString} = require("./utils");
+const Stringify = require("./stringify");
 
 config_io.load();
 config_io.create_if_needed();
@@ -15,7 +15,7 @@ global.config = config_io.config;
 global.hub = require("./hub").NewHub();
 
 global.alert = (msg) => {
-	ipcRenderer.send("alert", stringify(msg));
+	ipcRenderer.send("alert", Stringify(msg));
 };
 
 hub.draw();

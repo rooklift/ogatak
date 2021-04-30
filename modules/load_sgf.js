@@ -1,6 +1,6 @@
 "use strict";
 
-const {NewNode} = require("./node");
+const NewNode = require("./new_node");
 
 const util = require("util");
 const decoder = new util.TextDecoder("utf8");
@@ -44,7 +44,7 @@ function new_byte_pusher(size) {
 	};
 }
 
-exports.LoadSGF = function(sgf, off, parent_of_local_root) {
+function LoadSGF(sgf, off, parent_of_local_root) {
 
 	let root = null;
 	let node = null;
@@ -109,7 +109,7 @@ exports.LoadSGF = function(sgf, off, parent_of_local_root) {
 				if (!node) {
 					throw "LoadSGF() error: new subtree started but node was nil";
 				}
-				let chars_to_skip = exports.LoadSGF(sgf, i, node).readcount;
+				let chars_to_skip = LoadSGF(sgf, i, node).readcount;
 				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
@@ -144,3 +144,7 @@ exports.LoadSGF = function(sgf, off, parent_of_local_root) {
 
 	return {root: root, readcount: sgf.length};
 }
+
+
+
+module.exports = LoadSGF;

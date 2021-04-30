@@ -2,9 +2,9 @@
 
 const fs = require("fs");
 
-const {NewBoardDrawer} = require("./draw");
-const {NewNode} = require("./node");
-const {LoadSGF} = require("./sgf");
+const NewBoardDrawer = require("./new_board_drawer");
+const NewNode = require("./new_node");
+const LoadSGF = require("./load_sgf");
 
 // ---------------------------------------------------------------------
 

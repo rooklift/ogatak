@@ -1,13 +1,13 @@
 "use strict";
 
-const {Background} = require("./background");
+const Background = require("./background");
 const {XYtoS} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
 const ko_marker   = new Image(); ko_marker.src   = "./gfx/ko.png";
 
-exports.NewBoardDrawer = function(backgrounddiv, htmltable) {
+function NewBoardDrawer(backgrounddiv, htmltable) {
 
 	let drawer = {};
 
@@ -109,4 +109,8 @@ exports.NewBoardDrawer = function(backgrounddiv, htmltable) {
 
 	return drawer;
 
-};
+}
+
+
+
+module.exports = NewBoardDrawer;

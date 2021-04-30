@@ -2,7 +2,7 @@
 
 const {OppositeColour, XYtoS} = require("./utils");
 
-exports.NewBoard = function(width, height, state = null, ko = null, active = "b") {
+function NewBoard(width, height, state = null, ko = null, active = "b") {
 
 	// FIXME - add captures
 
@@ -26,12 +26,12 @@ exports.NewBoard = function(width, height, state = null, ko = null, active = "b"
 	}
 
 	return ret;
-};
+}
 
 let board_prototype = {
 
 	copy: function() {
-		return exports.NewBoard(this.width, this.height, this.state, this.ko, this.active);
+		return NewBoard(this.width, this.height, this.state, this.ko, this.active);
 	},
 
 	in_bounds: function(s) {
@@ -320,3 +320,6 @@ let board_prototype = {
 
 };
 
+
+
+module.exports = NewBoard;
