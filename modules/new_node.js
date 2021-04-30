@@ -60,7 +60,6 @@ let node_prototype = {
 		if (this.props.AB) {
 			for (let s of this.props.AB) {
 				this.board.add_black(s);
-				console.log("yes");
 			}
 		}
 
