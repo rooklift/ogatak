@@ -1,6 +1,6 @@
 "use strict";
 
-const NewBoard = require("./new_board");
+const new_board = require("./new_board");
 const stringify = require("./stringify");
 
 function new_node(parent) {
@@ -46,7 +46,7 @@ let node_prototype = {
 		}
 
 		if (!this.parent) {
-			this.board = NewBoard(19, 19);		// FIXME
+			this.board = new_board(19, 19);		// FIXME
 		} else {
 			this.board = this.parent.get_board().copy();
 		}

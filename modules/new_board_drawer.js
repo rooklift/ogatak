@@ -1,6 +1,6 @@
 "use strict";
 
-const Background = require("./background");
+const background = require("./background");
 const {xy_to_s} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
@@ -33,7 +33,7 @@ function new_board_drawer(backgrounddiv, htmltable) {
 			this.current_ko = null;
 
 			this.htmltable.innerHTML = "";
-			this.htmltable.style["background-image"] = Background(board.width, board.height, 32);
+			this.htmltable.style["background-image"] = background(board.width, board.height, 32);
 
 			for (let y = 0; y < board.height; y++) {
 				let tr = document.createElement("tr");
