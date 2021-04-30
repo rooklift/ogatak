@@ -3,10 +3,14 @@
 const new_board = require("./new_board");
 const stringify = require("./stringify");
 
+let next_node_id = 1;
+let next_query_id = 1;
+
 function new_node(parent) {
 
 	let node = Object.create(node_prototype);
 
+	node.id = next_node_id++;
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);
@@ -39,6 +43,36 @@ let node_prototype = {
 		return this.props[key][0];
 	},
 
+	get_root: function() {
+		let node = this;
+		while (node.parent) {
+			node = node.parent;
+		}
+		return node;
+	},
+
+	width: function() {
+		if (this.board) {
+			return this.board.width;
+		}
+		let sz = parseInt(this.get_root().get("SZ"), 10);
+		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
+			return sz;
+		}
+		return 19;
+	},
+
+	height: function() {
+		if (this.board) {
+			return this.board.height;
+		}
+		let sz = parseInt(this.get_root().get("SZ"), 10);
+		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
+			return sz;
+		}
+		return 19;
+	},
+
 	get_board: function() {
 
 		if (this.board) {
@@ -46,7 +80,7 @@ let node_prototype = {
 		}
 
 		if (!this.parent) {
-			this.board = new_board(19, 19);		// FIXME
+			this.board = new_board(this.width(), this.height());		// FIXME
 		} else {
 			this.board = this.parent.get_board().copy();
 		}
@@ -61,12 +95,14 @@ let node_prototype = {
 			for (let s of this.props.AB) {
 				this.board.add_black(s);
 			}
+			this.board.active = "w";
 		}
 
 		if (this.props.AW) {
 			for (let s of this.props.AW) {
 				this.board.add_white(s);
 			}
+			this.board.active = "b";
 		}
 
 		let bmove = this.get("B");
@@ -119,6 +155,19 @@ let node_prototype = {
 		}
 
 		return ret;
+	},
+
+	katago_query: function() {
+
+		let o = {};
+
+		o.id = `${next_query_id++}_${next_node_id++}`;
+		o.initialStones = [];
+		o.moves = [];
+		o.rules = "aga";
+
+		// TODO
+
 	},
 
 };
