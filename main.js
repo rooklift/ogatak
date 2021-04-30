@@ -160,6 +160,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Previous sibling",
 					accelerator: "Up",
 					click: () => {
@@ -172,6 +175,9 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("next_sibling");
 					}
+				},
+				{
+					type: "separator",
 				},
 				{
 					label: "Return to main line",
