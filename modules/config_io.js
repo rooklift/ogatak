@@ -18,11 +18,18 @@ exports.filepath = electron.app ?
 // ---------------------------------------------------------------------------------------------------------------------------
 
 exports.config = {};
-exports.error = null;
 
 exports.defaults = {
 	"width": 608,
 	"height": 608,
+};
+
+// ---------------------------------------------------------------------------------------------------------------------------
+
+let errortext = "";
+
+exports.error = () => {
+	return errortext;
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------
@@ -32,11 +39,11 @@ exports.load = () => {
 	try {
 		if (fs.existsSync(exports.filepath)) {
 			Object.assign(exports.config, JSON.parse(fs.readFileSync(exports.filepath, "utf8")));
-			exports.error = null;
+			errortext = "";
 		}
 	} catch (err) {
 		console.log(err.toString());
-		exports.error = err.toString();
+		errortext = err.toString();
 	}
 
 	// Copy default values for any missing keys into the config...
