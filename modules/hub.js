@@ -80,49 +80,44 @@ let hub_props = {
 	return_to_main: function() {
 		this.set_node(this.node.return_to_main_line_helper());
 	},
-};
 
+	prev_sibling: function() {
 
+		if (!this.node.parent || this.node.parent.children.length < 2) {
+			return;
+		}
 
-// ---------------------------------------------------------------------
-
-/*
-
-ipcRenderer.on("prev_sibling", (event, msg) => {
-	if (node.parent && node.parent.children.length > 1) {
 		let previ = 0;
-		for (let i = 0; i < node.parent.children.length; i++) {
-			if (node.parent.children[i] === node) {
+		for (let i = 0; i < this.node.parent.children.length; i++) {
+			if (this.node.parent.children[i] === this.node) {
 				previ = i - 1;
 				if (previ < 0) {
-					previ = node.parent.children.length - 1;
+					previ = this.node.parent.children.length - 1;
 				}
 				break;
 			}
 		}
 
-		node = node.parent.children[previ];
-		maindrawer.Draw(node);
-	}
-});
+		this.set_node(this.node.parent.children[previ]);
+	},
 
-ipcRenderer.on("next_sibling", (event, msg) => {
-	if (node.parent && node.parent.children.length > 1) {
+	next_sibling: function() {
+
+		if (!this.node.parent || this.node.parent.children.length < 2) {
+			return;
+		}
+
 		let nexti = 0;
-		for (let i = 0; i < node.parent.children.length; i++) {
-			if (node.parent.children[i] === node) {
+		for (let i = 0; i < this.node.parent.children.length; i++) {
+			if (this.node.parent.children[i] === this.node) {
 				nexti = i + 1;
-				if (nexti >= node.parent.children.length) {
+				if (nexti >= this.node.parent.children.length) {
 					nexti = 0;
 				}
 				break;
 			}
 		}
 
-		node = node.parent.children[nexti];
-		maindrawer.Draw(node);
-	}
-});
-
-*/
-
+		this.set_node(this.node.parent.children[nexti]);
+	},
+};

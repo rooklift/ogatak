@@ -70,3 +70,11 @@ ipcRenderer.on("next", (event, msg) => {
 ipcRenderer.on("return_to_main", (event, msg) => {
 	hub.return_to_main();
 });
+
+ipcRenderer.on("prev_sibling", (event, msg) => {
+	hub.prev_sibling();
+});
+
+ipcRenderer.on("next_sibling", (event, msg) => {
+	hub.next_sibling();
+});
