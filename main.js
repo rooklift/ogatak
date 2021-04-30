@@ -88,15 +88,9 @@ function menu_build() {
 			label: "App",
 			submenu: [
 				{
-					role: "quit"
-				},
-				{
-					role: "toggledevtools"
-				},
-				{
-					label: `Show ${config_io.filename}`,
+					label: "About",
 					click: () => {
-						electron.shell.showItemInFolder(config_io.filepath);
+						alert(`Ogatak ${electron.app.getVersion()} in Electron ${process.versions.electron}`);
 					}
 				},
 				{
@@ -111,6 +105,26 @@ function menu_build() {
 							win.webContents.send("load", files[0]);
 						}
 					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					role: "toggledevtools"
+				},
+				{
+					label: `Show ${config_io.filename}`,
+					click: () => {
+						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Quit",
+					accelerator: "CommandOrControl+Q",
+					role: "quit"
 				},
 			]
 		},
