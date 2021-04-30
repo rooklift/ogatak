@@ -72,7 +72,11 @@ let node_prototype = {
 		if (this.board) {
 			return this.board.width;
 		}
-		let sz = parseInt(this.get_root().get("SZ"), 10);
+		let sz_prop = this.get_root().get("SZ");
+		if (!sz_prop) {
+			return 19;
+		}
+		let sz = parseInt(sz_prop, 10);
 		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
 			return sz;
 		}
@@ -83,7 +87,17 @@ let node_prototype = {
 		if (this.board) {
 			return this.board.height;
 		}
-		let sz = parseInt(this.get_root().get("SZ"), 10);
+		let sz_prop = this.get_root().get("SZ");
+		if (!sz_prop) {
+			return 19;
+		}
+		let sz_slice;
+		if (sz_prop.includes(":")) {
+			sz_slice = sz_prop.slice(sz_prop.indexOf(":") + 1);
+		} else {
+			sz_slice = sz_prop;
+		}
+		let sz = parseInt(sz_slice, 10);
 		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
 			return sz;
 		}
