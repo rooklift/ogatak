@@ -22,10 +22,7 @@ hub.draw();
 
 // ---------------------------------------------------------------------
 
-const boardbg = document.getElementById("boardbg");
-const boardtable = document.getElementById("boardtable");
-
-boardtable.addEventListener("mousedown", (event) => {
+document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	let coords = EventPathClassString(event, "td_");
 	if (coords) {
 		hub.try_move(coords);
