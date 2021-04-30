@@ -142,18 +142,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					role: "toggledevtools"
-				},
-				{
-					label: `Show ${config_io.filename}`,
-					click: () => {
-						electron.shell.showItemInFolder(config_io.filepath);
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Quit",
 					accelerator: "CommandOrControl+Q",
 					role: "quit"
@@ -220,6 +208,20 @@ function menu_build() {
 				},
 			]
 		},
+		{
+			label: "Dev",
+			submenu: [
+				{
+					role: "toggledevtools"
+				},
+				{
+					label: `Show ${config_io.filename}`,
+					click: () => {
+						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+			]
+		}
 	];
 
 	return electron.Menu.buildFromTemplate(template);
