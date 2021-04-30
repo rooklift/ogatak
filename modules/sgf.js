@@ -1,8 +1,8 @@
 "use strict";
 
-const NewNode = require("./node").NewNode;
-const util = require("util");
+const {NewNode} = require("./node");
 
+const util = require("util");
 const decoder = new util.TextDecoder("utf8");
 
 function new_byte_pusher(size) {
@@ -44,7 +44,7 @@ function new_byte_pusher(size) {
 	};
 }
 
-exports.Load = function(sgf, off, parent_of_local_root) {
+exports.LoadSGF = function(sgf, off, parent_of_local_root) {
 
 	let root = null;
 	let node = null;
@@ -66,7 +66,7 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 				tree_started = true;
 				continue;
 			} else {
-				throw "SGF Load() error: unexpected byte before (";
+				throw "LoadSGF() error: unexpected byte before (";
 			}
 		}
 
@@ -74,14 +74,14 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 
 			if (c === 92) {								// that is \
 				if (sgf.length <= i + 1) {
-					throw "SGF Load() error: escape character at end of input";
+					throw "LoadSGF() error: escape character at end of input";
 				}
 				value.push(sgf[i + 1]);
 				i++;
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
 				if (!node) {
-					throw "SGF Load() error: value ended by ] but node was nil";
+					throw "LoadSGF() error: value ended by ] but node was nil";
 				}
 				node.add_value(key.string(), value.string());
 			} else {
@@ -103,17 +103,17 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 				inside_value = true;
 				keycomplete = true;
 				if (key.string() === "") {
-					throw `SGF Load() error: value started with [ but key was ""`;
+					throw `LoadSGF() error: value started with [ but key was ""`;
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
-					throw "SGF Load() error: new subtree started but node was nil";
+					throw "LoadSGF() error: new subtree started but node was nil";
 				}
-				let chars_to_skip = exports.Load(sgf, i, node).readcount;
+				let chars_to_skip = exports.LoadSGF(sgf, i, node).readcount;
 				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
-					throw "SGF Load() error: subtree ended but local root was nil";
+					throw "LoadSGF() error: subtree ended but local root was nil";
 				}
 				return {root: root, readcount: i + 1 - off};
 			} else if (c === 59) {						// that is ;
@@ -130,13 +130,13 @@ exports.Load = function(sgf, off, parent_of_local_root) {
 				}
 				key.push(c);
 			} else {
-				throw "SGF Load() error: unacceptable byte while expecting key";
+				throw "LoadSGF() error: unacceptable byte while expecting key";
 			}
 		}
 	}
 
 	if (!root) {
-		throw "SGF Load() error: local root was nil at function end";
+		throw "LoadSGF() error: local root was nil at function end";
 	}
 
 	// We're not supposed to reach here, but if we do, we have reached the

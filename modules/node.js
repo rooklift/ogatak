@@ -1,6 +1,6 @@
 "use strict";
 
-const NewBoard = require("./board").NewBoard;
+const {NewBoard} = require("./board");
 const stringify = require("./stringify");
 
 exports.NewNode = function(parent) {

@@ -1,7 +1,6 @@
 "use strict";
 
-const OppositeColour = require("./utils").OppositeColour;
-const XYtoS = require("./utils").XYtoS;
+const {OppositeColour, XYtoS} = require("./utils");
 
 exports.NewBoard = function(width, height, state = null, ko = null, active = "b") {
 

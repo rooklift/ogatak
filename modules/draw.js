@@ -1,7 +1,7 @@
 "use strict";
 
-const XYtoS = require("./utils").XYtoS;
-const Background = require("./background").Background;
+const {Background} = require("./background");
+const {XYtoS} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";

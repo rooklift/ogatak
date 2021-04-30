@@ -1,3 +1,3 @@
 "use strict";
 
-require("./modules/ogatak");
+require("./modules/__startup_renderer");
