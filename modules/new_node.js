@@ -115,6 +115,10 @@ let node_prototype = {
 			this.board.play_white(wmove);
 		}
 
+		let pl = this.get("PL");
+		if (pl === "B" || pl === "b") this.board.active = "b";
+		if (pl === "W" || pl === "w") this.board.active = "w";
+
 		return this.board;
 	},
 
