@@ -90,7 +90,7 @@ function menu_build() {
 				{
 					label: "About",
 					click: () => {
-						alert(`Ogatak ${electron.app.getVersion()} in Electron ${process.versions.electron}`);
+						alert(`${electron.app.getName()} (${electron.app.getVersion()}) in Electron (${process.versions.electron})`);
 					}
 				},
 				{
