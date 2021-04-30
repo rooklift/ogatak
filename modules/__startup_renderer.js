@@ -3,8 +3,8 @@
 const {ipcRenderer} = require("electron");
 
 const config_io = require("./config_io");
-const {EventPathClassString} = require("./utils");
 const Stringify = require("./stringify");
+const {EventPathClassString} = require("./utils");
 
 config_io.load();
 config_io.create_if_needed();
