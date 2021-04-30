@@ -26,10 +26,16 @@ function new_node(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
+		if (this.board) {
+			throw "set() called on node but board already existed";
+		}
 		this.props[key] = [stringify(value)];
 	},
 
 	add_value: function(key, value) {
+		if (this.board) {
+			throw "add_value() called on node but board already existed";
+		}
 		if (!this.props[key]) {
 			this.props[key] = [];
 		}
