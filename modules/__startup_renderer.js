@@ -1,20 +1,24 @@
 "use strict";
 
+const {ipcRenderer} = require("electron");
+
+const {EventPathClassString} = require("./utils");
 const config_io = require("./config_io");
+const stringify = require("./stringify");
 
 config_io.load();
 config_io.create_if_needed();
 
+// ---------------------------------------------------------------------
+
 global.config = config_io.config;
 global.hub = require("./hub").NewHub();
 
+global.alert = (msg) => {
+	ipcRenderer.send("alert", stringify(msg));
+};
+
 hub.draw();
-
-// ---------------------------------------------------------------------
-
-const {ipcRenderer} = require("electron");
-
-const {EventPathClassString} = require("./utils");
 
 // ---------------------------------------------------------------------
 
