@@ -17,7 +17,8 @@ exports.new_hub = function() {
 
 	hub.maindrawer = new_board_drawer(
 		document.getElementById("boardbg"),
-		document.getElementById("boardtable")
+		document.getElementById("boardtable"),
+		document.getElementById("boardcanvas"),
 	);
 
 	hub.engine = new_engine();
@@ -32,7 +33,7 @@ exports.new_hub = function() {
 let hub_props = {
 
 	draw: function() {
-		this.maindrawer.Draw(this.node);
+		this.maindrawer.drawboard(this.node);
 	},
 
 	try_move: function(s) {
@@ -45,7 +46,12 @@ let hub_props = {
 			return;
 		}
 		this.node = node;
-		this.draw();
+		this.maindrawer.drawboard(this.node);
+		this.maindrawer.clear_canvas();
+
+		if (this.engine.current_analysis_id) {
+			this.go();
+		}
 	},
 
 	prev: function() {
@@ -131,5 +137,11 @@ let hub_props = {
 
 	halt: function() {
 		this.engine.halt();
+	},
+
+	receive_object: function(o) {
+		if (o.id === this.node.id) {
+			this.maindrawer.drawobject(o);
+		}
 	},
 };

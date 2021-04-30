@@ -48,6 +48,7 @@ let eng_props = {
 	halt: function() {
 		if (this.current_analysis_id) {
 			this.__send(`{"id":"xxx","action":"terminate","terminateId":"${this.current_analysis_id}"}`);
+			this.current_analysis_id = null;
 		}
 	},
 
@@ -87,6 +88,7 @@ let eng_props = {
 				}
 			}
 			console.log("< " + line);
+			hub.receive_object(o);
 		});
 
 		this.err_scanner.on("line", (line) => {

@@ -7,7 +7,7 @@ const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
 const ko_marker   = new Image(); ko_marker.src   = "./gfx/ko.png";
 
-function new_board_drawer(backgrounddiv, htmltable) {
+function new_board_drawer(backgrounddiv, htmltable, canvas) {
 
 	let drawer = {};
 
@@ -18,8 +18,9 @@ function new_board_drawer(backgrounddiv, htmltable) {
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
+	drawer.canvas = canvas;
 
-	drawer.Draw = function(node) {
+	drawer.drawboard = function(node) {
 
 		let board = node.get_board();
 
@@ -61,6 +62,11 @@ function new_board_drawer(backgrounddiv, htmltable) {
 			this.backgrounddiv.style.top = this.htmltable.offsetTop.toString() + "px";
 			this.backgrounddiv.style.width = (board.width * 32).toString() + "px";
 			this.backgrounddiv.style.height = (board.height * 32).toString() + "px";
+
+			this.canvas.style.left = this.htmltable.offsetLeft.toString() + "px";
+			this.canvas.style.top = this.htmltable.offsetTop.toString() + "px";
+			this.canvas.width = board.width * 32;
+			this.canvas.height = board.height * 32;
 		}
 
 		if (this.current_ko !== board.ko) {
@@ -105,6 +111,66 @@ function new_board_drawer(backgrounddiv, htmltable) {
 				this.current[x][y] = board.state[x][y]
 			}
 		}
+	};
+
+	drawer.drawobject = function(o) {
+
+		// Draw a raw info object, with no mouseover or anything...
+		// TODO
+
+		let ctx = this.canvas.getContext("2d");
+
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+		if (Array.isArray(o.moveInfos) === false || o.moveInfos.length < 1) {
+			return;
+		}
+
+		for (let info of o.moveInfos) {
+
+			if (info.order === 0) {
+
+				let [x, y] = this.parse_gtp_move(info.move);
+
+				if (x === -1 || y === -1) {
+					break;
+				}
+
+				let gx = x * 32 + 16;
+				let gy = y * 32 + 16;
+
+				ctx.fillStyle = "#00eeff80";
+				ctx.beginPath();
+				ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
+				ctx.fill();
+
+			}
+		}
+	};
+
+	drawer.clear_canvas = function() {
+		let ctx = this.canvas.getContext("2d");
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	};
+
+	drawer.parse_gtp_move = function(s) {
+
+		if (!this.width || !this.height || typeof s !== "string" || s.length < 2) {
+			return [-1, -1];
+		}
+
+		let x = s.charCodeAt(0) - 65;
+		if (x >= 8) {					// Adjust for missing "I"
+			x--;
+		}
+
+		let y = this.height - parseInt(s.slice(1), 10);
+
+		if (Number.isNaN(x) || Number.isNaN(y) || x < 0 || y < 0 || x >= this.width || y >= this.height) {
+			return [-1, -1];
+		}
+
+		return [x, y];
 	};
 
 	return drawer;

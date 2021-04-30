@@ -9,7 +9,7 @@ function new_node(parent) {
 
 	let node = Object.create(node_prototype);
 
-	node.id = next_node_id++;
+	node.id = `node_${next_node_id++}`;
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);
@@ -247,7 +247,7 @@ let node_prototype = {
 			}
 		}
 
-		o.id = this.id.toString();
+		o.id = this.id;
 		if (initial.length > 0) {
 			o.initialStones = initial;
 		}
@@ -257,7 +257,7 @@ let node_prototype = {
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
 		o.maxVisits = 1000000;
-		o.reportDuringSearchEvery = 1;
+		o.reportDuringSearchEvery = 0.4;
 
 		return o;
 	},
