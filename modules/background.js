@@ -1,5 +1,7 @@
 "use strict";
 
+const {handicap_stones} = require("./utils");
+
 module.exports = function(width, height, square_size) {
 
 	let c = document.createElement("canvas");
@@ -37,16 +39,16 @@ module.exports = function(width, height, square_size) {
 
 	}
 
-	if (width === 19 && height === 19) {			// FIXME
-		for (let x = 3; x < 19; x += 6) {
-			for (let y = 3; y < 19; y += 6) {
-				let x1 = (x * square_size) + (square_size / 2) + 0.5;
-				let y1 = (y * square_size) + (square_size / 2) + 0.5;
-				ctx.beginPath();
-				ctx.arc(x1, y1, 2, 0, 3 * Math.PI);
-				ctx.fill();
-			}
-		}
+	let hoshi = handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false);
+
+	for (let s of hoshi) {
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+		let gx = (x * square_size) + (square_size / 2) + 0.5;
+		let gy = (y * square_size) + (square_size / 2) + 0.5;
+		ctx.beginPath();
+		ctx.arc(gx, gy, 2, 0, 3 * Math.PI);
+		ctx.fill();
 	}
 
 	return `url("${c.toDataURL("image/png")}")`;
