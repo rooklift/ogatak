@@ -173,7 +173,12 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 					s = info.scoreLead.toFixed(1);
 				}
 				if (config.numbers === "visits") {
-					s = info.visits > 999 ? (info.visits / 1000).toFixed(1) + "k" : info.visits.toString();
+					s = info.visits.toString();
+					if (info.visits > 9999) {
+						s = (info.visits / 1000).toFixed(0) + "k";
+					} else if (info.visits > 999) {
+						s = (info.visits / 1000).toFixed(1) + "k";
+					}
 				}
 				if (config.numbers === "order") {
 					s = info.order.toString();
