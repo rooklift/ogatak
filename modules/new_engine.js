@@ -36,11 +36,11 @@ let eng_props = {
 	},
 
 	analyse: function(node) {
-		let o = node.katago_query();
-		if (this.current_analysis_id === o.id) {
+		if (this.current_analysis_id === node.id) {
 			return;
 		}
 		this.halt();
+		let o = node.katago_query();
 		this.current_analysis_id = o.id;
 		this.__send(JSON.stringify(o));
 	},
