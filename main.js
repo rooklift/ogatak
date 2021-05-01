@@ -473,6 +473,16 @@ function menu_build() {
 						win.webContents.send("call", "return_to_main");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Delete node",
+					accelerator: "CommandOrControl+Backspace",
+					click: () => {
+						win.webContents.send("call", "delete_node");
+					}
+				},
 			]
 		},
 		{

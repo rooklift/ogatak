@@ -169,6 +169,18 @@ let hub_props = {
 		this.set_node(this.node.parent.children[nexti]);
 	},
 
+	delete_node: function() {
+		if (this.node.parent) {
+			this.set_node(this.node.detach());
+		} else {
+			if (this.node.children.length > 0) {
+				for (let child of this.node.children) {
+					child.detach();
+				}
+			}
+		}
+	},
+
 	go: function() {
 		this.engine.analyse(this.node);
 	},

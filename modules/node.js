@@ -256,6 +256,21 @@ let node_prototype = {
 		return o;
 	},
 
+	detach: function() {
+
+		// Returns the node that the hub should point to,
+		// which is the parent unless the call is a bad one.
+
+		let parent = this.parent;
+		if (!parent) return this;		// Fail
+
+		parent.children = parent.children.filter(child => child !== this);
+
+		this.parent = null;
+		this.destroy_tree();
+		return parent;
+	},
+
 	destroy_tree: function() {
 		destroy_tree(this.get_root());
 	}
