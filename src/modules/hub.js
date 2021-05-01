@@ -76,6 +76,8 @@ let hub_props = {
 				let blackname = this.node.get("PB") || "Unknown";
 				let whitename = this.node.get("PW") || "Unknown";
 				set_title(`${blackname} (B) vs ${whitename} (W)`);
+			} else {
+				set_title("Ogatak");
 			}
 		} catch (err) {
 			console.log(err.toString());
