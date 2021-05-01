@@ -258,6 +258,7 @@ function menu_build() {
 							label: "Winrate",
 							type: "checkbox",
 							checked: config.numbers === "winrate",
+							accelerator: "F1",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -267,9 +268,36 @@ function menu_build() {
 							}
 						},
 						{
+							label: "Score",
+							type: "checkbox",
+							checked: config.numbers === "score",
+							accelerator: "F2",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "score"
+								});
+								set_checks("Analysis", "Numbers", "Score");
+							}
+						},
+						{
+							label: "Visits %",
+							type: "checkbox",
+							checked: config.numbers === "visits_percent",
+							accelerator: "F3",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "visits_percent"
+								});
+								set_checks("Analysis", "Numbers", "Visits %");
+							}
+						},
+						{
 							label: "Visits",
 							type: "checkbox",
 							checked: config.numbers === "visits",
+							accelerator: "F4",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -277,7 +305,33 @@ function menu_build() {
 								});
 								set_checks("Analysis", "Numbers", "Visits");
 							}
-						}
+						},
+						{
+							label: "Policy",
+							type: "checkbox",
+							checked: config.numbers === "policy",
+							accelerator: "F5",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "policy"
+								});
+								set_checks("Analysis", "Numbers", "Policy");
+							}
+						},
+						{
+							label: "Order",
+							type: "checkbox",
+							checked: config.numbers === "order",
+							accelerator: "F6",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "order"
+								});
+								set_checks("Analysis", "Numbers", "Order");
+							}
+						},
 					]
 				}
 			]

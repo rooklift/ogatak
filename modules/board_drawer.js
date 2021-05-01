@@ -171,8 +171,20 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				if (config.numbers === "winrate") {
 					s = Math.floor(info.winrate * 100).toString();
 				}
+				if (config.numbers === "visits_percent") {
+					s = Math.floor(info.visits / root_visits * 100).toString();
+				}
+				if (config.numbers === "policy") {
+					s = Math.floor(info.prior * 100).toString();
+				}
+				if (config.numbers === "score") {
+					s = info.scoreLead.toFixed(1);
+				}
 				if (config.numbers === "visits") {
 					s = info.visits > 999 ? (info.visits / 1000).toFixed(1) + "k" : info.visits.toString();
+				}
+				if (config.numbers === "order") {
+					s = info.order.toString();
 				}
 
 				ctx.fillStyle = "#000000ff";
