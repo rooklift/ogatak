@@ -56,11 +56,6 @@ let hub_props = {
 		if (this.engine.desired) {
 			this.go();
 		}
-		if (this.node.parent && this.node.parent.children.length > 1) {
-			set_title(`Ogatak: ${this.node.parent.children.indexOf(this.node) + 1} of ${this.node.parent.children.length} siblings`);
-		} else {
-			set_title(`Ogatak`);
-		}
 	},
 
 	prev: function() {
@@ -75,6 +70,11 @@ let hub_props = {
 		try {
 			let s = fs.readFileSync(filepath);
 			this.set_node(load_sgf(s, 0, null).root);
+			if (this.node.props.PB || this.node.props.PW) {
+				let blackname = this.node.get("PB") || "Unknown";
+				let whitename = this.node.get("PW") || "Unknown";
+				set_title(`${blackname} (B) vs ${whitename} (W)`);
+			}
 		} catch (err) {
 			console.log(err.toString());
 		}
