@@ -76,3 +76,64 @@ exports.node_id_from_search_id = function(s) {		// "node_123:456" --> "node_123"
 	}
 	return s.slice(0, s.indexOf(":"));
 };
+
+exports.handicap_stones = function(handicap, width, height, tygem) {
+
+	let z = Math.min(width, height);		// FIXME...
+	let ret = [];
+
+	if (z < 4 || handicap < 2) {
+		return ret;
+	}
+
+	if (handicap > 9) handicap = 9;
+
+	let d = 1;
+	if (z >= 7) {
+		d = 2;
+	}
+	if (z >= 13) {
+		d = 3;
+	}
+
+	if (handicap >= 2) {
+		ret.push(exports.xy_to_s(z - d - 1, d));
+		ret.push(exports.xy_to_s(d, z - d - 1));
+	}
+
+	if (handicap >= 3) {
+		if (tygem) {
+			ret.push(exports.xy_to_s(d, d));
+		} else {
+			ret.push(exports.xy_to_s(z - d - 1, z - d - 1));
+		}
+	}
+
+	if (handicap >= 4) {
+		if (tygem) {
+			ret.push(exports.xy_to_s(z - d - 1, z - d - 1));
+		} else {
+			ret.push(exports.xy_to_s(d, d));
+		}
+	}
+
+	if (z % 2 === 0) {
+		return ret;
+	}
+
+	if (handicap === 5 || handicap === 7 || handicap === 9) {
+		ret.push(exports.xy_to_s(z / 2, z / 2));
+	}
+
+	if (handicap >= 6) {
+		ret.push(exports.xy_to_s(d, z / 2));
+		ret.push(exports.xy_to_s(z - d - 1, z / 2));
+	}
+
+	if (handicap >= 8) {
+		ret.push(exports.xy_to_s(z / 2, d));
+		ret.push(exports.xy_to_s(z / 2, z - d - 1));
+	}
+
+	return ret;
+};

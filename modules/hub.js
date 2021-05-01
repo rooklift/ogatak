@@ -8,15 +8,13 @@ const new_node = require("./node");
 const load_sgf = require("./load_sgf");
 
 const {get_title, set_title} = require("./title");
-const {node_id_from_search_id} = require("./utils");
+const {handicap_stones, node_id_from_search_id} = require("./utils");
 
 // ---------------------------------------------------------------------
 
 exports.new_hub = function() {
 
 	let hub = Object.create(null);
-
-	hub.node = new_node();
 
 	hub.maindrawer = new_board_drawer(
 		document.getElementById("boardbg"),
@@ -28,6 +26,8 @@ exports.new_hub = function() {
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
 	Object.assign(hub, hub_props);
+
+	hub.new();
 	return hub;
 };
 
@@ -78,9 +78,33 @@ let hub_props = {
 		}
 	},
 
-	new: function(handicap) {
-		this.node.destroy_tree();
-		this.set_node(new_node());
+	new: function() {
+
+		let width = config.next_size || 19;
+		let height = config.next_size || 19;
+		let komi = config.next_komi || 0;
+		let handicap = config.next_handicap || 0;
+
+		if (this.node) {
+			this.node.destroy_tree();
+		}
+
+		let node = new_node();
+
+		if (width === height) {			// Currently always so...
+			node.set("SZ", width);
+		} else {
+			node.set("SZ", `${width}:${height}`);
+		}
+
+		let points = handicap_stones(handicap, width, height, false);
+		for (let point of points) {
+			node.add_value("AB", point);
+		}
+
+		node.set("KM", komi);
+
+		this.set_node(node);
 	},
 
 	go_to_end: function() {

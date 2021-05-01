@@ -2,7 +2,7 @@
 
 const {opposite_colour, xy_to_s} = require("./utils");
 
-function new_board(width, height, state = null, ko = null, komi = 7.5, active = "b") {
+function new_board(width, height, state = null, ko = null, komi = 0, active = "b") {
 
 	// FIXME - add captures
 

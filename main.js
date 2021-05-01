@@ -111,6 +111,243 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
+					label: "Next size",
+					submenu: [
+						{
+							label: "19",
+							type: "checkbox",
+							checked: config.next_size === 19,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_size",
+									value: 19
+								});
+								set_checks("App", "Next size", "19");
+							}
+						},
+						{
+							label: "13",
+							type: "checkbox",
+							checked: config.next_size === 13,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_size",
+									value: 13
+								});
+								set_checks("App", "Next size", "13");
+							}
+						},
+						{
+							label: "9",
+							type: "checkbox",
+							checked: config.next_size === 9,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_size",
+									value: 9
+								});
+								set_checks("App", "Next size", "9");
+							}
+						},
+					]
+				},
+				{
+					label: "Next komi",
+					submenu: [
+						{
+							label: "7.5",
+							type: "checkbox",
+							checked: config.next_komi === 7.5,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 7.5
+								});
+								set_checks("App", "Next komi", "7.5");
+							}
+						},
+						{
+							label: "7",
+							type: "checkbox",
+							checked: config.next_komi === 7,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 7
+								});
+								set_checks("App", "Next komi", "7");
+							}
+						},
+						{
+							label: "6.5",
+							type: "checkbox",
+							checked: config.next_komi === 6.5,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 6.5
+								});
+								set_checks("App", "Next komi", "6.5");
+							}
+						},
+						{
+							label: "6",
+							type: "checkbox",
+							checked: config.next_komi === 6,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 6
+								});
+								set_checks("App", "Next komi", "6");
+							}
+						},
+						{
+							label: "0.5",
+							type: "checkbox",
+							checked: config.next_komi === 0.5,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 0.5
+								});
+								set_checks("App", "Next komi", "0.5");
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.next_komi === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_komi",
+									value: 0
+								});
+								set_checks("App", "Next komi", "0");
+							}
+						},
+					]
+				},
+				{
+					label: "Next handicap",
+					submenu: [
+						{
+							label: "9",
+							type: "checkbox",
+							checked: config.next_handicap === 9,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 9
+								});
+								set_checks("App", "Next handicap", "9");
+							}
+						},
+						{
+							label: "8",
+							type: "checkbox",
+							checked: config.next_handicap === 8,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 8
+								});
+								set_checks("App", "Next handicap", "8");
+							}
+						},
+						{
+							label: "7",
+							type: "checkbox",
+							checked: config.next_handicap === 7,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 7
+								});
+								set_checks("App", "Next handicap", "7");
+							}
+						},
+						{
+							label: "6",
+							type: "checkbox",
+							checked: config.next_handicap === 6,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 6
+								});
+								set_checks("App", "Next handicap", "6");
+							}
+						},
+						{
+							label: "5",
+							type: "checkbox",
+							checked: config.next_handicap === 5,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 5
+								});
+								set_checks("App", "Next handicap", "5");
+							}
+						},
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.next_handicap === 4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 4
+								});
+								set_checks("App", "Next handicap", "4");
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.next_handicap === 3,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 3
+								});
+								set_checks("App", "Next handicap", "3");
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.next_handicap === 2,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 2
+								});
+								set_checks("App", "Next handicap", "2");
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.next_handicap === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "next_handicap",
+									value: 0
+								});
+								set_checks("App", "Next handicap", "0");
+							}
+						},
+					]
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Open SGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
