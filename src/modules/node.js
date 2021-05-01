@@ -40,6 +40,18 @@ let node_prototype = {
 		if (!this.props[key]) {
 			this.props[key] = [];
 		}
+
+		// Specially deal with wrong komi format...
+
+		if (key === "KM") {
+			if (typeof value === "string") {
+				value = parseFloat(value);
+			}
+			if (value - Math.floor(value) === 0.75 || value - Math.floor(value) === 0.25) {
+				value *= 2;
+			}
+		}
+
 		this.props[key].push(stringify(value));
 	},
 
