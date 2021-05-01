@@ -38,7 +38,7 @@ let hub_props = {
 
 	draw: function() {
 		this.maindrawer.draw_board(this.node);
-		this.maindrawer.draw_analysis(this.node);
+		this.maindrawer.draw_canvas(this.node);
 		this.maindrawer.draw_info(this.node, this.engine);
 	},
 
@@ -180,7 +180,7 @@ let hub_props = {
 	receive_object: function(o) {
 		if (node_id_from_search_id(o.id) === this.node.id) {
 			this.node.analysis = o;
-			this.maindrawer.draw_analysis(this.node);
+			this.maindrawer.draw_canvas(this.node);
 		}
 		this.maindrawer.draw_info(this.node, this.engine);
 	},

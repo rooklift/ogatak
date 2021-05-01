@@ -118,12 +118,32 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 		this.boardinfo.innerHTML = s;
 	};
 
-	drawer.draw_analysis = function(node) {
+	drawer.draw_canvas = function(node) {
 
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		if (!node || !node.analysis) {
+		if (!node) {
+			return;
+		}
+
+		let moves_played = node.all_values("B").concat(node.all_values("W"));
+
+		for (let s of moves_played) {
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			let gx = x * 32 + 16;
+			let gy = y * 32 + 16;
+
+			ctx.fillStyle = "#ff0000aa";
+			ctx.beginPath();
+			ctx.arc(gx, gy, 6, 0, 2 * Math.PI);
+			ctx.fill();
+		}
+
+		if (!node.analysis) {
 			return;
 		}
 
