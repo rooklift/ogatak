@@ -39,6 +39,7 @@ let hub_props = {
 	draw: function() {
 		this.maindrawer.draw_board(this.node);
 		this.maindrawer.draw_analysis(this.node);
+		this.maindrawer.draw_info(this.node, this.engine);
 	},
 
 	try_move: function(s) {
@@ -181,5 +182,6 @@ let hub_props = {
 			this.node.analysis = o;
 			this.maindrawer.draw_analysis(this.node);
 		}
+		this.maindrawer.draw_info(this.node, this.engine);
 	},
 };

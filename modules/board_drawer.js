@@ -103,8 +103,19 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				}
 			}
 		}
+	};
 
-		this.boardinfo.innerHTML = `Komi: ${board.komi}`;
+	drawer.draw_info = function(node, engine) {
+
+		let board = node.get_board();
+
+		let s = `Komi: ${board.komi}`;
+
+		if (engine && engine.running) {
+			s += `, Running...`;
+		}
+
+		this.boardinfo.innerHTML = s;
 	};
 
 	drawer.draw_analysis = function(node) {
