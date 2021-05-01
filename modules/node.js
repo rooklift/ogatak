@@ -256,7 +256,45 @@ let node_prototype = {
 		return o;
 	},
 
+	destroy_tree: function() {
+		destroy_tree(this.get_root());
+	}
+
 };
+
+function destroy_tree(node) {
+
+	// Non-recursive when possible...
+
+	while (node.children.length === 1) {
+
+		let child = node.children[0];
+
+		node.parent = null;
+		node.children = [];
+		node.props = Object.create(null);
+		node.analysis = null;
+		node.__board = null;
+		node.destroyed = true;
+
+		node = child;
+	}
+
+	// Recursive when necessary...
+
+	let children = node.children;
+
+	node.parent = null;
+	node.children = [];
+	node.props = Object.create(null);
+	node.analysis = null;
+	node.__board = null;
+	node.destroyed = true;
+
+	for (let child of children) {
+		destroy_tree(child);
+	}
+}
 
 
 
