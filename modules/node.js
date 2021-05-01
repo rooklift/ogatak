@@ -1,6 +1,6 @@
 "use strict";
 
-const new_board = require("./new_board");
+const new_board = require("./board");
 const stringify = require("./stringify");
 
 let next_node_id = 1;

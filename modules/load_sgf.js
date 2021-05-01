@@ -1,6 +1,6 @@
 "use strict";
 
-const new_node = require("./new_node");
+const new_node = require("./node");
 
 const util = require("util");
 const decoder = new util.TextDecoder("utf8");

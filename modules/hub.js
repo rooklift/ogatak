@@ -2,9 +2,9 @@
 
 const fs = require("fs");
 
-const new_board_drawer = require("./new_board_drawer");
-const new_engine = require("./new_engine");
-const new_node = require("./new_node");
+const new_board_drawer = require("./board_drawer");
+const new_engine = require("./engine");
+const new_node = require("./node");
 const load_sgf = require("./load_sgf");
 
 const {node_id_from_search_id} = require("./utils");
