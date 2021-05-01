@@ -122,13 +122,26 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = "12px Arial";
+
 		if (Array.isArray(o.moveInfos) === false || o.moveInfos.length < 1) {
 			return;
 		}
 
+		let move0_lcb = o.moveInfos[0].lcb;
+		let move0_visits = o.moveInfos[0].visits;
+
 		for (let info of o.moveInfos) {
 
 			if (info.order === 0) {
+				ctx.fillStyle = "#84ce4cff";
+			} else {
+				ctx.fillStyle = "#e4ce4cff";
+			}
+
+			if (info.order === 0 || (info.lcb > move0_lcb * 0.9 && info.visits > move0_visits * 0.2)) {
 
 				let [x, y] = this.parse_gtp_move(info.move);
 
@@ -139,10 +152,13 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				let gx = x * 32 + 16;
 				let gy = y * 32 + 16;
 
-				ctx.fillStyle = "#00eeff80";
 				ctx.beginPath();
 				ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
 				ctx.fill();
+
+				let winrate = Math.floor(info.winrate * 100);
+				ctx.fillStyle = "#000000ff";
+				ctx.fillText(winrate.toString(), gx, gy + 1);
 
 			}
 		}

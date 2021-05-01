@@ -259,6 +259,9 @@ let node_prototype = {
 		o.boardYSize = this.height();
 		o.maxVisits = 1000000;
 		o.reportDuringSearchEvery = 0.4;
+		o.overrideSettings = {
+			reportAnalysisWinratesAs: "SIDETOMOVE"
+		};
 
 		return o;
 	},
