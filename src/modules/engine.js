@@ -101,6 +101,9 @@ let eng_props = {
 
 		this.scanner.on("line", (line) => {
 			let o = JSON.parse(line);
+			if (o.error || o.warning) {
+				console.log(o);
+			}
 			if (o.isDuringSearch === false) {
 				if (this.running && this.running.id === o.id) {
 					this.running = null;
