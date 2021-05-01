@@ -113,7 +113,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 		}
 	};
 
-	drawer.drawobject = function(o) {
+	drawer.drawobject = function(o, node) {
 
 		// Draw a raw info object, with no mouseover or anything...
 		// TODO
@@ -124,14 +124,16 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = "12px Arial";
+		ctx.font = "14px Arial";
 
 		if (Array.isArray(o.moveInfos) === false || o.moveInfos.length < 1) {
 			return;
 		}
 
-		let move0_lcb = o.moveInfos[0].lcb;
-		let move0_visits = o.moveInfos[0].visits;
+		let root_visits = o.rootInfo.visits;
+
+		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffff80";
+		ctx.lineWidth = 3.5;
 
 		for (let info of o.moveInfos) {
 
@@ -141,7 +143,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				ctx.fillStyle = "#e4ce4cff";
 			}
 
-			if (info.order === 0 || (info.lcb > move0_lcb * 0.9 && info.visits > move0_visits * 0.2)) {
+			if (info.order === 0 || (info.visits > root_visits * 0.02)) {
 
 				let [x, y] = this.parse_gtp_move(info.move);
 
@@ -155,6 +157,10 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				ctx.beginPath();
 				ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
 				ctx.fill();
+
+				ctx.beginPath();
+				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+				ctx.stroke();
 
 				let winrate = Math.floor(info.winrate * 100);
 				ctx.fillStyle = "#000000ff";

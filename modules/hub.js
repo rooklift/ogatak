@@ -142,7 +142,7 @@ let hub_props = {
 
 	receive_object: function(o) {
 		if (node_id_from_search_id(o.id) === this.node.id) {
-			this.maindrawer.drawobject(o);
+			this.maindrawer.drawobject(o, this.node);
 		}
 	},
 };
