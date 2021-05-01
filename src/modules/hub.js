@@ -69,7 +69,9 @@ let hub_props = {
 	load: function(filepath) {
 		try {
 			let s = fs.readFileSync(filepath);
-			this.set_node(load_sgf(s, 0, null).root);
+			let new_root = load_sgf(s, 0, null).root;
+			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
+			this.set_node(new_root);
 			if (this.node.props.PB || this.node.props.PW) {
 				let blackname = this.node.get("PB") || "Unknown";
 				let whitename = this.node.get("PW") || "Unknown";
