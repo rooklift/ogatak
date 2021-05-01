@@ -78,6 +78,11 @@ let hub_props = {
 		}
 	},
 
+	new: function(handicap) {
+		this.node.destroy_tree();
+		this.set_node(new_node());
+	},
+
 	go_to_end: function() {
 		let node = this.node;
 		while (node.children.length > 0) {

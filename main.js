@@ -104,6 +104,13 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "New game",
+					accelerator: "CommandOrControl+N",
+					click: () => {
+						win.webContents.send("call", "new");
+					}
+				},
+				{
 					label: "Open SGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
