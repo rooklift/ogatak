@@ -111,6 +111,7 @@ let hub_props = {
 		node.set("KM", komi);
 
 		this.set_node(node);
+		set_title("Ogatak");
 	},
 
 	go_to_end: function() {
