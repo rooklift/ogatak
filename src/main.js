@@ -614,6 +614,95 @@ function menu_build() {
 							}
 						},
 					]
+				},
+				{
+					label: "Visit threshold",
+					submenu: [
+						{
+							label: "N > 0.5%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.005,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.005
+								});
+								set_checks("Analysis", "Visit threshold", "N > 0.5%");
+							}
+						},
+						{
+							label: "N > 1%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.01,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.01
+								});
+								set_checks("Analysis", "Visit threshold", "N > 1%");
+							}
+						},
+						{
+							label: "N > 2%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.02,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.02
+								});
+								set_checks("Analysis", "Visit threshold", "N > 2%");
+							}
+						},
+						{
+							label: "N > 3%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.03,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.03
+								});
+								set_checks("Analysis", "Visit threshold", "N > 3%");
+							}
+						},
+						{
+							label: "N > 4%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.04,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.04
+								});
+								set_checks("Analysis", "Visit threshold", "N > 4%");
+							}
+						},
+						{
+							label: "N > 5%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.05,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.05
+								});
+								set_checks("Analysis", "Visit threshold", "N > 5%");
+							}
+						},
+						{
+							label: "N > 10%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.1
+								});
+								set_checks("Analysis", "Visit threshold", "N > 10%");
+							}
+						},
+					]
 				}
 			]
 		},
