@@ -53,8 +53,8 @@ let eng_props = {
 			this.pending_send = o;
 		} else {
 			this.current_analysis_id = o.id;
-			this.pending_send = null;
 			this.__send(JSON.stringify(o));
+			this.pending_send = null;
 		}
 	},
 
@@ -100,6 +100,7 @@ let eng_props = {
 					if (this.pending_send) {
 						this.current_analysis_id = this.pending_send.id;
 						this.__send(JSON.stringify(this.pending_send));
+						this.pending_send = null;
 					}
 				}
 			}
