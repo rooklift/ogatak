@@ -68,3 +68,5 @@ ipcRenderer.on("call", (event, msg) => {
 	}
 	fn();
 });
+
+ipcRenderer.send("renderer_ready", null);

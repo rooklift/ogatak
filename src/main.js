@@ -5,6 +5,7 @@ const path = require("path");
 const url = require("url");
 
 const config_io = require("./modules/config_io");
+const running_as_electron = require("./modules/running_as_electron");
 const stringify = require("./modules/stringify");
 
 config_io.load();
@@ -62,6 +63,32 @@ function startup() {
 
 	electron.app.on("window-all-closed", () => {
 		electron.app.quit();
+	});
+
+	electron.ipcMain.once("renderer_ready", () => {
+
+		// Open a file via command line. We must wait until the renderer has properly loaded before we do this.
+		// While it might seem like we could do this after "ready-to-show" I'm not 100% sure that the renderer
+		// will have fully loaded when that fires.
+
+		let filename = "";
+
+		if (running_as_electron()) {
+			if (process.argv.length > 2) {
+				filename = process.argv[process.argv.length - 1];
+			}
+		} else {
+			if (process.argv.length > 1) {
+				filename = process.argv[process.argv.length - 1];
+			}
+		}
+
+		if (filename !== "") {
+			win.webContents.send("call", {
+				fn: "load",
+				args: [filename]
+			});
+		}
 	});
 
 	electron.ipcMain.on("alert", (event, msg) => {
