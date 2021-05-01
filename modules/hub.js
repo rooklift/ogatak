@@ -141,8 +141,7 @@ let hub_props = {
 	},
 
 	receive_object: function(o) {
-		let o_node_id = node_id_from_search_id(o.id);
-		if (o_node_id === this.node.id) {
+		if (node_id_from_search_id(o.id) === this.node.id) {
 			this.maindrawer.drawobject(o);
 		}
 	},
