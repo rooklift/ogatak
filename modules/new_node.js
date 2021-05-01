@@ -104,14 +104,13 @@ let node_prototype = {
 		return 19;
 	},
 
-	node_history: function() {
+	node_history_reversed: function() {
 		let ret = [this];
 		let node = this;
 		while (node.parent) {
 			node = node.parent;
 			ret.push(node);
 		}
-		ret.reverse();
 		return ret;
 	},
 
@@ -204,42 +203,30 @@ let node_prototype = {
 
 		let o = {};
 
-		let initial = [];
+		let setup = [];
 		let moves = [];
 
-		let node_history = this.node_history();
+		let history_reversed = this.node_history_reversed();
 
-		let have_seen_play = false;
+		for (let node of history_reversed) {
 
-		for (let node of node_history) {
+			if (node.props.AB || node.props.AW || node.props.AE) {
 
-			if (node.props.AE) {
-				return this.katago_simple_query();
+				// In this case, our final object will have only moves after
+				// this node, but will set up the position at this node.
+
+				setup = node.get_board().setup_list();
+				break;
 			}
 
-			if (node.props.AB || node.props.AW) {
-				if (have_seen_play) {
-					return this.katago_simple_query();
-				}
-				for (let s of node.all_values("AB")) {
-					if (node.get_board().in_bounds(s)) {
-						initial.push(["B", node.get_board().gtp(s)]);
-					}
-				}
-				for (let s of node.all_values("AW")) {
-					if (node.get_board().in_bounds(s)) {
-						initial.push(["W", node.get_board().gtp(s)]);
-					}
-				}
-			}
+			if (node.props.B || node.props.W) {
 
-			if (node.props.B || node.props.W) {		// There's an argument for doing this before the above, but...
-				have_seen_play = true;
 				for (let s of node.all_values("B")) {
 					if (node.get_board().in_bounds(s)) {
 						moves.push(["B", node.get_board().gtp(s)]);
 					}
 				}
+
 				for (let s of node.all_values("W")) {
 					if (node.get_board().in_bounds(s)) {
 						moves.push(["W", node.get_board().gtp(s)]);
@@ -248,9 +235,11 @@ let node_prototype = {
 			}
 		}
 
+		moves.reverse();
+
 		o.id = `${this.id}:${next_query_id++}`;
-		if (initial.length > 0) {
-			o.initialStones = initial;
+		if (setup.length > 0) {
+			o.initialStones = setup;
 		}
 		o.moves = moves;
 		o.rules = "aga";
@@ -264,10 +253,6 @@ let node_prototype = {
 		};
 
 		return o;
-	},
-
-	katago_simple_query: function() {
-		throw "todo";
 	},
 
 };

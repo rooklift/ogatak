@@ -319,6 +319,31 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
+	gtp_from_xy(x, y) {
+		if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+			return "";
+		}
+		let letter_adjust = x >= 8 ? 1 : 0;
+		let letter = String.fromCharCode(x + 65 + letter_adjust);
+		let number = this.height - y;
+		return letter + number.toString();
+	},
+
+	setup_list: function() {
+		let ret = [];
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				if (this.state[x][y] === "b") {
+					ret.push(["B", this.gtp_from_xy(x, y)]);
+				}
+				if (this.state[x][y] === "w") {
+					ret.push(["W", this.gtp_from_xy(x, y)]);
+				}
+			}
+		}
+		return ret;
+	},
+
 };
 
 
