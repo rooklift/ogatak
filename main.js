@@ -127,7 +127,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Choose engine...",
+					label: "Locate KataGo...",
 					click: () => {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
@@ -141,7 +141,7 @@ function menu_build() {
 					},
 				},
 				{
-					label: "Choose engine config...",
+					label: "Locate KataGo config...",
 					click: () => {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
