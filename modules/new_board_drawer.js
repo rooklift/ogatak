@@ -130,6 +130,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 			return;
 		}
 
+		let move0_lcb = o.moveInfos[0].lcb;
 		let root_visits = o.rootInfo.visits;
 
 		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffff80";
@@ -137,13 +138,15 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 
 		for (let info of o.moveInfos) {
 
-			if (info.order === 0) {
-				ctx.fillStyle = "#84ce4cff";
-			} else {
-				ctx.fillStyle = "#e4ce4cff";
-			}
-
 			if (info.order === 0 || (info.visits > root_visits * 0.02)) {
+
+				if (info.order === 0) {
+					ctx.fillStyle = "#68cebaff";
+				} else if (info.lcb > move0_lcb * 0.98) {
+					ctx.fillStyle = "#84ce4cff";
+				} else {
+					ctx.fillStyle = "#e4ce4cff";
+				}
 
 				let [x, y] = this.parse_gtp_move(info.move);
 
