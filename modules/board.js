@@ -2,9 +2,7 @@
 
 const {opposite_colour, xy_to_s} = require("./utils");
 
-function new_board(width, height, state = null, ko = null, komi = 0, active = "b") {
-
-	// FIXME - add captures
+function new_board(width, height, state = null, ko = null, komi = 0, active = "b", caps_by_b = 0, caps_by_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -14,6 +12,8 @@ function new_board(width, height, state = null, ko = null, komi = 0, active = "b
 	ret.ko = ko;
 	ret.komi = komi;
 	ret.active = active;
+	ret.caps_by_b = caps_by_b;
+	ret.caps_by_w = caps_by_w;
 
 	for (let x = 0; x < width; x++) {
 		ret.state.push([]);
@@ -32,7 +32,7 @@ function new_board(width, height, state = null, ko = null, komi = 0, active = "b
 let board_prototype = {
 
 	copy: function() {
-		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.active);
+		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
 	in_bounds: function(s) {
@@ -140,6 +140,13 @@ let board_prototype = {
 		}
 
 		this.set_at(s, "");
+
+		if (colour === "b") {
+			this.caps_by_w++;
+		} else {
+			this.caps_by_b++;
+		}
+
 		let caps = 1;
 
 		for (let neighbour of this.neighbours(s)) {
