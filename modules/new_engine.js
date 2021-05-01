@@ -37,7 +37,12 @@ let eng_props = {
 
 	analyse: function(node) {
 
-		if (this.current_analysis_id === node.id && !this.pending_send) {
+		if (this.current_analysis_id === node.id) {
+			this.pending_send = null;
+			return;
+		}
+
+		if (this.pending_send && this.pending_send.id === node.id) {
 			return;
 		}
 
