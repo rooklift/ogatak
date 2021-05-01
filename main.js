@@ -103,7 +103,10 @@ function menu_build() {
 					click: () => {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
-							win.webContents.send("load", files[0]);
+							win.webContents.send("call", {
+								fn: "load",
+								args: [files[0]]
+							});
 						}
 					}
 				},
@@ -169,28 +172,28 @@ function menu_build() {
 					label: "Root",
 					accelerator: "Home",
 					click: () => {
-						win.webContents.send("go_to_root");
+						win.webContents.send("call", "go_to_root");
 					}
 				},
 				{
 					label: "End",
 					accelerator: "End",
 					click: () => {
-						win.webContents.send("go_to_end");
+						win.webContents.send("call", "go_to_end");
 					}
 				},
 				{
 					label: "Backward",
 					accelerator: "Left",
 					click: () => {
-						win.webContents.send("prev");
+						win.webContents.send("call", "prev");
 					}
 				},
 				{
 					label: "Forward",
 					accelerator: "Right",
 					click: () => {
-						win.webContents.send("next");
+						win.webContents.send("call", "next");
 					}
 				},
 				{
@@ -200,14 +203,14 @@ function menu_build() {
 					label: "Previous sibling",
 					accelerator: "Up",
 					click: () => {
-						win.webContents.send("prev_sibling");
+						win.webContents.send("call", "prev_sibling");
 					}
 				},
 				{
 					label: "Next sibling",
 					accelerator: "Down",
 					click: () => {
-						win.webContents.send("next_sibling");
+						win.webContents.send("call", "next_sibling");
 					}
 				},
 				{
@@ -217,7 +220,7 @@ function menu_build() {
 					label: "Return to main line",
 					accelerator: "CommandOrControl+R",
 					click: () => {
-						win.webContents.send("return_to_main");
+						win.webContents.send("call", "return_to_main");
 					}
 				},
 			]
@@ -229,14 +232,14 @@ function menu_build() {
 					label: "Go",
 					accelerator: "CommandOrControl+G",
 					click: () => {
-						win.webContents.send("go");
+						win.webContents.send("call", "go");
 					}
 				},
 				{
 					label: "Halt",
 					accelerator: "CommandOrControl+H",
 					click: () => {
-						win.webContents.send("halt");
+						win.webContents.send("call", "halt");
 					}
 				},
 			]

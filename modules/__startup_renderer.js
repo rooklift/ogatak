@@ -56,42 +56,15 @@ ipcRenderer.on("set", (event, msg) => {
 	hub.draw();
 });
 
-ipcRenderer.on("load", (event, msg) => {
-	hub.load(msg);
-});
-
-ipcRenderer.on("go_to_end", (event, msg) => {
-	hub.go_to_end();
-});
-
-ipcRenderer.on("go_to_root", (event, msg) => {
-	hub.go_to_root();
-});
-
-ipcRenderer.on("prev", (event, msg) => {
-	hub.prev();
-});
-
-ipcRenderer.on("next", (event, msg) => {
-	hub.next();
-});
-
-ipcRenderer.on("return_to_main", (event, msg) => {
-	hub.return_to_main();
-});
-
-ipcRenderer.on("prev_sibling", (event, msg) => {
-	hub.prev_sibling();
-});
-
-ipcRenderer.on("next_sibling", (event, msg) => {
-	hub.next_sibling();
-});
-
-ipcRenderer.on("go", (event, msg) => {
-	hub.go();
-});
-
-ipcRenderer.on("halt", (event, msg) => {
-	hub.halt();
+ipcRenderer.on("call", (event, msg) => {
+	let fn;
+	if (typeof msg === "string") {																		// msg is function name
+		fn = hub[msg].bind(hub);
+	} else if (typeof msg === "object" && typeof msg.fn === "string" && Array.isArray(msg.args)) {		// msg is object with fn and args
+		fn = hub[msg.fn].bind(hub, ...msg.args);
+	} else {
+		console.log("Bad call, msg was...");
+		console.log(msg);
+	}
+	fn();
 });
