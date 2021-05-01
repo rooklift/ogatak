@@ -7,6 +7,7 @@ const new_engine = require("./engine");
 const new_node = require("./node");
 const load_sgf = require("./load_sgf");
 
+const {get_title, set_title} = require("./title");
 const {node_id_from_search_id} = require("./utils");
 
 // ---------------------------------------------------------------------
@@ -52,6 +53,11 @@ let hub_props = {
 		this.maindrawer.clear_canvas();
 		if (this.engine.desired) {
 			this.go();
+		}
+		if (this.node.parent && this.node.parent.children.length > 1) {
+			set_title(`Ogatak: ${this.node.parent.children.indexOf(this.node) + 1} of ${this.node.parent.children.length} siblings`);
+		} else {
+			set_title(`Ogatak`);
 		}
 	},
 

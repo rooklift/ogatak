@@ -67,6 +67,10 @@ function startup() {
 		alert(msg);
 	});
 
+	electron.ipcMain.on("set_title", (event, msg) => {
+		win.setTitle(msg);
+	});
+
 	// Actually load the page last, I guess, so the event handlers above are already set up.
 	// Send some possibly useful info as a query.
 
