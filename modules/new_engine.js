@@ -13,7 +13,8 @@ function new_engine() {
 	eng.filepath = "";
 	eng.weights = "";
 
-	eng.current_analysis_id = null;		// The full id of the running analysis, as a string.
+	eng.current_analysis_id = null;		// The id of the node will equal the id in the sent JSON.
+	eng.pending_send = null;
 
 	Object.assign(eng, eng_props);
 	return eng;
@@ -29,26 +30,32 @@ let eng_props = {
 		try {
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
-			console.log("> " + msg);
 		} catch (err) {
 			console.log(err.toString());
 		}
 	},
 
 	analyse: function(node) {
-		if (this.current_analysis_id === node.id) {
+
+		if (this.current_analysis_id === node.id && !this.pending_send) {
 			return;
 		}
-		this.halt();
+
 		let o = node.katago_query();
-		this.current_analysis_id = o.id;
-		this.__send(JSON.stringify(o));
+
+		if (this.current_analysis_id) {
+			this.halt();
+			this.pending_send = o;
+		} else {
+			this.current_analysis_id = o.id;
+			this.pending_send = null;
+			this.__send(JSON.stringify(o));
+		}
 	},
 
 	halt: function() {
 		if (this.current_analysis_id) {
-			this.__send(`{"id":"xxx","action":"terminate","terminateId":"${this.current_analysis_id}"}`);
-			this.current_analysis_id = null;
+			this.__send(`{"id":"xxx_${this.current_analysis_id}","action":"terminate","terminateId":"${this.current_analysis_id}"}`);
 		}
 	},
 
@@ -85,9 +92,12 @@ let eng_props = {
 			if (o.isDuringSearch === false) {
 				if (o.id === this.current_analysis_id) {
 					this.current_analysis_id = null;
+					if (this.pending_send) {
+						this.current_analysis_id = this.pending_send.id;
+						this.__send(JSON.stringify(this.pending_send));
+					}
 				}
 			}
-			console.log("< " + line);
 			hub.receive_object(o);
 		});
 
