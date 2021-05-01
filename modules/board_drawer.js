@@ -109,10 +109,10 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		let board = node.get_board();
 
-		let s = `Komi: ${board.komi}, captures by black: ${board.caps_by_b}, by white: ${board.caps_by_w}`;
+		let s = `komi: ${board.komi}, caps by B: ${board.caps_by_b}, by W: ${board.caps_by_w}`;
 
 		if (engine && engine.running) {
-			s += `, Running...`;
+			s += `, running...`;
 		}
 
 		this.boardinfo.innerHTML = s;
