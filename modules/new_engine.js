@@ -5,6 +5,8 @@ const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
 
+const {node_id_from_search_id} = require("./utils");
+
 function new_engine() {
 
 	let eng = Object.create(null);
@@ -13,8 +15,8 @@ function new_engine() {
 	eng.filepath = "";
 	eng.weights = "";
 
-	eng.current_analysis_id = null;		// The id of the node will equal the id in the sent JSON.
-	eng.pending_send = null;
+	eng.running = null;			// The search object actually running.
+	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
 	Object.assign(eng, eng_props);
 	return eng;
@@ -22,12 +24,15 @@ function new_engine() {
 
 let eng_props = {
 
-	__send: function(msg) {
+	__send: function(o) {
 		if (!this.exe) {
 			return;
 		}
-		msg = msg.trim();
+		if (typeof o !== "object") {
+			throw "__send() requires an object";
+		}
 		try {
+			let msg = JSON.stringify(o);
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
 		} catch (err) {
@@ -37,31 +42,33 @@ let eng_props = {
 
 	analyse: function(node) {
 
-		if (this.current_analysis_id === node.id) {
-			this.pending_send = null;
+		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
 			return;
 		}
 
-		if (this.pending_send && this.pending_send.id === node.id) {
-			return;
-		}
+		this.desired = node.katago_query();
 
-		let o = node.katago_query();
-
-		if (this.current_analysis_id) {
-			this.halt();
-			this.pending_send = o;
+		if (this.running) {
+			this.__send({
+				id: `stop!${this.running.id}`,
+				action: "terminate",
+				terminateId: `${this.running.id}`
+			});
 		} else {
-			this.current_analysis_id = o.id;
-			this.__send(JSON.stringify(o));
-			this.pending_send = null;
+			this.__send(this.desired);
+			this.running = this.desired;
 		}
 	},
 
-	halt: function() {
-		if (this.current_analysis_id) {
-			this.__send(`{"id":"xxx_${this.current_analysis_id}","action":"terminate","terminateId":"${this.current_analysis_id}"}`);
+	halt: function() {				// Only for user-caused halts, as it sets desired to null.
+		if (this.running) {
+			this.__send({
+				id: `stop!${this.running.id}`,
+				action: "terminate",
+				terminateId: `${this.running.id}`
+			});
 		}
+		this.desired = null;
 	},
 
 	setup: function(filepath, engineconfig, weights) {
@@ -95,12 +102,11 @@ let eng_props = {
 		this.scanner.on("line", (line) => {
 			let o = JSON.parse(line);
 			if (o.isDuringSearch === false) {
-				if (o.id === this.current_analysis_id) {
-					this.current_analysis_id = null;
-					if (this.pending_send) {
-						this.current_analysis_id = this.pending_send.id;
-						this.__send(JSON.stringify(this.pending_send));
-						this.pending_send = null;
+				if (this.running && this.running.id === o.id) {
+					this.running = null;
+					if (this.desired) {
+						this.__send(this.desired);
+						this.running = this.desired;
 					}
 				}
 			}

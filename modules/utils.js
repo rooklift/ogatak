@@ -66,3 +66,13 @@ exports.event_path_class_string = function(event, prefix) {
 
 	return null;
 };
+
+exports.node_id_from_search_id = function(s) {		// "node_123:456" --> "node_123"
+	if (typeof s !== "string") {
+		return "";
+	}
+	if (s.includes(":") === false) {
+		return "";
+	}
+	return s.slice(0, s.indexOf(":"));
+};

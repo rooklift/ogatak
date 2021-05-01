@@ -7,6 +7,8 @@ const new_engine = require("./new_engine");
 const new_node = require("./new_node");
 const load_sgf = require("./load_sgf");
 
+const {node_id_from_search_id} = require("./utils");
+
 // ---------------------------------------------------------------------
 
 exports.new_hub = function() {
@@ -48,8 +50,7 @@ let hub_props = {
 		this.node = node;
 		this.maindrawer.drawboard(this.node);
 		this.maindrawer.clear_canvas();
-
-		if (this.engine.current_analysis_id) {
+		if (this.engine.desired) {
 			this.go();
 		}
 	},
@@ -140,7 +141,8 @@ let hub_props = {
 	},
 
 	receive_object: function(o) {
-		if (o.id === this.node.id) {
+		let o_node_id = node_id_from_search_id(o.id);
+		if (o_node_id === this.node.id) {
 			this.maindrawer.drawobject(o);
 		}
 	},

@@ -4,6 +4,7 @@ const new_board = require("./new_board");
 const stringify = require("./stringify");
 
 let next_node_id = 1;
+let next_query_id = 1;
 
 function new_node(parent) {
 
@@ -247,7 +248,7 @@ let node_prototype = {
 			}
 		}
 
-		o.id = this.id;
+		o.id = `${this.id}:${next_query_id++}`;
 		if (initial.length > 0) {
 			o.initialStones = initial;
 		}
