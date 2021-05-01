@@ -14,6 +14,7 @@ function new_node(parent) {
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);
+	node.analysis = null;
 	node.__board = null;
 
 	if (parent) {

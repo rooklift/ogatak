@@ -2,6 +2,7 @@
 
 const background = require("./background");
 const {xy_to_s} = require("./utils");
+const {node_id_from_search_id} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
@@ -20,7 +21,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
 
-	drawer.drawboard = function(node) {
+	drawer.draw_board = function(node) {
 
 		let board = node.get_board();
 
@@ -113,30 +114,30 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 		}
 	};
 
-	drawer.drawobject = function(o, node) {
-
-		// Draw a raw info object, with no mouseover or anything...
-		// TODO
+	drawer.draw_analysis = function(node) {
 
 		let ctx = this.canvas.getContext("2d");
-
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+		if (!node || !node.analysis) {
+			return;
+		}
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.font = "14px Arial";
 
-		if (Array.isArray(o.moveInfos) === false || o.moveInfos.length < 1) {
+		if (Array.isArray(node.analysis.moveInfos) === false || node.analysis.moveInfos.length < 1) {
 			return;
 		}
 
-		let move0_lcb = o.moveInfos[0].lcb;
-		let root_visits = o.rootInfo.visits;
+		let move0_lcb = node.analysis.moveInfos[0].lcb;
+		let root_visits = node.analysis.rootInfo.visits;
 
 		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffff80";
 		ctx.lineWidth = 3.5;
 
-		for (let info of o.moveInfos) {
+		for (let info of node.analysis.moveInfos) {
 
 			if (info.order === 0 || (info.visits > root_visits * 0.02)) {
 
@@ -165,9 +166,17 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
 				ctx.stroke();
 
-				let winrate = Math.floor(info.winrate * 100);
+				let s = "";
+
+				if (config.numbers === "winrate") {
+					s = Math.floor(info.winrate * 100).toString();
+				}
+				if (config.numbers === "visits") {
+					s = info.visits > 999 ? (info.visits / 1000).toFixed(1) + "k" : info.visits.toString();
+				}
+
 				ctx.fillStyle = "#000000ff";
-				ctx.fillText(winrate.toString(), gx, gy + 1);
+				ctx.fillText(s, gx, gy + 1);
 
 			}
 		}

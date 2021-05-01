@@ -11,6 +11,7 @@ config_io.load();
 let config = config_io.config;
 
 let menu = menu_build();
+let menu_is_set = false;
 let win;						// We're supposed to keep global references to every window we make.
 
 if (electron.app.isReady()) {
@@ -71,6 +72,9 @@ function startup() {
 		win.setTitle(msg);
 	});
 
+	electron.Menu.setApplicationMenu(menu);
+	menu_is_set = true;
+
 	// Actually load the page last, I guess, so the event handlers above are already set up.
 	// Send some possibly useful info as a query.
 
@@ -81,8 +85,6 @@ function startup() {
 		path.join(__dirname, "ogatak.html"),
 		{query: query}
 	);
-
-	electron.Menu.setApplicationMenu(menu);
 }
 
 // --------------------------------------------------------------------------------------------------------------
@@ -246,6 +248,38 @@ function menu_build() {
 						win.webContents.send("call", "halt");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Numbers",
+					submenu: [
+						{
+							label: "Winrate",
+							type: "checkbox",
+							checked: config.numbers === "winrate",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "winrate"
+								});
+								set_checks("Analysis", "Numbers", "Winrate");
+							}
+						},
+						{
+							label: "Visits",
+							type: "checkbox",
+							checked: config.numbers === "visits",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "visits"
+								});
+								set_checks("Analysis", "Numbers", "Visits");
+							}
+						}
+					]
+				}
 			]
 		},
 		{
@@ -267,3 +301,44 @@ function menu_build() {
 	return electron.Menu.buildFromTemplate(template);
 }
 
+
+
+function set_checks(...menupath) {
+
+	if (!menu_is_set) {
+		return;
+	}
+
+	// Since I don't know precisely how the menu works behind the scenes,
+	// give a little time for the original click to go through first.
+
+	setTimeout(() => {
+		let items = get_submenu_items(menupath.slice(0, -1));
+		for (let n = 0; n < items.length; n++) {
+			if (items[n].checked !== undefined) {
+				items[n].checked = items[n].label === menupath[menupath.length - 1];
+			}
+		}
+	}, 50);
+}
+
+function get_submenu_items(menupath) {
+
+	// If the path is to a submenu, this returns a list of all items in the submenu.
+	// If the path is to a specific menu item, it just returns that item.
+
+	let o = menu.items;
+	for (let p of menupath) {
+		for (let item of o) {
+			if (item.label === p) {
+				if (item.submenu) {
+					o = item.submenu.items;
+					break;
+				} else {
+					return item;		// No submenu so this must be the end.
+				}
+			}
+		}
+	}
+	return o;
+}

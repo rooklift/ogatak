@@ -36,7 +36,8 @@ exports.new_hub = function() {
 let hub_props = {
 
 	draw: function() {
-		this.maindrawer.drawboard(this.node);
+		this.maindrawer.draw_board(this.node);
+		this.maindrawer.draw_analysis(this.node);
 	},
 
 	try_move: function(s) {
@@ -49,8 +50,7 @@ let hub_props = {
 			return;
 		}
 		this.node = node;
-		this.maindrawer.drawboard(this.node);
-		this.maindrawer.clear_canvas();
+		this.draw();
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -148,7 +148,8 @@ let hub_props = {
 
 	receive_object: function(o) {
 		if (node_id_from_search_id(o.id) === this.node.id) {
-			this.maindrawer.drawobject(o, this.node);
+			this.node.analysis = o;
+			this.maindrawer.draw_analysis(this.node);
 		}
 	},
 };

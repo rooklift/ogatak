@@ -26,6 +26,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",
+
+	"numbers": "winrate"
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------
