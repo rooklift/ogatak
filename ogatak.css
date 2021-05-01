@@ -16,21 +16,39 @@ canvas {
 
 #boardbg {
 	background-image: url("./gfx/subdued_board.png");
-	position: fixed;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	z-index: 1;
 }
 
 #boardtable {
 	border-collapse: collapse;
 	pointer-events: auto;
-	position: fixed;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	table-layout: fixed;
 	z-index: 2;
 }
 
 #boardcanvas {
-	position: fixed;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 	z-index: 2;
+}
+
+#boardinfo {
+	background-color: #080808;
+	border: none;
+	color: #6cccee;
+	font-family: monospace, monospace;
+	font-size: 100%;
+	margin: 1em;
+	position: absolute;
+	left: 0px;
+	top: 0px;
 }
 
 td {

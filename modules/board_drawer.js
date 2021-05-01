@@ -13,7 +13,7 @@ const white_stone_url = `url("${white_stone.src}")`;
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
-function new_board_drawer(backgrounddiv, htmltable, canvas) {
+function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 	let drawer = {};
 
@@ -24,6 +24,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
+	drawer.boardinfo = boardinfo;
 
 	drawer.draw_board = function(node) {
 
@@ -59,18 +60,16 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				}
 			}
 
-			this.htmltable.style.width = (board.width * 32).toString() + "px";
-			this.htmltable.style.height = (board.height * 32).toString() + "px";
-
-			this.backgrounddiv.style.left = this.htmltable.offsetLeft.toString() + "px";
-			this.backgrounddiv.style.top = this.htmltable.offsetTop.toString() + "px";
 			this.backgrounddiv.style.width = (board.width * 32).toString() + "px";
 			this.backgrounddiv.style.height = (board.height * 32).toString() + "px";
 
-			this.canvas.style.left = this.htmltable.offsetLeft.toString() + "px";
-			this.canvas.style.top = this.htmltable.offsetTop.toString() + "px";
+			this.htmltable.style.width = (board.width * 32).toString() + "px";
+			this.htmltable.style.height = (board.height * 32).toString() + "px";
+
 			this.canvas.width = board.width * 32;
 			this.canvas.height = board.height * 32;
+
+			this.boardinfo.style.top = this.canvas.height + "px";
 		}
 
 		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;
@@ -104,6 +103,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas) {
 				}
 			}
 		}
+
+		this.boardinfo.innerHTML = `Komi: ${board.komi}`;
 	};
 
 	drawer.draw_analysis = function(node) {
