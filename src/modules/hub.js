@@ -186,6 +186,26 @@ let hub_props = {
 		}
 	},
 
+	promote_to_main_line: function() {
+
+		let node = this.node;
+		let changed = false;		// We might use this at some point.
+
+		while (node.parent) {
+			if (node.parent.children[0] !== node) {
+				for (let n = 1; n < node.parent.children.length; n++) {
+					if (node.parent.children[n] === node) {
+						node.parent.children[n] = node.parent.children[0];
+						node.parent.children[0] = node;
+						changed = true;
+						break;
+					}
+				}
+			}
+			node = node.parent;
+		}
+	},
+
 	go: function() {
 		this.engine.analyse(this.node);
 	},

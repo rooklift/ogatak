@@ -501,6 +501,13 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Promote line to main line",
+					accelerator: "CommandOrControl+L",
+					click: () => {
+						win.webContents.send("call", "promote_to_main_line");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
