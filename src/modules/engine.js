@@ -121,8 +121,11 @@ let eng_props = {
 			if (o.error || o.warning) {
 				alert("Engine said:\n" + stringify(o));
 			}
-			if (o.isDuringSearch === false) {
+			if (o.isDuringSearch === false || o.error) {
 				if (this.running && this.running.id === o.id) {
+					if (this.desired === this.running) {
+						this.desired = null;
+					}
 					this.running = null;
 					if (this.desired) {
 						this.__send(this.desired);
