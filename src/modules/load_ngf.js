@@ -144,7 +144,17 @@ function load_ngf(buf) {
 		root.set("KM", komi);
 	}
 
-	// TODO date
+	if (rawdate.length === 8) {
+		let ok = true;
+		for (let n = 0; n < 8; n++) {
+			if (rawdate[n].charCodeAt(0) < 48 || rawdate[n].charCodeAt(0) > 57) {
+				ok = false;
+			}
+		}
+		if (ok) {
+			root.set("DT", rawdate.slice(0, 4) + "-" + rawdate.slice(4, 6) + "-" + rawdate.slice(6, 8));
+		}
+	}
 
 	if (pw) root.set("PW", pw);
 	if (pb) root.set("PB", pb);
