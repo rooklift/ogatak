@@ -35,7 +35,7 @@ let board_prototype = {
 		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
-	in_bounds: function(s) {
+	in_bounds: function(s) {				// Note: any pass-ish things are not "in bounds".
 
 		if (typeof s !== "string" || s.length !== 2) {
 			return false;
@@ -200,14 +200,14 @@ let board_prototype = {
 		return false;
 	},
 
-	legal: function(s) {
-		return this.legal_colour(s, this.active);
+	legalmove: function(s) {								// Note: does not consider passes as "legal moves".
+		return this.legalmove_colour(s, this.active);
 	},
 
-	legal_colour: function(s, colour) {
+	legalmove_colour: function(s, colour) {					// Note: does not consider passes as "legal moves".
 
 		if (this.in_bounds(s) === false) {
-			return false;						// Or should this be true, since it can be treated as a pass?
+			return false;
 		}
 
 		if (this.state_at(s)) {
@@ -316,7 +316,7 @@ let board_prototype = {
 
 	gtp: function(s) {
 		if (this.in_bounds(s) === false) {
-			return "";
+			return "pass";
 		}
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
@@ -328,7 +328,7 @@ let board_prototype = {
 
 	gtp_from_xy(x, y) {
 		if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
-			return "";
+			return "pass";
 		}
 		let letter_adjust = x >= 8 ? 1 : 0;
 		let letter = String.fromCharCode(x + 65 + letter_adjust);

@@ -162,11 +162,11 @@ let node_prototype = {
 		}
 
 		for (let s of this.all_values("B")) {
-			this.__board.play_black(s);
+			this.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
 		}
 
 		for (let s of this.all_values("W")) {
-			this.__board.play_white(s);
+			this.__board.play_white(s);				// Will treat s as a pass if it's not a valid move.
 		}
 
 		let pl = this.get("PL");
@@ -181,11 +181,11 @@ let node_prototype = {
 		return this.__board;
 	},
 
-	try_move: function(s) {
+	try_move: function(s) {					// Note: not to be used for passing.
 
 		let board = this.get_board();
 
-		if (board.legal(s) === false) {
+		if (board.legalmove(s) === false) {
 			return this;
 		}
 
@@ -243,15 +243,11 @@ let node_prototype = {
 			if (node.props.B || node.props.W) {
 
 				for (let s of node.all_values("B")) {
-					if (node.get_board().in_bounds(s)) {
-						moves.push(["B", node.get_board().gtp(s)]);
-					}
+					moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
 
 				for (let s of node.all_values("W")) {
-					if (node.get_board().in_bounds(s)) {
-						moves.push(["W", node.get_board().gtp(s)]);
-					}
+					moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
 			}
 		}
