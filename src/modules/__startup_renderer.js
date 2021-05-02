@@ -10,14 +10,16 @@ config_io.load();
 config_io.create_if_needed();
 
 // ---------------------------------------------------------------------
+// Explicitly add only the globals we need...
 
 global.alert = (msg) => {							// Do this first.
 	ipcRenderer.send("alert", stringify(msg));
 };
 
 global.config = config_io.config;					// Do this second. e.g. because new_hub() uses it.
-global.hub = require("./hub").new_hub();
+global.save_config = config_io.save;
 
+global.hub = require("./hub").new_hub();
 hub.draw();
 
 // ---------------------------------------------------------------------
@@ -51,8 +53,8 @@ document.addEventListener("wheel", (event) => {
 // ---------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
-	global.config[msg.key] = msg.value;
-	config_io.save();
+	config[msg.key] = msg.value;
+	save_config();
 	hub.draw();
 });
 

@@ -266,7 +266,7 @@ let node_prototype = {
 		if (moves.length === 0) {
 			o.initialPlayer = this.get_board().active.toUpperCase();
 		}
-		o.rules = "aga";
+		o.rules = config.rules;
 		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();

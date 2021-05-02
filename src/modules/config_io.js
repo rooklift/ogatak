@@ -34,6 +34,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"next_handicap": 0,
 
 	"visits_threshold": 0.02,
+
+	"rules": "chinese",
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------

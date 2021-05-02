@@ -46,7 +46,9 @@ let eng_props = {
 
 		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
 			if (this.desired.komi === node.get_board().komi) {
-				return;			// Because everything matches - the search desired is already set as such.
+				if (this.desired.rules === config.rules) {
+					return;			// Because everything matches - the search desired is already set as such.
+				}
 			}
 		}
 
