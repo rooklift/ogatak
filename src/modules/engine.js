@@ -18,6 +18,8 @@ function new_engine() {
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
+	eng.suppressed_search_id = null;
+
 	Object.assign(eng, eng_props);
 	return eng;
 };
@@ -57,6 +59,16 @@ let eng_props = {
 		} else {
 			this.__send(this.desired);
 			this.running = this.desired;
+		}
+	},
+
+	suppress: function() {
+
+		// Further updates from this search get their id altered so as not to be recognised by the hub as belonging to its node.
+		// They still get passed on, since the hub uses incoming messages as a trigger to redraw the status.
+
+		if (this.running) {
+			this.suppressed_search_id = this.running.id;
 		}
 	},
 
@@ -112,6 +124,9 @@ let eng_props = {
 						this.running = this.desired;
 					}
 				}
+			}
+			if (typeof o.id === "string" && o.id === this.suppressed_search_id) {
+				o.id = "suppressed!" + o.id;
 			}
 			hub.receive_object(o);
 		});

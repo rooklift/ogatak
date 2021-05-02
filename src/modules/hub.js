@@ -220,11 +220,18 @@ let hub_props = {
 		this.engine.halt();
 	},
 
+	forget_analysis: function() {
+		this.node.analysis = null;
+		this.engine.suppress();
+		this.halt();
+		this.draw();
+	},
+
 	receive_object: function(o) {
 		if (node_id_from_search_id(o.id) === this.node.id) {
 			this.node.analysis = o;
 			this.maindrawer.draw_canvas(this.node);
 		}
-		this.maindrawer.draw_info(this.node, this.engine);
+		this.maindrawer.draw_info(this.node, this.engine);		// To update the "running" string.
 	},
 };
