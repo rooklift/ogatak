@@ -5,6 +5,7 @@ const fs = require("fs");
 const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
 const new_node = require("./node");
+const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 
@@ -73,6 +74,8 @@ let hub_props = {
 			let new_root;
 			if (filepath.toLowerCase().endsWith(".ngf")) {
 				new_root = load_ngf(buf);
+			} else if (filepath.toLowerCase().endsWith(".gib")) {
+				new_root = load_gib(buf);
 			} else {
 				new_root = load_sgf(buf);
 			}
