@@ -45,7 +45,9 @@ let eng_props = {
 	analyse: function(node) {
 
 		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
-			return;
+			if (this.desired.komi === node.get_board().komi) {
+				return;			// Because everything matches - the search desired is already set as such.
+			}
 		}
 
 		this.desired = node.katago_query();
