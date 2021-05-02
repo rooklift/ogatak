@@ -37,6 +37,10 @@ let node_prototype = {
 		this.props[key] = [stringify(value)];
 	},
 
+	force_set: function(key, value) {
+		this.props[key] = [stringify(value)];
+	},
+
 	add_value: function(key, value) {
 		if (this.__board) {
 			throw "add_value() called on node but board already existed";
@@ -292,7 +296,13 @@ let node_prototype = {
 
 	destroy_tree: function() {
 		destroy_tree(this.get_root());
-	}
+	},
+
+	coerce_komi: function(value) {
+		let root = this.get_root();
+		root.force_set("KM", value);
+		coerce_komi_recursive(root, value);
+	},
 
 };
 
@@ -334,24 +344,21 @@ function destroy_tree(node) {
 
 function coerce_komi_recursive(node, komi) {
 
-	// We rely on the fact that a node with no
-	// board has no descendents with a board.
-
 	while (node.children.length === 1) {
-		if (!node.__board) {
-			return;
+		if (node.__board) {
+			node.__board.komi = komi;
 		}
-		node.__board.komi = komi;
+		// node.analysis = null;
 		node = node.children[0];
 	}
 
-	if (!node.__board) {
-		return;
+	if (node.__board) {
+		node.__board.komi = komi;
 	}
-	node.__board.komi = komi;
+	// node.analysis = null;
 
 	for (let child of node.children) {
-		coerce_komi_recursive(child);
+		coerce_komi_recursive(child, komi);
 	}
 }
 

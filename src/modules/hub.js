@@ -206,6 +206,12 @@ let hub_props = {
 		}
 	},
 
+	coerce_komi: function(value) {
+		this.halt();
+		this.node.coerce_komi(value);
+		this.maindrawer.draw_info(this.node, this.engine);
+	},
+
 	go: function() {
 		this.engine.analyse(this.node);
 	},

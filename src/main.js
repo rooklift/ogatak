@@ -517,6 +517,68 @@ function menu_build() {
 						win.webContents.send("call", "delete_node");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Reset komi",
+					submenu: [
+						{
+							label: "7.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [7.5]
+								});
+							}
+						},
+						{
+							label: "7",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [7]
+								});
+							}
+						},
+						{
+							label: "6.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [6.5]
+								});
+							}
+						},
+						{
+							label: "6",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [6]
+								});
+							}
+						},
+						{
+							label: "0.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [0.5]
+								});
+							}
+						},
+						{
+							label: "0",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [0]
+								});
+							}
+						},
+					]
+				}
 			]
 		},
 		{
