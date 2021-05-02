@@ -5,6 +5,7 @@ const fs = require("fs");
 const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
 const new_node = require("./node");
+const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 
 const {get_title, set_title} = require("./title");
@@ -69,7 +70,12 @@ let hub_props = {
 	load: function(filepath) {
 		try {
 			let buf = fs.readFileSync(filepath);
-			let new_root = load_sgf(buf);
+			let new_root;
+			if (filepath.toLowerCase().endsWith(".ngf")) {
+				new_root = load_ngf(buf);
+			} else {
+				new_root = load_sgf(buf);
+			}
 			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
 			this.set_node(new_root);
 			if (this.node.props.PB || this.node.props.PW) {
