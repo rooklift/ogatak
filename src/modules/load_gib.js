@@ -2,7 +2,7 @@
 
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
-const {handicap_stones, xy_to_s} = require("./utils");
+const {handicap_stones, replace_all, xy_to_s} = require("./utils");
 
 function load_gib(buf) {
 
@@ -76,8 +76,80 @@ function load_gib(buf) {
 
 function parse_gib_gametag(line) {
 
-	return ["", "", ""];	// TODO
+	let fields = line.split(",").map(z => z.trim());
 
+	let dt = "";
+	let re = "";
+	let km = "";
+
+	let zipsu = 0;
+
+	for (let s of fields) {
+
+		if (s.length < 2) {
+			continue;
+		}
+
+		if (s[0] === "C") {
+			dt = s.slice(1);
+			if (dt.length > 10) {
+				dt = dt.slice(0, 10);
+			}
+			dt = replace_all(dt, ":", "-");
+		}
+
+		if (s[0] === "W") {
+
+			let grlt = parseInt(s.slice(1), 10);
+
+			if (Number.isNaN(grlt) === false) {
+
+				switch (grlt) {
+
+				case 0:
+					re = "B+";
+					break;
+				case 1:
+					re = "W+";
+					break;
+				case 3:
+					re = "B+R";
+					break;
+				case 4:
+					re = "W+R";
+					break;
+				case 7:
+					re = "B+T";
+					break;
+				case 8:
+					re = "W+T";
+					break;
+				}
+			}
+		}
+
+		if (s[0] === "G") {
+			let gongje = parseInt(s.slice(1), 10);
+			if (Number.isNaN(gongje) === false) {
+				km = (gongje / 10).toString();
+			}
+		}
+
+		if (s[0] === "Z") {
+			zipsu = parseInt(s.slice(1), 10);
+			if (Number.isNaN(zipsu)) {
+				zipsu = 0;
+			}
+		}
+	}
+
+	if (re === "B+" || re === "W+") {
+		if (zipsu > 0) {
+			re += (zipsu / 10).toString();
+		}
+	}
+
+	return [dt, re, km];
 }
 
 
