@@ -44,7 +44,11 @@ function new_byte_pusher(size) {
 	};
 }
 
-function load_sgf(sgf, off, parent_of_local_root) {
+function load_sgf(buf) {
+	return load_sgf_recursive(buf, 0, null).root;
+}
+
+function load_sgf_recursive(buf, off, parent_of_local_root) {
 
 	let root = null;
 	let node = null;
@@ -55,9 +59,9 @@ function load_sgf(sgf, off, parent_of_local_root) {
 	let key = new_byte_pusher();
 	let keycomplete = false;
 
-	for (let i = off; i < sgf.length; i++) {
+	for (let i = off; i < buf.length; i++) {
 
-		let c = sgf[i];
+		let c = buf[i];
 
 		if (tree_started === false) {
 			if (c <= 32) {
@@ -66,22 +70,22 @@ function load_sgf(sgf, off, parent_of_local_root) {
 				tree_started = true;
 				continue;
 			} else {
-				throw "load_sgf() error: unexpected byte before (";
+				throw "SGF load error: unexpected byte before (";
 			}
 		}
 
 		if (inside_value) {
 
 			if (c === 92) {								// that is \
-				if (sgf.length <= i + 1) {
-					throw "load_sgf() error: escape character at end of input";
+				if (buf.length <= i + 1) {
+					throw "SGF load error: escape character at end of input";
 				}
-				value.push(sgf[i + 1]);
+				value.push(buf[i + 1]);
 				i++;
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
 				if (!node) {
-					throw "load_sgf() error: value ended by ] but node was nil";
+					throw "SGF load error: value ended by ] but node was nil";
 				}
 				node.add_value(key.string(), value.string());
 			} else {
@@ -103,17 +107,17 @@ function load_sgf(sgf, off, parent_of_local_root) {
 				inside_value = true;
 				keycomplete = true;
 				if (key.string() === "") {
-					throw `load_sgf() error: value started with [ but key was ""`;
+					throw `SGF load error: value started with [ but key was ""`;
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
-					throw "load_sgf() error: new subtree started but node was nil";
+					throw "SGF load error: new subtree started but node was nil";
 				}
-				let chars_to_skip = load_sgf(sgf, i, node).readcount;
+				let chars_to_skip = load_sgf_recursive(buf, i, node).readcount;
 				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
-					throw "load_sgf() error: subtree ended but local root was nil";
+					throw "SGF load error: subtree ended but local root was nil";
 				}
 				return {root: root, readcount: i + 1 - off};
 			} else if (c === 59) {						// that is ;
@@ -130,19 +134,19 @@ function load_sgf(sgf, off, parent_of_local_root) {
 				}
 				key.push(c);
 			} else {
-				throw "load_sgf() error: unacceptable byte while expecting key";
+				throw "SGF load error: unacceptable byte while expecting key";
 			}
 		}
 	}
 
 	if (!root) {
-		throw "load_sgf() error: local root was nil at function end";
+		throw "SGF load error: local root was nil at function end";
 	}
 
 	// We're not supposed to reach here, but if we do, we have reached the
 	// end of the file and can return what we have.
 
-	return {root: root, readcount: sgf.length};
+	return {root: root, readcount: buf.length};
 }
 
 
