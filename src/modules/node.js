@@ -271,7 +271,7 @@ let node_prototype = {
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
 		o.maxVisits = 1000000;
-		o.reportDuringSearchEvery = 0.4;
+		o.reportDuringSearchEvery = 0.1;
 		o.overrideSettings = {
 			reportAnalysisWinratesAs: "SIDETOMOVE"
 		};
