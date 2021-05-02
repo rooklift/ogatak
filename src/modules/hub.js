@@ -207,9 +207,11 @@ let hub_props = {
 	},
 
 	coerce_komi: function(value) {
-		this.halt();
 		this.node.coerce_komi(value);
 		this.maindrawer.draw_info(this.node, this.engine);
+		if (this.engine.desired) {
+			this.go();
+		}
 	},
 
 	go: function() {
