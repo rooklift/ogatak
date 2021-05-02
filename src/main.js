@@ -772,7 +772,16 @@ function menu_build() {
 							}
 						},
 					]
-				}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Forget analysis",
+					click: () => {
+						win.webContents.send("call", "forget_analysis");
+					}
+				},
 			]
 		},
 		{
