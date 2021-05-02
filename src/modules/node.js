@@ -255,6 +255,9 @@ let node_prototype = {
 			o.initialStones = setup;
 		}
 		o.moves = moves;
+		if (moves.length === 0) {
+			o.initialPlayer = this.get_board().active.toUpperCase();
+		}
 		o.rules = "aga";
 		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
