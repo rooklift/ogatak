@@ -71,13 +71,33 @@ let hub_props = {
 	load: function(filepath) {
 		try {
 			let buf = fs.readFileSync(filepath);
+			let type = "sgf";
+			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
+			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
+			this.load_buffer(buf, type);
+		} catch (err) {
+			alert("While opening file:\n" + err.toString());
+		}
+	},
+
+	load_sgf_from_string: function (s) {
+		if (typeof s === "string") {
+			let buf = Buffer.from(s);
+			this.load_buffer(buf, "sgf");
+		}
+	},
+
+	load_buffer: function(buf, type) {
+		try {
 			let new_root;
-			if (filepath.toLowerCase().endsWith(".ngf")) {
+			if (type === "sgf") {
+				new_root = load_sgf(buf);
+			} else if (type === "ngf") {
 				new_root = load_ngf(buf);
-			} else if (filepath.toLowerCase().endsWith(".gib")) {
+			} else if (type === "gib") {
 				new_root = load_gib(buf);
 			} else {
-				new_root = load_sgf(buf);
+				throw "unknown type";
 			}
 			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
 			this.set_node(new_root);
@@ -89,7 +109,7 @@ let hub_props = {
 				set_title("Ogatak");
 			}
 		} catch (err) {
-			alert("While opening file:\n" + err.toString());
+			alert("While parsing buffer:\n" + err.toString());
 		}
 	},
 

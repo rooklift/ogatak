@@ -373,7 +373,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Open SGF...",
+					label: "Open SGF / GIB / NGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
 						let files = open_dialog();
@@ -383,6 +383,15 @@ function menu_build() {
 								args: [files[0]]
 							});
 						}
+					}
+				},
+				{
+					label: "Load SGF from clipboard",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "load_sgf_from_string",
+							args: [electron.clipboard.readText()]
+						});
 					}
 				},
 				{
