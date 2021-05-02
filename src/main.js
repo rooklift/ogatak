@@ -517,68 +517,6 @@ function menu_build() {
 						win.webContents.send("call", "delete_node");
 					}
 				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Reset komi",
-					submenu: [
-						{
-							label: "7.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7.5]
-								});
-							}
-						},
-						{
-							label: "7",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7]
-								});
-							}
-						},
-						{
-							label: "6.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6.5]
-								});
-							}
-						},
-						{
-							label: "6",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6]
-								});
-							}
-						},
-						{
-							label: "0.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0.5]
-								});
-							}
-						},
-						{
-							label: "0",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0]
-								});
-							}
-						},
-					]
-				}
 			]
 		},
 		{
@@ -769,6 +707,97 @@ function menu_build() {
 									value: 0.1
 								});
 								set_checks("Analysis", "Visit threshold", "N > 10%");
+							}
+						},
+					]
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Rules",
+					submenu: [
+						{
+							label: "Chinese",
+							type: "checkbox",
+							checked: config.rules === "chinese",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "set_rules",
+									args: ["chinese"]
+								});
+								set_checks("Analysis", "Rules", "Chinese");
+							}
+						},
+						{
+							label: "Japanese",
+							type: "checkbox",
+							checked: config.rules === "japanese",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "set_rules",
+									args: ["japanese"]
+								});
+								set_checks("Analysis", "Rules", "Japanese");
+							}
+						},
+					]
+				},
+				{
+					label: "Reset komi",
+					submenu: [
+						{
+							label: "7.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [7.5]
+								});
+							}
+						},
+						{
+							label: "7",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [7]
+								});
+							}
+						},
+						{
+							label: "6.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [6.5]
+								});
+							}
+						},
+						{
+							label: "6",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [6]
+								});
+							}
+						},
+						{
+							label: "0.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [0.5]
+								});
+							}
+						},
+						{
+							label: "0",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [0]
+								});
 							}
 						},
 					]
