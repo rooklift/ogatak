@@ -22,7 +22,7 @@ function new_engine() {
 
 	Object.assign(eng, eng_props);
 	return eng;
-};
+}
 
 let eng_props = {
 

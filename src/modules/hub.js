@@ -20,7 +20,7 @@ exports.new_hub = function() {
 		document.getElementById("boardbg"),
 		document.getElementById("boardtable"),
 		document.getElementById("boardcanvas"),
-		document.getElementById("boardinfo"),
+		document.getElementById("boardinfo")
 	);
 
 	hub.engine = new_engine();

@@ -52,4 +52,4 @@ module.exports = function(width, height, square_size) {
 	}
 
 	return `url("${c.toDataURL("image/png")}")`;
-}
+};

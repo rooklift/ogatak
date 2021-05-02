@@ -31,7 +31,7 @@ const open_dialog = electron.dialog.showOpenDialogSync || electron.dialog.showOp
 function alert(msg) {
 	electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {});
 	// Providing a callback makes the window not block the process.
-};
+}
 
 function startup() {
 
