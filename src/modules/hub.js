@@ -230,6 +230,12 @@ let hub_props = {
 		this.engine.halt();
 	},
 
+	handle_drop: function(event) {
+		if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
+			this.load(event.dataTransfer.files[0].path);
+		}
+	},
+
 	forget_analysis: function() {
 		this.node.analysis = null;
 		this.engine.suppress();

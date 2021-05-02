@@ -50,6 +50,19 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
+	event.preventDefault();
+});
+
+window.addEventListener("dragover", (event) => {		// Necessary to prevent always having the "not allowed" icon.
+	event.preventDefault();
+});
+
+window.addEventListener("drop", (event) => {
+	event.preventDefault();
+	hub.handle_drop(event);
+});
+
 // ---------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
