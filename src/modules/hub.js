@@ -80,7 +80,7 @@ let hub_props = {
 				set_title("Ogatak");
 			}
 		} catch (err) {
-			console.log(err.toString());
+			alert("While opening file:\n" + err.toString());
 		}
 	},
 

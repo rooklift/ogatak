@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
 
+const stringify = require("./stringify");
 const {node_id_from_search_id} = require("./utils");
 
 function new_engine() {
@@ -38,7 +39,7 @@ let eng_props = {
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
 		} catch (err) {
-			console.log(err.toString());
+			alert("While sending to engine:\n" + err.toString());
 		}
 	},
 
@@ -96,7 +97,7 @@ let eng_props = {
 		try {
 			this.exe = child_process.spawn(filepath, ["analysis", "-config", engineconfig, "-model", weights], {cwd: path.dirname(filepath)});
 		} catch (err) {
-			console.log(`engine.setup() failed: ${err.toString()}`);
+			alert("engine.setup() failed:\n" + err.toString());
 			return false;
 		}
 
@@ -118,7 +119,7 @@ let eng_props = {
 		this.scanner.on("line", (line) => {
 			let o = JSON.parse(line);
 			if (o.error || o.warning) {
-				console.log(o);
+				alert("Engine said:\n" + stringify(o));
 			}
 			if (o.isDuringSearch === false) {
 				if (this.running && this.running.id === o.id) {
