@@ -17,11 +17,11 @@ function load_gib(buf) {
 
 		// Names...
 
-		if (line.startsWith("\\[GAMEBLACKNAME=") && line.endsWith("\\]")) {
+		if (line.startsWith("\\[GAMEBLACKNAME=") && line.endsWith("\\]") && line.includes("�") === false) {
 			root.set("PB", line.slice(16, line.length -2));
 		}
 
-		if (line.startsWith("\\[GAMEWHITENAME=") && line.endsWith("\\]")) {
+		if (line.startsWith("\\[GAMEWHITENAME=") && line.endsWith("\\]") && line.includes("�") === false) {
 			root.set("PW", line.slice(16, line.length -2));
 		}
 
