@@ -9,6 +9,11 @@ exports.xy_to_s = function(x, y) {
 	return String.fromCharCode(x + 97) + String.fromCharCode(y + 97);
 };
 
+exports.replace_all = function(s, search, replace) {
+	if (!s.includes(search)) return s;			// Seems to improve speed overall.
+	return s.split(search).join(replace);
+};
+
 exports.opposite_colour = function(s) {
 	if (s === "b") return "w";
 	if (s === "w") return "b";
