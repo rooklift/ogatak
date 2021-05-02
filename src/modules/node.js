@@ -6,6 +6,8 @@ const stringify = require("./stringify");
 let next_node_id = 1;
 let next_query_id = 1;
 
+// ------------------------------------------------------------------------------------------------
+
 function new_node(parent) {
 
 	let node = Object.create(node_prototype);
@@ -23,6 +25,8 @@ function new_node(parent) {
 
 	return node;
 };
+
+// ------------------------------------------------------------------------------------------------
 
 let node_prototype = {
 
@@ -292,6 +296,8 @@ let node_prototype = {
 
 };
 
+// ------------------------------------------------------------------------------------------------
+
 function destroy_tree(node) {
 
 	// Non-recursive when possible...
@@ -326,6 +332,29 @@ function destroy_tree(node) {
 	}
 }
 
+function coerce_komi_recursive(node, komi) {
 
+	// We rely on the fact that a node with no
+	// board has no descendents with a board.
+
+	while (node.children.length === 1) {
+		if (!node.__board) {
+			return;
+		}
+		node.__board.komi = komi;
+		node = node.children[0];
+	}
+
+	if (!node.__board) {
+		return;
+	}
+	node.__board.komi = komi;
+
+	for (let child of node.children) {
+		coerce_komi_recursive(child);
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
 
 module.exports = new_node;
