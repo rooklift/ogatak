@@ -1,5 +1,12 @@
 {
-  "name"    : "Ogatak",
-  "version" : "0.1.0",
-  "main"    : "main.js"
+	"name": "Ogatak",
+	"version": "0.2.0",
+	"author": "Rooklift",
+	"description": "KataGo interface",
+	"license": "AGPL-3.0",
+	"main": "main.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rooklift/ogatak"
+	}
 }
