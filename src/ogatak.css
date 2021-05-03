@@ -10,29 +10,19 @@ body {
 	width: 100%;
 }
 
-/*
 #gridder {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(5, 1fr);
-	grid-column-gap: 0px;
-	grid-row-gap: 0px;
-	margin: 1em;
-}
-*/
-
-#gridder {
-	display: grid;
-	grid-template-columns: 1fr 3fr;
-	grid-template-rows: 1fr min-content;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"a b"
-		"c b";
+		"a c"
+		"b c";
 	margin: 1em;
 }
 
-#foo {
-	grid-area: b;
+#graph {
+	grid-area: c;
+	margin: 1em;
 }
 
 #boardbg {
@@ -54,7 +44,7 @@ body {
 }
 
 #boardinfo {
-	grid-area: c;
+	grid-area: b;
 	color: #ffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
