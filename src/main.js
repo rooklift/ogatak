@@ -685,18 +685,6 @@ function menu_build() {
 							}
 						},
 						{
-							label: "N > 3%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.03,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.03
-								});
-								set_checks("Analysis", "Visit threshold", "N > 3%");
-							}
-						},
-						{
 							label: "N > 4%",
 							type: "checkbox",
 							checked: config.visits_threshold === 0.04,
@@ -709,15 +697,27 @@ function menu_build() {
 							}
 						},
 						{
-							label: "N > 5%",
+							label: "N > 6%",
 							type: "checkbox",
-							checked: config.visits_threshold === 0.05,
+							checked: config.visits_threshold === 0.06,
 							click: () => {
 								win.webContents.send("set", {
 									key: "visits_threshold",
-									value: 0.05
+									value: 0.06
 								});
-								set_checks("Analysis", "Visit threshold", "N > 5%");
+								set_checks("Analysis", "Visit threshold", "N > 6%");
+							}
+						},
+						{
+							label: "N > 8%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.08,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.08
+								});
+								set_checks("Analysis", "Visit threshold", "N > 8%");
 							}
 						},
 						{
