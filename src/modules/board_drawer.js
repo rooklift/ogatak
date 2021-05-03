@@ -129,7 +129,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
 
-		for (let s of moves_played) {
+		for (let s of moves_played) {		// Probably just one.
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
@@ -143,85 +143,100 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			ctx.fill();
 		}
 
-		if (!node.analysis) {
-			return;
+		if (node.analysis && Array.isArray(node.analysis.moveInfos) && node.analysis.moveInfos.length > 0) {
+
+			ctx.textAlign = "center";
+			ctx.textBaseline = "middle";
+			ctx.font = "14px Arial";
+
+			let move0_lcb = node.analysis.moveInfos[0].lcb;
+			let root_visits = node.analysis.rootInfo.visits;
+
+			ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
+			ctx.lineWidth = 3.5;
+
+			for (let info of node.analysis.moveInfos) {
+
+				if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
+
+					if (info.order === 0) {
+						ctx.fillStyle = "#68cebaff";
+					} else if (info.lcb > move0_lcb * 0.975) {
+						ctx.fillStyle = "#84ce4cff";
+					} else {
+						ctx.fillStyle = "#e4ce4cff";
+					}
+
+					let [x, y] = this.parse_gtp_move(info.move);
+
+					if (x === -1 || y === -1) {
+						break;
+					}
+
+					let gx = x * 32 + 16;
+					let gy = y * 32 + 16;
+
+					ctx.beginPath();
+					ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
+					ctx.fill();
+
+					ctx.beginPath();
+					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+					ctx.stroke();
+
+					let s = "";
+
+					if (config.numbers === "winrate") {
+						s = Math.floor(info.winrate * 100).toString();
+					}
+					if (config.numbers === "lcb") {
+						s = Math.floor(info.lcb * 100).toString();
+					}
+					if (config.numbers === "visits_percent") {
+						s = Math.floor(info.visits / root_visits * 100).toString();
+					}
+					if (config.numbers === "policy") {
+						s = Math.floor(info.prior * 100).toString();
+					}
+					if (config.numbers === "score") {
+						s = info.scoreLead.toFixed(1);
+					}
+					if (config.numbers === "visits") {
+						s = info.visits.toString();
+						if (info.visits > 9999) {
+							s = (info.visits / 1000).toFixed(0) + "k";
+						} else if (info.visits > 999) {
+							s = (info.visits / 1000).toFixed(1) + "k";
+						}
+					}
+					if (config.numbers === "order") {
+						s = info.order.toString();
+					}
+
+					ctx.fillStyle = "#000000ff";
+					ctx.fillText(s, gx, gy + 1);
+
+				}
+			}
 		}
 
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.font = "14px Arial";
+		for (let n = 0; n < node.children.length; n++) {
 
-		if (Array.isArray(node.analysis.moveInfos) === false || node.analysis.moveInfos.length < 1) {
-			return;
-		}
+			moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
 
-		let move0_lcb = node.analysis.moveInfos[0].lcb;
-		let root_visits = node.analysis.rootInfo.visits;
+			for (let s of moves_played) {		// Probably just one per child.
 
-		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
-		ctx.lineWidth = 3.5;
-
-		for (let info of node.analysis.moveInfos) {
-
-			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
-
-				if (info.order === 0) {
-					ctx.fillStyle = "#68cebaff";
-				} else if (info.lcb > move0_lcb * 0.975) {
-					ctx.fillStyle = "#84ce4cff";
-				} else {
-					ctx.fillStyle = "#e4ce4cff";
-				}
-
-				let [x, y] = this.parse_gtp_move(info.move);
-
-				if (x === -1 || y === -1) {
-					break;
-				}
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
 
 				let gx = x * 32 + 16;
 				let gy = y * 32 + 16;
 
+				ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
+				ctx.lineWidth = 3.5;
 				ctx.beginPath();
-				ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
-				ctx.fill();
-
-				ctx.beginPath();
-				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);
 				ctx.stroke();
-
-				let s = "";
-
-				if (config.numbers === "winrate") {
-					s = Math.floor(info.winrate * 100).toString();
-				}
-				if (config.numbers === "lcb") {
-					s = Math.floor(info.lcb * 100).toString();
-				}
-				if (config.numbers === "visits_percent") {
-					s = Math.floor(info.visits / root_visits * 100).toString();
-				}
-				if (config.numbers === "policy") {
-					s = Math.floor(info.prior * 100).toString();
-				}
-				if (config.numbers === "score") {
-					s = info.scoreLead.toFixed(1);
-				}
-				if (config.numbers === "visits") {
-					s = info.visits.toString();
-					if (info.visits > 9999) {
-						s = (info.visits / 1000).toFixed(0) + "k";
-					} else if (info.visits > 999) {
-						s = (info.visits / 1000).toFixed(1) + "k";
-					}
-				}
-				if (config.numbers === "order") {
-					s = info.order.toString();
-				}
-
-				ctx.fillStyle = "#000000ff";
-				ctx.fillText(s, gx, gy + 1);
-
 			}
 		}
 	};
