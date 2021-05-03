@@ -117,10 +117,16 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		s += "<br>";
 
+		let best = "     ";
+		let visits = "";
+
 		if (node.has_valid_analysis()) {
-			s += `best: <span class="white">${pad(node.analysis.moveInfos[0].move, 5)}</span>`;
-			s += `visits: <span class="white">${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}</span>`;
+			best = pad(node.analysis.moveInfos[0].move, 5);
+			visits = `${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
 		}
+
+		s += `best: <span class="white">${best}</span>`;
+		s += `visits: <span class="white">${visits}</span>`;
 
 		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;
 	};
