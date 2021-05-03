@@ -140,9 +140,12 @@ function load_ngf(buf) {
 				let x = line.charCodeAt(5) - 66;
 				let y = line.charCodeAt(6) - 66;
 
+				node = new_node(node);
+
 				if (x >= 0 && x < boardsize && y >= 0 && y < boardsize) {
-					node = new_node(node);
 					node.set(key, xy_to_s(x, y));
+				} else {
+					node.set(key, "");		// Pass
 				}
 			}
 		}
