@@ -68,8 +68,6 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 			this.canvas.width = board.width * 32;
 			this.canvas.height = board.height * 32;
-
-			this.boardinfo.style.top = this.canvas.height + "px";
 		}
 
 		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;

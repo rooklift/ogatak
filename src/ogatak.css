@@ -10,46 +10,39 @@ body {
 	width: 100%;
 }
 
-canvas {
-	position: absolute;
+#gridder {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	margin: 1em;
 }
 
 #boardbg {
 	background-image: url("./gfx/subdued_board.png");
-	position: absolute;
-	left: 0px;
-	top: 0px;
+	grid-area: 1 / 1 / 4 / 4;
 	z-index: 1;
 }
 
 #boardtable {
+	grid-area: 1 / 1 / 4 / 4;
 	border-collapse: collapse;
 	pointer-events: auto;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	table-layout: fixed;
 	z-index: 2;
 }
 
 #boardcanvas {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	z-index: 2;
+	grid-area: 1 / 1 / 4 / 4;
+	z-index: 3;
 }
 
 #boardinfo {
-	background-color: #080808;
-	border: none;
+	grid-area: 4 / 1 / 5 / 4;
 	color: #ffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
 	line-height: 150%;
-	margin: 1em;
-	position: absolute;
-	left: 0px;
-	top: 0px;
 	white-space: pre;
 }
 
