@@ -556,23 +556,10 @@ function menu_build() {
 					label: "Numbers",
 					submenu: [
 						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.numbers === "winrate",
-							accelerator: "F5",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "winrate"
-								});
-								set_checks("Analysis", "Numbers", "Winrate");
-							}
-						},
-						{
-							label: "LCB",
+							label: "Winrate (LCB)",
 							type: "checkbox",
 							checked: config.numbers === "lcb",
-							accelerator: "F6",
+							accelerator: "F1",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -585,7 +572,7 @@ function menu_build() {
 							label: "Score",
 							type: "checkbox",
 							checked: config.numbers === "score",
-							accelerator: "F7",
+							accelerator: "F2",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -598,7 +585,7 @@ function menu_build() {
 							label: "Visits",
 							type: "checkbox",
 							checked: config.numbers === "visits",
-							accelerator: "F8",
+							accelerator: "F3",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -611,6 +598,7 @@ function menu_build() {
 							label: "Visits %",
 							type: "checkbox",
 							checked: config.numbers === "visits_percent",
+							accelerator: "F4",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -623,6 +611,7 @@ function menu_build() {
 							label: "Policy",
 							type: "checkbox",
 							checked: config.numbers === "policy",
+							accelerator: "F5",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -635,6 +624,7 @@ function menu_build() {
 							label: "Order",
 							type: "checkbox",
 							checked: config.numbers === "order",
+							accelerator: "F6",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
