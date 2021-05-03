@@ -17,7 +17,7 @@ function load_ngf(buf) {
 	let boardsize = parseInt(lines[1].toString(), 10);
 
 	if (Number.isNaN(boardsize)) {
-		throw "NGF load error: bad boardsize";
+		boardsize = 19;
 	}
 
 	// ------------------------------------------------
@@ -28,11 +28,11 @@ function load_ngf(buf) {
 	let pw_fields = lines[2].toString().split(" ").filter(z => z !== "");
 	let pb_fields = lines[3].toString().split(" ").filter(z => z !== "");
 
-	if (pw_fields.length > 0) {
+	if (pw_fields.length > 0 && pw_fields[0].includes("�") === false) {
 		pw = pw_fields[0];
 	}
 
-	if (pb_fields.length > 0) {
+	if (pb_fields.length > 0 && pb_fields[0].includes("�") === false) {
 		pb = pb_fields[0];
 	}
 
