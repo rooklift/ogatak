@@ -112,19 +112,19 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 		let s = "";
 
 		s += `komi: <span class="white">${board.komi}</span>`;
-		s += ` caps by B: <span class="white">${board.caps_by_b}</span>`;
+		s += `   caps by B: <span class="white">${board.caps_by_b}</span>`;
 		s += ` by W: <span class="white">${board.caps_by_w}</span>`;
-
-		if (node.has_valid_analysis()) {
-			s += ` visits: <span class="white">${node.analysis.rootInfo.visits}</span>`;
-		}
 
 		s += "<br>";
 
 		if (node.has_valid_analysis() === false) {
 			s += `(no info)`;
 		} else {
-			s += `best: <span class="white">${node.analysis.moveInfos[0].move}</span>`;
+			let move = node.analysis.moveInfos[0].move;
+			if (move.length === 2) move += " ";
+			if (move.length === 3) move += " ";
+			s += `best: <span class="white">${move}</span>`;
+			s += ` visits: <span class="white">${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}</span>`;
 		}
 
 		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;

@@ -45,10 +45,12 @@ canvas {
 	color: #ffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
+	line-height: 150%;
 	margin: 1em;
 	position: absolute;
 	left: 0px;
 	top: 0px;
+	white-space: pre;
 }
 
 .rust {
