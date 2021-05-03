@@ -147,9 +147,11 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			return;
 		}
 
+		let board = node.get_board();
+
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = "14px Arial";
+		ctx.font = "16px Arial";
 
 		if (Array.isArray(node.analysis.moveInfos) === false || node.analysis.moveInfos.length < 1) {
 			return;
@@ -158,20 +160,9 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 		let move0_lcb = node.analysis.moveInfos[0].lcb;
 		let root_visits = node.analysis.rootInfo.visits;
 
-		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffff80";
-		ctx.lineWidth = 3.5;
-
 		for (let info of node.analysis.moveInfos) {
 
 			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
-
-				if (info.order === 0) {
-					ctx.fillStyle = "#68cebaff";
-				} else if (info.lcb > move0_lcb * 0.975) {
-					ctx.fillStyle = "#84ce4cff";
-				} else {
-					ctx.fillStyle = "#e4ce4cff";
-				}
 
 				let [x, y] = this.parse_gtp_move(info.move);
 
@@ -182,12 +173,23 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				let gx = x * 32 + 16;
 				let gy = y * 32 + 16;
 
+				if (info.order === 0) {
+					ctx.fillStyle = "#68cebaff";
+				} else if (info.lcb > move0_lcb * 0.975) {
+					ctx.fillStyle = "#84ce4cff";
+				} else {
+					ctx.fillStyle = "#e4ce4cff";
+				}
+
 				ctx.beginPath();
 				ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
 				ctx.fill();
 
+				ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
+				ctx.lineWidth = 3;
+
 				ctx.beginPath();
-				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+				ctx.arc(gx, gy, 16 - 1.5, 0, 2 * Math.PI);		// Note the reduction of radius
 				ctx.stroke();
 
 				let s = "";
@@ -220,7 +222,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				}
 
 				ctx.fillStyle = "#000000ff";
-				ctx.fillText(s, gx, gy + 1);
+				ctx.fillText(s, gx, gy + 2);
 
 			}
 		}
