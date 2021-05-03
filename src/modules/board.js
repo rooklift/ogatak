@@ -336,9 +336,9 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
-	parse_gtp_move: function(s) {										// "K10" --> "jj"
+	parse_gtp_move: function(s) {										// "K10" --> [9, 9]
 
-		if (typeof s !== "string" || s.length < 2) {
+		if (typeof s !== "string" || s.length < 2 || s === "pass") {
 			return [-1, -1];
 		}
 
@@ -347,7 +347,7 @@ let board_prototype = {
 			x--;
 		}
 
-		let y = this.height - parseInt(s.slice(1), 10);		// "pass" causes NaN here.
+		let y = this.height - parseInt(s.slice(1), 10);
 
 		if (Number.isNaN(x) || Number.isNaN(y) || x < 0 || y < 0 || x >= this.width || y >= this.height) {
 			return [-1, -1];
