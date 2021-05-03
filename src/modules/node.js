@@ -21,6 +21,10 @@ function new_node(parent) {
 
 	if (parent) {
 		parent.children.push(node);
+	} else {
+		node.set("GM", 1);
+		node.set("FF", 4);
+		node.set("CA", "UTF-8");
 	}
 
 	return node;
