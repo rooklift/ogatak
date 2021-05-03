@@ -111,7 +111,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		let s = "";
 
-		s += `komi: <span class="white">${pad(board.komi, 5)}</span>`;
+		s += `komi: <span class="white">${pad(board.komi, 6)}</span>`;
 		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
 		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
 
@@ -131,7 +131,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		s += `best: <span class="white">${pad(best, 5)}</span>`;
+		s += `best: <span class="white">${pad(best, 6)}</span>`;
 		s += `score: <span class="white">${pad(score, 8)}</span>`;
 		s += `visits: <span class="white">${visits}</span>`;
 
