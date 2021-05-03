@@ -2,7 +2,7 @@
 
 const background = require("./background");
 const {xy_to_s} = require("./utils");
-const {node_id_from_search_id} = require("./utils");
+const {node_id_from_search_id, pad} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const black_stone_url = `url("${black_stone.src}")`;
@@ -111,20 +111,15 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		let s = "";
 
-		s += `komi: <span class="white">${board.komi}</span>`;
-		s += `   caps by B: <span class="white">${board.caps_by_b}</span>`;
-		s += ` by W: <span class="white">${board.caps_by_w}</span>`;
+		s += `komi: <span class="white">${pad(board.komi, 5)}</span>`;
+		s += `caps by B: <span class="white">${pad(board.caps_by_b, 2)}</span>`;
+		s += `by W: <span class="white">${pad(board.caps_by_w, 2)}</span>`;
 
 		s += "<br>";
 
-		if (node.has_valid_analysis() === false) {
-			s += `(no info)`;
-		} else {
-			let move = node.analysis.moveInfos[0].move;
-			if (move.length === 2) move += " ";
-			if (move.length === 3) move += " ";
-			s += `best: <span class="white">${move}</span>`;
-			s += ` visits: <span class="white">${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}</span>`;
+		if (node.has_valid_analysis()) {
+			s += `best: <span class="white">${pad(node.analysis.moveInfos[0].move, 5)}</span>`;
+			s += `visits: <span class="white">${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}</span>`;
 		}
 
 		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;

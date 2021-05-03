@@ -1,5 +1,7 @@
 "use strict";
 
+const stringify = require("./stringify");
+
 exports.xy_to_s = function(x, y) {
 
 	if (x < 0 || x > 25 || y < 0 || y > 25) {
@@ -141,4 +143,17 @@ exports.handicap_stones = function(handicap, width, height, tygem) {
 	}
 
 	return ret;
+};
+
+exports.pad = function(s, width) {
+
+	s = stringify(s);
+
+	if (s.length >= width) {
+		return s.slice(0, width);
+	}
+
+	let padding = " ".repeat(width - s.length);
+
+	return s + padding;
 };
