@@ -281,11 +281,6 @@ let board_drawer_prototype = {
 		}
 	},
 
-	clear_canvas: function() {
-		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
-
 };
 
 
