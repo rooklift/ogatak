@@ -13,25 +13,20 @@ function load_gib(buf) {
 
 	for (let line of lines) {
 
-		line = line.toString().trim();
-
-		// Names...
-
-		if (line.startsWith("\\[GAMEBLACKNAME=") && line.endsWith("\\]") && line.includes("�") === false) {
-			root.set("PB", line.slice(16, line.length -2));
-		}
-
-		if (line.startsWith("\\[GAMEWHITENAME=") && line.endsWith("\\]") && line.includes("�") === false) {
-			root.set("PW", line.slice(16, line.length -2));
-		}
+		line = line.toString().trim();				// Buffer toString() does a utf8 conversion by default, I believe.
 
 		// Game info...
 
 		if (line.startsWith("\\[GAMETAG=")) {
-			let [dt, re, km] = parse_gib_gametag(line);
+
+			let [dt, re, km, pb, pw] = parse_gib_gametag(line);
+
 			if (dt) root.set("DT", dt);
 			if (re) root.set("RE", re);
 			if (km) root.set("KM", km);
+
+			if (pb && pb.includes("�") === false) root.set("PB", pb);
+			if (pw && pw.includes("�") === false) root.set("PW", pw);
 		}
 
 		// Split the line into tokens for the handicap and move parsing...
@@ -81,6 +76,8 @@ function parse_gib_gametag(line) {
 	let dt = "";
 	let re = "";
 	let km = "";
+	let pb = "";
+	let pw = "";
 
 	let zipsu = 0;
 
@@ -88,6 +85,14 @@ function parse_gib_gametag(line) {
 
 		if (s.length < 2) {
 			continue;
+		}
+
+		if (s.slice(0, 2) === "A:") {
+			pw = s.slice(2);
+		}
+
+		if (s.slice(0, 2) === "B:") {
+			pb = s.slice(2);
 		}
 
 		if (s[0] === "C") {
@@ -149,7 +154,7 @@ function parse_gib_gametag(line) {
 		}
 	}
 
-	return [dt, re, km];
+	return [dt, re, km, pb, pw];
 }
 
 
