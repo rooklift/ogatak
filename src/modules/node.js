@@ -297,6 +297,10 @@ let node_prototype = {
 		return o;
 	},
 
+	has_valid_analysis: function() {
+		return this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0;
+	},
+
 	detach: function() {
 
 		// Returns the node that the hub should point to,

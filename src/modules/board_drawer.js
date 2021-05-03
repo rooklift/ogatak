@@ -145,7 +145,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			ctx.fill();
 		}
 
-		if (node.analysis && Array.isArray(node.analysis.moveInfos) && node.analysis.moveInfos.length > 0) {
+		if (node.has_valid_analysis()) {
 
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";

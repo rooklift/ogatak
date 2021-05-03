@@ -260,7 +260,7 @@ let hub_props = {
 	},
 
 	play_best: function() {
-		if (this.node.analysis && Array.isArray(this.node.analysis.moveInfos) && this.node.analysis.moveInfos.length > 0) {
+		if (this.node.has_valid_analysis()) {
 			let s = this.node.get_board().parse_gtp_move(this.node.analysis.moveInfos[0].move);
 			if (!s) {
 				this.pass();
