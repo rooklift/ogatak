@@ -182,12 +182,16 @@ let node_prototype = {
 	},
 
 	try_move: function(s) {					// Note: not to be used for passing.
-
 		let board = this.get_board();
-
 		if (board.legalmove(s) === false) {
 			return this;
 		}
+		return this.force_move(s);
+	},
+
+	force_move: function(s) {				// Note: not to be used for passing.
+
+		let board = this.get_board();
 
 		let propkey = board.active.toUpperCase();
 

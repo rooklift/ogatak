@@ -543,6 +543,13 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Play best move",
+					accelerator: "Space",
+					click: () => {
+						win.webContents.send("call", "play_best");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

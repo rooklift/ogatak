@@ -10,7 +10,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 
 const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id} = require("./utils");
+const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
 // ---------------------------------------------------------------------
 
@@ -257,6 +257,18 @@ let hub_props = {
 
 	halt: function() {
 		this.engine.halt();
+	},
+
+	play_best: function() {
+		if (this.node.analysis && Array.isArray(this.node.analysis.moveInfos) && this.node.analysis.moveInfos.length > 0) {
+			let [x, y] = this.node.get_board().parse_gtp_move(this.node.analysis.moveInfos[0].move);
+			if (x === -1 || y === -1) {
+				// todo handle pass;
+			} else {
+				let node = this.node.force_move(xy_to_s(x, y));
+				this.set_node(node);
+			}
+		}
 	},
 
 	handle_drop: function(event) {
