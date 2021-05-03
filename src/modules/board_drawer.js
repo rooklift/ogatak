@@ -33,6 +33,10 @@ let board_drawer_prototype = {
 
 	rebuild: function(width, height) {
 
+		if (!width || !height) {
+			throw "rebuild() needs board sizes";
+		}
+
 		// Reset all the things.
 
 		this.width = width;
