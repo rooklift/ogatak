@@ -314,7 +314,7 @@ let board_prototype = {
 		this.add_stone(s, "w");
 	},
 
-	gtp: function(s) {													// "jj" --> "K10"
+	gtp: function(s) {													// "jj" --> "K10" (returns "pass" if off-board)
 		if (this.in_bounds(s) === false) {
 			return "pass";
 		}
