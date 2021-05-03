@@ -39,7 +39,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			this.current = [];
 
 			this.htmltable.innerHTML = "";
-			this.htmltable.style["background-image"] = background(board.width, board.height, 32);
+			this.htmltable.style["background-image"] = background(board.width, board.height, config.square_size);
 
 			for (let y = 0; y < board.height; y++) {
 				let tr = document.createElement("tr");
@@ -47,8 +47,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				for (let x = 0; x < board.width; x++) {
 					let td = document.createElement("td");
 					td.className = "td_" + xy_to_s(x, y);
-					td.width = 32;
-					td.height = 32;
+					td.width = config.square_size;
+					td.height = config.square_size;
 					tr.appendChild(td);
 				}
 			}
@@ -60,14 +60,14 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				}
 			}
 
-			this.backgrounddiv.style.width = (board.width * 32).toString() + "px";
-			this.backgrounddiv.style.height = (board.height * 32).toString() + "px";
+			this.backgrounddiv.style.width = (board.width * config.square_size).toString() + "px";
+			this.backgrounddiv.style.height = (board.height * config.square_size).toString() + "px";
 
-			this.htmltable.style.width = (board.width * 32).toString() + "px";
-			this.htmltable.style.height = (board.height * 32).toString() + "px";
+			this.htmltable.style.width = (board.width * config.square_size).toString() + "px";
+			this.htmltable.style.height = (board.height * config.square_size).toString() + "px";
 
-			this.canvas.width = board.width * 32;
-			this.canvas.height = board.height * 32;
+			this.canvas.width = board.width * config.square_size;
+			this.canvas.height = board.height * config.square_size;
 		}
 
 		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;
@@ -154,12 +154,12 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let gx = x * 32 + 16;
-			let gy = y * 32 + 16;
+			let gx = x * config.square_size + (config.square_size / 2);
+			let gy = y * config.square_size + (config.square_size / 2);
 
 			ctx.fillStyle = "#ff0000aa";
 			ctx.beginPath();
-			ctx.arc(gx, gy, 6, 0, 2 * Math.PI);
+			ctx.arc(gx, gy, Math.ceil(config.square_size / 5), 0, 2 * Math.PI);
 			ctx.fill();
 		}
 
@@ -188,8 +188,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					let x = s.charCodeAt(0) - 97;
 					let y = s.charCodeAt(1) - 97;
 
-					let gx = x * 32 + 16;
-					let gy = y * 32 + 16;
+					let gx = x * config.square_size + (config.square_size / 2);
+					let gy = y * config.square_size + (config.square_size / 2);
 
 					if (info.order === 0) {
 						ctx.fillStyle = "#68cebaff";
@@ -200,11 +200,11 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					}
 
 					ctx.beginPath();
-					ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
+					ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
 					ctx.fill();
 
 					ctx.beginPath();
-					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
 					ctx.stroke();
 
 					let text = "";
@@ -254,13 +254,13 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					let x = s.charCodeAt(0) - 97;
 					let y = s.charCodeAt(1) - 97;
 
-					let gx = x * 32 + 16;
-					let gy = y * 32 + 16;
+					let gx = x * config.square_size + (config.square_size / 2);
+					let gy = y * config.square_size + (config.square_size / 2);
 
 					ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 					ctx.lineWidth = 3.5;
 					ctx.beginPath();
-					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);
+					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
 					ctx.stroke();
 				}
 			}
