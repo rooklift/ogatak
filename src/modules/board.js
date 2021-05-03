@@ -336,10 +336,10 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
-	parse_gtp_move: function(s) {										// "K10" --> [9, 9]
+	parse_gtp_move: function(s) {										// "K10" --> "jj" (returns "" if off-board)
 
 		if (typeof s !== "string" || s.length < 2 || s === "pass") {
-			return [-1, -1];
+			return "";
 		}
 
 		let x = s.charCodeAt(0) - 65;
@@ -350,10 +350,10 @@ let board_prototype = {
 		let y = this.height - parseInt(s.slice(1), 10);
 
 		if (Number.isNaN(x) || Number.isNaN(y) || x < 0 || y < 0 || x >= this.width || y >= this.height) {
-			return [-1, -1];
+			return "";
 		}
 
-		return [x, y];
+		return xy_to_s(x, y);
 	},
 
 	setup_list: function() {

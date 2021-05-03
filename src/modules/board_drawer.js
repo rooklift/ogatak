@@ -161,6 +161,18 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 				if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
 
+					let s = board.parse_gtp_move(info.move);
+
+					if (!s) {			// This is a pass.
+						continue;
+					}
+
+					let x = s.charCodeAt(0) - 97;
+					let y = s.charCodeAt(1) - 97;
+
+					let gx = x * 32 + 16;
+					let gy = y * 32 + 16;
+
 					if (info.order === 0) {
 						ctx.fillStyle = "#68cebaff";
 					} else if (info.lcb > move0_lcb * 0.975) {
@@ -168,15 +180,6 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					} else {
 						ctx.fillStyle = "#e4ce4cff";
 					}
-
-					let [x, y] = board.parse_gtp_move(info.move);
-
-					if (x === -1 || y === -1) {
-						break;
-					}
-
-					let gx = x * 32 + 16;
-					let gy = y * 32 + 16;
 
 					ctx.beginPath();
 					ctx.arc(gx, gy, 16, 0, 2 * Math.PI);
@@ -186,37 +189,37 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);		// Note the reduction of radius
 					ctx.stroke();
 
-					let s = "";
+					let text = "";
 
 					if (config.numbers === "winrate") {
-						s = Math.floor(info.winrate * 100).toString();
+						text = Math.floor(info.winrate * 100).toString();
 					}
 					if (config.numbers === "lcb") {
-						s = Math.floor(info.lcb * 100).toString();
+						text = Math.floor(info.lcb * 100).toString();
 					}
 					if (config.numbers === "visits_percent") {
-						s = Math.floor(info.visits / root_visits * 100).toString();
+						text = Math.floor(info.visits / root_visits * 100).toString();
 					}
 					if (config.numbers === "policy") {
-						s = Math.floor(info.prior * 100).toString();
+						text = Math.floor(info.prior * 100).toString();
 					}
 					if (config.numbers === "score") {
-						s = info.scoreLead.toFixed(1);
+						text = info.scoreLead.toFixed(1);
 					}
 					if (config.numbers === "visits") {
-						s = info.visits.toString();
+						text = info.visits.toString();
 						if (info.visits > 9999) {
-							s = (info.visits / 1000).toFixed(0) + "k";
+							text = (info.visits / 1000).toFixed(0) + "k";
 						} else if (info.visits > 999) {
-							s = (info.visits / 1000).toFixed(1) + "k";
+							text = (info.visits / 1000).toFixed(1) + "k";
 						}
 					}
 					if (config.numbers === "order") {
-						s = info.order.toString();
+						text = info.order.toString();
 					}
 
 					ctx.fillStyle = "#000000ff";
-					ctx.fillText(s, gx, gy + 1);
+					ctx.fillText(text, gx, gy + 1);
 
 				}
 			}
