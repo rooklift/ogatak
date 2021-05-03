@@ -314,7 +314,7 @@ let board_prototype = {
 		this.add_stone(s, "w");
 	},
 
-	gtp: function(s) {
+	gtp: function(s) {													// "jj" --> "K10"
 		if (this.in_bounds(s) === false) {
 			return "pass";
 		}
@@ -326,7 +326,7 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
-	gtp_from_xy(x, y) {
+	gtp_from_xy(x, y) {													// (9, 9) --> "K10"
 		if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
 			return "pass";
 		}
@@ -334,6 +334,26 @@ let board_prototype = {
 		let letter = String.fromCharCode(x + 65 + letter_adjust);
 		let number = this.height - y;
 		return letter + number.toString();
+	},
+
+	parse_gtp_move: function(s) {										// "K10" --> "jj"
+
+		if (typeof s !== "string" || s.length < 2) {
+			return [-1, -1];
+		}
+
+		let x = s.charCodeAt(0) - 65;
+		if (x >= 8) {					// Adjust for missing "I"
+			x--;
+		}
+
+		let y = this.height - parseInt(s.slice(1), 10);		// "pass" causes NaN here.
+
+		if (Number.isNaN(x) || Number.isNaN(y) || x < 0 || y < 0 || x >= this.width || y >= this.height) {
+			return [-1, -1];
+		}
+
+		return [x, y];
 	},
 
 	setup_list: function() {

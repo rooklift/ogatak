@@ -127,6 +127,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			return;
 		}
 
+		let board = node.get_board();
+
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
 
 		for (let s of moves_played) {		// Probably just one.
@@ -152,7 +154,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			let move0_lcb = node.analysis.moveInfos[0].lcb;
 			let root_visits = node.analysis.rootInfo.visits;
 
-			ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
+			ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 			ctx.lineWidth = 3.5;
 
 			for (let info of node.analysis.moveInfos) {
@@ -167,7 +169,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 						ctx.fillStyle = "#e4ce4cff";
 					}
 
-					let [x, y] = this.parse_gtp_move(info.move);
+					let [x, y] = board.parse_gtp_move(info.move);
 
 					if (x === -1 || y === -1) {
 						break;
@@ -234,7 +236,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 					let gx = x * 32 + 16;
 					let gy = y * 32 + 16;
 
-					ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
+					ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 					ctx.lineWidth = 3.5;
 					ctx.beginPath();
 					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);
@@ -247,26 +249,6 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 	drawer.clear_canvas = function() {
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	};
-
-	drawer.parse_gtp_move = function(s) {
-
-		if (!this.width || !this.height || typeof s !== "string" || s.length < 2) {
-			return [-1, -1];
-		}
-
-		let x = s.charCodeAt(0) - 65;
-		if (x >= 8) {					// Adjust for missing "I"
-			x--;
-		}
-
-		let y = this.height - parseInt(s.slice(1), 10);
-
-		if (Number.isNaN(x) || Number.isNaN(y) || x < 0 || y < 0 || x >= this.width || y >= this.height) {
-			return [-1, -1];
-		}
-
-		return [x, y];
 	};
 
 	return drawer;
