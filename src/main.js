@@ -6,7 +6,6 @@ const url = require("url");
 
 const alert = require("./modules/alert_main_process");
 const config_io = require("./modules/config_io");
-const running_as_electron = require("./modules/running_as_electron");
 const stringify = require("./modules/stringify");
 
 config_io.load();
@@ -71,7 +70,7 @@ function startup() {
 
 		let filename = "";
 
-		if (running_as_electron()) {
+		if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 			if (process.argv.length > 2) {
 				filename = process.argv[process.argv.length - 1];
 			}
