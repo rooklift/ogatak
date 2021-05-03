@@ -9,7 +9,7 @@ const {event_path_class_string} = require("./utils");
 config_io.load();
 config_io.create_if_needed();
 
-// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------
 // Explicitly add only the globals we need...
 
 global.alert = (msg) => {							// Do this first.
@@ -20,9 +20,8 @@ global.config = config_io.config;					// Do this second. e.g. because new_hub() 
 global.save_config = config_io.save;
 
 global.hub = require("./hub").new_hub();
-hub.draw();
 
-// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------
 
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	let coords = event_path_class_string(event, "td_");
@@ -63,7 +62,7 @@ window.addEventListener("drop", (event) => {
 	hub.handle_drop(event);
 });
 
-// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
 	config[msg.key] = msg.value;
@@ -84,4 +83,7 @@ ipcRenderer.on("call", (event, msg) => {
 	fn();
 });
 
+// ---------------------------------------------------------------------------------------------------
+
+hub.draw();
 ipcRenderer.send("renderer_ready", null);
