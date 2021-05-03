@@ -291,7 +291,8 @@ let node_prototype = {
 		o.maxVisits = 1000000;
 		o.reportDuringSearchEvery = 0.1;
 		o.overrideSettings = {
-			reportAnalysisWinratesAs: "SIDETOMOVE"
+			reportAnalysisWinratesAs: "SIDETOMOVE",
+			wideRootNoise: 0.05,
 		};
 
 		return o;
