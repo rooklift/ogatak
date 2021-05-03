@@ -112,8 +112,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 		let s = "";
 
 		s += `komi: <span class="white">${pad(board.komi, 5)}</span>`;
-		s += `caps by B: <span class="white">${pad(board.caps_by_b, 2)}</span>`;
-		s += `by W: <span class="white">${pad(board.caps_by_w, 2)}</span>`;
+		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
+		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
 
 		s += "<br>";
 
