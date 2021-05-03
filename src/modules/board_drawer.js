@@ -158,7 +158,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 		let move0_lcb = node.analysis.moveInfos[0].lcb;
 		let root_visits = node.analysis.rootInfo.visits;
 
-		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffff80";
+		ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
 		ctx.lineWidth = 3.5;
 
 		for (let info of node.analysis.moveInfos) {
