@@ -297,8 +297,11 @@ let node_prototype = {
 		return o;
 	},
 
-	has_valid_analysis: function() {
-		return this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0;
+	has_valid_analysis: function() {		// Don't do the cheap way; return only true or false.
+		if (this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0) {
+			return true;
+		}
+		return false;
 	},
 
 	detach: function() {
