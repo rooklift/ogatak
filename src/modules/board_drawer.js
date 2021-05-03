@@ -163,7 +163,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		for (let info of node.analysis.moveInfos) {
 
-			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold)) {
+			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
 
 				if (info.order === 0) {
 					ctx.fillStyle = "#68cebaff";
