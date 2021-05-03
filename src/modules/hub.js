@@ -265,16 +265,12 @@ let hub_props = {
 		}
 	},
 
-	display_root_props: function() {
-
+	display_props: function(rootflag) {
+		let props = rootflag ? this.node.get_root().props : this.node.props;
 		let lines = [];
-
-		let props = this.node.get_root().props;
-
 		for (let key of Object.keys(props)) {
 			lines.push(`${key}: [${props[key].join("][")}]`);
 		}
-
 		alert(lines.join("\n"));
 	},
 

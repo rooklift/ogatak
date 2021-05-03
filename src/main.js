@@ -848,9 +848,21 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Show node properties",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "display_props",
+							args: [false]
+						});
+					}
+				},
+				{
 					label: "Show root properties",
 					click: () => {
-						win.webContents.send("call", "display_root_props");
+						win.webContents.send("call", {
+							fn: "display_props",
+							args: [true]
+						});
 					}
 				},
 			]
