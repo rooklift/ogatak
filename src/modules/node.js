@@ -192,7 +192,6 @@ let node_prototype = {
 	force_move: function(s) {				// Note: not to be used for passing.
 
 		let board = this.get_board();
-
 		let propkey = board.active.toUpperCase();
 
 		for (let child of this.children) {
@@ -203,6 +202,25 @@ let node_prototype = {
 
 		let node = new_node(this);
 		node.set(propkey, s);
+
+		return node;
+	},
+
+	pass: function() {
+
+		let board = this.get_board();
+		let propkey = board.active.toUpperCase();
+
+		for (let child of this.children) {
+			if (child.props[propkey]) {									// The child has a B/W property...
+				if (board.in_bounds(child.get(propkey)) === false) {	// And it is not a real move...
+					return child;
+				}
+			}
+		}
+
+		let node = new_node(this);
+		node.set(propkey, "");
 
 		return node;
 	},

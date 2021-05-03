@@ -263,12 +263,17 @@ let hub_props = {
 		if (this.node.analysis && Array.isArray(this.node.analysis.moveInfos) && this.node.analysis.moveInfos.length > 0) {
 			let [x, y] = this.node.get_board().parse_gtp_move(this.node.analysis.moveInfos[0].move);
 			if (x === -1 || y === -1) {
-				// todo handle pass;
+				this.pass();
 			} else {
 				let node = this.node.force_move(xy_to_s(x, y));
 				this.set_node(node);
 			}
 		}
+	},
+
+	pass: function() {
+		let node = this.node.pass();
+		this.set_node(node);
 	},
 
 	handle_drop: function(event) {
