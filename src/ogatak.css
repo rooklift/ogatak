@@ -51,6 +51,14 @@ canvas {
 	top: 0px;
 }
 
+.rust {
+	color: #e0b872;
+}
+
+.white {
+	color: #ffffff;
+}
+
 td {
 	background-color: transparent;
 	background-size: contain;

@@ -109,13 +109,25 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		let board = node.get_board();
 
-		let s = `komi: ${board.komi}, caps by B: ${board.caps_by_b}, by W: ${board.caps_by_w}`;
+		let s = "";
 
-		if (engine && engine.running) {
-			s += `, running...`;
+		s += `komi: <span class="white">${board.komi}</span>`;
+		s += ` caps by B: <span class="white">${board.caps_by_b}</span>`;
+		s += ` by W: <span class="white">${board.caps_by_w}</span>`;
+
+		if (node.has_valid_analysis()) {
+			s += ` visits: <span class="white">${node.analysis.rootInfo.visits}</span>`;
 		}
 
-		this.boardinfo.innerHTML = s;
+		s += "<br>";
+
+		if (node.has_valid_analysis() === false) {
+			s += `(no info)`;
+		} else {
+			s += `best: <span class="white">${node.analysis.moveInfos[0].move}</span>`;
+		}
+
+		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;
 	};
 
 	drawer.draw_canvas = function(node) {

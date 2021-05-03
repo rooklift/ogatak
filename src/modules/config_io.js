@@ -21,7 +21,7 @@ exports.config = {};
 
 exports.defaults = {		// Nothing in this should be undefined.
 	"width": 608,
-	"height": 655,
+	"height": 672,
 
 	"engine": "",
 	"engineconfig": "",
