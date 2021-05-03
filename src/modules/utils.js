@@ -150,7 +150,7 @@ exports.pad = function(s, width) {
 	s = stringify(s);
 
 	if (s.length >= width) {
-		return s.slice(0, width);
+		return s					// or s.slice(0, width), but that can cause confusion
 	}
 
 	let padding = " ".repeat(width - s.length);
