@@ -282,6 +282,12 @@ let hub_props = {
 		}
 	},
 
+	save_window_size: function() {
+		config.width = window.innerWidth;
+		config.height = window.innerHeight;
+		save_config();
+	},
+
 	display_props: function(rootflag) {
 		let props = rootflag ? this.node.get_root().props : this.node.props;
 		let lines = [];
