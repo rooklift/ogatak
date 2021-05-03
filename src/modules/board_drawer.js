@@ -117,15 +117,22 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 		s += "<br>";
 
-		let best = "     ";
+		let best = "";
+		let score = "";
 		let visits = "";
 
 		if (node.has_valid_analysis()) {
-			best = pad(node.analysis.moveInfos[0].move, 5);
+			best = node.analysis.moveInfos[0].move;
 			visits = `${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
+
+			let lead = node.analysis.moveInfos[0].scoreLead;
+			let leader = ((lead >= 0 && board.active === "b") || (lead < 0 && board.active === "w")) ? "B" : "W";
+			if (lead < 0) lead *= -1;
+			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		s += `best: <span class="white">${best}</span>`;
+		s += `best: <span class="white">${pad(best, 5)}</span>`;
+		s += `score: <span class="white">${pad(score, 8)}</span>`;
 		s += `visits: <span class="white">${visits}</span>`;
 
 		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;
