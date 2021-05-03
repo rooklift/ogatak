@@ -265,6 +265,19 @@ let hub_props = {
 		}
 	},
 
+	display_root_props: function() {
+
+		let lines = [];
+
+		let props = this.node.get_root().props;
+
+		for (let key of Object.keys(props)) {
+			lines.push(`${key}: [${props[key].join("][")}]`);
+		}
+
+		alert(lines.join("\n"));
+	},
+
 	forget_analysis: function() {
 		this.node.analysis = null;
 		this.engine.suppress();

@@ -844,6 +844,12 @@ function menu_build() {
 						electron.shell.showItemInFolder(config_io.filepath);
 					}
 				},
+				{
+					label: "Show root properties",
+					click: () => {
+						win.webContents.send("call", "display_root_props");
+					}
+				},
 			]
 		}
 	];
