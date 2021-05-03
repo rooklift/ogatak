@@ -16,7 +16,7 @@ const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
 exports.new_hub = function() {
 
-	let hub = Object.create(null);
+	let hub = Object.create(hub_prototype);
 
 	hub.maindrawer = new_board_drawer(
 		document.getElementById("boardbg"),
@@ -28,15 +28,13 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
-	Object.assign(hub, hub_props);
-
 	hub.new();
 	return hub;
 };
 
 // ---------------------------------------------------------------------
 
-let hub_props = {
+let hub_prototype = {
 
 	draw: function() {
 		this.maindrawer.draw_board(this.node);
@@ -280,6 +278,12 @@ let hub_props = {
 		if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
 			this.load(event.dataTransfer.files[0].path);
 		}
+	},
+
+	save_window_size: function() {
+		config.width = window.innerWidth;
+		config.height = window.innerHeight;
+		save_config();
 	},
 
 	display_props: function(rootflag) {

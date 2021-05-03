@@ -10,47 +10,47 @@ body {
 	width: 100%;
 }
 
-canvas {
-	position: absolute;
+#gridder {
+	display: grid;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: min-content 1fr;
+	grid-template-areas:
+		"a c"
+		"b c";
+	margin: 1em;
+}
+
+#graph {
+	grid-area: c;
+	margin: 1em;
 }
 
 #boardbg {
 	background-image: url("./gfx/subdued_board.png");
-	position: absolute;
-	left: 0px;
-	top: 0px;
+	grid-area: a;
 	z-index: 1;
 }
 
 #boardtable {
+	grid-area: a;
 	border-collapse: collapse;
 	pointer-events: auto;
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	table-layout: fixed;
 	z-index: 2;
 }
 
 #boardcanvas {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	z-index: 2;
+	grid-area: a;
+	z-index: 3;
 }
 
 #boardinfo {
-	background-color: #080808;
-	border: none;
+	grid-area: b;
 	color: #ffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
 	line-height: 150%;
-	margin: 1em;
-	position: absolute;
-	left: 0px;
-	top: 0px;
 	white-space: pre;
+	margin: 1em;
 }
 
 .rust {
