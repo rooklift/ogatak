@@ -10,7 +10,7 @@ const {node_id_from_search_id} = require("./utils");
 
 function new_engine() {
 
-	let eng = Object.create(null);
+	let eng = Object.create(engine_prototype);
 
 	eng.exe = null;
 	eng.filepath = "";
@@ -21,11 +21,10 @@ function new_engine() {
 
 	eng.suppressed_search_id = null;
 
-	Object.assign(eng, eng_props);
 	return eng;
 }
 
-let eng_props = {
+let engine_prototype = {
 
 	__send: function(o) {
 		if (!this.exe) {
