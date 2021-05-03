@@ -195,6 +195,9 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 				if (config.numbers === "winrate") {
 					s = Math.floor(info.winrate * 100).toString();
 				}
+				if (config.numbers === "lcb") {
+					s = Math.floor(info.lcb * 100).toString();
+				}
 				if (config.numbers === "visits_percent") {
 					s = Math.floor(info.visits / root_visits * 100).toString();
 				}
