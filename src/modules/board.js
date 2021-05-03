@@ -314,7 +314,7 @@ let board_prototype = {
 		this.add_stone(s, "w");
 	},
 
-	gtp: function(s) {													// "jj" --> "K10" (returns "pass" if off-board)
+	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
 		if (this.in_bounds(s) === false) {
 			return "pass";
 		}
@@ -326,7 +326,7 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
-	gtp_from_xy(x, y) {													// (9, 9) --> "K10"
+	gtp_from_xy(x, y) {													// (9, 9) --> "K10"		(off-board becomes "pass")
 		if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
 			return "pass";
 		}
@@ -336,7 +336,7 @@ let board_prototype = {
 		return letter + number.toString();
 	},
 
-	parse_gtp_move: function(s) {										// "K10" --> "jj" (returns "" if off-board)
+	parse_gtp_move: function(s) {										// "K10" --> "jj"		(off-board becomes "")
 
 		if (typeof s !== "string" || s.length < 2 || s === "pass") {
 			return "";
