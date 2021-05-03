@@ -70,6 +70,12 @@ ipcRenderer.on("set", (event, msg) => {
 	hub.draw();
 });
 
+ipcRenderer.on("toggle", (event, msg) => {
+	config[msg] = !config[msg];
+	save_config();
+	hub.draw();
+});
+
 ipcRenderer.on("call", (event, msg) => {
 	let fn;
 	if (typeof msg === "string") {																		// msg is function name

@@ -220,23 +220,26 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 			}
 		}
 
-		for (let n = 0; n < node.children.length; n++) {
+		if (config.next_move_markers) {
 
-			moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
+			for (let n = 0; n < node.children.length; n++) {
 
-			for (let s of moves_played) {		// Probably just one per child.
+				moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
 
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
+				for (let s of moves_played) {		// Probably just one per child.
 
-				let gx = x * 32 + 16;
-				let gy = y * 32 + 16;
+					let x = s.charCodeAt(0) - 97;
+					let y = s.charCodeAt(1) - 97;
 
-				ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
-				ctx.lineWidth = 3.5;
-				ctx.beginPath();
-				ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);
-				ctx.stroke();
+					let gx = x * 32 + 16;
+					let gy = y * 32 + 16;
+
+					ctx.strokeStyle = node.get_board().active === "b" ? "#00000080" : "#ffffffa0";
+					ctx.lineWidth = 3.5;
+					ctx.beginPath();
+					ctx.arc(gx, gy, 16 - 1, 0, 2 * Math.PI);
+					ctx.stroke();
+				}
 			}
 		}
 	};

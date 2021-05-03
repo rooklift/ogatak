@@ -28,6 +28,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"weights": "",
 
 	"numbers": "winrate",
+	"next_move_markers": true,
 
 	"next_size": 19,
 	"next_komi": 7.5,

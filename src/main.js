@@ -734,6 +734,17 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Next move markers",
+					type: "checkbox",
+					checked: config.next_move_markers,
+					click: () => {
+						win.webContents.send("toggle", "next_move_markers");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Rules",
 					submenu: [
 						{
