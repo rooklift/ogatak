@@ -845,6 +845,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Show root properties",
 					click: () => {
 						win.webContents.send("call", "display_root_props");
