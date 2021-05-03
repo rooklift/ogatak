@@ -1,0 +1,11 @@
+{
+	"browser": true,
+	"esversion": 6,
+	"node": true,
+	"globals": {
+		"alert": true,
+		"config": true,
+		"hub": true,
+		"save_config": true
+	}
+}
