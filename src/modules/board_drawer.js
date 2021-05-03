@@ -167,7 +167,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 
 				if (info.order === 0) {
 					ctx.fillStyle = "#68cebaff";
-				} else if (info.lcb > move0_lcb * 0.98) {
+				} else if (info.lcb > move0_lcb * 0.975) {
 					ctx.fillStyle = "#84ce4cff";
 				} else {
 					ctx.fillStyle = "#e4ce4cff";
