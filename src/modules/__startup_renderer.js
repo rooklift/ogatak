@@ -31,20 +31,10 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 });
 
 document.addEventListener("wheel", (event) => {
-	let allow = false;
-	let path = event.path || (event.composedPath && event.composedPath());
-	if (path) {
-		for (let item of path) {
-			if (item.id === "boardtable") {
-				allow = true;
-				break;
-			}
-		}
-	}
-	if (allow && event.deltaY && event.deltaY < 0) {
+	if (event.deltaY && event.deltaY < 0) {
 		hub.prev();
 	}
-	if (allow && event.deltaY && event.deltaY > 0) {
+	if (event.deltaY && event.deltaY > 0) {
 		hub.next();
 	}
 });
