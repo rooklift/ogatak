@@ -1,9 +1,12 @@
 "use strict";
 
+const draw_y_offset = 5;
+
 function new_graph_drawer(outerdiv, canvas) {
 	let drawer = Object.create(graph_drawer_prototype);
 	drawer.outerdiv = outerdiv;
 	drawer.canvas = canvas;
+	drawer.drawable_height = 0;
 	return drawer;
 }
 
@@ -13,6 +16,8 @@ let graph_drawer_prototype = {
 
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
 		this.canvas.height = this.outerdiv.offsetHeight;
+
+		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
 
 		let ctx = this.canvas.getContext("2d");
 
@@ -73,6 +78,14 @@ let graph_drawer_prototype = {
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
 		}
 
+		ctx.strokeStyle = "#6ccceeff";
+		ctx.setLineDash([2, 4]);
+		ctx.beginPath();
+		ctx.moveTo(0, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
+		ctx.lineTo(this.canvas.width, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
+		ctx.stroke();
+		ctx.setLineDash([]);
+
 	},
 
 	__draw_vals: function(vals, max_val, graph_length) {
@@ -93,7 +106,7 @@ let graph_drawer_prototype = {
 			let fraction = (val + max_val) / (max_val * 2);
 
 			let gx = this.canvas.width * fraction;
-			let gy = this.canvas.height * n / graph_length;
+			let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
 
 			if (!started) {
 				ctx.moveTo(gx, gy);
