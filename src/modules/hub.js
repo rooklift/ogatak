@@ -343,7 +343,6 @@ let hub_prototype = {
 					this.next()
 				} else {
 					this.halt();
-					this.grapher.draw(this.node);
 				}
 			}
 
@@ -360,7 +359,6 @@ let hub_prototype = {
 
 	window_resize_checker: function() {
 		if (this.window_resize_time) {
-			this.grapher.draw(this.node);
 			this.save_window_size();
 			this.window_resize_time = null;
 		}
@@ -373,7 +371,7 @@ let hub_prototype = {
 		this.grapher.draw(this.node);
 		setTimeout(() => {
 			this.graph_draw_spinner()
-		}, 1000);
+		}, 333);
 	},
 
 };
