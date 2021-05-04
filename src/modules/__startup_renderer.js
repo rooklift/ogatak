@@ -39,6 +39,10 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+document.getElementById("graphcanvas").addEventListener("mousedown", (event) => {
+	hub.graph_click(event);
+});
+
 window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
 	event.preventDefault();
 });
@@ -54,10 +58,6 @@ window.addEventListener("drop", (event) => {
 
 window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();
-});
-
-graphcanvas.addEventListener("mousedown", (event) => {
-	hub.graph_click(event);
 });
 
 // ---------------------------------------------------------------------------------------------------

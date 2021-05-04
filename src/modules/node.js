@@ -313,7 +313,7 @@ let node_prototype = {
 		o.overrideSettings.reportAnalysisWinratesAs = "SIDETOMOVE";
 		if (config.widerootnoise) {
 			o.overrideSettings.wideRootNoise = 0.05;
-		};
+		}
 
 		return o;
 	},
