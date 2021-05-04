@@ -224,10 +224,10 @@ let board_drawer_prototype = {
 					let text = "";
 
 					if (config.numbers === "winrate") {
-						text = Math.floor(info.winrate * 100).toString();
+						text = Math.floor(Math.max(0, info.winrate * 100)).toString();
 					}
 					if (config.numbers === "lcb") {
-						text = Math.floor(info.lcb * 100).toString();
+						text = Math.floor(Math.max(0, info.lcb * 100)).toString();
 					}
 					if (config.numbers === "visits_percent") {
 						text = Math.floor(info.visits / root_visits * 100).toString();
