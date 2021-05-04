@@ -21,6 +21,15 @@ function new_node(parent) {
 
 	if (parent) {
 		parent.children.push(node);
+		node.graph_length_knower = parent.graph_length_knower;		// 1 object every node points to, a bit lame
+		node.depth = parent.depth + 1;
+	} else {
+		node.graph_length_knower = {val: 60};
+		node.depth = 0;
+	}
+
+	if (node.depth + 1 > node.graph_length_knower.val) {
+		node.graph_length_knower.val = node.depth + 1;
 	}
 
 	return node;

@@ -20,8 +20,6 @@ let graph_drawer_prototype = {
 
 		let ctx = this.canvas.getContext("2d");
 
-		ctx.fillStyle = "#000000ff";
-
 		let history = node.get_end().history();
 		let vals = [];
 
@@ -37,6 +35,12 @@ let graph_drawer_prototype = {
 			}
 		}
 
+		ctx.strokeStyle = "#999999ff";
+		ctx.lineWidth = 2;
+
+		let started = false;
+		ctx.beginPath();
+
 		for (let n = 0; n < vals.length; n++) {
 
 			if (vals[n] === null) {
@@ -45,13 +49,17 @@ let graph_drawer_prototype = {
 
 			let val = vals[n];
 			let gx = this.canvas.width * val;
-			let gy = this.canvas.height * n / vals.length;
+			let gy = this.canvas.height * n / node.graph_length_knower.val;
 
-			ctx.fillStyle = "#666666ff";
-			ctx.beginPath();
-			ctx.arc(gx, gy, 2, 0, 2 * Math.PI);
-			ctx.fill();
+			if (!started) {
+				ctx.moveTo(gx, gy);
+				started = true;
+			} else {
+				ctx.lineTo(gx, gy);
+			}
 		}
+
+		ctx.stroke();
 	}
 };
 
