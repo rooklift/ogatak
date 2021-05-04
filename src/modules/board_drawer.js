@@ -190,7 +190,11 @@ let board_drawer_prototype = {
 			let move0_lcb = node.analysis.moveInfos[0].lcb;
 			let root_visits = node.analysis.rootInfo.visits;
 
-			for (let info of node.analysis.moveInfos) {
+			for (let n = node.analysis.moveInfos.length - 1; n >= 0; n--) {
+
+				// We look at these in reverse order so the best move can have its circle drawn at the top layer.
+
+				let info = node.analysis.moveInfos[n];
 
 				if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
 
@@ -218,9 +222,11 @@ let board_drawer_prototype = {
 					ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
 					ctx.fill();
 
-					// ctx.beginPath();
-					// ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
-					// ctx.stroke();
+					if (info.order === 0) {
+						ctx.beginPath();
+						ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+						ctx.stroke();
+					}
 
 					let text = "";
 
