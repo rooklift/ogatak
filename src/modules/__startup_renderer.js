@@ -63,7 +63,7 @@ window.addEventListener("drop", (event) => {
 });
 
 window.addEventListener("resize", (event) => {
-	hub.window_was_resized = true;
+	hub.window_resize_time = performance.now();
 });
 
 // ---------------------------------------------------------------------------------------------------
