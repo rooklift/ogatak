@@ -145,7 +145,7 @@ let board_drawer_prototype = {
 
 		s += `best: <span class="white">${pad(best, 6)}</span>`;
 		s += `score: <span class="white">${pad(score, 8)}</span>`;
-		s += `visits: <span class="white">${visits}</span>`;
+		s += `visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
 	},
