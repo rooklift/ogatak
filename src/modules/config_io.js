@@ -20,10 +20,10 @@ exports.filepath = electron.app ?
 exports.config = {};
 
 exports.defaults = {		// Nothing in this should be undefined.
-	"width": 640,
-	"height": 700,
+	"width": 900,
+	"height": 740,
 
-	"square_size": 32,
+	"square_size": 34,
 
 	"engine": "",
 	"engineconfig": "",
