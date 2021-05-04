@@ -906,7 +906,7 @@ function menu_build() {
 	return electron.Menu.buildFromTemplate(template);
 }
 
-
+// --------------------------------------------------------------------------------------------------------------
 
 function set_checks(...menupath) {
 
