@@ -36,6 +36,7 @@ exports.new_hub = function() {
 
 	hub.__autoanalysis = false;			// Don't set this directly, because it should be ack'd
 	hub.window_resize_time = null;
+	hub.loaded_file = null;
 
 	hub.new();
 	return hub;
@@ -82,7 +83,9 @@ let hub_prototype = {
 			let type = "sgf";
 			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-			this.load_buffer(buf, type);
+			if (this.load_buffer(buf, type)) {
+				this.loaded_file = filepath;
+			}
 		} catch (err) {
 			alert("While opening file:\n" + err.toString());
 		}
@@ -91,7 +94,9 @@ let hub_prototype = {
 	load_sgf_from_string: function (s) {
 		if (typeof s === "string") {
 			let buf = Buffer.from(s);
-			this.load_buffer(buf, "sgf");
+			if (this.load_buffer(buf, "sgf")) {
+				this.loaded_file = null;
+			}
 		}
 	},
 
@@ -116,8 +121,10 @@ let hub_prototype = {
 			} else {
 				set_title("Ogatak");
 			}
+			return true;
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
+			return false;
 		}
 	},
 
