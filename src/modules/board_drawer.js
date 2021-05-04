@@ -163,6 +163,8 @@ let board_drawer_prototype = {
 
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
 
+		ctx.fillStyle = config.previous_marker;
+
 		for (let s of moves_played) {		// Probably just one.
 
 			let x = s.charCodeAt(0) - 97;
@@ -171,7 +173,6 @@ let board_drawer_prototype = {
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
-			ctx.fillStyle = "#ff0000aa";
 			ctx.beginPath();
 			ctx.arc(gx, gy, Math.ceil(config.square_size / 5), 0, 2 * Math.PI);
 			ctx.fill();

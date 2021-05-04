@@ -29,6 +29,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"good_colour": "#d2b074ff",			// old: "#84ce4cff"
 	"poor_colour": "#d2b074ff",			// old: "#e4ce4cff"
 
+	"previous_marker": "#ff0000aa",
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",
