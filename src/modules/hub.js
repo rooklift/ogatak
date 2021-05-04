@@ -368,4 +368,12 @@ let hub_prototype = {
 			this.window_resize_checker()
 		}, 1000);
 	},
+
+	graph_draw_spinner: function() {
+		this.grapher.draw(this.node);
+		setTimeout(() => {
+			this.graph_draw_spinner()
+		}, 1000);
+	},
+
 };

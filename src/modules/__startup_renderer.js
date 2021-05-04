@@ -91,4 +91,5 @@ ipcRenderer.on("call", (event, msg) => {
 
 hub.draw_everything();
 hub.window_resize_checker();
+hub.graph_draw_spinner();
 ipcRenderer.send("renderer_ready", null);

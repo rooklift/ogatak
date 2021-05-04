@@ -93,30 +93,88 @@ let graph_drawer_prototype = {
 		let ctx = this.canvas.getContext("2d");
 
 		let started = false;
-		ctx.beginPath();
 
-		for (let n = 0; n < vals.length; n++) {
+		for (let n = 0; n <= vals.length; n++) {				// Deliberate "out-by-1 error", so we end on a missing value.
 
-			if (vals[n] === null) {
+			if (vals[n] === null || vals[n] === undefined) {
+				if (started) {
+					ctx.stroke();
+					started = false;
+				}
 				continue;
 			}
 
 			let val = vals[n];
-
 			let fraction = (val + max_val) / (max_val * 2);
-
 			let gx = this.canvas.width * fraction;
 			let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
 
 			if (!started) {
-				ctx.moveTo(gx, gy);
-				started = true;
+				if (vals[n + 1] === null || vals[n + 1] === undefined) {
+					// ctx.fillStyle = ctx.strokeStyle;
+					// ctx.beginPath();
+					// ctx.arc(gx, gy, 2, 0, 2 * Math.PI);
+					// ctx.fill();
+				} else {
+					ctx.beginPath();
+					ctx.moveTo(gx, gy);
+					started = true;
+				}
 			} else {
 				ctx.lineTo(gx, gy);
 			}
 		}
 
-		ctx.stroke();
+		this.__draw_interpolations(vals, max_val, graph_length);
+	},
+
+	__draw_interpolations: function(vals, max_val, graph_length) {
+
+		let ctx = this.canvas.getContext("2d");
+		ctx.setLineDash([2, 4]);
+
+		let started = false;
+		let seen_real_value = false;
+
+		for (let n = 0; n < vals.length; n++) {
+
+			if (vals[n] === null || vals[n] === undefined) {
+
+				if (!seen_real_value) {
+					continue;
+				}
+
+				if (!started) {
+
+					let val = vals[n - 1];
+					let fraction = (val + max_val) / (max_val * 2);
+					let gx = this.canvas.width * fraction;
+					let gy = (this.drawable_height * (n - 1) / graph_length) + draw_y_offset;
+
+					ctx.beginPath();
+					ctx.moveTo(gx, gy);
+					started = true;
+				}
+
+			} else {
+
+				seen_real_value = true;
+
+				if (started) {
+
+					let val = vals[n];
+					let fraction = (val + max_val) / (max_val * 2);
+					let gx = this.canvas.width * fraction;
+					let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
+
+					ctx.lineTo(gx, gy);
+					ctx.stroke();
+					started = false;
+				}
+			}
+		}
+
+		ctx.setLineDash([]);
 	},
 
 	node_from_click: function(node, event) {
