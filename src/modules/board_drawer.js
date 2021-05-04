@@ -206,11 +206,11 @@ let board_drawer_prototype = {
 					let gy = y * config.square_size + (config.square_size / 2);
 
 					if (info.order === 0) {
-						ctx.fillStyle = "#99dd55ff";				// "#68cebaff";
+						ctx.fillStyle = config.best_colour;
 					} else if (info.lcb > move0_lcb * 0.975) {
-						ctx.fillStyle = "#d2b074ff";				// "#84ce4cff";
+						ctx.fillStyle = config.good_colour;
 					} else {
-						ctx.fillStyle = "#d2b074ff";				// "#e4ce4cff";
+						ctx.fillStyle = config.poor_colour;
 					}
 
 					ctx.beginPath();

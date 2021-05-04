@@ -25,6 +25,10 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"square_size": 34,
 
+	"best_colour": "#99dd55ff",			// old: "#68cebaff"
+	"good_colour": "#d2b074ff",			// old: "#84ce4cff"
+	"poor_colour": "#d2b074ff",			// old: "#e4ce4cff"
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",
