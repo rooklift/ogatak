@@ -20,9 +20,9 @@ body {
 	margin: 1em;
 }
 
-#graph {
+#graphdiv {
 	grid-area: c;
-	margin: 1em;
+	margin: 0;
 }
 
 #boardbg {

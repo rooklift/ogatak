@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
+const new_grapher = require("./grapher");
 const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -23,6 +24,11 @@ exports.new_hub = function() {
 		document.getElementById("boardtable"),
 		document.getElementById("boardcanvas"),
 		document.getElementById("boardinfo")
+	);
+
+	hub.grapher = new_grapher(
+		document.getElementById("graphdiv"),
+		document.getElementById("graphcanvas")
 	);
 
 	hub.engine = new_engine();
