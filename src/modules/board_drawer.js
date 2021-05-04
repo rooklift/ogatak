@@ -177,6 +177,9 @@ let board_drawer_prototype = {
 			ctx.fill();
 		}
 
+		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
+		ctx.lineWidth = 3.5;
+
 		if (node.has_valid_analysis()) {
 
 			ctx.textAlign = "center";
@@ -185,9 +188,6 @@ let board_drawer_prototype = {
 
 			let move0_lcb = node.analysis.moveInfos[0].lcb;
 			let root_visits = node.analysis.rootInfo.visits;
-
-			ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
-			ctx.lineWidth = 3.5;
 
 			for (let info of node.analysis.moveInfos) {
 
@@ -206,20 +206,20 @@ let board_drawer_prototype = {
 					let gy = y * config.square_size + (config.square_size / 2);
 
 					if (info.order === 0) {
-						ctx.fillStyle = "#68cebaff";
+						ctx.fillStyle = "#99dd55ff";				// "#68cebaff";
 					} else if (info.lcb > move0_lcb * 0.975) {
-						ctx.fillStyle = "#84ce4cff";
+						ctx.fillStyle = "#d2b074ff";				// "#84ce4cff";
 					} else {
-						ctx.fillStyle = "#e4ce4cff";
+						ctx.fillStyle = "#d2b074ff";				// "#e4ce4cff";
 					}
 
 					ctx.beginPath();
 					ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
 					ctx.fill();
 
-					ctx.beginPath();
-					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
-					ctx.stroke();
+					// ctx.beginPath();
+					// ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+					// ctx.stroke();
 
 					let text = "";
 
@@ -271,8 +271,6 @@ let board_drawer_prototype = {
 					let gx = x * config.square_size + (config.square_size / 2);
 					let gy = y * config.square_size + (config.square_size / 2);
 
-					ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
-					ctx.lineWidth = 3.5;
 					ctx.beginPath();
 					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
 					ctx.stroke();
