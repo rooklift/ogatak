@@ -13,7 +13,7 @@ const white_stone_url = `url("${white_stone.src}")`;
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
-function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
+function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	let drawer = Object.create(board_drawer_prototype);
 
@@ -24,7 +24,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, boardinfo) {
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
-	drawer.boardinfo = boardinfo;
+	drawer.infodiv = infodiv;
 
 	return drawer;
 }
@@ -147,7 +147,7 @@ let board_drawer_prototype = {
 		s += `score: <span class="white">${pad(score, 8)}</span>`;
 		s += `visits: <span class="white">${visits}</span>`;
 
-		this.boardinfo.innerHTML = `<span class="rust">${s}</span>`;
+		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
 	},
 
 	draw_canvas: function(node) {
