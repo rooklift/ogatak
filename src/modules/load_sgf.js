@@ -127,7 +127,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 				} else {
 					node = new_node(node);
 				}
-			} else if (c >= 65 && c <= 90) {
+			} else if (c >= 65 && c <= 90) {			// that is A-Z
 				if (keycomplete) {
 					key.reset();
 					keycomplete = false;
