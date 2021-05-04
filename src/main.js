@@ -579,231 +579,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Numbers",
-					submenu: [
-						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.numbers === "winrate",
-							accelerator: "F5",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "winrate"
-								});
-								set_checks("Analysis", "Numbers", "Winrate");
-							}
-						},
-						{
-							label: "Winrate (LCB)",
-							type: "checkbox",
-							checked: config.numbers === "lcb",
-							accelerator: "F6",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "lcb"
-								});
-								set_checks("Analysis", "Numbers", "Winrate (LCB)");
-							}
-						},
-						{
-							label: "Score",
-							type: "checkbox",
-							checked: config.numbers === "score",
-							accelerator: "F7",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "score"
-								});
-								set_checks("Analysis", "Numbers", "Score");
-							}
-						},
-						{
-							label: "Visits",
-							type: "checkbox",
-							checked: config.numbers === "visits",
-							accelerator: "F8",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "visits"
-								});
-								set_checks("Analysis", "Numbers", "Visits");
-							}
-						},
-						{
-							label: "Visits %",
-							type: "checkbox",
-							checked: config.numbers === "visits_percent",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "visits_percent"
-								});
-								set_checks("Analysis", "Numbers", "Visits %");
-							}
-						},
-						{
-							label: "Policy",
-							type: "checkbox",
-							checked: config.numbers === "policy",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "policy"
-								});
-								set_checks("Analysis", "Numbers", "Policy");
-							}
-						},
-						{
-							label: "Order",
-							type: "checkbox",
-							checked: config.numbers === "order",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "order"
-								});
-								set_checks("Analysis", "Numbers", "Order");
-							}
-						},
-					]
-				},
-				{
-					label: "Visit threshold",
-					submenu: [
-						{
-							label: "N > 0.5%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.005,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.005
-								});
-								set_checks("Analysis", "Visit threshold", "N > 0.5%");
-							}
-						},
-						{
-							label: "N > 1%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.01,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.01
-								});
-								set_checks("Analysis", "Visit threshold", "N > 1%");
-							}
-						},
-						{
-							label: "N > 2%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.02,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.02
-								});
-								set_checks("Analysis", "Visit threshold", "N > 2%");
-							}
-						},
-						{
-							label: "N > 4%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.04,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.04
-								});
-								set_checks("Analysis", "Visit threshold", "N > 4%");
-							}
-						},
-						{
-							label: "N > 6%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.06,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.06
-								});
-								set_checks("Analysis", "Visit threshold", "N > 6%");
-							}
-						},
-						{
-							label: "N > 8%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.08,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.08
-								});
-								set_checks("Analysis", "Visit threshold", "N > 8%");
-							}
-						},
-						{
-							label: "N > 10%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.1,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.1
-								});
-								set_checks("Analysis", "Visit threshold", "N > 10%");
-							}
-						},
-					]
-				},
-				{
-					label: "Graph",
-					submenu: [
-						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.graph_type === "winrate",
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_type",
-									value: "winrate"
-								});
-								set_checks("Analysis", "Graph", "Winrate");
-							}
-						},
-						{
-							label: "Score",
-							type: "checkbox",
-							checked: config.graph_type === "score",
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_type",
-									value: "score"
-								});
-								set_checks("Analysis", "Graph", "Score");
-							}
-						},
-					]
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Next move markers",
-					type: "checkbox",
-					checked: config.next_move_markers,
-					click: () => {
-						win.webContents.send("toggle", "next_move_markers");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Rules",
 					submenu: [
 						{
@@ -898,6 +673,233 @@ function menu_build() {
 					label: "Forget analysis",
 					click: () => {
 						win.webContents.send("call", "forget_analysis");
+					}
+				},
+			]
+		},
+		{
+			label: "Display",
+			submenu: [
+				{
+					label: "Numbers",
+					submenu: [
+						{
+							label: "Winrate",
+							type: "checkbox",
+							checked: config.numbers === "winrate",
+							accelerator: "F5",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "winrate"
+								});
+								set_checks("Display", "Numbers", "Winrate");
+							}
+						},
+						{
+							label: "Winrate (LCB)",
+							type: "checkbox",
+							checked: config.numbers === "lcb",
+							accelerator: "F6",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "lcb"
+								});
+								set_checks("Display", "Numbers", "Winrate (LCB)");
+							}
+						},
+						{
+							label: "Score",
+							type: "checkbox",
+							checked: config.numbers === "score",
+							accelerator: "F7",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "score"
+								});
+								set_checks("Display", "Numbers", "Score");
+							}
+						},
+						{
+							label: "Visits",
+							type: "checkbox",
+							checked: config.numbers === "visits",
+							accelerator: "F8",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "visits"
+								});
+								set_checks("Display", "Numbers", "Visits");
+							}
+						},
+						{
+							label: "Visits %",
+							type: "checkbox",
+							checked: config.numbers === "visits_percent",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "visits_percent"
+								});
+								set_checks("Display", "Numbers", "Visits %");
+							}
+						},
+						{
+							label: "Policy",
+							type: "checkbox",
+							checked: config.numbers === "policy",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "policy"
+								});
+								set_checks("Display", "Numbers", "Policy");
+							}
+						},
+						{
+							label: "Order",
+							type: "checkbox",
+							checked: config.numbers === "order",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "order"
+								});
+								set_checks("Display", "Numbers", "Order");
+							}
+						},
+					]
+				},
+				{
+					label: "Visit threshold",
+					submenu: [
+						{
+							label: "N > 0.5%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.005,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.005
+								});
+								set_checks("Display", "Visit threshold", "N > 0.5%");
+							}
+						},
+						{
+							label: "N > 1%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.01,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.01
+								});
+								set_checks("Display", "Visit threshold", "N > 1%");
+							}
+						},
+						{
+							label: "N > 2%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.02,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.02
+								});
+								set_checks("Display", "Visit threshold", "N > 2%");
+							}
+						},
+						{
+							label: "N > 4%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.04,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.04
+								});
+								set_checks("Display", "Visit threshold", "N > 4%");
+							}
+						},
+						{
+							label: "N > 6%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.06,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.06
+								});
+								set_checks("Display", "Visit threshold", "N > 6%");
+							}
+						},
+						{
+							label: "N > 8%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.08,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.08
+								});
+								set_checks("Display", "Visit threshold", "N > 8%");
+							}
+						},
+						{
+							label: "N > 10%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.1
+								});
+								set_checks("Display", "Visit threshold", "N > 10%");
+							}
+						},
+					]
+				},
+				{
+					label: "Graph",
+					submenu: [
+						{
+							label: "Winrate",
+							type: "checkbox",
+							checked: config.graph_type === "winrate",
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_type",
+									value: "winrate"
+								});
+								set_checks("Display", "Graph", "Winrate");
+							}
+						},
+						{
+							label: "Score",
+							type: "checkbox",
+							checked: config.graph_type === "score",
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_type",
+									value: "score"
+								});
+								set_checks("Display", "Graph", "Score");
+							}
+						},
+					]
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Next move markers",
+					type: "checkbox",
+					checked: config.next_move_markers,
+					click: () => {
+						win.webContents.send("toggle", "next_move_markers");
 					}
 				},
 			]
