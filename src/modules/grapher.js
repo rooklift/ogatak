@@ -23,7 +23,7 @@ let graph_drawer_prototype = {
 		let scores = [];
 		let winrates = [];
 
-		let abs_score_max = 0;
+		let abs_score_max = 5;		// To start with, means our score graph will have at least axis -5 to 5.
 
 		for (let node of history) {
 
