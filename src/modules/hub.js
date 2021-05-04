@@ -34,7 +34,8 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
-	hub.__autoanalysis = false;		// Don't set this directly, because it should be ack'd
+	hub.__autoanalysis = false;			// Don't set this directly, because it should be ack'd
+	hub.window_was_resized = false;
 
 	hub.new();
 	return hub;
@@ -349,5 +350,16 @@ let hub_prototype = {
 		}
 
 		this.maindrawer.draw_info(this.node, this.engine);
+	},
+
+	window_resize_checker: function() {
+		if (this.window_was_resized) {
+			this.grapher.draw(this.node);
+			this.save_window_size();
+			this.window_was_resized = false;
+		}
+		setTimeout(() => {
+			this.window_resize_checker()
+		}, 1000);
 	},
 };

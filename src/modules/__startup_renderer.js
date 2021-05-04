@@ -62,6 +62,10 @@ window.addEventListener("drop", (event) => {
 	hub.handle_drop(event);
 });
 
+window.addEventListener("resize", (event) => {
+	hub.window_was_resized = true;
+});
+
 // ---------------------------------------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
@@ -92,4 +96,5 @@ ipcRenderer.on("call", (event, msg) => {
 // ---------------------------------------------------------------------------------------------------
 
 hub.draw_everything();
+hub.window_resize_checker();
 ipcRenderer.send("renderer_ready", null);

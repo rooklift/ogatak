@@ -918,12 +918,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Save window size",
-					click: () => {
-						win.webContents.send("call", "save_window_size");
-					}
-				},
-				{
 					type: "separator",
 				},
 				{
