@@ -96,6 +96,10 @@ function startup() {
 		win.setTitle(msg);
 	});
 
+	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
+		set_one_check(msg ? true : false, "Analysis", "Toggle autoanalysis");
+	});
+
 	electron.Menu.setApplicationMenu(menu);
 	menu_is_set = true;
 
@@ -547,6 +551,18 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Toggle autoanalysis",
+					accelerator: "F12",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "toggle_autoanalysis");		// Will ack the correct value for the menu check.
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Play best move",
 					accelerator: "Space",
 					click: () => {
@@ -908,25 +924,6 @@ function menu_build() {
 
 // --------------------------------------------------------------------------------------------------------------
 
-function set_checks(...menupath) {
-
-	if (!menu_is_set) {
-		return;
-	}
-
-	// Since I don't know precisely how the menu works behind the scenes,
-	// give a little time for the original click to go through first.
-
-	setTimeout(() => {
-		let items = get_submenu_items(menupath.slice(0, -1));
-		for (let n = 0; n < items.length; n++) {
-			if (items[n].checked !== undefined) {
-				items[n].checked = items[n].label === menupath[menupath.length - 1];
-			}
-		}
-	}, 50);
-}
-
 function get_submenu_items(menupath) {
 
 	// If the path is to a submenu, this returns a list of all items in the submenu.
@@ -947,3 +944,37 @@ function get_submenu_items(menupath) {
 	}
 	return o;
 }
+
+function set_checks(...menupath) {
+
+	if (!menu_is_set) {
+		return;
+	}
+
+	// Since I don't know precisely how the menu works behind the scenes,
+	// give a little time for the original click to go through first.
+
+	setTimeout(() => {
+		let items = get_submenu_items(menupath.slice(0, -1));
+		for (let n = 0; n < items.length; n++) {
+			if (items[n].checked !== undefined) {
+				items[n].checked = items[n].label === menupath[menupath.length - 1];
+			}
+		}
+	}, 50);
+}
+
+function set_one_check(state, ...menupath) {
+
+	state = state ? true : false;
+
+	if (!menu_is_set) {
+		return;
+	}
+
+	let item = get_submenu_items(menupath);
+	if (item.checked !== undefined) {
+		item.checked = state;
+	}
+}
+

@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require("fs");
+const {ipcRenderer} = require("electron");
 
 const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
@@ -9,7 +10,6 @@ const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
-
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -33,6 +33,8 @@ exports.new_hub = function() {
 
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
+
+	hub.__autoanalysis = false;		// Don't set this directly, because it should be ack'd
 
 	hub.new();
 	return hub;
@@ -261,7 +263,25 @@ let hub_prototype = {
 	},
 
 	halt: function() {
+		if (this.__autoanalysis) {
+			this.set_autoanalysis(false);
+		}
 		this.engine.halt();
+	},
+
+	set_autoanalysis(val) {
+		this.__autoanalysis = val ? true : false;
+		ipcRenderer.send("ack_autoanalysis", this.__autoanalysis);
+	},
+
+	toggle_autoanalysis() {
+		this.set_autoanalysis(!this.__autoanalysis);
+		if (this.__autoanalysis && !this.engine.desired) {
+			this.go();
+		}
+		if (!this.__autoanalysis && this.engine.desired) {
+			this.halt();
+		}
 	},
 
 	play_best: function() {
@@ -310,10 +330,23 @@ let hub_prototype = {
 	},
 
 	receive_object: function(o) {
-		if (node_id_from_search_id(o.id) === this.node.id) {
+
+		if (node_id_from_search_id(o.id) === this.node.id && o.rootInfo && Array.isArray(o.moveInfos) && o.moveInfos.length > 0) {
+
 			this.node.analysis = o;
+
+			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
+
+				if (this.node.children.length > 0) {
+					this.next()
+				} else {
+					this.halt();
+				}
+			}
+
 			this.maindrawer.draw_canvas(this.node);
 		}
-		this.maindrawer.draw_info(this.node, this.engine);		// To update the "running" string.
+
+		this.maindrawer.draw_info(this.node, this.engine);
 	},
 };
