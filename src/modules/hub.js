@@ -343,6 +343,7 @@ let hub_prototype = {
 					this.next()
 				} else {
 					this.halt();
+					this.grapher.draw(this.node);
 				}
 			}
 
