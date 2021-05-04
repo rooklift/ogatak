@@ -39,6 +39,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"visits_threshold": 0.02,
 
 	"autoanalysis_visits": 1000,
+	"graph_type": "score",
 
 	"rules": "chinese",
 };

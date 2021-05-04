@@ -761,6 +761,35 @@ function menu_build() {
 					]
 				},
 				{
+					label: "Graph",
+					submenu: [
+						{
+							label: "Winrate",
+							type: "checkbox",
+							checked: config.graph_type === "winrate",
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_type",
+									value: "winrate"
+								});
+								set_checks("Analysis", "Graph", "Winrate");
+							}
+						},
+						{
+							label: "Score",
+							type: "checkbox",
+							checked: config.graph_type === "score",
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_type",
+									value: "score"
+								});
+								set_checks("Analysis", "Graph", "Score");
+							}
+						},
+					]
+				},
+				{
 					type: "separator",
 				},
 				{
