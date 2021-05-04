@@ -53,7 +53,7 @@ let graph_drawer_prototype = {
 			ctx.fill();
 		}
 	}
-}
+};
 
 
 
