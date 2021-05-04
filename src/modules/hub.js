@@ -218,6 +218,7 @@ let hub_prototype = {
 				for (let child of this.node.children) {
 					child.detach();
 				}
+				this.maindrawer.draw_canvas(this.node);		// Clear the next move markers.
 			}
 		}
 	},
