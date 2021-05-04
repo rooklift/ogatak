@@ -21,8 +21,14 @@ body {
 }
 
 #graphdiv {
+	border: 0;
+	padding: 0;
 	grid-area: c;
 	margin: 0;
+}
+
+#graphcanvas {
+	display: block;				/* Stops the parent element from being 4px bigger... */
 }
 
 #boardbg {

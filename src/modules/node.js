@@ -89,6 +89,14 @@ let node_prototype = {
 		return node;
 	},
 
+	get_end: function() {
+		let node = this;
+		while (node.children.length > 0) {
+			node = node.children[0];
+		}
+		return node;
+	},
+
 	width: function() {
 		if (this.__board) {
 			return this.__board.width;
@@ -125,7 +133,7 @@ let node_prototype = {
 		return 19;
 	},
 
-	node_history_reversed: function() {
+	history_reversed: function() {
 		let ret = [this];
 		let node = this;
 		while (node.parent) {
@@ -133,6 +141,10 @@ let node_prototype = {
 			ret.push(node);
 		}
 		return ret;
+	},
+
+	history: function() {
+		return this.history_reversed().reverse();
 	},
 
 	get_board: function() {
@@ -181,7 +193,7 @@ let node_prototype = {
 		return this.__board;
 	},
 
-	try_move: function(s) {					// Note: not to be used for passing.
+	try_move: function(s) {							// Note: not to be used for passing.
 		let board = this.get_board();
 		if (board.legalmove(s) === false) {
 			return this;
@@ -189,7 +201,7 @@ let node_prototype = {
 		return this.force_move(s);
 	},
 
-	force_move: function(s) {				// Note: not to be used for passing.
+	force_move: function(s) {						// Note: not to be used for passing.
 
 		let board = this.get_board();
 		let propkey = board.active.toUpperCase();
@@ -249,9 +261,7 @@ let node_prototype = {
 		let setup = [];
 		let moves = [];
 
-		let history_reversed = this.node_history_reversed();
-
-		for (let node of history_reversed) {
+		for (let node of this.history_reversed()) {
 
 			if (node.props.AB || node.props.AW || node.props.AE) {
 

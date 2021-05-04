@@ -67,13 +67,13 @@ window.addEventListener("drop", (event) => {
 ipcRenderer.on("set", (event, msg) => {
 	config[msg.key] = msg.value;
 	save_config();
-	hub.draw();
+	hub.draw_everything();
 });
 
 ipcRenderer.on("toggle", (event, msg) => {
 	config[msg] = !config[msg];
 	save_config();
-	hub.draw();
+	hub.draw_everything();
 });
 
 ipcRenderer.on("call", (event, msg) => {
@@ -91,5 +91,5 @@ ipcRenderer.on("call", (event, msg) => {
 
 // ---------------------------------------------------------------------------------------------------
 
-hub.draw();
+hub.draw_everything();
 ipcRenderer.send("renderer_ready", null);

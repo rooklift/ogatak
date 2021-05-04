@@ -42,10 +42,11 @@ exports.new_hub = function() {
 
 let hub_prototype = {
 
-	draw: function() {
+	draw_everything: function() {
 		this.maindrawer.draw_board(this.node);
 		this.maindrawer.draw_canvas(this.node);
 		this.maindrawer.draw_info(this.node, this.engine);
+		this.grapher.draw(this.node);
 	},
 
 	try_move: function(s) {
@@ -58,7 +59,7 @@ let hub_prototype = {
 			return;
 		}
 		this.node = node;
-		this.draw();
+		this.draw_everything();
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -305,7 +306,7 @@ let hub_prototype = {
 		this.node.analysis = null;
 		this.engine.suppress();
 		this.halt();
-		this.draw();
+		this.draw_everything();
 	},
 
 	receive_object: function(o) {
