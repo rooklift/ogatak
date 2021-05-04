@@ -29,19 +29,19 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"engineconfig": "",
 	"weights": "",
 
-	"numbers": "winrate",
-	"next_move_markers": true,
+	"rules": "chinese",
 
 	"next_size": 19,
 	"next_komi": 7.5,
 	"next_handicap": 0,
 
+	"numbers": "winrate",
 	"visits_threshold": 0.02,
-
-	"autoanalysis_visits": 1000,
+	"next_move_markers": true,
 	"graph_type": "score",
 
-	"rules": "chinese",
+	"widerootnoise": true,
+	"autoanalysis_visits": 1000,
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------

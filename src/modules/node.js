@@ -266,6 +266,7 @@ let node_prototype = {
 	katago_query: function() {
 
 		let o = {};
+		o.overrideSettings = {};
 
 		let setup = [];
 		let moves = [];
@@ -309,9 +310,9 @@ let node_prototype = {
 		o.boardYSize = this.height();
 		o.maxVisits = 1000000;
 		o.reportDuringSearchEvery = 0.1;
-		o.overrideSettings = {
-			reportAnalysisWinratesAs: "SIDETOMOVE",
-			wideRootNoise: 0.05,
+		o.overrideSettings.reportAnalysisWinratesAs = "SIDETOMOVE";
+		if (config.widerootnoise) {
+			o.overrideSettings.wideRootNoise = 0.05;
 		};
 
 		return o;

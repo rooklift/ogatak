@@ -723,6 +723,17 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Wide root noise",
+					type: "checkbox",
+					checked: config.widerootnoise,
+					click: () => {
+						win.webContents.send("toggle", "widerootnoise");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Forget analysis",
 					click: () => {
 						win.webContents.send("call", "forget_analysis");
