@@ -19,57 +19,55 @@ let graph_drawer_prototype = {
 		let ctx = this.canvas.getContext("2d");
 
 		let history = node.get_end().history();
-		let vals = [];
 
-		let min_val = 0;		// These control the
-		let max_val = 0;		// axis of our graph.
+		let scores = [];
+		let winrates = [];
 
-		if (config.graph_type === "winrate") {
-			min_val = 0;		// In this case they
-			max_val = 1;		// never change
-		}
+		let abs_score_max = 0;
 
 		for (let node of history) {
 
 			if (node.has_valid_analysis()) {
 
-				let val = 0;
+				let score = node.analysis.moveInfos[0].scoreLead;
+				let winrate = node.analysis.moveInfos[0].winrate;
 
-				switch (config.graph_type) {
-
-					case "score":
-
-						val = node.analysis.moveInfos[0].scoreLead;
-						if (node.get_board().active === "w") val = val * -1;
-
-						// Keep the min and max symmetrical around 0...
-
-						if (Math.abs(val) > max_val) {
-							max_val = Math.abs(val);
-							min_val = Math.abs(val) * -1;
-						}
-
-						break;
-
-					case "winrate":
-
-						val = node.analysis.moveInfos[0].winrate;
-						if (node.get_board().active === "w") val = 1 - val;
-						if (val < 0) val = 0;
-						if (val > 1) val = 1;
-
-						break;
-
+				if (node.get_board().active === "w") {
+					score = score * -1;
+					winrate = 1 - winrate;
 				}
 
-				vals.push(val);
+				if (Math.abs(score) > abs_score_max) {
+					abs_score_max = Math.abs(score);
+				}
+
+				if (winrate < 0) winrate = 0;
+				if (winrate > 1) winrate = 1;
+
+				winrate = (winrate - 0.5) * 2;		// Rescale to -1..1, our draw code likes symmetry around zero.
+
+				scores.push(score);
+				winrates.push(winrate);
 			} else {
-				vals.push(null);
+				scores.push(null);
+				winrates.push(null);
 			}
 		}
 
-		ctx.strokeStyle = "#999999ff";
 		ctx.lineWidth = 2;
+		ctx.strokeStyle = "#999999ff";
+
+		if (config.graph_type === "score") {
+			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
+		} else if (config.graph_type === "winrate") {
+			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
+		}
+
+	},
+
+	__draw_vals: function(vals, max_val, graph_length) {
+
+		let ctx = this.canvas.getContext("2d");
 
 		let started = false;
 		ctx.beginPath();
@@ -82,11 +80,10 @@ let graph_drawer_prototype = {
 
 			let val = vals[n];
 
-			let range = max_val - min_val
-			let fraction = (val - min_val) / range;
+			let fraction = (val + max_val) / (max_val * 2);
 
 			let gx = this.canvas.width * fraction;
-			let gy = this.canvas.height * n / node.graph_length_knower.val;
+			let gy = this.canvas.height * n / graph_length;
 
 			if (!started) {
 				ctx.moveTo(gx, gy);
@@ -97,7 +94,7 @@ let graph_drawer_prototype = {
 		}
 
 		ctx.stroke();
-	}
+	},
 };
 
 
