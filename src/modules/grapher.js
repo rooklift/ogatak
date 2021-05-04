@@ -9,12 +9,10 @@ function new_graph_drawer(outerdiv, canvas) {
 
 let graph_drawer_prototype = {
 
-	// FIXME - the outerdiv can get bigger but it's impossible to make it smaller.
-
 	draw: function(node) {
 
-		this.canvas.width = this.outerdiv.offsetWidth;				// I think just setting the width
-		this.canvas.height = this.outerdiv.offsetHeight;			// and height is enough to clear it.
+		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
+		this.canvas.height = this.outerdiv.offsetHeight;
 
 		let ctx = this.canvas.getContext("2d");
 
