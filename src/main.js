@@ -560,6 +560,59 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Autoanalysis visits",
+					submenu: [
+						{
+							label: "1000",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 1000,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 1000
+								});
+								set_checks("Analysis", "Autoanalysis visits", "1000");
+							}
+						},
+						{
+							label: "500",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 500,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 500
+								});
+								set_checks("Analysis", "Autoanalysis visits", "500");
+							}
+						},
+						{
+							label: "250",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 250,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 250
+								});
+								set_checks("Analysis", "Autoanalysis visits", "250");
+							}
+						},
+						{
+							label: "100",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 100,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 100
+								});
+								set_checks("Analysis", "Autoanalysis visits", "100");
+							}
+						}
+					]
+				},
+				{
 					type: "separator",
 				},
 				{
