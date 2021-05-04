@@ -56,7 +56,7 @@ body {
 	font-size: 100%;
 	line-height: 150%;
 	white-space: pre;
-	margin: 1em;
+	margin: 1em 1em 0 1em;
 }
 
 .rust {
