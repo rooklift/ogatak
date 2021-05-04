@@ -386,6 +386,7 @@ function menu_build() {
 				},
 				{
 					label: "Load SGF from clipboard",
+					accelerator: "CommandOrControl+Shift+V",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "load_sgf_from_string",
