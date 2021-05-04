@@ -13,8 +13,6 @@ let graph_drawer_prototype = {
 
 	draw: function(node) {
 
-		console.log(this.outerdiv.offsetHeight);
-
 		this.canvas.width = this.outerdiv.offsetWidth;				// I think just setting the width
 		this.canvas.height = this.outerdiv.offsetHeight;			// and height is enough to clear it.
 
