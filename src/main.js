@@ -472,14 +472,14 @@ function menu_build() {
 				},
 				{
 					label: "Backward",
-					accelerator: "Left",
+					accelerator: "Up",
 					click: () => {
 						win.webContents.send("call", "prev");
 					}
 				},
 				{
 					label: "Forward",
-					accelerator: "Right",
+					accelerator: "Down",
 					click: () => {
 						win.webContents.send("call", "next");
 					}
@@ -489,14 +489,14 @@ function menu_build() {
 				},
 				{
 					label: "Previous sibling",
-					accelerator: "Up",
+					accelerator: "Left",
 					click: () => {
 						win.webContents.send("call", "prev_sibling");
 					}
 				},
 				{
 					label: "Next sibling",
-					accelerator: "Down",
+					accelerator: "Right",
 					click: () => {
 						win.webContents.send("call", "next_sibling");
 					}
