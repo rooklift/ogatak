@@ -352,6 +352,11 @@ let hub_prototype = {
 		this.maindrawer.draw_info(this.node, this.engine);
 	},
 
+	graph_click: function(event) {
+		let node = this.grapher.node_from_click(this.node, event);
+		this.set_node(node);
+	},
+
 	window_resize_checker: function() {
 		if (this.window_resize_time) {
 			this.grapher.draw(this.node);

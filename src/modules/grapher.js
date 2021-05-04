@@ -118,6 +118,30 @@ let graph_drawer_prototype = {
 
 		ctx.stroke();
 	},
+
+	node_from_click: function(node, event) {
+
+		if (!event || !this.drawable_height) {
+			return null;
+		}
+
+		let mousey = event.offsetY;
+		if (typeof mousey !== "number") {
+			return null;
+		}
+
+		mousey -= draw_y_offset;
+		if (mousey < 0) mousey = 0;
+
+		let node_list = node.get_end().history();
+
+		let click_depth = Math.round(node.graph_length_knower.val * mousey / this.drawable_height);
+
+		if (click_depth < 0) click_depth = 0;
+		if (click_depth >= node_list.length) click_depth = node_list.length - 1;
+
+		return node_list[click_depth];
+	},
 };
 
 

@@ -56,6 +56,10 @@ window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();
 });
 
+graphcanvas.addEventListener("mousedown", (event) => {
+	hub.graph_click(event);
+});
+
 // ---------------------------------------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
