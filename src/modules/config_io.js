@@ -33,6 +33,9 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"empty_colour": "#d2b074ff",		// should match the wood
 
+	"minor_graph_colour": "#444444ff",
+	"major_graph_colour": "#6ceeccaa",
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",

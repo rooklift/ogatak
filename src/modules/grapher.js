@@ -60,21 +60,21 @@ let graph_drawer_prototype = {
 		if (config.graph_type === "score") {
 
 			ctx.lineWidth = 1;
-			ctx.strokeStyle = "#222222ff";
+			ctx.strokeStyle = config.minor_graph_colour;
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
 
 			ctx.lineWidth = 2;
-			ctx.strokeStyle = "#999999ff";
+			ctx.strokeStyle = config.major_graph_colour;
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
 
 		} else if (config.graph_type === "winrate") {
 
 			ctx.lineWidth = 1;
-			ctx.strokeStyle = "#222222ff";
+			ctx.strokeStyle = config.minor_graph_colour;
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
 
 			ctx.lineWidth = 2;
-			ctx.strokeStyle = "#999999ff";
+			ctx.strokeStyle = config.major_graph_colour;
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
 		}
 
