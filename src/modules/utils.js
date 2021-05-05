@@ -168,7 +168,7 @@ exports.moveinfo_filter = function(node) {
 
 	let move0_lcb = node.analysis.moveInfos[0].lcb;
 	for (let info of node.analysis.moveInfos) {
-		if (info.order === 0 || (info.visits > node.analysis.rootInfo.visits * config.visits_threshold && info.lcb >= 0)) {
+		if (info.order === 0 || (info.visits > node.analysis.rootInfo.visits * config.visits_threshold)) {
 			ret.push(info);
 		}
 	}
