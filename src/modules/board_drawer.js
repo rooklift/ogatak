@@ -164,10 +164,6 @@ let board_drawer_prototype = {
 
 	draw_previous_markers: function(node) {
 
-		if (!node) {
-			return;
-		}
-
 		let ctx = this.canvas.getContext("2d");
 		let board = node.get_board();
 
@@ -191,7 +187,7 @@ let board_drawer_prototype = {
 
 	draw_next_markers: function(node) {
 
-		if (!node || !config.next_move_markers) {
+		if (!config.next_move_markers) {
 			return;
 		}
 
@@ -222,7 +218,7 @@ let board_drawer_prototype = {
 
 	draw_analysis: function(node) {
 
-		if (!node || !node.has_valid_analysis()) {
+		if (!node.has_valid_analysis()) {
 			return;
 		}
 
