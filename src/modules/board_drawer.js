@@ -117,18 +117,31 @@ let board_drawer_prototype = {
 			return false;
 		}
 
+		this.clear_canvas();
+		let ctx = this.canvas.getContext("2d");
+
 		let board = startboard.copy();
 
-		for (let move of pv) {
+		for (let n = 0; n < pv.length; n++) {
+
+			let move = pv[n];
+
 			let s = board.parse_gtp_move(move);
 			board.play(s);
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			let gx = x * config.square_size + (config.square_size / 2);
+			let gy = y * config.square_size + (config.square_size / 2);
+
+			ctx.fillStyle = board.active === "b" ? "#000000ff" : "#ffffffff";		// here board.active is for *after* the move we made.
+			ctx.fillText((n + 1).toString(), gx, gy + 1);
 		}
 
 		this.draw_board(board);
-		this.clear_canvas();
 
 		this.last_draw_was_pv = true;
-
 		return true;
 	},
 
