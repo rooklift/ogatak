@@ -148,7 +148,7 @@ let board_drawer_prototype = {
 			}
 
 			ctx.fillStyle = colour === "b" ? "#ffffffff" : "#000000ff";
-			ctx.fillText((n + 1).toString(), gx, gy + 1);
+			ctx.fillText(n.toString(), gx, gy + 1);
 
 			colour = opposite_colour(colour);
 			n++;
