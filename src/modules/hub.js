@@ -47,7 +47,18 @@ exports.new_hub = function() {
 let hub_prototype = {
 
 	draw: function() {								// Todo - add mouseover PV.
-		this.maindrawer.draw_standard(this.node);
+
+		let did_draw_pv = false;
+
+		let point = this.mouse_point();
+
+		if (point) {
+			did_draw_pv = this.maindrawer.draw_pv(this.node, point);
+		}
+
+		if (!did_draw_pv) {
+			this.maindrawer.draw_standard(this.node);
+		}
 	},
 
 	try_move: function(s) {

@@ -76,6 +76,66 @@ let board_drawer_prototype = {
 
 	},
 
+	draw_standard: function(node) {
+		this.clear_canvas();
+		this.draw_board(node.get_board());
+		this.draw_previous_markers(node);
+		this.draw_analysis(node);
+		this.draw_next_markers(node);
+		this.draw_node_info(node);
+	},
+
+	draw_pv: function(node, point) {			// Return true / false whether this happened.
+
+		if (!node.has_valid_analysis()) {
+			return false;
+		}
+
+		let startboard = node.get_board();
+
+		if (startboard.in_bounds(point) === false) {
+			return false;
+		}
+
+		let gtp = startboard.gtp(point);
+
+		let info;
+
+		for (let z of node.analysis.moveInfos) {
+			if (z.move === gtp) {
+				info = z;
+				break;
+			}
+		}
+
+		if (!info) {
+			return false;
+		}
+
+		let pv = info.pv;
+
+		if (Array.isArray(pv) === false || pv.length < 1) {
+			return false;
+		}
+
+		let board = startboard.copy();
+
+		for (let move of pv) {
+			let s = board.parse_gtp_move(move);
+			board.play(s);
+		}
+
+		this.draw_board(board);
+		this.clear_canvas();
+
+		return true;
+	},
+
+	clear_canvas: function() {
+		let ctx = this.canvas.getContext("2d");
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+
 	draw_board: function(board) {
 
 		if (this.width !== board.width || this.height !== board.height) {
@@ -146,20 +206,6 @@ let board_drawer_prototype = {
 		s += `visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
-	},
-
-	clear_canvas: function() {
-		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
-
-	draw_standard: function(node) {
-		this.clear_canvas();
-		this.draw_board(node.get_board());
-		this.draw_previous_markers(node);
-		this.draw_analysis(node);
-		this.draw_next_markers(node);
-		this.draw_node_info(node);
 	},
 
 	draw_previous_markers: function(node) {

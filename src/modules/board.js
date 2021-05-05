@@ -247,16 +247,16 @@ let board_prototype = {
 		return false;
 	},
 
-	play_stone: function(s, colour) {			// No legality checks.
+	play_move_or_pass: function(s, colour) {			// No legality checks.
 
 		if (colour !== "b" && colour !== "w") {
-			throw "play_stone() - Invalid colour";
+			throw "play_move_or_pass() - Invalid colour";
 		}
 
 		this.ko = null;
 		this.active = colour === "b" ? "w" : "b";
 
-		if (this.in_bounds(s) === false) {		// Treat as a pass.
+		if (this.in_bounds(s) === false) {				// Treat as a pass.
 			return;
 		}
 
@@ -286,11 +286,19 @@ let board_prototype = {
 	},
 
 	play_black: function(s) {
-		this.play_stone(s, "b");
+		this.play_move_or_pass(s, "b");
 	},
 
 	play_white: function(s) {
-		this.play_stone(s, "w");
+		this.play_move_or_pass(s, "w");
+	},
+
+	play: function(s) {
+		if (this.active === "b") {
+			this.play_move_or_pass(s, "b");
+		} else if (this.active === "w") {
+			this.play_move_or_pass(s, "w");
+		}
 	},
 
 	add_stone: function(s, colour) {
