@@ -134,12 +134,14 @@ let board_drawer_prototype = {
 
 		let numbers_to_draw = {};
 
-		for (let s of points) {			// This way only the final move will be considered. But should it be the first? Hmm...
+		for (let s of points) {			// This way, if multiple stones were played on a point, the first one determines the number.
 
-			numbers_to_draw[s] = {
-				num: n,
-				fill: colour === "b" ? "#ffffffff" : "#000000ff",
-			};
+			if (!numbers_to_draw[s]) {
+				numbers_to_draw[s] = {
+					num: n,
+					fill: colour === "b" ? "#ffffffff" : "#000000ff",
+				};
+			}
 
 			colour = opposite_colour(colour);
 			n++;
