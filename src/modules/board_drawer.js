@@ -26,6 +26,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
 
+	drawer.last_draw_was_pv = false;
+
 	return drawer;
 }
 
@@ -33,46 +35,49 @@ let board_drawer_prototype = {
 
 	rebuild: function(width, height) {
 
+		// Reset all the things.
+
 		if (!width || !height) {
 			throw "rebuild() needs board sizes";
 		}
-
-		// Reset all the things.
 
 		this.width = width;
 		this.height = height;
 		this.current = [];
 
 		this.htmltable.innerHTML = "";
-		this.htmltable.style["background-image"] = background(width, height, config.square_size);
+		this.htmltable.style["background-image"] = background(this.width, this.height, config.square_size);
 
-		for (let y = 0; y < height; y++) {
+		for (let y = 0; y < this.height; y++) {
 			let tr = document.createElement("tr");
 			this.htmltable.appendChild(tr);
-			for (let x = 0; x < width; x++) {
+			for (let x = 0; x < this.width; x++) {
 				let td = document.createElement("td");
 				td.className = "td_" + xy_to_s(x, y);
 				td.width = config.square_size;
 				td.height = config.square_size;
+				td.addEventListener("mouseenter", (event) => {
+					hub.mouseenter(xy_to_s(x, y));
+				});
 				tr.appendChild(td);
 			}
 		}
 
-		for (let x = 0; x < width; x++) {
+		for (let x = 0; x < this.width; x++) {
 			this.current.push([]);
-			for (let y = 0; y < height; y++) {
+			for (let y = 0; y < this.height; y++) {
 				this.current[x].push("");
 			}
 		}
 
-		this.backgrounddiv.style.width = (width * config.square_size).toString() + "px";
-		this.backgrounddiv.style.height = (height * config.square_size).toString() + "px";
+		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
+		this.backgrounddiv.style.height = (this.height * config.square_size).toString() + "px";
 
-		this.htmltable.style.width = (width * config.square_size).toString() + "px";
-		this.htmltable.style.height = (height * config.square_size).toString() + "px";
+		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
+		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
 
-		this.canvas.width = width * config.square_size;
-		this.canvas.height = height * config.square_size;
+		this.canvas.width = this.width * config.square_size;
+		this.canvas.height = this.height * config.square_size;
 
 	},
 
@@ -83,6 +88,7 @@ let board_drawer_prototype = {
 		this.draw_analysis(node);
 		this.draw_next_markers(node);
 		this.draw_node_info(node);
+		this.last_draw_was_pv = false;
 	},
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
@@ -94,29 +100,20 @@ let board_drawer_prototype = {
 		}
 
 		let startboard = node.get_board();
-
-		if (startboard.in_bounds(point) === false) {
-			return false;
-		}
-
 		let gtp = startboard.gtp(point);
 
-		let info;
+		let pv;
 
-		for (let z of filtered_infos) {
-			if (z.move === gtp) {
-				info = z;
+		for (let info of filtered_infos) {
+			if (info.move === gtp) {
+				if (Array.isArray(info.pv) && info.pv.length > 0) {
+					pv = info.pv;
+				}
 				break;
 			}
 		}
 
-		if (!info) {
-			return false;
-		}
-
-		let pv = info.pv;
-
-		if (Array.isArray(pv) === false || pv.length < 1) {
+		if (!pv) {
 			return false;
 		}
 
@@ -129,6 +126,8 @@ let board_drawer_prototype = {
 
 		this.draw_board(board);
 		this.clear_canvas();
+
+		this.last_draw_was_pv = true;
 
 		return true;
 	},

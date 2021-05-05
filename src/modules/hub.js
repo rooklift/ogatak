@@ -50,13 +50,22 @@ let hub_prototype = {
 
 		let did_draw_pv = false;
 
-		let point = this.mouse_point();
+		let s = this.mouse_point();
 
-		if (point) {
-			did_draw_pv = this.maindrawer.draw_pv(this.node, point);
+		if (s) {
+			did_draw_pv = this.maindrawer.draw_pv(this.node, s);
 		}
 
 		if (!did_draw_pv) {
+			this.maindrawer.draw_standard(this.node);
+		}
+	},
+
+	mouseenter: function(s) {
+
+		let did_draw_pv = this.maindrawer.draw_pv(this.node, s);
+
+		if (!did_draw_pv && this.maindrawer.last_draw_was_pv) {			// Our last draw was some other point...
 			this.maindrawer.draw_standard(this.node);
 		}
 	},
