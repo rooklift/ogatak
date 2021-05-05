@@ -55,13 +55,17 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	set_node: function(node) {
+	set_node: function(node, new_game_flag) {
 		if (!node || this.node === node) {
 			return;
 		}
 		this.node = node;
 		this.draw();
-		this.grapher.draw_position(this.node);
+		if (new_game_flag) {
+			this.grapher.draw_graph(this.node);
+		} else {
+			this.grapher.draw_position(this.node);
+		}
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -111,7 +115,7 @@ let hub_prototype = {
 				throw "unknown type";
 			}
 			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
-			this.set_node(new_root);
+			this.set_node(new_root, true);
 			if (this.node.props.PB || this.node.props.PW) {
 				let blackname = this.node.get("PB") || "Unknown";
 				let whitename = this.node.get("PW") || "Unknown";
@@ -152,7 +156,7 @@ let hub_prototype = {
 
 		node.set("KM", komi);
 
-		this.set_node(node);
+		this.set_node(node, true);
 		set_title("Ogatak");
 	},
 
