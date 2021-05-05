@@ -120,6 +120,10 @@ let board_drawer_prototype = {
 		this.clear_canvas();
 		let ctx = this.canvas.getContext("2d");
 
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = "14px Arial";
+
 		let finalboard = startboard.copy();
 		let points = [];
 
