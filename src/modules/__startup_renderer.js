@@ -23,13 +23,6 @@ global.hub = require("./hub").new_hub();
 
 // ---------------------------------------------------------------------------------------------------
 
-document.getElementById("boardtable").addEventListener("mousedown", (event) => {
-	let coords = event_path_class_string(event, "td_");
-	if (coords) {
-		hub.try_move(coords);
-	}
-});
-
 document.addEventListener("wheel", (event) => {
 	if (event.deltaY && event.deltaY < 0) {
 		hub.prev();
@@ -39,7 +32,14 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
-document.getElementById("graphcanvas").addEventListener("mousedown", (event) => {
+document.getElementById("boardtable").addEventListener("mousedown", (event) => {
+	let coords = event_path_class_string(event, "td_");
+	if (coords) {
+		hub.try_move(coords);
+	}
+});
+
+document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
 	hub.graph_click(event);
 });
 

@@ -30,7 +30,6 @@ body {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
 	margin: 0 1em 1em 1em;
-	pointer-events: none;
 	z-index: 2;
 }
 
