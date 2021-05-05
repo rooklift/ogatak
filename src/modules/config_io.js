@@ -36,6 +36,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"minor_graph_colour": "#444444ff",
 	"major_graph_colour": "#6ceeccaa",
 
+	"graph_position_colour": "#6ceeccaa",
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",

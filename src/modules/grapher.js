@@ -57,26 +57,29 @@ let graph_drawer_prototype = {
 			}
 		}
 
+		// First the minor draw, i.e. the darker gray line...
+
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = config.minor_graph_colour;
+
 		if (config.graph_type === "score") {
-
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = config.minor_graph_colour;
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
-
-			ctx.lineWidth = 2;
-			ctx.strokeStyle = config.major_graph_colour;
+		} else {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
+		}
 
-		} else if (config.graph_type === "winrate") {
+		// Next the major draw, i.e. the brighter line...
 
-			ctx.lineWidth = 1;
-			ctx.strokeStyle = config.minor_graph_colour;
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = config.major_graph_colour;
+
+		if (config.graph_type === "score") {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
-
-			ctx.lineWidth = 2;
-			ctx.strokeStyle = config.major_graph_colour;
+		} else {
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
 		}
+
+		// Then the position line on top...
 
 		this.draw_position(node);
 
@@ -94,7 +97,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.height = this.canvas.height;
 
 		ctx.lineWidth = 2;
-		ctx.strokeStyle = "#6ccceeff";
+		ctx.strokeStyle = config.graph_position_colour;
 		ctx.setLineDash([2, 4]);
 
 		ctx.beginPath();
