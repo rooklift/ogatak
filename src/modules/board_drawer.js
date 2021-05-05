@@ -134,11 +134,18 @@ let board_drawer_prototype = {
 
 		let numbers_to_draw = {};
 
-		for (let s of points) {			// This way, if multiple stones were played on a point, the first one determines the number.
+		for (let s of points) {
+
+			// We use the last colour played on a point, but if 2 or more stones were played, text becomes "+"
 
 			if (!numbers_to_draw[s]) {
 				numbers_to_draw[s] = {
-					num: n,
+					text: n.toString(),
+					fill: colour === "b" ? "#ffffffff" : "#000000ff",
+				};
+			} else {
+				numbers_to_draw[s] = {
+					text: "+",
 					fill: colour === "b" ? "#ffffffff" : "#000000ff",
 				};
 			}
@@ -162,7 +169,7 @@ let board_drawer_prototype = {
 			}
 
 			ctx.fillStyle = ntd.fill;
-			ctx.fillText(ntd.num.toString(), gx, gy + 1);
+			ctx.fillText(ntd.text, gx, gy + 1);
 
 		}
 
