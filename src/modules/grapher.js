@@ -84,6 +84,10 @@ let graph_drawer_prototype = {
 
 	draw_position: function(node) {
 
+		if (!this.drawable_height) {
+			return;
+		}
+
 		let ctx = this.positioncanvas.getContext("2d");
 
 		this.positioncanvas.width = this.canvas.width;
