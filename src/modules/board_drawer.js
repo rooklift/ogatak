@@ -132,11 +132,23 @@ let board_drawer_prototype = {
 		let colour = startboard.active;
 		let n = 1;
 
-		for (let s of points) {
+		let numbers_to_draw = {};
+
+		for (let s of points) {			// This way only the final move will be considered. But should it be the first? Hmm...
+
+			numbers_to_draw[s] = {
+				num: n,
+				fill: colour === "b" ? "#ffffffff" : "#000000ff",
+			};
+
+			colour = opposite_colour(colour);
+			n++;
+		}
+
+		for (let [s, ntd] of Object.entries(numbers_to_draw)) {
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
-
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
@@ -147,11 +159,9 @@ let board_drawer_prototype = {
 				ctx.fill();
 			}
 
-			ctx.fillStyle = colour === "b" ? "#ffffffff" : "#000000ff";
-			ctx.fillText(n.toString(), gx, gy + 1);
+			ctx.fillStyle = ntd.fill;
+			ctx.fillText(ntd.num.toString(), gx, gy + 1);
 
-			colour = opposite_colour(colour);
-			n++;
 		}
 
 		this.draw_board(finalboard);
