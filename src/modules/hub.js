@@ -61,11 +61,15 @@ let hub_prototype = {
 		}
 	},
 
-	mouseenter: function(s) {
-
+	mouseenter: function(s) {											// Mouse has entered some point e.g. "jj"
 		let did_draw_pv = this.maindrawer.draw_pv(this.node, s);
-
 		if (!did_draw_pv && this.maindrawer.last_draw_was_pv) {			// Our last draw was some other point...
+			this.maindrawer.draw_standard(this.node);
+		}
+	},
+
+	mouse_left_board: function() {
+		if (this.maindrawer.last_draw_was_pv) {
 			this.maindrawer.draw_standard(this.node);
 		}
 	},

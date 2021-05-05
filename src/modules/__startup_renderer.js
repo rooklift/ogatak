@@ -39,6 +39,10 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	}
 });
 
+document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
+	hub.mouse_left_board();
+});
+
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
 	hub.graph_click(event);
 });
