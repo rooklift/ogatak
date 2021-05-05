@@ -1,4 +1,4 @@
-![Screenshot](https://user-images.githubusercontent.com/16438795/117054345-e8fee400-ad11-11eb-8990-f5019a1df457.png)
+![Screenshot](https://user-images.githubusercontent.com/16438795/117208450-0ce32800-aded-11eb-8310-f400184afc53.png)
 
 Ogatak is a work-in-progress (currently rather simple minded) analysis GUI for [KataGo](https://github.com/lightvector/KataGo).
 
