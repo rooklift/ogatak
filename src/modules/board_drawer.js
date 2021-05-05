@@ -140,6 +140,7 @@ let board_drawer_prototype = {
 		}
 
 		this.draw_board(board);
+		this.draw_node_info(node);
 
 		this.last_draw_was_pv = true;
 		return true;
