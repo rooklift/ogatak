@@ -359,6 +359,21 @@ let hub_prototype = {
 		}
 	},
 
+	mouse_point: function() {
+		let overlist = document.querySelectorAll(":hover");
+		for (let item of overlist) {
+			if (typeof item.className === "string") {
+				let classes = item.className.split(" ");
+				for (let c of classes) {
+					if (c.startsWith("td_")) {
+						return c.slice(3);
+					}
+				}
+			}
+		}
+		return null;
+	},
+
 	graph_click: function(event) {
 		let node = this.grapher.node_from_click(this.node, event);
 		this.set_node(node);
