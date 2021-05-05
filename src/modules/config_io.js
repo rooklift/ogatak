@@ -29,7 +29,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"good_colour": "#d2b074ff",			// old: "#84ce4cff"
 	"poor_colour": "#d2b074ff",			// old: "#e4ce4cff"
 
-	"previous_marker": "#0099ffaa",		// alt: "#ff0000aa"
+	"previous_marker": "#0099ffaa",		// or maybe: "#ff0000aa" or "#888888ff"
 
 	"engine": "",
 	"engineconfig": "",
