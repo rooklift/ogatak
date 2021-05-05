@@ -789,12 +789,12 @@ function menu_build() {
 						{
 							label: "Visits %",
 							type: "checkbox",
-							checked: config.numbers === "visits_percent",
+							checked: config.numbers === "visits (%)",
 							accelerator: "F8",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "visits_percent"
+									value: "visits (%)"
 								});
 								set_checks("Display", "Numbers", "Visits %");
 							}

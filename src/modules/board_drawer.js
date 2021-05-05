@@ -214,6 +214,7 @@ let board_drawer_prototype = {
 		s += `komi: <span class="white">${pad(board.komi, 6)}</span>`;
 		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
 		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
+		s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
 
 		s += "<br>";
 
@@ -350,7 +351,7 @@ let board_drawer_prototype = {
 				ctx.stroke();
 			}
 
-			let text = "";
+			let text = "?";
 
 			if (config.numbers === "winrate") {
 				text = Math.floor(Math.max(0, info.winrate * 100)).toString();
@@ -358,7 +359,7 @@ let board_drawer_prototype = {
 			if (config.numbers === "lcb") {
 				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
 			}
-			if (config.numbers === "visits_percent") {
+			if (config.numbers === "visits (%)") {
 				text = Math.floor(info.visits / root_visits * 100).toString();
 			}
 			if (config.numbers === "policy") {
