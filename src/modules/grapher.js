@@ -2,20 +2,20 @@
 
 const draw_y_offset = 5;
 
-function new_graph_drawer(outerdiv, canvas) {
+function new_graph_drawer(canvas, positioncanvas) {
 	let drawer = Object.create(graph_drawer_prototype);
-	drawer.outerdiv = outerdiv;
 	drawer.canvas = canvas;
+	drawer.positioncanvas = positioncanvas;
 	drawer.drawable_height = 0;
 	return drawer;
 }
 
 let graph_drawer_prototype = {
 
-	draw: function(node) {
+	draw_graph: function(node) {		// Not named "draw" so that we can tell it apart in the Chrome performance tab.
 
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
-		this.canvas.height = this.outerdiv.offsetHeight;
+		this.canvas.height = Math.max(64, window.innerHeight - this.canvas.getBoundingClientRect().top - 16);
 
 		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
 
@@ -26,7 +26,7 @@ let graph_drawer_prototype = {
 		let scores = [];
 		let winrates = [];
 
-		let abs_score_max = 5;		// To start with, means our score graph will have at least axis -5 to 5.
+		let abs_score_max = 5;			// To start with, means our score graph will have at least axis -5 to 5.
 
 		for (let node of history) {
 
@@ -78,14 +78,27 @@ let graph_drawer_prototype = {
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
 		}
 
+		this.draw_position(node);
+
+	},
+
+	draw_position: function(node) {
+
+		let ctx = this.positioncanvas.getContext("2d");
+
+		this.positioncanvas.width = this.canvas.width;
+		this.positioncanvas.height = this.canvas.height;
+
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "#6ccceeff";
 		ctx.setLineDash([2, 4]);
+
 		ctx.beginPath();
 		ctx.moveTo(0, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
 		ctx.lineTo(this.canvas.width, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
 		ctx.stroke();
-		ctx.setLineDash([]);
 
+		ctx.setLineDash([]);
 	},
 
 	__draw_vals: function(vals, max_val, graph_length) {
@@ -110,12 +123,7 @@ let graph_drawer_prototype = {
 			let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
 
 			if (!started) {
-				if (vals[n + 1] === null || vals[n + 1] === undefined) {
-					// ctx.fillStyle = ctx.strokeStyle;
-					// ctx.beginPath();
-					// ctx.arc(gx, gy, 2, 0, 2 * Math.PI);
-					// ctx.fill();
-				} else {
+				if (typeof vals[n + 1] === "number") {
 					ctx.beginPath();
 					ctx.moveTo(gx, gy);
 					started = true;
@@ -138,7 +146,7 @@ let graph_drawer_prototype = {
 
 		for (let n = 0; n < vals.length; n++) {
 
-			if (vals[n] === null || vals[n] === undefined) {
+			if (typeof vals[n] !== "number") {
 
 				if (!seen_real_value) {
 					continue;

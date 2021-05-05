@@ -19,15 +19,19 @@ body {
 	margin: 1em;
 }
 
-#graphdiv {
-	border: 0;
-	padding: 0;
-	grid-area: c;
-	margin: 0 0 0 1em;
-}
-
 #graphcanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
+	grid-area: c;
+	margin: 0 1em 1em 1em;
+	z-index: 1;
+}
+
+#graphpositioncanvas {
+	display: block;				/* Stops the parent element from being 4px bigger... */
+	grid-area: c;
+	margin: 0 1em 1em 1em;
+	pointer-events: none;
+	z-index: 2;
 }
 
 #boardbg {

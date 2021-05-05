@@ -27,8 +27,8 @@ exports.new_hub = function() {
 	);
 
 	hub.grapher = new_grapher(
-		document.getElementById("graphdiv"),
-		document.getElementById("graphcanvas")
+		document.getElementById("graphcanvas"),
+		document.getElementById("graphpositioncanvas"),
 	);
 
 	hub.engine = new_engine();
@@ -46,11 +46,8 @@ exports.new_hub = function() {
 
 let hub_prototype = {
 
-	draw_everything: function() {
-		this.maindrawer.draw_board(this.node);
-		this.maindrawer.draw_canvas(this.node);
-		this.maindrawer.draw_info(this.node, this.engine);
-		this.grapher.draw(this.node);
+	draw: function() {								// Todo - add mouseover PV.
+		this.maindrawer.draw_standard(this.node);
 	},
 
 	try_move: function(s) {
@@ -63,7 +60,8 @@ let hub_prototype = {
 			return;
 		}
 		this.node = node;
-		this.draw_everything();
+		this.draw();
+		this.grapher.draw_position(this.node);
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -226,7 +224,7 @@ let hub_prototype = {
 				for (let child of this.node.children) {
 					child.detach();
 				}
-				this.maindrawer.draw_canvas(this.node);		// Clear the next move markers.
+				this.draw();		// Clear the next move markers.
 			}
 		}
 	},
@@ -253,7 +251,7 @@ let hub_prototype = {
 
 	coerce_komi: function(value) {
 		this.node.coerce_komi(value);
-		this.maindrawer.draw_info(this.node, this.engine);
+		this.draw();
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -335,7 +333,7 @@ let hub_prototype = {
 		this.node.analysis = null;
 		this.engine.suppress();
 		this.halt();
-		this.draw_everything();
+		this.draw();
 	},
 
 	receive_object: function(o) {
@@ -353,10 +351,8 @@ let hub_prototype = {
 				}
 			}
 
-			this.maindrawer.draw_canvas(this.node);
+			this.draw();
 		}
-
-		this.maindrawer.draw_info(this.node, this.engine);
 	},
 
 	graph_click: function(event) {
@@ -375,10 +371,10 @@ let hub_prototype = {
 	},
 
 	graph_draw_spinner: function() {
-		this.grapher.draw(this.node);
+		this.grapher.draw_graph(this.node);
 		setTimeout(() => {
 			this.graph_draw_spinner();
-		}, 333);
+		}, Math.max(50, config.graph_draw_delay));
 	},
 
 };

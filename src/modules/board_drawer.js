@@ -76,9 +76,7 @@ let board_drawer_prototype = {
 
 	},
 
-	draw_board: function(node) {
-
-		let board = node.get_board();
+	draw_board: function(board) {
 
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
@@ -117,7 +115,7 @@ let board_drawer_prototype = {
 		}
 	},
 
-	draw_info: function(node, engine) {
+	draw_node_info: function(node) {
 
 		let board = node.get_board();
 
@@ -150,20 +148,32 @@ let board_drawer_prototype = {
 		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
 	},
 
-	draw_canvas: function(node) {
-
+	clear_canvas: function() {
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+
+	draw_standard: function(node) {
+		this.clear_canvas();
+		this.draw_board(node.get_board());
+		this.draw_previous_markers(node);
+		this.draw_analysis(node);
+		this.draw_next_markers(node);
+		this.draw_node_info(node);
+	},
+
+	draw_previous_markers: function(node) {
 
 		if (!node) {
 			return;
 		}
 
+		let ctx = this.canvas.getContext("2d");
 		let board = node.get_board();
 
-		let moves_played = node.all_values("B").concat(node.all_values("W"));
-
 		ctx.fillStyle = config.previous_marker;
+
+		let moves_played = node.all_values("B").concat(node.all_values("W"));
 
 		for (let s of moves_played) {		// Probably just one.
 
@@ -177,115 +187,132 @@ let board_drawer_prototype = {
 			ctx.arc(gx, gy, Math.ceil(config.square_size / 5), 0, 2 * Math.PI);
 			ctx.fill();
 		}
+	},
+
+	draw_next_markers: function(node) {
+
+		if (!node || !config.next_move_markers) {
+			return;
+		}
+
+		let board = node.get_board();
+		let ctx = this.canvas.getContext("2d");
 
 		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 		ctx.lineWidth = 3.5;
 
-		if (node.has_valid_analysis()) {
+		for (let n = 0; n < node.children.length; n++) {
 
-			ctx.textAlign = "center";
-			ctx.textBaseline = "middle";
-			ctx.font = "14px Arial";
+			let moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
 
-			let move0_lcb = node.analysis.moveInfos[0].lcb;
-			let root_visits = node.analysis.rootInfo.visits;
+			for (let s of moves_played) {		// Probably just one per child.
 
-			for (let n = node.analysis.moveInfos.length - 1; n >= 0; n--) {
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
 
-				// We look at these in reverse order so the best move can have its circle drawn at the top layer.
+				let gx = x * config.square_size + (config.square_size / 2);
+				let gy = y * config.square_size + (config.square_size / 2);
 
-				let info = node.analysis.moveInfos[n];
-
-				if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
-
-					let s = board.parse_gtp_move(info.move);
-
-					if (!s) {			// This is a pass.
-						continue;
-					}
-
-					let x = s.charCodeAt(0) - 97;
-					let y = s.charCodeAt(1) - 97;
-
-					let gx = x * config.square_size + (config.square_size / 2);
-					let gy = y * config.square_size + (config.square_size / 2);
-
-					if (info.order === 0) {
-						ctx.fillStyle = config.best_colour;
-					} else if (info.lcb > move0_lcb * 0.975) {
-						ctx.fillStyle = config.good_colour;
-					} else {
-						ctx.fillStyle = config.poor_colour;
-					}
-
-					ctx.beginPath();
-					ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
-					ctx.fill();
-
-					if (info.order === 0) {
-						ctx.beginPath();
-						ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
-						ctx.stroke();
-					}
-
-					let text = "";
-
-					if (config.numbers === "winrate") {
-						text = Math.floor(Math.max(0, info.winrate * 100)).toString();
-					}
-					if (config.numbers === "lcb") {
-						text = Math.floor(Math.max(0, info.lcb * 100)).toString();
-					}
-					if (config.numbers === "visits_percent") {
-						text = Math.floor(info.visits / root_visits * 100).toString();
-					}
-					if (config.numbers === "policy") {
-						text = Math.floor(info.prior * 100).toString();
-					}
-					if (config.numbers === "score") {
-						text = info.scoreLead.toFixed(1);
-					}
-					if (config.numbers === "visits") {
-						text = info.visits.toString();
-						if (info.visits > 9999) {
-							text = (info.visits / 1000).toFixed(0) + "k";
-						} else if (info.visits > 999) {
-							text = (info.visits / 1000).toFixed(1) + "k";
-						}
-					}
-					if (config.numbers === "order") {
-						text = info.order.toString();
-					}
-
-					ctx.fillStyle = "#000000ff";
-					ctx.fillText(text, gx, gy + 1);
-
-				}
-			}
-		}
-
-		if (config.next_move_markers) {
-
-			for (let n = 0; n < node.children.length; n++) {
-
-				moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
-
-				for (let s of moves_played) {		// Probably just one per child.
-
-					let x = s.charCodeAt(0) - 97;
-					let y = s.charCodeAt(1) - 97;
-
-					let gx = x * config.square_size + (config.square_size / 2);
-					let gy = y * config.square_size + (config.square_size / 2);
-
-					ctx.beginPath();
-					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
-					ctx.stroke();
-				}
+				ctx.beginPath();
+				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
+				ctx.stroke();
 			}
 		}
 	},
 
+	draw_analysis: function(node) {
+
+		if (!node || !node.has_valid_analysis()) {
+			return;
+		}
+
+		let board = node.get_board();
+
+		let ctx = this.canvas.getContext("2d");
+
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = "14px Arial";
+
+		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
+		ctx.lineWidth = 3.5;
+
+		let move0_lcb = node.analysis.moveInfos[0].lcb;
+		let root_visits = node.analysis.rootInfo.visits;
+
+		for (let n = node.analysis.moveInfos.length - 1; n >= 0; n--) {
+
+			// We look at these in reverse order so the best move can have its circle drawn at the top layer.
+
+			let info = node.analysis.moveInfos[n];
+
+			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
+
+				let s = board.parse_gtp_move(info.move);
+
+				if (!s) {			// This is a pass.
+					continue;
+				}
+
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+
+				let gx = x * config.square_size + (config.square_size / 2);
+				let gy = y * config.square_size + (config.square_size / 2);
+
+				if (info.order === 0) {
+					ctx.fillStyle = config.best_colour;
+				} else if (info.lcb > move0_lcb * 0.975) {
+					ctx.fillStyle = config.good_colour;
+				} else {
+					ctx.fillStyle = config.poor_colour;
+				}
+
+				ctx.beginPath();
+				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
+				ctx.fill();
+
+				if (info.order === 0) {
+					ctx.beginPath();
+					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+					ctx.stroke();
+				}
+
+				let text = "";
+
+				if (config.numbers === "winrate") {
+					text = Math.floor(Math.max(0, info.winrate * 100)).toString();
+				}
+				if (config.numbers === "lcb") {
+					text = Math.floor(Math.max(0, info.lcb * 100)).toString();
+				}
+				if (config.numbers === "visits_percent") {
+					text = Math.floor(info.visits / root_visits * 100).toString();
+				}
+				if (config.numbers === "policy") {
+					text = Math.floor(info.prior * 100).toString();
+				}
+				if (config.numbers === "score") {
+					text = info.scoreLead.toFixed(1);
+				}
+				if (config.numbers === "visits") {
+					text = info.visits.toString();
+					if (info.visits > 9999) {
+						text = (info.visits / 1000).toFixed(0) + "k";
+					} else if (info.visits > 999) {
+						text = (info.visits / 1000).toFixed(1) + "k";
+					}
+				}
+				if (config.numbers === "order") {
+					text = info.order.toString();
+				}
+
+				ctx.fillStyle = "#000000ff";
+				ctx.fillText(text, gx, gy + 1);
+
+			}
+		}
+	},
 };
 
 

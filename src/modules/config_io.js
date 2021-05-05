@@ -41,6 +41,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"next_komi": 7.5,
 	"next_handicap": 0,
 
+	"graph_draw_delay": 200,
+
 	"numbers": "winrate",
 	"visits_threshold": 0.02,
 	"next_move_markers": true,

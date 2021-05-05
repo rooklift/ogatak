@@ -65,13 +65,13 @@ window.addEventListener("resize", (event) => {
 ipcRenderer.on("set", (event, msg) => {
 	config[msg.key] = msg.value;
 	save_config();
-	hub.draw_everything();
+	hub.draw();
 });
 
 ipcRenderer.on("toggle", (event, msg) => {
 	config[msg] = !config[msg];
 	save_config();
-	hub.draw_everything();
+	hub.draw();
 });
 
 ipcRenderer.on("call", (event, msg) => {
@@ -89,7 +89,8 @@ ipcRenderer.on("call", (event, msg) => {
 
 // ---------------------------------------------------------------------------------------------------
 
-hub.draw_everything();
+hub.draw();
 hub.window_resize_checker();
 hub.graph_draw_spinner();
+
 ipcRenderer.send("renderer_ready", null);
