@@ -838,8 +838,20 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Visit threshold",
+					label: "Visit filter",
 					submenu: [
+						{
+							label: "All",
+							type: "checkbox",
+							checked: config.visits_threshold === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0
+								});
+								set_checks("Display", "Visit filter", "All");
+							}
+						},
 						{
 							label: "N > 0.5%",
 							type: "checkbox",
@@ -849,7 +861,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.005
 								});
-								set_checks("Display", "Visit threshold", "N > 0.5%");
+								set_checks("Display", "Visit filter", "N > 0.5%");
 							}
 						},
 						{
@@ -861,7 +873,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.01
 								});
-								set_checks("Display", "Visit threshold", "N > 1%");
+								set_checks("Display", "Visit filter", "N > 1%");
 							}
 						},
 						{
@@ -873,7 +885,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.02
 								});
-								set_checks("Display", "Visit threshold", "N > 2%");
+								set_checks("Display", "Visit filter", "N > 2%");
 							}
 						},
 						{
@@ -885,7 +897,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.04
 								});
-								set_checks("Display", "Visit threshold", "N > 4%");
+								set_checks("Display", "Visit filter", "N > 4%");
 							}
 						},
 						{
@@ -897,7 +909,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.06
 								});
-								set_checks("Display", "Visit threshold", "N > 6%");
+								set_checks("Display", "Visit filter", "N > 6%");
 							}
 						},
 						{
@@ -909,7 +921,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.08
 								});
-								set_checks("Display", "Visit threshold", "N > 8%");
+								set_checks("Display", "Visit filter", "N > 8%");
 							}
 						},
 						{
@@ -921,7 +933,7 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.1
 								});
-								set_checks("Display", "Visit threshold", "N > 10%");
+								set_checks("Display", "Visit filter", "N > 10%");
 							}
 						},
 					]
