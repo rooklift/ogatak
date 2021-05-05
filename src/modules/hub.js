@@ -46,7 +46,7 @@ exports.new_hub = function() {
 
 let hub_prototype = {
 
-	draw: function() {								// Todo - add mouseover PV.
+	draw: function() {
 
 		let did_draw_pv = false;
 

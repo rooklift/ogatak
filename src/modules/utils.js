@@ -157,3 +157,22 @@ exports.pad = function(s, width) {
 
 	return s + padding;
 };
+
+exports.moveinfo_filter = function(node) {
+
+	if (node.has_valid_analysis() === false) {
+		return [];
+	}
+
+	let ret = [];
+
+	let move0_lcb = node.analysis.moveInfos[0].lcb;
+	for (let info of node.analysis.moveInfos) {
+		if (info.order === 0 || (info.visits > node.analysis.rootInfo.visits * config.visits_threshold && info.lcb >= 0)) {
+			ret.push(info);
+		}
+	}
+
+	return ret;
+};
+

@@ -319,7 +319,7 @@ let node_prototype = {
 	},
 
 	has_valid_analysis: function() {		// Don't do the cheap way; return only true or false.
-		if (this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0) {
+		if (this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
 			return true;
 		}
 		return false;

@@ -2,7 +2,7 @@
 
 const background = require("./background");
 const {xy_to_s} = require("./utils");
-const {node_id_from_search_id, pad} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const black_stone_url = `url("${black_stone.src}")`;
@@ -87,7 +87,9 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
 
-		if (!node.has_valid_analysis()) {
+		let filtered_infos = moveinfo_filter(node);
+
+		if (filtered_infos.length < 1) {
 			return false;
 		}
 
@@ -101,7 +103,7 @@ let board_drawer_prototype = {
 
 		let info;
 
-		for (let z of node.analysis.moveInfos) {
+		for (let z of filtered_infos) {
 			if (z.move === gtp) {
 				info = z;
 				break;
@@ -282,77 +284,75 @@ let board_drawer_prototype = {
 		let move0_lcb = node.analysis.moveInfos[0].lcb;
 		let root_visits = node.analysis.rootInfo.visits;
 
-		for (let n = node.analysis.moveInfos.length - 1; n >= 0; n--) {
+		let filtered_infos = moveinfo_filter(node);
+
+		for (let n = filtered_infos.length - 1; n >= 0; n--) {
 
 			// We look at these in reverse order so the best move can have its circle drawn at the top layer.
 
-			let info = node.analysis.moveInfos[n];
+			let info = filtered_infos[n];
 
-			if (info.order === 0 || (info.visits > root_visits * config.visits_threshold && info.lcb >= 0)) {
+			let s = board.parse_gtp_move(info.move);
 
-				let s = board.parse_gtp_move(info.move);
-
-				if (!s) {			// This is a pass.
-					continue;
-				}
-
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
-
-				let gx = x * config.square_size + (config.square_size / 2);
-				let gy = y * config.square_size + (config.square_size / 2);
-
-				if (info.order === 0) {
-					ctx.fillStyle = config.best_colour;
-				} else if (info.lcb > move0_lcb * 0.975) {
-					ctx.fillStyle = config.good_colour;
-				} else {
-					ctx.fillStyle = config.poor_colour;
-				}
-
-				ctx.beginPath();
-				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
-				ctx.fill();
-
-				if (info.order === 0) {
-					ctx.beginPath();
-					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
-					ctx.stroke();
-				}
-
-				let text = "";
-
-				if (config.numbers === "winrate") {
-					text = Math.floor(Math.max(0, info.winrate * 100)).toString();
-				}
-				if (config.numbers === "lcb") {
-					text = Math.floor(Math.max(0, info.lcb * 100)).toString();
-				}
-				if (config.numbers === "visits_percent") {
-					text = Math.floor(info.visits / root_visits * 100).toString();
-				}
-				if (config.numbers === "policy") {
-					text = Math.floor(info.prior * 100).toString();
-				}
-				if (config.numbers === "score") {
-					text = info.scoreLead.toFixed(1);
-				}
-				if (config.numbers === "visits") {
-					text = info.visits.toString();
-					if (info.visits > 9999) {
-						text = (info.visits / 1000).toFixed(0) + "k";
-					} else if (info.visits > 999) {
-						text = (info.visits / 1000).toFixed(1) + "k";
-					}
-				}
-				if (config.numbers === "order") {
-					text = info.order.toString();
-				}
-
-				ctx.fillStyle = "#000000ff";
-				ctx.fillText(text, gx, gy + 1);
-
+			if (!s) {			// This is a pass.
+				continue;
 			}
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			let gx = x * config.square_size + (config.square_size / 2);
+			let gy = y * config.square_size + (config.square_size / 2);
+
+			if (info.order === 0) {
+				ctx.fillStyle = config.best_colour;
+			} else if (info.lcb > move0_lcb * 0.975) {
+				ctx.fillStyle = config.good_colour;
+			} else {
+				ctx.fillStyle = config.poor_colour;
+			}
+
+			ctx.beginPath();
+			ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
+			ctx.fill();
+
+			if (info.order === 0) {
+				ctx.beginPath();
+				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
+				ctx.stroke();
+			}
+
+			let text = "";
+
+			if (config.numbers === "winrate") {
+				text = Math.floor(Math.max(0, info.winrate * 100)).toString();
+			}
+			if (config.numbers === "lcb") {
+				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
+			}
+			if (config.numbers === "visits_percent") {
+				text = Math.floor(info.visits / root_visits * 100).toString();
+			}
+			if (config.numbers === "policy") {
+				text = Math.floor(info.prior * 100).toString();
+			}
+			if (config.numbers === "score") {
+				text = info.scoreLead.toFixed(1);
+			}
+			if (config.numbers === "visits") {
+				text = info.visits.toString();
+				if (info.visits > 9999) {
+					text = (info.visits / 1000).toFixed(0) + "k";
+				} else if (info.visits > 999) {
+					text = (info.visits / 1000).toFixed(1) + "k";
+				}
+			}
+			if (config.numbers === "order") {
+				text = info.order.toString();
+			}
+
+			ctx.fillStyle = "#000000ff";
+			ctx.fillText(text, gx, gy + 1);
 		}
 	},
 };
