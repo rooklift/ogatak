@@ -287,6 +287,10 @@ let board_drawer_prototype = {
 
 		for (let s of moves_played) {		// Probably just one.
 
+			if (s.length !== 2) {
+				continue;
+			}
+
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
@@ -316,6 +320,10 @@ let board_drawer_prototype = {
 			let moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
 
 			for (let s of moves_played) {		// Probably just one per child.
+
+				if (s.length !== 2) {
+					continue;
+				}
 
 				let x = s.charCodeAt(0) - 97;
 				let y = s.charCodeAt(1) - 97;
@@ -360,7 +368,7 @@ let board_drawer_prototype = {
 
 			let s = board.parse_gtp_move(info.move);
 
-			if (!s) {			// This is a pass.
+			if (s.length !== 2) {	// This is a pass.
 				continue;
 			}
 
