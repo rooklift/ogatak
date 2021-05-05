@@ -2,7 +2,7 @@
 
 const background = require("./background");
 const {xy_to_s} = require("./utils");
-const {moveinfo_filter, node_id_from_search_id, pad} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const black_stone_url = `url("${black_stone.src}")`;
@@ -120,14 +120,19 @@ let board_drawer_prototype = {
 		this.clear_canvas();
 		let ctx = this.canvas.getContext("2d");
 
-		let board = startboard.copy();
+		let finalboard = startboard.copy();
+		let points = [];
 
-		for (let n = 0; n < pv.length; n++) {
+		for (let move of pv) {
+			let s = finalboard.parse_gtp_move(move);
+			finalboard.play(s);
+			points.push(s);
+		}
 
-			let move = pv[n];
+		let colour = startboard.active;
+		let n = 1;
 
-			let s = board.parse_gtp_move(move);
-			board.play(s);
+		for (let s of points) {
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
@@ -135,11 +140,21 @@ let board_drawer_prototype = {
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
-			ctx.fillStyle = board.active === "b" ? "#000000ff" : "#ffffffff";		// here board.active is for *after* the move we made.
+			if (finalboard.state[x][y] === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
+				ctx.fillStyle = config.empty_colour;
+				ctx.beginPath();
+				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
+				ctx.fill();
+			}
+
+			ctx.fillStyle = colour === "b" ? "#ffffffff" : "#000000ff";
 			ctx.fillText((n + 1).toString(), gx, gy + 1);
+
+			colour = opposite_colour(colour);
+			n++;
 		}
 
-		this.draw_board(board);
+		this.draw_board(finalboard);
 		this.draw_node_info(node);
 
 		this.last_draw_was_pv = true;
