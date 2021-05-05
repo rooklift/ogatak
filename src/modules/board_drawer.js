@@ -102,18 +102,18 @@ let board_drawer_prototype = {
 		let startboard = node.get_board();
 		let gtp = startboard.gtp(point);
 
-		let pv;
+		let info;
 
-		for (let info of filtered_infos) {
-			if (info.move === gtp) {
-				if (Array.isArray(info.pv) && info.pv.length > 0) {
-					pv = info.pv;
+		for (let foo of filtered_infos) {
+			if (foo.move === gtp) {
+				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
+					info = foo;
 				}
 				break;
 			}
 		}
 
-		if (!pv) {
+		if (!info) {
 			return false;
 		}
 
@@ -123,7 +123,7 @@ let board_drawer_prototype = {
 		let finalboard = startboard.copy();
 		let points = [];
 
-		for (let move of pv) {
+		for (let move of info.pv) {
 			let s = finalboard.parse_gtp_move(move);
 			finalboard.play(s);
 			points.push(s);
@@ -155,7 +155,7 @@ let board_drawer_prototype = {
 		}
 
 		this.draw_board(finalboard);
-		this.draw_node_info(node);
+		this.draw_node_info(node, info);
 
 		this.last_draw_was_pv = true;
 		return true;
@@ -205,7 +205,7 @@ let board_drawer_prototype = {
 		}
 	},
 
-	draw_node_info: function(node) {
+	draw_node_info: function(node, override_moveinfo) {
 
 		let board = node.get_board();
 
@@ -218,21 +218,29 @@ let board_drawer_prototype = {
 
 		s += "<br>";
 
-		let best = "";
+		let move = "";
 		let score = "";
 		let visits = "";
 
 		if (node.has_valid_analysis()) {
-			best = node.analysis.moveInfos[0].move;
-			visits = `${node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
 
-			let lead = node.analysis.moveInfos[0].scoreLead;
+			let moveinfo = override_moveinfo || node.analysis.moveInfos[0];
+
+			move = moveinfo.move;
+
+			visits = `${moveinfo.visits} / ${node.analysis.rootInfo.visits}`;
+
+			let lead = moveinfo.scoreLead;
 			let leader = ((lead >= 0 && board.active === "b") || (lead < 0 && board.active === "w")) ? "B" : "W";
 			if (lead < 0) lead *= -1;
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		s += `best: <span class="white">${pad(best, 6)}</span>`;
+		if (override_moveinfo) {
+			s += `this: <span class="white">${pad(move, 6)}</span>`;
+		} else {
+			s += `best: <span class="white">${pad(move, 6)}</span>`;
+		}
 		s += `score: <span class="white">${pad(score, 8)}</span>`;
 		s += `visits: <span class="white">${pad(visits, 15)}</span>`;
 
