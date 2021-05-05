@@ -140,6 +140,9 @@ let engine_prototype = {
 
 		this.err_scanner.on("line", (line) => {
 			console.log("! " + line);
+			if (line.startsWith("Beginning GPU tuning")) {
+				alert("KataGo is currently tuning itself, this may take some time. Open the dev console to see its progress.");
+			}
 		});
 
 	},
