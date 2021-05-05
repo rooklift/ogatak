@@ -31,6 +31,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"previous_marker": "#0099ffaa",		// or maybe: "#ff0000aa" or "#888888ff"
 
+	"empty_colour": "#d2b074ff",		// should match the wood
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",
