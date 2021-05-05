@@ -45,7 +45,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"graph_draw_delay": 200,
 
-	"numbers": "winrate",
+	"numbers": "lcb",
 	"visits_threshold": 0.02,
 	"next_move_markers": true,
 	"graph_type": "score",

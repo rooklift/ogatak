@@ -748,36 +748,23 @@ function menu_build() {
 					label: "Numbers",
 					submenu: [
 						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.numbers === "winrate",
-							accelerator: "F5",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "winrate"
-								});
-								set_checks("Display", "Numbers", "Winrate");
-							}
-						},
-						{
-							label: "Winrate (LCB)",
+							label: "Winrate LCB",
 							type: "checkbox",
 							checked: config.numbers === "lcb",
-							accelerator: "F6",
+							accelerator: "F5",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
 									value: "lcb"
 								});
-								set_checks("Display", "Numbers", "Winrate (LCB)");
+								set_checks("Display", "Numbers", "Winrate LCB");
 							}
 						},
 						{
 							label: "Score",
 							type: "checkbox",
 							checked: config.numbers === "score",
-							accelerator: "F7",
+							accelerator: "F6",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -790,7 +777,7 @@ function menu_build() {
 							label: "Visits",
 							type: "checkbox",
 							checked: config.numbers === "visits",
-							accelerator: "F8",
+							accelerator: "F7",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -803,6 +790,7 @@ function menu_build() {
 							label: "Visits %",
 							type: "checkbox",
 							checked: config.numbers === "visits_percent",
+							accelerator: "F8",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -821,6 +809,18 @@ function menu_build() {
 									value: "policy"
 								});
 								set_checks("Display", "Numbers", "Policy");
+							}
+						},
+						{
+							label: "Winrate",
+							type: "checkbox",
+							checked: config.numbers === "winrate",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "winrate"
+								});
+								set_checks("Display", "Numbers", "Winrate");
 							}
 						},
 						{
