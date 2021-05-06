@@ -318,9 +318,11 @@ let node_prototype = {
 		return o;
 	},
 
-	has_valid_analysis: function() {		// Don't do the cheap way; return only true or false.
-		if (this.analysis && Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
-			return true;
+	has_valid_analysis: function() {												// Don't do the cheap way; return only true or false.
+		if (typeof this.analysis === "object" && this.analysis !== null) {
+			if (Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
+				return true;
+			}
 		}
 		return false;
 	},
@@ -348,6 +350,35 @@ let node_prototype = {
 		let root = this.get_root();
 		root.force_set("KM", value);
 		coerce_komi_recursive(root, value);
+	},
+
+	receive_analysis: function(o) {
+		this.analysis = o;
+		if (this.has_valid_analysis()) {
+			this.update_sbkv();
+		} else {
+			this.analysis = null;
+		}
+	},
+
+	update_sbkv: function() {
+
+		if (this.has_valid_analysis() === false || !this.parent) {		// Don't save SBKV to the root.
+			return;
+		}
+
+		let winrate = this.analysis.moveInfos[0].winrate;
+
+		if (this.get_board().active === "w") {
+			winrate = 1 - winrate;
+		}
+
+		if (winrate < 0) winrate = 0;
+		if (winrate > 1) winrate = 1;
+
+		let val = (winrate * 100).toFixed(2);
+
+		this.force_set("SBKV", val);
 	},
 
 	string: function() {
@@ -412,14 +443,12 @@ function coerce_komi_recursive(node, komi) {
 		if (node.__board) {
 			node.__board.komi = komi;
 		}
-		// node.analysis = null;
 		node = node.children[0];
 	}
 
 	if (node.__board) {
 		node.__board.komi = komi;
 	}
-	// node.analysis = null;
 
 	for (let child of node.children) {
 		coerce_komi_recursive(child, komi);

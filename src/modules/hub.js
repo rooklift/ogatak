@@ -365,7 +365,7 @@ let hub_prototype = {
 	},
 
 	forget_analysis: function() {
-		this.node.analysis = null;
+		this.node.receive_analysis(null);
 		this.engine.suppress();
 		this.halt();
 		this.draw();
@@ -379,7 +379,7 @@ let hub_prototype = {
 
 		if (node_id_from_search_id(o.id) === this.node.id && o.rootInfo && Array.isArray(o.moveInfos) && o.moveInfos.length > 0) {
 
-			this.node.analysis = o;
+			this.node.receive_analysis(o);
 
 			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
 
