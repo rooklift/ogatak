@@ -79,6 +79,10 @@ let node_prototype = {
 		return this.props[key][0];
 	},
 
+	force_delete_key: function(key) {	// Remember not to use this if changing the key mutates the board.
+		delete this.props[key];
+	},
+
 	all_values: function(key) {
 		let ret = [];
 		if (!this.props[key]) {
@@ -354,16 +358,13 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 		this.analysis = o;
-		if (this.has_valid_analysis()) {
-			this.update_sbkv();
-		} else {
-			this.analysis = null;
-		}
+		this.update_sbkv();
 	},
 
 	update_sbkv: function() {
 
 		if (this.has_valid_analysis() === false || !this.parent) {		// Don't save SBKV to the root.
+			this.force_delete_key("SBKV");
 			return;
 		}
 
