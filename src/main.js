@@ -996,6 +996,12 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Throw",
+					click: () => {
+						win.webContents.send("call", "throw_exception");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

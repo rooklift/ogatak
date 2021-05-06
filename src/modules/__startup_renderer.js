@@ -64,6 +64,10 @@ window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();
 });
 
+window.addEventListener("error", (event) => {
+	alert("An uncaught exception happened in the renderer process. See the dev console for details. The app might now be in a bad state.");
+});
+
 // ---------------------------------------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {

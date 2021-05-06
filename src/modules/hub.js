@@ -364,6 +364,10 @@ let hub_prototype = {
 		this.draw();
 	},
 
+	throw_exception: function() {
+		throw "test exception";
+	},
+
 	receive_object: function(o) {
 
 		if (node_id_from_search_id(o.id) === this.node.id && o.rootInfo && Array.isArray(o.moveInfos) && o.moveInfos.length > 0) {
