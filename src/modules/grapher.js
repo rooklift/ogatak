@@ -47,13 +47,29 @@ let graph_drawer_prototype = {
 				if (winrate < 0) winrate = 0;
 				if (winrate > 1) winrate = 1;
 
-				winrate = (winrate - 0.5) * 2;		// Rescale to -1..1, our draw code likes symmetry around zero.
+				winrate = (winrate - 0.5) * 2;				// Rescale to -1..1, our draw code likes symmetry around zero.
 
 				scores.push(score);
 				winrates.push(winrate);
+
 			} else {
+
 				scores.push(null);
-				winrates.push(null);
+
+				let sbkv = node.get("SBKV");
+				let winrate = null;
+
+				if (sbkv) {
+					winrate = parseFloat(sbkv);
+					if (Number.isNaN(winrate) === false) {
+						winrate /= 100;
+						winrate = (winrate - 0.5) * 2;		// Rescale to -1..1, our draw code likes symmetry around zero.
+					} else {
+						winrate = null;
+					}
+				}
+
+				winrates.push(winrate);
 			}
 		}
 

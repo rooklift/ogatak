@@ -130,7 +130,7 @@ let board_drawer_prototype = {
 		for (let move of info.pv) {
 			let s = finalboard.parse_gtp_move(move);
 			finalboard.play(s);
-			points.push(s);
+			points.push(s);				// Note that passes are included, so our later colour alteration works correctly.
 		}
 
 		let colour = startboard.active;
