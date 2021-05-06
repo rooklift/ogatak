@@ -5,7 +5,7 @@ body {
 	margin: 0;
 	overflow: hidden;
 	padding: 0;
-	user-select: none;			/* These must be overriden for things that need pointer / select */
+	user-select: none;
 	width: 100%;
 }
 
