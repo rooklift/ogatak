@@ -758,6 +758,111 @@ function menu_build() {
 			label: "Display",
 			submenu: [
 				{
+					label: "Visit filter",
+					submenu: [
+						{
+							label: "All",
+							type: "checkbox",
+							checked: config.visits_threshold === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0
+								});
+								set_checks("Display", "Visit filter", "All");
+							}
+						},
+						{
+							label: "N > 0.5%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.005,
+							accelerator: "F1",
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.005
+								});
+								set_checks("Display", "Visit filter", "N > 0.5%");
+							}
+						},
+						{
+							label: "N > 1%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.01,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.01
+								});
+								set_checks("Display", "Visit filter", "N > 1%");
+							}
+						},
+						{
+							label: "N > 2%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.02,
+							accelerator: "F2",
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.02
+								});
+								set_checks("Display", "Visit filter", "N > 2%");
+							}
+						},
+						{
+							label: "N > 4%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.04,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.04
+								});
+								set_checks("Display", "Visit filter", "N > 4%");
+							}
+						},
+						{
+							label: "N > 6%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.06,
+							accelerator: "F3",
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.06
+								});
+								set_checks("Display", "Visit filter", "N > 6%");
+							}
+						},
+						{
+							label: "N > 8%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.08,
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.08
+								});
+								set_checks("Display", "Visit filter", "N > 8%");
+							}
+						},
+						{
+							label: "N > 10%",
+							type: "checkbox",
+							checked: config.visits_threshold === 0.1,
+							accelerator: "F4",
+							click: () => {
+								win.webContents.send("set", {
+									key: "visits_threshold",
+									value: 0.1
+								});
+								set_checks("Display", "Visit filter", "N > 10%");
+							}
+						},
+					]
+				},
+				{
 					label: "Numbers",
 					submenu: [
 						{
@@ -846,107 +951,6 @@ function menu_build() {
 									value: "order"
 								});
 								set_checks("Display", "Numbers", "Order");
-							}
-						},
-					]
-				},
-				{
-					label: "Visit filter",
-					submenu: [
-						{
-							label: "All",
-							type: "checkbox",
-							checked: config.visits_threshold === 0,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0
-								});
-								set_checks("Display", "Visit filter", "All");
-							}
-						},
-						{
-							label: "N > 0.5%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.005,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.005
-								});
-								set_checks("Display", "Visit filter", "N > 0.5%");
-							}
-						},
-						{
-							label: "N > 1%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.01,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.01
-								});
-								set_checks("Display", "Visit filter", "N > 1%");
-							}
-						},
-						{
-							label: "N > 2%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.02,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.02
-								});
-								set_checks("Display", "Visit filter", "N > 2%");
-							}
-						},
-						{
-							label: "N > 4%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.04,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.04
-								});
-								set_checks("Display", "Visit filter", "N > 4%");
-							}
-						},
-						{
-							label: "N > 6%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.06,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.06
-								});
-								set_checks("Display", "Visit filter", "N > 6%");
-							}
-						},
-						{
-							label: "N > 8%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.08,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.08
-								});
-								set_checks("Display", "Visit filter", "N > 8%");
-							}
-						},
-						{
-							label: "N > 10%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.1,
-							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.1
-								});
-								set_checks("Display", "Visit filter", "N > 10%");
 							}
 						},
 					]
