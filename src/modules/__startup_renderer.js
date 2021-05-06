@@ -66,7 +66,7 @@ window.addEventListener("resize", (event) => {
 
 window.addEventListener("error", (event) => {
 	alert("An uncaught exception happened in the renderer process. See the dev console for details. The app might now be in a bad state.");
-});
+}, {once: true});
 
 // ---------------------------------------------------------------------------------------------------
 
