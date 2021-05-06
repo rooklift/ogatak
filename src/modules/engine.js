@@ -44,6 +44,10 @@ let engine_prototype = {
 
 	analyse: function(node) {
 
+		if (!this.exe) {
+			return;
+		}
+
 		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
 			if (this.desired.komi === node.get_board().komi) {
 				if (this.desired.rules === config.rules) {
@@ -71,12 +75,21 @@ let engine_prototype = {
 		// Further updates from this search get their id altered so as not to be recognised by the hub as belonging to its node.
 		// They still get passed on, in case the hub has some other use for them.
 
+		if (!this.exe) {
+			return;
+		}
+
 		if (this.running) {
 			this.suppressed_search_id = this.running.id;
 		}
 	},
 
 	halt: function() {				// Only for user-caused halts, as it sets desired to null.
+
+		if (!this.exe) {
+			return;
+		}
+
 		if (this.running) {
 			this.__send({
 				id: `stop!${this.running.id}`,
