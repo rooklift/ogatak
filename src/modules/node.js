@@ -409,11 +409,9 @@ let node_prototype = {
 
 function destroy_tree(node) {
 
-	// Non-recursive when possible...
+	while (true) {
 
-	while (node.children.length === 1) {
-
-		let child = node.children[0];
+		let children = node.children;
 
 		node.parent = null;
 		node.children = [];
@@ -422,40 +420,39 @@ function destroy_tree(node) {
 		node.__board = null;
 		node.destroyed = true;
 
-		node = child;
-	}
-
-	// Recursive when necessary...
-
-	let children = node.children;
-
-	node.parent = null;
-	node.children = [];
-	node.props = Object.create(null);
-	node.analysis = null;
-	node.__board = null;
-	node.destroyed = true;
-
-	for (let child of children) {
-		destroy_tree(child);
+		if (children.length > 1) {
+			for (let child of children) {
+				destroy_tree(child);
+			}
+			break;
+		} else if (children.length === 1) {
+			node = children[0];
+			continue;
+		} else {
+			break;
+		}
 	}
 }
 
 function coerce_komi_recursive(node, komi) {
 
-	while (node.children.length === 1) {
+	while (true) {
+
 		if (node.__board) {
 			node.__board.komi = komi;
 		}
-		node = node.children[0];
-	}
 
-	if (node.__board) {
-		node.__board.komi = komi;
-	}
-
-	for (let child of node.children) {
-		coerce_komi_recursive(child, komi);
+		if (node.children.length > 1) {
+			for (let child of node.children) {
+				coerce_komi_recursive(child, komi);
+			}
+			break;
+		} else if (node.children.length === 1) {
+			node = node.children[0];
+			continue;
+		} else {
+			break;
+		}
 	}
 }
 
