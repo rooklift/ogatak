@@ -358,6 +358,9 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 		this.analysis = o;
+		if (this.has_valid_analysis() === false) {
+			this.analysis = null;
+		}
 		this.update_sbkv();
 	},
 
