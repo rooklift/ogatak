@@ -140,22 +140,14 @@ let board_drawer_prototype = {
 
 		for (let s of points) {
 
-			if (s.length !== 2) {						// Because it's a pass
-				colour = opposite_colour(colour);
-				n++;
-				continue;
-			}
+			if (s.length == 2) {		// Otherwise, it's a pass and we don't draw it.
 
-			// We use the last colour played on a point, but if 2 or more stones were played, text becomes "+"
+				// We use the last colour played on a point, but if 2 or more stones were played, text becomes "+"
 
-			if (!numbers_to_draw[s]) {
+				let text = numbers_to_draw[s] ? "+" : n.toString();
+
 				numbers_to_draw[s] = {
-					text: n.toString(),
-					fill: colour === "b" ? "#ffffffff" : "#000000ff",
-				};
-			} else {
-				numbers_to_draw[s] = {
-					text: "+",
+					text: text,
 					fill: colour === "b" ? "#ffffffff" : "#000000ff",
 				};
 			}
