@@ -637,6 +637,7 @@ function menu_build() {
 				},
 				{
 					label: "Pass",
+					accelerator: "CommandOrControl+P",
 					click: () => {
 						win.webContents.send("call", "pass");
 					}
@@ -918,9 +919,23 @@ function menu_build() {
 							}
 						},
 						{
+							label: "Order",
+							type: "checkbox",
+							checked: config.numbers === "order",
+							accelerator: "F9",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "order"
+								});
+								set_checks("Display", "Numbers", "Order");
+							}
+						},
+						{
 							label: "Policy",
 							type: "checkbox",
 							checked: config.numbers === "policy",
+							accelerator: "F10",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -933,24 +948,13 @@ function menu_build() {
 							label: "Winrate",
 							type: "checkbox",
 							checked: config.numbers === "winrate",
+							accelerator: "F11",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
 									value: "winrate"
 								});
 								set_checks("Display", "Numbers", "Winrate");
-							}
-						},
-						{
-							label: "Order",
-							type: "checkbox",
-							checked: config.numbers === "order",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "order"
-								});
-								set_checks("Display", "Numbers", "Order");
 							}
 						},
 					]
