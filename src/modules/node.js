@@ -367,7 +367,7 @@ let node_prototype = {
 
 	update_sbkv: function() {
 
-		if (this.has_valid_analysis() === false || !this.parent) {		// Don't save SBKV to the root.
+		if (this.has_valid_analysis() === false) {
 			this.force_delete_key("SBKV");
 			return;
 		}
