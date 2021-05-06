@@ -16,38 +16,40 @@ body {
 	grid-template-areas:
 		"a c"
 		"b c";
-	margin: 1em;
 }
 
 #graphcanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 0 1em 1em 1em;
+	margin: 0;
 	z-index: 1;
 }
 
 #graphpositioncanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 0 1em 1em 1em;
+	margin: 0;
 	z-index: 2;
 }
 
 #boardbg {
 	background-image: url("./gfx/subdued_board.png");
 	grid-area: a;
+	margin: 1em;
 	z-index: 1;
 }
 
 #boardtable {
 	grid-area: a;
 	border-collapse: collapse;
+	margin: 1em;
 	pointer-events: auto;
 	z-index: 2;
 }
 
 #boardcanvas {
 	grid-area: a;
+	margin: 1em;
 	pointer-events: none;
 	z-index: 3;
 }
@@ -59,7 +61,7 @@ body {
 	font-size: 100%;
 	line-height: 150%;
 	white-space: pre;
-	margin: 1em 1em 0 1em;
+	margin: 0 0 0 1em;
 }
 
 .rust {

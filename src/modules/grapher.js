@@ -1,6 +1,6 @@
 "use strict";
 
-const draw_y_offset = 5;
+const draw_y_offset = 16;
 
 function new_graph_drawer(canvas, positioncanvas) {
 	let drawer = Object.create(graph_drawer_prototype);
@@ -15,7 +15,7 @@ let graph_drawer_prototype = {
 	draw_graph: function(node) {		// Not named "draw" so that we can tell it apart in the Chrome performance tab.
 
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
-		this.canvas.height = Math.max(64, window.innerHeight - this.canvas.getBoundingClientRect().top - 16);
+		this.canvas.height = Math.max(64, window.innerHeight);
 
 		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
 
