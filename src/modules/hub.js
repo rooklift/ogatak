@@ -39,10 +39,7 @@ exports.new_hub = function() {
 	hub.loaded_file = null;
 
 	hub.new();
-
-	if (hub.engine.problem_text()) {	// Do this after new() as new also sets a title
-		set_title(`Ogatak: ${hub.engine.problem_text()}`);
-	}
+	hub.update_engine_problem_title();	// Do this after new() as new also sets a title
 
 	return hub;
 };
@@ -427,6 +424,43 @@ let hub_prototype = {
 		setTimeout(() => {
 			this.graph_draw_spinner();
 		}, Math.max(50, config.graph_draw_delay));
+	},
+
+	set_engine: function(filepath) {
+		config.engine = filepath;
+		save_config();
+		this.maybe_start_engine();
+	},
+
+	set_engineconfig: function(filepath) {
+		config.engineconfig = filepath;
+		save_config();
+		this.maybe_start_engine();
+	},
+
+	set_weights: function(filepath) {
+		config.weights = filepath;
+		save_config();
+		this.maybe_start_engine();
+	},
+
+	maybe_start_engine: function() {
+
+		if (this.engine.exe) {
+			alert("A restart is required for the new settings.");
+			return;
+		}
+
+		this.engine.setup(config.engine, config.engineconfig, config.weights);
+		this.update_engine_problem_title();
+	},
+
+	update_engine_problem_title: function() {
+		if (this.engine.problem_text()) {
+			set_title(`Ogatak: ${this.engine.problem_text()}`);
+		} else {
+			set_title("Ogatak");
+		}
 	},
 
 };
