@@ -292,14 +292,6 @@ let hub_prototype = {
 		}
 	},
 
-	set_rules: function(value) {
-		config.rules = value;
-		save_config();
-		if (this.engine.desired) {
-			this.go();
-		}
-	},
-
 	go: function() {
 		this.engine.analyse(this.node);
 	},

@@ -652,9 +652,9 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.rules === "chinese",
 							click: () => {
-								win.webContents.send("call", {
-									fn: "set_rules",
-									args: ["chinese"]
+								win.webContents.send("set", {
+									key: "rules",
+									value: "chinese"
 								});
 								set_checks("Analysis", "Rules", "Chinese");
 							}
@@ -664,9 +664,9 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.rules === "japanese",
 							click: () => {
-								win.webContents.send("call", {
-									fn: "set_rules",
-									args: ["japanese"]
+								win.webContents.send("set", {
+									key: "rules",
+									value: "japanese"
 								});
 								set_checks("Analysis", "Rules", "Japanese");
 							}
