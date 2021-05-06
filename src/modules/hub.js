@@ -29,7 +29,7 @@ exports.new_hub = function() {
 
 	hub.grapher = new_grapher(
 		document.getElementById("graphcanvas"),
-		document.getElementById("graphpositioncanvas"),
+		document.getElementById("graphpositioncanvas")
 	);
 
 	hub.engine = new_engine();

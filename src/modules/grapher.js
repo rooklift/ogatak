@@ -2,7 +2,7 @@
 
 const draw_y_offset = 16;
 
-function new_graph_drawer(canvas, positioncanvas) {
+function new_grapher(canvas, positioncanvas) {
 	let drawer = Object.create(graph_drawer_prototype);
 	drawer.canvas = canvas;
 	drawer.positioncanvas = positioncanvas;
@@ -235,4 +235,4 @@ let graph_drawer_prototype = {
 
 
 
-module.exports = new_graph_drawer;
+module.exports = new_grapher;
