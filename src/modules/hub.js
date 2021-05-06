@@ -10,6 +10,7 @@ const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
+const save_sgf = require("./save_sgf");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -103,6 +104,10 @@ let hub_prototype = {
 
 	next: function() {
 		this.set_node(this.node.children[0]);		// OK if undefined / null
+	},
+
+	save: function(filepath) {
+		save_sgf(this.node, filepath);
 	},
 
 	load: function(filepath) {

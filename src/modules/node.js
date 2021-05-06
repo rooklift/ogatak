@@ -350,6 +350,24 @@ let node_prototype = {
 		coerce_komi_recursive(root, value);
 	},
 
+	string: function() {
+
+		let list = [];
+
+		for (let key of Object.keys(this.props)) {
+
+			let vals = this.all_values(key);
+
+			if (vals.length === 0) {		// Should be impossible.
+				continue;
+			}
+
+			let s = key + "[" + vals.join("][") + "]";
+			list.push(s);
+		}
+
+		return ";" + list.join("");
+	}
 };
 
 // ------------------------------------------------------------------------------------------------

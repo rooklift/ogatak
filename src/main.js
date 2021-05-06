@@ -402,6 +402,22 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Save as...",
+					accelerator: "CommandOrControl+S",
+					click: () => {
+						let file = save_dialog();
+						if (typeof file === "string" && file.length > 0) {
+							win.webContents.send("call", {
+								fn: "save",
+								args: [file]
+							});
+						}
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Locate KataGo...",
 					click: () => {
 						let files = open_dialog();
