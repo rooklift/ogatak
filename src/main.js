@@ -1018,20 +1018,20 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Show node properties",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "display_props",
-							args: [false]
-						});
-					}
-				},
-				{
 					label: "Show root properties",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
 							args: [true]
+						});
+					}
+				},
+				{
+					label: "Show node properties",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "display_props",
+							args: [false]
 						});
 					}
 				},
