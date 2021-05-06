@@ -2,6 +2,7 @@
 
 const new_board = require("./board");
 const stringify = require("./stringify");
+const {replace_all} = require("./utils");
 
 let next_node_id = 1;
 let next_query_id = 1;
@@ -397,13 +398,33 @@ let node_prototype = {
 				continue;
 			}
 
-			let s = key + "[" + vals.join("][") + "]";
+			let safe_vals = [];
+
+			for (let val of vals) {
+				safe_vals.push(safe_sgf_string(val));
+			}
+
+			let s = key + "[" + safe_vals.join("][") + "]";
 			list.push(s);
 		}
 
 		return ";" + list.join("");
 	}
 };
+
+// ------------------------------------------------------------------------------------------------
+
+function safe_sgf_string(s) {
+
+	if (typeof s !== "string") {
+		return undefined;
+	}
+
+	s = replace_all(s, "\\", "\\\\");		// Must be first.
+	s = replace_all(s, "]", "\\]");
+
+	return s;
+}
 
 // ------------------------------------------------------------------------------------------------
 
