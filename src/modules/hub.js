@@ -39,6 +39,11 @@ exports.new_hub = function() {
 	hub.loaded_file = null;
 
 	hub.new();
+
+	if (hub.engine.problem_text()) {	// Do this after new() as new also sets a title
+		set_title(`Ogatak: ${hub.engine.problem_text()}`);
+	}
+
 	return hub;
 };
 

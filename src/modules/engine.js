@@ -69,7 +69,7 @@ let engine_prototype = {
 	suppress: function() {
 
 		// Further updates from this search get their id altered so as not to be recognised by the hub as belonging to its node.
-		// They still get passed on, since the hub uses incoming messages as a trigger to redraw the status.
+		// They still get passed on, in case the hub has some other use for them.
 
 		if (this.running) {
 			this.suppressed_search_id = this.running.id;
@@ -89,19 +89,23 @@ let engine_prototype = {
 
 	setup: function(filepath, engineconfig, weights) {
 
-		if (!fs.existsSync(filepath) || !fs.existsSync(engineconfig) || !fs.existsSync(weights)) {
+		this.filepath     = fs.existsSync(filepath)     ? filepath     : "";
+		this.engineconfig = fs.existsSync(engineconfig) ? engineconfig : "";
+		this.weights      = fs.existsSync(weights)      ? weights      : "";
+
+		if (!this.filepath || !this.engineconfig || !this.weights) {
 			return;
 		}
 
 		try {
-			this.exe = child_process.spawn(filepath, ["analysis", "-config", engineconfig, "-model", weights], {cwd: path.dirname(filepath)});
+			this.exe = child_process.spawn(
+				this.filepath,
+				["analysis", "-config", this.engineconfig, "-model", this.weights],
+				{cwd: path.dirname(this.filepath)}
+			);
 		} catch (err) {
-			alert("engine.setup() failed:\n" + err.toString());
 			return false;
 		}
-
-		this.filepath = filepath;
-		this.weights = weights;
 
 		this.scanner = readline.createInterface({
 			input: this.exe.stdout,
@@ -145,6 +149,20 @@ let engine_prototype = {
 			}
 		});
 
+	},
+
+	problem_text: function() {
+		if (this.exe) return "";
+		if (!this.filepath) return "engine not set";
+		if (!this.engineconfig) return "engine config not set";
+		if (!this.weights) return "weights not set";
+		return "engine not running";
+	},
+
+	shutdown: function() {				// Note: Don't reuse the engine object.
+		if (this.exe) {
+			this.exe.kill();
+		}
 	},
 
 };
