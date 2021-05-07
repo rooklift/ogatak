@@ -304,6 +304,8 @@ let hub_prototype = {
 	},
 
 	coerce_komi: function(value) {
+		config.next_komi = value;		// For the next new game. No immediate effect.
+		save_config();
 		this.node.coerce_komi(value);
 		this.draw();
 		if (this.engine.desired) {

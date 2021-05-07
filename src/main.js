@@ -681,7 +681,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Reset komi",
+					label: "Reset komi",		// Note that the renderer also sets the "next_komi" config var.
 					submenu: [
 						{
 							label: "7.5",
@@ -690,6 +690,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [7.5]
 								});
+								set_checks("App", "Next komi", "7.5");
 							}
 						},
 						{
@@ -699,6 +700,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [7]
 								});
+								set_checks("App", "Next komi", "7");
 							}
 						},
 						{
@@ -708,6 +710,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [6.5]
 								});
+								set_checks("App", "Next komi", "6.5");
 							}
 						},
 						{
@@ -717,6 +720,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [6]
 								});
+								set_checks("App", "Next komi", "6");
 							}
 						},
 						{
@@ -726,6 +730,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [0.5]
 								});
+								set_checks("App", "Next komi", "0.5");
 							}
 						},
 						{
@@ -735,6 +740,7 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [0]
 								});
+								set_checks("App", "Next komi", "0");
 							}
 						},
 					]
