@@ -289,7 +289,7 @@ let hub_prototype = {
 		this.promote_to_main_line();
 
 		let node = this.node.get_root();
-		let changed = false;				// We might use this at some point.
+		let changed = false;
 
 		while (node.children.length > 0) {
 			for (let child of node.children.slice(1)) {
@@ -297,6 +297,10 @@ let hub_prototype = {
 				changed = true;
 			}
 			node = node.children[0];
+		}
+
+		if (changed) {
+			this.draw();
 		}
 	},
 
