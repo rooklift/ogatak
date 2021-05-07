@@ -41,6 +41,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"major_graph_linewidth": 2,
 
 	"graph_position_colour": "#6ceeccaa",
+	"graph_position_var_colour": "#ffff00aa",
 
 	"engine": "",
 	"engineconfig": "",

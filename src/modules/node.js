@@ -268,6 +268,20 @@ let node_prototype = {
 		return ret;
 	},
 
+	is_main_line: function() {
+
+		let node = this;
+
+		while (node.parent) {
+			if (node.parent.children[0] !== node) {
+				return false;
+			}
+			node = node.parent;
+		}
+
+		return true;
+	},
+
 	katago_query: function() {
 
 		let o = {};

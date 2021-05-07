@@ -111,7 +111,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.height = this.canvas.height;
 
 		ctx.lineWidth = config.major_graph_linewidth;
-		ctx.strokeStyle = config.graph_position_colour;
+		ctx.strokeStyle = node.is_main_line() ? config.graph_position_colour : config.graph_position_var_colour;
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
