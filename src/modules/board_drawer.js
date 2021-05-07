@@ -93,6 +93,10 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
 
+		if (!config.show_analysis) {
+			return false;
+		}
+
 		let filtered_infos = moveinfo_filter(node);
 
 		if (filtered_infos.length < 1) {
@@ -235,7 +239,12 @@ let board_drawer_prototype = {
 		s += `komi: <span class="white">${pad(board.komi, 6)}</span>`;
 		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
 		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
-		s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
+
+		if (config.show_analysis) {
+			s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
+		} else {
+			s += `showing: <span class="white">${pad("(press F12)", 11)}</span>`;
+		}
 
 		s += "<br>";
 
@@ -332,7 +341,7 @@ let board_drawer_prototype = {
 
 	draw_analysis: function(node) {
 
-		if (!node.has_valid_analysis()) {
+		if (!node.has_valid_analysis() || !config.show_analysis) {
 			return;
 		}
 
