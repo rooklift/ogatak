@@ -24,6 +24,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"height": 740,
 
 	"square_size": 34,
+	"board_font_size": 14,
 
 	"best_colour": "#99dd55ff",			// old: "#68cebaff"
 	"good_colour": "#d2b074ff",			// old: "#84ce4cff"
@@ -35,6 +36,9 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"minor_graph_colour": "#444444ff",
 	"major_graph_colour": "#6ceeccaa",
+
+	"minor_graph_linewidth": 1,
+	"major_graph_linewidth": 2,
 
 	"graph_position_colour": "#6ceeccaa",
 

@@ -126,7 +126,7 @@ let board_drawer_prototype = {
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = "14px Arial";
+		ctx.font = `${config.board_font_size}px Arial`;
 
 		let finalboard = startboard.copy();
 		let points = [];
@@ -351,7 +351,7 @@ let board_drawer_prototype = {
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = "14px Arial";
+		ctx.font = `${config.board_font_size}px Arial`;
 
 		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 		ctx.lineWidth = 3.5;

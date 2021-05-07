@@ -75,24 +75,22 @@ let graph_drawer_prototype = {
 
 		// First the minor draw, i.e. the darker gray line...
 
-		ctx.lineWidth = 1;
 		ctx.strokeStyle = config.minor_graph_colour;
 
 		if (config.graph_type === "score") {
-			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
+			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.minor_graph_linewidth);
 		} else {
-			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
+			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.minor_graph_linewidth);
 		}
 
 		// Next the major draw, i.e. the brighter line...
 
-		ctx.lineWidth = 2;
 		ctx.strokeStyle = config.major_graph_colour;
 
 		if (config.graph_type === "score") {
-			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val);
+			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.major_graph_linewidth);
 		} else {
-			this.__draw_vals(winrates, 1, node.graph_length_knower.val);
+			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.major_graph_linewidth);
 		}
 
 		// Then the position line on top...
@@ -112,9 +110,9 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		ctx.lineWidth = 2;
+		ctx.lineWidth = config.major_graph_linewidth;
 		ctx.strokeStyle = config.graph_position_colour;
-		ctx.setLineDash([2, 4]);
+		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
 		ctx.moveTo(0, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
@@ -124,9 +122,10 @@ let graph_drawer_prototype = {
 		ctx.setLineDash([]);
 	},
 
-	__draw_vals: function(vals, max_val, graph_length) {
+	__draw_vals: function(vals, max_val, graph_length, linewidth) {
 
 		let ctx = this.canvas.getContext("2d");
+		ctx.lineWidth = linewidth;
 
 		let started = false;
 
@@ -156,13 +155,14 @@ let graph_drawer_prototype = {
 			}
 		}
 
-		this.__draw_interpolations(vals, max_val, graph_length);
+		this.__draw_interpolations(vals, max_val, graph_length, linewidth);
 	},
 
-	__draw_interpolations: function(vals, max_val, graph_length) {
+	__draw_interpolations: function(vals, max_val, graph_length, linewidth) {
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.setLineDash([2, 4]);
+		ctx.lineWidth = linewidth;
+		ctx.setLineDash([linewidth, linewidth * 2]);
 
 		let started = false;
 		let seen_real_value = false;
