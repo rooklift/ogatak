@@ -31,8 +31,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"square_size": 34,
 	"board_font_size": 14,
 
-	"best_colour_black": "#ff77ccff",
-	"best_colour_white": "#ffcc66ff",
+	"best_colour_black": "#99dd55ff",
+	"best_colour_white": "#99dd55ff",
 	"wood_colour": "#d2b074ff",
 
 	"previous_marker": "#888888ff",		// or maybe: "#ff0000aa" or "#0099ffaa"
