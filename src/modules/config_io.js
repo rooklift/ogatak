@@ -20,6 +20,11 @@ exports.filepath = electron.app ?
 exports.config = {};
 
 exports.defaults = {		// Nothing in this should be undefined.
+
+	"engine": "",
+	"engineconfig": "",
+	"weights": "",
+
 	"width": 900,
 	"height": 740,
 
@@ -35,17 +40,13 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"empty_colour": "#d2b074ff",		// should match the wood
 
 	"minor_graph_colour": "#444444ff",
-	"major_graph_colour": "#6ceeccaa",
+	"major_graph_colour": "#4ba28bff",
+
+	"graph_position_colour": "#4ba28bff",
+	"graph_position_var_colour": "#aaaa00ff",
 
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
-
-	"graph_position_colour": "#6ceeccaa",
-	"graph_position_var_colour": "#ffff00aa",
-
-	"engine": "",
-	"engineconfig": "",
-	"weights": "",
 
 	"rules": "chinese",
 
