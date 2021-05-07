@@ -357,7 +357,14 @@ let hub_prototype = {
 	},
 
 	forget_analysis: function() {
-		this.node.receive_analysis(null);
+		this.node.forget_analysis();
+		this.engine.suppress();
+		this.halt();
+		this.draw();
+	},
+
+	forget_analysis_tree: function() {
+		this.node.forget_analysis_tree();
 		this.engine.suppress();
 		this.halt();
 		this.draw();

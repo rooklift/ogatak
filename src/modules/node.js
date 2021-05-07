@@ -343,12 +343,12 @@ let node_prototype = {
 		parent.children = parent.children.filter(child => child !== this);
 
 		this.parent = null;
-		this.destroy_tree();
+		destroy_tree_recursive(this);
 		return parent;
 	},
 
 	destroy_tree: function() {
-		destroy_tree(this.get_root());
+		destroy_tree_recursive(this.get_root());
 	},
 
 	coerce_komi: function(value) {
@@ -359,16 +359,22 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 		this.analysis = o;
-		if (this.has_valid_analysis() === false) {
-			this.analysis = null;
-		}
 		this.update_sbkv();
+	},
+
+	forget_analysis: function() {
+		this.analysis = null;
+		this.force_delete_key("SBKV");
+	},
+
+	forget_analysis_tree: function() {
+		forget_analysis_recursive(this.get_root());
 	},
 
 	update_sbkv: function() {
 
 		if (this.has_valid_analysis() === false) {
-			this.force_delete_key("SBKV");
+			this.forget_analysis();
 			return;
 		}
 
@@ -428,7 +434,7 @@ function safe_sgf_string(s) {
 
 // ------------------------------------------------------------------------------------------------
 
-function destroy_tree(node) {
+function destroy_tree_recursive(node) {
 
 	while (true) {
 
@@ -443,7 +449,7 @@ function destroy_tree(node) {
 
 		if (children.length > 1) {
 			for (let child of children) {
-				destroy_tree(child);
+				destroy_tree_recursive(child);
 			}
 			break;
 		} else if (children.length === 1) {
@@ -466,6 +472,26 @@ function coerce_komi_recursive(node, komi) {
 		if (node.children.length > 1) {
 			for (let child of node.children) {
 				coerce_komi_recursive(child, komi);
+			}
+			break;
+		} else if (node.children.length === 1) {
+			node = node.children[0];
+			continue;
+		} else {
+			break;
+		}
+	}
+}
+
+function forget_analysis_recursive(node) {
+
+	while (true) {
+
+		node.forget_analysis();
+
+		if (node.children.length > 1) {
+			for (let child of node.children) {
+				forget_analysis_recursive(child);
 			}
 			break;
 		} else if (node.children.length === 1) {

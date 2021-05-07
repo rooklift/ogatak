@@ -753,6 +753,12 @@ function menu_build() {
 						win.webContents.send("call", "forget_analysis");
 					}
 				},
+				{
+					label: "Forget all analysis",
+					click: () => {
+						win.webContents.send("call", "forget_analysis_tree");
+					}
+				},
 			]
 		},
 		{
