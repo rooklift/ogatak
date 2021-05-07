@@ -31,13 +31,11 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"square_size": 34,
 	"board_font_size": 14,
 
-	"best_colour": "#99dd55ff",			// old: "#68cebaff"
-	"good_colour": "#d2b074ff",			// old: "#84ce4cff"
-	"poor_colour": "#d2b074ff",			// old: "#e4ce4cff"
+	"best_colour_black": "#ff77ccff",
+	"best_colour_white": "#ffcc66ff",
+	"wood_colour": "#d2b074ff",
 
 	"previous_marker": "#888888ff",		// or maybe: "#ff0000aa" or "#0099ffaa"
-
-	"empty_colour": "#d2b074ff",		// should match the wood
 
 	"minor_graph_colour": "#444444ff",
 	"major_graph_colour": "#4ba28bff",

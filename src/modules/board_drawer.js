@@ -168,7 +168,7 @@ let board_drawer_prototype = {
 			let gy = y * config.square_size + (config.square_size / 2);
 
 			if (finalboard.state[x][y] === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
-				ctx.fillStyle = config.empty_colour;
+				ctx.fillStyle = config.wood_colour;
 				ctx.beginPath();
 				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
 				ctx.fill();
@@ -380,11 +380,9 @@ let board_drawer_prototype = {
 			let gy = y * config.square_size + (config.square_size / 2);
 
 			if (info.order === 0) {
-				ctx.fillStyle = config.best_colour;
-			} else if (info.lcb > move0_lcb * 0.975) {
-				ctx.fillStyle = config.good_colour;
+				ctx.fillStyle = board.active === "b" ? config.best_colour_black : config.best_colour_white;
 			} else {
-				ctx.fillStyle = config.poor_colour;
+				ctx.fillStyle = config.wood_colour;
 			}
 
 			ctx.beginPath();
