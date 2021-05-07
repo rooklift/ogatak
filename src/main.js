@@ -532,12 +532,6 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Delete all other lines",
-					click: () => {
-						win.webContents.send("call", "delete_other_lines");
-					}
-				},
-				{
 					type: "separator",
 				},
 				{
@@ -545,6 +539,12 @@ function menu_build() {
 					accelerator: "CommandOrControl+Backspace",
 					click: () => {
 						win.webContents.send("call", "delete_node");
+					}
+				},
+				{
+					label: "Delete all other lines",
+					click: () => {
+						win.webContents.send("call", "delete_other_lines");
 					}
 				},
 			]
