@@ -565,7 +565,7 @@ function menu_build() {
 				},
 				{
 					label: "Toggle autoanalysis",
-					accelerator: "CommandOrControl+T",
+					accelerator: "F12",
 					type: "checkbox",
 					checked: false,
 					click: () => {
@@ -992,10 +992,10 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Analysis display",
+					label: "Candidate moves",
 					type: "checkbox",
 					checked: config.show_analysis,
-					accelerator: "F12",
+					accelerator: "CommandOrControl+M",
 					click: () => {
 						win.webContents.send("toggle", "show_analysis");
 					}
