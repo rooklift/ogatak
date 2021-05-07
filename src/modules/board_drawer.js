@@ -243,7 +243,7 @@ let board_drawer_prototype = {
 		if (config.show_analysis) {
 			s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
 		} else {
-			s += `showing: <span class="white">${pad("(press F12)", 11)}</span>`;
+			s += `showing: <span class="white">${pad("(hidden)", 11)}</span>`;
 		}
 
 		s += "<br>";
