@@ -39,7 +39,7 @@ exports.new_hub = function() {
 	hub.window_resize_time = null;
 	hub.loaded_file = null;
 
-	hub.new();
+	hub.new_from_config();
 	hub.update_engine_problem_title();	// Do this after new() as new also sets a title
 
 	return hub;
@@ -161,12 +161,11 @@ let hub_prototype = {
 		}
 	},
 
-	new: function() {
+	new_from_config: function() {
+		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap);
+	},
 
-		let width = config.next_size || 19;
-		let height = config.next_size || 19;
-		let komi = config.next_komi || 0;
-		let handicap = config.next_handicap || 0;
+	new: function(width = 19, height = 19, komi = 0, handicap = 0) {
 
 		if (this.node) {
 			this.node.destroy_tree();
@@ -174,7 +173,7 @@ let hub_prototype = {
 
 		let node = new_node();
 
-		if (width === height) {			// Currently always so...
+		if (width === height) {
 			node.set("SZ", width);
 		} else {
 			node.set("SZ", `${width}:${height}`);

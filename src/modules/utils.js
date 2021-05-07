@@ -84,65 +84,51 @@ exports.node_id_from_search_id = function(s) {		// "node_123:456" --> "node_123"
 	return s.slice(0, s.indexOf(":"));
 };
 
-exports.handicap_stones = function(handicap, width, height, tygem) {
+exports.handicap_stones = function(count, width, height, tygem) {
 
-	let z = Math.min(width, height);		// FIXME...
-	let ret = [];
+	// From the Sabaki project by Yichuan Shen, with modifications.
+	// https://github.com/SabakiHQ/go-board
 
-	if (z < 4 || handicap < 2) {
-		return ret;
+	if (Math.min(width, height) <= 6 || count < 2) {
+		return [];
 	}
 
-	if (handicap > 9) handicap = 9;
+	let [nearx, neary] = [width, height].map(z => z >= 13 ? 3 : 2);
+	let [farx, fary] = [width - nearx - 1, height - neary - 1];
+	let [middlex, middley] = [width, height].map(z => (z - 1) / 2);
 
-	let d = 1;
-	if (z >= 7) {
-		d = 2;
-	}
-	if (z >= 13) {
-		d = 3;
-	}
+	let result;
 
-	if (handicap >= 2) {
-		ret.push(exports.xy_to_s(z - d - 1, d));
-		ret.push(exports.xy_to_s(d, z - d - 1));
+	if (tygem) {
+		result = [[nearx, fary], [farx, neary], [nearx, neary], [farx, fary]];
+	} else {
+		result = [[nearx, fary], [farx, neary], [farx, fary], [nearx, neary]];
 	}
 
-	if (handicap >= 3) {
-		if (tygem) {
-			ret.push(exports.xy_to_s(d, d));
-		} else {
-			ret.push(exports.xy_to_s(z - d - 1, z - d - 1));
+	if (width % 2 !== 0 && height % 2 !== 0 && width >= 9 && height >= 9) {
+
+		// The point here is to get the tengen stone at the correct index in the list
+		// so that it either is or isn't included in the final slice.
+
+		if (count === 5) {
+			result.push([middlex, middley]);
 		}
-	}
 
-	if (handicap >= 4) {
-		if (tygem) {
-			ret.push(exports.xy_to_s(z - d - 1, z - d - 1));
-		} else {
-			ret.push(exports.xy_to_s(d, d));
+		result.push([nearx, middley], [farx, middley]);
+
+		if (count === 7) {
+			result.push([middlex, middley]);
 		}
+
+		result.push([middlex, neary], [middlex, fary]);
+
+		if (count >= 9) {
+			result.push([middlex, middley]);
+		}
+
 	}
 
-	if (z % 2 === 0) {
-		return ret;
-	}
-
-	if (handicap === 5 || handicap === 7 || handicap === 9) {
-		ret.push(exports.xy_to_s(z / 2, z / 2));
-	}
-
-	if (handicap >= 6) {
-		ret.push(exports.xy_to_s(d, z / 2));
-		ret.push(exports.xy_to_s(z - d - 1, z / 2));
-	}
-
-	if (handicap >= 8) {
-		ret.push(exports.xy_to_s(z / 2, d));
-		ret.push(exports.xy_to_s(z / 2, z - d - 1));
-	}
-
-	return ret;
+	return result.slice(0, count).map(z => exports.xy_to_s(z[0], z[1]));
 };
 
 exports.pad = function(s, width) {

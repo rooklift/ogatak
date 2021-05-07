@@ -135,7 +135,7 @@ function menu_build() {
 					label: "New game",
 					accelerator: "CommandOrControl+N",
 					click: () => {
-						win.webContents.send("call", "new");
+						win.webContents.send("call", "new_from_config");
 					}
 				},
 				{
