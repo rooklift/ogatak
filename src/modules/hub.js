@@ -259,7 +259,7 @@ let hub_prototype = {
 				for (let child of this.node.children) {
 					child.detach();
 				}
-				this.draw();		// Clear the next move markers.
+				this.draw();				// Clear the next move markers.
 			}
 		}
 	},
@@ -267,7 +267,7 @@ let hub_prototype = {
 	promote_to_main_line: function() {
 
 		let node = this.node;
-		let changed = false;		// We might use this at some point.
+		let changed = false;				// We might use this at some point.
 
 		while (node.parent) {
 			if (node.parent.children[0] !== node) {
@@ -281,6 +281,22 @@ let hub_prototype = {
 				}
 			}
 			node = node.parent;
+		}
+	},
+
+	delete_other_lines: function() {
+
+		this.promote_to_main_line();
+
+		let node = this.node.get_root();
+		let changed = false;				// We might use this at some point.
+
+		while (node.children.length > 0) {
+			for (let child of node.children.slice(1)) {
+				child.detach();
+				changed = true;
+			}
+			node = node.children[0];
 		}
 	},
 
