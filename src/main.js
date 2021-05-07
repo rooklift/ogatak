@@ -1052,6 +1052,15 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Reset colours",
+					click: () => {
+						win.webContents.send("call", "reset_colours");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Show root properties",
 					click: () => {
 						win.webContents.send("call", {

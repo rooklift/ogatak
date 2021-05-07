@@ -11,6 +11,7 @@ const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
+const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -467,6 +468,15 @@ let hub_prototype = {
 		config.weights = filepath;
 		save_config();
 		this.maybe_start_engine();
+	},
+
+	reset_colours: function() {
+		for (let key of Object.keys(defaults)) {
+			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
+				config[key] = defaults[key];
+			}
+		}
+		save_config();
 	},
 
 	maybe_start_engine: function() {
