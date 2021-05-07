@@ -93,7 +93,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
 
-		if (!config.show_analysis) {
+		if (!config.candidate_moves) {
 			return false;
 		}
 
@@ -240,7 +240,7 @@ let board_drawer_prototype = {
 		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
 		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
 
-		if (config.show_analysis) {
+		if (config.candidate_moves) {
 			s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
 		} else {
 			s += `showing: <span class="white">${pad("(hidden)", 11)}</span>`;
@@ -341,7 +341,7 @@ let board_drawer_prototype = {
 
 	draw_analysis: function(node) {
 
-		if (!node.has_valid_analysis() || !config.show_analysis) {
+		if (!node.has_valid_analysis() || !config.candidate_moves) {
 			return;
 		}
 

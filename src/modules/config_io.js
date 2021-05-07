@@ -54,7 +54,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 
 	"graph_draw_delay": 200,
 
-	"show_analysis": true,
+	"candidate_moves": true,
 	"numbers": "lcb",
 	"visits_threshold": 0.02,
 	"next_move_markers": true,

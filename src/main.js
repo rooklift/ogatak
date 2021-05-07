@@ -1006,9 +1006,9 @@ function menu_build() {
 				{
 					label: "Candidate moves",
 					type: "checkbox",
-					checked: config.show_analysis,
+					checked: config.candidate_moves,
 					click: () => {
-						win.webContents.send("toggle", "show_analysis");
+						win.webContents.send("toggle", "candidate_moves");
 					}
 				},
 				{
