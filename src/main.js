@@ -791,7 +791,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Forget all analysis",
+					label: "Clear all analysis",
 					click: () => {
 						win.webContents.send("call", "forget_analysis_tree");
 					}
