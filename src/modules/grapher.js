@@ -85,7 +85,7 @@ let graph_drawer_prototype = {
 
 		// Next the major draw, i.e. the brighter line...
 
-		ctx.strokeStyle = config.major_graph_colour;
+		ctx.strokeStyle = node.is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
 
 		if (config.graph_type === "score") {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.major_graph_linewidth);
@@ -111,7 +111,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.height = this.canvas.height;
 
 		ctx.lineWidth = config.major_graph_linewidth;
-		ctx.strokeStyle = node.is_main_line() ? config.graph_position_colour : config.graph_position_var_colour;
+		ctx.strokeStyle = node.is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
