@@ -281,7 +281,7 @@ let board_drawer_prototype = {
 		}
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
-		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
+		this.infodiv.innerHTML = s;
 	},
 
 	draw_previous_markers: function(node) {
