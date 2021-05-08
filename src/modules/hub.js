@@ -409,7 +409,7 @@ let hub_prototype = {
 				this.node.receive_analysis(o);		// This does all needed validation of o
 			}
 
-			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
+			if (this.__autoanalysis && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
 				if (this.node.children.length > 0) {
 					this.next();
