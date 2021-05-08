@@ -14,7 +14,7 @@ body {
 	grid-template-columns: min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"a c"
+		"a a"
 		"b c";
 }
 
@@ -34,13 +34,13 @@ body {
 
 #boardbg {
 	background-image: url("./gfx/subdued_board.png");
-	grid-area: a;
+	grid-area: b;
 	margin: 1em 0 0 1em;
 	z-index: 1;
 }
 
 #boardtable {
-	grid-area: a;
+	grid-area: b;
 	border-collapse: collapse;
 	margin: 1em 0 0 1em;
 	pointer-events: auto;
@@ -48,14 +48,14 @@ body {
 }
 
 #boardcanvas {
-	grid-area: a;
+	grid-area: b;
 	margin: 1em 0 0 1em;
 	pointer-events: none;
 	z-index: 3;
 }
 
 #boardinfo {
-	grid-area: b;
+	grid-area: a;
 	color: #ffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;

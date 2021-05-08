@@ -19,7 +19,7 @@ let graph_drawer_prototype = {
 		}
 
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
-		this.canvas.height = Math.max(64, window.innerHeight);
+		this.canvas.height = Math.max(64, boardcanvas.height + 32);				// Just pulling this out of the global namespace.
 
 		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
 
