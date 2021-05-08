@@ -403,10 +403,10 @@ let hub_prototype = {
 
 	receive_object: function(o) {
 
-		if (node_id_from_search_id(o.id) === this.node.id && o.rootInfo && Array.isArray(o.moveInfos) && o.moveInfos.length > 0) {
+		if (node_id_from_search_id(o.id) === this.node.id) {
 
 			if (!o.suppressed) {
-				this.node.receive_analysis(o);
+				this.node.receive_analysis(o);		// This does all needed validation of o
 			}
 
 			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
@@ -419,6 +419,12 @@ let hub_prototype = {
 			}
 
 			this.draw();
+
+		} else if (this.node.parent && node_id_from_search_id(o.id) === this.node.parent.id) {		// A common event when auto-analysing.
+
+			if (!o.suppressed) {
+				this.node.parent.receive_analysis(o);
+			}
 		}
 	},
 
