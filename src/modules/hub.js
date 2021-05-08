@@ -434,14 +434,17 @@ let hub_prototype = {
 
 			} else if (this.__autoplay && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
-				this.play_best();
-				return;								// Just to avoid the redundant draw()
-
+				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// So the incoming pass is the 3rd pass.
+					this.halt();
+				} else {
+					this.play_best();
+					return;							// Just to avoid the redundant draw()
+				}
 			}
 
 			this.draw();
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id) {		// A common event when auto-analysing.
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id) {					// A common event when auto-analysing.
 
 			if (!o.suppressed) {
 				this.node.parent.receive_analysis(o);

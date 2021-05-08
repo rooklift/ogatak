@@ -111,6 +111,19 @@ let node_prototype = {
 		return node;
 	},
 
+	has_pass: function() {		// That is, in the node properties, not the analysis!
+
+		let moves = this.all_values("B").concat(this.all_values("W"));
+
+		for (let move of moves) {
+			if (this.get_board().in_bounds(move) === false) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
 	width: function() {
 		if (this.__board) {
 			return this.__board.width;
