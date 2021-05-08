@@ -407,7 +407,9 @@ let hub_prototype = {
 			return;
 		}
 
-		if (node_id_from_search_id(o.id) === this.node.id) {
+		let relevant_node_id = node_id_from_search_id(o.id);
+
+		if (relevant_node_id === this.node.id) {
 
 			if (!o.suppressed) {
 				this.node.receive_analysis(o);		// This does all needed validation of o
@@ -425,7 +427,7 @@ let hub_prototype = {
 
 			this.draw();
 
-		} else if (this.node.parent && node_id_from_search_id(o.id) === this.node.parent.id) {		// A common event when auto-analysing.
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id) {		// A common event when auto-analysing.
 
 			if (!o.suppressed) {
 				this.node.parent.receive_analysis(o);
