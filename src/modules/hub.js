@@ -424,13 +424,12 @@ let hub_prototype = {
 
 			} else if (this.__autoplay && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
-				this.play_best();					// Giving us a new node, which we now check for being the 2nd pass...
-
-				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {
+				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// So the incoming pass is the 3rd pass.
 					this.halt();
+				} else {
+					this.play_best();
+					return;							// Just to avoid the redundant draw()
 				}
-
-				return;								// Just to avoid the redundant draw()
 			}
 
 			this.draw();
