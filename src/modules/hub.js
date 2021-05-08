@@ -434,7 +434,11 @@ let hub_prototype = {
 
 			this.draw();
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id) {					// A common event when auto-analysing.
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__autoplay) {
+
+			// We received info for the parent node, which commonly happens when advancing forwards. It's
+			// OK to set this info in the parent, unless we're in autoplay mode, in which case it's better
+			// to leave the analysis that actually triggered the move.
 
 			this.node.parent.receive_analysis(o);
 
