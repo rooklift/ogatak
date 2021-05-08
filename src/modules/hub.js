@@ -338,13 +338,10 @@ let hub_prototype = {
 		ipcRenderer.send("ack_autoanalysis", this.__autoanalysis);
 	},
 
-	toggle_autoanalysis() {
-		this.set_autoanalysis(!this.__autoanalysis);
-		if (this.__autoanalysis && !this.engine.desired) {
+	start_autoanalysis() {
+		this.set_autoanalysis(true);
+		if (!this.engine.desired) {
 			this.go();
-		}
-		if (!this.__autoanalysis && this.engine.desired) {
-			this.halt();
 		}
 	},
 

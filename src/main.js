@@ -97,11 +97,11 @@ function startup() {
 	});
 
 	electron.ipcMain.on("ack_ponder", (event, msg) => {
-		set_one_check(msg ? true : false, "Dev", "Toggle ponder");
+		// set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");		// Meh I dunno if I like this.
 	});
 
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Toggle autoanalysis");
+		set_one_check(msg ? true : false, "Analysis", "Run autoanalysis");
 	});
 
 	electron.Menu.setApplicationMenu(menu);
@@ -574,12 +574,24 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Toggle autoanalysis",
+					label: "Go / halt toggle",
+					// type: "checkbox",
+					// checked: false,
+					accelerator: "Space",
+					click: () => {
+						win.webContents.send("call", "toggle_ponder");				// Will ack the correct value for the menu check.
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Run autoanalysis",
 					accelerator: "F12",
 					type: "checkbox",
 					checked: false,
 					click: () => {
-						win.webContents.send("call", "toggle_autoanalysis");		// Will ack the correct value for the menu check.
+						win.webContents.send("call", "start_autoanalysis");
 					}
 				},
 				{
@@ -1041,17 +1053,6 @@ function menu_build() {
 					label: `Show ${config_io.filename}`,
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Toggle ponder",											// Maybe this should be the main way to do this?
-					type: "checkbox",
-					checked: false,
-					click: () => {
-						win.webContents.send("call", "toggle_ponder");				// Will ack the correct value for the menu check.
 					}
 				},
 				{
