@@ -2,10 +2,11 @@
 
 const draw_y_offset = 16;
 
-function new_grapher(canvas, positioncanvas) {
+function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas provided so we can match its height; we don't use it otherwise.
 	let drawer = Object.create(graph_drawer_prototype);
 	drawer.canvas = canvas;
 	drawer.positioncanvas = positioncanvas;
+	drawer.boardcanvas = boardcanvas;
 	drawer.drawable_height = 0;
 	return drawer;
 }
@@ -19,7 +20,7 @@ let graph_drawer_prototype = {
 		}
 
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
-		this.canvas.height = Math.max(64, boardcanvas.height + 32);				// Just pulling this out of the global namespace.
+		this.canvas.height = Math.max(64, this.boardcanvas.height + 32);
 
 		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
 
