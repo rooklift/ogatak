@@ -242,9 +242,9 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `Prev: <span class="white">${pad(last_move, 5)}</span>`;
 		s += `Caps by B: <span class="white">${pad(board.caps_by_b, 5)}</span>`;
-		s += `Komi: <span class="white">${pad(board.komi, 7)}</span>`;
+		s += `Komi: <span class="white">${pad(board.komi, 8)}</span>`;
+		s += `Prev: <span class="white">${pad(last_move, 5)}</span>`;
 
 		if (config.candidate_moves) {
 			s += `Showing: <span class="white">${pad(config.numbers, 1)}</span>`;
@@ -272,14 +272,13 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-
-		if (override_moveinfo) {
-			s += `This: <span class="white">${pad(move, 10)}</span>`;
-		} else {
-			s += `Best: <span class="white">${pad(move, 10)}</span>`;
-		}
-		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
+		s += `     by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
+		if (override_moveinfo) {
+			s += `This: <span class="white">${pad(move, 6)}</span>`;
+		} else {
+			s += `Best: <span class="white">${pad(move, 6)}</span>`;
+		}
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
