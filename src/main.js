@@ -96,6 +96,10 @@ function startup() {
 		win.setTitle(msg);
 	});
 
+	electron.ipcMain.on("ack_ponder", (event, msg) => {
+		set_one_check(msg ? true : false, "Dev", "Toggle ponder");
+	});
+
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
 		set_one_check(msg ? true : false, "Analysis", "Toggle autoanalysis");
 	});
@@ -636,7 +640,7 @@ function menu_build() {
 				},
 				{
 					label: "Play best move",
-					accelerator: "Space",
+					accelerator: ",",
 					click: () => {
 						win.webContents.send("call", "play_best");
 					}
@@ -1037,6 +1041,17 @@ function menu_build() {
 					label: `Show ${config_io.filename}`,
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Toggle ponder",											// Maybe this should be the main way to do this?
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "toggle_ponder");				// Will ack the correct value for the menu check.
 					}
 				},
 				{

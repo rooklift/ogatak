@@ -325,6 +325,14 @@ let hub_prototype = {
 		this.engine.halt();
 	},
 
+	toggle_ponder: function() {
+		if (this.engine.desired) {
+			this.halt();
+		} else {
+			this.go();
+		}
+	},
+
 	set_autoanalysis(val) {
 		this.__autoanalysis = val ? true : false;
 		ipcRenderer.send("ack_autoanalysis", this.__autoanalysis);

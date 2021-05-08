@@ -4,6 +4,7 @@ const child_process = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const {ipcRenderer} = require("electron");
 
 const stringify = require("./stringify");
 const {node_id_from_search_id} = require("./utils");
@@ -18,6 +19,9 @@ function new_engine() {
 
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
+
+	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
+	// therefore every time desired is set, an ack should be sent to the main process.
 
 	eng.suppressed_search_id = null;
 
@@ -61,6 +65,7 @@ let engine_prototype = {
 		}
 
 		this.desired = node.katago_query();
+		ipcRenderer.send("ack_ponder", true);
 
 		if (this.running) {
 			this.__send({
@@ -101,7 +106,9 @@ let engine_prototype = {
 				terminateId: `${this.running.id}`
 			});
 		}
+
 		this.desired = null;
+		ipcRenderer.send("ack_ponder", false);
 	},
 
 	setup: function(filepath, engineconfig, weights) {
@@ -145,6 +152,7 @@ let engine_prototype = {
 				if (this.running && this.running.id === o.id) {
 					if (this.desired === this.running) {
 						this.desired = null;
+						ipcRenderer.send("ack_ponder", false);
 					}
 					this.running = null;
 					if (this.desired) {
