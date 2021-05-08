@@ -313,28 +313,32 @@ let board_drawer_prototype = {
 		let board = node.get_board();
 		let ctx = this.canvas.getContext("2d");
 
-		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
 		ctx.lineWidth = 3.5;
 
-		for (let n = 0; n < node.children.length; n++) {
+		for (let key of ["B", "W"]) {
 
-			let moves_played = node.children[n].all_values("B").concat(node.children[n].all_values("W"));
+			ctx.strokeStyle = key === "B" ? "#00000080" : "#ffffffa0";
 
-			for (let s of moves_played) {		// Probably just one per child.
+			for (let n = 0; n < node.children.length; n++) {
 
-				if (s.length !== 2) {
-					continue;
+				let moves_played = node.children[n].all_values(key);
+
+				for (let s of moves_played) {		// Probably just one per child.
+
+					if (s.length !== 2) {
+						continue;
+					}
+
+					let x = s.charCodeAt(0) - 97;
+					let y = s.charCodeAt(1) - 97;
+
+					let gx = x * config.square_size + (config.square_size / 2);
+					let gy = y * config.square_size + (config.square_size / 2);
+
+					ctx.beginPath();
+					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
+					ctx.stroke();
 				}
-
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
-
-				let gx = x * config.square_size + (config.square_size / 2);
-				let gy = y * config.square_size + (config.square_size / 2);
-
-				ctx.beginPath();
-				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
-				ctx.stroke();
 			}
 		}
 	},
