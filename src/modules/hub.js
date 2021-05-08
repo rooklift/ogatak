@@ -413,6 +413,7 @@ let hub_prototype = {
 
 				if (this.node.children.length > 0) {
 					this.next();
+					return;							// Just to avoid the redundant draw()
 				} else {
 					this.halt();
 				}
