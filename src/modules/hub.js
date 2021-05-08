@@ -497,6 +497,7 @@ let hub_prototype = {
 			}
 		}
 		save_config();
+		this.draw();
 	},
 
 	maybe_start_engine: function() {
