@@ -611,6 +611,42 @@ function menu_build() {
 					label: "Autoanalysis visits",
 					submenu: [
 						{
+							label: "10000",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 10000,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 10000
+								});
+								set_checks("Analysis", "Autoanalysis visits", "10000");
+							}
+						},
+						{
+							label: "5000",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 5000,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 5000
+								});
+								set_checks("Analysis", "Autoanalysis visits", "5000");
+							}
+						},
+						{
+							label: "2500",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 2500,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 2500
+								});
+								set_checks("Analysis", "Autoanalysis visits", "2500");
+							}
+						},
+						{
 							label: "1000",
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 1000,
