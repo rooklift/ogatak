@@ -101,11 +101,11 @@ function startup() {
 	});
 
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Run autoanalysis");
+		set_one_check(msg ? true : false, "Analysis", "Start autoanalysis");
 	});
 
 	electron.ipcMain.on("ack_autoplay", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Autoplay");
+		set_one_check(msg ? true : false, "Analysis", "Start autoplay");
 	});
 
 	electron.Menu.setApplicationMenu(menu);
@@ -590,7 +590,16 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Run autoanalysis",
+					label: "Start autoplay",
+					type: "checkbox",
+					checked: false,
+					accelerator: "F11",
+					click: () => {
+						win.webContents.send("call", "start_autoplay");
+					}
+				},
+				{
+					label: "Start autoanalysis",
 					accelerator: "F12",
 					type: "checkbox",
 					checked: false,
@@ -650,17 +659,6 @@ function menu_build() {
 							}
 						}
 					]
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Autoplay",
-					type: "checkbox",
-					checked: false,
-					click: () => {
-						win.webContents.send("call", "start_autoplay");
-					}
 				},
 				{
 					type: "separator",
@@ -965,7 +963,6 @@ function menu_build() {
 							label: "Order",
 							type: "checkbox",
 							checked: config.numbers === "order",
-							accelerator: "F9",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -978,7 +975,6 @@ function menu_build() {
 							label: "Policy",
 							type: "checkbox",
 							checked: config.numbers === "policy",
-							accelerator: "F10",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -991,7 +987,6 @@ function menu_build() {
 							label: "Winrate",
 							type: "checkbox",
 							checked: config.numbers === "winrate",
-							accelerator: "F11",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
