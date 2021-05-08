@@ -41,8 +41,8 @@ exports.new_hub = function() {
 	hub.loaded_file = null;
 
 	hub.new_from_config();
-	hub.update_engine_problem_title();	// Do this after new() as new also sets a title
 
+	hub.update_title();
 	return hub;
 };
 
@@ -148,13 +148,7 @@ let hub_prototype = {
 			}
 			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
 			this.set_node(new_root, true);
-			if (this.node.props.PB || this.node.props.PW) {
-				let blackname = this.node.get("PB") || "Unknown";
-				let whitename = this.node.get("PW") || "Unknown";
-				set_title(`${blackname} (B) vs ${whitename} (W)`);
-			} else {
-				set_title("Ogatak");
-			}
+			this.update_title();
 			return true;
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
@@ -188,7 +182,7 @@ let hub_prototype = {
 		node.set("KM", komi);
 
 		this.set_node(node, true);
-		set_title("Ogatak");
+		this.update_title();
 	},
 
 	go_to_end: function() {
@@ -435,6 +429,16 @@ let hub_prototype = {
 		}
 	},
 
+	reset_colours: function() {
+		for (let key of Object.keys(defaults)) {
+			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
+				config[key] = defaults[key];
+			}
+		}
+		save_config();
+		this.draw();
+	},
+
 	mouse_point: function() {
 		let overlist = document.querySelectorAll(":hover");
 		for (let item of overlist) {
@@ -490,16 +494,6 @@ let hub_prototype = {
 		this.maybe_start_engine();
 	},
 
-	reset_colours: function() {
-		for (let key of Object.keys(defaults)) {
-			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
-				config[key] = defaults[key];
-			}
-		}
-		save_config();
-		this.draw();
-	},
-
 	maybe_start_engine: function() {
 
 		if (this.engine.exe) {
@@ -508,15 +502,26 @@ let hub_prototype = {
 		}
 
 		this.engine.setup(config.engine, config.engineconfig, config.weights);
-		this.update_engine_problem_title();
+		this.update_title();
 	},
 
-	update_engine_problem_title: function() {
+	update_title: function() {
+
 		if (this.engine.problem_text()) {
 			set_title(`Ogatak: ${this.engine.problem_text()}`);
-		} else {
-			set_title("Ogatak");
+			return;
 		}
+
+		let root = this.node.get_root();
+
+		if (root.props.PB || root.props.PW) {
+			let blackname = root.get("PB") || "Unknown";
+			let whitename = root.get("PW") || "Unknown";
+			set_title(`${blackname} (B) vs ${whitename} (W)`);
+			return;
+		}
+
+		set_title("Ogatak");
 	},
 
 };
