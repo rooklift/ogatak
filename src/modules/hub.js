@@ -393,7 +393,6 @@ let hub_prototype = {
 
 	forget_analysis_tree: function() {
 		this.node.forget_analysis_tree();
-		this.engine.suppress();
 		this.halt();
 		this.draw();
 	},
