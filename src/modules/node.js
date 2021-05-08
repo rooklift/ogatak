@@ -364,7 +364,7 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 		this.analysis = o;
-		this.update_sbkv();		// Will validate o and set this.analysis to null if it's not valid.
+		this.validate_analysis_and_update_sbkv();
 	},
 
 	forget_analysis: function() {
@@ -385,7 +385,7 @@ let node_prototype = {
 		return false;
 	},
 
-	update_sbkv: function() {
+	validate_analysis_and_update_sbkv: function() {
 
 		if (this.has_valid_analysis() === false) {
 			this.forget_analysis();
