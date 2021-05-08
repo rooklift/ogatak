@@ -405,7 +405,9 @@ let hub_prototype = {
 
 		if (node_id_from_search_id(o.id) === this.node.id && o.rootInfo && Array.isArray(o.moveInfos) && o.moveInfos.length > 0) {
 
-			this.node.receive_analysis(o);
+			if (!o.suppressed) {
+				this.node.receive_analysis(o);
+			}
 
 			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
 

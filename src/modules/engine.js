@@ -81,8 +81,7 @@ let engine_prototype = {
 
 	suppress: function() {
 
-		// Further updates from this search get their id altered so as not to be recognised by the hub as belonging to its node.
-		// They still get passed on, in case the hub has some other use for them.
+		// Further updates from this search get a flag added to them so the hub doesn't use them as analysis.
 
 		if (!this.exe) {
 			return;
@@ -149,7 +148,7 @@ let engine_prototype = {
 				alert("Engine said:\n" + stringify(o));
 			}
 			if (o.isDuringSearch === false || o.error) {
-				if (this.running && this.running.id === o.id) {
+				if (this.running && this.running.id === o.id) {		// The current search has terminated.
 					if (this.desired === this.running) {
 						this.desired = null;
 						ipcRenderer.send("ack_ponder", false);
@@ -162,7 +161,7 @@ let engine_prototype = {
 				}
 			}
 			if (typeof o.id === "string" && o.id === this.suppressed_search_id) {
-				o.id = "suppressed!" + o.id;
+				o.suppressed = true;
 			}
 			hub.receive_object(o);
 		});
