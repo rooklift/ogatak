@@ -101,11 +101,15 @@ let hub_prototype = {
 	},
 
 	prev: function() {
-		this.set_node(this.node.parent);			// OK if undefined / null
+		if (this.node.parent) {
+			this.set_node(this.node.parent);
+		}
 	},
 
 	next: function() {
-		this.set_node(this.node.children[0]);		// OK if undefined / null
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.children[0]);
+		}
 	},
 
 	save: function(filepath) {
