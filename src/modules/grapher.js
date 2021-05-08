@@ -14,6 +14,10 @@ let graph_drawer_prototype = {
 
 	draw_graph: function(node) {		// Not named "draw" so that we can tell it apart in the Chrome performance tab.
 
+		if (!node) {
+			throw "draw_graph() needs a node argument";
+		}
+
 		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
 		this.canvas.height = Math.max(64, window.innerHeight);
 

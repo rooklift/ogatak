@@ -1040,6 +1040,7 @@ function menu_build() {
 							label: "Winrate",
 							type: "checkbox",
 							checked: config.graph_type === "winrate",
+							accelerator: "F9",
 							click: () => {
 								win.webContents.send("set", {
 									key: "graph_type",
@@ -1052,6 +1053,7 @@ function menu_build() {
 							label: "Score",
 							type: "checkbox",
 							checked: config.graph_type === "score",
+							accelerator: "F10",
 							click: () => {
 								win.webContents.send("set", {
 									key: "graph_type",

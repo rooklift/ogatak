@@ -82,6 +82,7 @@ ipcRenderer.on("set", (event, msg) => {
 		hub.go();
 	}
 	hub.draw();
+	hub.grapher.draw_graph(hub.node);
 });
 
 ipcRenderer.on("toggle", (event, msg) => {
@@ -91,6 +92,7 @@ ipcRenderer.on("toggle", (event, msg) => {
 		hub.go();
 	}
 	hub.draw();
+	hub.grapher.draw_graph(hub.node);
 });
 
 ipcRenderer.on("call", (event, msg) => {
