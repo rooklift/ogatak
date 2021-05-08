@@ -29,8 +29,8 @@ function new_node(parent) {
 		node.depth = 0;
 	}
 
-	if (node.depth + 1 > node.graph_length_knower.val) {
-		node.graph_length_knower.val = node.depth + 1;
+	if (node.depth > node.graph_length_knower.val) {
+		node.graph_length_knower.val = node.depth;
 	}
 
 	return node;
