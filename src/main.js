@@ -97,7 +97,7 @@ function startup() {
 	});
 
 	electron.ipcMain.on("ack_ponder", (event, msg) => {
-		// set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");		// Meh I dunno if I like this.
+		set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");		// Meh I dunno if I like this.
 	});
 
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
@@ -557,6 +557,18 @@ function menu_build() {
 			label: "Analysis",
 			submenu: [
 				{
+					label: "Go / halt toggle",
+					type: "checkbox",
+					checked: false,
+					accelerator: "Space",
+					click: () => {
+						win.webContents.send("call", "toggle_ponder");				// Will ack the correct value for the menu check.
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Go",
 					accelerator: "CommandOrControl+G",
 					click: () => {
@@ -568,18 +580,6 @@ function menu_build() {
 					accelerator: "CommandOrControl+H",
 					click: () => {
 						win.webContents.send("call", "halt");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Go / halt toggle",
-					// type: "checkbox",
-					// checked: false,
-					accelerator: "Space",
-					click: () => {
-						win.webContents.send("call", "toggle_ponder");				// Will ack the correct value for the menu check.
 					}
 				},
 				{
