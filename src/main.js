@@ -478,6 +478,23 @@ function menu_build() {
 			label: "Tree",
 			submenu: [
 				{
+					label: "Play best move",
+					accelerator: ",",
+					click: () => {
+						win.webContents.send("call", "play_best");
+					}
+				},
+				{
+					label: "Pass",
+					accelerator: "CommandOrControl+P",
+					click: () => {
+						win.webContents.send("call", "pass");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Root",
 					accelerator: "Home",
 					click: () => {
@@ -503,23 +520,6 @@ function menu_build() {
 					accelerator: "Down",
 					click: () => {
 						win.webContents.send("call", "next");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Play best move",
-					accelerator: ",",
-					click: () => {
-						win.webContents.send("call", "play_best");
-					}
-				},
-				{
-					label: "Pass",
-					accelerator: "CommandOrControl+P",
-					click: () => {
-						win.webContents.send("call", "pass");
 					}
 				},
 				{
