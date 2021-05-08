@@ -403,6 +403,10 @@ let hub_prototype = {
 
 	receive_object: function(o) {
 
+		if (typeof o !== "object" || o === null) {
+			return;
+		}
+
 		if (node_id_from_search_id(o.id) === this.node.id) {
 
 			if (!o.suppressed) {
