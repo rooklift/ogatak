@@ -599,14 +599,6 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Autoplay",
-					type: "checkbox",
-					checked: false,
-					click: () => {
-						win.webContents.send("call", "start_autoplay");
-					}
-				},
-				{
 					label: "Autoanalysis visits",
 					submenu: [
 						{
@@ -658,6 +650,17 @@ function menu_build() {
 							}
 						}
 					]
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Autoplay",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "start_autoplay");
+					}
 				},
 				{
 					type: "separator",
