@@ -625,6 +625,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Autoanalysis visits",
 					submenu: [
 						{
