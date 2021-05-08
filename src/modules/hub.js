@@ -37,6 +37,7 @@ exports.new_hub = function() {
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
 	hub.__autoanalysis = false;			// Don't set this directly, because it should be ack'd
+	hub.__autoplay = false;				// Don't set this directly, because it should be ack'd
 	hub.window_resize_time = null;
 	hub.loaded_file = null;
 
@@ -313,9 +314,8 @@ let hub_prototype = {
 	},
 
 	halt: function() {
-		if (this.__autoanalysis) {
-			this.set_autoanalysis(false);
-		}
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
 		this.engine.halt();
 	},
 
@@ -327,13 +327,27 @@ let hub_prototype = {
 		}
 	},
 
-	set_autoanalysis(val) {
+	set_autoanalysis: function(val) {
 		this.__autoanalysis = val ? true : false;
 		ipcRenderer.send("ack_autoanalysis", this.__autoanalysis);
 	},
 
+	set_autoplay: function(val) {
+		this.__autoplay = val ? true : false;
+		ipcRenderer.send("ack_autoplay", this.__autoplay);
+	},
+
 	start_autoanalysis() {
 		this.set_autoanalysis(true);
+		this.set_autoplay(false);
+		if (!this.engine.desired) {
+			this.go();
+		}
+	},
+
+	start_autoplay: function() {
+		this.set_autoanalysis(false);
+		this.set_autoplay(true);
 		if (!this.engine.desired) {
 			this.go();
 		}
@@ -417,6 +431,12 @@ let hub_prototype = {
 				} else {
 					this.halt();
 				}
+
+			} else if (this.__autoplay && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
+
+				this.play_best();
+				return;								// Just to avoid the redundant draw()
+
 			}
 
 			this.draw();

@@ -104,6 +104,10 @@ function startup() {
 		set_one_check(msg ? true : false, "Analysis", "Run autoanalysis");
 	});
 
+	electron.ipcMain.on("ack_autoplay", (event, msg) => {
+		set_one_check(msg ? true : false, "Analysis", "Autoplay");
+	});
+
 	electron.Menu.setApplicationMenu(menu);
 	menu_is_set = true;
 
@@ -592,6 +596,14 @@ function menu_build() {
 					checked: false,
 					click: () => {
 						win.webContents.send("call", "start_autoanalysis");
+					}
+				},
+				{
+					label: "Autoplay",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "start_autoplay");
 					}
 				},
 				{
