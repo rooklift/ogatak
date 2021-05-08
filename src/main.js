@@ -101,11 +101,11 @@ function startup() {
 	});
 
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Start autoanalysis");
+		set_one_check(msg ? true : false, "Analysis", "Autoanalysis");
 	});
 
 	electron.ipcMain.on("ack_autoplay", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Start autoplay");
+		set_one_check(msg ? true : false, "Analysis", "Self-play");
 	});
 
 	electron.Menu.setApplicationMenu(menu);
@@ -590,7 +590,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Start autoplay",
+					label: "Self-play",
 					type: "checkbox",
 					checked: false,
 					accelerator: "F11",
@@ -599,7 +599,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Start autoanalysis",
+					label: "Autoanalysis",
 					accelerator: "F12",
 					type: "checkbox",
 					checked: false,
