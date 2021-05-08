@@ -424,7 +424,7 @@ let hub_prototype = {
 
 			} else if (this.__autoplay && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
-				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// So the incoming pass is the 3rd pass.
+				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();
 				} else {
 					this.play_best();
