@@ -509,6 +509,23 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Play best move",
+					accelerator: ",",
+					click: () => {
+						win.webContents.send("call", "play_best");
+					}
+				},
+				{
+					label: "Pass",
+					accelerator: "CommandOrControl+P",
+					click: () => {
+						win.webContents.send("call", "pass");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Previous sibling",
 					accelerator: "Left",
 					click: () => {
@@ -695,23 +712,6 @@ function menu_build() {
 							}
 						}
 					]
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Play best move",
-					accelerator: ",",
-					click: () => {
-						win.webContents.send("call", "play_best");
-					}
-				},
-				{
-					label: "Pass",
-					accelerator: "CommandOrControl+P",
-					click: () => {
-						win.webContents.send("call", "pass");
-					}
 				},
 				{
 					type: "separator",
