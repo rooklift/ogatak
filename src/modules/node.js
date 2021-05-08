@@ -337,15 +337,6 @@ let node_prototype = {
 		return o;
 	},
 
-	has_valid_analysis: function() {												// Don't do the cheap way; return only true or false.
-		if (typeof this.analysis === "object" && this.analysis !== null) {
-			if (Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
-				return true;
-			}
-		}
-		return false;
-	},
-
 	detach: function() {
 
 		// Returns the node that the hub should point to,
@@ -373,7 +364,7 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 		this.analysis = o;
-		this.update_sbkv();
+		this.update_sbkv();		// Will validate o and set this.analysis to null if it's not valid.
 	},
 
 	forget_analysis: function() {
@@ -383,6 +374,15 @@ let node_prototype = {
 
 	forget_analysis_tree: function() {
 		forget_analysis_recursive(this.get_root());
+	},
+
+	has_valid_analysis: function() {												// Don't do the cheap way; return only true or false.
+		if (typeof this.analysis === "object" && this.analysis !== null) {
+			if (Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
+				return true;
+			}
+		}
+		return false;
 	},
 
 	update_sbkv: function() {
