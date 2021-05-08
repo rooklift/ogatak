@@ -391,13 +391,6 @@ let hub_prototype = {
 		alert(lines.join("\n"));
 	},
 
-	forget_analysis: function() {
-		this.node.forget_analysis();
-		this.engine.suppress();
-		this.halt();
-		this.draw();
-	},
-
 	forget_analysis_tree: function() {
 		this.node.forget_analysis_tree();
 		this.engine.suppress();
@@ -419,9 +412,7 @@ let hub_prototype = {
 
 		if (relevant_node_id === this.node.id) {
 
-			if (!o.suppressed) {
-				this.node.receive_analysis(o);		// This does all needed validation of o
-			}
+			this.node.receive_analysis(o);			// This does all needed validation of o
 
 			if (this.__autoanalysis && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
@@ -446,9 +437,8 @@ let hub_prototype = {
 
 		} else if (this.node.parent && relevant_node_id === this.node.parent.id) {					// A common event when auto-analysing.
 
-			if (!o.suppressed) {
-				this.node.parent.receive_analysis(o);
-			}
+			this.node.parent.receive_analysis(o);
+
 		}
 	},
 

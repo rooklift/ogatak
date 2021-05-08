@@ -23,8 +23,6 @@ function new_engine() {
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, an ack should be sent to the main process.
 
-	eng.suppressed_search_id = null;
-
 	return eng;
 }
 
@@ -76,19 +74,6 @@ let engine_prototype = {
 		} else {
 			this.__send(this.desired);
 			this.running = this.desired;
-		}
-	},
-
-	suppress: function() {
-
-		// Further updates from this search get a flag added to them so the hub doesn't use them as analysis.
-
-		if (!this.exe) {
-			return;
-		}
-
-		if (this.running) {
-			this.suppressed_search_id = this.running.id;
 		}
 	},
 
@@ -159,9 +144,6 @@ let engine_prototype = {
 						this.running = this.desired;
 					}
 				}
-			}
-			if (typeof o.id === "string" && o.id === this.suppressed_search_id) {
-				o.suppressed = true;
 			}
 			hub.receive_object(o);
 		});
