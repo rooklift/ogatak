@@ -234,16 +234,22 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
+		let last_move = "";
+		let last_move_props = node.all_values("B").concat(node.all_values("W"));
+		if (last_move_props.length === 1) {
+			last_move = board.gtp(last_move_props[0]);
+		}
+
 		let s = "";
 
-		s += `komi: <span class="white">${pad(board.komi, 6)}</span>`;
-		s += `caps by B: <span class="white">${pad(board.caps_by_b, 4)}</span>`;
-		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
+		s += `Prev: <span class="white">${pad(last_move, 5)}</span>`;
+		s += `Caps by B: <span class="white">${pad(board.caps_by_b, 5)}</span>`;
+		s += `Komi: <span class="white">${pad(board.komi, 7)}</span>`;
 
 		if (config.candidate_moves) {
-			s += `showing: <span class="white">${pad(config.numbers, 11)}</span>`;
+			s += `Showing: <span class="white">${pad(config.numbers, 1)}</span>`;
 		} else {
-			s += `showing: <span class="white">${pad("(hidden)", 11)}</span>`;
+			s += `Showing: <span class="white">${pad("(hidden)", 11)}</span>`;
 		}
 
 		s += "<br>";
@@ -266,13 +272,15 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
+
 		if (override_moveinfo) {
-			s += `this: <span class="white">${pad(move, 6)}</span>`;
+			s += `This: <span class="white">${pad(move, 10)}</span>`;
 		} else {
-			s += `best: <span class="white">${pad(move, 6)}</span>`;
+			s += `Best: <span class="white">${pad(move, 10)}</span>`;
 		}
-		s += `score: <span class="white">${pad(score, 8)}</span>`;
-		s += `visits: <span class="white">${pad(visits, 15)}</span>`;
+		s += `by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
+		s += `Score: <span class="white">${pad(score, 8)}</span>`;
+		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = `<span class="rust">${s}</span>`;
 	},
