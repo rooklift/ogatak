@@ -90,12 +90,8 @@ let tabber_prototype = {
 		let fixed = [];
 
 		for (let node of this.tabs) {
-			if (node === ACTIVE_TAB_MARKER) {
+			if (node === ACTIVE_TAB_MARKER || !node.destroyed) {
 				fixed.push(ACTIVE_TAB_MARKER);
-			} else {
-				if (!node.destroyed) {
-					fixed.push(node);
-				}
 			}
 		}
 
