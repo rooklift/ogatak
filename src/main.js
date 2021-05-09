@@ -397,7 +397,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Load SGF from clipboard",
+					label: "Paste SGF",
 					accelerator: "CommandOrControl+Shift+V",
 					click: () => {
 						win.webContents.send("call", {
