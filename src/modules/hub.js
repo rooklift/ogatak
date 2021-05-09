@@ -1,5 +1,7 @@
 "use strict";
 
+// FIXME - trees are now never getting destroyed.
+
 const fs = require("fs");
 const {ipcRenderer} = require("electron");
 
@@ -43,16 +45,16 @@ exports.new_hub = function() {
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
-	hub.window_resize_time = null;
-
-	hub.new_from_config();
-
 	hub.tabber = new_tabber(
 		document.getElementById("tabtable")
 	);
-	hub.tabber.draw_tabs();
 
+	hub.window_resize_time = null;
+
+	hub.new_from_config();
+	hub.tabber.draw_tabs();
 	hub.update_title();
+
 	return hub;
 };
 
@@ -93,13 +95,13 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	set_node: function(node, new_game_flag) {
+	set_node: function(node, draw_graph_flag) {
 		if (!node || this.node === node) {
 			return;
 		}
 		this.node = node;
 		this.draw();
-		if (new_game_flag) {
+		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
@@ -177,8 +179,9 @@ let hub_prototype = {
 			} else {
 				throw "unknown type";
 			}
-			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
-			this.set_node(new_root, true);
+			// Any fixes to the root etc should be done now, before switch_tab() calling set_node() causes a board to exist.
+			let index = this.tabber.create_inactive_tab_at_end(new_root);
+			this.switch_tab(index);
 			this.update_title();
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
@@ -190,10 +193,6 @@ let hub_prototype = {
 	},
 
 	new: function(width = 19, height = 19, komi = 0, handicap = 0) {			// FIXME - interaction with tabs.
-
-		if (this.node) {
-			this.node.destroy_tree();
-		}
 
 		let node = new_node();
 
@@ -210,7 +209,13 @@ let hub_prototype = {
 
 		node.set("KM", komi);
 
-		this.set_node(node, true);
+		if (this.node) {
+			let index = this.tabber.create_inactive_tab_at_end(node);
+			this.switch_tab(index);
+		} else {
+			this.set_node(node);
+		}
+
 		this.update_title();
 	},
 
