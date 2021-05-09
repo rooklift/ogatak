@@ -90,7 +90,7 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	set_node: function(node, new_game_flag) {
+	set_node: function(node, new_game_flag) {							// This function should know nothing about tabs.
 		if (!node || this.node === node) {
 			return;
 		}
@@ -131,6 +131,53 @@ let hub_prototype = {
 		this.tabs[active_index] = this.node;
 		this.set_node(bookmark);
 		this.tabs[switch_index] = ACTIVE_TAB_MARKER;
+	},
+
+	remove_deleted_nodes_from_tabs: function() {
+
+		let fixed = [];
+
+		for (let node of this.tabs) {
+			if (node === ACTIVE_TAB_MARKER) {
+				fixed.push(ACTIVE_TAB_MARKER);
+			} else {
+				if (!node.destroyed) {
+					fixed.push(node);
+				}
+			}
+		}
+
+		this.tabs = fixed;
+
+		// FIXME - redraw the tabs.
+	},
+
+	new_tab: function() {
+
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (active_index === -1) {
+			throw "When making new tab, could not find ACTIVE_TAB_MARKER in tabs";
+		}
+
+		this.tabs.splice(active_index + 1, 0, this.node);
+		this.switch_tab(active_index + 1);
+
+		// FIXME - redraw the tabs.
+	},
+
+	new_tab_from_move: function(s) {
+
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (active_index === -1) {
+			throw "When making new tab, could not find ACTIVE_TAB_MARKER in tabs";
+		}
+
+		let node = this.node.try_move(s);
+
+		this.tabs.splice(active_index + 1, 0, node);
+		this.switch_tab(active_index + 1);
+
+		// FIXME - redraw the tabs.
 	},
 
 	prev: function() {
@@ -239,10 +286,6 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	return_to_main: function() {
-		this.set_node(this.node.return_to_main_line_helper());
-	},
-
 	prev_sibling: function() {
 
 		if (!this.node.parent || this.node.parent.children.length < 2) {
@@ -283,17 +326,8 @@ let hub_prototype = {
 		this.set_node(this.node.parent.children[nexti]);
 	},
 
-	delete_node: function() {
-		if (this.node.parent) {
-			this.set_node(this.node.detach());
-		} else {
-			if (this.node.children.length > 0) {
-				for (let child of this.node.children) {
-					child.detach();
-				}
-				this.draw();				// Clear the next move markers.
-			}
-		}
+	return_to_main: function() {
+		this.set_node(this.node.return_to_main_line_helper());
 	},
 
 	promote_to_main_line: function() {
@@ -316,6 +350,20 @@ let hub_prototype = {
 		}
 	},
 
+	delete_node: function() {
+		if (this.node.parent) {
+			this.set_node(this.node.detach());
+		} else {
+			if (this.node.children.length > 0) {
+				for (let child of this.node.children) {
+					child.detach();
+				}
+				this.draw();				// Clear the next move markers.
+			}
+		}
+		this.remove_deleted_nodes_from_tabs();
+	},
+
 	delete_other_lines: function() {
 
 		this.promote_to_main_line();
@@ -333,6 +381,7 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
+			this.remove_deleted_nodes_from_tabs();
 		}
 	},
 
