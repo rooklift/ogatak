@@ -75,6 +75,7 @@ let tabber_prototype = {
 		}
 
 		this.tabs.splice(active_index + 1, 0, node);
+		this.draw_tabs();
 
 		return active_index + 1;
 	},
@@ -86,6 +87,8 @@ let tabber_prototype = {
 		}
 
 		this.tabs.push(node);
+		this.draw_tabs();
+
 		return this.tabs.length - 1;
 	},
 }
