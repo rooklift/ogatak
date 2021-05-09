@@ -28,10 +28,8 @@ let tabber_prototype = {
 
 			if (this.tabs[n] === ACTIVE_TAB_MARKER) {
 				img.src = thumbnail(hub.node.get_board(), 3);		// FIXME - this isn't good enough, we want updates when position changes.
-				img.style.outline = "2px solid #ff0000ff";
 			} else {
 				img.src = thumbnail(this.tabs[n].get_board(), 3);
-				img.style.outline = "none";
 			}
 			img.className = `tab_${n}`;
 
