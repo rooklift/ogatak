@@ -167,7 +167,7 @@ let board_drawer_prototype = {
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
-			if (finalboard.state[x][y] === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
+			if (finalboard.state_at(s) === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
 				ctx.fillStyle = config.wood_colour;
 				ctx.beginPath();
 				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
