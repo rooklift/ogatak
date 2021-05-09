@@ -333,7 +333,9 @@ let hub_prototype = {
 				this.draw();				// Clear the next move markers.
 			}
 		}
-		this.tabber.remove_deleted_nodes();
+		if (this.tabber.remove_deleted_nodes()) {
+			this.tabber.draw_tabs(this.node);
+		}
 	},
 
 	delete_other_lines: function() {
@@ -353,7 +355,9 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
-			this.tabber.remove_deleted_nodes();
+			if (this.tabber.remove_deleted_nodes()) {
+				this.tabber.draw_tabs(this.node);
+			}
 		}
 	},
 

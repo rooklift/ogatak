@@ -85,17 +85,21 @@ let tabber_prototype = {
 		return switch_node;
 	},
 
-	remove_deleted_nodes: function() {
+	remove_deleted_nodes: function() {				// Returns true iff some tab was deleted.
+
+		let initial_length = this.tabs.length;
 
 		let fixed = [];
 
 		for (let node of this.tabs) {
 			if (node === ACTIVE_TAB_MARKER || !node.destroyed) {
-				fixed.push(ACTIVE_TAB_MARKER);
+				fixed.push(node);
 			}
 		}
 
 		this.tabs = fixed;
+
+		return fixed.length !== initial_length;
 	},
 
 	create_inactive_tab_after_active: function(node) {
