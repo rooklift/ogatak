@@ -130,10 +130,26 @@ let hub_prototype = {
 		this.switch_tab(index);
 	},
 
-	new_active_tab_from_move(s) {
+	new_active_tab_from_move: function(s) {
 		let node = this.node.try_move(s);
 		let index = this.tabber.create_inactive_tab_after_active(node);
 		this.switch_tab(index);
+	},
+
+	close_tab: function() {
+
+		if (this.tabber.tabs.length === 1) {
+			this.close_final_tab();
+			return;
+		}
+
+		let node = this.tabber.close_active_tab();
+		this.set_node(node);
+		this.update_title();
+	},
+
+	close_final_tab: function() {
+		// TODO
 	},
 
 	prev: function() {

@@ -107,6 +107,31 @@ let tabber_prototype = {
 
 		return this.tabs.length - 1;
 	},
+
+	close_active_tab: function() {
+
+		if (this.tabs.length < 2) {
+			throw "close_active_tab(): cannot be called on the only tab";
+		}
+
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (active_index === -1) {
+			throw "close_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
+		}
+
+		this.tabs.splice(active_index, 1);
+
+		if (active_index >= this.tabs.length) {
+			active_index -= 1;
+		}
+
+		let node = this.tabs[active_index];
+
+		this.tabs[active_index] = ACTIVE_TAB_MARKER;
+		this.draw_tabs();
+
+		return node;
+	},
 }
 
 

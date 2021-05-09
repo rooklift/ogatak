@@ -154,6 +154,13 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Close tab",
+					accelerator: "CommandOrControl+W",
+					click: () => {
+						win.webContents.send("call", "close_tab");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
