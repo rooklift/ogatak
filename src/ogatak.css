@@ -11,8 +11,8 @@ body {
 
 #gridder {
 	display: grid;
-	grid-template-columns: 1fr min-content 1fr;
-	grid-template-rows: 1fr min-content 1fr;
+	grid-template-columns: min-content min-content 1fr;
+	grid-template-rows: min-content 1fr;
 	grid-template-areas:
 		"d a a"
 		"d b c";
