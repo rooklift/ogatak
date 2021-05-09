@@ -1,6 +1,7 @@
 "use strict";
 
 // The tabber stores no info about the active tab, which is the domain of the hub.
+// The tabber is agnostic about whether tabs can or cannot view the same game.
 
 const ACTIVE_TAB_MARKER = "active_marker";
 
