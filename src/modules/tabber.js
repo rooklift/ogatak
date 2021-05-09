@@ -16,29 +16,29 @@ let tabber_prototype = {
 		// TODO
 	},
 
-	deactivate_node_activate_index: function(node, index) {
+	deactivate_node_activate_index: function(node, new_active_index) {
+
+		if (typeof node !== "object" || node === null || typeof new_active_index !== "number" || new_active_index < 0 || new_active_index >= this.tabs.length) {
+			throw "deactivate_node_activate_index(): bad argument";
+		}
 
 		// Deactivate the node provided...
 
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
+		let old_active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (old_active_index === -1) {
 			throw "deactivate_node_activate_index(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
 
-		this.tabs[active_index] = node;
+		this.tabs[old_active_index] = node;
 
-		// Activate the index, returning the activated node...
+		// Activate the provided index, returning the activated node...
 
-		if (index < 0 || index >= this.tabs.length) {
-			throw "deactivate_node_activate_index(): invalid index";
-		}
-
-		let switch_node = this.tabs[index];
+		let switch_node = this.tabs[new_active_index];
 		if (switch_node.destroyed) {
 			throw "deactivate_node_activate_index(): saw switch_node.destroyed";
 		}
 
-		this.tabs[index] = ACTIVE_TAB_MARKER;
+		this.tabs[new_active_index] = ACTIVE_TAB_MARKER;
 		this.draw_tabs();
 		return switch_node;
 	},
@@ -86,7 +86,7 @@ let tabber_prototype = {
 		}
 
 		this.tabs.push(node);
-		return this.tabs.length;
+		return this.tabs.length - 1;
 	},
 }
 
