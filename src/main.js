@@ -147,6 +147,13 @@ function menu_build() {
 					}
 				},
 				{
+					label: "New tab",
+					accelerator: "CommandOrControl+T",
+					click: () => {
+						win.webContents.send("call", "new_active_tab");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
