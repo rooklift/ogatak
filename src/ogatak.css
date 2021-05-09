@@ -14,14 +14,13 @@ body {
 	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"d a a"
+		". a a"
 		"d b c";
 }
 
 #tabtable {
 	grid-area: d;
 	border-collapse: collapse;
-	color: "#ffffffff";
 	font-family: monospace, monospace;
 	margin: 1em 1em 1em 1em;
 	pointer-events: auto;
@@ -79,6 +78,10 @@ body {
 
 .blue {
 	color: #99eeeeff;
+}
+
+.rust {
+	color: #e0b872ff;
 }
 
 td {

@@ -23,7 +23,7 @@ let tabber_prototype = {
 
 		for (let n = 0; n < this.tabs.length; n++) {
 
-			let colourspan = this.tabs[n] === ACTIVE_TAB_MARKER ? "blue" : "white";
+			let colourspan = this.tabs[n] === ACTIVE_TAB_MARKER ? "white" : "rust";
 
 			let s = `<tr><td class="tab_${n} ${colourspan}">Tab&nbsp;${n}</td></tr>`;
 			items.push(s);
