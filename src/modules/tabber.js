@@ -64,14 +64,14 @@ let tabber_prototype = {
 	create_inactive_tab_after_active: function(node) {
 
 		if (typeof node !== "object" || node === null) {
-			throw "create_inactive_tab(): bad argument";
+			throw "create_inactive_tab_after_active(): bad argument";
 		}
 
 		// Returns the index, so it can be easily switched to immediately.
 
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		if (active_index === -1) {
-			throw "create_inactive_tab(): could not find ACTIVE_TAB_MARKER in tabs";
+			throw "create_inactive_tab_after_active(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
 
 		this.tabs.splice(active_index + 1, 0, node);
