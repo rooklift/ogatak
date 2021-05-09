@@ -34,6 +34,11 @@ let tabber_prototype = {
 			img.className = `tab_${n}`;
 
 			this.tabdiv.appendChild(img);
+
+			let br = document.createElement("br");
+			this.tabdiv.appendChild(br);
+			let br2 = document.createElement("br");
+			this.tabdiv.appendChild(br2);
 		}
 	},
 
