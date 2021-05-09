@@ -137,5 +137,6 @@ hub.draw();
 hub.tabber.draw_tabs();
 hub.window_resize_checker();
 hub.graph_draw_spinner();
+hub.active_tab_draw_spinner();
 
 ipcRenderer.send("renderer_ready", null);

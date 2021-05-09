@@ -74,8 +74,6 @@ let hub_prototype = {
 		if (!did_draw_pv) {
 			this.maindrawer.draw_standard(this.node);
 		}
-
-		this.tabber.draw_active_tab(this.node.get_board());
 	},
 
 	mouseenter: function(s) {											// Mouse has entered some point e.g. "jj"
@@ -546,6 +544,13 @@ let hub_prototype = {
 		this.grapher.draw_graph(this.node);
 		setTimeout(() => {
 			this.graph_draw_spinner();
+		}, Math.max(50, config.graph_draw_delay));
+	},
+
+	active_tab_draw_spinner: function() {
+		this.tabber.draw_active_tab(this.node.get_board());
+		setTimeout(() => {
+			this.active_tab_draw_spinner();
 		}, Math.max(50, config.graph_draw_delay));
 	},
 
