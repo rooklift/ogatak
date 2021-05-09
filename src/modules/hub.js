@@ -1,5 +1,7 @@
 "use strict";
 
+// FIXME - trees are now never getting destroyed.
+
 const fs = require("fs");
 const {ipcRenderer} = require("electron");
 
@@ -7,10 +9,13 @@ const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
 const new_grapher = require("./grapher");
 const new_node = require("./node");
+const new_tabber = require("./tabber");
+
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
+
 const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
@@ -37,14 +42,18 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
-	hub.__autoanalysis = false;			// Don't set this directly, because it should be ack'd
-	hub.__autoplay = false;				// Don't set this directly, because it should be ack'd
+	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
+	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
+
+	hub.tabber = new_tabber(
+		document.getElementById("tabdiv")
+	);
+
 	hub.window_resize_time = null;
-	hub.loaded_file = null;
 
 	hub.new_from_config();
-
 	hub.update_title();
+
 	return hub;
 };
 
@@ -85,13 +94,13 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	set_node: function(node, new_game_flag) {
+	set_node: function(node, draw_graph_flag) {
 		if (!node || this.node === node) {
 			return;
 		}
 		this.node = node;
 		this.draw();
-		if (new_game_flag) {
+		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
@@ -99,6 +108,44 @@ let hub_prototype = {
 		if (this.engine.desired) {
 			this.go();
 		}
+	},
+
+	switch_tab: function(index) {
+		if (index < 0 || index >= this.tabber.tabs.length) {
+			return;
+		}
+		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
+		if (this.node !== switch_node) {
+			if (this.__autoanalysis || this.__autoplay) {		// i.e. ok to ponder if that's all we're doing.
+				this.halt();
+			}
+			this.set_autoanalysis(false);
+			this.set_autoplay(false);
+		}
+		this.set_node(switch_node, true);
+		this.tabber.draw_tabs(this.node);
+		this.update_title();
+	},
+
+	new_active_view: function() {
+		let index = this.tabber.create_inactive_tab_after_active(this.node);
+		this.switch_tab(index);
+	},
+
+	close_tab: function() {
+
+		if (this.tabber.tabs.length === 1) {
+			this.new_from_config(true);
+			this.tabber.draw_tabs(this.node);
+			return;
+		}
+
+		let node = this.tabber.close_active_tab();
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
+		this.set_node(node);
+		this.tabber.draw_tabs(this.node);
+		this.update_title();
 	},
 
 	prev: function() {
@@ -118,25 +165,24 @@ let hub_prototype = {
 	},
 
 	load: function(filepath) {
+		console.log("Trying to load:", filepath);
+		let buf;
+		let type = "sgf";
 		try {
-			let buf = fs.readFileSync(filepath);
-			let type = "sgf";
+			buf = fs.readFileSync(filepath);
 			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-			if (this.load_buffer(buf, type)) {
-				this.loaded_file = filepath;
-			}
 		} catch (err) {
 			alert("While opening file:\n" + err.toString());
+			return;
 		}
+		this.load_buffer(buf, type);
 	},
 
 	load_sgf_from_string: function (s) {
 		if (typeof s === "string") {
 			let buf = Buffer.from(s);
-			if (this.load_buffer(buf, "sgf")) {
-				this.loaded_file = null;
-			}
+			this.load_buffer(buf, "sgf");
 		}
 	},
 
@@ -152,25 +198,24 @@ let hub_prototype = {
 			} else {
 				throw "unknown type";
 			}
-			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
-			this.set_node(new_root, true);
+			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
+			if (this.node.parent || this.node.children.length > 0) {
+				let index = this.tabber.create_inactive_tab_at_end(new_root);
+				this.switch_tab(index);
+			} else {
+				this.set_node(new_root);
+			}
 			this.update_title();
-			return true;
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
-			return false;
 		}
 	},
 
-	new_from_config: function() {
-		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap);
+	new_from_config: function(force_same_tab) {
+		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap, force_same_tab);
 	},
 
-	new: function(width = 19, height = 19, komi = 0, handicap = 0) {
-
-		if (this.node) {
-			this.node.destroy_tree();
-		}
+	new: function(width = 19, height = 19, komi = 0, handicap = 0, force_same_tab = false) {
 
 		let node = new_node();
 
@@ -187,7 +232,13 @@ let hub_prototype = {
 
 		node.set("KM", komi);
 
-		this.set_node(node, true);
+		if (!force_same_tab && this.node && (this.node.parent || this.node.children.length > 0)) {
+			let index = this.tabber.create_inactive_tab_at_end(node);
+			this.switch_tab(index);
+		} else {
+			this.set_node(node);
+		}
+
 		this.update_title();
 	},
 
@@ -205,10 +256,6 @@ let hub_prototype = {
 			node = node.parent;
 		}
 		this.set_node(node);
-	},
-
-	return_to_main: function() {
-		this.set_node(this.node.return_to_main_line_helper());
 	},
 
 	prev_sibling: function() {
@@ -251,17 +298,8 @@ let hub_prototype = {
 		this.set_node(this.node.parent.children[nexti]);
 	},
 
-	delete_node: function() {
-		if (this.node.parent) {
-			this.set_node(this.node.detach());
-		} else {
-			if (this.node.children.length > 0) {
-				for (let child of this.node.children) {
-					child.detach();
-				}
-				this.draw();				// Clear the next move markers.
-			}
-		}
+	return_to_main: function() {
+		this.set_node(this.node.return_to_main_line_helper());
 	},
 
 	promote_to_main_line: function() {
@@ -284,6 +322,22 @@ let hub_prototype = {
 		}
 	},
 
+	delete_node: function() {
+		if (this.node.parent) {
+			this.set_node(this.node.detach());
+		} else {
+			if (this.node.children.length > 0) {
+				for (let child of this.node.children) {
+					child.detach();
+				}
+				this.draw();				// Clear the next move markers.
+			}
+		}
+		if (this.tabber.remove_deleted_nodes()) {
+			this.tabber.draw_tabs(this.node);
+		}
+	},
+
 	delete_other_lines: function() {
 
 		this.promote_to_main_line();
@@ -301,6 +355,9 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
+			if (this.tabber.remove_deleted_nodes()) {
+				this.tabber.draw_tabs(this.node);
+			}
 		}
 	},
 
@@ -494,6 +551,13 @@ let hub_prototype = {
 		this.grapher.draw_graph(this.node);
 		setTimeout(() => {
 			this.graph_draw_spinner();
+		}, Math.max(50, config.graph_draw_delay));
+	},
+
+	active_tab_draw_spinner: function() {
+		this.tabber.draw_active_tab(this.node);
+		setTimeout(() => {
+			this.active_tab_draw_spinner();
 		}, Math.max(50, config.graph_draw_delay));
 	},
 

@@ -24,6 +24,17 @@ global.hub = require("./hub").new_hub();
 // ---------------------------------------------------------------------------------------------------
 
 document.addEventListener("wheel", (event) => {
+
+	let path = event.path || (event.composedPath && event.composedPath());
+
+	if (path) {
+		for (let item of path) {
+			if (item.id === "tabdiv") {		// Can have a scrollbar.
+				return;
+			}
+		}
+	}
+
 	if (event.deltaY && event.deltaY < 0) {
 		hub.prev();
 	}
@@ -32,10 +43,22 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
+	let i = event_path_class_string(event, "tab_");
+	if (typeof i === "string") {
+		hub.switch_tab(parseInt(i, 10));
+	}
+});
+
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
-	let coords = event_path_class_string(event, "td_");
-	if (coords) {
-		hub.try_move(coords);
+	event.preventDefault();
+	let s = event_path_class_string(event, "td_");
+	if (s) {
+		if (event.which === 2) {
+			// we could make a new tab, but meh...
+		} else {
+			hub.try_move(s);
+		}
 	}
 });
 
@@ -111,7 +134,9 @@ ipcRenderer.on("call", (event, msg) => {
 // ---------------------------------------------------------------------------------------------------
 
 hub.draw();
+hub.tabber.draw_tabs(hub.node);
 hub.window_resize_checker();
 hub.graph_draw_spinner();
+hub.active_tab_draw_spinner();
 
 ipcRenderer.send("renderer_ready", null);

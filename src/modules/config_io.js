@@ -29,6 +29,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"height": 740,
 
 	"square_size": 34,
+	"thumbnail_square_size": 4,
 	"board_font_size": 14,
 
 	"best_colour_black": "#99dd55ff",

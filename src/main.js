@@ -147,6 +147,20 @@ function menu_build() {
 					}
 				},
 				{
+					label: "New view into this game",
+					accelerator: "CommandOrControl+T",
+					click: () => {
+						win.webContents.send("call", "new_active_view");
+					}
+				},
+				{
+					label: "Close tab",
+					accelerator: "CommandOrControl+W",
+					click: () => {
+						win.webContents.send("call", "close_tab");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

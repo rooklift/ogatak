@@ -343,9 +343,7 @@ let node_prototype = {
 		o.maxVisits = 1000000;
 		o.reportDuringSearchEvery = 0.1;
 		o.overrideSettings.reportAnalysisWinratesAs = "SIDETOMOVE";
-		if (config.widerootnoise) {
-			o.overrideSettings.wideRootNoise = 0.05;
-		}
+		o.overrideSettings.wideRootNoise = config.widerootnoise ? 0.05 : 0;
 
 		return o;
 	},

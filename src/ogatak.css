@@ -9,13 +9,34 @@ body {
 	width: 100%;
 }
 
+::-webkit-scrollbar {
+	pointer-events: auto;
+	background-color: #181818ff;
+}
+
+::-webkit-scrollbar-thumb {
+	pointer-events: auto;
+	background-color: #444444ff;
+}
+
 #gridder {
 	display: grid;
-	grid-template-columns: min-content 1fr;
+	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"a a"
-		"b c";
+		"d a a"
+		"d b c";
+}
+
+#tabdiv {
+	grid-area: d;
+	font-family: monospace, monospace;
+	height: 100vh;
+	margin: 0;
+	padding: 0 1em 0 1em;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	pointer-events: auto;
 }
 
 #graphcanvas {
@@ -66,6 +87,14 @@ body {
 
 .white {
 	color: #ffffffff;
+}
+
+.blue {
+	color: #99eeeeff;
+}
+
+.rust {
+	color: #e0b872ff;
 }
 
 td {
