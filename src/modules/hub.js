@@ -139,17 +139,13 @@ let hub_prototype = {
 	close_tab: function() {
 
 		if (this.tabber.tabs.length === 1) {
-			this.close_final_tab();
+			this.new_from_config(true);
 			return;
 		}
 
 		let node = this.tabber.close_active_tab();
 		this.set_node(node);
 		this.update_title();
-	},
-
-	close_final_tab: function() {
-		// TODO
 	},
 
 	prev: function() {
@@ -214,11 +210,11 @@ let hub_prototype = {
 		}
 	},
 
-	new_from_config: function() {
-		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap);
+	new_from_config: function(force_same_tab) {
+		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap, force_same_tab);
 	},
 
-	new: function(width = 19, height = 19, komi = 0, handicap = 0) {
+	new: function(width = 19, height = 19, komi = 0, handicap = 0, force_same_tab = false) {
 
 		let node = new_node();
 
@@ -235,7 +231,7 @@ let hub_prototype = {
 
 		node.set("KM", komi);
 
-		if (this.node && (this.node.parent || this.node.children.length > 0)) {
+		if (!force_same_tab && this.node && (this.node.parent || this.node.children.length > 0)) {
 			let index = this.tabber.create_inactive_tab_at_end(node);
 			this.switch_tab(index);
 		} else {
