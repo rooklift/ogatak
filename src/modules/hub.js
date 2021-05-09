@@ -7,15 +7,16 @@ const new_board_drawer = require("./board_drawer");
 const new_engine = require("./engine");
 const new_grapher = require("./grapher");
 const new_node = require("./node");
+const new_tabber = require("./tabber");
+
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
+
 const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
-
-const ACTIVE_TAB_MARKER = "active_marker";
 
 // ------------------------------------------------------------------------------------------------
 
@@ -39,13 +40,13 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
+	hub.tabber = new_tabber();
+
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
 	hub.window_resize_time = null;
 	hub.loaded_file = null;
-
-	hub.tabs = [ACTIVE_TAB_MARKER];				// Array of nodes, but with (some non-objectish thing) in place of the currently displayed node
 
 	hub.new_from_config();
 
@@ -90,7 +91,7 @@ let hub_prototype = {
 		this.set_node(node);
 	},
 
-	set_node: function(node, new_game_flag) {							// This function should know nothing about tabs.
+	set_node: function(node, new_game_flag) {
 		if (!node || this.node === node) {
 			return;
 		}
@@ -106,78 +107,20 @@ let hub_prototype = {
 		}
 	},
 
-	switch_tab: function(switch_index) {
+	switch_tab: function(index) {
 
-		if (switch_index < 0 || switch_index >= this.tabs.length) {
+		if (index < 0 || index >= this.tabber.tabs.length) {
 			return;
 		}
 
-		let bookmark = this.tabs[switch_index];
+		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
+		this.set_node(switch_node);
 
-		if (bookmark === ACTIVE_TAB_MARKER) {
-			return;
-		}
-
-		if (bookmark.destroyed) {
-			throw "When switching tab, saw bookmark.destroyed";				// FIXME?
-		}
-
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-
-		if (active_index === -1) {
-			throw "When switching tabs, could not find ACTIVE_TAB_MARKER in tabs";
-		}
-
-		this.tabs[active_index] = this.node;
-		this.set_node(bookmark);
-		this.tabs[switch_index] = ACTIVE_TAB_MARKER;
-	},
-
-	remove_deleted_nodes_from_tabs: function() {
-
-		let fixed = [];
-
-		for (let node of this.tabs) {
-			if (node === ACTIVE_TAB_MARKER) {
-				fixed.push(ACTIVE_TAB_MARKER);
-			} else {
-				if (!node.destroyed) {
-					fixed.push(node);
-				}
-			}
-		}
-
-		this.tabs = fixed;
-
-		// FIXME - redraw the tabs.
 	},
 
 	new_tab: function() {
-
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "When making new tab, could not find ACTIVE_TAB_MARKER in tabs";
-		}
-
-		this.tabs.splice(active_index + 1, 0, this.node);
-		this.switch_tab(active_index + 1);
-
-		// FIXME - redraw the tabs.
-	},
-
-	new_tab_from_move: function(s) {
-
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "When making new tab, could not find ACTIVE_TAB_MARKER in tabs";
-		}
-
-		let node = this.node.try_move(s);
-
-		this.tabs.splice(active_index + 1, 0, node);
-		this.switch_tab(active_index + 1);
-
-		// FIXME - redraw the tabs.
+		let index = this.tabber.create_inactive_tab(this.node);
+		this.switch_tab(index);
 	},
 
 	prev: function() {
@@ -361,7 +304,7 @@ let hub_prototype = {
 				this.draw();				// Clear the next move markers.
 			}
 		}
-		this.remove_deleted_nodes_from_tabs();
+		this.tabber.remove_deleted_nodes();
 	},
 
 	delete_other_lines: function() {
@@ -381,7 +324,7 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
-			this.remove_deleted_nodes_from_tabs();
+			this.tabber.remove_deleted_nodes();
 		}
 	},
 
