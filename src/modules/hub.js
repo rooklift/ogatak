@@ -120,6 +120,9 @@ let hub_prototype = {
 		if (this.node === switch_node) {
 			return;
 		}
+		if (this.__autoanalysis || this.autoplay) {		// i.e. ok to ponder if that's all we're doing.
+			this.halt();
+		}
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
 		this.set_node(switch_node);
