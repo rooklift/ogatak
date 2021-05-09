@@ -22,7 +22,9 @@ let tabber_prototype = {
 			throw "draw_tabs(): requires active_node argument";
 		}
 
-		this.tabdiv.innerHTML = "<br>";
+		this.tabdiv.innerHTML = "";
+
+		this.tabdiv.appendChild(document.createElement("br"));
 
 		let items = [];
 
@@ -38,11 +40,8 @@ let tabber_prototype = {
 			img.className = `tab_${n}`;
 
 			this.tabdiv.appendChild(img);
-
-			let br = document.createElement("br");
-			this.tabdiv.appendChild(br);
-			let br2 = document.createElement("br");
-			this.tabdiv.appendChild(br2);
+			this.tabdiv.appendChild(document.createElement("br"));
+			this.tabdiv.appendChild(document.createElement("br"));
 		}
 	},
 
