@@ -301,25 +301,16 @@ let board_prototype = {
 		}
 	},
 
-	add_stone: function(s, colour) {
-		if (this.in_bounds(s) === false) {
-			return;
-		}
-		let x = s.charCodeAt(0) - 97;
-		let y = s.charCodeAt(1) - 97;
-		this.state[x][y] = colour;
-	},
-
 	add_empty: function(s) {
-		this.add_stone(s, "");
+		this.set_at(s, "");
 	},
 
 	add_black: function(s) {
-		this.add_stone(s, "b");
+		this.set_at(s, "b");
 	},
 
 	add_white: function(s) {
-		this.add_stone(s, "w");
+		this.set_at(s, "w");
 	},
 
 	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
