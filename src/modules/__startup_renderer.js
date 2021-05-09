@@ -44,7 +44,7 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	let s = event_path_class_string(event, "td_");
 	if (s) {
 		if (event.which === 2) {
-			// hub.new_active_tab_from_move(s);
+			// we could make a new tab, but meh...
 		} else {
 			hub.try_move(s);
 		}

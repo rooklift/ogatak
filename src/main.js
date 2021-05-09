@@ -147,10 +147,10 @@ function menu_build() {
 					}
 				},
 				{
-					label: "New tab",
+					label: "New view into this game",
 					accelerator: "CommandOrControl+T",
 					click: () => {
-						win.webContents.send("call", "new_active_tab");
+						win.webContents.send("call", "new_active_view");
 					}
 				},
 				{

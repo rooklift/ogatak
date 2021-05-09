@@ -125,13 +125,8 @@ let hub_prototype = {
 		this.update_title();
 	},
 
-	new_active_tab: function() {
+	new_active_view: function() {
 		let index = this.tabber.create_inactive_tab_after_active(this.node);
-		this.switch_tab(index);
-	},
-
-	new_active_tab_from_move: function(s) {
-		let index = this.tabber.create_inactive_tab_after_active(this.node.try_move(s));
 		this.switch_tab(index);
 	},
 
