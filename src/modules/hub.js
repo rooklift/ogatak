@@ -116,6 +116,11 @@ let hub_prototype = {
 			return;
 		}
 		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
+		if (this.node === switch_node) {
+			return;
+		}
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
 		this.set_node(switch_node);
 	},
 
