@@ -45,6 +45,7 @@ let tabber_prototype = {
 			let img = new Image();
 			img.src = this.image_cache[node.id];
 			img.className = `tab_${n}`;
+			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
 
 			this.tabdiv.appendChild(img);
 			this.tabdiv.appendChild(document.createElement("br"));
