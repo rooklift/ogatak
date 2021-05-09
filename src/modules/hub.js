@@ -123,7 +123,8 @@ let hub_prototype = {
 		}
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
-		this.set_node(switch_node);
+		this.set_node(switch_node, true);
+		this.tabber.draw_tabs(this.node);
 		this.update_title();
 	},
 
@@ -143,6 +144,7 @@ let hub_prototype = {
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
 		this.set_node(node);
+		this.tabber.draw_tabs(this.node);
 		this.update_title();
 	},
 

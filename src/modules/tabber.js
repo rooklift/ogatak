@@ -16,7 +16,11 @@ function new_tabber(tabdiv) {
 
 let tabber_prototype = {
 
-	draw_tabs: function() {
+	draw_tabs: function(active_node) {
+
+		if (!active_node) {
+			throw "draw_tabs(): requires active_node argument";
+		}
 
 		this.tabdiv.innerHTML = "<br>";
 
@@ -27,7 +31,7 @@ let tabber_prototype = {
 			let img = new Image();
 
 			if (this.tabs[n] === ACTIVE_TAB_MARKER) {
-				img.src = thumbnail(hub.node.get_board(), config.thumbnail_square_size);
+				img.src = thumbnail(active_node.get_board(), config.thumbnail_square_size);
 			} else {
 				img.src = thumbnail(this.tabs[n].get_board(), config.thumbnail_square_size);
 			}
@@ -79,7 +83,6 @@ let tabber_prototype = {
 		}
 
 		this.tabs[new_active_index] = ACTIVE_TAB_MARKER;
-		this.draw_tabs();
 		return switch_node;
 	},
 
@@ -98,7 +101,6 @@ let tabber_prototype = {
 		}
 
 		this.tabs = fixed;
-		this.draw_tabs();
 	},
 
 	create_inactive_tab_after_active: function(node) {
@@ -115,7 +117,6 @@ let tabber_prototype = {
 		}
 
 		this.tabs.splice(active_index + 1, 0, node);
-		this.draw_tabs();
 
 		return active_index + 1;
 	},
@@ -127,7 +128,6 @@ let tabber_prototype = {
 		}
 
 		this.tabs.push(node);
-		this.draw_tabs();
 
 		return this.tabs.length - 1;
 	},
@@ -152,7 +152,6 @@ let tabber_prototype = {
 		let node = this.tabs[active_index];
 
 		this.tabs[active_index] = ACTIVE_TAB_MARKER;
-		this.draw_tabs();
 
 		return node;
 	},
