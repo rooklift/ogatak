@@ -555,7 +555,7 @@ let hub_prototype = {
 	},
 
 	active_tab_draw_spinner: function() {
-		this.tabber.draw_active_tab(this.node.get_board());
+		this.tabber.draw_active_tab(this.node);
 		setTimeout(() => {
 			this.active_tab_draw_spinner();
 		}, Math.max(50, config.graph_draw_delay));

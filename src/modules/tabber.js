@@ -11,6 +11,7 @@ function new_tabber(tabdiv) {
 	let tabber = Object.create(tabber_prototype);
 	tabber.tabs = [ACTIVE_TAB_MARKER];
 	tabber.tabdiv = tabdiv;
+	tabber.image_cache = {};
 	return tabber;
 }
 
@@ -28,24 +29,35 @@ let tabber_prototype = {
 
 		let items = [];
 
+		let seen_node_ids = {};
+
 		for (let n = 0; n < this.tabs.length; n++) {
 
-			let img = new Image();
+			let node = (this.tabs[n] === ACTIVE_TAB_MARKER) ? active_node : this.tabs[n];
 
-			if (this.tabs[n] === ACTIVE_TAB_MARKER) {
-				img.src = thumbnail(active_node.get_board(), config.thumbnail_square_size);
-			} else {
-				img.src = thumbnail(this.tabs[n].get_board(), config.thumbnail_square_size);
+			seen_node_ids[node.id] = true;
+
+			if (!this.image_cache[node.id]) {
+				this.image_cache[node.id] = thumbnail(node.get_board(), config.thumbnail_square_size);
 			}
+
+			let img = new Image();
+			img.src = this.image_cache[node.id];
 			img.className = `tab_${n}`;
 
 			this.tabdiv.appendChild(img);
 			this.tabdiv.appendChild(document.createElement("br"));
 			this.tabdiv.appendChild(document.createElement("br"));
 		}
+
+		for (let key of Object.keys(this.image_cache)) {
+			if (!seen_node_ids[key]) {
+				delete this.image_cache[key];
+			}
+		}
 	},
 
-	draw_active_tab: function(board) {
+	draw_active_tab: function(node) {
 
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		if (active_index === -1) {
@@ -53,10 +65,15 @@ let tabber_prototype = {
 		}
 
 		let img = document.getElementsByClassName(`tab_${active_index}`)[0];
-
-		if (img) {
-			img.src = thumbnail(board, config.thumbnail_square_size);
+		if (!img) {
+			return;
 		}
+
+		if (!this.image_cache[node.id]) {
+			this.image_cache[node.id] = thumbnail(node.get_board(), config.thumbnail_square_size);
+		}
+
+		img.src = this.image_cache[node.id];
 	},
 
 	deactivate_node_activate_index: function(node, new_active_index) {
