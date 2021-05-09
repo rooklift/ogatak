@@ -108,18 +108,15 @@ let hub_prototype = {
 	},
 
 	switch_tab: function(index) {
-
 		if (index < 0 || index >= this.tabber.tabs.length) {
 			return;
 		}
-
 		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
 		this.set_node(switch_node);
-
 	},
 
 	new_active_tab: function() {
-		let index = this.tabber.create_inactive_tab(this.node);
+		let index = this.tabber.create_inactive_tab_after_active(this.node);
 		this.switch_tab(index);
 	},
 

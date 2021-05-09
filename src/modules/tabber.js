@@ -61,7 +61,7 @@ let tabber_prototype = {
 		this.draw_tabs();
 	},
 
-	create_inactive_tab: function(node) {
+	create_inactive_tab_after_active: function(node) {
 
 		if (typeof node !== "object" || node === null) {
 			throw "create_inactive_tab(): bad argument";
