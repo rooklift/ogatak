@@ -11,11 +11,20 @@ body {
 
 #gridder {
 	display: grid;
-	grid-template-columns: min-content 1fr;
-	grid-template-rows: min-content 1fr;
+	grid-template-columns: 1fr min-content 1fr;
+	grid-template-rows: 1fr min-content 1fr;
 	grid-template-areas:
-		"a a"
-		"b c";
+		"d a a"
+		"d b c";
+}
+
+#tabtable {
+	grid-area: d;
+	border-collapse: collapse;
+	color: "#ffffffff";
+	font-family: monospace, monospace;
+	margin: 1em 1em 1em 1em;
+	pointer-events: auto;
 }
 
 #graphcanvas {
@@ -66,6 +75,10 @@ body {
 
 .white {
 	color: #ffffffff;
+}
+
+.blue {
+	color: #99eeeeff;
 }
 
 td {
