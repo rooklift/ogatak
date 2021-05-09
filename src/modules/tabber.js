@@ -4,16 +4,32 @@
 
 const ACTIVE_TAB_MARKER = "active_marker";
 
-function new_tabber() {
+function new_tabber(htmltable) {
 	let tabber = Object.create(tabber_prototype);
 	tabber.tabs = [ACTIVE_TAB_MARKER];
+	tabber.htmltable = htmltable;
 	return tabber;
 }
 
 let tabber_prototype = {
 
 	draw_tabs: function() {
+
 		// TODO
+
+		this.htmltable.innerHTML = "";
+
+		let items = [];
+
+		for (let n = 0; n < this.tabs.length; n++) {
+
+			let colourspan = this.tabs[n] === ACTIVE_TAB_MARKER ? "blue" : "white";
+
+			let s = `<tr><td class="tab_${n} ${colourspan}">Tab ${n}</td></tr>`;
+			items.push(s);
+		}
+
+		this.htmltable.innerHTML = items.join("");
 	},
 
 	deactivate_node_activate_index: function(node, new_active_index) {

@@ -40,14 +40,17 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
-	hub.tabber = new_tabber();
-
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
 	hub.window_resize_time = null;
 
 	hub.new_from_config();
+
+	hub.tabber = new_tabber(
+		document.getElementById("tabtable")
+	);
+	hub.tabber.draw_tabs();
 
 	hub.update_title();
 	return hub;

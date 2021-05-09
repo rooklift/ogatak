@@ -32,6 +32,13 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+document.getElementById("tabtable").addEventListener("mousedown", (event) => {
+	let i = event_path_class_string(event, "tab_");
+	if (typeof i === "string") {
+		hub.switch_tab(parseInt(i, 10));
+	}
+});
+
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	let coords = event_path_class_string(event, "td_");
 	if (coords) {
