@@ -115,14 +115,13 @@ let hub_prototype = {
 			return;
 		}
 		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
-		if (this.node === switch_node) {
-			return;
+		if (this.node !== switch_node) {
+			if (this.__autoanalysis || this.__autoplay) {		// i.e. ok to ponder if that's all we're doing.
+				this.halt();
+			}
+			this.set_autoanalysis(false);
+			this.set_autoplay(false);
 		}
-		if (this.__autoanalysis || this.autoplay) {		// i.e. ok to ponder if that's all we're doing.
-			this.halt();
-		}
-		this.set_autoanalysis(false);
-		this.set_autoplay(false);
 		this.set_node(switch_node, true);
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
