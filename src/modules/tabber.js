@@ -26,8 +26,6 @@ let tabber_prototype = {
 
 		let items = [];
 
-		console.log(this.tabs.length);
-
 		for (let n = 0; n < this.tabs.length; n++) {
 
 			let img = new Image();

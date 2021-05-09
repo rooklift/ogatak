@@ -11,12 +11,12 @@ body {
 
 ::-webkit-scrollbar {
 	pointer-events: auto;
-	background-color: #181818;
+	background-color: #181818ff;
 }
 
 ::-webkit-scrollbar-thumb {
 	pointer-events: auto;
-	background-color: #444444;
+	background-color: #444444ff;
 }
 
 #gridder {

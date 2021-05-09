@@ -136,6 +136,7 @@ let hub_prototype = {
 
 		if (this.tabber.tabs.length === 1) {
 			this.new_from_config(true);
+			this.tabber.draw_tabs(this.node);
 			return;
 		}
 
@@ -164,6 +165,7 @@ let hub_prototype = {
 	},
 
 	load: function(filepath) {
+		console.log("Trying to load:", filepath);
 		let buf;
 		let type = "sgf";
 		try {
