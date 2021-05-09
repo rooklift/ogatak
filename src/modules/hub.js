@@ -46,7 +46,6 @@ exports.new_hub = function() {
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
 	hub.window_resize_time = null;
-	hub.loaded_file = null;
 
 	hub.new_from_config();
 
@@ -137,29 +136,27 @@ let hub_prototype = {
 	},
 
 	load: function(filepath) {
+		let buf;
+		let type = "sgf";
 		try {
-			let buf = fs.readFileSync(filepath);
-			let type = "sgf";
+			buf = fs.readFileSync(filepath);
 			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-			if (this.load_buffer(buf, type)) {
-				this.loaded_file = filepath;
-			}
 		} catch (err) {
 			alert("While opening file:\n" + err.toString());
+			return;
 		}
+		this.load_buffer(buf, type);
 	},
 
 	load_sgf_from_string: function (s) {
 		if (typeof s === "string") {
 			let buf = Buffer.from(s);
-			if (this.load_buffer(buf, "sgf")) {
-				this.loaded_file = null;
-			}
+			this.load_buffer(buf, "sgf");
 		}
 	},
 
-	load_buffer: function(buf, type) {
+	load_buffer: function(buf, type) {											// FIXME - interaction with tabs.
 		try {
 			let new_root;
 			if (type === "sgf") {
@@ -174,10 +171,8 @@ let hub_prototype = {
 			// Any fixes to the root etc should be done now, before set_node causes a board to exist.
 			this.set_node(new_root, true);
 			this.update_title();
-			return true;
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
-			return false;
 		}
 	},
 
@@ -185,7 +180,7 @@ let hub_prototype = {
 		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap);
 	},
 
-	new: function(width = 19, height = 19, komi = 0, handicap = 0) {
+	new: function(width = 19, height = 19, komi = 0, handicap = 0) {			// FIXME - interaction with tabs.
 
 		if (this.node) {
 			this.node.destroy_tree();
