@@ -40,9 +40,14 @@ document.getElementById("tabtable").addEventListener("mousedown", (event) => {
 });
 
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
-	let coords = event_path_class_string(event, "td_");
-	if (coords) {
-		hub.try_move(coords);
+	event.preventDefault();
+	let s = event_path_class_string(event, "td_");
+	if (s) {
+		if (event.which === 2) {
+			hub.new_active_tab_from_move(s);
+		} else {
+			hub.try_move(s);
+		}
 	}
 });
 

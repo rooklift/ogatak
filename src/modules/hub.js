@@ -122,6 +122,12 @@ let hub_prototype = {
 		this.switch_tab(index);
 	},
 
+	new_active_tab_from_move(s) {
+		let node = this.node.try_move(s);
+		let index = this.tabber.create_inactive_tab_after_active(node);
+		this.switch_tab(index);
+	},
+
 	prev: function() {
 		if (this.node.parent) {
 			this.set_node(this.node.parent);
