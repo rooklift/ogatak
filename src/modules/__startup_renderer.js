@@ -32,7 +32,7 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
-document.getElementById("tabtable").addEventListener("mousedown", (event) => {
+document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
 		hub.switch_tab(parseInt(i, 10));

@@ -46,7 +46,7 @@ exports.new_hub = function() {
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
 	hub.tabber = new_tabber(
-		document.getElementById("tabtable")
+		document.getElementById("tabdiv")
 	);
 
 	hub.window_resize_time = null;

@@ -9,20 +9,38 @@ body {
 	width: 100%;
 }
 
+::-webkit-scrollbar {
+	pointer-events: auto;
+	background-color: #181818;
+}
+
+::-webkit-scrollbar-thumb {
+	pointer-events: auto;
+	background-color: #444444;
+}
+
 #gridder {
 	display: grid;
 	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		". a a"
+		"d a a"
 		"d b c";
 }
 
-#tabtable {
+#tabouter {
 	grid-area: d;
-	border-collapse: collapse;
+	height: 100vh;
+}
+
+#tabdiv {
+	grid-area: d;
 	font-family: monospace, monospace;
-	margin: 1em 1em 1em 1em;
+	height: 101%;
+	margin: 0 0 0 1em;
+	padding-right: 1em;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	pointer-events: auto;
 }
 

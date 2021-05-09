@@ -4,10 +4,10 @@
 
 const ACTIVE_TAB_MARKER = "active_marker";
 
-function new_tabber(htmltable) {
+function new_tabber(tabdiv) {
 	let tabber = Object.create(tabber_prototype);
 	tabber.tabs = [ACTIVE_TAB_MARKER];
-	tabber.htmltable = htmltable;
+	tabber.tabdiv = tabdiv;
 	return tabber;
 }
 
@@ -17,7 +17,7 @@ let tabber_prototype = {
 
 		// TODO
 
-		this.htmltable.innerHTML = "";
+		this.tabdiv.innerHTML = "";
 
 		let items = [];
 
@@ -25,11 +25,11 @@ let tabber_prototype = {
 
 			let colourspan = this.tabs[n] === ACTIVE_TAB_MARKER ? "white" : "rust";
 
-			let s = `<tr><td class="tab_${n} ${colourspan}">Tab&nbsp;${n}</td></tr>`;
+			let s = `<span class="tab_${n} ${colourspan}">Tab&nbsp;${n < 10 ? "&nbsp;" : ""}${n}</span>`;
 			items.push(s);
 		}
 
-		this.htmltable.innerHTML = items.join("");
+		this.tabdiv.innerHTML = "<br>" + items.join("<br>") + "<br>&nbsp;";
 	},
 
 	deactivate_node_activate_index: function(node, new_active_index) {
