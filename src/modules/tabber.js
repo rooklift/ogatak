@@ -12,6 +12,7 @@ function new_tabber(tabdiv) {
 	tabber.tabs = [ACTIVE_TAB_MARKER];
 	tabber.tabdiv = tabdiv;
 	tabber.image_cache = {};
+	tabber.last_drawn_active_id = "";
 	return tabber;
 }
 
@@ -74,6 +75,12 @@ let tabber_prototype = {
 		}
 
 		img.src = this.image_cache[node.id];
+
+		if (this.last_drawn_active_id !== node.id) {
+			delete this.image_cache[this.last_drawn_active_id];		// We probably don't need this now.
+		}
+
+		this.last_drawn_active_id = node.id;
 	},
 
 	deactivate_node_activate_index: function(node, new_active_index) {
