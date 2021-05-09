@@ -134,6 +134,7 @@ ipcRenderer.on("call", (event, msg) => {
 // ---------------------------------------------------------------------------------------------------
 
 hub.draw();
+hub.tabber.draw_tabs();
 hub.window_resize_checker();
 hub.graph_draw_spinner();
 

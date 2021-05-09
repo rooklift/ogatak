@@ -52,7 +52,6 @@ exports.new_hub = function() {
 	hub.window_resize_time = null;
 
 	hub.new_from_config();
-	hub.tabber.draw_tabs();
 	hub.update_title();
 
 	return hub;
@@ -75,6 +74,8 @@ let hub_prototype = {
 		if (!did_draw_pv) {
 			this.maindrawer.draw_standard(this.node);
 		}
+
+		this.tabber.draw_active_tab(this.node.get_board());
 	},
 
 	mouseenter: function(s) {											// Mouse has entered some point e.g. "jj"

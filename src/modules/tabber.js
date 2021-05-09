@@ -3,6 +3,8 @@
 // The tabber stores no info about the active tab, which is the domain of the hub.
 // The tabber is agnostic about whether tabs can or cannot view the same game.
 
+const thumbnail = require("./thumbnail");
+
 const ACTIVE_TAB_MARKER = "active_marker";
 
 function new_tabber(tabdiv) {
@@ -16,21 +18,39 @@ let tabber_prototype = {
 
 	draw_tabs: function() {
 
-		// TODO
-
-		this.tabdiv.innerHTML = "";
+		this.tabdiv.innerHTML = "<br>";
 
 		let items = [];
 
 		for (let n = 0; n < this.tabs.length; n++) {
 
-			let colourspan = this.tabs[n] === ACTIVE_TAB_MARKER ? "white" : "rust";
+			let img = new Image();
 
-			let s = `<span class="tab_${n} ${colourspan}">Tab&nbsp;${n < 10 ? "&nbsp;" : ""}${n}</span>`;
-			items.push(s);
+			if (this.tabs[n] === ACTIVE_TAB_MARKER) {
+				img.src = thumbnail(hub.node.get_board(), 3);		// FIXME - this isn't good enough, we want updates when position changes.
+				img.style.outline = "2px solid #ff0000ff";
+			} else {
+				img.src = thumbnail(this.tabs[n].get_board(), 3);
+				img.style.outline = "none";
+			}
+			img.className = `tab_${n}`;
+
+			this.tabdiv.appendChild(img);
+		}
+	},
+
+	draw_active_tab: function(board) {
+
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (active_index === -1) {
+			throw "draw_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
 
-		this.tabdiv.innerHTML = "<br>" + items.join("<br>") + "<br>&nbsp;";
+		let img = document.getElementsByClassName(`tab_${active_index}`)[0];
+
+		if (img) {
+			img.src = thumbnail(board, 3);
+		}
 	},
 
 	deactivate_node_activate_index: function(node, new_active_index) {
