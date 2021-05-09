@@ -27,9 +27,9 @@ let tabber_prototype = {
 			let img = new Image();
 
 			if (this.tabs[n] === ACTIVE_TAB_MARKER) {
-				img.src = thumbnail(hub.node.get_board(), 3);		// FIXME - this isn't good enough, we want updates when position changes.
+				img.src = thumbnail(hub.node.get_board(), config.thumbnail_square_size);
 			} else {
-				img.src = thumbnail(this.tabs[n].get_board(), 3);
+				img.src = thumbnail(this.tabs[n].get_board(), config.thumbnail_square_size);
 			}
 			img.className = `tab_${n}`;
 
@@ -52,7 +52,7 @@ let tabber_prototype = {
 		let img = document.getElementsByClassName(`tab_${active_index}`)[0];
 
 		if (img) {
-			img.src = thumbnail(board, 3);
+			img.src = thumbnail(board, config.thumbnail_square_size);
 		}
 	},
 
