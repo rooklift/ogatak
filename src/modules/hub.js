@@ -15,6 +15,8 @@ const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
+const ACTIVE_TAB_MARKER = "active_marker";
+
 // ------------------------------------------------------------------------------------------------
 
 exports.new_hub = function() {
@@ -37,10 +39,13 @@ exports.new_hub = function() {
 	hub.engine = new_engine();
 	hub.engine.setup(config.engine, config.engineconfig, config.weights);
 
-	hub.__autoanalysis = false;			// Don't set this directly, because it should be ack'd
-	hub.__autoplay = false;				// Don't set this directly, because it should be ack'd
+	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
+	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
+
 	hub.window_resize_time = null;
 	hub.loaded_file = null;
+
+	hub.tabs = [ACTIVE_TAB_MARKER];				// Array of nodes, but with (some non-objectish thing) in place of the currently displayed node
 
 	hub.new_from_config();
 
@@ -99,6 +104,33 @@ let hub_prototype = {
 		if (this.engine.desired) {
 			this.go();
 		}
+	},
+
+	switch_tab: function(switch_index) {
+
+		if (switch_index < 0 || switch_index >= this.tabs.length) {
+			return;
+		}
+
+		let bookmark = this.tabs[switch_index];
+
+		if (bookmark === ACTIVE_TAB_MARKER) {
+			return;
+		}
+
+		if (bookmark.destroyed) {
+			throw "When switching tab, saw bookmark.destroyed";				// FIXME?
+		}
+
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+
+		if (active_index === -1) {
+			throw "When switching tabs, could not find ACTIVE_TAB_MARKER in tabs";
+		}
+
+		this.tabs[active_index] = this.node;
+		this.set_node(bookmark);
+		this.tabs[switch_index] = ACTIVE_TAB_MARKER;
 	},
 
 	prev: function() {
