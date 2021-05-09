@@ -167,7 +167,7 @@ let hub_prototype = {
 		}
 	},
 
-	load_buffer: function(buf, type) {											// FIXME - interaction with tabs.
+	load_buffer: function(buf, type) {
 		try {
 			let new_root;
 			if (type === "sgf") {
@@ -179,9 +179,13 @@ let hub_prototype = {
 			} else {
 				throw "unknown type";
 			}
-			// Any fixes to the root etc should be done now, before switch_tab() calling set_node() causes a board to exist.
-			let index = this.tabber.create_inactive_tab_at_end(new_root);
-			this.switch_tab(index);
+			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
+			if (this.node.parent || this.node.children.length > 0) {
+				let index = this.tabber.create_inactive_tab_at_end(new_root);
+				this.switch_tab(index);
+			} else {
+				this.set_node(new_root);
+			}
 			this.update_title();
 		} catch (err) {
 			alert("While parsing buffer:\n" + err.toString());
@@ -192,7 +196,7 @@ let hub_prototype = {
 		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap);
 	},
 
-	new: function(width = 19, height = 19, komi = 0, handicap = 0) {			// FIXME - interaction with tabs.
+	new: function(width = 19, height = 19, komi = 0, handicap = 0) {
 
 		let node = new_node();
 
@@ -209,7 +213,7 @@ let hub_prototype = {
 
 		node.set("KM", komi);
 
-		if (this.node) {
+		if (this.node && (this.node.parent || this.node.children.length > 0)) {
 			let index = this.tabber.create_inactive_tab_at_end(node);
 			this.switch_tab(index);
 		} else {
