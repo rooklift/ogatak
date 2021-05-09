@@ -118,7 +118,7 @@ let hub_prototype = {
 
 	},
 
-	new_tab: function() {
+	new_active_tab: function() {
 		let index = this.tabber.create_inactive_tab(this.node);
 		this.switch_tab(index);
 	},
