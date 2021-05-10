@@ -164,6 +164,10 @@ let hub_prototype = {
 
 	load_multifile(arr) {
 
+		if (arr.length === 0) {
+			return;
+		}
+
 		let starttime = performance.now();
 		let got_actual_file = false;
 

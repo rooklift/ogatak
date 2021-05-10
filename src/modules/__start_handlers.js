@@ -71,10 +71,17 @@ window.addEventListener("dragover", (event) => {		// Necessary to prevent always
 
 window.addEventListener("drop", (event) => {
 	event.preventDefault();
-	if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
-		hub.load(event.dataTransfer.files[0].path);
+	let files = [];
+	if (event.dataTransfer && event.dataTransfer.files) {
+		for (let file of event.dataTransfer.files) {
+			if (file.path) {
+				files.push(file.path);
+			}
+		}
 	}
-	console.log(event.dataTransfer.files);
+	if (files.length > 0) {
+		hub.load_multifile(files);
+	}
 });
 
 window.addEventListener("resize", (event) => {
