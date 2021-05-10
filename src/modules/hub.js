@@ -652,7 +652,7 @@ let hub_prototype = {
 
 	// Events......................................................................................
 
-	mouseenter: function(s) {											// Mouse has entered some point e.g. "jj"
+	mouse_entering_point: function(s) {									// Mouse has entered some point e.g. "jj"
 		let did_draw_pv = this.maindrawer.draw_pv(this.node, s);
 		if (!did_draw_pv && this.maindrawer.last_draw_was_pv) {			// Our last draw was some other point...
 			this.maindrawer.draw_standard(this.node);

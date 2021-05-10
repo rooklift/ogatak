@@ -57,7 +57,7 @@ let board_drawer_prototype = {
 				td.width = config.square_size;
 				td.height = config.square_size;
 				td.addEventListener("mouseenter", (event) => {
-					hub.mouseenter(xy_to_s(x, y));
+					hub.mouse_entering_point(xy_to_s(x, y));
 				});
 				tr.appendChild(td);
 			}
