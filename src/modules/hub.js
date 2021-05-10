@@ -169,7 +169,7 @@ let hub_prototype = {
 		save_sgf(this.node, filepath);
 	},
 
-	load: function(filepath) {
+	load: function(filepath, no_switch) {
 		console.log("Trying to load:", filepath);
 		let buf;
 		let type = "sgf";
@@ -181,7 +181,7 @@ let hub_prototype = {
 			alert("While opening file:\n" + err.toString());
 			return;
 		}
-		this.load_buffer(buf, type);
+		this.load_buffer(buf, type, no_switch);
 	},
 
 	load_sgf_from_string: function (s) {
@@ -191,7 +191,35 @@ let hub_prototype = {
 		}
 	},
 
-	load_buffer: function(buf, type) {
+	load_multifile(arr) {
+
+		let starttime = performance.now();
+		let got_actual_file = false;
+
+		for (let filepath of arr) {
+
+			if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently return.
+				continue;
+			}
+
+			if (got_actual_file === false) {						// The next test is maybe expensive (?) so only do it until we get to real files in the array.
+				if (fs.existsSync(filepath) === false) {			// Can happen when extra args are passed to main process. Silently return.
+					continue;
+				}
+				got_actual_file = true;
+			}
+
+			this.load(filepath, true);
+		}
+
+		this.switch_tab(this.tabber.tabs.length - 1);
+
+		if (arr.length > 1) {
+			console.log(`Multifile open took ${performance.now() - starttime} ms.`);
+		}
+	},
+
+	load_buffer: function(buf, type, no_switch) {
 		try {
 			let new_root;
 			if (type === "sgf") {
@@ -205,10 +233,12 @@ let hub_prototype = {
 			}
 			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
 			if (this.node.parent || this.node.children.length > 0) {
-				let index = this.tabber.create_inactive_tab_at_end(new_root);
-				this.switch_tab(index);
+				let index = this.tabber.create_inactive_tab_at_end(new_root.get_end());
+				if (!no_switch) {
+					this.switch_tab(index);
+				}
 			} else {
-				this.set_node(new_root);
+				this.set_node(new_root.get_end());
 			}
 			this.update_title();
 		} catch (err) {

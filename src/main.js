@@ -64,26 +64,26 @@ function startup() {
 
 	electron.ipcMain.once("renderer_ready", () => {
 
-		// Open a file via command line. We must wait until the renderer has properly loaded before we do this.
+		// Open files via command line. We must wait until the renderer has properly loaded before we do this.
 		// While it might seem like we could do this after "ready-to-show" I'm not 100% sure that the renderer
 		// will have fully loaded when that fires.
 
-		let filename = "";
+		let files = [];
 
 		if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 			if (process.argv.length > 2) {
-				filename = process.argv[process.argv.length - 1];
+				files = process.argv.slice(2);
 			}
 		} else {
 			if (process.argv.length > 1) {
-				filename = process.argv[process.argv.length - 1];
+				files = process.argv.slice(1);
 			}
 		}
 
-		if (filename !== "") {
+		if (files.length > 0) {
 			win.webContents.send("call", {
-				fn: "load",
-				args: [filename]
+				fn: "load_multifile",
+				args: [files]
 			});
 		}
 	});
@@ -401,11 +401,11 @@ function menu_build() {
 					label: "Open SGF / GIB / NGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
-						let files = open_dialog();
+						let files = open_dialog({properties: ["multiSelections"]});
 						if (Array.isArray(files) && files.length > 0) {
 							win.webContents.send("call", {
-								fn: "load",
-								args: [files[0]]
+								fn: "load_multifile",
+								args: [files]
 							});
 						}
 					}
