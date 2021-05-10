@@ -563,6 +563,7 @@ function menu_build() {
 						win.webContents.send("call", "return_to_main");
 					}
 				},
+			/*
 				{
 					label: "Return to variation start",
 					accelerator: "CommandOrControl+E",
@@ -570,12 +571,13 @@ function menu_build() {
 						win.webContents.send("call", "return_to_variation_start");
 					}
 				},
+			*/
 				{
 					type: "separator",
 				},
 				{
 					label: "Find previous fork",
-					accelerator: "CommandOrControl+Shift+F",
+					accelerator: "CommandOrControl+D",
 					click: () => {
 						win.webContents.send("call", "previous_fork");
 					}
