@@ -510,13 +510,13 @@ function menu_build() {
 				},
 				{
 					label: "Root",
-					accelerator: "Home",
+					accelerator: "Home",		// Likely intercepted by the renderer process, see __startup_renderer.js
 					click: () => {
 						win.webContents.send("call", "go_to_root");
 					}
 				},
 				{
-					label: "End",
+					label: "End",				// Likely intercepted by the renderer process, see __startup_renderer.js
 					accelerator: "End",
 					click: () => {
 						win.webContents.send("call", "go_to_end");
