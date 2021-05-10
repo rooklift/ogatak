@@ -14,11 +14,20 @@ function new_tabber(tabdiv) {
 	tabber.tabs = [ACTIVE_TAB_MARKER];
 	tabber.tabdiv = tabdiv;
 	tabber.image_cache = {};
+	tabber.image_cache_square_size = config.thumbnail_square_size;
 	tabber.last_drawn_active_id = "";
 	return tabber;
 }
 
 let tabber_prototype = {
+
+	validate_cache: function() {
+		if (this.image_cache_square_size !== config.thumbnail_square_size) {	// Everything in the cache will be the wrong size.
+			console.log("tabber.validate_cache() detected a change in thumbnail_square_size, deleting cache...");
+			this.image_cache = {};
+			this.image_cache_square_size = config.thumbnail_square_size;
+		}
+	},
 
 	draw_tabs: function(active_node) {
 
@@ -26,8 +35,9 @@ let tabber_prototype = {
 			throw "draw_tabs(): requires active_node argument";
 		}
 
-		this.tabdiv.innerHTML = "";
+		this.validate_cache();
 
+		this.tabdiv.innerHTML = "";
 		this.tabdiv.appendChild(document.createElement("br"));
 
 		let items = [];
@@ -62,6 +72,8 @@ let tabber_prototype = {
 	},
 
 	draw_active_tab: function(node) {
+
+		this.validate_cache();
 
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		if (active_index === -1) {
