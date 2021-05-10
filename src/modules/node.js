@@ -283,7 +283,7 @@ let node_prototype = {
 
 	return_to_variation_start_helper: function() {
 
-		// Returns the earliest ancestor that is off the main line, or returns self if it cannot.
+		// Returns the EARLIEST ancestor that is off the main line, or returns self if it cannot.
 
 		let ret = this;
 		let node = this;
@@ -296,6 +296,39 @@ let node_prototype = {
 		}
 
 		return ret;
+	},
+
+	previous_fork_helper: function() {
+
+		let node = this;
+
+		while (node.parent) {
+			if (node.parent.children.length > 1) {
+				return node.parent;
+			}
+			node = node.parent;
+		}
+
+		return this;
+	},
+
+	next_fork_helper: function() {
+
+		if (this.children.length === 0) {
+			return this;
+		}
+
+		let node = this.children[0];		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
+
+		while (true) {
+			if (node.children.length > 1) {
+				return node;
+			} else if (node.children.length === 1) {
+				node = node.children[0];
+			} else {
+				return this;
+			}
+		}
 	},
 
 	is_main_line: function() {

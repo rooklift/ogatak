@@ -350,6 +350,14 @@ let hub_prototype = {
 		this.set_node(this.node.return_to_main_line_helper());
 	},
 
+	previous_fork: function() {
+		this.set_node(this.node.previous_fork_helper());
+	},
+
+	next_fork: function() {
+		this.set_node(this.node.next_fork_helper());
+	},
+
 	promote_to_main_line: function() {
 
 		let node = this.node;

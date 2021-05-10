@@ -574,6 +574,23 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Find previous fork",
+					accelerator: "CommandOrControl+Shift+F",
+					click: () => {
+						win.webContents.send("call", "previous_fork");
+					}
+				},
+				{
+					label: "Find next fork",
+					accelerator: "CommandOrControl+F",
+					click: () => {
+						win.webContents.send("call", "next_fork");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Promote line to main line",
 					accelerator: "CommandOrControl+L",
 					click: () => {
