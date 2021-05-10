@@ -1,11 +1,13 @@
 "use strict";
 
 // The tabber stores no info about the active tab, which is the domain of the hub.
-// The tabber is agnostic about whether tabs can or cannot view the same game.
+//
+// The tabber does NOT automatically draw itself when the tabs change in any way,
+// therefore care must be taken by the hub to draw at the right times.
 
 const thumbnail = require("./thumbnail");
 
-const ACTIVE_TAB_MARKER = "active_marker";
+const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
 function new_tabber(tabdiv) {
 	let tabber = Object.create(tabber_prototype);
