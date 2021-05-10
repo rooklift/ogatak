@@ -53,11 +53,12 @@ let board_drawer_prototype = {
 			this.htmltable.appendChild(tr);
 			for (let x = 0; x < this.width; x++) {
 				let td = document.createElement("td");
-				td.className = "td_" + xy_to_s(x, y);
+				let s = xy_to_s(x, y);
+				td.className = "td_" + s;
 				td.width = config.square_size;
 				td.height = config.square_size;
 				td.addEventListener("mouseenter", (event) => {
-					hub.mouse_entering_point(xy_to_s(x, y));
+					hub.mouse_entering_point(s);
 				});
 				tr.appendChild(td);
 			}
