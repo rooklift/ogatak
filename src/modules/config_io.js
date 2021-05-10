@@ -57,7 +57,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"numbers": "lcb",
 	"visits_threshold": 0.02,
 	"next_move_markers": true,
-	"graph_type": "score",
+	"graph_type": "winrate",
 
 	"widerootnoise": true,
 	"autoanalysis_visits": 500,
