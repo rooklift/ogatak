@@ -524,14 +524,14 @@ function menu_build() {
 				},
 				{
 					label: "Backward",
-					accelerator: "Up",
+					accelerator: "Up",			// Likely intercepted by the renderer process, see __startup_renderer.js
 					click: () => {
 						win.webContents.send("call", "prev");
 					}
 				},
 				{
 					label: "Forward",
-					accelerator: "Down",
+					accelerator: "Down",		// Likely intercepted by the renderer process, see __startup_renderer.js
 					click: () => {
 						win.webContents.send("call", "next");
 					}

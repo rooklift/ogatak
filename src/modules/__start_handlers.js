@@ -58,7 +58,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 	hub.set_node(node);
 });
 
-// Pressing Home or End should NOT affect the tabs list, but rather move about in the current game...
+// Pressing arrows or Home or End should NOT affect the tabs list, but rather move about in the current game...
 
 window.addEventListener("keydown", function(event) {
 	if (event.code === "Home") {
@@ -68,6 +68,14 @@ window.addEventListener("keydown", function(event) {
 	if (event.code === "End") {
 		event.preventDefault();
 		hub.go_to_end();
+	}
+	if (event.code === "ArrowUp") {
+		event.preventDefault();
+		hub.prev();
+	}
+	if (event.code === "ArrowDown") {
+		event.preventDefault();
+		hub.next();
 	}
 });
 
