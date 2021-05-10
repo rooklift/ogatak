@@ -81,6 +81,7 @@ let board_drawer_prototype = {
 		this.canvas.width = this.width * config.square_size;
 		this.canvas.height = this.height * config.square_size;
 
+		this.infodiv.style["font-size"] = config.info_font_size.toString() + "px";
 	},
 
 	draw_standard: function(node) {
