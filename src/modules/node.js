@@ -281,6 +281,23 @@ let node_prototype = {
 		return ret;
 	},
 
+	return_to_variation_start_helper: function() {
+
+		// Returns the earliest ancestor that is off the main line, or returns self if it cannot.
+
+		let ret = this;
+		let node = this;
+
+		while (node.parent) {
+			if (node.parent.children[0] !== node) {
+				ret = node;
+			}
+			node = node.parent;
+		}
+
+		return ret;
+	},
+
 	is_main_line: function() {
 
 		let node = this;

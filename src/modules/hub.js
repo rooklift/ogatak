@@ -298,6 +298,10 @@ let hub_prototype = {
 		this.set_node(this.node.parent.children[nexti]);
 	},
 
+	return_to_variation_start: function() {
+		this.set_node(this.node.return_to_variation_start_helper());
+	},
+
 	return_to_main: function() {
 		this.set_node(this.node.return_to_main_line_helper());
 	},

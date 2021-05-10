@@ -557,11 +557,21 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Return to variation start",
+					accelerator: "CommandOrControl+E",
+					click: () => {
+						win.webContents.send("call", "return_to_variation_start");
+					}
+				},
+				{
 					label: "Return to main line",
 					accelerator: "CommandOrControl+R",
 					click: () => {
 						win.webContents.send("call", "return_to_main");
 					}
+				},
+				{
+					type: "separator",
 				},
 				{
 					label: "Promote line to main line",
