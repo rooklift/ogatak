@@ -78,16 +78,13 @@ let hub_prototype = {
 			return;
 		}
 
-		let root = this.node.get_root();
+		let title_text = this.node.game_title_text();
 
-		if (root.props.PB || root.props.PW) {
-			let blackname = root.get("PB") || "Unknown";
-			let whitename = root.get("PW") || "Unknown";
-			set_title(`${blackname} (B) vs ${whitename} (W)`);
-			return;
+		if (title_text) {
+			set_title(title_text);
+		} else {
+			set_title("Ogatak");
 		}
-
-		set_title("Ogatak");
 	},
 
 	// Tabs........................................................................................

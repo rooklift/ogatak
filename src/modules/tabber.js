@@ -58,6 +58,7 @@ let tabber_prototype = {
 			img.src = this.image_cache[node.id];
 			img.className = `tab_${n}`;
 			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
+			img.title = node.game_title_text();
 
 			this.tabdiv.appendChild(img);
 			this.tabdiv.appendChild(document.createElement("br"));

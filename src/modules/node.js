@@ -464,6 +464,19 @@ let node_prototype = {
 		this.force_set("SBKV", val);
 	},
 
+	game_title_text: function() {
+
+		let root = this.get_root();
+
+		if (root.props.PB || root.props.PW) {
+			let blackname = root.get("PB") || "Unknown";
+			let whitename = root.get("PW") || "Unknown";
+			return `${blackname} (B) vs ${whitename} (W)`;
+		}
+
+		return "";
+	},
+
 	string: function() {
 
 		let list = [];
