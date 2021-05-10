@@ -211,7 +211,7 @@ let hub_prototype = {
 
 			this.load(filepath, true);
 
-			if (this.tabber.tabs.length > config.tab_limit) {
+			if (this.tabber.tabs.length > config.tab_limit) {		// Always loading at least 1 file.
 				alert("Tab limit exceeded.");
 				break;
 			}
