@@ -6,9 +6,7 @@ const {event_path_class_string} = require("./utils");
 // ------------------------------------------------------------------------------------------------
 
 document.addEventListener("wheel", (event) => {
-
 	let path = event.path || (event.composedPath && event.composedPath());
-
 	if (path) {
 		for (let item of path) {
 			if (item.id === "tabdiv") {		// Can have a scrollbar.
@@ -16,12 +14,9 @@ document.addEventListener("wheel", (event) => {
 			}
 		}
 	}
-
-	if (event.deltaY && event.deltaY < 0) {
-		hub.prev();
-	}
-	if (event.deltaY && event.deltaY > 0) {
-		hub.next();
+	if (event.deltaY) {
+		if (event.deltaY < 0) hub.prev();
+		if (event.deltaY > 0) hub.next();
 	}
 });
 
