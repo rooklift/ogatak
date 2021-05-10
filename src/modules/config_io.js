@@ -52,6 +52,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"next_handicap": 0,
 
 	"graph_draw_delay": 200,
+	"tab_limit": 500,
 
 	"candidate_moves": true,
 	"numbers": "lcb",

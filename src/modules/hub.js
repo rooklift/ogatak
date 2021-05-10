@@ -210,6 +210,11 @@ let hub_prototype = {
 			}
 
 			this.load(filepath, true);
+
+			if (this.tabber.tabs.length > config.tab_limit) {
+				alert("Tab limit exceeded.");
+				break;
+			}
 		}
 
 		this.switch_tab(this.tabber.tabs.length - 1);
