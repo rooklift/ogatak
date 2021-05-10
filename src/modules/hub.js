@@ -1,6 +1,7 @@
 "use strict";
 
-// FIXME - trees are now never getting destroyed.
+// FIXME - trees are now never getting destroyed
+// (well, unless the GC is very smart, which it might be).
 
 const fs = require("fs");
 const {ipcRenderer} = require("electron");
