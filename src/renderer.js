@@ -1,3 +1,3 @@
 "use strict";
 
-require("./modules/__startup_renderer");
+require("./modules/__start");
