@@ -78,8 +78,12 @@ let board_drawer_prototype = {
 		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
 
-		this.canvas.width = this.width * config.square_size;
-		this.canvas.height = this.height * config.square_size;
+		// We force the canvas to be at least big enough for a 19x19 board,
+		// this makes other elements like the graph stay put when the board
+		// size is actually smaller.
+
+		this.canvas.width = Math.max(19, this.width) * config.square_size;
+		this.canvas.height = Math.max(19, this.height) * config.square_size;
 
 		this.infodiv.style["font-size"] = config.info_font_size.toString() + "px";
 	},
