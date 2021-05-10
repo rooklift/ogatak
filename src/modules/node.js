@@ -423,18 +423,13 @@ let node_prototype = {
 		coerce_komi_recursive(root, value);
 	},
 
-	receive_analysis: function(o) {
-		this.analysis = o;
-		this.validate_analysis_and_update_sbkv();
+	forget_analysis_tree: function() {
+		forget_analysis_recursive(this.get_root());
 	},
 
 	forget_analysis: function() {
 		this.analysis = null;
 		this.force_delete_key("SBKV");
-	},
-
-	forget_analysis_tree: function() {
-		forget_analysis_recursive(this.get_root());
 	},
 
 	has_valid_analysis: function() {												// Don't do the cheap way; return only true or false.
@@ -446,7 +441,9 @@ let node_prototype = {
 		return false;
 	},
 
-	validate_analysis_and_update_sbkv: function() {
+	receive_analysis: function(o) {
+
+		this.analysis = o;
 
 		if (this.has_valid_analysis() === false) {
 			this.forget_analysis();
