@@ -196,7 +196,9 @@ let hub_prototype = {
 		let starttime = performance.now();
 		let got_actual_file = false;
 
-		for (let filepath of arr) {
+		for (let n = 0; n < arr.length; n++) {
+
+			let filepath = arr[n];
 
 			if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently return.
 				continue;
@@ -212,8 +214,10 @@ let hub_prototype = {
 			this.load(filepath, true);
 
 			if (this.tabber.tabs.length > config.tab_limit) {		// Always loading at least 1 file.
-				alert("Tab limit exceeded.");
-				break;
+				if (n < arr.length - 1) {							// There are files we're skipping, so warn and break.
+					alert("Tab limit exceeded.");
+					break;
+				}
 			}
 		}
 
