@@ -516,8 +516,8 @@ function menu_build() {
 					}
 				},
 				{
-					label: "End",				// Likely intercepted by the renderer process, see __startup_renderer.js
-					accelerator: "End",
+					label: "End",
+					accelerator: "End",			// Likely intercepted by the renderer process, see __startup_renderer.js
 					click: () => {
 						win.webContents.send("call", "go_to_end");
 					}
