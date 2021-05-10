@@ -3,7 +3,7 @@
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
 
-// ------------------------------------------------------------------------------------------------
+// Wheel should scroll the current game...
 
 document.addEventListener("wheel", (event) => {
 	let path = event.path || (event.composedPath && event.composedPath());
@@ -20,12 +20,16 @@ document.addEventListener("wheel", (event) => {
 	}
 });
 
+// Clicking a tab should switch tabs...
+
 document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
 		hub.switch_tab(parseInt(i, 10));
 	}
 });
+
+// Clicking on the board should make a move...
 
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	event.preventDefault();
@@ -39,18 +43,24 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	}
 });
 
+// The mouse leaving the board may require a redraw...
+
 document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
 	if (hub.maindrawer.last_draw_was_pv) {
 		hub.maindrawer.draw_standard(hub.node);
 	}
 });
 
+// Clicking on the graph should go to that position in the game...
+
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
 	let node = hub.grapher.node_from_click(hub.node, event);
 	hub.set_node(node);
 });
 
-window.addEventListener("keydown", function(event) {	// In order to NOT have Home / End keys work on the tabs, we intercept them...
+// Pressing Home or End should NOT affect the tabs list, but rather move about in the current game...
+
+window.addEventListener("keydown", function(event) {
 	if (event.code === "Home") {
 		event.preventDefault();
 		hub.go_to_root();
@@ -60,6 +70,8 @@ window.addEventListener("keydown", function(event) {	// In order to NOT have Hom
 		hub.go_to_end();
 	}
 });
+
+// Dragging files onto the window should load them...
 
 window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
 	event.preventDefault();
@@ -84,9 +96,13 @@ window.addEventListener("drop", (event) => {
 	}
 });
 
+// Resizing the screen should eventually cause the new sizes to be saved into the config...
+
 window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();
 });
+
+// Uncaught exceptions should trigger an alert (once only)...
 
 window.addEventListener("error", (event) => {
 	alert("An uncaught exception happened in the renderer process. See the dev console for details. The app might now be in a bad state.");
