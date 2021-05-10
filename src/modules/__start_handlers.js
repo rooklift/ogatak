@@ -45,16 +45,17 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 });
 
 document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
-	hub.mouse_left_board();
+	if (hub.maindrawer.last_draw_was_pv) {
+		hub.maindrawer.draw_standard(hub.node);
+	}
 });
 
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
-	hub.graph_click(event);
+	let node = hub.grapher.node_from_click(hub.node, event);
+	hub.set_node(node);
 });
 
-// In order to NOT have Home / End keys work on the tabs, we intercept them...
-
-window.addEventListener("keydown", function(event) {
+window.addEventListener("keydown", function(event) {	// In order to NOT have Home / End keys work on the tabs, we intercept them...
 	if (event.code === "Home") {
 		event.preventDefault();
 		hub.go_to_root();
@@ -64,8 +65,6 @@ window.addEventListener("keydown", function(event) {
 		hub.go_to_end();
 	}
 });
-
-// Drag and drop...
 
 window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
 	event.preventDefault();
@@ -77,10 +76,11 @@ window.addEventListener("dragover", (event) => {		// Necessary to prevent always
 
 window.addEventListener("drop", (event) => {
 	event.preventDefault();
-	hub.handle_drop(event);
+	if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
+		hub.load(event.dataTransfer.files[0].path);
+	}
+	console.log(event.dataTransfer.files);
 });
-
-// Misc...
 
 window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();

@@ -632,7 +632,7 @@ let hub_prototype = {
 		}, 1000);
 	},
 
-	// Function to find where the mouse is.........................................................
+	// Mouse.......................................................................................
 
 	mouse_point: function() {
 		let overlist = document.querySelectorAll(":hover");
@@ -649,30 +649,11 @@ let hub_prototype = {
 		return null;
 	},
 
-	// Events......................................................................................
-
-	mouse_entering_point: function(s) {									// Mouse has entered some point e.g. "jj"
+	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
 		let did_draw_pv = this.maindrawer.draw_pv(this.node, s);
 		if (!did_draw_pv && this.maindrawer.last_draw_was_pv) {			// Our last draw was some other point...
 			this.maindrawer.draw_standard(this.node);
 		}
-	},
-
-	mouse_left_board: function() {
-		if (this.maindrawer.last_draw_was_pv) {
-			this.maindrawer.draw_standard(this.node);
-		}
-	},
-
-	handle_drop: function(event) {
-		if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0] && event.dataTransfer.files[0].path) {
-			this.load(event.dataTransfer.files[0].path);
-		}
-	},
-
-	graph_click: function(event) {
-		let node = this.grapher.node_from_click(this.node, event);
-		this.set_node(node);
 	},
 
 };
