@@ -181,7 +181,7 @@ let tabber_prototype = {
 
 		return node;
 	},
-}
+};
 
 
 

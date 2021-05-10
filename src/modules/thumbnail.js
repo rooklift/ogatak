@@ -47,4 +47,4 @@ module.exports = function(board, square_size) {
 	}
 
 	return c.toDataURL("image/png");
-}
+};
