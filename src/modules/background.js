@@ -1,5 +1,8 @@
 "use strict";
 
+// Note that this just does the gridlines on the board.
+// The wood is simply the background of some other div.
+
 const {handicap_stones} = require("./utils");
 
 module.exports = function(width, height, square_size) {
@@ -51,5 +54,5 @@ module.exports = function(width, height, square_size) {
 		ctx.fill();
 	}
 
-	return `url("${c.toDataURL("image/png")}")`;
+	return c.toDataURL("image/png");
 };

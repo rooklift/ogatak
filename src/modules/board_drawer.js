@@ -45,8 +45,9 @@ let board_drawer_prototype = {
 		this.height = height;
 		this.current = [];
 
+		let png = background(this.width, this.height, config.square_size);
+		this.htmltable.style["background-image"] = `url("${png}")`;
 		this.htmltable.innerHTML = "";
-		this.htmltable.style["background-image"] = background(this.width, this.height, config.square_size);
 
 		for (let y = 0; y < this.height; y++) {
 			let tr = document.createElement("tr");
