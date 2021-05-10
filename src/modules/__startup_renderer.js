@@ -70,6 +70,21 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 	hub.graph_click(event);
 });
 
+// In order to NOT have Home / End keys work on the tabs, we intercept them...
+
+window.addEventListener("keydown", function(event) {
+	if (event.code === "Home") {
+		event.preventDefault();
+		hub.go_to_root();
+	}
+	if (event.code === "End") {
+		event.preventDefault();
+		hub.go_to_end();
+	}
+});
+
+// Drag and drop...
+
 window.addEventListener("dragenter", (event) => {		// Necessary to prevent brief flashes of "not allowed" icon.
 	event.preventDefault();
 });
@@ -82,6 +97,8 @@ window.addEventListener("drop", (event) => {
 	event.preventDefault();
 	hub.handle_drop(event);
 });
+
+// Misc...
 
 window.addEventListener("resize", (event) => {
 	hub.window_resize_time = performance.now();
