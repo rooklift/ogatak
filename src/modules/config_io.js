@@ -47,11 +47,11 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 
-	"rules": "chinese",
-
 	"next_size": 19,
-	"next_komi": 7.5,
 	"next_handicap": 0,
+
+	"default_rules": "chinese",
+	"default_komi": 0,
 
 	"graph_draw_delay": 200,
 	"tab_limit": 500,

@@ -386,7 +386,7 @@ let node_prototype = {
 		if (moves.length === 0) {
 			o.initialPlayer = this.get_board().active.toUpperCase();
 		}
-		o.rules = config.rules;
+		o.rules = this.get_board().rules;
 		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
@@ -420,7 +420,13 @@ let node_prototype = {
 	coerce_komi: function(value) {
 		let root = this.get_root();
 		root.force_set("KM", value);
-		coerce_komi_recursive(root, value);
+		coerce_board_prop_recursive(root, "komi", value);
+	},
+
+	coerce_rules: function(value) {
+		let root = this.get_root();
+		root.force_delete_key("RU");		// Hmm.
+		coerce_board_prop_recursive(root, "rules", value);
 	},
 
 	forget_analysis_tree: function() {
@@ -546,17 +552,17 @@ function destroy_tree_recursive(node) {
 	}
 }
 
-function coerce_komi_recursive(node, komi) {
+function coerce_board_prop_recursive(node, prop, value) {
 
 	while (true) {
 
 		if (node.__board) {
-			node.__board.komi = komi;
+			node.__board[prop] = value;
 		}
 
 		if (node.children.length > 1) {
 			for (let child of node.children) {
-				coerce_komi_recursive(child, komi);
+				coerce_board_prop_recursive(child, prop, value);
 			}
 			break;
 		} else if (node.children.length === 1) {

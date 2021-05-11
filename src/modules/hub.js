@@ -233,10 +233,12 @@ let hub_prototype = {
 	// New game....................................................................................
 
 	new_from_config: function(force_same_tab) {
-		this.new(config.next_size, config.next_size, config.next_komi, config.next_handicap, force_same_tab);
+		let komi = this.node ? this.node.get_board().komi : config.default_komi;
+		let rules = this.node ? this.node.get_board().rules : config.default_rules;
+		this.new(config.next_size, config.next_size, komi, rules, config.next_handicap, force_same_tab);
 	},
 
-	new: function(width = 19, height = 19, komi = 0, handicap = 0, force_same_tab = false) {
+	new: function(width, height, komi, rules, handicap, force_same_tab) {
 
 		let node = new_node();
 
@@ -252,6 +254,8 @@ let hub_prototype = {
 		}
 
 		node.set("KM", komi);
+		node.get_board().komi = komi;			// This line isn't really necessary as the KM property causes this to happen.
+		node.get_board().rules = rules;			// This line is necessary, we don't really use the RU property, so rules are only stored in the board.
 
 		if (!force_same_tab && this.node && (this.node.parent || this.node.children.length > 0)) {
 			let index = this.tabber.create_inactive_tab_at_end(node);
@@ -447,15 +451,18 @@ let hub_prototype = {
 	},
 
 	coerce_komi: function(value) {
-
-		this.set("next_komi", value, true);			// For the next new game.
-
 		this.node.coerce_komi(value);
-
 		if (this.engine.desired) {
 			this.go();
 		}
+		this.draw();
+	},
 
+	coerce_rules: function(value) {
+		this.node.coerce_rules(value);
+		if (this.engine.desired) {
+			this.go();
+		}
 		this.draw();
 	},
 
@@ -670,8 +677,8 @@ let hub_prototype = {
 		const search_changers = ["rules", "widerootnoise"];
 
 		config[key] = value;
-		ipcRenderer.send("ack_config", {key, value});
 		save_config();
+		// ipcRenderer.send("ack_config", {key, value});
 
 		if (this.engine.desired && search_changers.includes(key)) {
 			this.go();
@@ -685,19 +692,18 @@ let hub_prototype = {
 
 	cycle_rules: function() {
 
-		switch (config.rules) {
+		switch (this.node.get_board().rules) {
 
 		case "chinese":
-			this.set("rules", "japanese", true);
+			this.coerce_rules("japanese");
 			break;
-
 		case "japanese":
-			this.set("rules", "chinese", true);
+			this.coerce_rules("chinese");
 			break;
-
+		default:
+			this.coerce_rules("chinese");
+			break;
 		}
-
-		this.draw();
 	},
 
 	cycle_komi: function() {
@@ -722,7 +728,9 @@ let hub_prototype = {
 		case 7.5:
 			this.coerce_komi(0);
 			break;
-
+		default:
+			this.coerce_komi(0);
+			break;
 		}
 	},
 };
