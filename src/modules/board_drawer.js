@@ -266,12 +266,7 @@ let board_drawer_prototype = {
 		s += `Rules: <span class="white">${pad(rules_nice_name_lookup[config.rules] ? rules_nice_name_lookup[config.rules] : config.rules, 16)}</span>`;
 		s += `Komi: <span class="white">${pad(board.komi, 8)}</span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-
-		if (config.candidate_moves) {
-			s += `Showing: <span class="white">${pad(config.numbers, 1)}</span>`;
-		} else {
-			s += `Showing: <span class="white">${pad("(hidden)", 11)}</span>`;
-		}
+		s += `Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span>`;
 
 		s += "<br>";
 
@@ -297,11 +292,7 @@ let board_drawer_prototype = {
 
 		s += `Caps by B|W: <span class="white">${pad(capstring, 9)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
-		if (override_moveinfo) {
-			s += `This: <span class="white">${pad(move, 7)}</span>`;
-		} else {
-			s += `Best: <span class="white">${pad(move, 7)}</span>`;
-		}
+		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 7)}</span>`;
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = s;
