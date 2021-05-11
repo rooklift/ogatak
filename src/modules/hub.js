@@ -138,21 +138,6 @@ let hub_prototype = {
 		save_sgf(this.node, filepath);
 	},
 
-	load: function(filepath, no_switch) {
-		console.log("Trying to load:", filepath);
-		let buf;
-		let type = "sgf";
-		try {
-			buf = fs.readFileSync(filepath);
-			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
-			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-		} catch (err) {
-			alert("While opening file:\n" + err.toString());
-			return;
-		}
-		this.load_buffer(buf, type, no_switch);
-	},
-
 	load_sgf_from_string: function (s) {
 		if (typeof s === "string") {
 			let buf = Buffer.from(s);
@@ -197,8 +182,24 @@ let hub_prototype = {
 		this.switch_tab(this.tabber.tabs.length - 1);
 
 		if (arr.length > 1) {
-			console.log(`Multifile open took ${performance.now() - starttime} ms.`);
+			console.log(`Multifile open took ${(performance.now() - starttime).toFixed(2)} ms.`);
 		}
+	},
+
+	load: function(filepath, no_switch) {
+		console.log("Trying to load:", filepath);
+		let buf;
+		let type = "sgf";
+		try {
+			buf = fs.readFileSync(filepath);
+			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
+			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
+		} catch (err) {
+			console.log(err.toString());
+			alert("While opening file:\n" + err.toString());
+			return;
+		}
+		this.load_buffer(buf, type, no_switch);
 	},
 
 	load_buffer: function(buf, type, no_switch) {
@@ -224,6 +225,7 @@ let hub_prototype = {
 			}
 			this.update_title();
 		} catch (err) {
+			console.log(err.toString());
 			alert("While parsing buffer:\n" + err.toString());
 		}
 	},
