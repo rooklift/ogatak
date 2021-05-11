@@ -53,7 +53,7 @@ document.getElementById("boardtable").addEventListener("mouseleave", (event) => 
 
 // Clicking on the graph should go to that position in the game...
 
-document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
+document.getElementById("graphcanvas").addEventListener("mousedown", (event) => {
 	let node = hub.grapher.node_from_click(hub.node, event);
 	hub.set_node(node);
 });

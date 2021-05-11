@@ -42,6 +42,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"minor_graph_colour": "#444444ff",
 	"major_graph_colour": "#4ba28bff",
 	"major_graph_var_colour": "#4b8ba2ff",
+	"midline_graph_colour": "#222222ff",
 
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,

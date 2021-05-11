@@ -115,13 +115,30 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
+		// 50% line...
+
+		ctx.lineWidth = config.minor_graph_linewidth;
+		ctx.strokeStyle = config.midline_graph_colour;
+
+		ctx.beginPath();
+		ctx.moveTo(this.positioncanvas.width / 2, draw_y_offset);
+		ctx.lineTo(this.positioncanvas.width / 2, this.drawable_height + draw_y_offset);
+		ctx.stroke();
+
+		// Position marker...
+
 		ctx.lineWidth = config.major_graph_linewidth;
 		ctx.strokeStyle = node.is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
-		ctx.moveTo(0, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
-		ctx.lineTo(this.canvas.width, (node.depth / node.graph_length_knower.val * this.drawable_height) + draw_y_offset);
+		ctx.moveTo(this.positioncanvas.width / 2 - config.major_graph_linewidth, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
+		ctx.lineTo(0, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(this.positioncanvas.width / 2 + config.major_graph_linewidth, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
+		ctx.lineTo(this.canvas.width, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
 		ctx.stroke();
 
 		ctx.setLineDash([]);
