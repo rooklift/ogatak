@@ -677,8 +677,8 @@ let hub_prototype = {
 		const search_changers = ["rules", "widerootnoise"];
 
 		config[key] = value;
-		ipcRenderer.send("ack_config", {key, value});
 		save_config();
+		// ipcRenderer.send("ack_config", {key, value});
 
 		if (this.engine.desired && search_changers.includes(key)) {
 			this.go();
