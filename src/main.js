@@ -510,28 +510,28 @@ function menu_build() {
 				},
 				{
 					label: "Root",
-					accelerator: "Home",		// Likely intercepted by the renderer process, see __startup_renderer.js
+					accelerator: "Home",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "go_to_root");
 					}
 				},
 				{
 					label: "End",
-					accelerator: "End",			// Likely intercepted by the renderer process, see __startup_renderer.js
+					accelerator: "End",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "go_to_end");
 					}
 				},
 				{
 					label: "Backward",
-					accelerator: "Up",			// Likely intercepted by the renderer process, see __startup_renderer.js
+					accelerator: "Up",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "prev");
 					}
 				},
 				{
 					label: "Forward",
-					accelerator: "Down",		// Likely intercepted by the renderer process, see __startup_renderer.js
+					accelerator: "Down",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "next");
 					}
