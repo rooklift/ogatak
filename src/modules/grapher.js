@@ -1,13 +1,18 @@
 "use strict";
 
-const draw_y_offset = 16;
-
 function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas provided so we can match its height; we don't use it otherwise.
+
 	let drawer = Object.create(graph_drawer_prototype);
+
 	drawer.canvas = canvas;
 	drawer.positioncanvas = positioncanvas;
 	drawer.boardcanvas = boardcanvas;
+
+	drawer.draw_x_offset = 0;			// These are all to
+	drawer.draw_y_offset = 0;			// be set later.
+	drawer.drawable_width = 0;
 	drawer.drawable_height = 0;
+
 	return drawer;
 }
 
@@ -19,10 +24,14 @@ let graph_drawer_prototype = {
 			throw "draw_graph() needs a node argument";
 		}
 
-		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left - 16);
-		this.canvas.height = Math.max(64, this.boardcanvas.height + 32);
+		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		this.canvas.height = this.boardcanvas.height + 128;
 
-		this.drawable_height = this.canvas.height - (draw_y_offset * 2);		// Don't draw at the very top and bottom of the canvas.
+		this.draw_x_offset = 16;
+		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top;
+
+		this.drawable_width = this.canvas.width - (this.draw_x_offset * 2);
+		this.drawable_height = this.boardcanvas.height;
 
 		let ctx = this.canvas.getContext("2d");
 
@@ -112,6 +121,8 @@ let graph_drawer_prototype = {
 
 		let ctx = this.positioncanvas.getContext("2d");
 
+		// Clear the position canvas, while also making sure it's the right size...
+
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
@@ -121,8 +132,8 @@ let graph_drawer_prototype = {
 		ctx.strokeStyle = config.midline_graph_colour;
 
 		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2, draw_y_offset);
-		ctx.lineTo(this.positioncanvas.width / 2, this.drawable_height + draw_y_offset);
+		ctx.moveTo(this.positioncanvas.width / 2, this.draw_y_offset);
+		ctx.lineTo(this.positioncanvas.width / 2, this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
 		// Position marker...
@@ -132,13 +143,17 @@ let graph_drawer_prototype = {
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2 - config.major_graph_linewidth, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
-		ctx.lineTo(0, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
+		ctx.moveTo(this.positioncanvas.width / 2 - config.major_graph_linewidth,
+			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
+		ctx.lineTo(this.draw_x_offset,
+			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
 		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2 + config.major_graph_linewidth, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
-		ctx.lineTo(this.canvas.width, node.depth / node.graph_length_knower.val * this.drawable_height + draw_y_offset);
+		ctx.moveTo(this.positioncanvas.width / 2 + config.major_graph_linewidth,
+			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
+		ctx.lineTo(this.canvas.width - this.draw_x_offset,
+			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
 		ctx.setLineDash([]);
@@ -163,8 +178,9 @@ let graph_drawer_prototype = {
 
 			let val = vals[n];
 			let fraction = (val + max_val) / (max_val * 2);
-			let gx = this.canvas.width * fraction;
-			let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
+
+			let gx = (this.drawable_width * fraction) + this.draw_x_offset;
+			let gy = (this.drawable_height * n / graph_length) + this.draw_y_offset;
 
 			if (!started) {
 				if (typeof vals[n + 1] === "number") {
@@ -201,8 +217,8 @@ let graph_drawer_prototype = {
 
 					let val = vals[n - 1];
 					let fraction = (val + max_val) / (max_val * 2);
-					let gx = this.canvas.width * fraction;
-					let gy = (this.drawable_height * (n - 1) / graph_length) + draw_y_offset;
+					let gx = (this.drawable_width * fraction) + this.draw_x_offset;
+					let gy = (this.drawable_height * (n - 1) / graph_length) + this.draw_y_offset;
 
 					ctx.beginPath();
 					ctx.moveTo(gx, gy);
@@ -217,8 +233,8 @@ let graph_drawer_prototype = {
 
 					let val = vals[n];
 					let fraction = (val + max_val) / (max_val * 2);
-					let gx = this.canvas.width * fraction;
-					let gy = (this.drawable_height * n / graph_length) + draw_y_offset;
+					let gx = (this.drawable_width * fraction) + this.draw_x_offset;
+					let gy = (this.drawable_height * n / graph_length) + this.draw_y_offset;
 
 					ctx.lineTo(gx, gy);
 					ctx.stroke();
@@ -241,7 +257,7 @@ let graph_drawer_prototype = {
 			return null;
 		}
 
-		mousey -= draw_y_offset;
+		mousey -= this.draw_y_offset;
 		if (mousey < 0) mousey = 0;
 
 		let node_list = node.get_end().history();

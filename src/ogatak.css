@@ -42,14 +42,14 @@ body {
 #graphpositioncanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 0 0 0 1em;
+	margin: 0;
 	z-index: 1;
 }
 
 #graphcanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 0 0 0 1em;
+	margin: 0;
 	z-index: 2;
 }
 
