@@ -54,7 +54,7 @@ let engine_prototype = {
 
 		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
 			if (this.desired.komi === node.get_board().komi) {
-				if (this.desired.rules === config.rules) {
+				if (this.desired.rules === node.get_board().rules) {
 					if (desired_has_widerootnoise === config.widerootnoise) {
 						return;			// Because everything matches - the search desired is already set as such.
 					}

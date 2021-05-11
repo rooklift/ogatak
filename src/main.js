@@ -108,23 +108,6 @@ function startup() {
 		set_one_check(msg ? true : false, "Analysis", "Self-play");
 	});
 
-	electron.ipcMain.on("ack_config", (event, msg) => {
-
-		switch (msg.key) {
-
-		case "rules":
-			if (msg.value === "chinese") set_checks("Analysis", "Rules", "Chinese");
-			if (msg.value === "japanese") set_checks("Analysis", "Rules", "Japanese");
-			break;
-
-		case "next_komi":
-			set_checks("App", "Next komi", stringify(msg.value));
-			break;
-
-		}
-
-	});
-
 	electron.Menu.setApplicationMenu(menu);
 	menu_is_set = true;
 
@@ -217,83 +200,6 @@ function menu_build() {
 									value: 9
 								});
 								set_checks("App", "Next size", "9");
-							}
-						},
-					]
-				},
-				{
-					label: "Next komi",
-					submenu: [
-						{
-							label: "7.5",
-							type: "checkbox",
-							checked: config.next_komi === 7.5,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 7.5
-								});
-								set_checks("App", "Next komi", "7.5");
-							}
-						},
-						{
-							label: "7",
-							type: "checkbox",
-							checked: config.next_komi === 7,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 7
-								});
-								set_checks("App", "Next komi", "7");
-							}
-						},
-						{
-							label: "6.5",
-							type: "checkbox",
-							checked: config.next_komi === 6.5,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 6.5
-								});
-								set_checks("App", "Next komi", "6.5");
-							}
-						},
-						{
-							label: "6",
-							type: "checkbox",
-							checked: config.next_komi === 6,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 6
-								});
-								set_checks("App", "Next komi", "6");
-							}
-						},
-						{
-							label: "0.5",
-							type: "checkbox",
-							checked: config.next_komi === 0.5,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 0.5
-								});
-								set_checks("App", "Next komi", "0.5");
-							}
-						},
-						{
-							label: "0",
-							type: "checkbox",
-							checked: config.next_komi === 0,
-							click: () => {
-								win.webContents.send("set", {
-									key: "next_komi",
-									value: 0
-								});
-								set_checks("App", "Next komi", "0");
 							}
 						},
 					]
@@ -780,36 +686,30 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Rules",
+					label: "Set rules",
 					submenu: [
 						{
 							label: "Chinese",
-							type: "checkbox",
-							checked: config.rules === "chinese",
 							click: () => {
-								win.webContents.send("set", {
-									key: "rules",
-									value: "chinese"
+								win.webContents.send("call", {
+									fn: "coerce_rules",
+									args: ["chinese"]
 								});
-								set_checks("Analysis", "Rules", "Chinese");
 							}
 						},
 						{
 							label: "Japanese",
-							type: "checkbox",
-							checked: config.rules === "japanese",
 							click: () => {
-								win.webContents.send("set", {
-									key: "rules",
-									value: "japanese"
+								win.webContents.send("call", {
+									fn: "coerce_rules",
+									args: ["japanese"]
 								});
-								set_checks("Analysis", "Rules", "Japanese");
 							}
 						},
 					]
 				},
 				{
-					label: "Reset komi",		// Note that the renderer also sets the "next_komi" config var.
+					label: "Set komi",
 					submenu: [
 						{
 							label: "7.5",

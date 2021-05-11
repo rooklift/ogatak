@@ -263,7 +263,7 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `Rules: <span class="white boardinfo_rules">${pad(rules_nice_name_lookup[config.rules] ? rules_nice_name_lookup[config.rules] : config.rules, 16)}</span>`;
+		s += `Rules: <span class="white boardinfo_rules">${pad(rules_nice_name_lookup[board.rules] ? rules_nice_name_lookup[board.rules] : board.rules, 16)}</span>`;
 		s += `Komi: <span class="white boardinfo_komi">${pad(board.komi, 8)}</span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
 		s += `Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span>`;
