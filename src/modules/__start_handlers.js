@@ -118,15 +118,12 @@ window.addEventListener("error", (event) => {
 
 // ------------------------------------------------------------------------------------------------
 
-const search_changers = {		// All should be true, only keys matter.
-	"rules": true,
-	"widerootnoise": true,
-};
+const search_changers = ["rules", "widerootnoise"];
 
 ipcRenderer.on("set", (event, msg) => {
 	config[msg.key] = msg.value;
 	save_config();
-	if (hub.engine.desired && search_changers[msg.key]) {
+	if (hub.engine.desired && search_changers.includes(msg.key)) {
 		hub.go();
 	}
 	hub.draw();
@@ -136,7 +133,7 @@ ipcRenderer.on("set", (event, msg) => {
 ipcRenderer.on("toggle", (event, msg) => {
 	config[msg] = !config[msg];
 	save_config();
-	if (hub.engine.desired && search_changers[msg]) {
+	if (hub.engine.desired && search_changers.includes(msg)) {
 		hub.go();
 	}
 	hub.draw();
