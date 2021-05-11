@@ -13,6 +13,20 @@ const white_stone_url = `url("${white_stone.src}")`;
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
+const rules_nice_name_lookup = {
+	"tromp-taylor":  "Tromp-Taylor",
+	"chinese":       "Chinese",
+	"chinese-ogs":   "Chinese OGS",
+	"chinese-kgs":   "Chinese KGS",
+	"japanese":      "Japanese",
+	"korean":        "Korean",
+	"stone-scoring": "Stone",
+	"aga":           "A.G.A.",
+	"bga":           "B.G.A.",
+	"new-zealand":   "New Zealand",
+	"aga-button":    "A.G.A. Button",
+};
+
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	let drawer = Object.create(board_drawer_prototype);
@@ -249,9 +263,9 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `Caps by B: <span class="white">${pad(board.caps_by_b, 5)}</span>`;
+		s += `Rules: <span class="white">${pad(rules_nice_name_lookup[config.rules] ? rules_nice_name_lookup[config.rules] : config.rules, 16)}</span>`;
 		s += `Komi: <span class="white">${pad(board.komi, 8)}</span>`;
-		s += `Prev: <span class="white">${pad(last_move, 5)}</span>`;
+		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
 
 		if (config.candidate_moves) {
 			s += `Showing: <span class="white">${pad(config.numbers, 1)}</span>`;
@@ -279,12 +293,14 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		s += `     by W: <span class="white">${pad(board.caps_by_w, 4)}</span>`;
+		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
+
+		s += `Caps by B|W: <span class="white">${pad(capstring, 9)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
 		if (override_moveinfo) {
-			s += `This: <span class="white">${pad(move, 6)}</span>`;
+			s += `This: <span class="white">${pad(move, 7)}</span>`;
 		} else {
-			s += `Best: <span class="white">${pad(move, 6)}</span>`;
+			s += `Best: <span class="white">${pad(move, 7)}</span>`;
 		}
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
