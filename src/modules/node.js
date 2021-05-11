@@ -425,6 +425,7 @@ let node_prototype = {
 
 	coerce_rules: function(value) {
 		let root = this.get_root();
+		root.force_delete_key("RU");		// Hmm.
 		coerce_board_prop_recursive(root, "rules", value);
 	},
 
