@@ -97,7 +97,7 @@ function startup() {
 	});
 
 	electron.ipcMain.on("ack_ponder", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");		// Meh I dunno if I like this.
+		set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");
 	});
 
 	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
@@ -106,6 +106,23 @@ function startup() {
 
 	electron.ipcMain.on("ack_autoplay", (event, msg) => {
 		set_one_check(msg ? true : false, "Analysis", "Self-play");
+	});
+
+	electron.ipcMain.on("ack_config", (event, msg) => {
+
+		switch (msg.key) {
+
+		case "rules":
+			if (msg.value === "chinese") set_checks("Analysis", "Rules", "Chinese");
+			if (msg.value === "japanese") set_checks("Analysis", "Rules", "Japanese");
+			break;
+
+		case "next_komi":
+			set_checks("App", "Next komi", stringify(msg.value));
+			break;
+
+		}
+
 	});
 
 	electron.Menu.setApplicationMenu(menu);
