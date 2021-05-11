@@ -447,13 +447,16 @@ let hub_prototype = {
 	},
 
 	coerce_komi: function(value) {
-		config.next_komi = value;		// For the next new game. No immediate effect.
-		save_config();
+
+		this.set("next_komi", value, true);			// For the next new game.
+
 		this.node.coerce_komi(value);
-		this.draw();
+
 		if (this.engine.desired) {
 			this.go();
 		}
+
+		this.draw();
 	},
 
 	forget_analysis_tree: function() {
@@ -660,4 +663,66 @@ let hub_prototype = {
 		}
 	},
 
+	// Options.....................................................................................
+
+	set: function(key, value, suppress_draw) {
+
+		const search_changers = ["rules", "widerootnoise"];
+
+		config[key] = value;
+		ipcRenderer.send("ack_config", {key, value});
+		save_config();
+
+		if (this.engine.desired && search_changers.includes(key)) {
+			this.go();
+		}
+
+		if (!suppress_draw) {
+			this.draw();
+			this.grapher.draw_graph(hub.node);
+		}
+	},
+
+	cycle_rules: function() {
+
+		switch (config.rules) {
+
+		case "chinese":
+			this.set("rules", "japanese", true);
+			break;
+
+		case "japanese":
+			this.set("rules", "chinese", true);
+			break;
+
+		}
+
+		this.draw();
+	},
+
+	cycle_komi: function() {
+
+		switch (this.node.get_board().komi) {
+
+		case 0:
+			this.coerce_komi(0.5);
+			break;
+		case 0.5:
+			this.coerce_komi(6);
+			break;
+		case 6:
+			this.coerce_komi(6.5);
+			break;
+		case 6.5:
+			this.coerce_komi(7);
+			break;
+		case 7:
+			this.coerce_komi(7.5);
+			break;
+		case 7.5:
+			this.coerce_komi(0);
+			break;
+
+		}
+	},
 };

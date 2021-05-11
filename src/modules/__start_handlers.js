@@ -43,6 +43,18 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	}
 });
 
+// Clicking on the boardinfo...
+
+document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
+	let s = event_path_class_string(event, "boardinfo_");
+	if ((s) === "rules") {
+		hub.cycle_rules();
+	}
+	if ((s) === "komi") {
+		hub.cycle_komi();
+	}
+});
+
 // The mouse leaving the board may require a redraw...
 
 document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
@@ -118,26 +130,12 @@ window.addEventListener("error", (event) => {
 
 // ------------------------------------------------------------------------------------------------
 
-const search_changers = ["rules", "widerootnoise"];
-
 ipcRenderer.on("set", (event, msg) => {
-	config[msg.key] = msg.value;
-	save_config();
-	if (hub.engine.desired && search_changers.includes(msg.key)) {
-		hub.go();
-	}
-	hub.draw();
-	hub.grapher.draw_graph(hub.node);
+	hub.set(msg.key, msg.value);
 });
 
 ipcRenderer.on("toggle", (event, msg) => {
-	config[msg] = !config[msg];
-	save_config();
-	if (hub.engine.desired && search_changers.includes(msg)) {
-		hub.go();
-	}
-	hub.draw();
-	hub.grapher.draw_graph(hub.node);
+	hub.set(msg, !config[msg]);
 });
 
 ipcRenderer.on("call", (event, msg) => {
