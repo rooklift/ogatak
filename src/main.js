@@ -1120,8 +1120,9 @@ function get_submenu_items(menupath) {
 
 	let o = menu.items;
 	for (let p of menupath) {
+		p = stringify(p);
 		for (let item of o) {
-			if (item.label === stringify(p)) {
+			if (item.label === p) {
 				if (item.submenu) {
 					o = item.submenu.items;
 					break;
