@@ -125,6 +125,15 @@ let tabber_prototype = {
 		return switch_node;
 	},
 
+	inactive_tab_exists: function(node) {			// Returns true if one of the inactive tabs is for the node given.
+		for (let t of this.tabs) {
+			if (t === node) {
+				return true;
+			}
+		}
+		return false;
+	},
+
 	remove_deleted_nodes: function() {				// Returns true iff some tab was deleted.
 
 		let initial_length = this.tabs.length;

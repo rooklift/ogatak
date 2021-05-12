@@ -118,18 +118,22 @@ let hub_prototype = {
 
 	close_tab: function() {
 
-		if (this.tabber.tabs.length === 1) {
-			this.new_from_config(true);
-			this.tabber.draw_tabs(this.node);
-			return;
-		}
-
-		let node = this.tabber.close_active_tab();
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
-		this.set_node(node);
-		this.tabber.draw_tabs(this.node);
-		this.update_title();
+
+		if (this.tabber.tabs.length === 1) {
+
+			this.new_from_config(true);
+			this.tabber.draw_tabs(this.node);
+
+		} else {
+
+			let node = this.tabber.close_active_tab();
+			this.set_node(node);
+			this.tabber.draw_tabs(this.node);
+			this.update_title();
+
+		}
 	},
 
 	// Files.......................................................................................
@@ -235,7 +239,7 @@ let hub_prototype = {
 	new_from_config: function(force_same_tab) {
 		let komi = this.node ? this.node.get_board().komi : config.default_komi;
 		let rules = this.node ? this.node.get_board().rules : config.default_rules;
-		this.new(config.next_size, config.next_size, komi, rules, config.next_handicap, force_same_tab);
+		this.new(config.next_size, config.next_size, komi, rules, 0, force_same_tab);
 	},
 
 	new: function(width, height, komi, rules, handicap, force_same_tab) {
@@ -257,7 +261,17 @@ let hub_prototype = {
 		node.get_board().komi = komi;			// This line isn't really necessary as the KM property causes this to happen.
 		node.get_board().rules = rules;			// This line is necessary, we don't really use the RU property, so rules are only stored in the board.
 
-		if (!force_same_tab && this.node && (this.node.parent || this.node.children.length > 0)) {
+		// This is some convoluted logic, sure...
+
+		let use_new_tab = true;
+
+		if (!this.node || force_same_tab) {
+			use_new_tab = false;
+		} else if (!this.node.parent && this.node.children.length === 0 && this.tabber.inactive_tab_exists(this.node) === false) {
+			use_new_tab = false;
+		}
+
+		if (use_new_tab) {
 			let index = this.tabber.create_inactive_tab_at_end(node);
 			this.switch_tab(index);
 		} else {
@@ -265,6 +279,11 @@ let hub_prototype = {
 		}
 
 		this.update_title();
+	},
+
+	set_handicap: function(handicap) {
+		let board = this.node.get_board();
+		this.new(board.width, board.height, board.komi, board.rules, handicap);
 	},
 
 	// Tree........................................................................................

@@ -47,8 +47,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 
-	"next_size": 19,
-	"next_handicap": 0,
+	"next_size": 19,					// FIXME - remove
 
 	"default_rules": "chinese",
 	"default_komi": 0,

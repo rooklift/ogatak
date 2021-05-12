@@ -205,114 +205,87 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Next handicap",
+					label: "Set handicap",
 					submenu: [
 						{
 							label: "9",
-							type: "checkbox",
-							checked: config.next_handicap === 9,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 9
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [9]
 								});
-								set_checks("App", "Next handicap", "9");
 							}
 						},
 						{
 							label: "8",
-							type: "checkbox",
-							checked: config.next_handicap === 8,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 8
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [8]
 								});
-								set_checks("App", "Next handicap", "8");
 							}
 						},
 						{
 							label: "7",
-							type: "checkbox",
-							checked: config.next_handicap === 7,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 7
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [7]
 								});
-								set_checks("App", "Next handicap", "7");
 							}
 						},
 						{
 							label: "6",
-							type: "checkbox",
-							checked: config.next_handicap === 6,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 6
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [6]
 								});
-								set_checks("App", "Next handicap", "6");
 							}
 						},
 						{
 							label: "5",
-							type: "checkbox",
-							checked: config.next_handicap === 5,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 5
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [5]
 								});
-								set_checks("App", "Next handicap", "5");
 							}
 						},
 						{
 							label: "4",
-							type: "checkbox",
-							checked: config.next_handicap === 4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 4
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [4]
 								});
-								set_checks("App", "Next handicap", "4");
 							}
 						},
 						{
 							label: "3",
-							type: "checkbox",
-							checked: config.next_handicap === 3,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 3
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [3]
 								});
-								set_checks("App", "Next handicap", "3");
 							}
 						},
 						{
 							label: "2",
-							type: "checkbox",
-							checked: config.next_handicap === 2,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 2
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [2]
 								});
-								set_checks("App", "Next handicap", "2");
 							}
 						},
 						{
 							label: "0",
-							type: "checkbox",
-							checked: config.next_handicap === 0,
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_handicap",
-									value: 0
+								win.webContents.send("call", {
+									fn: "set_handicap",
+									args: [0]
 								});
-								set_checks("App", "Next handicap", "0");
 							}
 						},
 					]
