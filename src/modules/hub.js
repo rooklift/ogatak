@@ -277,8 +277,7 @@ let hub_prototype = {
 		}
 
 		node.set("KM", komi);
-		node.get_board().komi = komi;			// This line isn't really necessary as the KM property causes this to happen.
-		node.get_board().rules = rules;			// This line is necessary, we don't really use the RU property, so rules are only stored in the board.
+		node.set("RU", rules);
 
 		if (this.new_root_requires_new_tab() && !force_same_tab) {
 			let index = this.tabber.create_inactive_tab_at_end(node);

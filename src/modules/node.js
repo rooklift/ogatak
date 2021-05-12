@@ -217,6 +217,11 @@ let node_prototype = {
 			this.__board.komi = km;
 		}
 
+		let ru = this.get("RU");
+		if (ru) {
+			this.__board.rules = ru;
+		}
+
 		return this.__board;
 	},
 
@@ -425,7 +430,7 @@ let node_prototype = {
 
 	coerce_rules: function(value) {
 		let root = this.get_root();
-		root.force_delete_key("RU");		// Hmm.
+		root.force_set("RU", value);
 		coerce_board_prop_recursive(root, "rules", value);
 	},
 

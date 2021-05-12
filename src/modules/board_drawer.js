@@ -13,20 +13,6 @@ const white_stone_url = `url("${white_stone.src}")`;
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
-const rules_nice_name_lookup = {
-	"tromp-taylor":  "Tromp-Taylor",
-	"chinese":       "Chinese",
-	"chinese-ogs":   "Chinese OGS",
-	"chinese-kgs":   "Chinese KGS",
-	"japanese":      "Japanese",
-	"korean":        "Korean",
-	"stone-scoring": "Stone",
-	"aga":           "A.G.A.",
-	"bga":           "B.G.A.",
-	"new-zealand":   "New Zealand",
-	"aga-button":    "A.G.A. Button",
-};
-
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	let drawer = Object.create(board_drawer_prototype);
@@ -263,7 +249,7 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `Rules: <span class="white boardinfo_rules">${pad(rules_nice_name_lookup[board.rules] ? rules_nice_name_lookup[board.rules] : board.rules, 16)}</span>`;
+		s += `Rules: <span class="white boardinfo_rules">${pad(board.rules, 16)}</span>`;
 		s += `Komi: <span class="white boardinfo_komi">${pad(board.komi, 8)}</span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
 		s += `Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span>`;
