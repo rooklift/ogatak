@@ -155,9 +155,9 @@ let hub_prototype = {
 			return;
 		}
 
-		if (arr.length === 1) {										// Necessary because the logic of tab-switching is different in this case.
-			this.load(arr[0]);
-			return;
+		if (arr.length === 1) {										// Necessary because the logic of tab-switching is different in this case, because
+			this.load(arr[0]);										// in the event that the file is loaded into the current tab, switching tabs will
+			return;													// be wrong, but load_multifile() always switches to end.
 		}
 
 		let starttime = performance.now();
@@ -178,7 +178,7 @@ let hub_prototype = {
 				got_actual_file = true;
 			}
 
-			this.load(filepath, true);
+			this.load(filepath, true);								// true - suppressing the automatic tab switch.
 
 			if (this.tabber.tabs.length > config.tab_limit) {		// Always loading at least 1 file.
 				if (n < arr.length - 1) {							// There are files we're skipping, so warn and break.
