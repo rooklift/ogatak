@@ -47,7 +47,6 @@ function new_byte_pusher(size) {
 function load_sgf(buf) {
 	let root = load_sgf_recursive(buf, 0, null).root;
 	apply_komi_fix(root);
-	apply_rules_inference(root);
 	return root;
 }
 
@@ -162,44 +161,6 @@ function apply_komi_fix(root) {
 	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
 		root.set("KM", km * 2);
 	}
-}
-
-function apply_rules_inference(root) {
-
-	let ru = root.get("RU") || "";
-	let ev = root.get("EV") || "";
-
-	if (ru) {
-		return;
-	}
-
-	let hits = [];
-
-	for (let s of ["Japan", "Kisei", "Meijin", "Honinbo", "Oza", "Tengen", "Gosei", "Judan", "Shinjin", "Ryusei", "NHK", "Nihon", "Oteai"]) {
-		if (ev.includes(s)) {
-			hits.push("Japanese");
-			break;
-		}
-	}
-
-	for (let s of ["Korea"]) {					// Todo - expand
-		if (ev.includes(s)) {
-			hits.push("Korean");
-			break;
-		}
-	}
-
-	for (let s of ["China", "Chinese"]) {		// Todo - expand
-		if (ev.includes(s)) {
-			hits.push("Chinese");
-			break;
-		}
-	}
-
-	if (hits.length === 1) {
-		root.set("RU", hits[0]);
-	}
-
 }
 
 
