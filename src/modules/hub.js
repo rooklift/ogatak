@@ -219,7 +219,7 @@ let hub_prototype = {
 				throw "unknown type";
 			}
 			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
-			if (this.node.parent || this.node.children.length > 0) {
+			if (this.node.parent || this.node.children.length > 0 || this.tabber.inactive_tab_exists(this.node)) {
 				let index = this.tabber.create_inactive_tab_at_end(new_root.get_end());
 				if (!no_switch) {
 					this.switch_tab(index);
