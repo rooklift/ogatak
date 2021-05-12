@@ -155,6 +155,11 @@ let hub_prototype = {
 			return;
 		}
 
+		if (arr.length === 1) {										// Necessary because the logic of tab-switching is different in this case.
+			this.load(arr[0]);
+			return;
+		}
+
 		let starttime = performance.now();
 		let got_actual_file = false;
 
@@ -185,9 +190,7 @@ let hub_prototype = {
 
 		this.switch_tab(this.tabber.tabs.length - 1);
 
-		if (arr.length > 1) {
-			console.log(`Multifile open took ${(performance.now() - starttime).toFixed(2)} ms.`);
-		}
+		console.log(`Multifile open took ${(performance.now() - starttime).toFixed(2)} ms.`);
 	},
 
 	load: function(filepath, no_switch) {
