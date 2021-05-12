@@ -721,45 +721,31 @@ let hub_prototype = {
 
 	cycle_rules: function() {
 
-		switch (this.node.get_board().rules) {
+		const values = ["chinese", "japanese"];
 
-		case "chinese":
-			this.coerce_rules("japanese");
-			break;
-		case "japanese":
-			this.coerce_rules("chinese");
-			break;
-		default:
-			this.coerce_rules("chinese");
-			break;
+		let current = this.node.get_board().rules;
+
+		let si = values.indexOf(current) + 1;
+
+		if (si >= values.length) {
+			si = 0;
 		}
+
+		this.coerce_rules(values[si]);
 	},
 
 	cycle_komi: function() {
 
-		switch (this.node.get_board().komi) {
+		const values = [0, 0.5, 6, 6.5, 7, 7.5];
 
-		case 0:
-			this.coerce_komi(0.5);
-			break;
-		case 0.5:
-			this.coerce_komi(6);
-			break;
-		case 6:
-			this.coerce_komi(6.5);
-			break;
-		case 6.5:
-			this.coerce_komi(7);
-			break;
-		case 7:
-			this.coerce_komi(7.5);
-			break;
-		case 7.5:
-			this.coerce_komi(0);
-			break;
-		default:
-			this.coerce_komi(0);
-			break;
+		let current = this.node.get_board().komi;
+
+		let si = values.indexOf(current) + 1;
+
+		if (si >= values.length) {
+			si = 0;
 		}
+
+		this.coerce_komi(values[si]);
 	},
 };
