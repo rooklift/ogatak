@@ -736,37 +736,33 @@ let hub_prototype = {
 		}
 	},
 
-	cycle_rules: function() {
+	cycle_rules: function(reverse) {
 
 		const values = ["Chinese", "Japanese"];
 
 		let current = this.node.get_board().rules;
 
-		let si = values.indexOf(current) + 1;
-
-		if (si >= values.length) {
-			si = 0;
-		}
+		let si = values.indexOf(current) + (reverse ? -1 : 1);
+		if (si >= values.length) si = 0;
+		if (si < 0) si = values.length - 1;
 
 		this.coerce_rules(values[si]);
 	},
 
-	cycle_komi: function() {
+	cycle_komi: function(reverse) {
 
 		const values = [0, 0.5, 6, 6.5, 7, 7.5];
 
 		let current = this.node.get_board().komi;
 
-		let si = values.indexOf(current) + 1;
-
-		if (si >= values.length) {
-			si = 0;
-		}
+		let si = values.indexOf(current) + (reverse ? -1 : 1);
+		if (si >= values.length) si = 0;
+		if (si < 0) si = values.length - 1;
 
 		this.coerce_komi(values[si]);
 	},
 
-	cycle_numbers: function() {
+	cycle_numbers: function(reverse) {
 
 		const values = ["lcb", "score", "visits", "visits (%)", "order", "policy", "winrate"];
 
@@ -788,11 +784,9 @@ let hub_prototype = {
 
 		let current = config.numbers;
 
-		let si = values.indexOf(current) + 1;
-
-		if (si >= values.length) {
-			si = 0;
-		}
+		let si = values.indexOf(current) + (reverse ? -1 : 1);
+		if (si >= values.length) si = 0;
+		if (si < 0) si = values.length - 1;
 
 		this.set("numbers", values[si]);
 

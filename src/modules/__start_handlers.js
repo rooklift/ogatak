@@ -48,13 +48,13 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 	let s = event_path_class_string(event, "boardinfo_");
 	if ((s) === "rules") {
-		hub.cycle_rules();
+		hub.cycle_rules(event.which !== 1);
 	}
 	if ((s) === "komi") {
-		hub.cycle_komi();
+		hub.cycle_komi(event.which !== 1);
 	}
 	if ((s) === "numbers") {
-		hub.cycle_numbers();
+		hub.cycle_numbers(event.which !== 1);
 	}
 });
 
