@@ -45,19 +45,9 @@ function new_byte_pusher(size) {
 }
 
 function load_sgf(buf) {
-
 	let root = load_sgf_recursive(buf, 0, null).root;
-
-	// Fix up "komi" like 3.25, 3.75, etc.
-
-	let km = parseFloat(root.get("KM"));
-
-	if (Number.isNaN(km) === false) {
-		if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
-			root.set("KM", km * 2);
-		}
-	}
-
+	apply_komi_fix(root);
+	apply_rules_inference(root);
 	return root;
 }
 
@@ -160,6 +150,56 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 	// end of the file and can return what we have.
 
 	return {root: root, readcount: buf.length};
+}
+
+function apply_komi_fix(root) {
+
+	// Fix up komi if it is in Chinese counting format like 3.25, 3.75, etc.
+	// No need to create it if it's not present, 0 will be inferred.
+
+	let km = parseFloat(root.get("KM")) || 0;
+
+	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
+		root.set("KM", km * 2);
+	}
+}
+
+function apply_rules_inference(root) {
+
+	let ru = root.get("RU") || "";
+	let ev = root.get("EV") || "";
+
+	if (ru) {
+		return;
+	}
+
+	let hits = [];
+
+	for (let s of ["Japan", "Kisei", "Meijin", "Honinbo", "Oza", "Tengen", "Gosei", "Judan", "Shinjin", "Ryusei", "NHK", "Nihon", "Oteai"]) {
+		if (ev.includes(s)) {
+			hits.push("Japanese");
+			break;
+		}
+	}
+
+	for (let s of ["Korea"]) {					// Todo - expand
+		if (ev.includes(s)) {
+			hits.push("Korean");
+			break;
+		}
+	}
+
+	for (let s of ["China", "Chinese"]) {		// Todo - expand
+		if (ev.includes(s)) {
+			hits.push("Chinese");
+			break;
+		}
+	}
+
+	if (hits.length === 1) {
+		root.set("RU", hits[0]);
+	}
+
 }
 
 
