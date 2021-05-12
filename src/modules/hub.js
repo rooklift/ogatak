@@ -759,4 +759,37 @@ let hub_prototype = {
 
 		this.coerce_komi(values[si]);
 	},
+
+	cycle_numbers: function() {
+
+		const values = ["lcb", "score", "visits", "visits (%)", "order", "policy", "winrate"];
+
+		const menus = {
+			"lcb":        ["Display", "Numbers", "Winrate LCB"],
+			"score":      ["Display", "Numbers", "Score"],
+			"visits":     ["Display", "Numbers", "Visits"],
+			"visits (%)": ["Display", "Numbers", "Visits %"],
+			"order":      ["Display", "Numbers", "Order"],
+			"policy":     ["Display", "Numbers", "Policy"],
+			"winrate":    ["Display", "Numbers", "Winrate"],
+		};
+
+		if (!config.candidate_moves) {
+			this.set("candidate_moves", true);
+			ipcRenderer.send("set_check_true", ["Display", "Candidate moves"]);
+			return;
+		}
+
+		let current = config.numbers;
+
+		let si = values.indexOf(current) + 1;
+
+		if (si >= values.length) {
+			si = 0;
+		}
+
+		this.set("numbers", values[si]);
+
+		ipcRenderer.send("set_checks", menus[values[si]]);
+	},
 };

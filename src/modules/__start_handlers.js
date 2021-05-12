@@ -53,6 +53,9 @@ document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 	if ((s) === "komi") {
 		hub.cycle_komi();
 	}
+	if ((s) === "numbers") {
+		hub.cycle_numbers();
+	}
 });
 
 // The mouse leaving the board may require a redraw...
