@@ -565,13 +565,25 @@ let hub_prototype = {
 	},
 
 	set_autoanalysis: function(val) {
+
 		this.__autoanalysis = val ? true : false;
-		ipcRenderer.send("ack_autoanalysis", this.__autoanalysis);
+
+		if (this.__autoanalysis) {
+			ipcRenderer.send("set_check_true", ["Analysis", "Autoanalysis"]);
+		} else {
+			ipcRenderer.send("set_check_false", ["Analysis", "Autoanalysis"]);
+		}
 	},
 
 	set_autoplay: function(val) {
+
 		this.__autoplay = val ? true : false;
-		ipcRenderer.send("ack_autoplay", this.__autoplay);
+
+		if (this.__autoplay) {
+			ipcRenderer.send("set_check_true", ["Analysis", "Self-play"]);
+		} else {
+			ipcRenderer.send("set_check_false", ["Analysis", "Self-play"]);
+		}
 	},
 
 	start_autoanalysis() {

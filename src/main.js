@@ -96,16 +96,16 @@ function startup() {
 		win.setTitle(msg);
 	});
 
-	electron.ipcMain.on("ack_ponder", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Go / halt toggle");
+	electron.ipcMain.on("set_checks", (event, msg) => {
+		set_checks(...msg);
 	});
 
-	electron.ipcMain.on("ack_autoanalysis", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Autoanalysis");
+	electron.ipcMain.on("set_check_false", (event, msg) => {
+		set_one_check(false, ...msg);
 	});
 
-	electron.ipcMain.on("ack_autoplay", (event, msg) => {
-		set_one_check(msg ? true : false, "Analysis", "Self-play");
+	electron.ipcMain.on("set_check_true", (event, msg) => {
+		set_one_check(true, ...msg);
 	});
 
 	electron.Menu.setApplicationMenu(menu);

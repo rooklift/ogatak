@@ -21,7 +21,7 @@ function new_engine() {
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
-	// therefore every time desired is set, an ack should be sent to the main process.
+	// therefore every time desired is set, the relevant menu check should be set.
 
 	return eng;
 }
@@ -63,7 +63,7 @@ let engine_prototype = {
 		}
 
 		this.desired = node.katago_query();
-		ipcRenderer.send("ack_ponder", true);
+		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		if (this.running) {
 			this.__send({
@@ -92,7 +92,7 @@ let engine_prototype = {
 		}
 
 		this.desired = null;
-		ipcRenderer.send("ack_ponder", false);
+		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
 	},
 
 	setup: function(filepath, engineconfig, weights) {
@@ -136,7 +136,7 @@ let engine_prototype = {
 				if (this.running && this.running.id === o.id) {		// The current search has terminated.
 					if (this.desired === this.running) {
 						this.desired = null;
-						ipcRenderer.send("ack_ponder", false);
+						ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
 					}
 					this.running = null;
 					if (this.desired) {
