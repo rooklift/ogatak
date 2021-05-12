@@ -380,6 +380,9 @@ let node_prototype = {
 			o.initialPlayer = this.get_board().active.toUpperCase();
 		}
 		o.rules = this.get_board().rules;
+		if (o.rules === "Unknown") {
+			o.rules = config.default_rules;
+		}
 		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();

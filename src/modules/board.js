@@ -2,7 +2,7 @@
 
 const {opposite_colour, xy_to_s} = require("./utils");
 
-function new_board(width, height, state = null, ko = null, komi = 0, rules = "Chinese", active = "b", caps_by_b = 0, caps_by_w = 0) {
+function new_board(width, height, state = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
 	let ret = Object.create(board_prototype);
 

@@ -256,8 +256,14 @@ let hub_prototype = {
 	// New game....................................................................................
 
 	new_game: function(width, height, force_same_tab) {
+
 		let komi = this.node ? this.node.get_board().komi : config.default_komi;
 		let rules = this.node ? this.node.get_board().rules : config.default_rules;
+
+		if (rules === "Unknown") {
+			rules = config.default_rules;
+		}
+
 		this.__new_game(width, height, komi, rules, 0, force_same_tab);
 	},
 
