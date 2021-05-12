@@ -249,8 +249,8 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `Rules: <span class="white boardinfo_rules">${pad(board.rules, 16)}</span>`;
-		s += `Komi: <span class="white boardinfo_komi">${pad(board.komi, 8)}</span>`;
+		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
+		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
 		s += `Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span>`;
 
