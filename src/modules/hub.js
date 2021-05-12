@@ -52,7 +52,7 @@ exports.new_hub = function() {
 
 	hub.window_resize_time = null;
 
-	hub.new_from_config();
+	hub.new_game(19, 19);
 
 	return hub;
 };
@@ -123,7 +123,7 @@ let hub_prototype = {
 
 		if (this.tabber.tabs.length === 1) {
 
-			this.new_from_config(true);
+			this.new_game(19, 19, true);
 			this.tabber.draw_tabs(this.node);
 
 		} else {
@@ -236,13 +236,13 @@ let hub_prototype = {
 
 	// New game....................................................................................
 
-	new_from_config: function(force_same_tab) {
+	new_game: function(width, height, force_same_tab) {
 		let komi = this.node ? this.node.get_board().komi : config.default_komi;
 		let rules = this.node ? this.node.get_board().rules : config.default_rules;
-		this.new(config.next_size, config.next_size, komi, rules, 0, force_same_tab);
+		this.__new_game(width, height, komi, rules, 0, force_same_tab);
 	},
 
-	new: function(width, height, komi, rules, handicap, force_same_tab) {
+	__new_game: function(width, height, komi, rules, handicap, force_same_tab) {
 
 		let node = new_node();
 
@@ -261,8 +261,6 @@ let hub_prototype = {
 		node.get_board().komi = komi;			// This line isn't really necessary as the KM property causes this to happen.
 		node.get_board().rules = rules;			// This line is necessary, we don't really use the RU property, so rules are only stored in the board.
 
-		// This is some convoluted logic, sure...
-
 		let use_new_tab = true;
 
 		if (!this.node || force_same_tab) {
@@ -276,6 +274,7 @@ let hub_prototype = {
 			this.switch_tab(index);
 		} else {
 			this.set_node(node);
+			this.tabber.draw_active_tab(node);
 		}
 
 		this.update_title();
@@ -283,7 +282,7 @@ let hub_prototype = {
 
 	set_handicap: function(handicap) {
 		let board = this.node.get_board();
-		this.new(board.width, board.height, board.komi, board.rules, handicap);
+		this.__new_game(board.width, board.height, board.komi, board.rules, handicap);
 	},
 
 	// Tree........................................................................................

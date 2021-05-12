@@ -143,66 +143,74 @@ function menu_build() {
 					label: "New game",
 					accelerator: "CommandOrControl+N",
 					click: () => {
-						win.webContents.send("call", "new_from_config");
+						win.webContents.send("call", {
+							fn: "new_game",
+							args: [19, 19]
+						});
 					}
 				},
 				{
-					label: "New view into this game",
-					accelerator: "CommandOrControl+T",
-					click: () => {
-						win.webContents.send("call", "new_active_view");
-					}
-				},
-				{
-					label: "Close tab",
-					accelerator: "CommandOrControl+W",
-					click: () => {
-						win.webContents.send("call", "close_tab");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Next size",
+					label: "New small board",
 					submenu: [
 						{
-							label: "19",
-							type: "checkbox",
-							checked: config.next_size === 19,
+							label: "17x17",
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_size",
-									value: 19
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [17, 17]
 								});
-								set_checks("App", "Next size", "19");
 							}
 						},
 						{
-							label: "13",
-							type: "checkbox",
-							checked: config.next_size === 13,
+							label: "15x15",
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_size",
-									value: 13
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [15, 15]
 								});
-								set_checks("App", "Next size", "13");
 							}
 						},
 						{
-							label: "9",
-							type: "checkbox",
-							checked: config.next_size === 9,
+							label: "13x13",
 							click: () => {
-								win.webContents.send("set", {
-									key: "next_size",
-									value: 9
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [13, 13]
 								});
-								set_checks("App", "Next size", "9");
+							}
+						},
+						{
+							label: "11x11",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [11, 11]
+								});
+							}
+						},
+						{
+							label: "9x9",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [9, 9]
+								});
+							}
+						},
+						{
+							label: "7x7",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "new_game",
+									args: [7, 7]
+								});
 							}
 						},
 					]
+				},
+
+				{
+					type: "separator",
 				},
 				{
 					label: "Set handicap",
@@ -289,6 +297,23 @@ function menu_build() {
 							}
 						},
 					]
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "New view into this game",
+					accelerator: "CommandOrControl+T",
+					click: () => {
+						win.webContents.send("call", "new_active_view");
+					}
+				},
+				{
+					label: "Close tab",
+					accelerator: "CommandOrControl+W",
+					click: () => {
+						win.webContents.send("call", "close_tab");
+					}
 				},
 				{
 					type: "separator",
