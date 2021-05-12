@@ -47,8 +47,8 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 
-	"default_rules": "Chinese",
-	"default_komi": 7.5,
+	"default_rules": "Chinese",			// Relevant when creating a new game,
+	"default_komi": 7.5,				// but not used when loading a game.
 
 	"graph_draw_delay": 200,
 	"tab_limit": 500,
