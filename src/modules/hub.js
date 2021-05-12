@@ -222,7 +222,7 @@ let hub_prototype = {
 				throw "unknown type";
 			}
 			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
-			if (this.node.parent || this.node.children.length > 0 || this.tabber.inactive_tab_exists(this.node)) {
+			if (this.new_root_requires_new_tab()) {
 				let index = this.tabber.create_inactive_tab_at_end(new_root.get_end());
 				if (!no_switch) {
 					this.switch_tab(index);
@@ -235,6 +235,22 @@ let hub_prototype = {
 			console.log(err.toString());
 			alert("While parsing buffer:\n" + err.toString());
 		}
+	},
+
+	new_root_requires_new_tab: function() {
+		if (!this.node) {
+			return false;
+		}
+		if (this.node.parent) {
+			return true;
+		}
+		if (this.node.children.length > 0) {
+			return true;
+		}
+		if (this.tabber.inactive_tab_exists(this.node)) {
+			return true;
+		}
+		return false;
 	},
 
 	// New game....................................................................................
@@ -264,15 +280,7 @@ let hub_prototype = {
 		node.get_board().komi = komi;			// This line isn't really necessary as the KM property causes this to happen.
 		node.get_board().rules = rules;			// This line is necessary, we don't really use the RU property, so rules are only stored in the board.
 
-		let use_new_tab = true;
-
-		if (!this.node || force_same_tab) {
-			use_new_tab = false;
-		} else if (!this.node.parent && this.node.children.length === 0 && this.tabber.inactive_tab_exists(this.node) === false) {
-			use_new_tab = false;
-		}
-
-		if (use_new_tab) {
+		if (this.new_root_requires_new_tab() && !force_same_tab) {
 			let index = this.tabber.create_inactive_tab_at_end(node);
 			this.switch_tab(index);
 		} else {
