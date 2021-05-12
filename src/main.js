@@ -690,7 +690,7 @@ function menu_build() {
 							click: () => {
 								win.webContents.send("call", {
 									fn: "coerce_rules",
-									args: ["chinese"]
+									args: ["Chinese"]
 								});
 							}
 						},
@@ -699,7 +699,7 @@ function menu_build() {
 							click: () => {
 								win.webContents.send("call", {
 									fn: "coerce_rules",
-									args: ["japanese"]
+									args: ["Japanese"]
 								});
 							}
 						},

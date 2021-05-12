@@ -732,7 +732,7 @@ let hub_prototype = {
 
 	cycle_rules: function() {
 
-		const values = ["chinese", "japanese"];
+		const values = ["Chinese", "Japanese"];
 
 		let current = this.node.get_board().rules;
 
