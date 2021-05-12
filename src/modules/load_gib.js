@@ -11,6 +11,9 @@ function load_gib(buf) {
 	let root = new_node(null);
 	let node = root;
 
+	root.set("SZ", 19);								// Is this always so?
+	root.set("RU", "Korean");
+
 	for (let line of lines) {
 
 		line = line.toString().trim();				// Buffer toString() does a utf8 conversion by default, I believe.
