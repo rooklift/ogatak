@@ -48,7 +48,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"major_graph_linewidth": 2,
 
 	"default_rules": "Chinese",
-	"default_komi": 0,
+	"default_komi": 7.5,
 
 	"graph_draw_delay": 200,
 	"tab_limit": 500,
