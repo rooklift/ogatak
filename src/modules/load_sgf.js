@@ -45,7 +45,20 @@ function new_byte_pusher(size) {
 }
 
 function load_sgf(buf) {
-	return load_sgf_recursive(buf, 0, null).root;
+
+	let root = load_sgf_recursive(buf, 0, null).root;
+
+	// Fix up "komi" like 3.25, 3.75, etc.
+
+	let km = parseFloat(root.get("KM"));
+
+	if (Number.isNaN(km) === false) {
+		if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
+			root.set("KM", km * 2);
+		}
+	}
+
+	return root;
 }
 
 function load_sgf_recursive(buf, off, parent_of_local_root) {
