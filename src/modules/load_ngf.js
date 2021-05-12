@@ -95,16 +95,14 @@ function load_ngf(buf) {
 	let node = root;
 
 	root.set("SZ", boardsize);
+	root.set("RU", "Korean");
+	root.set("KM", komi);
 
 	if (handicap > 1) {
 		root.set("HA", handicap);
 		for (let s of handicap_stones(handicap, boardsize, boardsize, true)) {
 			root.add_value("AB", s);
 		}
-	}
-
-	if (komi !== 0) {
-		root.set("KM", komi);
 	}
 
 	if (rawdate.length === 8) {
