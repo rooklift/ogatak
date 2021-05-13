@@ -206,7 +206,7 @@ let hub_prototype = {
 			this.add_roots(roots);
 		} catch (err) {
 			console.log("load_sgf_from_string():", err);
-			alert("load_sgf_from_string():\n" + err.toString());
+			alert("While loading from string:\n" + err.toString());
 		}
 	},
 
