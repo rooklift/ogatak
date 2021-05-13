@@ -171,7 +171,7 @@ let hub_prototype = {
 		this.update_title();
 	},
 
-	// Files.......................................................................................
+	// Saving and loading .........................................................................
 
 	save: function(filepath) {
 		save_sgf(this.node, filepath);
