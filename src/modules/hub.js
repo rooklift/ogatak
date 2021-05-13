@@ -179,13 +179,6 @@ let hub_prototype = {
 			}
 
 			this.load(filepath, true);								// true - suppressing the automatic tab switch.
-
-			if (this.tabber.tabs.length > config.tab_limit) {		// Always loading at least 1 file.
-				if (n < arr.length - 1) {							// There are files we're skipping, so warn and break.
-					alert("Tab limit exceeded.");
-					break;
-				}
-			}
 		}
 
 		this.switch_tab(this.tabber.tabs.length - 1);
@@ -211,26 +204,35 @@ let hub_prototype = {
 
 	load_buffer: function(buf, type, no_switch) {
 		try {
-			let new_root;
+			let new_roots;
 			if (type === "sgf") {
-				new_root = load_sgf(buf);
+				new_roots = load_sgf(buf);
 			} else if (type === "ngf") {
-				new_root = load_ngf(buf);
+				new_roots = load_ngf(buf);
 			} else if (type === "gib") {
-				new_root = load_gib(buf);
+				new_roots = load_gib(buf);
 			} else {
 				throw "unknown type";
 			}
-			// Any fixes to the root etc should be done now, before this stuff causes a board to exist...
-			if (this.new_root_requires_new_tab()) {
-				let index = this.tabber.create_inactive_tab_at_end(new_root.get_end());
-				if (!no_switch) {
-					this.switch_tab(index);
-				}
-			} else {
-				this.set_node(new_root.get_end());
+
+			if (new_roots.length === 0) {
+				throw "got a zero length array of roots, this is supposed to be impossible";		// All the loaders either throw or return a length >= 1 array.
 			}
-			this.update_title();
+
+			for (let n = 0; n < new_roots.length; n++) {
+
+				let root = new_roots[n];
+
+				if (this.new_root_requires_new_tab() || n > 0) {
+					let index = this.tabber.create_inactive_tab_at_end(root.get_end());
+					if (n === new_roots.length - 1 && !no_switch) {
+						this.switch_tab(index);
+					}
+				} else {
+					this.set_node(root.get_end());
+				}
+				this.update_title();
+			}
 		} catch (err) {
 			console.log(err.toString());
 			alert("While parsing buffer:\n" + err.toString());

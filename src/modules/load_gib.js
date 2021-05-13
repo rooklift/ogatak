@@ -70,7 +70,11 @@ function load_gib(buf) {
 		}
 	}
 
-	return root;
+	if (root.children.length === 0) {
+		throw "GIB load error: got no moves";
+	}
+
+	return [root];
 }
 
 function parse_gib_gametag(line) {

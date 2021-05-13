@@ -153,7 +153,7 @@ function load_ngf(buf) {
 		throw "NGF load error: got no moves";
 	}
 
-	return root;
+	return [root];
 }
 
 
