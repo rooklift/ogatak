@@ -479,7 +479,7 @@ let node_prototype = {
 			let s = `${blackname} (B) vs ${whitename} (W)`;
 
 			if (root.source_description) {
-				s += ` (${root.source_description})`;
+				s += ` : ${root.source_description}`;
 			}
 
 			return s;
