@@ -219,6 +219,8 @@ let hub_prototype = {
 		let new_roots = [];
 		let got_actual_file = false;
 
+		let loader_errors = [];
+
 		for (let n = 0; n < arr.length; n++) {
 
 			let filepath = arr[n];
@@ -245,9 +247,15 @@ let hub_prototype = {
 				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type));
 
 			} catch (err) {
-				console.log(err.toString());
+				loader_errors.push(err);
 				continue;
 			}
+		}
+
+		if (loader_errors.length > 1) {
+			alert("Some errors occurred while loading these files.");
+		} else if (loader_errors.length === 1) {
+			alert("Load error:\n" + loader_errors[0].toString());
 		}
 
 		this.add_roots(new_roots);
