@@ -51,7 +51,6 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"default_komi": 7.5,				// Used for game on startup, but otherwise unknown komi is inferred as zero.
 
 	"graph_draw_delay": 200,
-	"tab_limit": 500,
 
 	"stderr_to_console": true,
 

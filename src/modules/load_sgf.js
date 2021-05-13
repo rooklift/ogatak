@@ -45,9 +45,35 @@ function new_byte_pusher(size) {
 }
 
 function load_sgf(buf) {
-	let root = load_sgf_recursive(buf, 0, null).root;
-	apply_komi_fix(root);
-	return root;
+
+	// Always returns at least 1 game; or throws if it cannot.
+
+	let ret = [];
+	let off = 0;
+
+	while (true) {
+		try {
+			let o = load_sgf_recursive(buf, off, null);
+			ret.push(o.root);
+			off += o.readcount;
+		} catch (err) {
+			if (ret.length > 0) {
+				break;
+			} else {
+				throw err;
+			}
+		}
+	}
+
+	if (ret.length === 0) {
+		throw "SGF load error: found no game";
+	}
+
+	for (let root of ret) {
+		apply_komi_fix(root);
+	}
+
+	return ret;
 }
 
 function load_sgf_recursive(buf, off, parent_of_local_root) {
@@ -141,14 +167,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 		}
 	}
 
-	if (!root) {
-		throw "SGF load error: local root was nil at function end";
-	}
-
-	// We're not supposed to reach here, but if we do, we have reached the
-	// end of the file and can return what we have.
-
-	return {root: root, readcount: buf.length};
+	throw "SGF load error: reached end of input";
 }
 
 function apply_komi_fix(root) {
