@@ -91,6 +91,7 @@ let tabber_prototype = {
 		}
 
 		img.src = this.image_cache[node.id];
+		img.title = node.game_title_text();
 
 		if (this.last_drawn_active_id !== node.id) {
 			delete this.image_cache[this.last_drawn_active_id];		// We probably don't need this now.
