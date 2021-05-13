@@ -46,17 +46,16 @@ function new_byte_pusher(size) {
 
 function load_sgf(buf) {
 
-	// Always returns at least 1 game; throws if it cannot.
+	// Always returns at least 1 game; or throws if it cannot.
 
 	let ret = [];
 	let off = 0;
 
 	while (true) {
-
-		let o;
-
 		try {
-			o = load_sgf_recursive(buf, off, null);
+			let o = load_sgf_recursive(buf, off, null);
+			ret.push(o.root);
+			off += o.readcount;
 		} catch (err) {
 			if (ret.length > 0) {
 				break;
@@ -64,9 +63,6 @@ function load_sgf(buf) {
 				throw err;
 			}
 		}
-
-		ret.push(o.root);
-		off += o.readcount;
 	}
 
 	if (ret.length === 0) {
