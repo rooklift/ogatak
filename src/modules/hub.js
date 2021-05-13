@@ -714,8 +714,17 @@ let hub_prototype = {
 	},
 
 	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
-		let did_draw_pv = this.maindrawer.draw_pv(this.node, s);
-		if (!did_draw_pv && this.maindrawer.last_draw_was_pv) {			// Our last draw was some other point...
+
+		// This returns true if a PV was drawn for the point s...
+
+		if (this.maindrawer.draw_pv(this.node, s)) {
+			return;
+		}
+
+		// We did not draw a PV, so if the last draw that actually happened was a PV, it
+		// was for some other point, and we need to do a standard draw to hide it...
+
+		if (this.maindrawer.last_draw_was_pv) {
 			this.maindrawer.draw_standard(this.node);
 		}
 	},
