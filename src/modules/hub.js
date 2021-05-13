@@ -100,11 +100,21 @@ let hub_prototype = {
 			// It might be acceptable to make the first root overwrite the current node...
 
 			if (!this.node) {
-				this.set_node(root.get_end());
+
+				this.set_node(root.get_end());														// no choice
+
+			} else if (this.tabber.inactive_tab_exists(this.node)) {
+
+				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());				// not ok
+
 			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
-				this.set_node(root.get_end());
+
+				this.set_node(root.get_end());														// ok
+
 			} else {
-				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());
+
+				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());				// not ok
+
 			}
 
 		}
@@ -112,6 +122,7 @@ let hub_prototype = {
 		if (switch_index !== null) {
 			this.switch_tab(switch_index);
 		} else {
+			this.tabber.draw_active_tab(this.node);
 			this.update_title();
 		}
 	},
@@ -206,19 +217,18 @@ let hub_prototype = {
 		}
 
 		let new_roots = [];
-
 		let got_actual_file = false;
 
 		for (let n = 0; n < arr.length; n++) {
 
 			let filepath = arr[n];
 
-			if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently return.
+			if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently ignore.
 				continue;
 			}
 
 			if (got_actual_file === false) {						// The next test is maybe expensive (?) so only do it until we get to real files in the array.
-				if (fs.existsSync(filepath) === false) {			// Can happen when extra args are passed to main process. Silently return.
+				if (fs.existsSync(filepath) === false) {			// Can happen when extra args are passed to main process. Silently ignore.
 					continue;
 				}
 			}
