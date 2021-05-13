@@ -1,5 +1,7 @@
 "use strict";
 
+// Note: some "mouseenter" handlers are also created by the board drawer.
+
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
 
