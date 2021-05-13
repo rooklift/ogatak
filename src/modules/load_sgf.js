@@ -171,14 +171,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 		}
 	}
 
-	if (!root) {
-		throw "SGF load error: local root was nil at function end";
-	}
-
-	// We're not supposed to reach here, but if we do, we have reached the
-	// end of the file and can return what we have.
-
-	return {root: root, readcount: buf.length};
+	throw "SGF load error: reached end of input";
 }
 
 function apply_komi_fix(root) {
