@@ -100,24 +100,23 @@ let hub_prototype = {
 
 			// It might be acceptable to make the first root overwrite the current node...
 
+			let overwrite;
+
 			if (!this.node) {
-
-				this.set_node(root.get_end());														// no choice
-
+				overwrite = true
 			} else if (this.tabber.inactive_tab_exists(this.node)) {
-
-				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());				// not ok
-
+				overwrite = false
 			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
-
-				this.set_node(root.get_end());														// ok
-
+				overwrite = true
 			} else {
-
-				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());				// not ok
-
+				overwrite = false
 			}
 
+			if (overwrite) {
+				this.set_node(root.get_end());
+			} else {
+				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());
+			}
 		}
 
 		if (switch_index !== null) {
