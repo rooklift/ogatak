@@ -134,6 +134,10 @@ let tabber_prototype = {
 		return false;
 	},
 
+	active_tab_is_last_tab: function() {
+		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
+	},
+
 	remove_deleted_nodes: function() {				// Returns true iff some tab was deleted.
 
 		let initial_length = this.tabs.length;

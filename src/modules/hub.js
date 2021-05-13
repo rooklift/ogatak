@@ -89,6 +89,33 @@ let hub_prototype = {
 
 	// Tabs........................................................................................
 
+	add_roots: function(new_roots) {
+
+		let switch_index = null;
+
+		for (let n = 0; n < new_roots.length; n++) {
+
+			let root = new_roots[n];
+
+			// It might be acceptable to make the first root overwrite the current node...
+
+			if (!this.node) {
+				this.set_node(root.get_end());
+			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
+				this.set_node(root.get_end());
+			} else {
+				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());
+			}
+
+		}
+
+		if (switch_index !== null) {
+			this.switch_tab(switch_index);
+		} else {
+			this.update_title();
+		}
+	},
+
 	switch_tab: function(index) {
 		if (index < 0 || index >= this.tabber.tabs.length) {
 			return;
@@ -122,18 +149,15 @@ let hub_prototype = {
 		this.set_autoplay(false);
 
 		if (this.tabber.tabs.length === 1) {
-
-			this.new_game(19, 19, true);
-			this.tabber.draw_tabs(this.node);
-
+			this.node = null;
+			this.new_game(19, 19);
 		} else {
-
 			let node = this.tabber.close_active_tab();
 			this.set_node(node);
-			this.tabber.draw_tabs(this.node);
-			this.update_title();
-
 		}
+
+		this.tabber.draw_tabs(this.node);
+		this.update_title();
 	},
 
 	// Files.......................................................................................
@@ -142,10 +166,36 @@ let hub_prototype = {
 		save_sgf(this.node, filepath);
 	},
 
+	get_roots_from_buffer: function(buf, type) {
+
+		let new_roots = [];
+
+		// The loaders all either throw or return a length >= 1 array...
+
+		if (type === "sgf") new_roots = load_sgf(buf);
+		if (type === "ngf") new_roots = load_ngf(buf);
+		if (type === "gib") new_roots = load_gib(buf);
+
+		if (new_roots.length === 0) {
+			throw "got a zero length array of roots, this is supposed to be impossible";
+		}
+
+		return new_roots;
+	},
+
 	load_sgf_from_string: function (s) {
-		if (typeof s === "string") {
+
+		if (typeof s !== "string") {
+			return;
+		}
+
+		try {
 			let buf = Buffer.from(s);
-			this.load_buffer(buf, "sgf");
+			let roots = this.get_roots_from_buffer(buf, "sgf");
+			this.add_roots(roots);
+		} catch (err) {
+			console.log("load_sgf_from_string():", err);
+			alert("load_sgf_from_string():\n" + err.toString());
 		}
 	},
 
@@ -155,12 +205,8 @@ let hub_prototype = {
 			return;
 		}
 
-		if (arr.length === 1) {										// Necessary because the logic of tab-switching is different in this case, because
-			this.load(arr[0]);										// in the event that the file is loaded into the current tab, switching tabs will
-			return;													// be wrong, but load_multifile() always switches to end.
-		}
+		let new_roots = [];
 
-		let starttime = performance.now();
 		let got_actual_file = false;
 
 		for (let n = 0; n < arr.length; n++) {
@@ -175,89 +221,31 @@ let hub_prototype = {
 				if (fs.existsSync(filepath) === false) {			// Can happen when extra args are passed to main process. Silently return.
 					continue;
 				}
+			}
+
+			try {
+
+				let buf = fs.readFileSync(filepath);
 				got_actual_file = true;
+
+				let type = "sgf";
+				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
+				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
+
+				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type));
+
+			} catch (err) {
+				console.log(err.toString());
+				continue;
 			}
-
-			this.load(filepath, true);								// true - suppressing the automatic tab switch.
 		}
 
-		this.switch_tab(this.tabber.tabs.length - 1);
-
-		console.log(`Multifile open took ${(performance.now() - starttime).toFixed(2)} ms.`);
-	},
-
-	load: function(filepath, no_switch) {
-		console.log("Trying to load:", filepath);
-		let buf;
-		let type = "sgf";
-		try {
-			buf = fs.readFileSync(filepath);
-			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
-			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-		} catch (err) {
-			console.log(err.toString());
-			alert("While opening file:\n" + err.toString());
-			return;
-		}
-		this.load_buffer(buf, type, no_switch);
-	},
-
-	load_buffer: function(buf, type, no_switch) {
-		try {
-			let new_roots;
-			if (type === "sgf") {
-				new_roots = load_sgf(buf);
-			} else if (type === "ngf") {
-				new_roots = load_ngf(buf);
-			} else if (type === "gib") {
-				new_roots = load_gib(buf);
-			} else {
-				throw "unknown type";
-			}
-
-			if (new_roots.length === 0) {
-				throw "got a zero length array of roots, this is supposed to be impossible";		// All the loaders either throw or return a length >= 1 array.
-			}
-
-			for (let n = 0; n < new_roots.length; n++) {
-
-				let root = new_roots[n];
-
-				if (this.new_root_requires_new_tab() || n > 0) {
-					let index = this.tabber.create_inactive_tab_at_end(root.get_end());
-					if (n === new_roots.length - 1 && !no_switch) {
-						this.switch_tab(index);
-					}
-				} else {
-					this.set_node(root.get_end());
-				}
-				this.update_title();
-			}
-		} catch (err) {
-			console.log(err.toString());
-			alert("While parsing buffer:\n" + err.toString());
-		}
-	},
-
-	new_root_requires_new_tab: function() {
-		if (!this.node) {
-			return false;
-		}
-		if (this.node.parent) {
-			return true;
-		}
-		if (this.node.children.length > 0) {
-			return true;
-		}
-		if (this.tabber.inactive_tab_exists(this.node)) {
-			return true;
-		}
-		return false;
+		this.add_roots(new_roots);
 	},
 
 	// New game....................................................................................
 
-	new_game: function(width, height, force_same_tab) {
+	new_game: function(width, height) {
 
 		let komi = this.node ? this.node.get_board().komi : config.default_komi;
 		let rules = this.node ? this.node.get_board().rules : config.default_rules;
@@ -266,10 +254,10 @@ let hub_prototype = {
 			rules = config.default_rules;
 		}
 
-		this.__new_game(width, height, komi, rules, 0, force_same_tab);
+		this.__new_game(width, height, komi, rules, 0);
 	},
 
-	__new_game: function(width, height, komi, rules, handicap, force_same_tab) {
+	__new_game: function(width, height, komi, rules, handicap) {
 
 		let node = new_node();
 
@@ -287,15 +275,7 @@ let hub_prototype = {
 		node.set("KM", komi);
 		node.set("RU", rules);
 
-		if (this.new_root_requires_new_tab() && !force_same_tab) {
-			let index = this.tabber.create_inactive_tab_at_end(node);
-			this.switch_tab(index);
-		} else {
-			this.set_node(node);
-			this.tabber.draw_active_tab(node);
-		}
-
-		this.update_title();
+		this.add_roots([node]);
 	},
 
 	set_handicap: function(handicap) {
