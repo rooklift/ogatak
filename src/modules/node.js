@@ -27,6 +27,7 @@ function new_node(parent) {
 	} else {
 		node.graph_length_knower = {val: 60};
 		node.depth = 0;
+		node.source_description = "";								// Gets adjusted from outside
 	}
 
 	if (node.depth > node.graph_length_knower.val) {
@@ -471,9 +472,21 @@ let node_prototype = {
 		let root = this.get_root();
 
 		if (root.props.PB || root.props.PW) {
+
 			let blackname = root.get("PB") || "Unknown";
 			let whitename = root.get("PW") || "Unknown";
-			return `${blackname} (B) vs ${whitename} (W)`;
+
+			let s = `${blackname} (B) vs ${whitename} (W)`;
+
+			if (root.source_description) {
+				s += ` (${root.source_description})`;
+			}
+
+			return s;
+		}
+
+		if (root.source_description) {
+			return root.source_description;
 		}
 
 		return "";

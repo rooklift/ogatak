@@ -4,6 +4,7 @@
 // (well, unless the GC is very smart, which it might be).
 
 const fs = require("fs");
+const path = require("path");
 const {ipcRenderer} = require("electron");
 
 const new_board_drawer = require("./board_drawer");
@@ -177,7 +178,7 @@ let hub_prototype = {
 		save_sgf(this.node, filepath);
 	},
 
-	get_roots_from_buffer: function(buf, type) {
+	get_roots_from_buffer: function(buf, type, source_description = "") {
 
 		let new_roots = [];
 
@@ -191,6 +192,10 @@ let hub_prototype = {
 			throw "got a zero length array of roots, this is supposed to be impossible";
 		}
 
+		for (let root of new_roots) {
+			root.source_description = source_description;
+		}
+
 		return new_roots;
 	},
 
@@ -202,7 +207,7 @@ let hub_prototype = {
 
 		try {
 			let buf = Buffer.from(s);
-			let roots = this.get_roots_from_buffer(buf, "sgf");
+			let roots = this.get_roots_from_buffer(buf, "sgf", "from clipboard");
 			this.add_roots(roots);
 		} catch (err) {
 			console.log("load_sgf_from_string():", err);
@@ -244,7 +249,7 @@ let hub_prototype = {
 				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
 
-				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type));
+				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, path.basename(filepath)));
 
 			} catch (err) {
 				loader_errors.push(err);
