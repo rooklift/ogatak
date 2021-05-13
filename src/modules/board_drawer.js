@@ -400,7 +400,7 @@ let board_drawer_prototype = {
 			ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
 			ctx.fill();
 
-			if (info.order === 0) {
+			if (info.order === 0 && config.circle_best) {
 				ctx.beginPath();
 				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
 				ctx.stroke();

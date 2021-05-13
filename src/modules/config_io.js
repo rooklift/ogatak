@@ -33,6 +33,9 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"board_font_size": 14,
 	"info_font_size": 16,
 
+	"minor_graph_linewidth": 1,
+	"major_graph_linewidth": 2,
+
 	"best_colour_black": "#99dd55ff",
 	"best_colour_white": "#99dd55ff",
 	"wood_colour": "#d2b074ff",
@@ -43,9 +46,6 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"major_graph_colour": "#4ba28bff",
 	"major_graph_var_colour": "#4b8ba2ff",
 	"midline_graph_colour": "#222222ff",
-
-	"minor_graph_linewidth": 1,
-	"major_graph_linewidth": 2,
 
 	"default_rules": "Chinese",			// Used for game on startup, as well as when rules are "Unknown".
 	"default_komi": 7.5,				// Used for game on startup, but otherwise unknown komi is inferred as zero.
@@ -58,6 +58,7 @@ exports.defaults = {		// Nothing in this should be undefined.
 	"numbers": "lcb",
 	"visits_threshold": 0.02,
 	"next_move_markers": true,
+	"circle_best": true,
 	"graph_type": "winrate",
 
 	"widerootnoise": true,
