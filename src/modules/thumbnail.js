@@ -19,7 +19,7 @@ module.exports = function(board, square_size) {
 
 	let ctx = c.getContext("2d");
 
-	ctx.fillStyle = board ? config.wood_colour : "#000000ff";
+	ctx.fillStyle = config.wood_colour;
 	ctx.beginPath();
 	ctx.rect(x_offset, y_offset, visible_x_width, visible_y_height);
 	ctx.fill();
