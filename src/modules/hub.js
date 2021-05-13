@@ -755,7 +755,7 @@ let hub_prototype = {
 
 	cycle_komi: function(reverse) {
 
-		const values = [0, 0.5, 6, 6.5, 7, 7.5];
+		const values = [0, 0.5, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
 
 		let current = this.node.get_board().komi;
 

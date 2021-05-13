@@ -715,7 +715,6 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [7.5]
 								});
-								set_checks("App", "Next komi", "7.5");
 							}
 						},
 						{
@@ -725,7 +724,6 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [7]
 								});
-								set_checks("App", "Next komi", "7");
 							}
 						},
 						{
@@ -735,7 +733,6 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [6.5]
 								});
-								set_checks("App", "Next komi", "6.5");
 							}
 						},
 						{
@@ -745,7 +742,33 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [6]
 								});
-								set_checks("App", "Next komi", "6");
+							}
+						},
+						{
+							label: "5.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [5.5]
+								});
+							}
+						},
+						{
+							label: "5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [5]
+								});
+							}
+						},
+						{
+							label: "4.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [4.5]
+								});
 							}
 						},
 						{
@@ -755,7 +778,6 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [0.5]
 								});
-								set_checks("App", "Next komi", "0.5");
 							}
 						},
 						{
@@ -765,7 +787,6 @@ function menu_build() {
 									fn: "coerce_komi",
 									args: [0]
 								});
-								set_checks("App", "Next komi", "0");
 							}
 						},
 					]
