@@ -18,7 +18,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
 
-const {defaults, defaults_classified} = require("./config_io");
+const {defaults, defaults_classified, size_keys} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -622,16 +622,6 @@ let hub_prototype = {
 		throw "test exception";
 	},
 
-	reset_colours: function() {
-		for (let key of Object.keys(defaults)) {
-			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
-				config[key] = defaults[key];
-			}
-		}
-		save_config();
-		this.draw();
-	},
-
 	// Spinners....................................................................................
 
 	graph_draw_spinner: function() {
@@ -695,17 +685,13 @@ let hub_prototype = {
 
 	// Options.....................................................................................
 
-	set_without_effects: function(key, value) {
-		config[key] = value;
-		save_config();
-	},
-
 	set: function(key, value) {
 
 		// Note that changing the rules and komi go via different paths, not this function,
 		// as they are considered part of the board objects.
 
-		this.set_without_effects(key, value);
+		config[key] = value;
+		save_config();
 
 		if (defaults_classified["engine_starters"][key] !== undefined) {
 			this.maybe_start_engine();
@@ -748,6 +734,29 @@ let hub_prototype = {
 		if (this.engine.desired) {
 			this.go();
 		}
+		this.draw();
+	},
+
+	set_sizes_to_defaults: function(multiplier) {
+		for (let key of size_keys) {
+			config[key] = defaults[key] * multiplier;
+		}
+		save_config();
+		this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
+		this.tabber.draw_tabs(this.node);
+		this.grapher.draw_graph(this.node);
+		this.draw();
+	},
+
+	reset_colours: function() {
+		for (let key of Object.keys(defaults)) {
+			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
+				config[key] = defaults[key];
+			}
+		}
+		save_config();
+		this.tabber.draw_tabs(this.node);
+		this.grapher.draw_graph(this.node);
 		this.draw();
 	},
 

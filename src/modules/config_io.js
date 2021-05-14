@@ -85,6 +85,8 @@ for (let cl of Object.keys(exports.defaults_classified)) {
 	}
 }
 
+exports.size_keys = ["minor_graph_linewidth", "major_graph_linewidth", "square_size", "thumbnail_square_size", "board_font_size", "info_font_size"];
+
 // ---------------------------------------------------------------------------------------------------------------------------
 
 let errortext = "";
