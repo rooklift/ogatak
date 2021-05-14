@@ -24,24 +24,10 @@ exports.defaults_classified = {
 	// The various classifications get used by the hub to decide what action to take if one of these is changed.
 	// Note that the actual defaults object (created below) is a flattened version of this without classifications.
 
-	no_immediate_effect: {
-		"width": 900,
-		"height": 740,
-		"stderr_to_console": true,
-		"autoanalysis_visits": 500,
-		"graph_draw_delay": 200,
-		"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
-		"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
-	},
-
 	engine_starters: {
 		"engine": "",
 		"engineconfig": "",
 		"weights": "",
-	},
-
-	search_changers: {
-		"widerootnoise": true,
 	},
 
 	board_rebuilders: {
@@ -51,16 +37,6 @@ exports.defaults_classified = {
 
 	tab_rebuilders: {
 		"thumbnail_square_size": 4,
-	},
-
-	graph_redrawers: {
-		"graph_type": "winrate",
-		"minor_graph_linewidth": 1,
-		"major_graph_linewidth": 2,
-		"minor_graph_colour": "#444444ff",
-		"major_graph_colour": "#4ba28bff",
-		"major_graph_var_colour": "#4b8ba2ff",
-		"midline_graph_colour": "#222222ff",
 	},
 
 	board_redrawers: {
@@ -75,6 +51,30 @@ exports.defaults_classified = {
 		"visits_threshold": 0.02,
 		"next_move_markers": true,
 		"circle_best": true,
+	},
+
+	graph_redrawers: {
+		"graph_type": "winrate",
+		"minor_graph_linewidth": 1,
+		"major_graph_linewidth": 2,
+		"minor_graph_colour": "#444444ff",
+		"major_graph_colour": "#4ba28bff",
+		"major_graph_var_colour": "#4b8ba2ff",
+		"midline_graph_colour": "#222222ff",
+	},
+
+	search_changers: {
+		"widerootnoise": true,
+	},
+
+	no_immediate_effect: {
+		"width": 900,
+		"height": 740,
+		"stderr_to_console": true,
+		"autoanalysis_visits": 500,
+		"graph_draw_delay": 200,
+		"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
+		"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
 	},
 };
 
