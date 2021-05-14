@@ -438,7 +438,7 @@ let board_drawer_prototype = {
 				}
 			}
 			if (config.numbers === "order") {
-				text = info.order.toString();
+				text = (info.order + 1).toString();
 			}
 
 			ctx.fillStyle = "#000000ff";
