@@ -18,7 +18,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
 
-const {defaults, defaults_classified, size_keys} = require("./config_io");
+const {defaults, defaults_classified, colour_keys, size_keys} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -749,10 +749,8 @@ let hub_prototype = {
 	},
 
 	reset_colours: function() {
-		for (let key of Object.keys(defaults)) {
-			if (typeof defaults[key] === "string" && defaults[key].startsWith("#")) {
-				config[key] = defaults[key];
-			}
+		for (let key of colour_keys) {
+			config[key] = defaults[key];
 		}
 		save_config();
 		this.tabber.draw_tabs(this.node);

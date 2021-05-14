@@ -91,6 +91,8 @@ exports.size_keys = [
 	"board_line_width", "board_font_size", "info_font_size"
 ];
 
+exports.colour_keys = Object.keys(exports.defaults).filter(key => typeof exports.defaults[key] === "string" && exports.defaults[key][0] === "#");
+
 // ---------------------------------------------------------------------------------------------------------------------------
 
 let errortext = "";
