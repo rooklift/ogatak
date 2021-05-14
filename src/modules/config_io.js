@@ -79,13 +79,9 @@ exports.defaults_classified = {
 
 exports.defaults = {};
 
-for (let [key, value] of Object.entries(exports.defaults_classified)) {
-	if (typeof value !== "object" || value === null) {
-		exports.defaults[key] = value;
-	} else {
-		for (let subkey of Object.keys(value)) {
-			exports.defaults[subkey] = value[subkey];
-		}
+for (let cl of Object.keys(exports.defaults_classified)) {
+	for (let key of Object.keys(exports.defaults_classified[cl])) {
+		exports.defaults[key] = exports.defaults_classified[cl][key];
 	}
 }
 
