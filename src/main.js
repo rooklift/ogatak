@@ -1064,6 +1064,27 @@ function menu_build() {
 						win.webContents.send("toggle", "next_move_markers");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Big sizes",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "set_sizes_to_defaults",
+							args: [2]
+						});
+					}
+				},
+				{
+					label: "Reset sizes",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "set_sizes_to_defaults",
+							args: [1]
+						});
+					}
+				},
 			]
 		},
 		{
@@ -1085,27 +1106,6 @@ function menu_build() {
 					label: "Reset colours",
 					click: () => {
 						win.webContents.send("call", "reset_colours");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Reset sizes",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "set_sizes_to_defaults",
-							args: [1]
-						});
-					}
-				},
-				{
-					label: "Big sizes",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "set_sizes_to_defaults",
-							args: [2]
-						});
 					}
 				},
 				{
