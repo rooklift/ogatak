@@ -212,13 +212,13 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Set handicap",
+					label: "Handicap",
 					submenu: [
 						{
 							label: "9",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [9]
 								});
 							}
@@ -227,7 +227,7 @@ function menu_build() {
 							label: "8",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [8]
 								});
 							}
@@ -236,7 +236,7 @@ function menu_build() {
 							label: "7",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [7]
 								});
 							}
@@ -245,7 +245,7 @@ function menu_build() {
 							label: "6",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [6]
 								});
 							}
@@ -254,7 +254,7 @@ function menu_build() {
 							label: "5",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [5]
 								});
 							}
@@ -263,7 +263,7 @@ function menu_build() {
 							label: "4",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [4]
 								});
 							}
@@ -272,7 +272,7 @@ function menu_build() {
 							label: "3",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [3]
 								});
 							}
@@ -281,7 +281,7 @@ function menu_build() {
 							label: "2",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [2]
 								});
 							}
@@ -290,7 +290,7 @@ function menu_build() {
 							label: "0",
 							click: () => {
 								win.webContents.send("call", {
-									fn: "set_handicap",
+									fn: "place_handicap",
 									args: [0]
 								});
 							}

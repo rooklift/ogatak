@@ -300,7 +300,7 @@ let hub_prototype = {
 		this.add_roots([node]);
 	},
 
-	set_handicap: function(handicap) {
+	place_handicap: function(handicap) {
 		let board = this.node.get_board();
 		this.__new_game(board.width, board.height, board.komi, board.rules, handicap);
 	},
