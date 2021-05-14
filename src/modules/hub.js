@@ -351,10 +351,14 @@ let hub_prototype = {
 		}
 	},
 
-	next: function() {
-		if (this.node.children.length > 0) {
-			this.set_node(this.node.children[0]);
+	child: function(n) {
+		if (this.node.children.length > n) {
+			this.set_node(this.node.children[n]);
 		}
+	},
+
+	next: function() {
+		this.child(0);
 	},
 
 	go_to_end: function() {
