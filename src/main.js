@@ -5,6 +5,7 @@ const path = require("path");
 const url = require("url");
 
 const alert = require("./modules/alert_main");
+const colour_choices = require("./modules/colour_choices");
 const config_io = require("./modules/config_io");
 const stringify = require("./modules/stringify");
 
@@ -126,6 +127,9 @@ function startup() {
 // --------------------------------------------------------------------------------------------------------------
 
 function menu_build() {
+
+	let colour_choices_submenu = [];
+
 	const template = [
 		{
 			label: "App",
@@ -1085,6 +1089,13 @@ function menu_build() {
 						});
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Colours",
+					submenu: colour_choices_submenu
+				}
 			]
 		},
 		{
@@ -1143,6 +1154,18 @@ function menu_build() {
 			]
 		}
 	];
+
+	for (let key of Object.keys(colour_choices)) {
+		colour_choices_submenu.push({
+			label: key,
+			click: () => {
+				win.webContents.send("call", {
+					fn: "apply_settings",
+					args: [colour_choices[key]]
+				});
+			}
+		});
+	}
 
 	return electron.Menu.buildFromTemplate(template);
 }

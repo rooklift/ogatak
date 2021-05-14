@@ -725,6 +725,14 @@ let hub_prototype = {
 		}
 	},
 
+	apply_settings: function(o) {
+		for (let key of Object.keys(o)) {
+			config[key] = o[key];
+		}
+		save_config();
+		this.draw();						// So far, this function is only used for board graphics. If that changes, may need more than just draw()
+	},
+
 	coerce_rules: function(value) {
 		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
 		if (this.engine.desired) {
