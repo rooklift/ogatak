@@ -13,7 +13,7 @@ module.exports = function(width, height, square_size) {
 	c.height = square_size * height;
 	let ctx = c.getContext("2d");
 
-	ctx.lineWidth = 1;
+	ctx.lineWidth = config.board_line_width;
 	ctx.strokeStyle = "#000000";
 
 	for (let x = 0; x < width; x++) {
@@ -50,7 +50,7 @@ module.exports = function(width, height, square_size) {
 		let gx = (x * square_size) + (square_size / 2) + 0.5;
 		let gy = (y * square_size) + (square_size / 2) + 0.5;
 		ctx.beginPath();
-		ctx.arc(gx, gy, 2, 0, 3 * Math.PI);
+		ctx.arc(gx, gy, config.board_line_width * 2, 0, 3 * Math.PI);
 		ctx.fill();
 	}
 
