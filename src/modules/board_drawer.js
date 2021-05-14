@@ -421,7 +421,13 @@ let board_drawer_prototype = {
 				text = Math.floor(info.prior * 100).toString();
 			}
 			if (config.numbers === "score") {
-				text = info.scoreLead.toFixed(1);
+				text = info.scoreLead < 0 ? "-" : "+";
+				let absl = Math.abs(info.scoreLead);
+				if (absl < 10) {
+					text += absl.toFixed(1);
+				} else {
+					text += Math.floor(absl);
+				}
 			}
 			if (config.numbers === "visits") {
 				text = info.visits.toString();
