@@ -349,22 +349,25 @@ let node_prototype = {
 
 		for (let node of this.history_reversed()) {
 
-			if (node.props.AB || node.props.AW || node.props.AE) {
+			let totalmoves = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
 
-				// In this case, our final object will have only moves after
-				// this node, but will set up the position at this node.
+			if (node.props.AB || node.props.AW || node.props.AE || totalmoves > 1) {
+
+				// In this case, our final object will have only moves after this node, but will set up the
+				// position at this node. Note that any moves in this node (from properties B and W) will be
+				// included in the setup position, thus we break here so they aren't also in the moves list.
 
 				setup = node.get_board().setup_list();
 				break;
 			}
 
-			if (node.props.B || node.props.W) {
-
-				for (let s of node.all_values("B")) {
+			if (totalmoves === 1) {
+				if (node.props.B) {
+					let s = this.get("B");
 					moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
-
-				for (let s of node.all_values("W")) {
+				if (node.props.W) {
+					let s = this.get("W");
 					moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
 			}
