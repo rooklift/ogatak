@@ -343,7 +343,7 @@ let board_drawer_prototype = {
 					let gy = y * config.square_size + (config.square_size / 2);
 
 					ctx.beginPath();
-					ctx.arc(gx, gy, (config.square_size / 2) - 1.5, 0, 2 * Math.PI);	// Note the reduction of radius
+					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
 					ctx.stroke();
 				}
 			}
@@ -402,7 +402,7 @@ let board_drawer_prototype = {
 
 			if (info.order === 0 && config.circle_best) {
 				ctx.beginPath();
-				ctx.arc(gx, gy, (config.square_size / 2) - 1.5, 0, 2 * Math.PI);		// Note the reduction of radius
+				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
 				ctx.stroke();
 			}
 
