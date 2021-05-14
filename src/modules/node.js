@@ -363,11 +363,11 @@ let node_prototype = {
 
 			if (totalmoves === 1) {
 				if (node.props.B) {
-					let s = this.get("B");
+					let s = node.get("B");
 					moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
 				if (node.props.W) {
-					let s = this.get("W");
+					let s = node.get("W");
 					moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 				}
 			}
