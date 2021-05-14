@@ -18,7 +18,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
 
-const {defaults} = require("./config_io");
+const {defaults, defaults_classified} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -103,13 +103,13 @@ let hub_prototype = {
 			let overwrite;
 
 			if (!this.node) {
-				overwrite = true
+				overwrite = true;
 			} else if (this.tabber.inactive_tab_exists(this.node)) {
-				overwrite = false
+				overwrite = false;
 			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
-				overwrite = true
+				overwrite = true;
 			} else {
-				overwrite = false
+				overwrite = false;
 			}
 
 			if (overwrite) {
@@ -488,22 +488,6 @@ let hub_prototype = {
 		}
 	},
 
-	coerce_komi: function(value) {
-		this.node.coerce_komi(value);
-		if (this.engine.desired) {
-			this.go();
-		}
-		this.draw();
-	},
-
-	coerce_rules: function(value) {
-		this.node.coerce_rules(value);
-		if (this.engine.desired) {
-			this.go();
-		}
-		this.draw();
-	},
-
 	forget_analysis_tree: function() {
 		this.node.forget_analysis_tree();
 		this.halt();
@@ -612,6 +596,17 @@ let hub_prototype = {
 		}
 	},
 
+	maybe_start_engine: function() {
+
+		if (this.engine.exe) {
+			alert("A restart is required for the new settings.");
+			return;
+		}
+
+		this.engine.setup(config.engine, config.engineconfig, config.weights);
+		this.update_title();
+	},
+
 	// Misc dev stuff..............................................................................
 
 	display_props: function(rootflag) {
@@ -635,37 +630,6 @@ let hub_prototype = {
 		}
 		save_config();
 		this.draw();
-	},
-
-	// Engine configuration........................................................................
-
-	set_engine: function(filepath) {
-		config.engine = filepath;
-		save_config();
-		this.maybe_start_engine();
-	},
-
-	set_engineconfig: function(filepath) {
-		config.engineconfig = filepath;
-		save_config();
-		this.maybe_start_engine();
-	},
-
-	set_weights: function(filepath) {
-		config.weights = filepath;
-		save_config();
-		this.maybe_start_engine();
-	},
-
-	maybe_start_engine: function() {
-
-		if (this.engine.exe) {
-			alert("A restart is required for the new settings.");
-			return;
-		}
-
-		this.engine.setup(config.engine, config.engineconfig, config.weights);
-		this.update_title();
 	},
 
 	// Spinners....................................................................................
@@ -731,23 +695,63 @@ let hub_prototype = {
 
 	// Options.....................................................................................
 
-	set: function(key, value, suppress_draw) {
-
-		const search_changers = ["rules", "widerootnoise"];
-
+	set_without_effects: function(key, value) {
 		config[key] = value;
 		save_config();
-		// ipcRenderer.send("ack_config", {key, value});
+	},
 
-		if (this.engine.desired && search_changers.includes(key)) {
-			this.go();
+	set: function(key, value) {
+
+		// Note that changing the rules and komi go via different paths, not this function,
+		// as they are considered part of the board objects.
+
+		this.set_without_effects(key, value);
+
+		if (defaults_classified["engine_starters"][key] !== undefined) {
+			this.maybe_start_engine();
 		}
 
-		if (!suppress_draw) {
+		if (defaults_classified["search_changers"][key] !== undefined) {
+			if (this.engine.desired) {
+				this.go();
+			}
+		}
+
+		if (defaults_classified["board_rebuilders"][key] !== undefined) {
+			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
-			this.grapher.draw_graph(hub.node);
+		}
+
+		if (defaults_classified["tab_rebuilders"][key] !== undefined) {
+			this.tabber.draw_tabs(this.node);
+		}
+
+		if (defaults_classified["graph_redrawers"][key] !== undefined) {
+			this.grapher.draw_graph(this.node);
+		}
+
+		if (defaults_classified["board_redrawers"][key] !== undefined) {
+			this.draw();
 		}
 	},
+
+	coerce_rules: function(value) {
+		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
+		if (this.engine.desired) {
+			this.go();
+		}
+		this.draw();
+	},
+
+	coerce_komi: function(value) {
+		this.node.coerce_komi(value);		// Sets the komi in every board in the tree.
+		if (this.engine.desired) {
+			this.go();
+		}
+		this.draw();
+	},
+
+	// Clickers in the infobox.....................................................................
 
 	cycle_rules: function(reverse) {
 

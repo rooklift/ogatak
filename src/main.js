@@ -365,9 +365,9 @@ function menu_build() {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
-							win.webContents.send("call", {
-								fn: "set_engine",
-								args: [file]
+							win.webContents.send("set", {
+								key: "engine",
+								value: file
 							});
 						}
 					},
@@ -378,9 +378,9 @@ function menu_build() {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
-							win.webContents.send("call", {
-								fn: "set_engineconfig",
-								args: [file]
+							win.webContents.send("set", {
+								key: "engineconfig",
+								value: file
 							});
 						}
 					},
@@ -391,9 +391,9 @@ function menu_build() {
 						let files = open_dialog();
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
-							win.webContents.send("call", {
-								fn: "set_weights",
-								args: [file]
+							win.webContents.send("set", {
+								key: "weights",
+								value: file
 							});
 						}
 					},

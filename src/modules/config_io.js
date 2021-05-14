@@ -19,51 +19,75 @@ exports.filepath = electron.app ?
 
 exports.config = {};
 
-exports.defaults = {		// Nothing in this should be undefined.
+exports.defaults_classified = {
 
-	"engine": "",
-	"engineconfig": "",
-	"weights": "",
+	// The various classifications get used by the hub to decide what action to take if one of these is changed.
+	// Note that the actual defaults object (created below) is a flattened version of this without classifications.
 
-	"width": 900,
-	"height": 740,
+	no_immediate_effect: {
+		"width": 900,
+		"height": 740,
+		"stderr_to_console": true,
+		"autoanalysis_visits": 500,
+		"graph_draw_delay": 200,
+		"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
+		"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
+	},
 
-	"square_size": 34,
-	"thumbnail_square_size": 4,
-	"board_font_size": 14,
-	"info_font_size": 16,
+	engine_starters: {
+		"engine": "",
+		"engineconfig": "",
+		"weights": "",
+	},
 
-	"minor_graph_linewidth": 1,
-	"major_graph_linewidth": 2,
+	search_changers: {
+		"widerootnoise": true,
+	},
 
-	"best_colour_black": "#99dd55ff",
-	"best_colour_white": "#99dd55ff",
-	"wood_colour": "#d2b074ff",
+	board_rebuilders: {
+		"square_size": 34,
+	},
 
-	"previous_marker": "#888888ff",		// or maybe: "#ff0000aa" or "#0099ffaa"
+	tab_rebuilders: {
+		"thumbnail_square_size": 4,
+	},
 
-	"minor_graph_colour": "#444444ff",
-	"major_graph_colour": "#4ba28bff",
-	"major_graph_var_colour": "#4b8ba2ff",
-	"midline_graph_colour": "#222222ff",
+	graph_redrawers: {
+		"graph_type": "winrate",
+		"minor_graph_linewidth": 1,
+		"major_graph_linewidth": 2,
+		"minor_graph_colour": "#444444ff",
+		"major_graph_colour": "#4ba28bff",
+		"major_graph_var_colour": "#4b8ba2ff",
+		"midline_graph_colour": "#222222ff",
+	},
 
-	"default_rules": "Chinese",			// Used for game on startup, as well as when rules are "Unknown".
-	"default_komi": 7.5,				// Used for game on startup, but otherwise unknown komi is inferred as zero.
-
-	"graph_draw_delay": 200,
-
-	"stderr_to_console": true,
-
-	"candidate_moves": true,
-	"numbers": "lcb",
-	"visits_threshold": 0.02,
-	"next_move_markers": true,
-	"circle_best": true,
-	"graph_type": "winrate",
-
-	"widerootnoise": true,
-	"autoanalysis_visits": 500,
+	board_redrawers: {
+		"board_font_size": 14,
+		"info_font_size": 16,
+		"best_colour_black": "#99dd55ff",
+		"best_colour_white": "#99dd55ff",
+		"wood_colour": "#d2b074ff",
+		"previous_marker": "#888888ff",		// or maybe: "#ff0000aa" or "#0099ffaa"
+		"candidate_moves": true,
+		"numbers": "lcb",
+		"visits_threshold": 0.02,
+		"next_move_markers": true,
+		"circle_best": true,
+	},
 };
+
+exports.defaults = {};
+
+for (let [key, value] of Object.entries(exports.defaults_classified)) {
+	if (typeof value !== "object") {
+		exports.defaults[key] = value;
+	} else {
+		for (let subkey of Object.keys(value)) {
+			exports.defaults[subkey] = value[subkey];
+		}
+	}
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------
 
