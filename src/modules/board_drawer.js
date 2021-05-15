@@ -255,13 +255,12 @@ let board_drawer_prototype = {
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 
-				let desired = "";
 				let state = board.state[x][y];
+				let desired = state;
 
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
-				} else if (state === "b" || state === "w") {
-					desired = state;
+				} else if (state === "b" || state === "w") {		// Sometimes upgrade desired to "bm" or "wm".
 					if (markdead_exclusions && markdead_exclusions.includes(xy_to_s(x, y))) {
 						// Nothing. Exclusions passed by draw_pv are not to be marked.
 					} else if (ownership) {
