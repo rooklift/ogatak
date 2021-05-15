@@ -54,7 +54,7 @@ exports.defaults_classified = {
 		"mouseover_pv": true,
 		"next_move_markers": true,
 		"circle_best": true,
-		"dead_stone_prediction": false,					// Duplicate
+		"dead_stone_prediction": true,					// Duplicate
 	},
 
 	graph_redrawers: {
@@ -69,7 +69,7 @@ exports.defaults_classified = {
 
 	search_changers: {
 		"widerootnoise": true,
-		"dead_stone_prediction": false,					// Duplicate
+		"dead_stone_prediction": true,					// Duplicate
 	},
 
 	no_immediate_effect: {
