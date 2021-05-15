@@ -108,7 +108,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.draw_board(board, node, ownership, ownership_perspective);
+		this.draw_board(board, node, ownership, ownership_perspective, null);
 
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
@@ -164,15 +164,15 @@ let board_drawer_prototype = {
 		for (let move of info.pv) {
 			let s = finalboard.parse_gtp_move(move);
 			finalboard.play(s);
-			points.push(s);				// Note that passes are included, so our later colour alteration works correctly.
+			points.push(s);				// Note that passes are included as "", so our later colour alteration works correctly.
 		}
 
 		// We draw the final board now so that this.tablestate contains correct info about what is in the table, which we use in a bit...
 
 		if (config.dead_stone_prediction && info.ownership) {
-			this.draw_board(finalboard, node, info.ownership, startboard.active);
+			this.draw_board(finalboard, node, info.ownership, startboard.active, points);
 		} else {
-			this.draw_board(finalboard, node, null, null);
+			this.draw_board(finalboard, node, null, null, null);
 		}
 
 		// Create a map of sgf_points (s) --> {text, fill} objects...
@@ -236,7 +236,7 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board, responsible_node, ownership, ownership_perspective) {
+	draw_board: function(board, responsible_node, ownership, ownership_perspective, ownership_exclusions) {
 
 		// The ownership stuff should only be passed to this function if drawing it is desired.
 		// We don't really check config.dead_stone_prediction, except for other reasons.
@@ -262,18 +262,20 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b" || state === "w") {
 					desired = state;
-					if (ownership) {
-						let own = ownership[x + (y * board.width)];
-						if (ownership_perspective !== state) {
-							own *= -1;
-						}
-						if (own < 0) {
-							desired = state === "b" ? "bm" : "wm";
-						}
-					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
-						// Might be acceptable to delay changing the element until we get an update from the engine...
-						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-							desired = state === "b" ? "bm" : "wm";
+					if (!ownership_exclusions || ownership_exclusions.includes(xy_to_s(x, y)) === false) {		// Exclusions passed by draw_pv are not to be marked
+						if (ownership) {
+							let own = ownership[x + (y * board.width)];
+							if (ownership_perspective !== state) {
+								own *= -1;
+							}
+							if (own < 0) {
+								desired = state === "b" ? "bm" : "wm";
+							}
+						} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
+							// Might be acceptable to delay changing the element until we get an update from the engine...
+							if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
+								desired = state === "b" ? "bm" : "wm";
+							}
 						}
 					}
 				}
