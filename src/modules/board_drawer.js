@@ -10,6 +10,12 @@ const black_stone_url = `url("${black_stone.src}")`;
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
 const white_stone_url = `url("${white_stone.src}")`;
 
+const black_stone_marked = new Image(); black_stone_marked.src = "./gfx/black_stone_marked.png";
+const black_stone_marked_url = `url("${black_stone_marked.src}")`;
+
+const white_stone_marked = new Image(); white_stone_marked.src = "./gfx/white_stone_marked.png";
+const white_stone_marked_url = `url("${white_stone_marked.src}")`;
+
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
@@ -19,7 +25,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-	drawer.current = null;		// Becomes 2d array of... "b", "w", "ko"
+	drawer.tablestate = null;		// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
@@ -27,6 +33,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.infodiv = infodiv;
 
 	drawer.last_draw_was_pv = false;
+	drawer.last_drawn_node_id = null;
 
 	return drawer;
 }
@@ -43,7 +50,7 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
-		this.current = [];
+		this.tablestate = [];
 
 		let png = background(this.width, this.height, config.square_size);
 		this.htmltable.style["background-image"] = `url("${png}")`;
@@ -66,9 +73,9 @@ let board_drawer_prototype = {
 		}
 
 		for (let x = 0; x < this.width; x++) {
-			this.current.push([]);
+			this.tablestate.push([]);
 			for (let y = 0; y < this.height; y++) {
-				this.current[x].push("");
+				this.tablestate[x].push("");
 			}
 		}
 
@@ -90,12 +97,32 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 		this.clear_canvas();
-		this.draw_board(node.get_board());
+
+		let board = node.get_board();
+		let ownership = null;
+		let ownership_perspective = null;
+
+		if (config.dead_stone_prediction) {
+			if (node.has_valid_analysis()) {
+				ownership = node.analysis.ownership;				// Might still be undefined, but that's OK.
+				ownership_perspective = board.active;
+			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis()) {
+				// Hack, prevents dead stone flicker... only needed if engine is running...
+				if (hub.engine.desired) {
+					ownership = node.parent.analysis.ownership;
+					ownership_perspective = node.parent.get_board().active;
+				}
+			}
+		}
+
+		this.draw_board(board, ownership, ownership_perspective);
+
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
 		this.draw_next_markers(node);
 		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
+		this.last_drawn_node_id = node.id;
 	},
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
@@ -128,12 +155,16 @@ let board_drawer_prototype = {
 			return false;
 		}
 
+		// We have a valid info, so the draw will proceed...
+
 		this.clear_canvas();
 		let ctx = this.canvas.getContext("2d");
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
+
+		// Create our final board...
 
 		let finalboard = startboard.copy();
 		let points = [];
@@ -144,6 +175,16 @@ let board_drawer_prototype = {
 			points.push(s);				// Note that passes are included, so our later colour alteration works correctly.
 		}
 
+		// We draw the final board now so that this.tablestate contains correct info about what is in the table, which we use in a bit...
+
+		if (config.dead_stone_prediction && info.ownership) {
+			this.draw_board(finalboard, info.ownership, startboard.active);
+		} else {
+			this.draw_board(finalboard, null, null);
+		}
+
+		// Create a map of sgf_points (s) --> {text, fill} objects...
+
 		let colour = startboard.active;
 		let n = 1;
 
@@ -151,7 +192,7 @@ let board_drawer_prototype = {
 
 		for (let s of points) {
 
-			if (s.length == 2) {		// Otherwise, it's a pass and we don't draw it.
+			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
 
 				// We use the last colour played on a point, but if 2 or more stones were played, text becomes "+"
 
@@ -167,6 +208,8 @@ let board_drawer_prototype = {
 			n++;
 		}
 
+		// And draw...
+
 		for (let [s, ntd] of Object.entries(numbers_to_draw)) {
 
 			let x = s.charCodeAt(0) - 97;
@@ -174,7 +217,11 @@ let board_drawer_prototype = {
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
-			if (finalboard.state_at(s) === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
+			if (this.tablestate[x][y] === "bm" || this.tablestate[x][y] === "wm") {		// The stone has been marked as dead in our table, with a square.
+				continue;
+			}
+
+			if (this.tablestate[x][y] === "") {			// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
 				ctx.fillStyle = config.wood_colour;
 				ctx.beginPath();
 				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
@@ -186,10 +233,10 @@ let board_drawer_prototype = {
 
 		}
 
-		this.draw_board(finalboard);
 		this.draw_node_info(node, info);
 
 		this.last_draw_was_pv = true;
+		this.last_drawn_node_id = node.id;
 		return true;
 	},
 
@@ -198,7 +245,7 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board) {
+	draw_board: function(board, ownership, ownership_perspective) {
 
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
@@ -217,22 +264,42 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b") {
 					desired = "b";
+					if (ownership) {
+						let own = ownership[x + (y * board.width)];
+						if (ownership_perspective !== "b") {
+							own *= -1;
+						}
+						if (own < 0) {
+							desired = "bm";
+						}
+					}
 				} else if (state === "w") {
 					desired = "w";
+					if (ownership) {
+						let own = ownership[x + (y * board.width)];
+						if (ownership_perspective !== "w") {
+							own *= -1;
+						}
+						if (own < 0) {
+							desired = "wm";
+						}
+					}
 				}
 
-				if (this.current[x][y] !== desired) {
+				if (this.tablestate[x][y] !== desired) {
 
 					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 
 					switch (desired) {
-						case   "": td.style["background-image"] =              ""; break;
-						case  "b": td.style["background-image"] = black_stone_url; break;
-						case  "w": td.style["background-image"] = white_stone_url; break;
-						case "ko": td.style["background-image"] =   ko_marker_url; break;
+						case   "": td.style["background-image"] =                     ""; break;
+						case  "b": td.style["background-image"] =        black_stone_url; break;
+						case  "w": td.style["background-image"] =        white_stone_url; break;
+						case "ko": td.style["background-image"] =          ko_marker_url; break;
+						case "bm": td.style["background-image"] = black_stone_marked_url; break;
+						case "wm": td.style["background-image"] = white_stone_marked_url; break;
 					}
 
-					this.current[x][y] = desired;
+					this.tablestate[x][y] = desired;
 				}
 			}
 		}

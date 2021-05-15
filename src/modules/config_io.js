@@ -24,6 +24,8 @@ exports.defaults_classified = {
 	// The various classifications get used by the hub to decide what action to take if one of these is changed.
 	// Note that the actual defaults object (created below) is a flattened version of this without classifications.
 
+	// It is OK for something to be in multiple classications.
+
 	engine_starters: {
 		"engine": "",
 		"engineconfig": "",
@@ -45,13 +47,14 @@ exports.defaults_classified = {
 		"best_colour_black": "#99dd55ff",
 		"best_colour_white": "#99dd55ff",
 		"wood_colour": "#d2b074ff",
-		"previous_marker": "#888888ff",		// or maybe: "#ff0000aa" or "#0099ffaa"
+		"previous_marker": "#888888ff",
 		"candidate_moves": true,
 		"numbers": "lcb",
 		"visits_threshold": 0.02,
 		"mouseover_pv": true,
 		"next_move_markers": true,
 		"circle_best": true,
+		"dead_stone_prediction": false,					// Duplicate
 	},
 
 	graph_redrawers: {
@@ -66,6 +69,7 @@ exports.defaults_classified = {
 
 	search_changers: {
 		"widerootnoise": true,
+		"dead_stone_prediction": false,					// Duplicate
 	},
 
 	no_immediate_effect: {

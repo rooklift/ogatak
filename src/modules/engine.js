@@ -56,7 +56,9 @@ let engine_prototype = {
 			if (this.desired.komi === node.get_board().komi) {
 				if (this.desired.rules === node.get_board().rules) {
 					if (desired_has_widerootnoise === config.widerootnoise) {
-						return;			// Because everything matches - the search desired is already set as such.
+						if (this.desired.includeOwnership === config.dead_stone_prediction) {
+							return;			// Because everything matches - the search desired is already set as such.
+						}
 					}
 				}
 			}

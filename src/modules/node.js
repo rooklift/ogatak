@@ -378,23 +378,34 @@ let node_prototype = {
 
 		moves.reverse();
 
+		// ----------------------------------------------------------------------------------------
+
 		o.id = `${this.id}:${next_query_id++}`;
+
 		if (setup.length > 0) {
 			o.initialStones = setup;
 		}
+
 		o.moves = moves;
 		if (moves.length === 0) {
 			o.initialPlayer = this.get_board().active.toUpperCase();
 		}
+
 		o.rules = this.get_board().rules;
 		if (o.rules === "Unknown") {
 			o.rules = config.default_rules;
 		}
+
 		o.komi = this.get_board().komi;
 		o.boardXSize = this.width();
 		o.boardYSize = this.height();
+
 		o.maxVisits = 1000000;
 		o.reportDuringSearchEvery = 0.1;
+
+		o.includeOwnership = config.dead_stone_prediction ? true : false;
+		o.includeMovesOwnership = config.dead_stone_prediction ? true : false;
+
 		o.overrideSettings.reportAnalysisWinratesAs = "SIDETOMOVE";
 		o.overrideSettings.wideRootNoise = config.widerootnoise ? 0.05 : 0;
 
