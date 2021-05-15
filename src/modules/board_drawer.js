@@ -208,30 +208,31 @@ let board_drawer_prototype = {
 		let board_ko_y = board.ko ? board.ko.charCodeAt(1) - 97 : -1;
 
 		for (let x = 0; x < this.width; x++) {
-
 			for (let y = 0; y < this.height; y++) {
 
+				let desired = "";
+				let state = board.state[x][y];
+
 				if (x === board_ko_x && y === board_ko_y) {
+					desired = "ko";
+				} else if (state === "b") {
+					desired = "b";
+				} else if (state === "w") {
+					desired = "w";
+				}
 
-					if (this.current[x][y] !== "ko") {
-						let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-						td.style["background-image"] = ko_marker_url;
-						this.current[x][y] = "ko";
+				if (this.current[x][y] !== desired) {
+
+					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+
+					switch (desired) {
+						case   "": td.style["background-image"] =              ""; break;
+						case  "b": td.style["background-image"] = black_stone_url; break;
+						case  "w": td.style["background-image"] = white_stone_url; break;
+						case "ko": td.style["background-image"] =   ko_marker_url; break;
 					}
 
-				} else {
-
-					if (this.current[x][y] !== board.state[x][y]) {
-						let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-						if (board.state[x][y] === "b") {
-							td.style["background-image"] = black_stone_url;
-						} else if (board.state[x][y] === "w") {
-							td.style["background-image"] = white_stone_url;
-						} else {
-							td.style["background-image"] = "";
-						}
-						this.current[x][y] = board.state[x][y];
-					}
+					this.current[x][y] = desired;
 				}
 			}
 		}
