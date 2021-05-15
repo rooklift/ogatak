@@ -84,6 +84,15 @@ body {
 	margin: 1em 0 0 1em;
 }
 
+#preloaders {
+	grid-area: b;
+	z-index: 4;
+}
+
+.preloader {
+	width: 32px;
+}
+
 .white {
 	color: #ffffffff;
 }

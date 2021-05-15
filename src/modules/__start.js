@@ -33,6 +33,8 @@ hub.window_resize_checker();
 hub.graph_draw_spinner();
 hub.active_tab_draw_spinner();
 
+preloaders.style.display = "none";
+
 // ---------------------------------------------------------------------------------------------------
 
 ipcRenderer.send("renderer_ready", null);
