@@ -108,7 +108,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.draw_board(board, ownership, ownership_perspective);
+		this.draw_board(board, node, ownership, ownership_perspective);
 
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
@@ -170,9 +170,9 @@ let board_drawer_prototype = {
 		// We draw the final board now so that this.tablestate contains correct info about what is in the table, which we use in a bit...
 
 		if (config.dead_stone_prediction && info.ownership) {
-			this.draw_board(finalboard, info.ownership, startboard.active);
+			this.draw_board(finalboard, node, info.ownership, startboard.active);
 		} else {
-			this.draw_board(finalboard, null, null);
+			this.draw_board(finalboard, node, null, null);
 		}
 
 		// Create a map of sgf_points (s) --> {text, fill} objects...
@@ -236,10 +236,14 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board, ownership, ownership_perspective) {
+	draw_board: function(board, responsible_node, ownership, ownership_perspective, ownership_supplier_node) {
 
 		// The ownership stuff should only be passed to this function if drawing it is desired.
 		// We don't really check config.dead_stone_prediction, except for other reasons.
+
+		// Note that the board one would get from responsible_node.get_board() is not necessarily
+		// the same as the board passed to us, because this function is used to draw the final
+		// board position after a PV.
 
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
@@ -267,7 +271,7 @@ let board_drawer_prototype = {
 							desired = "bm";
 						}
 					} else if (this.tablestate[x][y] === "bm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
-						if (hub.engine.desired && config.dead_stone_prediction) {
+						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
 							desired = "bm";
 						}
 					}
@@ -282,7 +286,7 @@ let board_drawer_prototype = {
 							desired = "wm";
 						}
 					} else if (this.tablestate[x][y] === "wm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
-						if (hub.engine.desired && config.dead_stone_prediction) {
+						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
 							desired = "wm";
 						}
 					}
