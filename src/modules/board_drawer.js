@@ -1,8 +1,7 @@
 "use strict";
 
 const background = require("./background");
-const {xy_to_s} = require("./utils");
-const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const black_stone_url = `url("${black_stone.src}")`;
@@ -213,7 +212,7 @@ let board_drawer_prototype = {
 				continue;
 			}
 
-			if (this.tablestate[x][y] === "") {			// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
+			if (this.tablestate[x][y] === "" || this.tablestate[x][y] === "ko") {		// Stone captured; draw wood colour so grid doesn't clash with the text.
 				ctx.fillStyle = config.wood_colour;
 				ctx.beginPath();
 				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
@@ -249,6 +248,19 @@ let board_drawer_prototype = {
 			this.rebuild(board.width, board.height);
 		}
 
+		let exclusions_array = null;
+
+		if (markdead_exclusions) {
+			exclusions_array = new_2d_array(board.width, board.height, false);
+			for (let s of markdead_exclusions) {
+				if (s.length === 2) {
+					let x = s.charCodeAt(0) - 97;
+					let y = s.charCodeAt(1) - 97;
+					exclusions_array[x][y] = true;
+				}
+			}
+		}
+
 		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;
 		let board_ko_y = board.ko ? board.ko.charCodeAt(1) - 97 : -1;
 
@@ -261,7 +273,7 @@ let board_drawer_prototype = {
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
 				} else if (state === "b" || state === "w") {		// Sometimes upgrade desired to "bm" or "wm".
-					if (markdead_exclusions && markdead_exclusions.includes(xy_to_s(x, y))) {
+					if (exclusions_array && exclusions_array[x][y]) {
 						// Nothing. Exclusions passed by draw_pv are not to be marked.
 					} else if (ownership) {
 						let own = ownership[x + (y * board.width)];
