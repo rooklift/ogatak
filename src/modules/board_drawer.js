@@ -262,20 +262,20 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b" || state === "w") {
 					desired = state;
-					if (!markdead_exclusions || !markdead_exclusions.includes(xy_to_s(x, y))) {		// Exclusions passed by draw_pv are not to be marked
-						if (ownership) {
-							let own = ownership[x + (y * board.width)];
-							if (ownership_perspective !== state) {
-								own *= -1;
-							}
-							if (own < 0) {
-								desired = state === "b" ? "bm" : "wm";
-							}
-						} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
-							// Might be acceptable to delay changing the element until we get an update from the engine...
-							if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-								desired = state === "b" ? "bm" : "wm";
-							}
+					if (markdead_exclusions && markdead_exclusions.includes(xy_to_s(x, y))) {
+						// Nothing. Exclusions passed by draw_pv are not to be marked.
+					} else if (ownership) {
+						let own = ownership[x + (y * board.width)];
+						if (ownership_perspective !== state) {
+							own *= -1;
+						}
+						if (own < 0) {
+							desired = state === "b" ? "bm" : "wm";
+						}
+					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
+						// Might be acceptable to delay changing the element until we get an update from the engine...
+						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
+							desired = state === "b" ? "bm" : "wm";
 						}
 					}
 				}
