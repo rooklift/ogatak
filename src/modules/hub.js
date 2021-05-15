@@ -713,31 +713,46 @@ let hub_prototype = {
 
 		config[key] = value;
 		save_config();
+		this.take_followup_actions([key]);
+	},
 
-		if (defaults_classified["engine_starters"][key] !== undefined) {
-			this.maybe_start_engine();
+	take_followup_actions: function(keys, dummy) {
+
+		if (Array.isArray(keys) === false || dummy !== undefined) {
+			throw "take_followup_actions(): bad call";
 		}
 
-		if (defaults_classified["search_changers"][key] !== undefined) {
+		let hits = {};
+		let classifiers = Object.keys(defaults_classified);
+
+		for (let key of keys) {
+			for (let cl of classifiers) {
+				if (defaults_classified[cl][key] !== undefined) {
+					hits[cl] = true;
+					// break;				// Cannot - a key can be in multiple classifiers
+				}
+			}
+		}
+
+		if (hits.engine_starters) {
+			this.maybe_start_engine();
+		}
+		if (hits.search_changers) {
 			if (this.engine.desired) {
 				this.go();
 			}
 		}
-
-		if (defaults_classified["board_rebuilders"][key] !== undefined) {
+		if (hits.board_rebuilders) {
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
 		}
-
-		if (defaults_classified["tab_rebuilders"][key] !== undefined) {
+		if (hits.tab_rebuilders) {
 			this.tabber.draw_tabs(this.node);
 		}
-
-		if (defaults_classified["graph_redrawers"][key] !== undefined) {
+		if (hits.graph_redrawers) {
 			this.grapher.draw_graph(this.node);
 		}
-
-		if (defaults_classified["board_redrawers"][key] !== undefined) {
+		if (hits.board_redrawers) {
 			this.draw();
 		}
 	},
@@ -747,7 +762,7 @@ let hub_prototype = {
 			config[key] = o[key];
 		}
 		save_config();
-		this.draw();						// So far, this function is only used for board graphics. If that changes, may need more than just draw()
+		this.take_followup_actions(Object.keys(o));
 	},
 
 	coerce_rules: function(value) {
