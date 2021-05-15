@@ -425,6 +425,8 @@ let board_drawer_prototype = {
 				let absl = Math.abs(info.scoreLead);
 				if (absl < 10) {
 					text += absl.toFixed(1);
+					if (text === "-10.0") text = "-10";
+					if (text === "+10.0") text = "+10";
 				} else {
 					text += Math.floor(absl);
 				}
