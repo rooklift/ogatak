@@ -760,16 +760,6 @@ let hub_prototype = {
 		this.draw();
 	},
 
-	reset_colours: function() {
-		for (let key of colour_keys) {
-			config[key] = defaults[key];
-		}
-		save_config();
-		this.tabber.draw_tabs(this.node);
-		this.grapher.draw_graph(this.node);
-		this.draw();
-	},
-
 	// Clickers in the infobox.....................................................................
 
 	cycle_rules: function(reverse) {

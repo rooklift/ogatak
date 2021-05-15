@@ -1117,15 +1117,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Reset colours",
-					click: () => {
-						win.webContents.send("call", "reset_colours");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Log engine stderr to console",
 					type: "checkbox",
 					checked: config.stderr_to_console,
