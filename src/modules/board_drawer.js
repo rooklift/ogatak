@@ -155,12 +155,16 @@ let board_drawer_prototype = {
 			return false;
 		}
 
+		// We have a valid info, so the draw will proceed...
+
 		this.clear_canvas();
 		let ctx = this.canvas.getContext("2d");
 
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
+
+		// Create our final board...
 
 		let finalboard = startboard.copy();
 		let points = [];
@@ -171,7 +175,7 @@ let board_drawer_prototype = {
 			points.push(s);				// Note that passes are included, so our later colour alteration works correctly.
 		}
 
-		// We draw the finalboard now so that this.tablestate contains correct info about what is in the table...
+		// We draw the final board now so that this.tablestate contains correct info about what is in the table, which we use in a bit...
 
 		if (config.dead_stone_prediction && info.ownership) {
 			this.draw_board(finalboard, info.ownership, startboard.active);
@@ -179,7 +183,7 @@ let board_drawer_prototype = {
 			this.draw_board(finalboard, null, null);
 		}
 
-		// Now get on with drawing numbers...
+		// Create a map of sgf_points (s) --> {text, fill} objects...
 
 		let colour = startboard.active;
 		let n = 1;
@@ -188,7 +192,7 @@ let board_drawer_prototype = {
 
 		for (let s of points) {
 
-			if (s.length == 2) {		// Otherwise, it's a pass and we don't draw it.
+			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
 
 				// We use the last colour played on a point, but if 2 or more stones were played, text becomes "+"
 
@@ -203,6 +207,8 @@ let board_drawer_prototype = {
 			colour = opposite_colour(colour);
 			n++;
 		}
+
+		// And draw...
 
 		for (let [s, ntd] of Object.entries(numbers_to_draw)) {
 
