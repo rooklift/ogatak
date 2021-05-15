@@ -10,6 +10,12 @@ const black_stone_url = `url("${black_stone.src}")`;
 const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
 const white_stone_url = `url("${white_stone.src}")`;
 
+const black_stone_marked = new Image(); black_stone_marked.src = "./gfx/black_stone_marked.png";
+const black_stone_marked_url = `url("${black_stone_marked.src}")`;
+
+const white_stone_marked = new Image(); white_stone_marked.src = "./gfx/white_stone_marked.png";
+const white_stone_marked_url = `url("${white_stone_marked.src}")`;
+
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
@@ -19,7 +25,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-	drawer.current = null;		// Becomes 2d array of... "b", "w", "ko"
+	drawer.current = null;		// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
@@ -27,6 +33,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.infodiv = infodiv;
 
 	drawer.last_draw_was_pv = false;
+	drawer.last_drawn_node_id = null;
 
 	return drawer;
 }
@@ -90,12 +97,23 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 		this.clear_canvas();
-		this.draw_board(node.get_board());
+		if (config.dead_stone_prediction) {
+			if (node.has_valid_analysis()) {
+				this.draw_board(node.get_board(), node.analysis.ownership, node.get_board().active);						// OK if the ownership is undefined
+			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis()) {
+				this.draw_board(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);			// Hack, prevents dead stone flicker
+			} else {
+				this.draw_board(node.get_board(), null, null);
+			}
+		} else {
+			this.draw_board(node.get_board(), null, null);
+		}
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
 		this.draw_next_markers(node);
 		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
+		this.last_drawn_node_id = node.id;
 	},
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
@@ -185,11 +203,15 @@ let board_drawer_prototype = {
 			ctx.fillText(ntd.text, gx, gy + 1);
 
 		}
-
-		this.draw_board(finalboard);
+		if (config.dead_stone_prediction && info.ownership) {
+			this.draw_board(finalboard, info.ownership, startboard.active);
+		} else {
+			this.draw_board(finalboard, null, null);
+		}
 		this.draw_node_info(node, info);
 
 		this.last_draw_was_pv = true;
+		this.last_drawn_node_id = node.id;
 		return true;
 	},
 
@@ -198,7 +220,7 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board) {
+	draw_board: function(board, ownership, ownership_perspective) {
 
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
@@ -217,8 +239,26 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b") {
 					desired = "b";
+					if (ownership) {
+						let own = ownership[x + (y * board.width)];
+						if (ownership_perspective !== "b") {
+							own *= -1;
+						}
+						if (own < 0) {
+							desired = "bm";
+						}
+					}
 				} else if (state === "w") {
 					desired = "w";
+					if (ownership) {
+						let own = ownership[x + (y * board.width)];
+						if (ownership_perspective !== "w") {
+							own *= -1;
+						}
+						if (own < 0) {
+							desired = "wm";
+						}
+					}
 				}
 
 				if (this.current[x][y] !== desired) {
@@ -226,10 +266,12 @@ let board_drawer_prototype = {
 					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 
 					switch (desired) {
-						case   "": td.style["background-image"] =              ""; break;
-						case  "b": td.style["background-image"] = black_stone_url; break;
-						case  "w": td.style["background-image"] = white_stone_url; break;
-						case "ko": td.style["background-image"] =   ko_marker_url; break;
+						case   "": td.style["background-image"] =                     ""; break;
+						case  "b": td.style["background-image"] =        black_stone_url; break;
+						case  "w": td.style["background-image"] =        white_stone_url; break;
+						case "ko": td.style["background-image"] =          ko_marker_url; break;
+						case "bm": td.style["background-image"] = black_stone_marked_url; break;
+						case "wm": td.style["background-image"] = white_stone_marked_url; break;
 					}
 
 					this.current[x][y] = desired;
