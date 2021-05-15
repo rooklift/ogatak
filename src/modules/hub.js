@@ -328,14 +328,14 @@ let hub_prototype = {
 			return;
 		}
 		this.node = node;
-		this.draw();
+		if (this.engine.desired) {
+			this.go();
+		}
+		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
 		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
-		}
-		if (this.engine.desired) {
-			this.go();
 		}
 	},
 
