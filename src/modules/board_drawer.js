@@ -97,17 +97,24 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 		this.clear_canvas();
+
+		let board = node.get_board();
+		let ownership = null;
+		let ownership_perspective = null;
+
 		if (config.dead_stone_prediction) {
 			if (node.has_valid_analysis()) {
-				this.draw_board(node.get_board(), node.analysis.ownership, node.get_board().active);						// OK if the ownership is undefined
+				ownership = node.analysis.ownership;				// Might still be undefined, but that's OK.
+				ownership_perspective = board.active;
 			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis()) {
-				this.draw_board(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);			// Hack, prevents dead stone flicker
-			} else {
-				this.draw_board(node.get_board(), null, null);
+				// Hack, prevents dead stone flicker...
+				ownership = node.parent.analysis.ownership;
+				ownership_perspective = node.parent.get_board().active;
 			}
-		} else {
-			this.draw_board(node.get_board(), null, null);
 		}
+
+		this.draw_board(board, ownership, ownership_perspective);
+
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
 		this.draw_next_markers(node);
