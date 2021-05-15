@@ -262,7 +262,7 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b" || state === "w") {
 					desired = state;
-					if (!markdead_exclusions || markdead_exclusions.includes(xy_to_s(x, y)) === false) {		// Exclusions passed by draw_pv are not to be marked
+					if (!markdead_exclusions || !markdead_exclusions.includes(xy_to_s(x, y))) {		// Exclusions passed by draw_pv are not to be marked
 						if (ownership) {
 							let own = ownership[x + (y * board.width)];
 							if (ownership_perspective !== state) {
