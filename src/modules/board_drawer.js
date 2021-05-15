@@ -260,34 +260,20 @@ let board_drawer_prototype = {
 
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
-				} else if (state === "b") {
-					desired = "b";
+				} else if (state === "b" || state === "w") {
+					desired = state;
 					if (ownership) {
 						let own = ownership[x + (y * board.width)];
-						if (ownership_perspective !== "b") {
+						if (ownership_perspective !== state) {
 							own *= -1;
 						}
 						if (own < 0) {
-							desired = "bm";
+							desired = state === "b" ? "bm" : "wm";
 						}
-					} else if (this.tablestate[x][y] === "bm") {	// Might be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
+					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
+						// Might be acceptable to delay changing the element until we get an update from the engine...
 						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-							desired = "bm";
-						}
-					}
-				} else if (state === "w") {
-					desired = "w";
-					if (ownership) {
-						let own = ownership[x + (y * board.width)];
-						if (ownership_perspective !== "w") {
-							own *= -1;
-						}
-						if (own < 0) {
-							desired = "wm";
-						}
-					} else if (this.tablestate[x][y] === "wm") {	// Might be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
-						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-							desired = "wm";
+							desired = state === "b" ? "bm" : "wm";
 						}
 					}
 				}
