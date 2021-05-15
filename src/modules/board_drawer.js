@@ -25,7 +25,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-	drawer.current = null;		// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
+	drawer.tablestate = null;		// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
@@ -50,7 +50,7 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
-		this.current = [];
+		this.tablestate = [];
 
 		let png = background(this.width, this.height, config.square_size);
 		this.htmltable.style["background-image"] = `url("${png}")`;
@@ -73,9 +73,9 @@ let board_drawer_prototype = {
 		}
 
 		for (let x = 0; x < this.width; x++) {
-			this.current.push([]);
+			this.tablestate.push([]);
 			for (let y = 0; y < this.height; y++) {
-				this.current[x].push("");
+				this.tablestate[x].push("");
 			}
 		}
 
@@ -162,6 +162,16 @@ let board_drawer_prototype = {
 			points.push(s);				// Note that passes are included, so our later colour alteration works correctly.
 		}
 
+		// We draw the finalboard now so that this.tablestate contains correct info about what is in the table...
+
+		if (config.dead_stone_prediction && info.ownership) {
+			this.draw_board(finalboard, info.ownership, startboard.active);
+		} else {
+			this.draw_board(finalboard, null, null);
+		}
+
+		// Now get on with drawing numbers...
+
 		let colour = startboard.active;
 		let n = 1;
 
@@ -192,7 +202,11 @@ let board_drawer_prototype = {
 			let gx = x * config.square_size + (config.square_size / 2);
 			let gy = y * config.square_size + (config.square_size / 2);
 
-			if (finalboard.state_at(s) === "") {		// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
+			if (this.tablestate[x][y] === "bm" || this.tablestate[x][y] === "wm") {		// The stone has been marked as dead in our table, with a square.
+				continue;
+			}
+
+			if (this.tablestate[x][y] === "") {			// The stone got captured, we draw some wood colour so the grid doesn't clash with the text.
 				ctx.fillStyle = config.wood_colour;
 				ctx.beginPath();
 				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
@@ -203,11 +217,7 @@ let board_drawer_prototype = {
 			ctx.fillText(ntd.text, gx, gy + 1);
 
 		}
-		if (config.dead_stone_prediction && info.ownership) {
-			this.draw_board(finalboard, info.ownership, startboard.active);
-		} else {
-			this.draw_board(finalboard, null, null);
-		}
+
 		this.draw_node_info(node, info);
 
 		this.last_draw_was_pv = true;
@@ -261,7 +271,7 @@ let board_drawer_prototype = {
 					}
 				}
 
-				if (this.current[x][y] !== desired) {
+				if (this.tablestate[x][y] !== desired) {
 
 					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 
@@ -274,7 +284,7 @@ let board_drawer_prototype = {
 						case "wm": td.style["background-image"] = white_stone_marked_url; break;
 					}
 
-					this.current[x][y] = desired;
+					this.tablestate[x][y] = desired;
 				}
 			}
 		}
