@@ -103,10 +103,10 @@ let board_drawer_prototype = {
 		let ownership_perspective = null;
 
 		if (config.dead_stone_prediction) {
-			if (node.has_valid_analysis()) {
+			if (node.has_valid_analysis() && node.analysis.ownership) {
 				ownership = node.analysis.ownership;				// Might still be undefined, but that's OK.
 				ownership_perspective = board.active;
-			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis()) {
+			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
 				// Hack, prevents dead stone flicker... only needed if engine is running...
 				if (hub.engine.desired) {
 					ownership = node.parent.analysis.ownership;
