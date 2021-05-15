@@ -236,7 +236,7 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board, responsible_node, ownership, ownership_perspective, ownership_exclusions) {
+	draw_board: function(board, responsible_node, ownership, ownership_perspective, markdead_exclusions) {
 
 		// The ownership stuff should only be passed to this function if drawing it is desired.
 		// We don't really check config.dead_stone_prediction, except for other reasons.
@@ -262,7 +262,7 @@ let board_drawer_prototype = {
 					desired = "ko";
 				} else if (state === "b" || state === "w") {
 					desired = state;
-					if (!ownership_exclusions || ownership_exclusions.includes(xy_to_s(x, y)) === false) {		// Exclusions passed by draw_pv are not to be marked
+					if (!markdead_exclusions || markdead_exclusions.includes(xy_to_s(x, y)) === false) {		// Exclusions passed by draw_pv are not to be marked
 						if (ownership) {
 							let own = ownership[x + (y * board.width)];
 							if (ownership_perspective !== state) {
