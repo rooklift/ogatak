@@ -270,7 +270,7 @@ let board_drawer_prototype = {
 						if (own < 0) {
 							desired = "bm";
 						}
-					} else if (this.tablestate[x][y] === "bm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
+					} else if (this.tablestate[x][y] === "bm") {	// Might be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
 						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
 							desired = "bm";
 						}
@@ -285,7 +285,7 @@ let board_drawer_prototype = {
 						if (own < 0) {
 							desired = "wm";
 						}
-					} else if (this.tablestate[x][y] === "wm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
+					} else if (this.tablestate[x][y] === "wm") {	// Might be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
 						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
 							desired = "wm";
 						}
