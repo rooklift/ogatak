@@ -175,9 +175,22 @@ let hub_prototype = {
 
 	save: function(filepath) {
 		save_sgf(this.node, filepath);
+		let root = this.node.get_root();
+		root.filepath = filepath;
+		root.save_ok = true;
+		this.update_title();
 	},
 
-	get_roots_from_buffer: function(buf, type, source_description = "") {
+	save_fast: function() {
+		let root = this.node.get_root();
+		if (root.filepath && root.save_ok) {
+			this.save(root.filepath);
+		} else {
+			ipcRenderer.send("save_as_required");
+		}
+	},
+
+	get_roots_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
 
 		let new_roots = [];
 
@@ -191,8 +204,13 @@ let hub_prototype = {
 			throw "got a zero length array of roots, this is supposed to be impossible";
 		}
 
-		for (let root of new_roots) {
-			root.source_description = source_description;
+		if (filepath) {
+			for (let root of new_roots) {
+				root.filepath = filepath;
+			}
+			if (new_roots.length === 1 && type === "sgf") {
+				new_roots[0].save_ok = true;
+			}
 		}
 
 		return new_roots;
@@ -206,7 +224,7 @@ let hub_prototype = {
 
 		try {
 			let buf = Buffer.from(s);
-			let roots = this.get_roots_from_buffer(buf, "sgf", "from clipboard");
+			let roots = this.get_roots_from_buffer(buf, "sgf", "");
 			this.add_roots(roots);
 		} catch (err) {
 			console.log("load_sgf_from_string():", err);
@@ -248,7 +266,7 @@ let hub_prototype = {
 				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
 
-				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, path.basename(filepath)));
+				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));
 
 			} catch (err) {
 				loader_errors.push(err);
@@ -463,6 +481,7 @@ let hub_prototype = {
 				}
 				this.draw();				// Clear the next move markers.
 			}
+			this.node.save_ok = false;
 		}
 		if (this.tabber.remove_deleted_nodes()) {
 			this.tabber.draw_tabs(this.node);

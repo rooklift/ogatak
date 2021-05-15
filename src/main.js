@@ -109,6 +109,16 @@ function startup() {
 		set_one_check(true, ...msg);
 	});
 
+	electron.ipcMain.on("save_as_required", (event, msg) => {
+		let file = save_dialog();
+		if (typeof file === "string" && file.length > 0) {
+			win.webContents.send("call", {
+				fn: "save",
+				args: [file]
+			});
+		}
+	});
+
 	electron.Menu.setApplicationMenu(menu);
 	menu_is_set = true;
 
@@ -348,8 +358,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Save as...",
+					label: "Save",
 					accelerator: "CommandOrControl+S",
+					click: () => {
+						win.webContents.send("call", "save_fast");
+					}
+				},
+				{
+					label: "Save as...",
 					click: () => {
 						let file = save_dialog();
 						if (typeof file === "string" && file.length > 0) {

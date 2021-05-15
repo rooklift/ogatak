@@ -1,5 +1,7 @@
 "use strict";
 
+const path = require("path");
+
 const new_board = require("./board");
 const stringify = require("./stringify");
 const {replace_all} = require("./utils");
@@ -27,7 +29,8 @@ function new_node(parent) {
 	} else {
 		node.graph_length_knower = {val: 60};
 		node.depth = 0;
-		node.source_description = "";								// Gets adjusted from outside
+		node.filepath = "";											// Gets adjusted from outside
+		node.save_ok = false;										// Gets adjusted from outside
 	}
 
 	if (node.depth > node.graph_length_knower.val) {
@@ -481,15 +484,15 @@ let node_prototype = {
 
 			let s = `${blackname} (B) vs ${whitename} (W)`;
 
-			if (root.source_description) {
-				s += ` : ${root.source_description}`;
+			if (root.filepath) {
+				s += ` : ${path.basename(root.filepath)}`;
 			}
 
 			return s;
 		}
 
-		if (root.source_description) {
-			return root.source_description;
+		if (root.filepath) {
+			return path.basename(root.filepath);
 		}
 
 		return "";
