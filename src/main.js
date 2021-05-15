@@ -696,6 +696,42 @@ function menu_build() {
 								});
 								set_checks("Analysis", "Autoanalysis visits", "100");
 							}
+						},
+						{
+							label: "50",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 50,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 50
+								});
+								set_checks("Analysis", "Autoanalysis visits", "50");
+							}
+						},
+						{
+							label: "25",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 25,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 25
+								});
+								set_checks("Analysis", "Autoanalysis visits", "25");
+							}
+						},
+						{
+							label: "10",
+							type: "checkbox",
+							checked: config.autoanalysis_visits === 10,
+							click: () => {
+								win.webContents.send("set", {
+									key: "autoanalysis_visits",
+									value: 10
+								});
+								set_checks("Analysis", "Autoanalysis visits", "10");
+							}
 						}
 					]
 				},
