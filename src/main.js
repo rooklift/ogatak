@@ -776,6 +776,9 @@ function menu_build() {
 							}
 						},
 						{
+							type: "separator",
+						},
+						{
 							label: "0.5",
 							click: () => {
 								win.webContents.send("call", {
