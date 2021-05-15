@@ -53,8 +53,6 @@ exports.new_hub = function() {
 
 	hub.window_resize_time = null;
 
-	hub.new_game(19, 19);
-
 	return hub;
 };
 
