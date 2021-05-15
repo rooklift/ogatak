@@ -33,7 +33,6 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.infodiv = infodiv;
 
 	drawer.last_draw_was_pv = false;
-	drawer.last_drawn_node_id = null;
 
 	return drawer;
 }
@@ -104,14 +103,8 @@ let board_drawer_prototype = {
 
 		if (config.dead_stone_prediction) {
 			if (node.has_valid_analysis() && node.analysis.ownership) {
-				ownership = node.analysis.ownership;				// Might still be undefined, but that's OK.
+				ownership = node.analysis.ownership;
 				ownership_perspective = board.active;
-			} else if (node.parent && this.last_drawn_node_id === node.parent.id && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
-				// Hack, prevents dead stone flicker... only needed if engine is running...
-				if (hub.engine.desired) {
-					ownership = node.parent.analysis.ownership;
-					ownership_perspective = node.parent.get_board().active;
-				}
 			}
 		}
 
@@ -122,7 +115,6 @@ let board_drawer_prototype = {
 		this.draw_next_markers(node);
 		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
-		this.last_drawn_node_id = node.id;
 	},
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
@@ -236,7 +228,6 @@ let board_drawer_prototype = {
 		this.draw_node_info(node, info);
 
 		this.last_draw_was_pv = true;
-		this.last_drawn_node_id = node.id;
 		return true;
 	},
 
@@ -272,6 +263,10 @@ let board_drawer_prototype = {
 						if (own < 0) {
 							desired = "bm";
 						}
+					} else if (this.tablestate[x][y] === "bm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
+						if (hub.engine.desired && config.dead_stone_prediction) {
+							desired = "bm";
+						}
 					}
 				} else if (state === "w") {
 					desired = "w";
@@ -281,6 +276,10 @@ let board_drawer_prototype = {
 							own *= -1;
 						}
 						if (own < 0) {
+							desired = "wm";
+						}
+					} else if (this.tablestate[x][y] === "wm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
+						if (hub.engine.desired && config.dead_stone_prediction) {
 							desired = "wm";
 						}
 					}
