@@ -236,7 +236,7 @@ let board_drawer_prototype = {
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	},
 
-	draw_board: function(board, responsible_node, ownership, ownership_perspective, ownership_supplier_node) {
+	draw_board: function(board, responsible_node, ownership, ownership_perspective) {
 
 		// The ownership stuff should only be passed to this function if drawing it is desired.
 		// We don't really check config.dead_stone_prediction, except for other reasons.
