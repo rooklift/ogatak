@@ -238,6 +238,9 @@ let board_drawer_prototype = {
 
 	draw_board: function(board, ownership, ownership_perspective) {
 
+		// The ownership stuff should only be passed to this function if drawing it is desired.
+		// We don't check config.dead_stone_prediction here.
+
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
 		}
@@ -264,7 +267,7 @@ let board_drawer_prototype = {
 							desired = "bm";
 						}
 					} else if (this.tablestate[x][y] === "bm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
-						if (hub.engine.desired && config.dead_stone_prediction) {
+						if (hub.engine.desired) {
 							desired = "bm";
 						}
 					}
@@ -279,7 +282,7 @@ let board_drawer_prototype = {
 							desired = "wm";
 						}
 					} else if (this.tablestate[x][y] === "wm") {	// Should be acceptable to delay changing "bm" --> "b" until we get an update from the engine...
-						if (hub.engine.desired && config.dead_stone_prediction) {
+						if (hub.engine.desired) {
 							desired = "wm";
 						}
 					}
