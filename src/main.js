@@ -1064,6 +1064,17 @@ function menu_build() {
 					}
 				},
 				{
+					label: "...with PV mouseover",
+					type: "checkbox",
+					checked: config.mouseover_pv,
+					click: () => {
+						win.webContents.send("toggle", "mouseover_pv");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Next move markers",
 					type: "checkbox",
 					checked: config.next_move_markers,

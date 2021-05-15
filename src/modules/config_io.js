@@ -49,6 +49,7 @@ exports.defaults_classified = {
 		"candidate_moves": true,
 		"numbers": "lcb",
 		"visits_threshold": 0.02,
+		"mouseover_pv": true,
 		"next_move_markers": true,
 		"circle_best": true,
 	},

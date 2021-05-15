@@ -100,7 +100,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {			// Return true / false whether this happened.
 
-		if (!config.candidate_moves) {
+		if (!config.candidate_moves || !config.mouseover_pv) {
 			return false;
 		}
 
