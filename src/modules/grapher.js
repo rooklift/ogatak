@@ -28,10 +28,10 @@ let graph_drawer_prototype = {
 		this.canvas.height = this.boardcanvas.height + 128;
 
 		this.draw_x_offset = 16;
-		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top;
+		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
 
 		this.drawable_width = this.canvas.width - (this.draw_x_offset * 2);
-		this.drawable_height = this.boardcanvas.height;
+		this.drawable_height = this.boardcanvas.height - (config.square_size / 2);
 
 		let ctx = this.canvas.getContext("2d");
 
@@ -87,6 +87,16 @@ let graph_drawer_prototype = {
 			}
 		}
 
+		// 50% line...
+
+		ctx.lineWidth = config.minor_graph_linewidth;
+		ctx.strokeStyle = config.midline_graph_colour;
+
+		ctx.beginPath();
+		ctx.moveTo(this.canvas.width / 2, this.draw_y_offset);
+		ctx.lineTo(this.canvas.width / 2, this.drawable_height + this.draw_y_offset);
+		ctx.stroke();
+
 		// First the minor draw, i.e. the darker gray line...
 
 		ctx.strokeStyle = config.minor_graph_colour;
@@ -126,16 +136,6 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		// 50% line...
-
-		ctx.lineWidth = config.minor_graph_linewidth;
-		ctx.strokeStyle = config.midline_graph_colour;
-
-		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2, this.draw_y_offset);
-		ctx.lineTo(this.positioncanvas.width / 2, this.drawable_height + this.draw_y_offset);
-		ctx.stroke();
-
 		// Position marker...
 
 		ctx.lineWidth = config.major_graph_linewidth;
@@ -157,6 +157,16 @@ let graph_drawer_prototype = {
 		ctx.stroke();
 
 		ctx.setLineDash([]);
+
+		// Move number...
+
+		ctx.fillStyle = "#ffffffff";
+		ctx.textAlign = "right";
+		ctx.textBaseline = "top";
+		ctx.font = `${config.info_font_size}px Courier New`;
+		ctx.fillText(node.depth.toString(),
+			this.canvas.width - this.draw_x_offset,
+			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset + 4);
 	},
 
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {

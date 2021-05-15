@@ -39,14 +39,14 @@ body {
 	pointer-events: auto;
 }
 
-#graphpositioncanvas {
+#graphcanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
 	margin: 0;
 	z-index: 1;
 }
 
-#graphcanvas {
+#graphpositioncanvas {
 	display: block;				/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
 	margin: 0;
