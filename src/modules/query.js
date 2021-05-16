@@ -44,7 +44,7 @@ exports.full_query_matches_base = function(full, base) {
 		if (key === "overrideSettings" || key === "id") {
 			continue;
 		}
-		if (full[key] !== base[key]) {
+		if (base[key] !== full[key]) {
 			return false;
 		}
 	}
@@ -54,7 +54,7 @@ exports.full_query_matches_base = function(full, base) {
 	}
 
 	for (let key of Object.keys(base.overrideSettings)) {
-		if (full.overrideSettings[key] !== base.overrideSettings[key]) {
+		if (base.overrideSettings[key] !== full.overrideSettings[key]) {
 			return false;
 		}
 	}
