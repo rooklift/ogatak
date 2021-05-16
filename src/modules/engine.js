@@ -73,7 +73,7 @@ let engine_prototype = {
 		}
 	},
 
-	halt: function() {				// Only for user-caused halts, as it sets desired to null.
+	halt: function() {
 
 		if (!this.exe) {
 			return;
