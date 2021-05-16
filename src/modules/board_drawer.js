@@ -170,6 +170,8 @@ let board_drawer_prototype = {
 
 		if (config.dead_stone_prediction && info.ownership) {
 			this.draw_board(finalboard, node, info.ownership, startboard.active, points);
+		} else if (config.dead_stone_prediction && node.analysis.ownership) {
+			this.draw_board(finalboard, node, node.analysis.ownership, startboard.active, points);
 		} else {
 			this.draw_board(finalboard, node, null, null, null);
 		}
