@@ -1119,15 +1119,16 @@ function menu_build() {
 					label: "Candidate moves",
 					type: "checkbox",
 					checked: config.candidate_moves,
+					accelerator: "CommandOrControl+K",
 					click: () => {
 						win.webContents.send("toggle", "candidate_moves");
 					}
 				},
 				{
 					label: "...with PV mouseover",
-					accelerator: "CommandOrControl+M",
 					type: "checkbox",
 					checked: config.mouseover_pv,
+					accelerator: "CommandOrControl+M",
 					click: () => {
 						win.webContents.send("toggle", "mouseover_pv");
 					}
