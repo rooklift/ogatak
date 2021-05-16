@@ -24,14 +24,14 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-	drawer.tablestate = null;									// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
 
-	drawer.exclusion_array = new_2d_array(52, 52, null);		// The largest size we could possibly need.
+	drawer.tablestate = new_2d_array(52, 52, "");				// 2d array of "", "b", "w", "ko", "bm", "wm" ... we only look at indices inside our size.
+	drawer.exclusion_array = new_2d_array(52, 52, null);		// 2d array used by draw_board for exclusions sent by the PV drawer.
 
 	drawer.last_draw_was_pv = false;
 
@@ -50,7 +50,6 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
-		this.tablestate = [];
 
 		let png = background(this.width, this.height, config.square_size);
 		this.htmltable.style["background-image"] = `url("${png}")`;
@@ -73,9 +72,8 @@ let board_drawer_prototype = {
 		}
 
 		for (let x = 0; x < this.width; x++) {
-			this.tablestate.push([]);
 			for (let y = 0; y < this.height; y++) {
-				this.tablestate[x].push("");
+				this.tablestate[x][y] = "";
 			}
 		}
 
