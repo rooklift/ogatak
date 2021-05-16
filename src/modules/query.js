@@ -41,7 +41,7 @@ exports.full_query = function(query_node) {
 	let setup = [];
 	let moves = [];
 
-	for (let node of this.history_reversed()) {
+	for (let node of query_node.history_reversed()) {
 
 		let totalmoves = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
 
@@ -73,7 +73,7 @@ exports.full_query = function(query_node) {
 	o.moves = moves;
 
 	if (moves.length === 0) {
-		o.initialPlayer = this.get_board().active.toUpperCase();
+		o.initialPlayer = query_node.get_board().active.toUpperCase();
 	}
 
 	return o;
