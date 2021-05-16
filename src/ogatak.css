@@ -85,12 +85,9 @@ body {
 }
 
 #preloaders {
+	display: none;
 	grid-area: b;
 	z-index: 4;
-}
-
-.preloader {
-	width: 32px;
 }
 
 .white {
