@@ -8,7 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const stringify = require("./stringify");
 const {node_id_from_search_id} = require("./utils");
-const {base_query, full_query_matches_base} = require("./query");
+const {base_query, full_query, full_query_matches_base} = require("./query");
 
 function new_engine() {
 
@@ -58,7 +58,7 @@ let engine_prototype = {
 			}
 		}
 
-		this.desired = node.katago_query();
+		this.desired = full_query(node);
 		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		if (this.running) {

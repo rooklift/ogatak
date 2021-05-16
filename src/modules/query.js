@@ -34,6 +34,51 @@ exports.base_query = function(node) {
 	return o;
 };
 
+exports.full_query = function(query_node) {
+
+	let o = exports.base_query(query_node);
+
+	let setup = [];
+	let moves = [];
+
+	for (let node of this.history_reversed()) {
+
+		let totalmoves = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
+
+		if (node.props.AB || node.props.AW || node.props.AE || totalmoves > 1) {
+
+			// In this case, our final object will have only moves after this node, but will set up the
+			// position at this node. Note that any moves in this node (from properties B and W) will be
+			// included in the setup position, thus we break here so they aren't also in the moves list.
+
+			setup = node.get_board().setup_list();
+			break;
+		}
+
+		if (totalmoves === 1) {
+			if (node.props.B) {
+				let s = node.get("B");
+				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
+			}
+			if (node.props.W) {
+				let s = node.get("W");
+				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
+			}
+		}
+	}
+
+	moves.reverse();
+
+	o.initialStones = setup;
+	o.moves = moves;
+
+	if (moves.length === 0) {
+		o.initialPlayer = this.get_board().active.toUpperCase();
+	}
+
+	return o;
+};
+
 exports.full_query_matches_base = function(full, base) {
 
 	if (!full.moves || base.moves) {
