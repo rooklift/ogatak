@@ -43,9 +43,9 @@ exports.full_query = function(query_node) {
 
 	for (let node of query_node.history_reversed()) {
 
-		let totalmoves = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
+		let nodemovecount = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
 
-		if (node.props.AB || node.props.AW || node.props.AE || totalmoves > 1) {
+		if (node.props.AB || node.props.AW || node.props.AE || nodemovecount > 1) {
 
 			// In this case, our final object will have only moves after this node, but will set up the
 			// position at this node. Note that any moves in this node (from properties B and W) will be
@@ -55,7 +55,7 @@ exports.full_query = function(query_node) {
 			break;
 		}
 
-		if (totalmoves === 1) {
+		if (nodemovecount === 1) {
 			if (node.props.B) {
 				let s = node.get("B");
 				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
