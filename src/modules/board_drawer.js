@@ -24,12 +24,14 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-	drawer.tablestate = null;		// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
+	drawer.tablestate = null;									// Becomes 2d array of... "", "b", "w", "ko", "bm", "wm"
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
+
+	drawer.exclusion_array = new_2d_array(52, 52, null);		// The largest size we could possibly need.
 
 	drawer.last_draw_was_pv = false;
 
@@ -237,6 +239,8 @@ let board_drawer_prototype = {
 
 	draw_board: function(board, responsible_node, ownership, ownership_perspective, markdead_exclusions) {
 
+		this.draw_board.calls = (this.draw_board.calls || 0) + 1;
+
 		// The ownership stuff should only be passed to this function if drawing it is desired.
 		// We don't really check config.dead_stone_prediction, except for other reasons.
 
@@ -248,15 +252,12 @@ let board_drawer_prototype = {
 			this.rebuild(board.width, board.height);
 		}
 
-		let exclusions_array = null;
-
 		if (markdead_exclusions) {
-			exclusions_array = new_2d_array(board.width, board.height, false);
 			for (let s of markdead_exclusions) {
 				if (s.length === 2) {
 					let x = s.charCodeAt(0) - 97;
 					let y = s.charCodeAt(1) - 97;
-					exclusions_array[x][y] = true;
+					this.exclusion_array[x][y] = this.draw_board.calls;				// How we tell that it was set to excluded this call.
 				}
 			}
 		}
@@ -272,8 +273,8 @@ let board_drawer_prototype = {
 
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
-				} else if (state === "b" || state === "w") {		// Sometimes upgrade desired to "bm" or "wm".
-					if (exclusions_array && exclusions_array[x][y]) {
+				} else if (state === "b" || state === "w") {						// Sometimes upgrade desired to "bm" or "wm".
+					if (this.exclusion_array[x][y] === this.draw_board.calls) {
 						// Nothing. Exclusions passed by draw_pv are not to be marked.
 					} else if (ownership) {
 						let own = ownership[x + (y * board.width)];
