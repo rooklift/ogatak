@@ -1125,6 +1125,7 @@ function menu_build() {
 				},
 				{
 					label: "...with PV mouseover",
+					accelerator: "CommandOrControl+M",
 					type: "checkbox",
 					checked: config.mouseover_pv,
 					click: () => {
