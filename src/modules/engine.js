@@ -8,6 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const stringify = require("./stringify");
 const {node_id_from_search_id} = require("./utils");
+const {base_query, full_query_matches_base} = require("./query");
 
 function new_engine() {
 
@@ -50,17 +51,10 @@ let engine_prototype = {
 			return;
 		}
 
-		let desired_has_widerootnoise = (this.desired && this.desired.overrideSettings.wideRootNoise) ? true : false;
-
-		if (this.desired && node_id_from_search_id(this.desired.id) === node.id) {
-			if (this.desired.komi === node.get_board().komi) {
-				if (this.desired.rules === node.get_board().rules) {
-					if (desired_has_widerootnoise === config.widerootnoise) {
-						if (this.desired.includeOwnership === config.dead_stone_prediction) {
-							return;			// Because everything matches - the search desired is already set as such.
-						}
-					}
-				}
+		if (this.desired) {
+			let hypothetical_base = base_query(node);
+			if (full_query_matches_base(this.desired, hypothetical_base)) {
+				return;				// Because everything matches - the search desired is already set as such.
 			}
 		}
 
