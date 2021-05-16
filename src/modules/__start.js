@@ -27,7 +27,6 @@ require("./__start_handlers");
 // ---------------------------------------------------------------------------------------------------
 
 hub.new_game(19, 19);
-hub.draw();
 hub.tabber.draw_tabs(hub.node);
 hub.window_resize_checker();
 hub.graph_draw_spinner();
