@@ -57,9 +57,33 @@ let tree_drawer_prototype = {
 			node.gx = central_node_gx + ((node.graphx - central_node.graphx) * 24);
 			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
 
-			// FIXME - necessary lines get lost due to this test...
+			let need_to_draw = false;
 
 			if (node.gx > 0 && node.gx < this.canvas.width && node.gy > 0 && node.gy < this.canvas.height) {
+				need_to_draw = true;
+			}
+
+			if (need_to_draw === false) {
+				let prnt = node.parent;
+				if (prnt) {
+					if (prnt.gx > 0 && prnt.gx < this.canvas.width && prnt.gy > 0 && prnt.gy < this.canvas.height) {
+						need_to_draw = true;
+					}
+				}
+			}
+
+			if (need_to_draw === false) {
+				let gsib = node.greater_sibling();
+				if (gsib) {
+					if (gsib.gx > 0 && gsib.gx < this.canvas.width && gsib.gy > 0 && gsib.gy < this.canvas.height) {
+						need_to_draw = true;
+					} else if (gsib.gx < 0 && node.gx > 0 && gsib.gy > 0 && gsib.gy < this.canvas.height) {
+						need_to_draw = true;
+					}
+				}
+			}
+
+			if (need_to_draw) {
 
 				ctx.beginPath();
 				ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
