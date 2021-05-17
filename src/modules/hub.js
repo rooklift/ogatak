@@ -650,6 +650,7 @@ let hub_prototype = {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
 			save_config();
+			this.tree_drawer.draw_tree(this.node);
 			this.window_resize_time = null;
 		}
 		setTimeout(() => {
