@@ -3,6 +3,7 @@
 function new_tree_drawer(canvas) {
 	let drawer = Object.create(tree_drawer_prototype);
 	drawer.canvas = canvas;
+	drawer.clickers = [];
 	return drawer;
 }
 
@@ -12,6 +13,8 @@ let tree_drawer_prototype = {
 
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
+
+		this.clickers = [];
 
 		if (this.canvas.width < 12) {
 			return;
@@ -84,6 +87,8 @@ let tree_drawer_prototype = {
 
 			if (need_to_draw) {
 
+				this.clickers.push({x: node.gx, y: node.gy, node: node});
+
 				ctx.beginPath();
 				ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
 
@@ -121,6 +126,34 @@ let tree_drawer_prototype = {
 			}
 		}
 	},
+
+	node_from_click: function(hub_node, event) {
+
+		if (!event) {
+			return null;
+		}
+
+		let mousex = event.offsetX;
+		let mousey = event.offsetY;
+		if (typeof mousex !== "number" || typeof mousey !== "number") {
+			return null;
+		}
+
+		for (let clicker of this.clickers) {
+			if (Math.abs(clicker.x - mousex) < 12) {
+				if (Math.abs(clicker.y - mousey) < 12) {
+					if (clicker.node.destroyed || clicker.node.get_root() !== hub_node.get_root()) {		// Some sanity checks
+						return null;
+					} else {
+						return clicker.node;
+					}
+				}
+			}
+		}
+
+		return null;
+	},
+
 };
 
 function reserver(local_root, reservations) {
