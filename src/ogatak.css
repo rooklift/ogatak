@@ -21,11 +21,11 @@ body {
 
 #gridder {
 	display: grid;
-	grid-template-columns: min-content min-content 1fr;
+	grid-template-columns: min-content min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"d a a"
-		"d b c";
+		"d a a a"
+		"d b c e";
 }
 
 #tabdiv {
@@ -51,6 +51,12 @@ body {
 	grid-area: c;
 	margin: 0;
 	z-index: 2;
+}
+
+#treecanvas {
+	display: block;
+	grid-area: e;
+	margin: 0;
 }
 
 #boardbg {

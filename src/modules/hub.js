@@ -12,6 +12,7 @@ const new_engine = require("./engine");
 const new_grapher = require("./grapher");
 const new_node = require("./node");
 const new_tabber = require("./tabber");
+const new_tree_drawer = require("./tree_drawer");
 
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -38,6 +39,11 @@ exports.new_hub = function() {
 	hub.grapher = new_grapher(
 		document.getElementById("graphcanvas"),
 		document.getElementById("graphpositioncanvas"),
+		document.getElementById("boardcanvas")
+	);
+
+	hub.tree_drawer = new_tree_drawer(
+		document.getElementById("treecanvas"),
 		document.getElementById("boardcanvas")
 	);
 

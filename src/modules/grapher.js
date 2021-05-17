@@ -24,7 +24,7 @@ let graph_drawer_prototype = {
 			throw "draw_graph() needs a node argument";
 		}
 
-		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		this.canvas.width = config.graph_width;					// Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = this.boardcanvas.height + 128;
 
 		this.draw_x_offset = 16;
