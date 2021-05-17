@@ -707,10 +707,6 @@ let hub_prototype = {
 	// Options.....................................................................................
 
 	set: function(key, value) {
-
-		// Note that changing the rules and komi go via different paths, not this function,
-		// as they are considered part of the board objects.
-
 		config[key] = value;
 		save_config();
 		this.take_followup_actions([key]);
@@ -765,6 +761,16 @@ let hub_prototype = {
 		this.take_followup_actions(Object.keys(o));
 	},
 
+	set_sizes_to_defaults: function(multiplier) {
+		let o = {};
+		for (let key of size_keys) {
+			o[key] = defaults[key] * multiplier;
+		}
+		this.apply_settings(o);
+	},
+
+	// Komi and rules are part of the board........................................................
+
 	coerce_rules: function(value) {
 		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
 		if (this.engine.desired) {
@@ -778,17 +784,6 @@ let hub_prototype = {
 		if (this.engine.desired) {
 			this.go();
 		}
-		this.draw();
-	},
-
-	set_sizes_to_defaults: function(multiplier) {
-		for (let key of size_keys) {
-			config[key] = defaults[key] * multiplier;
-		}
-		save_config();
-		this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
-		this.tabber.draw_tabs(this.node);
-		this.grapher.draw_graph(this.node);
 		this.draw();
 	},
 
