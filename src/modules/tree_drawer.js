@@ -84,19 +84,15 @@ let tree_drawer_prototype = {
 				}
 
 				if (node.parent) {
-
-					let line_index = node.line_index();
-
-					if (line_index === 0) {
+					if (gsib) {
+						ctx.beginPath();
+						ctx.moveTo(node.gx - 6, node.gy);
+						ctx.lineTo(gsib.gx + 6, gsib.gy);
+						ctx.stroke();
+					} else {
 						ctx.beginPath();
 						ctx.moveTo(node.gx, node.gy - 6);
 						ctx.lineTo(node.parent.gx, node.parent.gy + 6);
-						ctx.stroke();
-					} else {
-						let greater_sibling = node.parent.children[line_index - 1];
-						ctx.beginPath();
-						ctx.moveTo(node.gx - 6, node.gy);
-						ctx.lineTo(greater_sibling.gx + 6, greater_sibling.gy);
 						ctx.stroke();
 					}
 				}
