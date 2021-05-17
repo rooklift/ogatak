@@ -180,7 +180,17 @@ function reserver(local_root, reservations) {
 	}
 
 	// Set all the nodes in the main line to that x...
-	// Make a list of subtrees that need handling...
+	//
+	// Make a list of subtrees that need handling... note that
+	// the correct order for handling subtrees is like so, for
+	// this example with three subtrees. 1 before 2 before 3.
+	//
+	//		x
+	//		x-----2--3
+	//		x     x  x
+	//		x--1  x  x
+	//		x  x  x
+	//		x
 
 	node = local_root;
 	let subtree_roots = [];
