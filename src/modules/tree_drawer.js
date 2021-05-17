@@ -57,31 +57,21 @@ let tree_drawer_prototype = {
 			node.gx = central_node_gx + ((node.graphx - central_node.graphx) * 24);
 			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
 
+			let prnt = node.parent;
+			let gsib = node.greater_sibling();
+
 			let need_to_draw = false;
 
 			if (node.gx > 0 && node.gx < this.canvas.width && node.gy > 0 && node.gy < this.canvas.height) {
 				need_to_draw = true;
+			} else if (prnt && prnt.gx > 0 && prnt.gx < this.canvas.width && prnt.gy > 0 && prnt.gy < this.canvas.height) {
+				need_to_draw = true;
+			} else if (gsib && gsib.gx < this.canvas.width && node.gx > 0 && gsib.gy > 0 && gsib.gy < this.canvas.height) {		// See note 1 on this test.
+				need_to_draw = true;
 			}
 
-			if (need_to_draw === false) {
-				let prnt = node.parent;
-				if (prnt) {
-					if (prnt.gx > 0 && prnt.gx < this.canvas.width && prnt.gy > 0 && prnt.gy < this.canvas.height) {
-						need_to_draw = true;
-					}
-				}
-			}
-
-			if (need_to_draw === false) {
-				let gsib = node.greater_sibling();
-				if (gsib) {
-					if (gsib.gx > 0 && gsib.gx < this.canvas.width && gsib.gy > 0 && gsib.gy < this.canvas.height) {
-						need_to_draw = true;
-					} else if (gsib.gx < 0 && node.gx > 0 && gsib.gy > 0 && gsib.gy < this.canvas.height) {
-						need_to_draw = true;
-					}
-				}
-			}
+			// Note 1 above: that test is true if the gsib is on screen OR it's also true if the gsib is to the left
+			// of the screen and the node is to the right, in which case we need to draw for the sake of the line.
 
 			if (need_to_draw) {
 
