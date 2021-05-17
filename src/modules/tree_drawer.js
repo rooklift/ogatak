@@ -57,6 +57,8 @@ let tree_drawer_prototype = {
 			node.gx = central_node_gx + ((node.graphx - central_node.graphx) * 24);
 			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
 
+			// FIXME - necessary lines get lost due to this test...
+
 			if (node.gx > 0 && node.gx < this.canvas.width && node.gy > 0 && node.gy < this.canvas.height) {
 
 				ctx.beginPath();
