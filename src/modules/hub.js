@@ -43,8 +43,7 @@ exports.new_hub = function() {
 	);
 
 	hub.tree_drawer = new_tree_drawer(
-		document.getElementById("treecanvas"),
-		document.getElementById("boardcanvas")
+		document.getElementById("treecanvas")
 	);
 
 	hub.engine = new_engine();

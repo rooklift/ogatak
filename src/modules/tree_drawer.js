@@ -1,9 +1,8 @@
 "use strict";
 
-function new_tree_drawer(canvas, boardcanvas) {
+function new_tree_drawer(canvas) {
 	let drawer = Object.create(tree_drawer_prototype);
 	drawer.canvas = canvas;
-	drawer.boardcanvas = boardcanvas;
 	return drawer;
 }
 
@@ -12,7 +11,7 @@ let tree_drawer_prototype = {
 	draw_tree: function(central_node) {
 
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		this.canvas.height = this.boardcanvas.height;
+		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
 		if (this.canvas.width < 12) {
 			return;
@@ -63,14 +62,22 @@ let tree_drawer_prototype = {
 			let gsib = node.greater_sibling();
 			let need_to_draw = false;
 
-			// There are two reasons to draw the node:
+			// There are two main reasons to draw the node:
 			//		- node itself is onscreen;
 			//		- node's greater sibling is onscreen, or offscreen left while node is offscreen right, so draw for the sake of the line;
 
 			if (node.gx > 0 && node.gy > 0 && node.gy < this.canvas.height) {
 				if (node.gx < this.canvas.width) {
 					need_to_draw = true;
-				} else if (gsib && gsib.gx < this.canvas.width) {
+				} else if (gsib && gsib.gx < this.canvas.width) {		// Test relies on the fact that gsib has already been dealt with so has .gx
+					need_to_draw = true;
+				}
+			}
+
+			// But I guess we also draw if the node's parent is onscreen, again for the sake of the line.
+
+			if (!need_to_draw) {
+				if (node.parent && node.parent.gx > 0 && node.parent.gx < this.canvas.width && node.parent.gy > 0 && node.parent.gy < this.canvas.height) {
 					need_to_draw = true;
 				}
 			}
