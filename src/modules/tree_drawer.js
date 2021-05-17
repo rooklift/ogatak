@@ -30,7 +30,7 @@ let tree_drawer_prototype = {
 		let final_adjust_x = 0;
 		let final_adjust_y = 0;
 		if (provisional_root_gx > 24) final_adjust_x = 24 - provisional_root_gx;
-		if (provisional_root_gy > 24) final_adjust_y = 24 - provisional_root_gy;
+		// if (provisional_root_gy > 24) final_adjust_y = 24 - provisional_root_gy;
 
 		this.__draw(										// Makes all nodes have .gx and .gy
 			root,
@@ -80,10 +80,10 @@ let tree_drawer_prototype = {
 				ctx.beginPath();
 				ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
 
-				if (node.props.B) {
-					ctx.stroke();
-				} else {
+				if (node.parent && node.parent.children.length > 1) {
 					ctx.fill();
+				} else {
+					ctx.stroke();
 				}
 
 				if (node.parent) {
