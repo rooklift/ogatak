@@ -64,8 +64,8 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			node.gx = central_node_gx + ((node.logicalx - central_node.logicalx) * 24);
-			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
+			node.gx = 0.5 + Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * 24));
+			node.gy = 0.5 + Math.floor(central_node_gy + ((node.depth - central_node.depth) * 24));
 
 			let gsib = node.greater_sibling();
 			let need_to_draw = false;
