@@ -11,8 +11,12 @@ let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
 
-		this.canvas.width = Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = this.boardcanvas.height;
+
+		if (this.canvas.width < 12) {
+			return;
+		}
 
 		let root = central_node.get_root();
 
@@ -36,9 +40,8 @@ let tree_drawer_prototype = {
 		);
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = "#ffffffff";
-		ctx.beginPath();
-		ctx.arc(central_node.gx, central_node.gy, 7, 0, 2 * Math.PI);
+		ctx.fillStyle = "#d2b074ff";
+		ctx.fillRect(central_node.gx - 8, central_node.gy - 8, 16, 16);
 		ctx.fill();
 
 	},
@@ -46,8 +49,8 @@ let tree_drawer_prototype = {
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = "#4ba28bff";
-		ctx.strokeStyle = "#4ba28bff";
+		ctx.fillStyle = "#808080ff";
+		ctx.strokeStyle = "#808080ff";
 		ctx.lineWidth = 1;
 
 		let node = local_root;
