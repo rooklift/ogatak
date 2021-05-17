@@ -440,7 +440,7 @@ function menu_build() {
 				},
 				{
 					label: "Pass",
-					accelerator: "CommandOrControl+P",
+					accelerator: "P",
 					click: () => {
 						win.webContents.send("call", "pass");
 					}
@@ -1119,7 +1119,7 @@ function menu_build() {
 					label: "Candidate moves",
 					type: "checkbox",
 					checked: config.candidate_moves,
-					accelerator: "CommandOrControl+K",
+					accelerator: "C",
 					click: () => {
 						win.webContents.send("toggle", "candidate_moves");
 					}
@@ -1128,7 +1128,7 @@ function menu_build() {
 					label: "...with PV mouseover",
 					type: "checkbox",
 					checked: config.mouseover_pv,
-					accelerator: "CommandOrControl+M",
+					accelerator: "V",
 					click: () => {
 						win.webContents.send("toggle", "mouseover_pv");
 					}
@@ -1140,6 +1140,7 @@ function menu_build() {
 					label: "Next move markers",
 					type: "checkbox",
 					checked: config.next_move_markers,
+					accelerator: "M",
 					click: () => {
 						win.webContents.send("toggle", "next_move_markers");
 					}
