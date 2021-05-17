@@ -165,6 +165,13 @@ let node_prototype = {
 		return this.history_reversed().reverse();
 	},
 
+	line_index: function() {
+		if (!this.parent) {
+			return 0;
+		}
+		return this.parent.children.indexOf(this);
+	},
+
 	get_board: function() {
 
 		if (this.__board) {
