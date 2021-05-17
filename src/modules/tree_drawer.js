@@ -46,6 +46,9 @@ let tree_drawer_prototype = {
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
 		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle = "#4ba28bff";
+		ctx.strokeStyle = "#4ba28bff";
+		ctx.lineWidth = 1;
 
 		let node = local_root;
 
@@ -54,29 +57,33 @@ let tree_drawer_prototype = {
 			node.gx = central_node_gx + ((node.graphx - central_node.graphx) * 24);
 			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
 
-			ctx.fillStyle = "#4ba28bff";
-			ctx.strokeStyle = "#4ba28bff";
-			ctx.lineWidth = 1;
+			if (node.gx > 0 && node.gx < this.canvas.width && node.gy > 0 && node.gy < this.canvas.height) {
 
-			ctx.beginPath();
-			ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
-			ctx.fill();
+				ctx.beginPath();
+				ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
 
-			if (node.parent) {
-
-				let line_index = node.line_index();
-
-				if (line_index === 0) {
-					ctx.beginPath();
-					ctx.moveTo(node.gx, node.gy);
-					ctx.lineTo(node.parent.gx, node.parent.gy);
+				if (node.props.B) {
 					ctx.stroke();
 				} else {
-					let greater_sibling = node.parent.children[line_index - 1];
-					ctx.beginPath();
-					ctx.moveTo(node.gx, node.gy);
-					ctx.lineTo(greater_sibling.gx, greater_sibling.gy);
-					ctx.stroke();
+					ctx.fill();
+				}
+
+				if (node.parent) {
+
+					let line_index = node.line_index();
+
+					if (line_index === 0) {
+						ctx.beginPath();
+						ctx.moveTo(node.gx, node.gy - 6);
+						ctx.lineTo(node.parent.gx, node.parent.gy + 6);
+						ctx.stroke();
+					} else {
+						let greater_sibling = node.parent.children[line_index - 1];
+						ctx.beginPath();
+						ctx.moveTo(node.gx - 6, node.gy);
+						ctx.lineTo(greater_sibling.gx + 6, greater_sibling.gy);
+						ctx.stroke();
+					}
 				}
 			}
 
