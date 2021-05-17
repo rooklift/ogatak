@@ -74,7 +74,7 @@ exports.defaults_classified = {
 	},
 
 	no_immediate_effect: {
-		"width": 900,
+		"width": 1200,
 		"height": 740,
 		"stderr_to_console": true,
 		"autoanalysis_visits": 500,
