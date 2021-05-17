@@ -172,6 +172,17 @@ let node_prototype = {
 		return this.parent.children.indexOf(this);
 	},
 
+	greater_sibling: function() {
+		if (!this.parent || this.parent.children.length < 2) {
+			return undefined;
+		}
+		let i = this.parent.children.indexOf(this);
+		if (i < 1) {
+			return undefined;
+		}
+		return this.parent.children[i - 1];
+	},
+
 	get_board: function() {
 
 		if (this.__board) {
