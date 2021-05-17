@@ -166,10 +166,7 @@ let node_prototype = {
 	},
 
 	line_index: function() {
-		if (!this.parent) {
-			return 0;
-		}
-		return this.parent.children.indexOf(this);
+		return this.parent.children.indexOf(this);			// Not valid to call this on the root.
 	},
 
 	get_board: function() {
