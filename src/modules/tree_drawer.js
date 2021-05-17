@@ -56,9 +56,6 @@ let tree_drawer_prototype = {
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = "#aaaaaaff";
-		ctx.strokeStyle = "#aaaaaaff";
-		ctx.lineWidth = 1;
 
 		let node = local_root;
 
@@ -94,16 +91,21 @@ let tree_drawer_prototype = {
 
 				this.clickers.push({x: node.gx, y: node.gy, node: node});
 
-				ctx.beginPath();
-				ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);
-
 				if (node.parent && node.parent.children.length > 1) {
+					ctx.beginPath();
+					ctx.arc(node.gx, node.gy, 7, 0, 2 * Math.PI);
+					ctx.fillStyle = "#aaaaaaff";
 					ctx.fill();
 				} else {
+					ctx.beginPath();
+					ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);			// Smaller radius needed since lineWidth will be 2
+					ctx.strokeStyle = "#aaaaaaff";
+					ctx.lineWidth = 2;
 					ctx.stroke();
 				}
 
 				if (node.parent) {
+					ctx.lineWidth = 1;
 					if (gsib) {
 						ctx.beginPath();
 						ctx.moveTo(node.gx - 6, node.gy);
