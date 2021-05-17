@@ -338,6 +338,7 @@ let hub_prototype = {
 			this.go();
 		}
 		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
+		this.tree_drawer.draw_tree(this.node);
 		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
@@ -400,43 +401,23 @@ let hub_prototype = {
 	},
 
 	prev_sibling: function() {
-
 		if (!this.node.parent || this.node.parent.children.length < 2) {
 			return;
 		}
-
-		let previ = 0;
-		for (let i = 0; i < this.node.parent.children.length; i++) {
-			if (this.node.parent.children[i] === this.node) {
-				previ = i - 1;
-				if (previ < 0) {
-					previ = this.node.parent.children.length - 1;
-				}
-				break;
-			}
+		let i = this.node.line_index();
+		if (i > 0) {
+			this.set_node(this.node.parent.children[i - 1]);
 		}
-
-		this.set_node(this.node.parent.children[previ]);
 	},
 
 	next_sibling: function() {
-
 		if (!this.node.parent || this.node.parent.children.length < 2) {
 			return;
 		}
-
-		let nexti = 0;
-		for (let i = 0; i < this.node.parent.children.length; i++) {
-			if (this.node.parent.children[i] === this.node) {
-				nexti = i + 1;
-				if (nexti >= this.node.parent.children.length) {
-					nexti = 0;
-				}
-				break;
-			}
+		let i = this.node.line_index();
+		if (i < this.node.parent.children.length - 1) {
+			this.set_node(this.node.parent.children[i + 1]);
 		}
-
-		this.set_node(this.node.parent.children[nexti]);
 	},
 
 	return_to_variation_start: function() {
