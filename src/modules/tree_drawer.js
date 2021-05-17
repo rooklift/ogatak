@@ -4,6 +4,7 @@ function new_tree_drawer(canvas) {
 	let drawer = Object.create(tree_drawer_prototype);
 	drawer.canvas = canvas;
 	drawer.clickers = [];
+	drawer.last_draw_cost = 0;
 	return drawer;
 }
 
@@ -20,13 +21,15 @@ let tree_drawer_prototype = {
 			return;
 		}
 
+		let start_time = performance.now();
+
 		let root = central_node.get_root();
 
-		reserver(root, []);									// Makes all nodes have .graphx
+		reserver(root, []);									// Makes all nodes have .logicalx
 
 		let provisional_central_node_gx = this.canvas.width / 2;
 		let provisional_central_node_gy = this.canvas.height / 2;
-		let provisional_root_gx = provisional_central_node_gx + ((root.graphx - central_node.graphx) * 24);
+		let provisional_root_gx = provisional_central_node_gx + ((root.logicalx - central_node.logicalx) * 24);
 		let provisional_root_gy = provisional_central_node_gy + ((root.depth - central_node.depth) * 24);
 
 		let final_adjust_x = 0;
@@ -46,6 +49,8 @@ let tree_drawer_prototype = {
 		ctx.fillRect(central_node.gx - 8, central_node.gy - 8, 16, 16);
 		ctx.fill();
 
+		this.last_draw_cost = performance.now() - start_time;
+
 	},
 
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
@@ -59,7 +64,7 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			node.gx = central_node_gx + ((node.graphx - central_node.graphx) * 24);
+			node.gx = central_node_gx + ((node.logicalx - central_node.logicalx) * 24);
 			node.gy = central_node_gy + ((node.depth - central_node.depth) * 24);
 
 			let gsib = node.greater_sibling();
@@ -182,7 +187,7 @@ function reserver(local_root, reservations) {
 
 	while (true) {
 		reservations[node.depth] = main_line_x;
-		node.graphx = main_line_x;
+		node.logicalx = main_line_x;
 		if (node.children.length === 0) {
 			break;
 		} else if (node.children.length >= 2) {
