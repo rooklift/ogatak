@@ -49,8 +49,8 @@ let tree_drawer_prototype = {
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = "#808080ff";
-		ctx.strokeStyle = "#808080ff";
+		ctx.fillStyle = "#aaaaaaff";
+		ctx.strokeStyle = "#aaaaaaff";
 		ctx.lineWidth = 1;
 
 		let node = local_root;
