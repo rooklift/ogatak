@@ -17,7 +17,7 @@ let tree_drawer_prototype = {
 
 		this.clickers = [];
 
-		if (this.canvas.width < config.tree_spacing / 2 || this.canvas.height < config.tree_spacing / 2) {
+		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
 		}
 
@@ -38,8 +38,8 @@ let tree_drawer_prototype = {
 
 		let final_adjust_x = 0;
 		let final_adjust_y = 0;
-		if (provisional_root_gx > config.tree_spacing) final_adjust_x = config.tree_spacing - provisional_root_gx;
-		// if (provisional_root_gy > config.tree_spacing) final_adjust_y = config.tree_spacing - provisional_root_gy;
+		if (provisional_root_gx > config.tree_spacing / 2) final_adjust_x = config.tree_spacing - provisional_root_gx;
+		// if (provisional_root_gy > config.tree_spacing / 2) final_adjust_y = config.tree_spacing - provisional_root_gy;
 
 		this.__draw(										// Makes all nodes have .gx and .gy
 			root,
