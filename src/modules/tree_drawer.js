@@ -51,7 +51,6 @@ let tree_drawer_prototype = {
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle = "#d2b074ff";
 		ctx.fillRect(central_node.gx - 8, central_node.gy - 8, 16, 16);
-		ctx.fill();
 
 		this.last_draw_cost = performance.now() - start_time;
 
@@ -109,6 +108,7 @@ let tree_drawer_prototype = {
 				}
 
 				if (node.parent) {
+					ctx.strokeStyle = "#aaaaaaff";
 					ctx.lineWidth = 1;
 					if (gsib) {
 						ctx.beginPath();
