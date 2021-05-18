@@ -435,10 +435,10 @@ let hub_prototype = {
 		this.set_node(this.node.next_fork_helper());
 	},
 
-	promote_to_main_line: function() {
+	promote_to_main_line: function(suppress_draw) {
 
 		let node = this.node;
-		let changed = false;				// We might use this at some point.
+		let changed = false;
 
 		while (node.parent) {
 			if (node.parent.children[0] !== node) {
@@ -453,6 +453,10 @@ let hub_prototype = {
 			}
 			node = node.parent;
 		}
+
+		if (changed && !suppress_draw) {
+			this.tree_drawer.draw_tree(this.node);
+		}
 	},
 
 	delete_node: function() {
@@ -463,7 +467,8 @@ let hub_prototype = {
 				for (let child of this.node.children) {
 					child.detach();
 				}
-				this.draw();				// Clear the next move markers.
+				this.draw();								// Clear the next move markers.
+				this.tree_drawer.draw_tree(this.node);
 			}
 			this.node.save_ok = false;
 		}
@@ -474,7 +479,7 @@ let hub_prototype = {
 
 	delete_other_lines: function() {
 
-		this.promote_to_main_line();
+		this.promote_to_main_line(true);
 
 		let node = this.node.get_root();
 		let changed = false;
@@ -489,6 +494,7 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
+			this.tree_drawer.draw_tree(this.node);
 			if (this.tabber.remove_deleted_nodes()) {
 				this.tabber.draw_tabs(this.node);
 			}
