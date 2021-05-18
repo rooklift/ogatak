@@ -54,7 +54,7 @@ exports.defaults_classified = {
 		"mouseover_pv": true,
 		"next_move_markers": true,
 		"circle_best": true,
-		"dead_stone_prediction": true,					// Duplicate
+		"dead_stone_prediction": true,			// Duplicate
 	},
 
 	graph_redrawers: {
@@ -74,15 +74,16 @@ exports.defaults_classified = {
 
 	search_changers: {
 		"widerootnoise": true,
-		"dead_stone_prediction": true,					// Duplicate
+		"dead_stone_prediction": true,			// Duplicate
 	},
 
 	no_immediate_effect: {
 		"width": 1200,
 		"height": 740,
 		"stderr_to_console": true,
+		"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.
+		"graph_draw_delay": 200,				// The graph draw, however, is never skipped.
 		"autoanalysis_visits": 500,
-		"graph_draw_delay": 200,
 		"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
 		"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
 	},

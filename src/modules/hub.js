@@ -337,7 +337,6 @@ let hub_prototype = {
 			this.go();
 		}
 		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
-		this.tree_drawer.draw_tree(this.node);
 		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
@@ -642,6 +641,15 @@ let hub_prototype = {
 		setTimeout(() => {
 			this.graph_draw_spinner();
 		}, Math.max(50, config.graph_draw_delay));
+	},
+
+	tree_draw_spinner: function() {									// Although we could draw the tree every time set_node() is called, that
+		if (this.tree_drawer.last_central_node !== this.node) {		// can lead to issues with large files when e.g. mouse-wheel-scrolling.
+			this.tree_drawer.draw_tree(this.node);
+		}
+		setTimeout(() => {
+			this.tree_draw_spinner();
+		}, Math.max(17, config.tree_draw_delay));					// This wants to be on a pretty tight schedule else it will feel laggy.
 	},
 
 	active_tab_draw_spinner: function() {
