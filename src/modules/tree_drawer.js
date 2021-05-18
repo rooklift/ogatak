@@ -21,6 +21,10 @@ let tree_drawer_prototype = {
 			return;
 		}
 
+		if (!central_node.parent && central_node.children.length === 0) {
+			return;
+		}
+
 		let start_time = performance.now();
 
 		let root = central_node.get_root();
