@@ -13,12 +13,16 @@ function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas prov
 	drawer.drawable_width = 0;
 	drawer.drawable_height = 0;
 
+	drawer.line_end = null;
+
 	return drawer;
 }
 
 let graph_drawer_prototype = {
 
-	draw_graph: function(node) {		// Not named "draw" so that we can tell it apart in the Chrome performance tab.
+	draw_graph: function(node) {
+
+		this.line_end = node.get_end();		// Set this now, before any early returns.
 
 		if (!node) {
 			throw "draw_graph() needs a node argument";
@@ -34,18 +38,18 @@ let graph_drawer_prototype = {
 		this.drawable_height = Math.max(0, this.boardcanvas.height - (config.square_size / 2));
 
 		if (this.drawable_width <= 0 || this.drawable_height <= 0) {
-			this.draw_position(node);	// Will set its own canvas to zero size.
+			this.draw_position(node);		// Will set its own canvas to zero size.
 			return;
 		}
 
 		let ctx = this.canvas.getContext("2d");
 
-		let history = node.get_end().history();
+		let history = this.line_end.history();
 
 		let scores = [];
 		let winrates = [];
 
-		let abs_score_max = 5;			// To start with, means our score graph will have at least axis -5 to 5.
+		let abs_score_max = 5;				// To start with, means our score graph will have at least axis -5 to 5.
 
 		for (let node of history) {
 

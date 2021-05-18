@@ -5,7 +5,7 @@ function new_tree_drawer(canvas) {
 	drawer.canvas = canvas;
 	drawer.clickers = [];
 	drawer.last_draw_cost = 0;
-	drawer.last_central_node = null;
+	drawer.central_node = null;
 	return drawer;
 }
 
@@ -17,7 +17,7 @@ let tree_drawer_prototype = {
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
 		this.clickers = [];
-		this.last_central_node = central_node;				// Don't make this null, ever, it will annoy the spinner.
+		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;

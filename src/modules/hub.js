@@ -142,7 +142,7 @@ let hub_prototype = {
 			this.set_autoanalysis(false);
 			this.set_autoplay(false);
 		}
-		this.set_node(switch_node, true);
+		this.set_node(switch_node);
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
 	},
@@ -328,7 +328,7 @@ let hub_prototype = {
 
 	// Tree........................................................................................
 
-	set_node: function(node, draw_graph_flag) {
+	set_node: function(node) {
 		if (!node || this.node === node) {
 			return;
 		}
@@ -337,7 +337,7 @@ let hub_prototype = {
 			this.go();
 		}
 		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
-		if (draw_graph_flag) {
+		if (node.get_end() !== this.grapher.line_end) {
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
@@ -644,7 +644,7 @@ let hub_prototype = {
 	},
 
 	tree_draw_spinner: function() {									// Although we could draw the tree every time set_node() is called, that
-		if (this.tree_drawer.last_central_node !== this.node) {		// can lead to issues with large files when e.g. mouse-wheel-scrolling.
+		if (this.tree_drawer.central_node !== this.node) {			// can lead to issues with large files when e.g. mouse-wheel-scrolling.
 			this.tree_drawer.draw_tree(this.node);
 		}
 		setTimeout(() => {
