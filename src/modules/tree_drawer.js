@@ -66,8 +66,8 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			node.gx = 0.5 + Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * config.tree_spacing));
-			node.gy = 0.5 + Math.floor(central_node_gy + ((node.depth - central_node.depth) * config.tree_spacing));
+			node.gx = Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * config.tree_spacing));
+			node.gy = Math.floor(central_node_gy + ((node.depth - central_node.depth) * config.tree_spacing));
 
 			let gsib = node.greater_sibling();
 			let need_to_draw = false;
@@ -111,7 +111,7 @@ let tree_drawer_prototype = {
 
 				if (node.parent) {
 					ctx.strokeStyle = config.tree_node_colour;
-					ctx.lineWidth = 1;
+					ctx.lineWidth = 2;
 					if (gsib) {
 						ctx.beginPath();
 						ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy);
