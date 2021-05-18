@@ -890,6 +890,7 @@ function menu_build() {
 							label: "All",
 							type: "checkbox",
 							checked: config.visits_threshold === 0,
+							accelerator: "A",
 							click: () => {
 								win.webContents.send("set", {
 									key: "visits_threshold",
@@ -897,6 +898,9 @@ function menu_build() {
 								});
 								set_checks("Display", "Visit filter", "All");
 							}
+						},
+						{
+							type: "separator"
 						},
 						{
 							label: "N > 0.5%",
