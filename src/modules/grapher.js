@@ -24,14 +24,19 @@ let graph_drawer_prototype = {
 			throw "draw_graph() needs a node argument";
 		}
 
-		this.canvas.width = config.graph_width;					// Math.max(64, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		this.canvas.width = Math.max(0, Math.min(config.graph_width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 		this.canvas.height = this.boardcanvas.height + 128;
 
 		this.draw_x_offset = 16;
 		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
 
-		this.drawable_width = this.canvas.width - (this.draw_x_offset * 2);
-		this.drawable_height = this.boardcanvas.height - (config.square_size / 2);
+		this.drawable_width = Math.max(0, this.canvas.width - (this.draw_x_offset * 2));
+		this.drawable_height = Math.max(0, this.boardcanvas.height - (config.square_size / 2));
+
+		if (this.drawable_width <= 0 || this.drawable_height <= 0) {
+			this.draw_position(node);	// Will set its own canvas to zero size.
+			return;
+		}
 
 		let ctx = this.canvas.getContext("2d");
 
@@ -125,16 +130,16 @@ let graph_drawer_prototype = {
 
 	draw_position: function(node) {
 
-		if (!this.drawable_height) {
-			return;
-		}
-
-		let ctx = this.positioncanvas.getContext("2d");
-
 		// Clear the position canvas, while also making sure it's the right size...
 
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
+
+		if (this.drawable_width <= 0 || this.drawable_height <= 0) {
+			return;
+		}
+
+		let ctx = this.positioncanvas.getContext("2d");
 
 		// Position marker...
 
