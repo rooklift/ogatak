@@ -71,6 +71,7 @@ exports.defaults_classified = {
 	tree_redrawers: {
 		"tree_spacing": 24,
 		"tree_node_colour": "#aaaaaaff",
+		"central_node_colour": "#d2b074ff",
 	},
 
 	search_changers: {

@@ -51,7 +51,7 @@ let tree_drawer_prototype = {
 		);
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = config.wood_colour;
+		ctx.fillStyle = config.central_node_colour;
 		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
 		this.last_draw_cost = performance.now() - start_time;
