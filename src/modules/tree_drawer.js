@@ -17,7 +17,7 @@ let tree_drawer_prototype = {
 
 		this.clickers = [];
 
-		if (this.canvas.width < 12) {
+		if (this.canvas.width < 12 || this.canvas.height < 12) {
 			return;
 		}
 
