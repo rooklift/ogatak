@@ -17,7 +17,7 @@ let tree_drawer_prototype = {
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
 		this.clickers = [];
-		this.last_central_node = null;
+		this.last_central_node = central_node;				// Don't make this null, ever, it will annoy the spinner.
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
@@ -55,7 +55,6 @@ let tree_drawer_prototype = {
 		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
 		this.last_draw_cost = performance.now() - start_time;
-		this.last_central_node = central_node;
 
 	},
 
