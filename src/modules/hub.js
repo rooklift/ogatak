@@ -735,15 +735,19 @@ let hub_prototype = {
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
 		}
+		if (hits.board_redrawers) {
+			this.draw();
+		}
 		if (hits.tab_rebuilders) {
 			this.tabber.draw_tabs(this.node);
 		}
 		if (hits.graph_redrawers) {
 			this.grapher.draw_graph(this.node);
 		}
-		if (hits.board_redrawers) {
-			this.draw();
+		if (hits.tree_redrawers) {
+			this.tree_drawer.draw_tree(this.node);
 		}
+
 	},
 
 	apply_settings: function(o) {

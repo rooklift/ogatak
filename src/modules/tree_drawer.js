@@ -17,7 +17,7 @@ let tree_drawer_prototype = {
 
 		this.clickers = [];
 
-		if (this.canvas.width < 12 || this.canvas.height < 12) {
+		if (this.canvas.width < config.tree_spacing / 2 || this.canvas.height < config.tree_spacing / 2) {
 			return;
 		}
 
@@ -33,13 +33,13 @@ let tree_drawer_prototype = {
 
 		let provisional_central_node_gx = this.canvas.width / 2;
 		let provisional_central_node_gy = this.canvas.height / 2;
-		let provisional_root_gx = provisional_central_node_gx + ((root.logicalx - central_node.logicalx) * 24);
-		let provisional_root_gy = provisional_central_node_gy + ((root.depth - central_node.depth) * 24);
+		let provisional_root_gx = provisional_central_node_gx + ((root.logicalx - central_node.logicalx) * config.tree_spacing);
+		let provisional_root_gy = provisional_central_node_gy + ((root.depth - central_node.depth) * config.tree_spacing);
 
 		let final_adjust_x = 0;
 		let final_adjust_y = 0;
-		if (provisional_root_gx > 24) final_adjust_x = 24 - provisional_root_gx;
-		// if (provisional_root_gy > 24) final_adjust_y = 24 - provisional_root_gy;
+		if (provisional_root_gx > config.tree_spacing) final_adjust_x = config.tree_spacing - provisional_root_gx;
+		// if (provisional_root_gy > config.tree_spacing) final_adjust_y = config.tree_spacing - provisional_root_gy;
 
 		this.__draw(										// Makes all nodes have .gx and .gy
 			root,
@@ -50,7 +50,7 @@ let tree_drawer_prototype = {
 
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle = "#d2b074ff";
-		ctx.fillRect(central_node.gx - 8, central_node.gy - 8, 16, 16);
+		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
 		this.last_draw_cost = performance.now() - start_time;
 
@@ -64,8 +64,8 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			node.gx = 0.5 + Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * 24));
-			node.gy = 0.5 + Math.floor(central_node_gy + ((node.depth - central_node.depth) * 24));
+			node.gx = 0.5 + Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * config.tree_spacing));
+			node.gy = 0.5 + Math.floor(central_node_gy + ((node.depth - central_node.depth) * config.tree_spacing));
 
 			let gsib = node.greater_sibling();
 			let need_to_draw = false;
@@ -96,12 +96,12 @@ let tree_drawer_prototype = {
 
 				if (node.parent && node.parent.children.length > 1) {
 					ctx.beginPath();
-					ctx.arc(node.gx, node.gy, 7, 0, 2 * Math.PI);
+					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4) + 1, 0, 2 * Math.PI);
 					ctx.fillStyle = "#aaaaaaff";
 					ctx.fill();
 				} else {
 					ctx.beginPath();
-					ctx.arc(node.gx, node.gy, 6, 0, 2 * Math.PI);			// Smaller radius needed since lineWidth will be 2
+					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
 					ctx.strokeStyle = "#aaaaaaff";
 					ctx.lineWidth = 2;
 					ctx.stroke();
@@ -112,13 +112,13 @@ let tree_drawer_prototype = {
 					ctx.lineWidth = 1;
 					if (gsib) {
 						ctx.beginPath();
-						ctx.moveTo(node.gx - 6, node.gy);
-						ctx.lineTo(gsib.gx + 6, gsib.gy);
+						ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy);
+						ctx.lineTo(gsib.gx + (config.tree_spacing / 4), gsib.gy);
 						ctx.stroke();
 					} else {
 						ctx.beginPath();
-						ctx.moveTo(node.gx, node.gy - 6);
-						ctx.lineTo(node.parent.gx, node.parent.gy + 6);
+						ctx.moveTo(node.gx, node.gy - (config.tree_spacing / 4));
+						ctx.lineTo(node.parent.gx, node.parent.gy + (config.tree_spacing / 4));
 						ctx.stroke();
 					}
 				}
@@ -151,8 +151,8 @@ let tree_drawer_prototype = {
 		}
 
 		for (let clicker of this.clickers) {
-			if (Math.abs(clicker.x - mousex) < 12) {
-				if (Math.abs(clicker.y - mousey) < 12) {
+			if (Math.abs(clicker.x - mousex) < config.tree_spacing / 2) {
+				if (Math.abs(clicker.y - mousey) < config.tree_spacing / 2) {
 					if (clicker.node.destroyed || clicker.node.get_root() !== hub_node.get_root()) {		// Some sanity checks
 						return null;
 					} else {

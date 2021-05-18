@@ -68,6 +68,10 @@ exports.defaults_classified = {
 		"graph_width": 224,
 	},
 
+	tree_redrawers: {
+		"tree_spacing": 24,
+	},
+
 	search_changers: {
 		"widerootnoise": true,
 		"dead_stone_prediction": true,					// Duplicate
@@ -94,7 +98,7 @@ for (let cl of Object.keys(exports.defaults_classified)) {
 
 exports.size_keys = [
 	"minor_graph_linewidth", "major_graph_linewidth", "square_size", "thumbnail_square_size",
-	"board_line_width", "board_font_size", "info_font_size", "graph_width"
+	"board_line_width", "board_font_size", "info_font_size", "graph_width", "tree_spacing"
 ];
 
 exports.colour_keys = Object.keys(exports.defaults).filter(key => typeof exports.defaults[key] === "string" && exports.defaults[key][0] === "#");
