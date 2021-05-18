@@ -329,15 +329,20 @@ let hub_prototype = {
 	// Tree........................................................................................
 
 	set_node: function(node) {
+
 		if (!node || this.node === node) {
 			return;
 		}
+
 		this.node = node;
+
 		if (this.engine.desired) {
 			this.go();
 		}
-		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
-		if (node.get_end() !== this.grapher.line_end) {
+
+		this.draw();		// Done after adjusting the engine, since draw() looks at what the engine is doing.
+
+		if (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end()) {		// line_end.get_end() because it maybe gained descendents.
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
