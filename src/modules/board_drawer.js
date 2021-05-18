@@ -323,10 +323,10 @@ let board_drawer_prototype = {
 
 		let s = "";
 
-		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
-		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
-		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span></span>`;
+		s += `<span class="boardinfo_rules">Rules: <span class="info_highlight">${pad(board.rules, 16)}</span></span>`;
+		s += `<span class="boardinfo_komi">Komi: <span class="info_highlight">${pad(board.komi, 8)}</span></span>`;
+		s += `Prev: <span class="info_highlight">${pad(last_move, 6)}</span>`;
+		s += `<span class="boardinfo_numbers">Showing: <span class="info_highlight">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span></span>`;
 
 		s += "<br>";
 
@@ -350,10 +350,10 @@ let board_drawer_prototype = {
 
 		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
 
-		s += `Caps by B|W: <span class="white">${pad(capstring, 9)}</span>`;
-		s += `Score: <span class="white">${pad(score, 8)}</span>`;
-		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 7)}</span>`;
-		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
+		s += `Caps by B|W: <span class="info_highlight">${pad(capstring, 9)}</span>`;
+		s += `Score: <span class="info_highlight">${pad(score, 8)}</span>`;
+		s += `${override_moveinfo ? "This" : "Best"}: <span class="info_highlight">${pad(move, 7)}</span>`;
+		s += `Visits: <span class="info_highlight">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = s;
 	},
