@@ -70,6 +70,7 @@ exports.defaults_classified = {
 
 	tree_redrawers: {
 		"tree_spacing": 24,
+		"tree_node_colour": "#aaaaaaff",
 	},
 
 	search_changers: {

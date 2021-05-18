@@ -51,7 +51,7 @@ let tree_drawer_prototype = {
 		);
 
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = "#d2b074ff";
+		ctx.fillStyle = config.wood_colour;
 		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
 		this.last_draw_cost = performance.now() - start_time;
@@ -99,18 +99,18 @@ let tree_drawer_prototype = {
 				if (node.parent && node.parent.children.length > 1) {
 					ctx.beginPath();
 					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4) + 1, 0, 2 * Math.PI);
-					ctx.fillStyle = "#aaaaaaff";
+					ctx.fillStyle = config.tree_node_colour;
 					ctx.fill();
 				} else {
 					ctx.beginPath();
 					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-					ctx.strokeStyle = "#aaaaaaff";
+					ctx.strokeStyle = config.tree_node_colour;
 					ctx.lineWidth = 2;
 					ctx.stroke();
 				}
 
 				if (node.parent) {
-					ctx.strokeStyle = "#aaaaaaff";
+					ctx.strokeStyle = config.tree_node_colour;
 					ctx.lineWidth = 1;
 					if (gsib) {
 						ctx.beginPath();

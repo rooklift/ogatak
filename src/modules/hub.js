@@ -771,10 +771,18 @@ let hub_prototype = {
 		this.take_followup_actions(Object.keys(o));
 	},
 
-	set_sizes_to_defaults: function(multiplier) {
+	reset_sizes: function(multiplier) {
 		let o = {};
 		for (let key of size_keys) {
 			o[key] = defaults[key] * multiplier;
+		}
+		this.apply_settings(o);
+	},
+
+	reset_colours: function() {
+		let o = {}
+		for (let key of colour_keys) {
+			o[key] = defaults[key];
 		}
 		this.apply_settings(o);
 	},

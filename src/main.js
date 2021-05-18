@@ -1349,7 +1349,7 @@ function menu_build() {
 					label: "Big sizes",
 					click: () => {
 						win.webContents.send("call", {
-							fn: "set_sizes_to_defaults",
+							fn: "reset_sizes",
 							args: [2]
 						});
 					}
@@ -1358,7 +1358,7 @@ function menu_build() {
 					label: "Reset sizes",
 					click: () => {
 						win.webContents.send("call", {
-							fn: "set_sizes_to_defaults",
+							fn: "reset_sizes",
 							args: [1]
 						});
 					}
