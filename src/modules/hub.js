@@ -515,7 +515,7 @@ let hub_prototype = {
 
 	receive_object: function(o) {
 
-		if (typeof o !== "object" || o === null) {
+		if (typeof o !== "object" || o === null || o.noResults) {
 			return;
 		}
 
