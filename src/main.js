@@ -1113,6 +1113,203 @@ function menu_build() {
 					]
 				},
 				{
+					label: "Graph width",
+					submenu: [
+						{
+							label: "512",
+							type: "checkbox",
+							checked: config.graph_width === 512,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 512
+								});
+								set_checks("Display", "Graph width", "512");
+							}
+						},
+						{
+							label: "480",
+							type: "checkbox",
+							checked: config.graph_width === 480,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 480
+								});
+								set_checks("Display", "Graph width", "480");
+							}
+						},
+						{
+							label: "448",
+							type: "checkbox",
+							checked: config.graph_width === 448,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 448
+								});
+								set_checks("Display", "Graph width", "448");
+							}
+						},
+						{
+							label: "416",
+							type: "checkbox",
+							checked: config.graph_width === 416,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 416
+								});
+								set_checks("Display", "Graph width", "416");
+							}
+						},
+						{
+							label: "384",
+							type: "checkbox",
+							checked: config.graph_width === 384,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 384
+								});
+								set_checks("Display", "Graph width", "384");
+							}
+						},
+						{
+							label: "352",
+							type: "checkbox",
+							checked: config.graph_width === 352,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 352
+								});
+								set_checks("Display", "Graph width", "352");
+							}
+						},
+						{
+							label: "320",
+							type: "checkbox",
+							checked: config.graph_width === 320,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 320
+								});
+								set_checks("Display", "Graph width", "320");
+							}
+						},
+						{
+							label: "288",
+							type: "checkbox",
+							checked: config.graph_width === 288,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 288
+								});
+								set_checks("Display", "Graph width", "288");
+							}
+						},
+						{
+							label: "256",
+							type: "checkbox",
+							checked: config.graph_width === 256,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 256
+								});
+								set_checks("Display", "Graph width", "256");
+							}
+						},
+						{
+							label: "224",
+							type: "checkbox",
+							checked: config.graph_width === 224,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 224
+								});
+								set_checks("Display", "Graph width", "224");
+							}
+						},
+						{
+							label: "192",
+							type: "checkbox",
+							checked: config.graph_width === 192,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 192
+								});
+								set_checks("Display", "Graph width", "192");
+							}
+						},
+						{
+							label: "160",
+							type: "checkbox",
+							checked: config.graph_width === 160,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 160
+								});
+								set_checks("Display", "Graph width", "160");
+							}
+						},
+						{
+							label: "128",
+							type: "checkbox",
+							checked: config.graph_width === 128,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 128
+								});
+								set_checks("Display", "Graph width", "128");
+							}
+						},
+						{
+							label: "96",
+							type: "checkbox",
+							checked: config.graph_width === 96,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 96
+								});
+								set_checks("Display", "Graph width", "96");
+							}
+						},
+						{
+							label: "64",
+							type: "checkbox",
+							checked: config.graph_width === 64,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 64
+								});
+								set_checks("Display", "Graph width", "64");
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.graph_width === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 0
+								});
+								set_checks("Display", "Graph width", "0");
+							}
+						}
+					]
+				},
+				{
 					type: "separator",
 				},
 				{

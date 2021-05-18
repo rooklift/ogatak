@@ -12,6 +12,7 @@ const new_engine = require("./engine");
 const new_grapher = require("./grapher");
 const new_node = require("./node");
 const new_tabber = require("./tabber");
+const new_tree_drawer = require("./tree_drawer");
 
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -39,6 +40,10 @@ exports.new_hub = function() {
 		document.getElementById("graphcanvas"),
 		document.getElementById("graphpositioncanvas"),
 		document.getElementById("boardcanvas")
+	);
+
+	hub.tree_drawer = new_tree_drawer(
+		document.getElementById("treecanvas")
 	);
 
 	hub.engine = new_engine();
@@ -332,6 +337,7 @@ let hub_prototype = {
 			this.go();
 		}
 		this.draw();				// Done after adjusting the engine, since draw() looks at what the engine is doing.
+		this.tree_drawer.draw_tree(this.node);
 		if (draw_graph_flag) {
 			this.grapher.draw_graph(this.node);
 		} else {
@@ -394,43 +400,23 @@ let hub_prototype = {
 	},
 
 	prev_sibling: function() {
-
 		if (!this.node.parent || this.node.parent.children.length < 2) {
 			return;
 		}
-
-		let previ = 0;
-		for (let i = 0; i < this.node.parent.children.length; i++) {
-			if (this.node.parent.children[i] === this.node) {
-				previ = i - 1;
-				if (previ < 0) {
-					previ = this.node.parent.children.length - 1;
-				}
-				break;
-			}
+		let i = this.node.line_index();
+		if (i > 0) {
+			this.set_node(this.node.parent.children[i - 1]);
 		}
-
-		this.set_node(this.node.parent.children[previ]);
 	},
 
 	next_sibling: function() {
-
 		if (!this.node.parent || this.node.parent.children.length < 2) {
 			return;
 		}
-
-		let nexti = 0;
-		for (let i = 0; i < this.node.parent.children.length; i++) {
-			if (this.node.parent.children[i] === this.node) {
-				nexti = i + 1;
-				if (nexti >= this.node.parent.children.length) {
-					nexti = 0;
-				}
-				break;
-			}
+		let i = this.node.line_index();
+		if (i < this.node.parent.children.length - 1) {
+			this.set_node(this.node.parent.children[i + 1]);
 		}
-
-		this.set_node(this.node.parent.children[nexti]);
 	},
 
 	return_to_variation_start: function() {
@@ -449,10 +435,10 @@ let hub_prototype = {
 		this.set_node(this.node.next_fork_helper());
 	},
 
-	promote_to_main_line: function() {
+	promote_to_main_line: function(suppress_draw) {
 
 		let node = this.node;
-		let changed = false;				// We might use this at some point.
+		let changed = false;
 
 		while (node.parent) {
 			if (node.parent.children[0] !== node) {
@@ -467,6 +453,10 @@ let hub_prototype = {
 			}
 			node = node.parent;
 		}
+
+		if (changed && !suppress_draw) {
+			this.tree_drawer.draw_tree(this.node);
+		}
 	},
 
 	delete_node: function() {
@@ -477,7 +467,8 @@ let hub_prototype = {
 				for (let child of this.node.children) {
 					child.detach();
 				}
-				this.draw();				// Clear the next move markers.
+				this.draw();								// Clear the next move markers.
+				this.tree_drawer.draw_tree(this.node);
 			}
 			this.node.save_ok = false;
 		}
@@ -488,7 +479,7 @@ let hub_prototype = {
 
 	delete_other_lines: function() {
 
-		this.promote_to_main_line();
+		this.promote_to_main_line(true);
 
 		let node = this.node.get_root();
 		let changed = false;
@@ -503,6 +494,7 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
+			this.tree_drawer.draw_tree(this.node);
 			if (this.tabber.remove_deleted_nodes()) {
 				this.tabber.draw_tabs(this.node);
 			}
@@ -664,6 +656,7 @@ let hub_prototype = {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
 			save_config();
+			this.tree_drawer.draw_tree(this.node);
 			this.window_resize_time = null;
 		}
 		setTimeout(() => {
@@ -742,15 +735,19 @@ let hub_prototype = {
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
 		}
+		if (hits.board_redrawers) {
+			this.draw();
+		}
 		if (hits.tab_rebuilders) {
 			this.tabber.draw_tabs(this.node);
 		}
 		if (hits.graph_redrawers) {
 			this.grapher.draw_graph(this.node);
 		}
-		if (hits.board_redrawers) {
-			this.draw();
+		if (hits.tree_redrawers) {
+			this.tree_drawer.draw_tree(this.node);
 		}
+
 	},
 
 	apply_settings: function(o) {

@@ -75,6 +75,11 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 	hub.set_node(node);
 });
 
+document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
+	let node = hub.tree_drawer.node_from_click(hub.node, event);
+	hub.set_node(node);
+});
+
 // Pressing arrows or Home or End should NOT affect the tabs list, but rather move about in the current game...
 
 window.addEventListener("keydown", function(event) {

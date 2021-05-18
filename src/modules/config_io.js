@@ -65,6 +65,11 @@ exports.defaults_classified = {
 		"major_graph_colour": "#4ba28bff",
 		"major_graph_var_colour": "#4b8ba2ff",
 		"midline_graph_colour": "#222222ff",
+		"graph_width": 224,
+	},
+
+	tree_redrawers: {
+		"tree_spacing": 24,
 	},
 
 	search_changers: {
@@ -73,7 +78,7 @@ exports.defaults_classified = {
 	},
 
 	no_immediate_effect: {
-		"width": 900,
+		"width": 1200,
 		"height": 740,
 		"stderr_to_console": true,
 		"autoanalysis_visits": 500,
@@ -93,7 +98,7 @@ for (let cl of Object.keys(exports.defaults_classified)) {
 
 exports.size_keys = [
 	"minor_graph_linewidth", "major_graph_linewidth", "square_size", "thumbnail_square_size",
-	"board_line_width", "board_font_size", "info_font_size"
+	"board_line_width", "board_font_size", "info_font_size", "graph_width", "tree_spacing"
 ];
 
 exports.colour_keys = Object.keys(exports.defaults).filter(key => typeof exports.defaults[key] === "string" && exports.defaults[key][0] === "#");
