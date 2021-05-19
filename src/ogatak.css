@@ -29,6 +29,7 @@ body {
 }
 
 #tabdiv {
+	/* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2Pg4OD4DwABTAEYzq6tsQAAAABJRU5ErkJggg=="); */
 	grid-area: d;
 	font-family: monospace, monospace;
 	height: 100vh;
