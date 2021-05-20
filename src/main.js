@@ -1117,203 +1117,6 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Graph width",
-					submenu: [
-						{
-							label: "512",
-							type: "checkbox",
-							checked: config.graph_width === 512,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 512
-								});
-								set_checks("Display", "Graph width", "512");
-							}
-						},
-						{
-							label: "480",
-							type: "checkbox",
-							checked: config.graph_width === 480,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 480
-								});
-								set_checks("Display", "Graph width", "480");
-							}
-						},
-						{
-							label: "448",
-							type: "checkbox",
-							checked: config.graph_width === 448,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 448
-								});
-								set_checks("Display", "Graph width", "448");
-							}
-						},
-						{
-							label: "416",
-							type: "checkbox",
-							checked: config.graph_width === 416,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 416
-								});
-								set_checks("Display", "Graph width", "416");
-							}
-						},
-						{
-							label: "384",
-							type: "checkbox",
-							checked: config.graph_width === 384,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 384
-								});
-								set_checks("Display", "Graph width", "384");
-							}
-						},
-						{
-							label: "352",
-							type: "checkbox",
-							checked: config.graph_width === 352,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 352
-								});
-								set_checks("Display", "Graph width", "352");
-							}
-						},
-						{
-							label: "320",
-							type: "checkbox",
-							checked: config.graph_width === 320,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 320
-								});
-								set_checks("Display", "Graph width", "320");
-							}
-						},
-						{
-							label: "288",
-							type: "checkbox",
-							checked: config.graph_width === 288,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 288
-								});
-								set_checks("Display", "Graph width", "288");
-							}
-						},
-						{
-							label: "256",
-							type: "checkbox",
-							checked: config.graph_width === 256,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 256
-								});
-								set_checks("Display", "Graph width", "256");
-							}
-						},
-						{
-							label: "224",
-							type: "checkbox",
-							checked: config.graph_width === 224,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 224
-								});
-								set_checks("Display", "Graph width", "224");
-							}
-						},
-						{
-							label: "192",
-							type: "checkbox",
-							checked: config.graph_width === 192,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 192
-								});
-								set_checks("Display", "Graph width", "192");
-							}
-						},
-						{
-							label: "160",
-							type: "checkbox",
-							checked: config.graph_width === 160,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 160
-								});
-								set_checks("Display", "Graph width", "160");
-							}
-						},
-						{
-							label: "128",
-							type: "checkbox",
-							checked: config.graph_width === 128,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 128
-								});
-								set_checks("Display", "Graph width", "128");
-							}
-						},
-						{
-							label: "96",
-							type: "checkbox",
-							checked: config.graph_width === 96,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 96
-								});
-								set_checks("Display", "Graph width", "96");
-							}
-						},
-						{
-							label: "64",
-							type: "checkbox",
-							checked: config.graph_width === 64,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 64
-								});
-								set_checks("Display", "Graph width", "64");
-							}
-						},
-						{
-							label: "0",
-							type: "checkbox",
-							checked: config.graph_width === 0,
-							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 0
-								});
-								set_checks("Display", "Graph width", "0");
-							}
-						}
-					]
-				},
-				{
 					type: "separator",
 				},
 				{
@@ -1350,30 +1153,959 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Big sizes",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "reset_sizes",
-							args: [2]
-						});
-					}
-				},
-				{
-					label: "Reset sizes",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "reset_sizes",
-							args: [1]
-						});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Colours",
 					submenu: colour_choices_submenu
 				}
+			]
+		},
+		{
+			label: "Sizes",
+			submenu: [
+				{
+					label: "Board squares",
+					submenu: [
+						{
+							label: "72",
+							type: "checkbox",
+							checked: config.square_size === 72,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 72
+								});
+								set_checks("Sizes", "Board squares", "72");
+							}
+						},
+						{
+							label: "68",
+							type: "checkbox",
+							checked: config.square_size === 68,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 68
+								});
+								set_checks("Sizes", "Board squares", "68");
+							}
+						},
+						{
+							label: "64",
+							type: "checkbox",
+							checked: config.square_size === 64,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 64
+								});
+								set_checks("Sizes", "Board squares", "64");
+							}
+						},
+						{
+							label: "60",
+							type: "checkbox",
+							checked: config.square_size === 60,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 60
+								});
+								set_checks("Sizes", "Board squares", "60");
+							}
+						},
+						{
+							label: "56",
+							type: "checkbox",
+							checked: config.square_size === 56,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 56
+								});
+								set_checks("Sizes", "Board squares", "56");
+							}
+						},
+						{
+							label: "52",
+							type: "checkbox",
+							checked: config.square_size === 52,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 52
+								});
+								set_checks("Sizes", "Board squares", "52");
+							}
+						},
+						{
+							label: "48",
+							type: "checkbox",
+							checked: config.square_size === 48,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 48
+								});
+								set_checks("Sizes", "Board squares", "48");
+							}
+						},
+						{
+							label: "44",
+							type: "checkbox",
+							checked: config.square_size === 44,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 44
+								});
+								set_checks("Sizes", "Board squares", "44");
+							}
+						},
+						{
+							label: "40",
+							type: "checkbox",
+							checked: config.square_size === 40,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 40
+								});
+								set_checks("Sizes", "Board squares", "40");
+							}
+						},
+						{
+							label: "38",
+							type: "checkbox",
+							checked: config.square_size === 38,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 38
+								});
+								set_checks("Sizes", "Board squares", "38");
+							}
+						},
+						{
+							label: "36",
+							type: "checkbox",
+							checked: config.square_size === 36,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 36
+								});
+								set_checks("Sizes", "Board squares", "36");
+							}
+						},
+						{
+							label: "34",
+							type: "checkbox",
+							checked: config.square_size === 34,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 34
+								});
+								set_checks("Sizes", "Board squares", "34");
+							}
+						},
+						{
+							label: "32",
+							type: "checkbox",
+							checked: config.square_size === 32,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 32
+								});
+								set_checks("Sizes", "Board squares", "32");
+							}
+						},
+						{
+							label: "30",
+							type: "checkbox",
+							checked: config.square_size === 30,
+							click: () => {
+								win.webContents.send("set", {
+									key: "square_size",
+									value: 30
+								});
+								set_checks("Sizes", "Board squares", "30");
+							}
+						},
+					]
+				},
+				{
+					label: "Board font",
+					submenu: [
+						{
+							label: "32",
+							type: "checkbox",
+							checked: config.board_font_size === 32,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 32
+								});
+								set_checks("Sizes", "Board font", "32");
+							}
+						},
+						{
+							label: "30",
+							type: "checkbox",
+							checked: config.board_font_size === 30,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 30
+								});
+								set_checks("Sizes", "Board font", "30");
+							}
+						},
+						{
+							label: "28",
+							type: "checkbox",
+							checked: config.board_font_size === 28,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 28
+								});
+								set_checks("Sizes", "Board font", "28");
+							}
+						},
+						{
+							label: "26",
+							type: "checkbox",
+							checked: config.board_font_size === 26,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 26
+								});
+								set_checks("Sizes", "Board font", "26");
+							}
+						},
+						{
+							label: "24",
+							type: "checkbox",
+							checked: config.board_font_size === 24,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 24
+								});
+								set_checks("Sizes", "Board font", "24");
+							}
+						},
+						{
+							label: "22",
+							type: "checkbox",
+							checked: config.board_font_size === 22,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 22
+								});
+								set_checks("Sizes", "Board font", "22");
+							}
+						},
+						{
+							label: "20",
+							type: "checkbox",
+							checked: config.board_font_size === 20,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 20
+								});
+								set_checks("Sizes", "Board font", "20");
+							}
+						},
+						{
+							label: "18",
+							type: "checkbox",
+							checked: config.board_font_size === 18,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 18
+								});
+								set_checks("Sizes", "Board font", "18");
+							}
+						},
+						{
+							label: "16",
+							type: "checkbox",
+							checked: config.board_font_size === 16,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 16
+								});
+								set_checks("Sizes", "Board font", "16");
+							}
+						},
+						{
+							label: "14",
+							type: "checkbox",
+							checked: config.board_font_size === 14,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 14
+								});
+								set_checks("Sizes", "Board font", "14");
+							}
+						},
+						{
+							label: "12",
+							type: "checkbox",
+							checked: config.board_font_size === 12,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_font_size",
+									value: 12
+								});
+								set_checks("Sizes", "Board font", "12");
+							}
+						},
+					]
+				},
+				{
+					label: "Board lines",
+					submenu: [
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.board_line_width === 4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_line_width",
+									value: 4
+								});
+								set_checks("Sizes", "Board lines", "4");
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.board_line_width === 3,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_line_width",
+									value: 3
+								});
+								set_checks("Sizes", "Board lines", "3");
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.board_line_width === 2,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_line_width",
+									value: 2
+								});
+								set_checks("Sizes", "Board lines", "2");
+							}
+						},
+						{
+							label: "1",
+							type: "checkbox",
+							checked: config.board_line_width === 1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "board_line_width",
+									value: 1
+								});
+								set_checks("Sizes", "Board lines", "1");
+							}
+						},
+					]
+				},
+				{
+					type: "separator"
+				},
+				{
+					label: "Info font",
+					submenu: [
+						{
+							label: "32",
+							type: "checkbox",
+							checked: config.info_font_size === 32,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 32
+								});
+								set_checks("Sizes", "Info font", "32");
+							}
+						},
+						{
+							label: "30",
+							type: "checkbox",
+							checked: config.info_font_size === 30,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 30
+								});
+								set_checks("Sizes", "Info font", "30");
+							}
+						},
+						{
+							label: "28",
+							type: "checkbox",
+							checked: config.info_font_size === 28,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 28
+								});
+								set_checks("Sizes", "Info font", "28");
+							}
+						},
+						{
+							label: "26",
+							type: "checkbox",
+							checked: config.info_font_size === 26,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 26
+								});
+								set_checks("Sizes", "Info font", "26");
+							}
+						},
+						{
+							label: "24",
+							type: "checkbox",
+							checked: config.info_font_size === 24,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 24
+								});
+								set_checks("Sizes", "Info font", "24");
+							}
+						},
+						{
+							label: "22",
+							type: "checkbox",
+							checked: config.info_font_size === 22,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 22
+								});
+								set_checks("Sizes", "Info font", "22");
+							}
+						},
+						{
+							label: "20",
+							type: "checkbox",
+							checked: config.info_font_size === 20,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 20
+								});
+								set_checks("Sizes", "Info font", "20");
+							}
+						},
+						{
+							label: "18",
+							type: "checkbox",
+							checked: config.info_font_size === 18,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 18
+								});
+								set_checks("Sizes", "Info font", "18");
+							}
+						},
+						{
+							label: "16",
+							type: "checkbox",
+							checked: config.info_font_size === 16,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 16
+								});
+								set_checks("Sizes", "Info font", "16");
+							}
+						},
+						{
+							label: "14",
+							type: "checkbox",
+							checked: config.info_font_size === 14,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 14
+								});
+								set_checks("Sizes", "Info font", "14");
+							}
+						},
+						{
+							label: "12",
+							type: "checkbox",
+							checked: config.info_font_size === 12,
+							click: () => {
+								win.webContents.send("set", {
+									key: "info_font_size",
+									value: 12
+								});
+								set_checks("Sizes", "Info font", "12");
+							}
+						},
+					]
+				},
+				{
+					type: "separator"
+				},
+				{
+					label: "Graph width",
+					submenu: [
+						{
+							label: "512",
+							type: "checkbox",
+							checked: config.graph_width === 512,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 512
+								});
+								set_checks("Sizes", "Graph width", "512");
+							}
+						},
+						{
+							label: "480",
+							type: "checkbox",
+							checked: config.graph_width === 480,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 480
+								});
+								set_checks("Sizes", "Graph width", "480");
+							}
+						},
+						{
+							label: "448",
+							type: "checkbox",
+							checked: config.graph_width === 448,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 448
+								});
+								set_checks("Sizes", "Graph width", "448");
+							}
+						},
+						{
+							label: "416",
+							type: "checkbox",
+							checked: config.graph_width === 416,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 416
+								});
+								set_checks("Sizes", "Graph width", "416");
+							}
+						},
+						{
+							label: "384",
+							type: "checkbox",
+							checked: config.graph_width === 384,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 384
+								});
+								set_checks("Sizes", "Graph width", "384");
+							}
+						},
+						{
+							label: "352",
+							type: "checkbox",
+							checked: config.graph_width === 352,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 352
+								});
+								set_checks("Sizes", "Graph width", "352");
+							}
+						},
+						{
+							label: "320",
+							type: "checkbox",
+							checked: config.graph_width === 320,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 320
+								});
+								set_checks("Sizes", "Graph width", "320");
+							}
+						},
+						{
+							label: "288",
+							type: "checkbox",
+							checked: config.graph_width === 288,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 288
+								});
+								set_checks("Sizes", "Graph width", "288");
+							}
+						},
+						{
+							label: "256",
+							type: "checkbox",
+							checked: config.graph_width === 256,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 256
+								});
+								set_checks("Sizes", "Graph width", "256");
+							}
+						},
+						{
+							label: "224",
+							type: "checkbox",
+							checked: config.graph_width === 224,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 224
+								});
+								set_checks("Sizes", "Graph width", "224");
+							}
+						},
+						{
+							label: "192",
+							type: "checkbox",
+							checked: config.graph_width === 192,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 192
+								});
+								set_checks("Sizes", "Graph width", "192");
+							}
+						},
+						{
+							label: "160",
+							type: "checkbox",
+							checked: config.graph_width === 160,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 160
+								});
+								set_checks("Sizes", "Graph width", "160");
+							}
+						},
+						{
+							label: "128",
+							type: "checkbox",
+							checked: config.graph_width === 128,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 128
+								});
+								set_checks("Sizes", "Graph width", "128");
+							}
+						},
+						{
+							label: "96",
+							type: "checkbox",
+							checked: config.graph_width === 96,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 96
+								});
+								set_checks("Sizes", "Graph width", "96");
+							}
+						},
+						{
+							label: "64",
+							type: "checkbox",
+							checked: config.graph_width === 64,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 64
+								});
+								set_checks("Sizes", "Graph width", "64");
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.graph_width === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "graph_width",
+									value: 0
+								});
+								set_checks("Sizes", "Graph width", "0");
+							}
+						}
+					]
+				},
+				{
+					label: "Graph major lines",
+					submenu: [
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.major_graph_linewidth === 4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "major_graph_linewidth",
+									value: 4
+								});
+								set_checks("Sizes", "Graph major lines", "4");
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.major_graph_linewidth === 3,
+							click: () => {
+								win.webContents.send("set", {
+									key: "major_graph_linewidth",
+									value: 3
+								});
+								set_checks("Sizes", "Graph major lines", "3");
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.major_graph_linewidth === 2,
+							click: () => {
+								win.webContents.send("set", {
+									key: "major_graph_linewidth",
+									value: 2
+								});
+								set_checks("Sizes", "Graph major lines", "2");
+							}
+						},
+						{
+							label: "1",
+							type: "checkbox",
+							checked: config.major_graph_linewidth === 1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "major_graph_linewidth",
+									value: 1
+								});
+								set_checks("Sizes", "Graph major lines", "1");
+							}
+						},
+					]
+				},
+				{
+					label: "Graph minor lines",
+					submenu: [
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.minor_graph_linewidth === 4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "minor_graph_linewidth",
+									value: 4
+								});
+								set_checks("Sizes", "Graph minor lines", "4");
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.minor_graph_linewidth === 3,
+							click: () => {
+								win.webContents.send("set", {
+									key: "minor_graph_linewidth",
+									value: 3
+								});
+								set_checks("Sizes", "Graph minor lines", "3");
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.minor_graph_linewidth === 2,
+							click: () => {
+								win.webContents.send("set", {
+									key: "minor_graph_linewidth",
+									value: 2
+								});
+								set_checks("Sizes", "Graph minor lines", "2");
+							}
+						},
+						{
+							label: "1",
+							type: "checkbox",
+							checked: config.minor_graph_linewidth === 1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "minor_graph_linewidth",
+									value: 1
+								});
+								set_checks("Sizes", "Graph minor lines", "1");
+							}
+						},
+					]
+				},
+				{
+					type: "separator"
+				},
+				{
+					label: "Thumbnail squares",
+					submenu: [
+						{
+							label: "8",
+							type: "checkbox",
+							checked: config.thumbnail_square_size === 8,
+							click: () => {
+								win.webContents.send("set", {
+									key: "thumbnail_square_size",
+									value: 8
+								});
+								set_checks("Sizes", "Thumbnail squares", "8");
+							}
+						},
+						{
+							label: "6",
+							type: "checkbox",
+							checked: config.thumbnail_square_size === 6,
+							click: () => {
+								win.webContents.send("set", {
+									key: "thumbnail_square_size",
+									value: 6
+								});
+								set_checks("Sizes", "Thumbnail squares", "6");
+							}
+						},
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.thumbnail_square_size === 4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "thumbnail_square_size",
+									value: 4
+								});
+								set_checks("Sizes", "Thumbnail squares", "4");
+							}
+						},
+					]
+				},
+				{
+					type: "separator"
+				},
+				{
+					label: "Tree spacing",
+					submenu: [
+						{
+							label: "48",
+							type: "checkbox",
+							checked: config.tree_spacing === 48,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 48
+								});
+								set_checks("Sizes", "Tree spacing", "48");
+							}
+						},
+						{
+							label: "44",
+							type: "checkbox",
+							checked: config.tree_spacing === 44,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 44
+								});
+								set_checks("Sizes", "Tree spacing", "44");
+							}
+						},
+						{
+							label: "40",
+							type: "checkbox",
+							checked: config.tree_spacing === 40,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 40
+								});
+								set_checks("Sizes", "Tree spacing", "40");
+							}
+						},
+						{
+							label: "36",
+							type: "checkbox",
+							checked: config.tree_spacing === 36,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 36
+								});
+								set_checks("Sizes", "Tree spacing", "36");
+							}
+						},
+						{
+							label: "32",
+							type: "checkbox",
+							checked: config.tree_spacing === 32,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 32
+								});
+								set_checks("Sizes", "Tree spacing", "32");
+							}
+						},
+						{
+							label: "28",
+							type: "checkbox",
+							checked: config.tree_spacing === 28,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 28
+								});
+								set_checks("Sizes", "Tree spacing", "28");
+							}
+						},
+						{
+							label: "24",
+							type: "checkbox",
+							checked: config.tree_spacing === 24,
+							click: () => {
+								win.webContents.send("set", {
+									key: "tree_spacing",
+									value: 24
+								});
+								set_checks("Sizes", "Tree spacing", "24");
+							}
+						},
+					]
+				},
 			]
 		},
 		{
