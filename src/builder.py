@@ -1,8 +1,8 @@
 import json, os, shutil, zipfile
 
 zips = {
-	"windows": "electron_zipped/electron-v12.0.7-win32-x64.zip",
-	"linux": "electron_zipped/electron-v12.0.7-linux-x64.zip",
+	"windows": "electron_zipped/electron-v12.0.9-win32-x64.zip",
+	"linux": "electron_zipped/electron-v12.0.9-linux-x64.zip",
 }
 
 # To build Ogatak: (for info see https://electronjs.org/docs/tutorial/application-distribution)
