@@ -19,7 +19,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
 
-const {defaults, defaults_classified, colour_keys, size_keys} = require("./config_io");
+const {defaults, defaults_classified, colour_keys} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -771,14 +771,6 @@ let hub_prototype = {
 		}
 		save_config();
 		this.take_followup_actions(Object.keys(o));
-	},
-
-	reset_sizes: function(multiplier) {
-		let o = {};
-		for (let key of size_keys) {
-			o[key] = defaults[key] * multiplier;
-		}
-		this.apply_settings(o);
 	},
 
 	reset_colours: function() {
