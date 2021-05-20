@@ -1377,7 +1377,7 @@ function menu_build() {
 			]
 		},
 		{
-			label: "Dev",
+			label: "Misc",
 			submenu: [
 				{
 					role: "toggledevtools"
@@ -1397,6 +1397,14 @@ function menu_build() {
 					checked: config.stderr_to_console,
 					click: () => {
 						win.webContents.send("toggle", "stderr_to_console");
+					}
+				},
+				{
+					label: "Load games at final position",
+					type: "checkbox",
+					checked: config.load_at_end,
+					click: () => {
+						win.webContents.send("toggle", "load_at_end");
 					}
 				},
 				{

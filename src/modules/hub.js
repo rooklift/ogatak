@@ -115,10 +115,12 @@ let hub_prototype = {
 				overwrite = false;
 			}
 
+			let node = config.load_at_end ? root.get_end() : root;
+
 			if (overwrite) {
-				this.set_node(root.get_end());
+				this.set_node(node);
 			} else {
-				switch_index = this.tabber.create_inactive_tab_at_end(root.get_end());
+				switch_index = this.tabber.create_inactive_tab_at_end(node);
 			}
 		}
 

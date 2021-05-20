@@ -83,6 +83,7 @@ exports.defaults_classified = {
 		"width": 1200,
 		"height": 740,
 		"stderr_to_console": true,
+		"load_at_end": true,
 		"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.
 		"graph_draw_delay": 200,				// The graph draw, however, is never skipped.
 		"autoanalysis_visits": 500,
