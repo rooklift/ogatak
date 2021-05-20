@@ -34,6 +34,7 @@ exports.defaults_classified = {
 
 	board_rebuilders: {
 		"board_line_width": 1,
+		"info_font_size": 16,
 		"square_size": 34,
 	},
 
@@ -43,7 +44,6 @@ exports.defaults_classified = {
 
 	board_redrawers: {
 		"board_font_size": 14,
-		"info_font_size": 16,
 		"best_colour_black": "#99dd55ff",
 		"best_colour_white": "#99dd55ff",
 		"wood_colour": "#d2b074ff",
