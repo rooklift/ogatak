@@ -16,11 +16,17 @@ module.exports = function(width, height, square_size) {
 	ctx.lineWidth = config.board_line_width;
 	ctx.strokeStyle = "#000000";
 
+	let offset = 0;
+
+	if ((config.board_line_width + square_size) % 2 === 1) {
+		offset = 0.5;
+	}
+
 	for (let x = 0; x < width; x++) {
 
-		let x1 = (x * square_size) + (square_size / 2) + 0.5;
-		let y1 = (square_size / 2) + 0.5;
-		let y2 = (height * square_size) - (square_size / 2) + 0.5;
+		let x1 = (x * square_size) + (square_size / 2) + offset;
+		let y1 = (square_size / 2) + offset;
+		let y2 = (height * square_size) - (square_size / 2) + offset;
 
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
@@ -31,9 +37,9 @@ module.exports = function(width, height, square_size) {
 
 	for (let y = 0; y < height; y++) {
 
-		let y1 = (y * square_size) + (square_size / 2) + 0.5;
-		let x1 = (square_size / 2) + 0.5;
-		let x2 = (width * square_size) - (square_size / 2) + 0.5;
+		let y1 = (y * square_size) + (square_size / 2) + offset;
+		let x1 = (square_size / 2) + offset;
+		let x2 = (width * square_size) - (square_size / 2) + offset;
 
 		ctx.beginPath();
 		ctx.moveTo(x1, y1);
@@ -47,8 +53,8 @@ module.exports = function(width, height, square_size) {
 	for (let s of hoshi) {
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
-		let gx = (x * square_size) + (square_size / 2) + 0.5;
-		let gy = (y * square_size) + (square_size / 2) + 0.5;
+		let gx = (x * square_size) + (square_size / 2) + offset;
+		let gy = (y * square_size) + (square_size / 2) + offset;
 		ctx.beginPath();
 		ctx.arc(gx, gy, config.board_line_width * 2, 0, 3 * Math.PI);
 		ctx.fill();
