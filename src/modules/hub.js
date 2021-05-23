@@ -652,25 +652,19 @@ let hub_prototype = {
 
 	graph_draw_spinner: function() {
 		this.grapher.draw_graph(this.node);
-		setTimeout(() => {
-			this.graph_draw_spinner();
-		}, Math.max(50, config.graph_draw_delay));
+		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
 	},
 
 	tree_draw_spinner: function() {
 		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
 			this.tree_drawer.draw_tree(this.node);
 		}
-		setTimeout(() => {
-			this.tree_draw_spinner();
-		}, Math.max(17, config.tree_draw_delay));					// This wants to be on a pretty tight schedule else it will feel laggy.
+		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
 	},
 
 	active_tab_draw_spinner: function() {
 		this.tabber.draw_active_tab(this.node);
-		setTimeout(() => {
-			this.active_tab_draw_spinner();
-		}, Math.max(50, config.graph_draw_delay));
+		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
 	},
 
 	window_resize_checker: function() {
@@ -683,9 +677,7 @@ let hub_prototype = {
 			this.tree_drawer.must_draw = true;
 			this.window_resize_time = null;
 		}
-		setTimeout(() => {
-			this.window_resize_checker();
-		}, 250);
+		setTimeout(this.window_resize_checker.bind(this), 250);
 	},
 
 	autoset_square_size: function() {
