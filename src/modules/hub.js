@@ -29,6 +29,8 @@ exports.new_hub = function() {
 
 	let hub = Object.create(hub_prototype);
 
+	Object.assign(hub, require("./hub_settings"));
+
 	hub.maindrawer = new_board_drawer(
 		document.getElementById("boardbg"),
 		document.getElementById("boardtable"),
@@ -646,7 +648,7 @@ let hub_prototype = {
 		ipcRenderer.send("terminate");								// send "terminate". Not sure about results if that wasn't so.
 	},
 
-	// Spinners....................................................................................
+	// Spinners and their helpers..................................................................
 
 	graph_draw_spinner: function() {
 		this.grapher.draw_graph(this.node);
@@ -730,84 +732,6 @@ let hub_prototype = {
 		if (this.maindrawer.last_draw_was_pv) {
 			this.maindrawer.draw_standard(this.node);
 		}
-	},
-
-	// Options.....................................................................................
-
-	set: function(key, value) {
-		config[key] = value;
-		this.take_followup_actions([key]);
-	},
-
-	take_followup_actions: function(keys, dummy) {
-
-		if (Array.isArray(keys) === false || dummy !== undefined) {
-			throw "take_followup_actions(): bad call";
-		}
-
-		let hits = {};
-		let classifiers = Object.keys(defaults_classified);
-
-		for (let key of keys) {
-			for (let cl of classifiers) {
-				if (defaults_classified[cl][key] !== undefined) {
-					hits[cl] = true;
-					// break;									// Cannot - a key can be in multiple classifiers
-				}
-			}
-		}
-
-		if (hits.engine_starters) {
-			this.maybe_start_engine();
-		}
-		if (hits.search_changers) {
-			if (this.engine.desired) {
-				this.go();
-			}
-		}
-		if (hits.infodiv_rebuilders) {
-			this.maindrawer.fix_infodiv();
-			if (config.auto_square_size) {
-				let new_size = this.calculate_square_size();
-				if (new_size !== config.square_size) {
-					config.square_size = new_size;				// Don't use set() which will cause another call to take_followup_actions()
-					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
-					hits["board_rebuilders"] = true;
-				}
-			}
-		}
-		if (hits.board_rebuilders) {
-			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
-			hits["board_redrawers"] = true;
-		}
-		if (hits.board_redrawers) {
-			this.draw();
-		}
-		if (hits.tab_rebuilders) {
-			this.tabber.draw_tabs(this.node);
-		}
-		if (hits.graph_redrawers) {
-			this.grapher.draw_graph(this.node);
-		}
-		if (hits.tree_redrawers) {
-			this.tree_drawer.draw_tree(this.node);
-		}
-
-	},
-
-	apply_settings: function(o) {
-		for (let key of Object.keys(o)) {
-			config[key] = o[key];
-		}
-		this.take_followup_actions(Object.keys(o));
-	},
-
-	reset_colours: function() {
-		let o = {}
-		for (let key of colour_keys) {
-			o[key] = defaults[key];
-		}
-		this.apply_settings(o);
 	},
 
 	// Komi and rules are part of the board........................................................

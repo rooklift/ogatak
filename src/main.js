@@ -2189,7 +2189,7 @@ function menu_build() {
 			label: key,
 			click: () => {
 				win.webContents.send("call", {
-					fn: "apply_settings",
+					fn: "apply_colour_settings",
 					args: [colour_choices[key]]
 				});
 			}
