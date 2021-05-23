@@ -94,7 +94,13 @@ module.exports = {
 
 	},
 
+	// --------------------------------------------------------------------------------------------
+
+	apply_colour_settings: function(o) {
+		for (let key of Object.keys(o)) {
+			config[key] = o[key];
+		}
+		this.draw();						// Currently this is enough.
+	},
+
 };
-
-
-

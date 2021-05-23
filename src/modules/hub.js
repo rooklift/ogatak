@@ -734,23 +734,6 @@ let hub_prototype = {
 		}
 	},
 
-	// Options (see also hub_settings.js) .........................................................
-
-	apply_colour_settings: function(o) {
-		for (let key of Object.keys(o)) {
-			config[key] = o[key];
-		}
-		this.draw();						// Currently this is enough.
-	},
-
-	reset_colours: function() {
-		let o = {};
-		for (let key of colour_keys) {
-			o[key] = defaults[key];
-		}
-		this.apply_colour_settings(o);
-	},
-
 	// Komi and rules are part of the board........................................................
 
 	coerce_rules: function(value) {
