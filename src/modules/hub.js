@@ -778,7 +778,7 @@ let hub_prototype = {
 		}
 		if (hits.board_rebuilders) {
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
-			this.draw();
+			hits["board_redrawers"] = true;
 		}
 		if (hits.board_redrawers) {
 			this.draw();
