@@ -768,7 +768,12 @@ let hub_prototype = {
 		if (hits.infodiv_rebuilders) {
 			this.maindrawer.fix_infodiv();
 			if (config.auto_square_size) {
-				this.window_resize_time = performance.now();	// The same actions need to be performed as if the window changed size.
+				let new_size = this.calculate_square_size();
+				if (new_size !== config.square_size) {
+					config.square_size = new_size;				// Don't use set() which will cause another call to take_followup_actions()
+					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
+					hits["board_rebuilders"] = true;
+				}
 			}
 		}
 		if (hits.board_rebuilders) {
