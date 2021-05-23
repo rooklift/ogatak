@@ -675,12 +675,26 @@ let hub_prototype = {
 		if (this.window_resize_time) {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
+			if (config.auto_square_size) {
+				this.recalculate_square_size();
+			}
 			this.tree_drawer.draw_tree(this.node);
 			this.window_resize_time = null;
 		}
 		setTimeout(() => {
 			this.window_resize_checker();
-		}, 1000);
+		}, 250);
+	},
+
+	recalculate_square_size: function() {
+
+		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
+		let new_square_size = Math.floor((dy - 8) / 19);
+
+		if (new_square_size !== config.square_size) {
+			this.set("square_size", new_square_size);
+			ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_square_size.toString()]);
+		}
 	},
 
 	// Mouse.......................................................................................

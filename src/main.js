@@ -1171,6 +1171,17 @@ function menu_build() {
 			label: "Sizes",
 			submenu: [
 				{
+					label: "Auto-resize squares",
+					type: "checkbox",
+					checked: config.auto_square_size,
+					click: () => {
+						win.webContents.send("toggle", "auto_square_size");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Board squares",
 					submenu: [
 						{

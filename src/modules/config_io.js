@@ -82,6 +82,7 @@ exports.defaults_classified = {
 	no_immediate_effect: {
 		"width": 1200,
 		"height": 740,
+		"auto_square_size": true,
 		"stderr_to_console": true,
 		"load_at_end": true,
 		"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.
