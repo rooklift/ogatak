@@ -6,6 +6,7 @@ function new_tree_drawer(canvas) {
 	drawer.clickers = [];
 	drawer.last_draw_cost = 0;
 	drawer.central_node = null;
+	drawer.must_draw = false;								// Not actually used by the drawer itself. Used by hub as one reason to call us.
 	return drawer;
 }
 
@@ -13,11 +14,12 @@ let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
 
-		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
-
 		this.clickers = [];
 		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
+		this.must_draw = false;
+
+		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;

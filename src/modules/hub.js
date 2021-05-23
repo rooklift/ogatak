@@ -463,7 +463,7 @@ let hub_prototype = {
 		}
 
 		if (changed && !suppress_draw) {
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 		}
 	},
 
@@ -476,7 +476,7 @@ let hub_prototype = {
 					child.detach();
 				}
 				this.draw();								// Clear the next move markers.
-				this.tree_drawer.draw_tree(this.node);
+				this.tree_drawer.must_draw = true;
 			}
 			this.node.save_ok = false;
 		}
@@ -502,7 +502,7 @@ let hub_prototype = {
 
 		if (changed) {
 			this.draw();
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 			if (this.tabber.remove_deleted_nodes()) {
 				this.tabber.draw_tabs(this.node);
 			}
@@ -657,8 +657,8 @@ let hub_prototype = {
 		}, Math.max(50, config.graph_draw_delay));
 	},
 
-	tree_draw_spinner: function() {									// Although we could draw the tree every time set_node() is called, that
-		if (this.tree_drawer.central_node !== this.node) {			// can lead to issues with large files when e.g. mouse-wheel-scrolling.
+	tree_draw_spinner: function() {
+		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
 			this.tree_drawer.draw_tree(this.node);
 		}
 		setTimeout(() => {
@@ -680,7 +680,7 @@ let hub_prototype = {
 			if (config.auto_square_size) {
 				this.autoset_square_size();
 			}
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 			this.window_resize_time = null;
 		}
 		setTimeout(() => {

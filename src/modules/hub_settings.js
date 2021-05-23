@@ -27,7 +27,7 @@ module.exports = {
 
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 			break;
 
 		case "info_font_size":
@@ -41,7 +41,7 @@ module.exports = {
 					break;		// Avoiding the redundant draw_tree() below
 				}
 			}
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 			break;
 
 		case "board_font_size":
@@ -80,7 +80,7 @@ module.exports = {
 		case "tree_node_colour":
 		case "central_node_colour":
 
-			this.tree_drawer.draw_tree(this.node);
+			this.tree_drawer.must_draw = true;
 			break;
 
 		case "widerootnoise":
