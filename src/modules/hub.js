@@ -672,20 +672,16 @@ let hub_prototype = {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
 			if (config.auto_square_size) {
-				this.autoset_square_size();
+				let new_size = this.calculate_square_size();
+				if (new_size !== config.square_size) {
+					this.set("square_size", new_size);
+					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
+				}
 			}
 			this.tree_drawer.must_draw = true;
 			this.window_resize_time = null;
 		}
 		setTimeout(this.window_resize_checker.bind(this), 250);
-	},
-
-	autoset_square_size: function() {
-		let new_size = this.calculate_square_size();
-		if (new_size !== config.square_size) {
-			this.set("square_size", new_size);
-			ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
-		}
 	},
 
 	calculate_square_size: function() {
