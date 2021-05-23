@@ -18,10 +18,16 @@ module.exports = {
 			break;
 
 		case "board_line_width":
+
+			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
+			this.draw();
+			break;
+
 		case "square_size":
 
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
+			this.tree_drawer.draw_tree(this.node);
 			break;
 
 		case "info_font_size":
@@ -34,11 +40,7 @@ module.exports = {
 					ipcRenderer.send("set_checks", ["Sizes", "Board squares", value.toString()]);
 				}
 			}
-			break;
-
-		case "thumbnail_square_size":
-
-			this.tabber.draw_tabs(this.node);
+			this.tree_drawer.draw_tree(this.node);
 			break;
 
 		case "board_font_size":
@@ -54,6 +56,11 @@ module.exports = {
 		case "circle_best":
 
 			this.draw();
+			break;
+
+		case "thumbnail_square_size":
+
+			this.tabber.draw_tabs(this.node);
 			break;
 
 		case "graph_type":
