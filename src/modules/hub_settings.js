@@ -38,6 +38,7 @@ module.exports = {
 				if (new_size !== config.square_size) {
 					this.set("square_size", new_size);
 					ipcRenderer.send("set_checks", ["Sizes", "Board squares", value.toString()]);
+					break;		// Avoiding the redundant draw_tree() below
 				}
 			}
 			this.tree_drawer.draw_tree(this.node);
