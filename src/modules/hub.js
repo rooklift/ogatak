@@ -734,10 +734,13 @@ let hub_prototype = {
 		}
 	},
 
-	// Options.....................................................................................
+	// Options (see also hub_settings.js) .........................................................
 
-	apply_settings: function(o) {
-		// TODO
+	apply_colour_settings: function(o) {
+		for (let key of Object.keys(o)) {
+			config[key] = o[key];
+		}
+		this.draw();						// Currently this is enough.
 	},
 
 	reset_colours: function() {
@@ -745,7 +748,7 @@ let hub_prototype = {
 		for (let key of colour_keys) {
 			o[key] = defaults[key];
 		}
-		this.apply_settings(o);
+		this.apply_colour_settings(o);
 	},
 
 	// Komi and rules are part of the board........................................................
