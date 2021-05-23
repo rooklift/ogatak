@@ -34,8 +34,11 @@ exports.defaults_classified = {
 
 	board_rebuilders: {
 		"board_line_width": 1,
-		"info_font_size": 16,
 		"square_size": 34,
+	},
+
+	infodiv_rebuilders: {
+		"info_font_size": 16,
 	},
 
 	tab_rebuilders: {

@@ -90,6 +90,10 @@ let board_drawer_prototype = {
 		this.canvas.width = Math.max(19, this.width) * config.square_size;
 		this.canvas.height = Math.max(19, this.height) * config.square_size;
 
+		this.fix_infodiv();
+	},
+
+	fix_infodiv: function() {
 		this.infodiv.style["font-size"] = config.info_font_size.toString() + "px";
 	},
 
