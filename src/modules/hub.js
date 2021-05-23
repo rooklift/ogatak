@@ -641,6 +641,11 @@ let hub_prototype = {
 		throw "test exception";
 	},
 
+	quit: function() {
+		save_config();												// As long as we use the sync save, this will complete before we
+		ipcRenderer.send("terminate");								// send "terminate". Not sure about results if that wasn't so.
+	},
+
 	// Spinners....................................................................................
 
 	graph_draw_spinner: function() {
@@ -670,7 +675,6 @@ let hub_prototype = {
 		if (this.window_resize_time) {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
-			save_config();
 			this.tree_drawer.draw_tree(this.node);
 			this.window_resize_time = null;
 		}
@@ -716,7 +720,6 @@ let hub_prototype = {
 
 	set: function(key, value) {
 		config[key] = value;
-		save_config();
 		this.take_followup_actions([key]);
 	},
 
@@ -769,7 +772,6 @@ let hub_prototype = {
 		for (let key of Object.keys(o)) {
 			config[key] = o[key];
 		}
-		save_config();
 		this.take_followup_actions(Object.keys(o));
 	},
 
