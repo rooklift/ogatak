@@ -37,7 +37,7 @@ module.exports = {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
 					this.set("square_size", new_size);
-					ipcRenderer.send("set_checks", ["Sizes", "Board squares", value.toString()]);
+					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
 				}
 			}
 			this.tree_drawer.must_draw = true;
