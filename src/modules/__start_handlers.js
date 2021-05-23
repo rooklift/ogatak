@@ -80,7 +80,7 @@ document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	hub.set_node(node);
 });
 
-// Pressing arrows or Home or End should NOT affect the tabs list, but rather move about in the current game...
+// Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
 
 window.addEventListener("keydown", function(event) {
 	if (event.code === "Home") {
@@ -98,6 +98,10 @@ window.addEventListener("keydown", function(event) {
 	if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.next();
+	}
+	if (event.code === "Space") {
+		event.preventDefault();
+		hub.toggle_ponder();
 	}
 });
 
