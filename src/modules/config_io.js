@@ -26,11 +26,10 @@ exports.defaults = {
 	"weights": "",
 
 	"board_line_width": 1,
+
 	"square_size": 34,
 
 	"info_font_size": 16,
-
-	"thumbnail_square_size": 4,
 
 	"board_font_size": 14,
 	"best_colour_black": "#99dd55ff",
@@ -43,6 +42,8 @@ exports.defaults = {
 	"mouseover_pv": true,
 	"next_move_markers": true,
 	"circle_best": true,
+
+	"thumbnail_square_size": 4,
 
 	"graph_type": "winrate",
 	"minor_graph_linewidth": 1,
