@@ -1,12 +1,19 @@
 "use strict";
 
 function new_tree_drawer(canvas) {
+
 	let drawer = Object.create(tree_drawer_prototype);
+
 	drawer.canvas = canvas;
 	drawer.clickers = [];
-	drawer.last_draw_cost = 0;
+
 	drawer.central_node = null;
 	drawer.must_draw = false;								// Not actually used by the drawer itself. Used by hub as one reason to call us.
+
+	drawer.last_draw_cost = 0;								// Various things for debugging.
+	drawer.call_count = 0;
+	drawer.draw_count = 0;
+
 	return drawer;
 }
 
@@ -15,6 +22,7 @@ let tree_drawer_prototype = {
 	draw_tree: function(central_node) {
 
 		let start_time = performance.now();
+		this.call_count++;
 
 		this.clickers = [];
 		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
@@ -32,6 +40,8 @@ let tree_drawer_prototype = {
 			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
+
+		this.draw_count++;
 
 		let root = central_node.get_root();
 
