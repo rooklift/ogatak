@@ -14,6 +14,8 @@ let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
 
+		let start_time = performance.now();
+
 		this.clickers = [];
 		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
 		this.must_draw = false;
@@ -22,14 +24,14 @@ let tree_drawer_prototype = {
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
+			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
 
 		if (!central_node.parent && central_node.children.length === 0) {
+			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
-
-		let start_time = performance.now();
 
 		let root = central_node.get_root();
 
