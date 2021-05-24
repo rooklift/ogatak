@@ -58,8 +58,6 @@ exports.new_hub = function() {
 		document.getElementById("tabdiv")
 	);
 
-	hub.window_resize_time = null;
-
 	return hub;
 };
 
@@ -648,7 +646,7 @@ let hub_prototype = {
 		ipcRenderer.send("terminate");								// send "terminate". Not sure about results if that wasn't so.
 	},
 
-	// Spinners and their helpers..................................................................
+	// Spinners (in a setTimeout loop) and their helpers...........................................
 
 	graph_draw_spinner: function() {
 		this.grapher.draw_graph(this.node);
@@ -668,9 +666,10 @@ let hub_prototype = {
 	},
 
 	window_resize_checker: function() {
-		if (this.window_resize_time) {
+		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
+			this.tree_drawer.must_draw = true;
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
@@ -678,8 +677,6 @@ let hub_prototype = {
 					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
 				}
 			}
-			this.tree_drawer.must_draw = true;
-			this.window_resize_time = null;
 		}
 		setTimeout(this.window_resize_checker.bind(this), 250);
 	},

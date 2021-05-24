@@ -130,12 +130,6 @@ window.addEventListener("drop", (event) => {
 	}
 });
 
-// Resizing the screen should eventually cause the new sizes to be saved into the config...
-
-window.addEventListener("resize", (event) => {
-	hub.window_resize_time = performance.now();
-});
-
 // Uncaught exceptions should trigger an alert (once only)...
 
 window.addEventListener("error", (event) => {
