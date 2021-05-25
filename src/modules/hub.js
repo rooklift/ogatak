@@ -27,8 +27,9 @@ const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
 exports.new_hub = function() {
 
-	let hub = Object.create(hub_prototype);
+	let hub = Object.create({});
 
+	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
 
 	hub.maindrawer = new_board_drawer(
@@ -61,7 +62,7 @@ exports.new_hub = function() {
 	return hub;
 };
 
-let hub_prototype = {
+let hub_props = {
 
 	// Draw........................................................................................
 
