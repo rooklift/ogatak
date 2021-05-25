@@ -468,7 +468,7 @@ let hub_prototype = {
 	delete_node: function() {
 		if (this.node.parent) {
 			this.set_node(this.node.detach());
-		} else {
+		} else {											// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
 				for (let child of this.node.children) {
 					child.detach();
