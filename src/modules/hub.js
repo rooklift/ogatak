@@ -638,10 +638,6 @@ let hub_props = {
 		alert(lines.join("\n"));
 	},
 
-	throw_exception: function() {
-		throw "test exception";
-	},
-
 	calculate_square_size: function() {
 		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
 		return Math.floor((dy - 8) / 19);
