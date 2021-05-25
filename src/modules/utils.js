@@ -107,24 +107,12 @@ exports.handicap_stones = function(count, width, height, tygem) {
 
 	if (width % 2 !== 0 && height % 2 !== 0 && (width >= 9 || height >= 9)) {
 
-		// The point here is to get the tengen stone at the correct index in the list
-		// so that it either is or isn't included in the final slice.
-
-		if (count === 5) {
+		if (count === 5 || count === 7 || count >= 9) {
 			result.push([middlex, middley]);
 		}
 
 		result.push([nearx, middley], [farx, middley]);
-
-		if (count === 7) {
-			result.push([middlex, middley]);
-		}
-
 		result.push([middlex, neary], [middlex, fary]);
-
-		if (count >= 9) {
-			result.push([middlex, middley]);
-		}
 
 	}
 
