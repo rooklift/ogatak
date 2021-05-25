@@ -627,7 +627,7 @@ let hub_props = {
 		this.update_title();
 	},
 
-	// Misc dev stuff..............................................................................
+	// Misc........................................................................................
 
 	display_props: function(rootflag) {
 		let props = rootflag ? this.node.get_root().props : this.node.props;
@@ -642,82 +642,14 @@ let hub_props = {
 		throw "test exception";
 	},
 
-	quit: function() {
-		save_config();												// As long as we use the sync save, this will complete before we
-		ipcRenderer.send("terminate");								// send "terminate". Not sure about results if that wasn't so.
-	},
-
-	// Spinners (in a setTimeout loop) and their helpers...........................................
-
-	graph_draw_spinner: function() {
-		this.grapher.draw_graph(this.node);
-		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
-	},
-
-	tree_draw_spinner: function() {
-		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
-			this.tree_drawer.draw_tree(this.node);
-		}
-		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
-	},
-
-	active_tab_draw_spinner: function() {
-		this.tabber.draw_active_tab(this.node);
-		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
-	},
-
-	window_resize_checker: function() {
-		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
-			config.width = window.innerWidth;
-			config.height = window.innerHeight;
-			this.tree_drawer.must_draw = true;
-			if (config.auto_square_size) {
-				let new_size = this.calculate_square_size();
-				if (new_size !== config.square_size) {
-					this.set("square_size", new_size);
-					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
-				}
-			}
-		}
-		setTimeout(this.window_resize_checker.bind(this), 250);
-	},
-
 	calculate_square_size: function() {
 		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
 		return Math.floor((dy - 8) / 19);
 	},
 
-	// Mouse.......................................................................................
-
-	mouse_point: function() {
-		let overlist = document.querySelectorAll(":hover");
-		for (let item of overlist) {
-			if (typeof item.className === "string") {
-				let classes = item.className.split(" ");
-				for (let c of classes) {
-					if (c.startsWith("td_")) {
-						return c.slice(3);
-					}
-				}
-			}
-		}
-		return null;
-	},
-
-	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
-
-		// This returns true if a PV was drawn for the point s...
-
-		if (this.maindrawer.draw_pv(this.node, s)) {
-			return;
-		}
-
-		// We did not draw a PV, so if the last draw that actually happened was a PV, it
-		// was for some other point, and we need to do a standard draw to hide it...
-
-		if (this.maindrawer.last_draw_was_pv) {
-			this.maindrawer.draw_standard(this.node);
-		}
+	quit: function() {
+		save_config();						// As long as we use the sync save, this will complete before we
+		ipcRenderer.send("terminate");		// send "terminate". Not sure about results if that wasn't so.
 	},
 
 	// Komi and rules are part of the board........................................................
@@ -796,4 +728,73 @@ let hub_props = {
 
 		ipcRenderer.send("set_checks", menus[values[si]]);
 	},
+
+	// Mouse.......................................................................................
+
+	mouse_point: function() {
+		let overlist = document.querySelectorAll(":hover");
+		for (let item of overlist) {
+			if (typeof item.className === "string") {
+				let classes = item.className.split(" ");
+				for (let c of classes) {
+					if (c.startsWith("td_")) {
+						return c.slice(3);
+					}
+				}
+			}
+		}
+		return null;
+	},
+
+	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
+
+		// This returns true if a PV was drawn for the point s...
+
+		if (this.maindrawer.draw_pv(this.node, s)) {
+			return;
+		}
+
+		// We did not draw a PV, so if the last draw that actually happened was a PV, it
+		// was for some other point, and we need to do a standard draw to hide it...
+
+		if (this.maindrawer.last_draw_was_pv) {
+			this.maindrawer.draw_standard(this.node);
+		}
+	},
+
+	// Spinners (in a setTimeout loop).............................................................
+
+	graph_draw_spinner: function() {
+		this.grapher.draw_graph(this.node);
+		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
+	},
+
+	tree_draw_spinner: function() {
+		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
+			this.tree_drawer.draw_tree(this.node);
+		}
+		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
+	},
+
+	active_tab_draw_spinner: function() {
+		this.tabber.draw_active_tab(this.node);
+		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
+	},
+
+	window_resize_checker: function() {
+		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
+			config.width = window.innerWidth;
+			config.height = window.innerHeight;
+			this.tree_drawer.must_draw = true;
+			if (config.auto_square_size) {
+				let new_size = this.calculate_square_size();
+				if (new_size !== config.square_size) {
+					this.set("square_size", new_size);
+					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
+				}
+			}
+		}
+		setTimeout(this.window_resize_checker.bind(this), 250);
+	},
+
 };
