@@ -257,10 +257,6 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			if (this.tablestate[x][y] === "bm" || this.tablestate[x][y] === "wm") {		// The stone has been marked as dead in our table, with a square.
-				continue;
-			}
-
 			if (this.tablestate[x][y] === "" || this.tablestate[x][y] === "ko") {		// Stone captured; draw wood colour so grid doesn't clash with the text.
 				this.fcircle(x, y, 1, config.wood_colour);
 			}
