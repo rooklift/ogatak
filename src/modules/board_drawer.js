@@ -77,6 +77,24 @@ let board_drawer_prototype = {
 		ctx.fillText(msg, gx, gy + 1);
 	},
 
+	set_td: function(x, y, foo) {
+
+		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+		if (!td) throw "set_td(): bad x/y";
+
+		switch (foo) {
+			case   "": td.style["background-image"] =                     ""; break;
+			case  "b": td.style["background-image"] =        black_stone_url; break;
+			case  "w": td.style["background-image"] =        white_stone_url; break;
+			case "ko": td.style["background-image"] =          ko_marker_url; break;
+			case "bm": td.style["background-image"] = black_stone_marked_url; break;
+			case "wm": td.style["background-image"] = white_stone_marked_url; break;
+			default: throw "set_td(): bad call";
+		}
+
+		this.tablestate[x][y] = foo;
+	},
+
 	// --------------------------------------------------------------------------------------------
 
 	rebuild: function(width, height) {
@@ -314,19 +332,7 @@ let board_drawer_prototype = {
 				}
 
 				if (this.tablestate[x][y] !== desired) {
-
-					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-
-					switch (desired) {
-						case   "": td.style["background-image"] =                     ""; break;
-						case  "b": td.style["background-image"] =        black_stone_url; break;
-						case  "w": td.style["background-image"] =        white_stone_url; break;
-						case "ko": td.style["background-image"] =          ko_marker_url; break;
-						case "bm": td.style["background-image"] = black_stone_marked_url; break;
-						case "wm": td.style["background-image"] = white_stone_marked_url; break;
-					}
-
-					this.tablestate[x][y] = desired;
+					this.set_td(x, y, desired);
 				}
 			}
 		}
