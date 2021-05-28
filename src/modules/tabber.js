@@ -55,7 +55,9 @@ let tabber_prototype = {
 			}
 
 			let img = new Image();
-			img.src = this.image_cache[node.id];
+			img.src = this.image_cache[node.id].data;
+			img.width = this.image_cache[node.id].width;
+			img.height = this.image_cache[node.id].height;
 			img.className = `tab_${n}`;
 			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
 			img.title = node.game_title_text();
@@ -90,7 +92,9 @@ let tabber_prototype = {
 			this.image_cache[node.id] = thumbnail(node.get_board(), config.thumbnail_square_size);
 		}
 
-		img.src = this.image_cache[node.id];
+		img.src = this.image_cache[node.id].data;
+		img.width = this.image_cache[node.id].width;
+		img.height = this.image_cache[node.id].height;
 		img.title = node.game_title_text();
 
 		if (this.last_drawn_active_id !== node.id) {

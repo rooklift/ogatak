@@ -43,5 +43,9 @@ module.exports = function(board, square_size) {
 		}
 	}
 
-	return c.toDataURL("image/png");
+	return {
+		data: c.toDataURL("image/png"),
+		width: c.width,
+		height: c.height
+	};
 };
