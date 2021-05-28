@@ -96,9 +96,7 @@ body {
 }
 
 #preloaders {
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
+	display: none;
 	grid-area: b;
 	z-index: 4;
 }
