@@ -442,12 +442,10 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let fill;
-
+			let fill = config.wood_colour;
 			if (info.order === 0) {
-				fill = board.active === "b" ? config.best_colour_black : config.best_colour_white;
-			} else {
-				fill = config.wood_colour;
+				if (board.active === "b") fill = config.best_colour_black;
+				if (board.active === "w") fill = config.best_colour_white;
 			}
 
 			this.fcircle(x, y, 1, fill);
@@ -455,6 +453,8 @@ let board_drawer_prototype = {
 			if (info.order === 0 && config.circle_best) {
 				this.circle(x, y, 3.5, board.active === "b" ? "#00000080" : "#ffffffa0");
 			}
+
+			// ------------------------------------------------------------------------------------
 
 			let text = "?";
 
