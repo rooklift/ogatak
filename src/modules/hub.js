@@ -760,6 +760,11 @@ let hub_props = {
 
 	// Spinners (in a setTimeout loop).............................................................
 
+	active_tab_draw_spinner: function() {
+		this.tabber.draw_active_tab(this.node);
+		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
+	},
+
 	graph_draw_spinner: function() {
 		this.grapher.draw_graph(this.node);
 		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
@@ -770,11 +775,6 @@ let hub_props = {
 			this.tree_drawer.draw_tree(this.node);
 		}
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
-	},
-
-	active_tab_draw_spinner: function() {
-		this.tabber.draw_active_tab(this.node);
-		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
 	},
 
 	window_resize_checker: function() {
