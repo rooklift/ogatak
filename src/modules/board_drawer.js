@@ -40,6 +40,45 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 let board_drawer_prototype = {
 
+	clear_canvas: function() {
+		let ctx = this.canvas.getContext("2d");
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	},
+
+	fcircle: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
+		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.arc(gx, gy, fraction * config.square_size / 2, 0, 2 * Math.PI);
+		ctx.fill();
+	},
+
+	circle: function(x, y, linewidth, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.lineWidth = linewidth;
+		ctx.strokeStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.arc(gx, gy, (config.square_size / 2) - (linewidth / 2), 0, 2 * Math.PI);
+		ctx.stroke();
+	},
+
+	text: function(x, y, msg, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.fillText(msg, gx, gy + 1);
+	},
+
+	// --------------------------------------------------------------------------------------------
+
 	rebuild: function(width, height) {
 
 		// Reset all the things.
@@ -83,12 +122,8 @@ let board_drawer_prototype = {
 		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
 
-		// We force the canvas to be at least big enough for a 19x19 board,
-		// this makes other elements like the graph stay put when the board
-		// size is actually smaller.
-
-		this.canvas.width = Math.max(19, this.width) * config.square_size;
-		this.canvas.height = Math.max(19, this.height) * config.square_size;
+		this.canvas.width = Math.max(19, this.width) * config.square_size;				// We force the canvas to be at least big enough for a 19x19 board, this
+		this.canvas.height = Math.max(19, this.height) * config.square_size;			// makes other elements like the graph stay put when the board is smaller.
 
 		this.fix_infodiv();
 	},
@@ -97,26 +132,23 @@ let board_drawer_prototype = {
 		this.infodiv.style["font-size"] = config.info_font_size.toString() + "px";
 	},
 
+	// --------------------------------------------------------------------------------------------
+
 	draw_standard: function(node) {
+
 		this.clear_canvas();
 
-		let board = node.get_board();
-		let ownership = null;
-		let ownership_perspective = null;
-
-		if (config.dead_stone_prediction) {
-			if (node.has_valid_analysis() && node.analysis.ownership) {
-				ownership = node.analysis.ownership;
-				ownership_perspective = board.active;
-			}
+		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
+			this.draw_board(node.get_board(), node, node.analysis.ownership, node.get_board().active, null);
+		} else {
+			this.draw_board(node.get_board(), node, null, null, null);
 		}
-
-		this.draw_board(board, node, ownership, ownership_perspective, null);
 
 		this.draw_previous_markers(node);
 		this.draw_analysis(node);
 		this.draw_next_markers(node);
 		this.draw_node_info(node);
+
 		this.last_draw_was_pv = false;
 	},
 
@@ -153,11 +185,6 @@ let board_drawer_prototype = {
 		// We have a valid info, so the draw will proceed...
 
 		this.clear_canvas();
-		let ctx = this.canvas.getContext("2d");
-
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
 
 		// Create our final board...
 
@@ -211,23 +238,16 @@ let board_drawer_prototype = {
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
-			let gx = x * config.square_size + (config.square_size / 2);
-			let gy = y * config.square_size + (config.square_size / 2);
 
 			if (this.tablestate[x][y] === "bm" || this.tablestate[x][y] === "wm") {		// The stone has been marked as dead in our table, with a square.
 				continue;
 			}
 
 			if (this.tablestate[x][y] === "" || this.tablestate[x][y] === "ko") {		// Stone captured; draw wood colour so grid doesn't clash with the text.
-				ctx.fillStyle = config.wood_colour;
-				ctx.beginPath();
-				ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
-				ctx.fill();
+				this.fcircle(x, y, 1, config.wood_colour);
 			}
 
-			ctx.fillStyle = ntd.fill;
-			ctx.fillText(ntd.text, gx, gy + 1);
-
+			this.text(x, y, ntd.text, ntd.fill);
 		}
 
 		this.draw_node_info(node, info);
@@ -236,10 +256,7 @@ let board_drawer_prototype = {
 		return true;
 	},
 
-	clear_canvas: function() {
-		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
+	// --------------------------------------------------------------------------------------------
 
 	draw_board: function(board, responsible_node, ownership, ownership_perspective, markdead_exclusions) {
 
@@ -289,7 +306,7 @@ let board_drawer_prototype = {
 							desired = state === "b" ? "bm" : "wm";
 						}
 					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
-						// Might be acceptable to delay changing the element until we get an update from the engine...
+						// Might be acceptable to keep the element as bm/wm until we get an update from the engine...
 						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
 							desired = state === "b" ? "bm" : "wm";
 						}
@@ -363,66 +380,30 @@ let board_drawer_prototype = {
 	},
 
 	draw_previous_markers: function(node) {
-
-		let ctx = this.canvas.getContext("2d");
-		let board = node.get_board();
-
-		ctx.fillStyle = config.previous_marker;
-
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
-
-		for (let s of moves_played) {		// Probably just one.
-
-			if (s.length !== 2) {
-				continue;
+		for (let s of moves_played) {				// Probably just one.
+			if (s.length === 2) {
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+				this.fcircle(x, y, 0.4, config.previous_marker);
 			}
-
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-
-			let gx = x * config.square_size + (config.square_size / 2);
-			let gy = y * config.square_size + (config.square_size / 2);
-
-			ctx.beginPath();
-			ctx.arc(gx, gy, Math.ceil(config.square_size / 5), 0, 2 * Math.PI);
-			ctx.fill();
 		}
 	},
 
 	draw_next_markers: function(node) {
-
 		if (!config.next_move_markers) {
 			return;
 		}
-
 		let board = node.get_board();
-		let ctx = this.canvas.getContext("2d");
-
-		ctx.lineWidth = 3.5;
-
 		for (let key of ["B", "W"]) {
-
-			ctx.strokeStyle = key === "B" ? "#00000080" : "#ffffffa0";
-
 			for (let n = 0; n < node.children.length; n++) {
-
 				let moves_played = node.children[n].all_values(key);
-
 				for (let s of moves_played) {		// Probably just one per child.
-
-					if (s.length !== 2) {
-						continue;
+					if (s.length === 2) {
+						let x = s.charCodeAt(0) - 97;
+						let y = s.charCodeAt(1) - 97;
+						this.circle(x, y, 3.5, key === "B" ? "#00000080" : "#ffffffa0");
 					}
-
-					let x = s.charCodeAt(0) - 97;
-					let y = s.charCodeAt(1) - 97;
-
-					let gx = x * config.square_size + (config.square_size / 2);
-					let gy = y * config.square_size + (config.square_size / 2);
-
-					ctx.beginPath();
-					ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);
-					ctx.stroke();
 				}
 			}
 		}
@@ -436,18 +417,8 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
-		let ctx = this.canvas.getContext("2d");
-
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
-
-		ctx.strokeStyle = board.active === "b" ? "#00000080" : "#ffffffa0";
-		ctx.lineWidth = 3.5;
-
 		let move0_lcb = node.analysis.moveInfos[0].lcb;
 		let root_visits = node.analysis.rootInfo.visits;
-
 		let filtered_infos = moveinfo_filter(node);
 
 		for (let n = filtered_infos.length - 1; n >= 0; n--) {
@@ -465,23 +436,18 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let gx = x * config.square_size + (config.square_size / 2);
-			let gy = y * config.square_size + (config.square_size / 2);
+			let fill;
 
 			if (info.order === 0) {
-				ctx.fillStyle = board.active === "b" ? config.best_colour_black : config.best_colour_white;
+				fill = board.active === "b" ? config.best_colour_black : config.best_colour_white;
 			} else {
-				ctx.fillStyle = config.wood_colour;
+				fill = config.wood_colour;
 			}
 
-			ctx.beginPath();
-			ctx.arc(gx, gy, config.square_size / 2, 0, 2 * Math.PI);
-			ctx.fill();
+			this.fcircle(x, y, 1, fill);
 
 			if (info.order === 0 && config.circle_best) {
-				ctx.beginPath();
-				ctx.arc(gx, gy, (config.square_size / 2) - 1, 0, 2 * Math.PI);		// Note the reduction of radius
-				ctx.stroke();
+				this.circle(x, y, 3.5, board.active === "b" ? "#00000080" : "#ffffffa0");
 			}
 
 			let text = "?";
@@ -521,8 +487,7 @@ let board_drawer_prototype = {
 				text = (info.order + 1).toString();
 			}
 
-			ctx.fillStyle = "#000000ff";
-			ctx.fillText(text, gx, gy + 1);
+			this.text(x, y, text, "#000000ff");
 		}
 	},
 };
