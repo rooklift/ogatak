@@ -151,6 +151,9 @@ let engine_prototype = {
 			if (line.startsWith("Beginning GPU tuning")) {
 				alert("KataGo is currently tuning itself, this may take some time." + (config.stderr_to_console ? " Open the dev console to see its progress." : ""));
 			}
+			if (line.includes("exception")) {
+				alert("KataGo said:\n" + line);
+			}
 		});
 
 	},
@@ -160,7 +163,7 @@ let engine_prototype = {
 		if (!this.filepath) return "Engine not set";
 		if (!this.engineconfig) return "Engine config not set";
 		if (!this.weights) return "Weights not set";
-		return "Engine not running";
+		return `Engine (${path.basename(this.filepath)}) not running`;
 	},
 
 	shutdown: function() {				// Note: Don't reuse the engine object.
