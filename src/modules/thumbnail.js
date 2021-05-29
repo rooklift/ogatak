@@ -45,7 +45,7 @@ module.exports = function(board, square_size) {
 
 	return {
 		data: c.toDataURL("image/png"),
-		width: c.width,
-		height: c.height
+		width: c.width,						// We return the sizes because, when the img src is set by the caller, there will be a brief moment where
+		height: c.height					// the layout engine doesn't know the sizes, causing flicker, which we avoid by setting img.width / height.
 	};
 };
