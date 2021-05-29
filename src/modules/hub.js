@@ -77,14 +77,7 @@ let hub_props = {
 	},
 
 	update_title: function() {
-
-		if (this.engine.problem_text()) {
-			set_title(`Ogatak: ${this.engine.problem_text()}`);
-			return;
-		}
-
 		let title_text = this.node.game_title_text();
-
 		if (title_text) {
 			set_title(title_text);
 		} else {
@@ -617,14 +610,12 @@ let hub_props = {
 	},
 
 	maybe_start_engine: function() {
-
 		if (this.engine.exe) {
 			alert("A restart is required for the new settings.");
 			return;
 		}
-
 		this.engine.setup(config.engine, config.engineconfig, config.weights);
-		this.update_title();
+		this.draw();
 	},
 
 	// Misc........................................................................................

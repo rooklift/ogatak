@@ -336,6 +336,11 @@ let board_drawer_prototype = {
 
 	draw_node_info: function(node, override_moveinfo) {
 
+		if (hub.engine.problem_text()) {
+			this.draw_engine_problem();
+			return;
+		}
+
 		let board = node.get_board();
 
 		let last_move = "";
@@ -379,6 +384,11 @@ let board_drawer_prototype = {
 		s += `Visits: <span class="info_highlight">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = s;
+	},
+
+	draw_engine_problem: function() {
+		let s = hub.engine.problem_text();
+		this.infodiv.innerHTML = `<span class="info_highlight">${s}<br>Resolve this via the App menu.</span>`;
 	},
 
 	draw_previous_markers: function(node) {
