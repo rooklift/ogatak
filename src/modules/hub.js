@@ -131,13 +131,6 @@ let hub_props = {
 			return;
 		}
 		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
-		if (this.node !== switch_node) {
-			if (this.__autoanalysis || this.__autoplay) {		// i.e. ok to ponder if that's all we're doing.
-				this.halt();
-			}
-			this.set_autoanalysis(false);
-			this.set_autoplay(false);
-		}
 		this.set_node(switch_node);
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
@@ -154,10 +147,6 @@ let hub_props = {
 	},
 
 	close_tab: function() {
-
-		this.set_autoanalysis(false);
-		this.set_autoplay(false);
-
 		if (this.tabber.tabs.length === 1) {
 			this.node = null;
 			this.new_game(19, 19);
@@ -165,7 +154,6 @@ let hub_props = {
 			let node = this.tabber.close_active_tab();
 			this.set_node(node);
 		}
-
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
 	},
@@ -324,7 +312,7 @@ let hub_props = {
 
 	// Tree........................................................................................
 
-	set_node: function(node) {
+	set_node: function(node, keep_autoplay_settings) {
 
 		if (!node || this.node === node) {
 			return;
@@ -334,6 +322,11 @@ let hub_props = {
 
 		if (this.engine.desired) {
 			this.go();
+		}
+
+		if (!keep_autoplay_settings) {
+			this.set_autoanalysis(false);
+			this.set_autoplay(false);
 		}
 
 		this.draw();		// Done after adjusting the engine, since draw() looks at what the engine is doing.
@@ -347,12 +340,12 @@ let hub_props = {
 
 	try_move: function(s) {
 		let node = this.node.try_move(s);
-		this.set_node(node);
+		this.set_node(node, true);
 	},
 
 	pass: function() {
 		let node = this.node.pass();
-		this.set_node(node);
+		this.set_node(node, true);
 	},
 
 	play_best: function() {
@@ -362,7 +355,7 @@ let hub_props = {
 				this.pass();
 			} else {
 				let node = this.node.force_move(s);
-				this.set_node(node);
+				this.set_node(node, true);
 			}
 		}
 	},
@@ -375,7 +368,7 @@ let hub_props = {
 
 	child: function(n) {
 		if (this.node.children.length > n) {
-			this.set_node(this.node.children[n]);
+			this.set_node(this.node.children[n], true);
 		}
 	},
 
