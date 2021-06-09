@@ -320,13 +320,20 @@ let hub_props = {
 
 		this.node = node;
 
-		if (this.engine.desired) {
-			this.go();
-		}
+		let want_to_go = this.engine.desired ? true : false;
 
 		if (!keep_autoplay_settings) {
-			this.set_autoanalysis(false);
-			this.set_autoplay(false);
+			if (this.__autoanalysis || this.__autoplay) {
+				this.set_autoanalysis(false);
+				this.set_autoplay(false);
+				want_to_go = false;							// i.e. we halt only if we are turning off one of these things.
+			}
+		}
+
+		if (want_to_go) {
+			this.go();
+		} else {
+			this.halt();
 		}
 
 		this.draw();		// Done after adjusting the engine, since draw() looks at what the engine is doing.
