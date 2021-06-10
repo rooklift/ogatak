@@ -1159,6 +1159,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Colour by visits",
+					type: "checkbox",
+					checked: config.visit_colours,
+					click: () => {
+						win.webContents.send("toggle", "visit_colours");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

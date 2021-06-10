@@ -1,7 +1,7 @@
 "use strict";
 
 const background = require("./background");
-const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
 
 const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
 const black_stone_url = `url("${black_stone.src}")`;
@@ -430,6 +430,7 @@ let board_drawer_prototype = {
 		let board = node.get_board();
 
 		let move0_lcb = node.analysis.moveInfos[0].lcb;
+		let move0_visits = node.analysis.moveInfos[0].visits;
 		let root_visits = node.analysis.rootInfo.visits;
 		let filtered_infos = moveinfo_filter(node);
 
@@ -448,13 +449,22 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let fill = config.wood_colour;
+			this.fcircle(x, y, 1, config.wood_colour);		// Initial fill of wood colour just to clear the board lines.
+
+			let fill = null;
+
 			if (info.order === 0) {
 				if (board.active === "b") fill = config.best_colour_black;
 				if (board.active === "w") fill = config.best_colour_white;
+			} else if (config.visit_colours) {
+				let opacity_hex = float_to_hex_ff(info.visits / move0_visits);
+				if (board.active === "b") fill = config.best_colour_black.slice(0, 7) + opacity_hex;
+				if (board.active === "w") fill = config.best_colour_white.slice(0, 7) + opacity_hex;
 			}
 
-			this.fcircle(x, y, 1, fill);
+			if (fill) {
+				this.fcircle(x, y, 1, fill);
+			}
 
 			if (info.order === 0 && config.circle_best) {
 				this.circle(x, y, 3.5, board.active === "b" ? "#00000080" : "#ffffffa0");

@@ -42,6 +42,7 @@ exports.defaults = {
 	"mouseover_pv": true,
 	"next_move_markers": true,
 	"circle_best": true,
+	"visit_colours": true,
 
 	"thumbnail_square_size": 4,
 

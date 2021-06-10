@@ -163,3 +163,12 @@ exports.new_2d_array = function(width, height, defval) {
 
 	return ret;
 };
+
+exports.float_to_hex_ff = function(n) {
+	if (n < 0) n = 0;
+	if (n > 1) n = 1;
+	n = Math.floor(n * 255);
+	let s = n.toString(16);
+	if (s.length === 1) s = "0" + s;
+	return s;
+};

@@ -54,6 +54,7 @@ module.exports = {
 		case "mouseover_pv":
 		case "next_move_markers":
 		case "circle_best":
+		case "visit_colours":
 
 			this.draw();
 			break;
