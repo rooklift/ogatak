@@ -1159,6 +1159,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Colour by visits",
 					type: "checkbox",
 					checked: config.visit_colours,
@@ -1167,12 +1170,9 @@ function menu_build() {
 					}
 				},
 				{
-					type: "separator",
-				},
-				{
 					label: "Colours",
 					submenu: colour_choices_submenu
-				}
+				},
 			]
 		},
 		{
