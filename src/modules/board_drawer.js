@@ -428,14 +428,11 @@ let board_drawer_prototype = {
 		}
 
 		let board = node.get_board();
-
-		let move0_visits = node.analysis.moveInfos[0].visits;
-		let root_visits = node.analysis.rootInfo.visits;
 		let filtered_infos = moveinfo_filter(node);
 
 		for (let n = filtered_infos.length - 1; n >= 0; n--) {
 
-			// We look at these in reverse order so the best move can have its circle drawn at the top layer.
+			// We look at these in reverse order so the best move can have its circle drawn at the top layer. Meh, is that needed now?
 
 			let info = filtered_infos[n];
 
@@ -456,7 +453,7 @@ let board_drawer_prototype = {
 				if (board.active === "b") fill = config.best_colour_black;
 				if (board.active === "w") fill = config.best_colour_white;
 			} else if (config.visit_colours) {
-				let opacity_hex = float_to_hex_ff(info.visits / move0_visits);
+				let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
 				if (board.active === "b") fill = config.best_colour_black.slice(0, 7) + opacity_hex;
 				if (board.active === "w") fill = config.best_colour_white.slice(0, 7) + opacity_hex;
 			}
@@ -480,7 +477,7 @@ let board_drawer_prototype = {
 				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
 			}
 			if (config.numbers === "visits (%)") {
-				text = Math.floor(info.visits / root_visits * 100).toString();
+				text = Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 			}
 			if (config.numbers === "policy") {
 				text = Math.floor(info.prior * 100).toString();
