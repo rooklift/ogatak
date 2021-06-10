@@ -429,7 +429,6 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
-		let move0_lcb = node.analysis.moveInfos[0].lcb;
 		let move0_visits = node.analysis.moveInfos[0].visits;
 		let root_visits = node.analysis.rootInfo.visits;
 		let filtered_infos = moveinfo_filter(node);
