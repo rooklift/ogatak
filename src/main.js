@@ -1170,7 +1170,6 @@ function menu_build() {
 				{
 					type: "separator",
 				},
-
 				{
 					label: "Colours",
 					submenu: colour_choices_submenu
