@@ -135,8 +135,12 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 				value.reset();
 				inside_value = true;
 				keycomplete = true;
-				if (key.string() === "") {
+				let key_string = key.string();
+				if (key_string === "") {
 					throw `SGF load error: value started with [ but key was ""`;
+				}
+				if ((key_string === "B" || key_string === "W") && (node.props.B || node.props.W)) {
+					throw `SGF load error: multiple moves in node`;
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
