@@ -71,6 +71,7 @@ function load_sgf(buf) {
 
 	for (let root of ret) {
 		apply_komi_fix(root);
+		apply_pl_fix(root);
 	}
 
 	return ret;
@@ -181,6 +182,22 @@ function apply_komi_fix(root) {
 
 	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
 		root.set("KM", km * 2);
+	}
+}
+
+function apply_pl_fix(root) {
+
+	// In some ancient games, white plays first.
+	// Add a PL property to the root if so.
+
+	if (root.get("PL") || root.get("B") !== undefined || root.get("W") !== undefined || root.children.length === 0) {
+		return;
+	}
+
+	let node = root.children[0];
+
+	if (node.get("W") && node.get("B") === undefined) {
+		root.set("PL", "W");
 	}
 }
 
