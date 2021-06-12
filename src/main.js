@@ -1165,6 +1165,7 @@ function menu_build() {
 					label: "Colour by visits",
 					type: "checkbox",
 					checked: config.visit_colours,
+					accelerator: "B",
 					click: () => {
 						win.webContents.send("toggle", "visit_colours");
 					}
