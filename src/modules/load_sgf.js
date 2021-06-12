@@ -194,7 +194,7 @@ function apply_pl_fix(root) {
 	// In some ancient games, white plays first.
 	// Add a PL property to the root if so.
 
-	if (root.get("PL") || root.get("B") !== undefined || root.get("W") !== undefined || root.children.length === 0) {
+	if (root.get("PL") || root.props.B || root.props.W || root.children.length === 0) {
 		return;
 	}
 
