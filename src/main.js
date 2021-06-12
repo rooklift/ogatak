@@ -1147,6 +1147,15 @@ function menu_build() {
 					}
 				},
 				{
+					label: "...colour by visits",
+					type: "checkbox",
+					checked: config.visit_colours,
+					accelerator: "B",
+					click: () => {
+						win.webContents.send("toggle", "visit_colours");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
@@ -1161,15 +1170,7 @@ function menu_build() {
 				{
 					type: "separator",
 				},
-				{
-					label: "Colour by visits",
-					type: "checkbox",
-					checked: config.visit_colours,
-					accelerator: "B",
-					click: () => {
-						win.webContents.send("toggle", "visit_colours");
-					}
-				},
+
 				{
 					label: "Colours",
 					submenu: colour_choices_submenu
