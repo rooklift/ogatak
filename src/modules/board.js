@@ -304,22 +304,22 @@ let board_prototype = {
 
 	add_empty: function(s) {
 		let plist = points_list(s);
-		for (let s of plist) {
-			this.set_at(s, "");
+		for (let p of plist) {
+			this.set_at(p, "");
 		}
 	},
 
 	add_black: function(s) {
 		let plist = points_list(s);
-		for (let s of plist) {
-			this.set_at(s, "b");
+		for (let p of plist) {
+			this.set_at(p, "b");
 		}
 	},
 
 	add_white: function(s) {
 		let plist = points_list(s);
-		for (let s of plist) {
-			this.set_at(s, "w");
+		for (let p of plist) {
+			this.set_at(p, "w");
 		}
 	},
 
