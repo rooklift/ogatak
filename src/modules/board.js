@@ -1,6 +1,6 @@
 "use strict";
 
-const {opposite_colour, xy_to_s} = require("./utils");
+const {opposite_colour, xy_to_s, points_list} = require("./utils");
 
 function new_board(width, height, state = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
@@ -303,15 +303,24 @@ let board_prototype = {
 	},
 
 	add_empty: function(s) {
-		this.set_at(s, "");
+		let plist = points_list(s);
+		for (let s of plist) {
+			this.set_at(s, "");
+		}
 	},
 
 	add_black: function(s) {
-		this.set_at(s, "b");
+		let plist = points_list(s);
+		for (let s of plist) {
+			this.set_at(s, "b");
+		}
 	},
 
 	add_white: function(s) {
-		this.set_at(s, "w");
+		let plist = points_list(s);
+		for (let s of plist) {
+			this.set_at(s, "w");
+		}
 	},
 
 	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")

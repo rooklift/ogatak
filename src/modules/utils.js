@@ -4,7 +4,7 @@ const stringify = require("./stringify");
 
 exports.xy_to_s = function(x, y) {
 
-	if (x < 0 || x >= 25 || y < 0 || y >= 25) {
+	if (x < 0 || x > 24 || y < 0 || y > 24) {
 		return "";
 	}
 
@@ -170,4 +170,44 @@ exports.float_to_hex_ff = function(n) {
 	let s = n.toString(16);
 	if (s.length === 1) s = "0" + s;
 	return s;
+};
+
+exports.points_list = function(s) {
+
+	// Note that the values returned are not guaranteed to be valid / on-board etc.
+
+	if (s.length === 2) {
+		return [s];
+	}
+
+	if (s.length !== 5 || s[2] !== ":") {
+		return [];
+	}
+
+	let ret = [];
+
+	let [foo, bar] = s.split(":");
+	let x1 = foo.charCodeAt(0) - 97;
+	let y1 = foo.charCodeAt(1) - 97;
+	let x2 = bar.charCodeAt(0) - 97;
+	let y2 = bar.charCodeAt(1) - 97;
+
+	if (x1 > x2) {
+		let tmp = x1; x1 = x2; x2 = tmp;
+	}
+
+	if (y1 > y2) {
+		let tmp = y1; y1 = y2; y2 = tmp;
+	}
+
+	for (let x = x1; x <= x2; x++) {
+		for (let y = y1; y <= y2; y++) {
+			let z = exports.xy_to_s(x, y);
+			if (z) {
+				ret.push(z);
+			}
+		}
+	}
+
+	return ret;
 };
