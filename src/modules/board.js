@@ -109,14 +109,10 @@ let board_prototype = {
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
 
-		for (let offset of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
-
-			let z = xy_to_s(x + offset[0], y + offset[1]);
-
-			if (this.in_bounds(z)) {
-				ret.push(z);
-			}
-		}
+		if (x < this.width  - 1) ret.push(xy_to_s(x + 1, y))
+		if (x > 0)               ret.push(xy_to_s(x - 1, y))
+		if (y < this.height - 1) ret.push(xy_to_s(x, y + 1))
+		if (y > 0)               ret.push(xy_to_s(x, y - 1))
 
 		return ret;
 	},
