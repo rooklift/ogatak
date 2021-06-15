@@ -47,15 +47,14 @@ exports.full_query = function(query_node) {
 
 		if (node.props.AB || node.props.AW || node.props.AE || nodemovecount > 1) {
 
-			// In this case, our final object will have only moves after this node, but will set up the
-			// position at this node. Note that any moves in this node (from properties B and W) will be
-			// included in the setup position, thus we break here so they aren't also in the moves list.
+			// This node will serve as the setup position.
+			// Note that stones from any B or W properties will be included in the setup.
 
 			setup = node.get_board().setup_list();
 			break;
-		}
 
-		if (nodemovecount === 1) {
+		} else if (nodemovecount === 1) {
+
 			if (node.props.B) {
 				let s = node.get("B");
 				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
@@ -64,6 +63,7 @@ exports.full_query = function(query_node) {
 				let s = node.get("W");
 				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 			}
+
 		}
 	}
 
