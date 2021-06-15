@@ -55,6 +55,8 @@ exports.full_query = function(query_node) {
 
 		} else if (nodemovecount === 1) {
 
+			// This node can be included in the moves list.
+
 			if (node.props.B) {
 				let s = node.get("B");
 				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
