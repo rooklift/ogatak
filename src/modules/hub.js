@@ -298,6 +298,9 @@ let hub_props = {
 		for (let point of points) {
 			node.add_value("AB", point);
 		}
+		if (points.length > 1) {
+			node.set("HA", points.length);
+		}
 
 		node.set("KM", komi);
 		node.set("RU", rules);
