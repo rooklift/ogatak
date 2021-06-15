@@ -197,11 +197,11 @@ let board_prototype = {
 		return false;
 	},
 
-	legalmove: function(s) {								// Note: does not consider passes as "legal moves".
-		return this.legalmove_colour(s, this.active);
+	legal_move: function(s) {								// Note: does not consider passes as "legal moves".
+		return this.legal_move_colour(s, this.active);
 	},
 
-	legalmove_colour: function(s, colour) {					// Note: does not consider passes as "legal moves".
+	legal_move_colour: function(s, colour) {				// Note: does not consider passes as "legal moves".
 
 		if (this.in_bounds(s) === false) {
 			return false;
