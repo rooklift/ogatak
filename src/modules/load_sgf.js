@@ -51,10 +51,7 @@ function load_sgf(buf) {
 	let ret = [];
 	let off = 0;
 
-	while (true) {
-		if (buf.length - off < 3) {
-			break;
-		}
+	while (buf.length - off >= 3) {
 		try {
 			let o = load_sgf_recursive(buf, off, null);
 			ret.push(o.root);
