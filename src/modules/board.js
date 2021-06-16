@@ -109,10 +109,10 @@ let board_prototype = {
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
 
-		if (x < this.width  - 1) ret.push(xy_to_s(x + 1, y))
-		if (x > 0)               ret.push(xy_to_s(x - 1, y))
-		if (y < this.height - 1) ret.push(xy_to_s(x, y + 1))
-		if (y > 0)               ret.push(xy_to_s(x, y - 1))
+		if (x < this.width  - 1) ret.push(xy_to_s(x + 1, y));
+		if (x > 0)               ret.push(xy_to_s(x - 1, y));
+		if (y < this.height - 1) ret.push(xy_to_s(x, y + 1));
+		if (y > 0)               ret.push(xy_to_s(x, y - 1));
 
 		return ret;
 	},
