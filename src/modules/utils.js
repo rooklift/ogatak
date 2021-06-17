@@ -186,11 +186,10 @@ exports.points_list = function(s) {
 
 	let ret = [];
 
-	let [foo, bar] = s.split(":");
-	let x1 = foo.charCodeAt(0) - 97;
-	let y1 = foo.charCodeAt(1) - 97;
-	let x2 = bar.charCodeAt(0) - 97;
-	let y2 = bar.charCodeAt(1) - 97;
+	let x1 = s.charCodeAt(0) - 97;
+	let y1 = s.charCodeAt(1) - 97;
+	let x2 = s.charCodeAt(3) - 97;
+	let y2 = s.charCodeAt(4) - 97;
 
 	if (x1 > x2) {
 		let tmp = x1; x1 = x2; x2 = tmp;
