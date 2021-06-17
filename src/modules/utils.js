@@ -97,26 +97,26 @@ exports.handicap_stones = function(count, width, height, tygem) {
 	let [farx, fary] = [width - nearx - 1, height - neary - 1];
 	let [middlex, middley] = [width, height].map(z => (z - 1) / 2);
 
-	let result;
+	let stones;
 
 	if (tygem) {
-		result = [[nearx, fary], [farx, neary], [nearx, neary], [farx, fary]];
+		stones = [[nearx, fary], [farx, neary], [nearx, neary], [farx, fary]];
 	} else {
-		result = [[nearx, fary], [farx, neary], [farx, fary], [nearx, neary]];
+		stones = [[nearx, fary], [farx, neary], [farx, fary], [nearx, neary]];
 	}
 
 	if (width % 2 !== 0 && height % 2 !== 0 && (width >= 9 || height >= 9)) {
 
 		if (count === 5 || count === 7 || count >= 9) {
-			result.push([middlex, middley]);
+			stones.push([middlex, middley]);
 		}
 
-		result.push([nearx, middley], [farx, middley]);
-		result.push([middlex, neary], [middlex, fary]);
+		stones.push([nearx, middley], [farx, middley]);
+		stones.push([middlex, neary], [middlex, fary]);
 
 	}
 
-	return result.slice(0, count).map(z => exports.xy_to_s(z[0], z[1]));
+	return stones.slice(0, count).map(z => exports.xy_to_s(z[0], z[1]));
 };
 
 exports.pad = function(s, width) {
