@@ -12,9 +12,13 @@ function load_ngf(buf) {
 		throw "NGF load error: file too short";
 	}
 
+	for (let n = 0; n < lines.length; n++) {
+		lines[n] = lines[n].toString().trim();		// Buffer toString() does a utf8 conversion by default, I believe.
+	}
+
 	// ------------------------------------------------------------------------------------------------
 
-	let boardsize = parseInt(lines[1].toString(), 10);
+	let boardsize = parseInt(lines[1], 10);
 
 	if (Number.isNaN(boardsize)) {
 		boardsize = 19;
@@ -25,8 +29,8 @@ function load_ngf(buf) {
 	let pw = "";
 	let pb = "";
 
-	let pw_fields = lines[2].toString().split(" ").filter(z => z !== "");
-	let pb_fields = lines[3].toString().split(" ").filter(z => z !== "");
+	let pw_fields = lines[2].split(" ").filter(z => z !== "");
+	let pb_fields = lines[3].split(" ").filter(z => z !== "");
 
 	if (pw_fields.length > 0 && pw_fields[0].includes("�") === false) {
 		pw = pw_fields[0];
@@ -38,7 +42,7 @@ function load_ngf(buf) {
 
 	// ------------------------------------------------------------------------------------------------
 
-	let handicap = parseInt(lines[5].toString(), 10);
+	let handicap = parseInt(lines[5], 10);
 
 	if (Number.isNaN(handicap)) {
 		handicap = 0;
@@ -49,7 +53,7 @@ function load_ngf(buf) {
 
 	// ------------------------------------------------------------------------------------------------
 
-	let komi = parseFloat(lines[7].toString());
+	let komi = parseFloat(lines[7]);
 
 	if (Number.isNaN(komi)) {
 		komi = 0;
@@ -62,7 +66,7 @@ function load_ngf(buf) {
 	let rawdate = "";
 
 	if (lines[8].length >= 8) {
-		rawdate = lines[8].slice(0, 8).toString();
+		rawdate = lines[8].slice(0, 8);
 	}
 
 	// ------------------------------------------------------------------------------------------------
@@ -70,7 +74,7 @@ function load_ngf(buf) {
 	let re = "";
 	let margin = "";
 
-	let result_lower = lines[10].toString().toLowerCase();
+	let result_lower = lines[10].toLowerCase();
 
 	if (result_lower.includes("black win") || result_lower.includes("white los")) {
 		re = "B+";
@@ -123,7 +127,7 @@ function load_ngf(buf) {
 
 	for (let line of lines) {
 
-		line = line.toString().toUpperCase().trim();
+		line = line.toUpperCase();
 
 		if (line.length < 7) {
 			continue;
