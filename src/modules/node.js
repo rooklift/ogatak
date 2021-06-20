@@ -345,6 +345,28 @@ let node_prototype = {
 		}
 	},
 
+	backward_helper: function(n) {
+
+		let node = this;
+
+		while (node.parent && n-- > 0) {
+			node = node.parent;
+		}
+
+		return node;
+	},
+
+	forward_helper: function(n) {
+
+		let node = this;
+
+		while (node.children.length > 0 && n-- > 0) {
+			node = node.children[0];
+		}
+
+		return node;
+	},
+
 	is_main_line: function() {
 
 		let node = this;

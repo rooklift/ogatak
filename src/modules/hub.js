@@ -386,6 +386,14 @@ let hub_props = {
 		this.child(0);
 	},
 
+	backward: function(n) {
+		this.set_node(this.node.backward_helper(n));
+	},
+
+	forward: function(n) {
+		this.set_node(this.node.forward_helper(n));
+	},
+
 	go_to_end: function() {
 		let node = this.node;
 		while (node.children.length > 0) {

@@ -475,6 +475,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Backward",
 					accelerator: "Up",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
@@ -486,6 +489,29 @@ function menu_build() {
 					accelerator: "Down",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "next");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Backward 10",
+					accelerator: "PageUp",		// Likely intercepted by the renderer process, see __start_handlers.js
+					click: () => {
+						win.webContents.send("call", {
+							fn: "backward",
+							args: [10]
+						});
+					}
+				},
+				{
+					label: "Forward 10",
+					accelerator: "PageDown",	// Likely intercepted by the renderer process, see __start_handlers.js
+					click: () => {
+						win.webContents.send("call", {
+							fn: "forward",
+							args: [10]
+						});
 					}
 				},
 				{

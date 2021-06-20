@@ -83,6 +83,14 @@ document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
 
 window.addEventListener("keydown", function(event) {
+	if (event.code === "PageUp") {
+		event.preventDefault();
+		hub.backward(10);
+	}
+	if (event.code === "PageDown") {
+		event.preventDefault();
+		hub.forward(10);
+	}
 	if (event.code === "Home") {
 		event.preventDefault();
 		hub.go_to_root();
