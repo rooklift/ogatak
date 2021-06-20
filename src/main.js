@@ -56,7 +56,7 @@ function startup() {
 			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
 		} catch (err) {
 			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
-		};
+		}
 		win.show();
 		win.focus();
 	});
