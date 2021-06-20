@@ -6,6 +6,7 @@
 		"alert": true,
 		"config": true,
 		"hub": true,
-		"save_config": true
+		"save_config": true,
+		"zoomfactor": true
 	}
 }
