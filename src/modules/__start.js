@@ -1,6 +1,7 @@
 "use strict";
 
 const {ipcRenderer} = require("electron");
+const querystring = require("querystring");
 
 const config_io = require("./config_io");
 const stringify = require("./stringify");
@@ -11,13 +12,13 @@ config_io.create_if_needed();
 // ---------------------------------------------------------------------------------------------------
 // Explicitly add only the globals we need...
 
-global.alert = (msg) => {							// Do this first.
+global.alert = (msg) => {
 	ipcRenderer.send("alert", stringify(msg));
 };
 
-global.config = config_io.config;					// Do this second. e.g. because new_hub() uses it.
+global.zoomfactor = parseFloat(querystring.parse(global.location.search)["zoomfactor"]);
+global.config = config_io.config;
 global.save_config = config_io.save;
-
 global.hub = require("./hub").new_hub();
 
 // ---------------------------------------------------------------------------------------------------

@@ -158,3 +158,7 @@ ipcRenderer.on("call", (event, msg) => {
 	}
 	fn();
 });
+
+ipcRenderer.on("ack_zoomfactor", (event, msg) => {
+	global.zoomfactor = msg;
+});

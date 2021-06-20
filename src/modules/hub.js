@@ -772,9 +772,13 @@ let hub_props = {
 	},
 
 	window_resize_checker: function() {
-		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
-			config.width = window.innerWidth;
-			config.height = window.innerHeight;
+
+		let desired_config_width = Math.floor(window.innerWidth * zoomfactor);
+		let desired_config_height = Math.floor(window.innerHeight * zoomfactor);
+
+		if (config.width !== desired_config_width || config.height !== desired_config_height) {
+			config.width = desired_config_width;
+			config.height = desired_config_height;
 			this.tree_drawer.must_draw = true;
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
