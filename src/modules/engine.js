@@ -124,7 +124,12 @@ let engine_prototype = {
 		});
 
 		this.scanner.on("line", (line) => {
-			let o = JSON.parse(line);
+			try {
+				let o = JSON.parse(line);
+			} catch (err) {
+				alert("Engine said:\n" + line);						// We got some non-JSON line.
+				return;
+			}
 			if (o.error || o.warning) {
 				alert("Engine said:\n" + stringify(o));
 			}
