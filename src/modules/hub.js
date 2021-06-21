@@ -698,17 +698,18 @@ let hub_props = {
 
 	cycle_numbers: function(reverse) {
 
-		const values = ["lcb", "score", "visits", "visits (%)", "order", "policy", "winrate", "lcb + visits"];
+		const values = ["lcb + visits", "score + visits", "lcb", "score", "visits", "visits (%)", "order", "policy", "winrate"];
 
 		const menus = {
-			"lcb":        	["Display", "Numbers", "Winrate LCB"],
-			"score":      	["Display", "Numbers", "Score"],
-			"visits":     	["Display", "Numbers", "Visits"],
-			"visits (%)": 	["Display", "Numbers", "Visits %"],
-			"order":      	["Display", "Numbers", "Order"],
-			"policy":     	["Display", "Numbers", "Policy"],
-			"winrate":    	["Display", "Numbers", "Winrate"],
-			"lcb + visits": ["Display", "Numbers", "LCB + Visits"],
+			"lcb":        		["Display", "Numbers", "LCB"],
+			"score":      		["Display", "Numbers", "Score"],
+			"visits":     		["Display", "Numbers", "Visits"],
+			"visits (%)": 		["Display", "Numbers", "Visits %"],
+			"order":      		["Display", "Numbers", "Order"],
+			"policy":     		["Display", "Numbers", "Policy"],
+			"winrate":    		["Display", "Numbers", "Winrate"],
+			"lcb + visits": 	["Display", "Numbers", "LCB + Visits"],
+			"score + visits": 	["Display", "Numbers", "Score + Visits"],
 		};
 
 		if (!config.candidate_moves) {

@@ -484,48 +484,14 @@ let board_drawer_prototype = {
 			let text = "?";
 			let text2 = "";
 
-			if (config.numbers === "winrate") {
-				text = Math.floor(Math.max(0, info.winrate * 100)).toString();
-			}
-			if (config.numbers === "lcb") {
-				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
-			}
-			if (config.numbers === "visits (%)") {
-				text = Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
-			}
-			if (config.numbers === "policy") {
-				text = Math.floor(info.prior * 100).toString();
-			}
-			if (config.numbers === "score") {
-				text = info.scoreLead < 0 ? "-" : "+";
-				let absl = Math.abs(info.scoreLead);
-				if (absl < 10) {
-					text += absl.toFixed(1);
-					if (text === "-10.0") text = "-10";
-					if (text === "+10.0") text = "+10";
-				} else {
-					text += Math.floor(absl);
-				}
-			}
-			if (config.numbers === "visits") {
-				text = info.visits.toString();
-				if (info.visits > 9999) {
-					text = (info.visits / 1000).toFixed(0) + "k";
-				} else if (info.visits > 999) {
-					text = (info.visits / 1000).toFixed(1) + "k";
-				}
-			}
-			if (config.numbers === "order") {
-				text = (info.order + 1).toString();
-			}
 			if (config.numbers === "lcb + visits") {
-				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
-				text2 = info.visits.toString();
-				if (info.visits > 9999) {
-					text2 = (info.visits / 1000).toFixed(0) + "k";
-				} else if (info.visits > 999) {
-					text2 = (info.visits / 1000).toFixed(1) + "k";
-				}
+				text = string_from_info(info, node, "lcb");
+				text2 = string_from_info(info, node, "visits");
+			} else if (config.numbers === "score + visits") {
+				text = string_from_info(info, node, "score");
+				text2 = string_from_info(info, node, "visits");
+			} else {
+				text = string_from_info(info, node, config.numbers);
 			}
 
 			if (text2) {
@@ -536,6 +502,45 @@ let board_drawer_prototype = {
 		}
 	},
 };
+
+
+function string_from_info(info, node, type) {
+
+	switch (type) {
+
+		case "winrate":
+			return Math.floor(Math.max(0, info.winrate * 100)).toString();
+		case "lcb":
+			return Math.floor(Math.max(0, info.lcb * 100)).toString();
+		case "visits (%)":
+			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
+		case "policy":
+			return Math.floor(info.prior * 100).toString();
+		case "score":
+			let text = info.scoreLead < 0 ? "-" : "+";
+			let absl = Math.abs(info.scoreLead);
+			if (absl < 10) {
+				text += absl.toFixed(1);
+				if (text === "-10.0") text = "-10";
+				if (text === "+10.0") text = "+10";
+			} else {
+				text += Math.floor(absl);
+			}
+			return text;
+		case "visits":
+			if (info.visits > 9999) {
+				return (info.visits / 1000).toFixed(0) + "k";
+			} else if (info.visits > 999) {
+				return (info.visits / 1000).toFixed(1) + "k";
+			} else {
+				return info.visits.toString();
+			}
+		case "order":
+			return (info.order + 1).toString();
+		default:
+			return "??";
+	}
+}
 
 
 

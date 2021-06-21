@@ -1034,23 +1034,52 @@ function menu_build() {
 					label: "Numbers",
 					submenu: [
 						{
-							label: "Winrate LCB",
+							label: "LCB + Visits",
+							type: "checkbox",
+							checked: config.numbers === "lcb + visits",
+							accelerator: "F5",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "lcb + visits"
+								});
+								set_checks("Display", "Numbers", "LCB + Visits");
+							}
+						},
+						{
+							label: "Score + Visits",
+							type: "checkbox",
+							checked: config.numbers === "score + visits",
+							accelerator: "F6",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "score + visits"
+								});
+								set_checks("Display", "Numbers", "Score + Visits");
+							}
+						},
+						{
+							type: "separator",
+						},
+						{
+							label: "LCB",
 							type: "checkbox",
 							checked: config.numbers === "lcb",
-							accelerator: "F5",
+							accelerator: "F7",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
 									value: "lcb"
 								});
-								set_checks("Display", "Numbers", "Winrate LCB");
+								set_checks("Display", "Numbers", "LCB");
 							}
 						},
 						{
 							label: "Score",
 							type: "checkbox",
 							checked: config.numbers === "score",
-							accelerator: "F6",
+							accelerator: "F8",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -1063,7 +1092,6 @@ function menu_build() {
 							label: "Visits",
 							type: "checkbox",
 							checked: config.numbers === "visits",
-							accelerator: "F7",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -1076,7 +1104,6 @@ function menu_build() {
 							label: "Visits %",
 							type: "checkbox",
 							checked: config.numbers === "visits (%)",
-							accelerator: "F8",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
@@ -1119,18 +1146,6 @@ function menu_build() {
 									value: "winrate"
 								});
 								set_checks("Display", "Numbers", "Winrate");
-							}
-						},
-						{
-							label: "LCB + Visits",
-							type: "checkbox",
-							checked: config.numbers === "lcb + visits",
-							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "lcb + visits"
-								});
-								set_checks("Display", "Numbers", "LCB + Visits");
 							}
 						},
 					]
