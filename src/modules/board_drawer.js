@@ -77,6 +77,19 @@ let board_drawer_prototype = {
 		ctx.fillText(msg, gx, gy + 1);
 	},
 
+	text_two: function(x, y, msg, msg2, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 3);
+		ctx.fillText(msg, gx, gy + 1);
+		gy = y * config.square_size + (config.square_size * 0.6667);
+		ctx.fillText(msg2, gx, gy + 1);
+	},
+
 	set_td: function(x, y, foo) {
 
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
@@ -469,6 +482,7 @@ let board_drawer_prototype = {
 			// ------------------------------------------------------------------------------------
 
 			let text = "?";
+			let text2 = "";
 
 			if (config.numbers === "winrate") {
 				text = Math.floor(Math.max(0, info.winrate * 100)).toString();
@@ -504,8 +518,21 @@ let board_drawer_prototype = {
 			if (config.numbers === "order") {
 				text = (info.order + 1).toString();
 			}
+			if (config.numbers === "lcb + visits") {
+				text = Math.floor(Math.max(0, info.lcb * 100)).toString();
+				text2 = info.visits.toString();
+				if (info.visits > 9999) {
+					text2 = (info.visits / 1000).toFixed(0) + "k";
+				} else if (info.visits > 999) {
+					text2 = (info.visits / 1000).toFixed(1) + "k";
+				}
+			}
 
-			this.text(x, y, text, "#000000ff");
+			if (text2) {
+				this.text_two(x, y, text, text2, "#000000ff")
+			} else {
+				this.text(x, y, text, "#000000ff");
+			}
 		}
 	},
 };

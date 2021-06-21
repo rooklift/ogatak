@@ -1121,6 +1121,18 @@ function menu_build() {
 								set_checks("Display", "Numbers", "Winrate");
 							}
 						},
+						{
+							label: "LCB + Visits",
+							type: "checkbox",
+							checked: config.numbers === "lcb + visits",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "lcb + visits"
+								});
+								set_checks("Display", "Numbers", "LCB + Visits");
+							}
+						},
 					]
 				},
 				{
