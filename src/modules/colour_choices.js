@@ -5,8 +5,8 @@ const {defaults} = require("./config_io");
 module.exports = {
 
 	Green: {
-		"top_colour_black": "#68cebaff",
-		"top_colour_white": "#68cebaff",
+		"top_colour_black": "#77ddddff",
+		"top_colour_white": "#77ddddff",
 		"off_colour_black": "#99dd55ff",
 		"off_colour_white": "#99dd55ff",
 	},
