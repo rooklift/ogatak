@@ -27,7 +27,7 @@ exports.defaults = {
 
 	"board_line_width": 1,
 
-	"square_size": 34,
+	"square_size": 36,
 
 	"info_font_size": 16,
 
@@ -39,7 +39,7 @@ exports.defaults = {
 	"wood_colour": "#d2b074ff",
 	"previous_marker": "#888888ff",
 	"candidate_moves": true,
-	"numbers": "lcb",
+	"numbers": "lcb + visits",
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"next_move_markers": true,
@@ -66,7 +66,7 @@ exports.defaults = {
 	"dead_stone_prediction": true,
 
 	"width": 1200,
-	"height": 740,
+	"height": 780,
 	"auto_square_size": true,
 	"stderr_to_console": true,
 	"load_at_end": true,
