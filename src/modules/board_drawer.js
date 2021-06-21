@@ -495,7 +495,7 @@ let board_drawer_prototype = {
 			}
 
 			if (text2) {
-				this.text_two(x, y, text, text2, "#000000ff")
+				this.text_two(x, y, text, text2, "#000000ff");
 			} else {
 				this.text(x, y, text, "#000000ff");
 			}
@@ -532,9 +532,8 @@ function string_from_info(info, node, type) {
 				return (info.visits / 1000).toFixed(0) + "k";
 			} else if (info.visits > 999) {
 				return (info.visits / 1000).toFixed(1) + "k";
-			} else {
-				return info.visits.toString();
 			}
+			return info.visits.toString();
 		case "order":
 			return (info.order + 1).toString();
 		default:
