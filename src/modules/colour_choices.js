@@ -5,15 +5,17 @@ const {defaults} = require("./config_io");
 module.exports = {
 
 	Green: {
-		"best_colour_black": "#99dd55ff",
-		"best_colour_white": "#99dd55ff",
-		"circle_best": true
+		"top_colour_black": "#68cebaff",
+		"top_colour_white": "#68cebaff",
+		"off_colour_black": "#99dd55ff",
+		"off_colour_white": "#99dd55ff",
 	},
 
 	Transparent: {
-		"best_colour_black": defaults.wood_colour,
-		"best_colour_white": defaults.wood_colour,
-		"circle_best": false
+		"top_colour_black": defaults.wood_colour,
+		"top_colour_white": defaults.wood_colour,
+		"off_colour_black": defaults.wood_colour,
+		"off_colour_white": defaults.wood_colour,
 	},
 
 };

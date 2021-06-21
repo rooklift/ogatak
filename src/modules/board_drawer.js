@@ -463,12 +463,12 @@ let board_drawer_prototype = {
 			let fill = null;
 
 			if (info.order === 0) {
-				if (board.active === "b") fill = config.best_colour_black;
-				if (board.active === "w") fill = config.best_colour_white;
+				if (board.active === "b") fill = config.top_colour_black;
+				if (board.active === "w") fill = config.top_colour_white;
 			} else if (config.visit_colours) {
 				let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
-				if (board.active === "b") fill = config.best_colour_black.slice(0, 7) + opacity_hex;
-				if (board.active === "w") fill = config.best_colour_white.slice(0, 7) + opacity_hex;
+				if (board.active === "b") fill = config.off_colour_black.slice(0, 7) + opacity_hex;
+				if (board.active === "w") fill = config.off_colour_white.slice(0, 7) + opacity_hex;
 			}
 
 			if (fill) {

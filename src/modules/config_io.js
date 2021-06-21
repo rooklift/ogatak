@@ -32,8 +32,10 @@ exports.defaults = {
 	"info_font_size": 16,
 
 	"board_font_size": 14,
-	"best_colour_black": "#99dd55ff",
-	"best_colour_white": "#99dd55ff",
+	"top_colour_black": "#68cebaff",
+	"top_colour_white": "#68cebaff",
+	"off_colour_black": "#99dd55ff",
+	"off_colour_white": "#99dd55ff",
 	"wood_colour": "#d2b074ff",
 	"previous_marker": "#888888ff",
 	"candidate_moves": true,
@@ -41,7 +43,7 @@ exports.defaults = {
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"next_move_markers": true,
-	"circle_best": true,
+	"circle_best": false,
 	"visit_colours": true,
 
 	"thumbnail_square_size": 4,

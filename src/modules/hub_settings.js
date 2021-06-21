@@ -44,8 +44,10 @@ module.exports = {
 			break;
 
 		case "board_font_size":
-		case "best_colour_black":
-		case "best_colour_white":
+		case "top_colour_black":
+		case "top_colour_white":
+		case "off_colour_black":
+		case "off_colour_white":
 		case "wood_colour":
 		case "previous_marker":
 		case "candidate_moves":
