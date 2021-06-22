@@ -80,8 +80,6 @@ exports.defaults = {
 	"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
 };
 
-exports.colour_keys = Object.keys(exports.defaults).filter(key => typeof exports.defaults[key] === "string" && exports.defaults[key][0] === "#");
-
 // ---------------------------------------------------------------------------------------------------------------------------
 
 let errortext = "";
