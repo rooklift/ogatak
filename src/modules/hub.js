@@ -50,7 +50,12 @@ exports.new_hub = function() {
 	);
 
 	hub.engine = new_engine();
-	hub.engine.setup(config.engine, config.engineconfig, config.weights);
+
+	if (config.arbitrary_command) {
+		hub.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
+	} else {
+		hub.engine.setup(config.engine, config.engineconfig, config.weights);
+	}
 
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
@@ -620,12 +625,13 @@ let hub_props = {
 		}
 	},
 
-	maybe_start_engine: function() {
+	maybe_start_engine: function() {	// This gets called only by hub_settings.js, and never if config.arbitrary_command exists.
 		if (this.engine.exe) {
-			alert("A restart is required for the new settings.");
-			return;
+			this.halt();
+			this.engine.shutdown();
+			this.engine = new_engine();
 		}
-		this.engine.setup(config.engine, config.engineconfig, config.weights);
+		this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
 		this.draw();
 	},
 
@@ -646,6 +652,7 @@ let hub_props = {
 	},
 
 	quit: function() {
+		this.engine.shutdown();
 		save_config();						// As long as we use the sync save, this will complete before we
 		ipcRenderer.send("terminate");		// send "terminate". Not sure about results if that wasn't so.
 	},

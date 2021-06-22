@@ -21,6 +21,8 @@ function new_engine() {
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
+	eng.have_quit = false;
+
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
 
@@ -93,6 +95,10 @@ let engine_prototype = {
 
 	setup: function(filepath, engineconfig, weights) {
 
+		if (this.exe || this.have_quit) {
+			throw "Engine object should not be reused!"
+		}
+
 		this.filepath     = fs.existsSync(filepath)     ? filepath     : "";
 		this.engineconfig = fs.existsSync(engineconfig) ? engineconfig : "";
 		this.weights      = fs.existsSync(weights)      ? weights      : "";
@@ -108,8 +114,33 @@ let engine_prototype = {
 				{cwd: path.dirname(this.filepath)}
 			);
 		} catch (err) {
-			return false;
+			return;
 		}
+
+		this.create_scanners();
+	},
+
+	setup_with_command(command, argslist) {
+
+		if (this.exe || this.have_quit) {
+			throw "Engine object should not be reused!"
+		}
+
+		if (Array.isArray(argslist) === false) {
+			argslist = [];
+			alert("Engine argslist was ignored because it was not an array.");
+		}
+
+		try {
+			this.exe = child_process.spawn(command, argslist);
+		} catch (err) {
+			return;
+		}
+
+		this.create_scanners();
+	},
+
+	create_scanners: function() {
 
 		this.scanner = readline.createInterface({
 			input: this.exe.stdout,
@@ -124,6 +155,9 @@ let engine_prototype = {
 		});
 
 		this.scanner.on("line", (line) => {
+			if (this.have_quit) {
+				return;
+			}
 			let o;
 			try {
 				o = JSON.parse(line);
@@ -151,6 +185,9 @@ let engine_prototype = {
 		});
 
 		this.err_scanner.on("line", (line) => {
+			if (this.have_quit) {
+				return;
+			}
 			if (config.stderr_to_console) {
 				console.log("! " + line);
 			}
@@ -173,9 +210,11 @@ let engine_prototype = {
 	},
 
 	shutdown: function() {				// Note: Don't reuse the engine object.
+		this.have_quit = true;
 		if (this.exe) {
 			this.exe.kill();
 		}
+		this.exe = null;
 	},
 
 };

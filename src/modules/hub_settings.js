@@ -8,13 +8,19 @@ module.exports = {
 
 		config[key] = value;
 
+		// Any followup actions...
+
 		switch (key) {
 
 		case "engine":
 		case "engineconfig":
 		case "weights":
 
-			this.maybe_start_engine();
+			if (config.arbitrary_command) {
+				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
+			} else {
+				this.maybe_start_engine();
+			}
 			break;
 
 		case "board_line_width":

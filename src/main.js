@@ -434,6 +434,22 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Launch KataGo via command...",
+					click: () => {
+						alert(
+							"This can be done by editing config.json (which you can find via the Misc menu).\n\n" +
+
+							"Close Ogatak before editing, then edit \"arbitrary_command\" and \"arbitrary_argslist\" " +
+							"(which must be given as an array of strings) inside that file.\n\n" +
+
+							"This is for advanced users and won't concern most people."
+						);
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Quit",
 					accelerator: "CommandOrControl+Q",
 					role: "quit"
