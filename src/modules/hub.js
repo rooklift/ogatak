@@ -399,39 +399,25 @@ let hub_props = {
 		this.set_node(this.node.forward_helper(n));
 	},
 
-	go_to_end: function() {
-		let node = this.node;
-		while (node.children.length > 0) {
-			node = node.children[0];
-		}
-		this.set_node(node);
+	go_to_root: function() {
+		this.set_node(this.node.get_root());
 	},
 
-	go_to_root: function() {
-		let node = this.node;
-		while (node.parent) {
-			node = node.parent;
-		}
-		this.set_node(node);
+	go_to_end: function() {
+		this.set_node(this.node.get_end());
 	},
 
 	prev_sibling: function() {
-		if (!this.node.parent || this.node.parent.children.length < 2) {
-			return;
-		}
-		let i = this.node.line_index();
-		if (i > 0) {
-			this.set_node(this.node.parent.children[i - 1]);
+		let sib = this.node.greater_sibling();
+		if (sib) {
+			this.set_node(sib);
 		}
 	},
 
 	next_sibling: function() {
-		if (!this.node.parent || this.node.parent.children.length < 2) {
-			return;
-		}
-		let i = this.node.line_index();
-		if (i < this.node.parent.children.length - 1) {
-			this.set_node(this.node.parent.children[i + 1]);
+		let sib = this.node.lesser_sibling();
+		if (sib) {
+			this.set_node(sib);
 		}
 	},
 

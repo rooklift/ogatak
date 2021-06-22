@@ -165,22 +165,26 @@ let node_prototype = {
 		return this.history_reversed().reverse();
 	},
 
-	line_index: function() {
-		if (!this.parent) {
-			return -1;
-		}
-		return this.parent.children.indexOf(this);
-	},
-
-	greater_sibling: function() {
+	greater_sibling: function() {									// The sibling to the left
 		if (!this.parent || this.parent.children.length < 2) {
 			return undefined;
 		}
 		let i = this.parent.children.indexOf(this);
-		if (i < 1) {
+		if (i > 0) {
+			return this.parent.children[i - 1];
+		}
+		return undefined;
+	},
+
+	lesser_sibling: function() {									// The sibling to the right
+		if (!this.parent || this.parent.children.length < 2) {
 			return undefined;
 		}
-		return this.parent.children[i - 1];
+		let i = this.parent.children.indexOf(this);
+		if (i < this.parent.children.length - 1) {
+			return this.parent.children[i + 1];
+		}
+		return undefined;
 	},
 
 	get_board: function() {
