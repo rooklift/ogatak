@@ -2244,17 +2244,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Circle best move",
-					type: "checkbox",
-					checked: config.circle_best,
-					click: () => {
-						win.webContents.send("toggle", "circle_best");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Show root properties",
 					click: () => {
 						win.webContents.send("call", {

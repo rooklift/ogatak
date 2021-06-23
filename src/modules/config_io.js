@@ -46,7 +46,6 @@ exports.defaults = {
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"next_move_markers": true,
-	"circle_best": false,
 	"visit_colours": true,
 
 	"thumbnail_square_size": 4,

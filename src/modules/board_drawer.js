@@ -476,10 +476,6 @@ let board_drawer_prototype = {
 			if (fill) {
 				this.fcircle(x, y, 1, fill);
 			}
-
-			if (info.order === 0 && config.circle_best) {
-				this.circle(x, y, 3.5, board.active === "b" ? "#00000080" : "#ffffffa0");
-			}
 		}
 	},
 
