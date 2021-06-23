@@ -175,15 +175,18 @@ let board_drawer_prototype = {
 			this.draw_board(node.get_board(), node, null, null, null);
 		}
 
+		let filtered_infos = moveinfo_filter(node);		// Might be []
+
 		this.draw_previous_markers(node);
-		this.draw_analysis(node);
+		this.draw_analysis_circles(node, filtered_infos);
 		this.draw_next_markers(node);
+		this.draw_analysis_text(node, filtered_infos);
 		this.draw_node_info(node);
 
 		this.last_draw_was_pv = false;
 	},
 
-	draw_pv: function(node, point) {			// Return true / false whether this happened.
+	draw_pv: function(node, point) {					// Return true / false whether this happened.
 
 		if (!config.candidate_moves || !config.mouseover_pv) {
 			return false;
@@ -434,24 +437,19 @@ let board_drawer_prototype = {
 		}
 	},
 
-	draw_analysis: function(node) {
+	draw_analysis_circles: function(node, filtered_infos) {
 
-		if (!node.has_valid_analysis() || !config.candidate_moves) {
+		if (!config.candidate_moves) {
 			return;
 		}
 
 		let board = node.get_board();
-		let filtered_infos = moveinfo_filter(node);
 
-		for (let n = filtered_infos.length - 1; n >= 0; n--) {
-
-			// We look at these in reverse order so the best move can have its circle drawn at the top layer. Meh, is that needed now?
-
-			let info = filtered_infos[n];
+		for (let info of filtered_infos) {
 
 			let s = board.parse_gtp_move(info.move);
 
-			if (s.length !== 2) {	// This is a pass.
+			if (s.length !== 2) {							// This is a pass.
 				continue;
 			}
 
@@ -478,8 +476,27 @@ let board_drawer_prototype = {
 			if (info.order === 0 && config.circle_best) {
 				this.circle(x, y, 3.5, board.active === "b" ? "#00000080" : "#ffffffa0");
 			}
+		}
+	},
 
-			// ------------------------------------------------------------------------------------
+	draw_analysis_text: function(node, filtered_infos) {
+
+		if (!config.candidate_moves) {
+			return;
+		}
+
+		let board = node.get_board();
+
+		for (let info of filtered_infos) {
+
+			let s = board.parse_gtp_move(info.move);
+
+			if (s.length !== 2) {							// This is a pass.
+				continue;
+			}
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
 
 			let text = "?";
 			let text2 = "";
