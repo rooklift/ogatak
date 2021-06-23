@@ -96,7 +96,7 @@ let engine_prototype = {
 	setup: function(filepath, engineconfig, weights) {
 
 		if (this.exe || this.have_quit) {
-			throw "Engine object should not be reused!"
+			throw "Engine object should not be reused!";
 		}
 
 		this.filepath     = fs.existsSync(filepath)     ? filepath     : "";
@@ -123,7 +123,7 @@ let engine_prototype = {
 	setup_with_command(command, argslist) {
 
 		if (this.exe || this.have_quit) {
-			throw "Engine object should not be reused!"
+			throw "Engine object should not be reused!";
 		}
 
 		if (Array.isArray(argslist) === false) {
