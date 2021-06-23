@@ -84,9 +84,9 @@ let board_drawer_prototype = {
 		ctx.font = `${config.board_font_size}px Arial`;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 3) - 1;
+		let gy = y * config.square_size + (config.square_size / 3) - 0.5;
 		ctx.fillText(msg, gx, gy + 1);
-		gy = y * config.square_size + (config.square_size * 0.6667);
+		gy = y * config.square_size + (config.square_size * 2 / 3) + 0.5;
 		ctx.fillText(msg2, gx, gy + 1);
 	},
 
