@@ -409,11 +409,13 @@ let board_drawer_prototype = {
 
 	draw_previous_markers: function(node) {
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
-		for (let s of moves_played) {				// Probably just one.
+		for (let s of moves_played) {					// Probably just one.
 			if (s.length === 2) {
 				let x = s.charCodeAt(0) - 97;
 				let y = s.charCodeAt(1) - 97;
-				this.fcircle(x, y, 0.4, config.previous_marker);
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+					this.fcircle(x, y, 0.4, config.previous_marker);
+				}
 			}
 		}
 	},
@@ -426,11 +428,13 @@ let board_drawer_prototype = {
 		for (let key of ["B", "W"]) {
 			for (let n = 0; n < node.children.length; n++) {
 				let moves_played = node.children[n].all_values(key);
-				for (let s of moves_played) {		// Probably just one per child.
+				for (let s of moves_played) {			// Probably just one per child.
 					if (s.length === 2) {
 						let x = s.charCodeAt(0) - 97;
 						let y = s.charCodeAt(1) - 97;
-						this.circle(x, y, 3.5, key === "B" ? "#00000080" : "#ffffffa0");
+						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+							this.circle(x, y, 3.5, key === "B" ? "#00000080" : "#ffffffa0");
+						}
 					}
 				}
 			}
