@@ -20,7 +20,7 @@ function new_node(parent) {
 	node.props = Object.create(null);
 	node.analysis = null;
 	node.__board = null;
-	node.__blessed_child_id = null;									// Note that the named child may not exist (if it was deleted)
+	node.__blessed_child_id = null;
 
 	if (parent) {
 		parent.children.push(node);
@@ -442,6 +442,10 @@ let node_prototype = {
 		if (!parent) return this;		// Fail
 
 		parent.children = parent.children.filter(child => child !== this);
+
+		if (this.parent.__blessed_child_id === this.id) {
+			this.parent.__blessed_child_id = null;
+		}
 
 		this.parent = null;
 		destroy_tree_recursive(this);
