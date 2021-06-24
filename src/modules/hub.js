@@ -384,7 +384,7 @@ let hub_props = {
 
 	next: function() {
 		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_main_child());
+			this.set_node(this.node.get_main_child(), true););
 		}
 	},
 
@@ -523,7 +523,7 @@ let hub_props = {
 
 			if (this.__autoanalysis && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
-				if (this.node.children.length > 0) {
+				if (this.node.get_main_child()) {
 					this.next();
 					return;							// Just to avoid the redundant draw()
 				} else {
