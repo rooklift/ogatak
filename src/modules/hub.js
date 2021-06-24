@@ -523,7 +523,7 @@ let hub_props = {
 
 			if (this.__autoanalysis && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
 
-				if (this.node.get_main_child()) {
+				if (this.node.children.length > 0) {
 					this.next();
 					return;							// Just to avoid the redundant draw()
 				} else {
