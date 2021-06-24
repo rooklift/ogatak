@@ -425,6 +425,7 @@ let hub_props = {
 	return_to_main: function() {
 		this.set_node(this.node.return_to_main_line_helper());
 		this.node.bless_main_line();
+		this.grapher.draw_graph(this.node);
 		this.tree_drawer.must_draw = true;		// Needed in case we were already on main, but blessing the line changed the main line.
 	},
 
