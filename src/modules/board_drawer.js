@@ -510,7 +510,9 @@ let board_drawer_prototype = {
 				this.text_two(x, y, text, text2, "#000000ff");
 			} else if (text) {
 				this.text(x, y, text, "#000000ff");
-			} else {
+			}
+
+			if (text === "?" || text2 === "?") {
 				got_bad_type = true;
 			}
 		}
@@ -575,7 +577,7 @@ function string_from_info(info, node, type) {
 		case "Order":
 			return (info.order + 1).toString();
 		default:
-			return "";
+			return "?";
 	}
 }
 
