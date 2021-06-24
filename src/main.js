@@ -1116,6 +1116,18 @@ function menu_build() {
 							}
 						},
 						{
+							label: "Delta",
+							type: "checkbox",
+							checked: config.numbers === "Delta",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "Delta"
+								});
+								set_checks("Display", "Numbers", "Delta");
+							}
+						},
+						{
 							label: "Visits",
 							type: "checkbox",
 							checked: config.numbers === "Visits",
