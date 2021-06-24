@@ -20,7 +20,7 @@ function new_node(parent) {
 	node.props = Object.create(null);
 	node.analysis = null;
 	node.__board = null;
-	node.__blessed_child_id = null;
+	node.__blessed_child_id = null;									// Note that the named child may not exist (if it was deleted)
 
 	if (parent) {
 		parent.children.push(node);
@@ -92,7 +92,11 @@ let node_prototype = {
 		let node = this;
 
 		while (node.parent) {
-			node.parent.__blessed_child_id = node.id;
+			if (node.parent.children.length === 1) {
+				node.parent.__blessed_child_id = null;
+			} else {
+				node.parent.__blessed_child_id = node.id;
+			}
 			node = node.parent;
 		}
 	},
@@ -334,7 +338,11 @@ let node_prototype = {
 		let node = this.get_root();
 
 		while (node.children.length > 0) {
-			node.__blessed_child_id = node.children[0].id;
+			if (node.children.length === 1) {
+				node.__blessed_child_id = null;
+			} else {
+				node.__blessed_child_id = node.children[0].id;
+			}
 			node = node.children[0];
 		}
 	},
