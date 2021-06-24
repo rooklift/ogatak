@@ -20,6 +20,7 @@ function new_node(parent) {
 	node.props = Object.create(null);
 	node.analysis = null;
 	node.__board = null;
+	node.__blessed_child_id = null;
 
 	if (parent) {
 		parent.children.push(node);
@@ -86,6 +87,23 @@ let node_prototype = {
 		return ret;
 	},
 
+	get_main_child: function() {
+
+		if (this.children.length === 0) {
+			return undefined;
+		}
+
+		if (this.__blessed_child_id) {
+			for (let child of this.children) {
+				if (child.id === this.__blessed_child_id) {
+					return child;
+				}
+			}
+		}
+
+		return this.children[0];
+	},
+
 	get_root: function() {
 		let node = this;
 		while (node.parent) {
@@ -97,7 +115,7 @@ let node_prototype = {
 	get_end: function() {
 		let node = this;
 		while (node.children.length > 0) {
-			node = node.children[0];
+			node = node.get_main_child();
 		}
 		return node;
 	},
@@ -336,7 +354,7 @@ let node_prototype = {
 			return this;
 		}
 
-		let node = this.children[0];		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
+		let node = this.get_main_child();		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
 
 		while (true) {
 			if (node.children.length > 1) {
@@ -365,7 +383,7 @@ let node_prototype = {
 		let node = this;
 
 		while (node.children.length > 0 && n-- > 0) {
-			node = node.children[0];
+			node = node.get_main_child();
 		}
 
 		return node;

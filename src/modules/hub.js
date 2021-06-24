@@ -381,14 +381,10 @@ let hub_props = {
 		}
 	},
 
-	child: function(n) {
-		if (this.node.children.length > n) {
-			this.set_node(this.node.children[n], true);
-		}
-	},
-
 	next: function() {
-		this.child(0);
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.get_main_child());
+		}
 	},
 
 	backward: function(n) {
