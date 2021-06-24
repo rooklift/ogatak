@@ -482,6 +482,7 @@ let board_drawer_prototype = {
 		}
 
 		let board = node.get_board();
+		let got_bad_type = false;
 
 		for (let info of filtered_infos) {
 
@@ -510,10 +511,14 @@ let board_drawer_prototype = {
 			} else if (text) {
 				this.text(x, y, text, "#000000ff");
 			} else {
-				setTimeout(() => {							// Lame hack to fix bad values in config.json
-					hub.cycle_numbers();
-				}, 0);
+				got_bad_type = true;
 			}
+		}
+
+		if (got_bad_type) {
+			setTimeout(() => {								// Lame hack to fix bad values in config.json
+				hub.cycle_numbers();
+			}, 0);
 		}
 	},
 };
