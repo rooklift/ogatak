@@ -1052,12 +1052,12 @@ function menu_build() {
 						{
 							label: "LCB + Visits",
 							type: "checkbox",
-							checked: config.numbers === "lcb + visits",
+							checked: config.numbers === "LCB + Visits",
 							accelerator: "F5",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "lcb + visits"
+									value: "LCB + Visits"
 								});
 								set_checks("Display", "Numbers", "LCB + Visits");
 							}
@@ -1065,12 +1065,12 @@ function menu_build() {
 						{
 							label: "Score + Visits",
 							type: "checkbox",
-							checked: config.numbers === "score + visits",
+							checked: config.numbers === "Score + Visits",
 							accelerator: "F6",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "score + visits"
+									value: "Score + Visits"
 								});
 								set_checks("Display", "Numbers", "Score + Visits");
 							}
@@ -1081,12 +1081,11 @@ function menu_build() {
 						{
 							label: "LCB",
 							type: "checkbox",
-							checked: config.numbers === "lcb",
-							accelerator: "F7",
+							checked: config.numbers === "LCB",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "lcb"
+									value: "LCB"
 								});
 								set_checks("Display", "Numbers", "LCB");
 							}
@@ -1094,12 +1093,11 @@ function menu_build() {
 						{
 							label: "Score",
 							type: "checkbox",
-							checked: config.numbers === "score",
-							accelerator: "F8",
+							checked: config.numbers === "Score",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "score"
+									value: "Score"
 								});
 								set_checks("Display", "Numbers", "Score");
 							}
@@ -1107,11 +1105,11 @@ function menu_build() {
 						{
 							label: "Visits",
 							type: "checkbox",
-							checked: config.numbers === "visits",
+							checked: config.numbers === "Visits",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "visits"
+									value: "Visits"
 								});
 								set_checks("Display", "Numbers", "Visits");
 							}
@@ -1119,11 +1117,11 @@ function menu_build() {
 						{
 							label: "Visits (%)",
 							type: "checkbox",
-							checked: config.numbers === "visits (%)",
+							checked: config.numbers === "Visits (%)",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "visits (%)"
+									value: "Visits (%)"
 								});
 								set_checks("Display", "Numbers", "Visits (%)");
 							}
@@ -1131,11 +1129,11 @@ function menu_build() {
 						{
 							label: "Order",
 							type: "checkbox",
-							checked: config.numbers === "order",
+							checked: config.numbers === "Order",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "order"
+									value: "Order"
 								});
 								set_checks("Display", "Numbers", "Order");
 							}
@@ -1143,11 +1141,11 @@ function menu_build() {
 						{
 							label: "Policy",
 							type: "checkbox",
-							checked: config.numbers === "policy",
+							checked: config.numbers === "Policy",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "policy"
+									value: "Policy"
 								});
 								set_checks("Display", "Numbers", "Policy");
 							}
@@ -1155,11 +1153,11 @@ function menu_build() {
 						{
 							label: "Winrate",
 							type: "checkbox",
-							checked: config.numbers === "winrate",
+							checked: config.numbers === "Winrate",
 							click: () => {
 								win.webContents.send("set", {
 									key: "numbers",
-									value: "winrate"
+									value: "Winrate"
 								});
 								set_checks("Display", "Numbers", "Winrate");
 							}
