@@ -519,6 +519,10 @@ let board_drawer_prototype = {
 
 function string_from_info(info, node, type) {
 
+	let val;			// It seems using let inside a switch is dubious.
+	let text;
+	let absl;
+
 	switch (type) {
 
 		case "winrate":
@@ -530,12 +534,26 @@ function string_from_info(info, node, type) {
 		case "policy":
 			return Math.floor(info.prior * 100).toString();
 		case "score":
-			let text = info.scoreLead < 0 ? "-" : "+";
-			let absl = Math.abs(info.scoreLead);
+			val = info.scoreLead;
+			text = val < 0 ? "-" : "+";
+			absl = Math.abs(val);
 			if (absl < 10) {
 				text += absl.toFixed(1);
 				if (text === "-10.0") text = "-10";
 				if (text === "+10.0") text = "+10";
+			} else {
+				text += Math.floor(absl);
+			}
+			return text;
+		case "delta":
+			val = info.scoreLead - node.analysis.moveInfos[0].scoreLead;
+			text = val < 0 ? "-" : "+";
+			absl = Math.abs(val);
+			if (absl < 10) {
+				text += absl.toFixed(1);
+				if (text === "-10.0") text = "-10";
+				if (text === "+10.0") text = "+10";
+				if (text === "+0.0" || text === "-0.0") text = "0";
 			} else {
 				text += Math.floor(absl);
 			}
