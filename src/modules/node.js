@@ -327,6 +327,16 @@ let node_prototype = {
 		return ret;
 	},
 
+	bless_main_line: function() {
+
+		let node = this.get_root();
+
+		while (node.children.length > 0) {
+			node.__blessed_child_id = node.children[0].id;
+			node = node.children[0];
+		}
+	},
+
 	return_to_variation_start_helper: function() {
 
 		// Returns the EARLIEST ancestor that is off the main line, or returns self if it cannot.

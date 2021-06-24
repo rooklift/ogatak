@@ -424,6 +424,7 @@ let hub_props = {
 
 	return_to_main: function() {
 		this.set_node(this.node.return_to_main_line_helper());
+		this.node.bless_main_line();
 	},
 
 	previous_fork: function() {
