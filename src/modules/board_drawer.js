@@ -497,12 +497,10 @@ let board_drawer_prototype = {
 			let text = "?";
 			let text2 = "";
 
-			if (config.numbers === "lcb + visits") {
-				text = string_from_info(info, node, "lcb");
-				text2 = string_from_info(info, node, "visits");
-			} else if (config.numbers === "score + visits") {
-				text = string_from_info(info, node, "score");
-				text2 = string_from_info(info, node, "visits");
+			if (config.numbers.includes(" + ")) {
+				let [foo, bar] = config.numbers.split(" + ");
+				text = string_from_info(info, node, foo);
+				text2 = string_from_info(info, node, bar);
 			} else {
 				text = string_from_info(info, node, config.numbers);
 			}
