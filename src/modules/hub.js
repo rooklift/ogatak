@@ -696,7 +696,7 @@ let hub_props = {
 			"lcb":        		["Display", "Numbers", "LCB"],
 			"score":      		["Display", "Numbers", "Score"],
 			"visits":     		["Display", "Numbers", "Visits"],
-			"visits (%)": 		["Display", "Numbers", "Visits %"],
+			"visits (%)": 		["Display", "Numbers", "Visits (%)"],
 			"order":      		["Display", "Numbers", "Order"],
 			"policy":     		["Display", "Numbers", "Policy"],
 			"winrate":    		["Display", "Numbers", "Winrate"],

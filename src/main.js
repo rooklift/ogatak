@@ -1117,7 +1117,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Visits %",
+							label: "Visits (%)",
 							type: "checkbox",
 							checked: config.numbers === "visits (%)",
 							click: () => {
@@ -1125,7 +1125,7 @@ function menu_build() {
 									key: "numbers",
 									value: "visits (%)"
 								});
-								set_checks("Display", "Numbers", "Visits %");
+								set_checks("Display", "Numbers", "Visits (%)");
 							}
 						},
 						{
