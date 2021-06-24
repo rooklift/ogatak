@@ -165,8 +165,8 @@ let tree_drawer_prototype = {
 		}
 
 		for (let clicker of this.clickers) {
-			if (Math.abs(clicker.x - mousex) < config.tree_spacing / 2) {
-				if (Math.abs(clicker.y - mousey) < config.tree_spacing / 2) {
+			if (Math.abs(clicker.x - mousex) <= config.tree_spacing / 2) {
+				if (Math.abs(clicker.y - mousey) <= config.tree_spacing / 2) {
 					if (clicker.node.destroyed || clicker.node.get_root() !== hub_node.get_root()) {		// Some sanity checks
 						return null;
 					} else {
