@@ -51,14 +51,14 @@ let graph_drawer_prototype = {
 
 		let abs_score_max = 5;				// To start with, means our score graph will have at least axis -5 to 5.
 
-		for (let node of history) {
+		for (let h_node of history) {
 
-			if (node.has_valid_analysis()) {
+			if (h_node.has_valid_analysis()) {
 
-				let score = node.analysis.moveInfos[0].scoreLead;
-				let winrate = node.analysis.moveInfos[0].winrate;
+				let score = h_node.analysis.moveInfos[0].scoreLead;
+				let winrate = h_node.analysis.moveInfos[0].winrate;
 
-				if (node.get_board().active === "w") {
+				if (h_node.get_board().active === "w") {
 					score = score * -1;
 					winrate = 1 - winrate;
 				}
@@ -79,7 +79,7 @@ let graph_drawer_prototype = {
 
 				scores.push(null);
 
-				let sbkv = node.get("SBKV");
+				let sbkv = h_node.get("SBKV");
 				let winrate = null;
 
 				if (sbkv) {
