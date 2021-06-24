@@ -327,6 +327,7 @@ let hub_props = {
 		}
 
 		this.node = node;
+		this.node.bless();
 
 		let want_to_go = this.engine.desired ? true : false;
 

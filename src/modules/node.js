@@ -87,6 +87,16 @@ let node_prototype = {
 		return ret;
 	},
 
+	bless: function() {
+
+		let node = this;
+
+		while (node.parent) {
+			node.parent.__blessed_child_id = node.id;
+			node = node.parent;
+		}
+	},
+
 	get_main_child: function() {
 
 		if (this.children.length === 0) {
