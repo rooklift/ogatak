@@ -700,9 +700,19 @@ let hub_props = {
 
 		let current = config.numbers;
 
-		let si = values.indexOf(current) + (reverse ? -1 : 1);
-		if (si >= values.length) si = 0;
-		if (si < 0) si = values.length - 1;
+		let si = values.indexOf(current);
+
+		if (si === -1) {
+			si = 0;
+		} else {
+			si += (reverse ? -1 : 1);
+			if (si >= values.length) {
+				si = 0;
+			}
+			if (si < 0) {
+				si = values.length - 1;
+			}
+		}
 
 		this.set("numbers", values[si]);
 
