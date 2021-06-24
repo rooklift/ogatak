@@ -20,6 +20,7 @@ function new_node(parent) {
 	node.props = Object.create(null);
 	node.analysis = null;
 	node.__board = null;
+	node.__blessed_child_id = null;
 
 	if (parent) {
 		parent.children.push(node);
@@ -86,6 +87,39 @@ let node_prototype = {
 		return ret;
 	},
 
+	bless: function() {
+
+		let node = this;
+
+		while (node.parent) {
+			if (node.parent.children.length === 1) {
+				node.parent.__blessed_child_id = null;
+			} else {
+				node.parent.__blessed_child_id = node.id;
+			}
+			node = node.parent;
+		}
+	},
+
+	get_main_child: function() {
+
+		if (this.children.length === 0) {
+			return undefined;
+		} else if (this.children.length === 1) {
+			return this.children[0];
+		}
+
+		if (this.__blessed_child_id) {
+			for (let child of this.children) {
+				if (child.id === this.__blessed_child_id) {
+					return child;
+				}
+			}
+		}
+
+		return this.children[0];
+	},
+
 	get_root: function() {
 		let node = this;
 		while (node.parent) {
@@ -97,7 +131,7 @@ let node_prototype = {
 	get_end: function() {
 		let node = this;
 		while (node.children.length > 0) {
-			node = node.children[0];
+			node = node.get_main_child();
 		}
 		return node;
 	},
@@ -299,6 +333,20 @@ let node_prototype = {
 		return ret;
 	},
 
+	bless_main_line: function() {
+
+		let node = this.get_root();
+
+		while (node.children.length > 0) {
+			if (node.children.length === 1) {
+				node.__blessed_child_id = null;
+			} else {
+				node.__blessed_child_id = node.children[0].id;
+			}
+			node = node.children[0];
+		}
+	},
+
 	return_to_variation_start_helper: function() {
 
 		// Returns the EARLIEST ancestor that is off the main line, or returns self if it cannot.
@@ -336,7 +384,7 @@ let node_prototype = {
 			return this;
 		}
 
-		let node = this.children[0];		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
+		let node = this.get_main_child();		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
 
 		while (true) {
 			if (node.children.length > 1) {
@@ -365,7 +413,7 @@ let node_prototype = {
 		let node = this;
 
 		while (node.children.length > 0 && n-- > 0) {
-			node = node.children[0];
+			node = node.get_main_child();
 		}
 
 		return node;
@@ -394,6 +442,10 @@ let node_prototype = {
 		if (!parent) return this;		// Fail
 
 		parent.children = parent.children.filter(child => child !== this);
+
+		if (this.parent.__blessed_child_id === this.id) {
+			this.parent.__blessed_child_id = null;
+		}
 
 		this.parent = null;
 		destroy_tree_recursive(this);

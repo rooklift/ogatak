@@ -80,6 +80,11 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
+			node.main_line = true;
+			if (node.parent && (!node.parent.main_line || node.parent.get_main_child() !== node)) {
+				node.main_line = false;
+			}
+
 			node.gx = Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * config.tree_spacing));
 			node.gy = Math.floor(central_node_gy + ((node.depth - central_node.depth) * config.tree_spacing));
 
@@ -110,21 +115,14 @@ let tree_drawer_prototype = {
 
 				this.clickers.push({x: node.gx, y: node.gy, node: node});
 
-				if (node.parent && node.parent.children.length > 1) {
-					ctx.beginPath();
-					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4) + 1, 0, 2 * Math.PI);
-					ctx.fillStyle = config.tree_node_colour;
-					ctx.fill();
-				} else {
-					ctx.beginPath();
-					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-					ctx.strokeStyle = config.tree_node_colour;
-					ctx.lineWidth = 2;
-					ctx.stroke();
-				}
+				ctx.beginPath();
+				ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
+				ctx.strokeStyle = node.main_line ? config.tree_main_colour : config.tree_off_colour;
+				ctx.lineWidth = 2;
+				ctx.stroke();
 
 				if (node.parent) {
-					ctx.strokeStyle = config.tree_node_colour;
+					ctx.strokeStyle = node.main_line && !gsib ? config.tree_main_colour : config.tree_off_colour;
 					ctx.lineWidth = 2;
 					if (gsib) {
 						ctx.beginPath();

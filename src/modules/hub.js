@@ -19,7 +19,7 @@ const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const save_sgf = require("./save_sgf");
 
-const {defaults, defaults_classified} = require("./config_io");
+const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
 const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
 
@@ -327,6 +327,7 @@ let hub_props = {
 		}
 
 		this.node = node;
+		this.node.bless();
 
 		let want_to_go = this.engine.desired ? true : false;
 
@@ -381,14 +382,10 @@ let hub_props = {
 		}
 	},
 
-	child: function(n) {
-		if (this.node.children.length > n) {
-			this.set_node(this.node.children[n], true);
-		}
-	},
-
 	next: function() {
-		this.child(0);
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.get_main_child());
+		}
 	},
 
 	backward: function(n) {
@@ -427,6 +424,7 @@ let hub_props = {
 
 	return_to_main: function() {
 		this.set_node(this.node.return_to_main_line_helper());
+		this.node.bless_main_line();
 	},
 
 	previous_fork: function() {

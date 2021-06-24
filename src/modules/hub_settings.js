@@ -1,6 +1,7 @@
 "use strict";
 
 const {ipcRenderer} = require("electron");
+const {defaults} = require("./config_io");
 
 module.exports = {
 
@@ -84,7 +85,8 @@ module.exports = {
 			break;
 
 		case "tree_spacing":
-		case "tree_node_colour":
+		case "tree_off_colour":
+		case "tree_main_colour":
 		case "central_node_colour":
 
 			this.tree_drawer.must_draw = true;
@@ -116,6 +118,13 @@ module.exports = {
 			config[key] = o[key];
 		}
 		this.draw();						// Currently this is enough.
+	},
+
+	reset: function(key) {
+		if (defaults[key] === undefined) {
+			throw "Key not in defaults";
+		}
+		this.set(key, defaults[key]);
 	},
 
 };
