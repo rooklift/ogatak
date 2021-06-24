@@ -494,7 +494,7 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let text = "?";
+			let text = "";
 			let text2 = "";
 
 			if (config.numbers.includes(" + ")) {
@@ -507,8 +507,12 @@ let board_drawer_prototype = {
 
 			if (text2) {
 				this.text_two(x, y, text, text2, "#000000ff");
-			} else {
+			} else if (text) {
 				this.text(x, y, text, "#000000ff");
+			} else {
+				setTimeout(() => {							// Lame hack to fix bad values in config.json
+					hub.cycle_numbers();
+				}, 0);
 			}
 		}
 	},
@@ -566,7 +570,7 @@ function string_from_info(info, node, type) {
 		case "Order":
 			return (info.order + 1).toString();
 		default:
-			return "??";
+			return "";
 	}
 }
 
