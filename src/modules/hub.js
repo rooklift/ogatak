@@ -437,7 +437,7 @@ let hub_props = {
 
 	promote_to_main_line: function(suppress_draw) {
 
-		let node = this.node;
+		let node = this.node.get_end();
 		let changed = false;
 
 		while (node.parent) {
