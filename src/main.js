@@ -1076,6 +1076,19 @@ function menu_build() {
 							}
 						},
 						{
+							label: "Delta + Visits",
+							type: "checkbox",
+							checked: config.numbers === "Delta + Visits",
+							accelerator: "F7",
+							click: () => {
+								win.webContents.send("set", {
+									key: "numbers",
+									value: "Delta + Visits"
+								});
+								set_checks("Display", "Numbers", "Delta + Visits");
+							}
+						},
+						{
 							type: "separator",
 						},
 						{
