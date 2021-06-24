@@ -523,15 +523,15 @@ function string_from_info(info, node, type) {
 
 	switch (type) {
 
-		case "winrate":
+		case "Winrate":
 			return Math.floor(Math.max(0, info.winrate * 100)).toString();
-		case "lcb":
+		case "LCB":
 			return Math.floor(Math.max(0, info.lcb * 100)).toString();
-		case "visits (%)":
+		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
-		case "policy":
+		case "Policy":
 			return Math.floor(info.prior * 100).toString();
-		case "score":
+		case "Score":
 			val = info.scoreLead;
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
@@ -543,7 +543,7 @@ function string_from_info(info, node, type) {
 				text += Math.floor(absl);
 			}
 			return text;
-		case "delta":
+		case "Delta":
 			val = info.scoreLead - node.analysis.moveInfos[0].scoreLead;
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
@@ -556,14 +556,14 @@ function string_from_info(info, node, type) {
 				text += Math.floor(absl);
 			}
 			return text;
-		case "visits":
+		case "Visits":
 			if (info.visits > 9999) {
 				return (info.visits / 1000).toFixed(0) + "k";
 			} else if (info.visits > 999) {
 				return (info.visits / 1000).toFixed(1) + "k";
 			}
 			return info.visits.toString();
-		case "order":
+		case "Order":
 			return (info.order + 1).toString();
 		default:
 			return "??";
