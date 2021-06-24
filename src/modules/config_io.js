@@ -60,7 +60,8 @@ exports.defaults = {
 	"graph_width": 224,
 
 	"tree_spacing": 24,
-	"tree_node_colour": "#909090ff",
+	"tree_off_colour": "#444444ff",
+	"tree_main_colour": "#909090ff",
 	"central_node_colour": "#d2b074ff",
 
 	"widerootnoise": true,
