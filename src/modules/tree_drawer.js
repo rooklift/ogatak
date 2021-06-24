@@ -80,9 +80,9 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			node.main_line = true;
-			if (node.parent && (!node.parent.main_line || node.parent.get_main_child() !== node)) {
-				node.main_line = false;
+			node.blessed_line = true;
+			if (node.parent && (!node.parent.blessed_line || node.parent.get_blessed_child() !== node)) {
+				node.blessed_line = false;
 			}
 
 			node.gx = Math.floor(central_node_gx + ((node.logicalx - central_node.logicalx) * config.tree_spacing));
@@ -117,12 +117,12 @@ let tree_drawer_prototype = {
 
 				ctx.beginPath();
 				ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-				ctx.strokeStyle = node.main_line ? config.tree_main_colour : config.tree_off_colour;
+				ctx.strokeStyle = node.blessed_line ? config.tree_main_colour : config.tree_off_colour;
 				ctx.lineWidth = 2;
 				ctx.stroke();
 
 				if (node.parent) {
-					ctx.strokeStyle = node.main_line && !gsib ? config.tree_main_colour : config.tree_off_colour;
+					ctx.strokeStyle = node.blessed_line && !gsib ? config.tree_main_colour : config.tree_off_colour;
 					ctx.lineWidth = 2;
 					if (gsib) {
 						ctx.beginPath();

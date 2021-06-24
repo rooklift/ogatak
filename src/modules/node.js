@@ -101,7 +101,7 @@ let node_prototype = {
 		}
 	},
 
-	get_main_child: function() {
+	get_blessed_child: function() {
 
 		if (this.children.length === 0) {
 			return undefined;
@@ -131,7 +131,7 @@ let node_prototype = {
 	get_end: function() {
 		let node = this;
 		while (node.children.length > 0) {
-			node = node.get_main_child();
+			node = node.get_blessed_child();
 		}
 		return node;
 	},
@@ -384,7 +384,7 @@ let node_prototype = {
 			return this;
 		}
 
-		let node = this.get_main_child();		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
+		let node = this.get_blessed_child();		// Start at child so as not to return <this> even if <this> is a fork. We want the next fork.
 
 		while (true) {
 			if (node.children.length > 1) {
@@ -413,7 +413,7 @@ let node_prototype = {
 		let node = this;
 
 		while (node.children.length > 0 && n-- > 0) {
-			node = node.get_main_child();
+			node = node.get_blessed_child();
 		}
 
 		return node;

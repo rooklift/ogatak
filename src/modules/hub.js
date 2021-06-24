@@ -384,7 +384,7 @@ let hub_props = {
 
 	next: function() {
 		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_main_child(), true);
+			this.set_node(this.node.get_blessed_child(), true);
 		}
 	},
 
