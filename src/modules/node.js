@@ -101,6 +101,8 @@ let node_prototype = {
 
 		if (this.children.length === 0) {
 			return undefined;
+		} else if (this.children.length === 1) {
+			return this.children[0];
 		}
 
 		if (this.__blessed_child_id) {
