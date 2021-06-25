@@ -557,15 +557,6 @@ function menu_build() {
 						win.webContents.send("call", "return_to_main");
 					}
 				},
-			/*
-				{
-					label: "Return to variation start",
-					accelerator: "CommandOrControl+E",
-					click: () => {
-						win.webContents.send("call", "return_to_variation_start");
-					}
-				},
-			*/
 				{
 					type: "separator",
 				},

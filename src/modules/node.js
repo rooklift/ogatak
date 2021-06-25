@@ -347,23 +347,6 @@ let node_prototype = {
 		}
 	},
 
-	return_to_variation_start_helper: function() {
-
-		// Returns the EARLIEST ancestor that is off the main line, or returns self if it cannot.
-
-		let ret = this;
-		let node = this;
-
-		while (node.parent) {
-			if (node.parent.children[0] !== node) {
-				ret = node;
-			}
-			node = node.parent;
-		}
-
-		return ret;
-	},
-
 	previous_fork_helper: function() {
 
 		let node = this;
