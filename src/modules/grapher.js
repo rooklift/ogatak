@@ -14,7 +14,7 @@ function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas prov
 	drawer.drawable_height = 0;
 
 	drawer.line_end = null;
-	drawer.main_line = true;				// Was the last full draw on the main line? Cached so draw_position() knows what colour to use cheaply.
+	drawer.major_colour = config.major_graph_colour;			// Cached so draw_position() knows what colour to use cheaply.
 
 	return drawer;
 }
@@ -118,10 +118,10 @@ let graph_drawer_prototype = {
 		}
 
 		// Next the major draw, i.e. the brighter line...
+		// We cache the colour we use so that draw_position() can cheaply know what colour it should use.
 
-		this.main_line = history[history.length - 1].is_main_line();	// Drawing main line? Cached so draw_position() knows cheaply (when called on its own).
-
-		ctx.strokeStyle = this.main_line ? config.major_graph_colour : config.major_graph_var_colour;
+		this.major_colour = history[history.length - 1].is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
+		ctx.strokeStyle = this.major_colour;
 
 		if (config.graph_type === "score") {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.major_graph_linewidth);
@@ -151,7 +151,7 @@ let graph_drawer_prototype = {
 		// Position marker...
 
 		ctx.lineWidth = config.major_graph_linewidth;
-		ctx.strokeStyle = this.main_line ? config.major_graph_colour : config.major_graph_var_colour;		// this.main_line cached from last full draw.
+		ctx.strokeStyle = this.major_colour;													// Cached from last full draw, so we don't need to work it out.
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
