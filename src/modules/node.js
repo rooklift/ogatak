@@ -20,7 +20,7 @@ function new_node(parent) {
 	node.props = Object.create(null);
 	node.analysis = null;
 	node.__board = null;
-	node.__blessed_child_id = null;
+	node.__blessed_child_id = null;				// Usually don't inspect this directly, rather call get_blessed_child()
 
 	if (parent) {
 		parent.children.push(node);
