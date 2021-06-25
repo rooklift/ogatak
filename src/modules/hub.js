@@ -60,6 +60,8 @@ exports.new_hub = function() {
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 
+	hub.pending_wheel = 0;
+
 	hub.tabber = new_tabber(
 		document.getElementById("tabdiv")
 	);
@@ -804,6 +806,18 @@ let hub_props = {
 			this.tree_drawer.draw_tree(this.node);
 		}
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
+	},
+
+	mousewheel_spinner: function() {
+		if (this.pending_wheel !== 0) {
+			if (this.pending_wheel < 0) {
+				this.backward(this.pending_wheel * -1);
+			} else {
+				this.forward(this.pending_wheel);
+			}
+			this.pending_wheel = 0;
+		}
+		setTimeout(this.mousewheel_spinner.bind(this), Math.max(10, config.wheel_delay);
 	},
 
 	window_resize_checker: function() {

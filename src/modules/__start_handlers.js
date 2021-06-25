@@ -17,8 +17,8 @@ document.addEventListener("wheel", (event) => {
 		}
 	}
 	if (event.deltaY) {
-		if (event.deltaY < 0) hub.prev();
-		if (event.deltaY > 0) hub.next();
+		if (event.deltaY < 0) hub.pending_wheel--;
+		if (event.deltaY > 0) hub.pending_wheel++;
 	}
 });
 
