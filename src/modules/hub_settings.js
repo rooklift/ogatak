@@ -57,6 +57,7 @@ module.exports = {
 		case "off_colour_white":
 		case "wood_colour":
 		case "previous_marker":
+		case "next_marker_linewidth":
 		case "candidate_moves":
 		case "numbers":
 		case "visits_threshold":

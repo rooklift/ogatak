@@ -429,7 +429,7 @@ let board_drawer_prototype = {
 						let x = s.charCodeAt(0) - 97;
 						let y = s.charCodeAt(1) - 97;
 						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-							this.circle(x, y, 3.5, key === "B" ? "#00000080" : "#ffffffa0");
+							this.circle(x, y, config.next_marker_linewidth, key === "B" ? "#00000080" : "#ffffffa0");
 						}
 					}
 				}
