@@ -43,7 +43,7 @@ exports.defaults = {
 	"previous_marker": "#888888ff",
 	"next_marker_linewidth": 2.8,
 	"candidate_moves": true,
-	"numbers": "lcb + visits",
+	"numbers": "LCB + Visits",
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"next_move_markers": true,
