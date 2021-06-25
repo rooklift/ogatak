@@ -320,22 +320,35 @@ let hub_props = {
 
 	// Tree........................................................................................
 
-	set_node: function(node, keep_autoplay_settings, full_graph_draw) {
+	set_node: function(node, supplied_opts) {
 
 		if (!node || this.node === node) {
-			return;
+			return false;
 		}
 
+		let opts = {
+			keep_autoplay_settings: false,
+			full_graph_draw: false,				// Beware: these actions won't be taken if node === this.node
+			bless: true							// as the function has already returned.
+		};
+
+		if (supplied_opts) Object.assign(opts, supplied_opts);
+
+		// The above is I think Crockford's way of doing arguments to methods.
+
 		this.node = node;
-		this.node.bless();
+
+		if (opts.bless) {
+			this.node.bless();
+		}
 
 		let want_to_go = this.engine.desired ? true : false;
 
-		if (!keep_autoplay_settings) {
+		if (!opts.keep_autoplay_settings) {
 			if (this.__autoanalysis || this.__autoplay) {
 				this.set_autoanalysis(false);
 				this.set_autoplay(false);
-				want_to_go = false;							// i.e. we halt only if we are turning off one of these things.
+				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
 			}
 		}
 
@@ -345,25 +358,29 @@ let hub_props = {
 			this.halt();
 		}
 
-		this.draw();		// Done after adjusting the engine, since draw() looks at what the engine is doing.
+		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
-		if (full_graph_draw || (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end())) {		// get_end() because maybe gained descendents
+		if (opts.full_graph_draw) {
+			this.grapher.draw_graph(this.node);
+		} else if (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
 		}
 
 		this.tree_drawer.must_draw = true;
+
+		return true;
 	},
 
 	try_move: function(s) {
 		let node = this.node.try_move(s);
-		this.set_node(node, true);
+		this.set_node(node, {keep_autoplay_settings: true});
 	},
 
 	pass: function() {
 		let node = this.node.pass();
-		this.set_node(node, true);
+		this.set_node(node, {keep_autoplay_settings: true});
 	},
 
 	play_best: function() {
@@ -373,7 +390,7 @@ let hub_props = {
 				this.pass();
 			} else {
 				let node = this.node.force_move(s);
-				this.set_node(node, true);
+				this.set_node(node, {keep_autoplay_settings: true});
 			}
 		}
 	},
@@ -386,7 +403,7 @@ let hub_props = {
 
 	next: function() {
 		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_blessed_child(), true);
+			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true});
 		}
 	},
 
@@ -425,9 +442,15 @@ let hub_props = {
 	},
 
 	return_to_main: function() {
-		this.set_node(this.node.return_to_main_line_helper(), false, true);
-		this.node.bless_main_line();
-		this.tree_drawer.must_draw = true;		// Needed in case we were already on main, but blessing the line changed the main line.
+
+		this.node.bless_main_line();				// Done before set_node() so that it draws the correct graph.
+
+		let ok = this.set_node(this.node.return_to_main_line_helper(), {full_graph_draw: true, bless: false});
+
+		if (!ok) {									// set_node() returned instantly, so we gotta draw graph and tree...
+			this.grapher.draw_graph(this.node);
+			this.tree_drawer.must_draw = true;
+		}
 	},
 
 	previous_fork: function() {
