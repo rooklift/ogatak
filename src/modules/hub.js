@@ -817,7 +817,7 @@ let hub_props = {
 			}
 			this.pending_wheel = 0;
 		}
-		setTimeout(this.mousewheel_spinner.bind(this), Math.max(10, config.wheel_delay);
+		setTimeout(this.mousewheel_spinner.bind(this), Math.max(10, config.wheel_delay));
 	},
 
 	window_resize_checker: function() {
