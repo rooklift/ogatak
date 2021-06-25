@@ -41,7 +41,7 @@ exports.defaults = {
 	"off_colour_white": "#99dd55ff",
 	"wood_colour": "#d2b074ff",
 	"previous_marker": "#888888ff",
-	"next_marker_linewidth": 2.5,
+	"next_marker_linewidth": 2.8,
 	"candidate_moves": true,
 	"numbers": "lcb + visits",
 	"visits_threshold": 0.02,
