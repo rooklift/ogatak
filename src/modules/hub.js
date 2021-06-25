@@ -645,6 +645,20 @@ let hub_props = {
 		this.draw();
 	},
 
+	restart_engine: function() {
+		if (this.engine.exe) {
+			this.halt();
+			this.engine.shutdown();
+			this.engine = new_engine();
+		}
+		if (config.arbitrary_command) {
+			hub.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
+		} else {
+			hub.engine.setup(config.engine, config.engineconfig, config.weights);
+		}
+		this.draw();
+	},
+
 	// Misc........................................................................................
 
 	display_props: function(rootflag) {

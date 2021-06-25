@@ -2284,6 +2284,15 @@ function menu_build() {
 						});
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Restart engine",
+					click: () => {
+						win.webContents.send("call", "restart_engine");
+					}
+				},
 			]
 		}
 	];
