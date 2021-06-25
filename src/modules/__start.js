@@ -33,7 +33,6 @@ hub.window_resize_checker();
 hub.active_tab_draw_spinner();
 hub.graph_draw_spinner();
 hub.tree_draw_spinner();
-hub.mousewheel_spinner();
 
 // ---------------------------------------------------------------------------------------------------
 
