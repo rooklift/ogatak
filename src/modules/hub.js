@@ -320,7 +320,7 @@ let hub_props = {
 
 	// Tree........................................................................................
 
-	set_node: function(node, keep_autoplay_settings) {
+	set_node: function(node, keep_autoplay_settings, full_graph_draw) {
 
 		if (!node || this.node === node) {
 			return;
@@ -347,11 +347,13 @@ let hub_props = {
 
 		this.draw();		// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
-		if (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end()) {		// line_end.get_end() because it maybe gained descendents.
+		if (full_graph_draw || (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end())) {		// get_end() because maybe gained descendents
 			this.grapher.draw_graph(this.node);
 		} else {
 			this.grapher.draw_position(this.node);
 		}
+
+		this.tree_drawer.must_draw = true;
 	},
 
 	try_move: function(s) {
@@ -423,9 +425,8 @@ let hub_props = {
 	},
 
 	return_to_main: function() {
-		this.set_node(this.node.return_to_main_line_helper());
+		this.set_node(this.node.return_to_main_line_helper(), false, true);
 		this.node.bless_main_line();
-		this.grapher.draw_graph(this.node);
 		this.tree_drawer.must_draw = true;		// Needed in case we were already on main, but blessing the line changed the main line.
 	},
 
