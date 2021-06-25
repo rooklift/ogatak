@@ -72,7 +72,7 @@ document.getElementById("boardtable").addEventListener("mouseleave", (event) => 
 
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
 	let node = hub.grapher.node_from_click(hub.node, event);
-	hub.set_node(node);
+	hub.set_node(node, {bless: false});
 });
 
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {

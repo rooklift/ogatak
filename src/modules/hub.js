@@ -397,30 +397,30 @@ let hub_props = {
 
 	prev: function() {
 		if (this.node.parent) {
-			this.set_node(this.node.parent);
+			this.set_node(this.node.parent, {bless: false});
 		}
 	},
 
 	next: function() {
 		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true});
+			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true, bless: false});
 		}
 	},
 
 	backward: function(n) {
-		this.set_node(this.node.backward_helper(n));
+		this.set_node(this.node.backward_helper(n), {bless: false});
 	},
 
 	forward: function(n) {
-		this.set_node(this.node.forward_helper(n));
+		this.set_node(this.node.forward_helper(n), {bless: false});
 	},
 
 	go_to_root: function() {
-		this.set_node(this.node.get_root());
+		this.set_node(this.node.get_root(), {bless: false});
 	},
 
 	go_to_end: function() {
-		this.set_node(this.node.get_end());
+		this.set_node(this.node.get_end(), {bless: false});
 	},
 
 	prev_sibling: function() {
@@ -437,10 +437,6 @@ let hub_props = {
 		}
 	},
 
-	return_to_variation_start: function() {
-		this.set_node(this.node.return_to_variation_start_helper());
-	},
-
 	return_to_main: function() {
 
 		this.node.bless_main_line();				// Done before set_node() so that it draws the correct graph.
@@ -454,11 +450,11 @@ let hub_props = {
 	},
 
 	previous_fork: function() {
-		this.set_node(this.node.previous_fork_helper());
+		this.set_node(this.node.previous_fork_helper(), {bless: false});
 	},
 
 	next_fork: function() {
-		this.set_node(this.node.next_fork_helper());
+		this.set_node(this.node.next_fork_helper(), {bless: false});
 	},
 
 	promote_to_main_line: function(suppress_draw) {
@@ -487,7 +483,7 @@ let hub_props = {
 
 	delete_node: function() {
 		if (this.node.parent) {
-			this.set_node(this.node.detach());
+			this.set_node(this.node.detach(), {bless: false});
 		} else {											// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
 				for (let child of this.node.children) {
