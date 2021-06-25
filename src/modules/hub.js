@@ -21,7 +21,7 @@ const save_sgf = require("./save_sgf");
 
 const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, xy_to_s} = require("./utils");
+const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -533,7 +533,7 @@ let hub_props = {
 
 	receive_object: function(o) {
 
-		if (typeof o !== "object" || o === null || o.noResults) {
+		if (valid_analysis_object(o) === false) {
 			return;
 		}
 
@@ -541,9 +541,9 @@ let hub_props = {
 
 		if (relevant_node_id === this.node.id) {
 
-			this.node.receive_analysis(o);			// This does all needed validation of o
+			this.node.receive_analysis(o);
 
-			if (this.__autoanalysis && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
+			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
 
 				if (this.node.children.length > 0) {
 					this.next();
@@ -552,7 +552,7 @@ let hub_props = {
 					this.halt();
 				}
 
-			} else if (this.__autoplay && o.rootInfo && o.rootInfo.visits > config.autoanalysis_visits) {
+			} else if (this.__autoplay && o.rootInfo.visits > config.autoanalysis_visits) {
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();

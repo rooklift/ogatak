@@ -4,7 +4,7 @@ const path = require("path");
 
 const new_board = require("./board");
 const stringify = require("./stringify");
-const {replace_all} = require("./utils");
+const {replace_all, valid_analysis_object} = require("./utils");
 
 let next_node_id = 1;
 
@@ -460,23 +460,13 @@ let node_prototype = {
 		this.force_delete_key("SBKV");
 	},
 
-	has_valid_analysis: function() {												// Don't do the cheap way; return only true or false.
-		if (typeof this.analysis === "object" && this.analysis !== null) {
-			if (Array.isArray(this.analysis.moveInfos) && this.analysis.moveInfos.length > 0 && this.analysis.rootInfo) {
-				return true;
-			}
-		}
-		return false;
+	has_valid_analysis: function() {
+		return valid_analysis_object(this.analysis);
 	},
 
 	receive_analysis: function(o) {
 
-		this.analysis = o;
-
-		if (this.has_valid_analysis() === false) {
-			this.forget_analysis();
-			return;
-		}
+		this.analysis = o;		// No validation... caller should run valid_analysis_object(o) first!
 
 		let winrate = this.analysis.moveInfos[0].winrate;
 

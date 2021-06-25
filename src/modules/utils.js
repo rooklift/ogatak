@@ -210,3 +210,16 @@ exports.points_list = function(s) {
 
 	return ret;
 };
+
+exports.valid_analysis_object = function(o) {		// Return value must be true or false, don't do cheap "return a && b" tricks.
+
+	if (typeof o !== "object" || o === null || o.noResults) {
+		return false;
+	}
+
+	if (Array.isArray(o.moveInfos) && o.moveInfos.length > 0 && o.rootInfo) {
+		return true;
+	}
+
+	return false;
+};
