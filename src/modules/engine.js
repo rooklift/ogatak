@@ -1,5 +1,11 @@
 "use strict";
 
+// Note 1: we used to instantly send new searches whenever possible, but that's a bit intensive,
+// so now we rely on the hub's spinner calling maybe_send_desired() frequently.
+
+// Note 2: Our canonical concept of "state" is that the app is trying to ponder if desired is
+// not null, therefore every time desired is set, the relevant menu check should be set.
+
 const child_process = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -22,9 +28,6 @@ function new_engine() {
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
 	eng.have_quit = false;
-
-	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
-	// therefore every time desired is set, the relevant menu check should be set.
 
 	return eng;
 }
