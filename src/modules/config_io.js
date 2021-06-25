@@ -74,6 +74,7 @@ exports.defaults = {
 	"auto_square_size": true,
 	"stderr_to_console": true,
 	"load_at_end": true,
+	"search_delay": 100,
 	"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.
 	"graph_draw_delay": 200,				// The graph draw, however, is never skipped.
 	"autoanalysis_visits": 500,

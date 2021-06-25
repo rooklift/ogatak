@@ -69,9 +69,6 @@ let engine_prototype = {
 				action: "terminate",
 				terminateId: `${this.running.id}`
 			});
-		} else {
-			this.__send(this.desired);
-			this.running = this.desired;
 		}
 	},
 
@@ -81,6 +78,9 @@ let engine_prototype = {
 			return;
 		}
 
+		this.desired = null;
+		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+
 		if (this.running) {
 			this.__send({
 				id: `stop!${this.running.id}`,
@@ -88,9 +88,18 @@ let engine_prototype = {
 				terminateId: `${this.running.id}`
 			});
 		}
+	},
 
-		this.desired = null;
-		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+	maybe_send_desired: function() {
+
+		if (!this.exe) {
+			return;
+		}
+
+		if (!this.running && this.desired) {
+			this.__send(this.desired);
+			this.running = this.desired;
+		}
 	},
 
 	setup: function(filepath, engineconfig, weights) {
@@ -175,10 +184,6 @@ let engine_prototype = {
 						ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
 					}
 					this.running = null;
-					if (this.desired) {
-						this.__send(this.desired);
-						this.running = this.desired;
-					}
 				}
 			}
 			hub.receive_object(o);

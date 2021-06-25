@@ -806,6 +806,11 @@ let hub_props = {
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
 	},
 
+	engine_search_spinner: function() {
+		this.engine.maybe_send_desired();
+		setTimeout(this.engine_search_spinner.bind(this), Math.max(50, config.search_delay));
+	},
+
 	window_resize_checker: function() {
 
 		let desired_config_width = Math.floor(window.innerWidth * zoomfactor);
