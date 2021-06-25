@@ -329,7 +329,7 @@ let hub_props = {
 		let opts = {
 			keep_autoplay_settings: false,
 			full_graph_draw: false,				// Beware: these actions won't be taken if node === this.node
-			bless: true							// as the function has already returned.
+			bless: true							// as the function has already returned (see above).
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);
@@ -484,12 +484,12 @@ let hub_props = {
 	delete_node: function() {
 		if (this.node.parent) {
 			this.set_node(this.node.detach(), {bless: false});
-		} else {											// There are good reasons why the root node can't be replaced.
+		} else {												// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
 				for (let child of this.node.children) {
 					child.detach();
 				}
-				this.draw();								// Clear the next move markers.
+				this.draw();									// Clear the next move markers.
 				this.tree_drawer.must_draw = true;
 			}
 			this.node.save_ok = false;
