@@ -23,10 +23,8 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 	// i - current step, initial call should be 0
 	// n - how many steps in cycle
 
-	if (last_call_time) {
-		results.push(performance.now() - last_call_time);
-	}
-	last_call_time = performance.now();
+	let this_call_time = performance.now();
+	results.push(this_call_time - last_call_time);
 
 	if (backwards) {
 		hub.prev();
@@ -34,17 +32,18 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 		hub.next();
 	}
 
-	if (i < n) {
+	if (i < n - 1) {
 		setTimeout(() => {
-			stresser(i + 1, n, cycles, delay, backwards, results, last_call_time);
+			stresser(i + 1, n, cycles, delay, backwards, results, this_call_time);
 		}, delay);
 	} else if (cycles > 1) {
 		setTimeout(() => {
-			stresser(0, n, cycles - 1, delay, !backwards, results, last_call_time);
+			stresser(0, n, cycles - 1, delay, !backwards, results, this_call_time);
 		}, delay);
 	} else {
 		hub.halt();
-		console.log("Worst 10...", results.sort().reverse().slice(0, 10).map(n => Math.floor(n * 10) / 10));
+		console.log("Total calls...", results.length);
+		console.log("Worst 10...", results.sort((a, b) => b - a).slice(0, 10).map(n => Math.floor(n * 10) / 10));
 	}
 }
 
@@ -54,6 +53,5 @@ exports.stress = function(moves, cycles, delay) {
 	}
 	hub.go_to_root();
 	hub.go();
-	stresser(0, moves, cycles, delay, false, [], null);
+	stresser(0, moves, cycles, delay, false, [], performance.now());
 };
-
