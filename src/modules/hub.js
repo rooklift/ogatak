@@ -572,6 +572,12 @@ let hub_props = {
 
 			this.node.parent.receive_analysis(o);
 
+		} else if (this.node.children.length > 0 && relevant_node_id === this.node.get_blessed_child().id) {
+
+			// We received info for the blessed child node, which commonly happens when going backwards.
+
+			this.node.get_blessed_child().receive_analysis(o);
+
 		}
 	},
 
