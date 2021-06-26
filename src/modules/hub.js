@@ -797,18 +797,8 @@ let hub_props = {
 
 	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
 
-	input_up: function(n = 1) {
-		if (this.pending_up_down > 0) {
-			this.pending_up_down = 0;
-		}
-		this.pending_up_down -= n;
-	},
-
-	input_down: function(n = 1) {
-		if (this.pending_up_down < 0) {
-			this.pending_up_down = 0;
-		}
-		this.pending_up_down += n;
+	input_up_down: function(n) {
+		this.pending_up_down = n;
 	},
 
 	// Spinners (in a setTimeout loop).............................................................
