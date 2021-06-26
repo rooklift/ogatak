@@ -21,6 +21,8 @@ global.config = config_io.config;
 global.save_config = config_io.save;
 global.hub = require("./hub").new_hub();
 
+global.testing = require("./testing");
+
 // ---------------------------------------------------------------------------------------------------
 
 require("./__start_handlers");
@@ -34,6 +36,7 @@ hub.active_tab_draw_spinner();
 hub.graph_draw_spinner();
 hub.tree_draw_spinner();
 hub.engine_search_spinner();
+hub.up_down_spinner();
 
 // ---------------------------------------------------------------------------------------------------
 

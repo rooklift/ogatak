@@ -64,6 +64,9 @@ exports.new_hub = function() {
 		document.getElementById("tabdiv")
 	);
 
+	hub.pending_up_down = 0;
+	hub.dropped_inputs = 0;
+
 	return hub;
 };
 
@@ -572,6 +575,12 @@ let hub_props = {
 
 			this.node.parent.receive_analysis(o);
 
+		} else if (this.node.children.length > 0 && relevant_node_id === this.node.get_blessed_child().id) {
+
+			// We received info for the blessed child node, which commonly happens when going backwards.
+
+			this.node.get_blessed_child().receive_analysis(o);
+
 		}
 	},
 
@@ -787,6 +796,15 @@ let hub_props = {
 		}
 	},
 
+	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
+
+	input_up_down: function(n) {
+		if (this.pending_up_down !== 0) {
+			this.dropped_inputs++;
+		}
+		this.pending_up_down = n;
+	},
+
 	// Spinners (in a setTimeout loop).............................................................
 
 	active_tab_draw_spinner: function() {
@@ -809,6 +827,27 @@ let hub_props = {
 	engine_search_spinner: function() {
 		this.engine.maybe_send_desired();
 		setTimeout(this.engine_search_spinner.bind(this), Math.max(50, config.search_delay));
+	},
+
+	up_down_spinner: function() {
+
+		// The point of this is to avoid a situation where a draw is slow, while up/down events are piling up, leading to a bunch of draws
+		// being required all at once. Instead of that, up/down events just adjust a variable, and this spinner does the actual draws.
+
+		let n = this.pending_up_down;
+		this.pending_up_down = 0;
+
+		if (n === 1) {
+			this.next();
+		} else if (n > 1) {
+			this.forward(n);
+		} else if (n === -1) {
+			this.prev();
+		} else if (n < -1) {
+			this.backward(n * -1);
+		}
+
+		setTimeout(this.up_down_spinner.bind(this), 0);		// This can be a very low number, even 0 might be OK?
 	},
 
 	window_resize_checker: function() {
