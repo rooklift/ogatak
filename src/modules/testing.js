@@ -59,4 +59,3 @@ exports.stress = function(moves, cycles, delay) {
 	hub.go();
 	stresser(0, moves, cycles, delay, false, [], performance.now());
 };
-
