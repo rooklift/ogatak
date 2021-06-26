@@ -18,18 +18,15 @@ exports.load = function() {
 
 // ------------------------------------------------------------------------------------------------
 
-let stress_results = [];
-let last_stresser_time;
-
-function stresser(i, n, cycles, delay, backwards) {
+function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 
 	// i - current step, initial call should be 0
 	// n - how many steps in cycle
 
-	if (last_stresser_time) {
-		stress_results.push(performance.now() - last_stresser_time);
+	if (last_call_time) {
+		results.push(performance.now() - last_call_time);
 	}
-	last_stresser_time = performance.now();
+	last_call_time = performance.now();
 
 	if (backwards) {
 		hub.prev();
@@ -39,26 +36,16 @@ function stresser(i, n, cycles, delay, backwards) {
 
 	if (i < n) {
 		setTimeout(() => {
-			stresser(i + 1, n, cycles, delay, backwards);
+			stresser(i + 1, n, cycles, delay, backwards, results, last_call_time);
 		}, delay);
 	} else if (cycles > 1) {
 		setTimeout(() => {
-			stresser(0, n, cycles - 1, delay, !backwards);
+			stresser(0, n, cycles - 1, delay, !backwards, results, last_call_time);
 		}, delay);
 	} else {
-		finish_stress_test();
+		hub.halt();
+		console.log("Worst 10...", results.sort().reverse().slice(0, 10).map(n => Math.floor(n * 10) / 10));
 	}
-}
-
-function finish_stress_test() {
-
-	hub.halt();
-
-	stress_results.sort().reverse();
-	console.log("Worst 10...", stress_results.slice(0, 10).map(n => Math.floor(n * 10) / 10));
-
-	stress_results = [];				// Reset these
-	last_stresser_time = undefined;		// for next time
 }
 
 exports.stress = function(moves, cycles, delay) {
@@ -67,6 +54,6 @@ exports.stress = function(moves, cycles, delay) {
 	}
 	hub.go_to_root();
 	hub.go();
-	stresser(0, moves, cycles, delay, false);
+	stresser(0, moves, cycles, delay, false, [], null);
 };
 
