@@ -23,24 +23,24 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 	// i - current step, initial call should be 0
 	// n - how many steps in cycle
 
+	let this_call_time = performance.now();
 	if (last_call_time) {
-		results.push(performance.now() - last_call_time);
+		results.push(this_call_time - last_call_time);
 	}
-	last_call_time = performance.now();
 
 	if (backwards) {
-		hub.prev();
+		hub.input_up_down(-1);
 	} else {
-		hub.next();
+		hub.input_up_down(1);
 	}
 
 	if (i < n) {
 		setTimeout(() => {
-			stresser(i + 1, n, cycles, delay, backwards, results, last_call_time);
+			stresser(i + 1, n, cycles, delay, backwards, results, this_call_time);
 		}, delay);
 	} else if (cycles > 1) {
 		setTimeout(() => {
-			stresser(0, n, cycles - 1, delay, !backwards, results, last_call_time);
+			stresser(0, n, cycles - 1, delay, !backwards, results, this_call_time);
 		}, delay);
 	} else {
 		hub.halt();
