@@ -64,6 +64,8 @@ exports.new_hub = function() {
 		document.getElementById("tabdiv")
 	);
 
+	hub.pending_up_down = 0;
+
 	return hub;
 };
 
@@ -793,6 +795,22 @@ let hub_props = {
 		}
 	},
 
+	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
+
+	input_up: function(n = 1) {
+		if (this.pending_up_down > 0) {
+			this.pending_up_down = 0;
+		}
+		this.pending_up_down -= n;
+	},
+
+	input_down: function(n = 1) {
+		if (this.pending_up_down < 0) {
+			this.pending_up_down = 0;
+		}
+		this.pending_up_down += n;
+	},
+
 	// Spinners (in a setTimeout loop).............................................................
 
 	active_tab_draw_spinner: function() {
@@ -810,6 +828,27 @@ let hub_props = {
 			this.tree_drawer.draw_tree(this.node);
 		}
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
+	},
+
+	up_down_spinner: function() {
+
+		// The point of this is to avoid a situation where a draw is slow, while up/down events are piling up, leading to a bunch of draws
+		// being required all at once. Instead of that, up/down events just adjust a variable, and this spinner does the actual draws.
+
+		let n = this.pending_up_down;
+		this.pending_up_down = 0;
+
+		if (n === 1) {
+			this.next();
+		} else if (n > 1) {
+			this.forward(n);
+		} else if (n === -1) {
+			this.prev();
+		} else if (n < -1) {
+			this.backward(n * -1);
+		}
+
+		setTimeout(this.up_down_spinner.bind(this), 5);		// This can be a very low number, even 0 might be OK?
 	},
 
 	window_resize_checker: function() {
