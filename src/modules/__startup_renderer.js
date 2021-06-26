@@ -21,6 +21,8 @@ global.save_config = config_io.save;
 
 global.hub = require("./hub").new_hub();
 
+global.testing = require("./testing");
+
 // ---------------------------------------------------------------------------------------------------
 
 document.addEventListener("wheel", (event) => {
