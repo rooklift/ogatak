@@ -65,6 +65,7 @@ exports.new_hub = function() {
 	);
 
 	hub.pending_up_down = 0;
+	hub.dropped_inputs = 0;
 
 	return hub;
 };
@@ -798,6 +799,9 @@ let hub_props = {
 	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
 
 	input_up_down: function(n) {
+		if (this.pending_up_down !== 0) {
+			this.dropped_inputs++;
+		}
 		this.pending_up_down = n;
 	},
 
