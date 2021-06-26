@@ -28,9 +28,7 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 	// therefore the hub will never have to drop inputs.
 
 	let this_call_time = performance.now();
-	if (last_call_time) {
-		results.push(this_call_time - last_call_time);
-	}
+	results.push(this_call_time - last_call_time);
 
 	if (backwards) {
 		hub.input_up_down(-1);
@@ -38,7 +36,7 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 		hub.input_up_down(1);
 	}
 
-	if (i < n) {
+	if (i < n - 1) {
 		setTimeout(() => {
 			stresser(i + 1, n, cycles, delay, backwards, results, this_call_time);
 		}, delay);
@@ -48,7 +46,8 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 		}, delay);
 	} else {
 		hub.halt();
-		console.log("Worst 10...", results.sort().reverse().slice(0, 10).map(n => Math.floor(n * 10) / 10));
+		console.log("Total calls...", results.length);
+		console.log("Worst 10...", results.sort((a, b) => b - a).slice(0, 10).map(n => Math.floor(n * 10) / 10));
 	}
 }
 
@@ -58,6 +57,6 @@ exports.stress = function(moves, cycles, delay) {
 	}
 	hub.go_to_root();
 	hub.go();
-	stresser(0, moves, cycles, delay, false, [], null);
+	stresser(0, moves, cycles, delay, false, [], performance.now());
 };
 
