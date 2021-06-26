@@ -10,7 +10,7 @@ let testpos = `(;SZ[19]KM[5.5]RE[W+R]RU[Japanese];B[pd];W[dc];B[pp];W[ep];B[cf];
 (;B[cn];W[mm];B[nm];W[ml];B[ib];W[mc];B[la];W[ld];B[ll];W[mk](;B[lc];W[bi];B[ge];W[ch];B[dh];W[cj];B[ka];W[di];B[fk];W[el]
 (;B[eg];W[fh];B[eh];W[fd];B[fl];W[em];B[fi];W[hj];B[lk];W[ii])(;B[fe]))(;B[lk]))(;B[fk]))(;B[fk]))(;B[nj]))(;B[fg]))
 (;B[jg]))(;B[kh]))(;B[pl]))(;B[kd]))(;B[kn]))(;B[pr]))(;B[pn]))(;B[qn]))(;B[cp]))
-`
+`;
 
 exports.load = function() {
 	hub.load_sgf_from_string(testpos);
@@ -19,7 +19,7 @@ exports.load = function() {
 // ------------------------------------------------------------------------------------------------
 
 let stress_results = [];
-let last_stresser_time = undefined;
+let last_stresser_time;
 
 function stresser(i, n, cycles, delay, backwards) {
 
@@ -57,9 +57,9 @@ function finish_stress_test() {
 	stress_results.sort().reverse();
 	console.log("Worst 10...", stress_results.slice(0, 10).map(n => Math.floor(n * 10) / 10));
 
-	stress_results = [];
-	last_stresser_time = undefined;
-};
+	stress_results = [];				// Reset these
+	last_stresser_time = undefined;		// for next time
+}
 
 exports.stress = function(moves, cycles, delay) {
 	if (moves === undefined || cycles === undefined || delay === undefined) {
