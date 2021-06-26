@@ -848,7 +848,7 @@ let hub_props = {
 			this.backward(n * -1);
 		}
 
-		setTimeout(this.up_down_spinner.bind(this), 5);		// This can be a very low number, even 0 might be OK?
+		setTimeout(this.up_down_spinner.bind(this), 0);		// This can be a very low number, even 0 might be OK?
 	},
 
 	window_resize_checker: function() {
