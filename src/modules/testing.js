@@ -23,13 +23,17 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 	// i - current step, initial call should be 0
 	// n - how many steps in cycle
 
+	// This test doesn't exactly match holding the up / down arrows, because it's using setTimeout
+	// to repeat, and I suppose there will always be an interleaved call to hub.up_down_spinner(),
+	// therefore the hub will never have to drop inputs.
+
 	let this_call_time = performance.now();
 	results.push(this_call_time - last_call_time);
 
 	if (backwards) {
-		hub.prev();
+		hub.input_up_down(-1);
 	} else {
-		hub.next();
+		hub.input_up_down(1);
 	}
 
 	if (i < n - 1) {

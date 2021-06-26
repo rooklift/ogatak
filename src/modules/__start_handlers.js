@@ -17,8 +17,8 @@ document.addEventListener("wheel", (event) => {
 		}
 	}
 	if (event.deltaY) {
-		if (event.deltaY < 0) hub.prev();
-		if (event.deltaY > 0) hub.next();
+		if (event.deltaY < 0) hub.input_up_down(-1);
+		if (event.deltaY > 0) hub.input_up_down(1);
 	}
 });
 
@@ -85,11 +85,11 @@ document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 window.addEventListener("keydown", function(event) {
 	if (event.code === "PageUp") {
 		event.preventDefault();
-		hub.backward(10);
+		hub.input_up_down(-10);
 	}
 	if (event.code === "PageDown") {
 		event.preventDefault();
-		hub.forward(10);
+		hub.input_up_down(10);
 	}
 	if (event.code === "Home") {
 		event.preventDefault();
@@ -101,11 +101,11 @@ window.addEventListener("keydown", function(event) {
 	}
 	if (event.code === "ArrowUp") {
 		event.preventDefault();
-		hub.prev();
+		hub.input_up_down(-1);
 	}
 	if (event.code === "ArrowDown") {
 		event.preventDefault();
-		hub.next();
+		hub.input_up_down(1);
 	}
 	if (event.code === "Space") {
 		event.preventDefault();
