@@ -809,19 +809,19 @@ let hub_props = {
 
 	active_tab_draw_spinner: function() {
 		this.tabber.draw_active_tab(this.node);
-		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
+		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));			// Enforce minimum of 50
 	},
 
 	graph_draw_spinner: function() {
 		this.grapher.draw_graph(this.node);
-		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));
+		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 	},
 
 	tree_draw_spinner: function() {
 		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
 			this.tree_drawer.draw_tree(this.node);
 		}
-		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));	// Wants a pretty tight schedule else it will feel laggy.
+		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
 	},
 
 	up_down_spinner: function() {
@@ -842,7 +842,7 @@ let hub_props = {
 			this.backward(n * -1);
 		}
 
-		setTimeout(this.up_down_spinner.bind(this), 0);		// This can be a very low number, even 0 might be OK?
+		setTimeout(this.up_down_spinner.bind(this), config.input_delay);			// This can be a very low number, even 0 might be OK?
 	},
 
 	window_resize_checker: function() {
