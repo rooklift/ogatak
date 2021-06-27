@@ -568,7 +568,7 @@ function string_from_info(info, node, type) {
 			}
 			return text;
 		case "Visits":
-			if (info.visits > 9999) {
+			if (info.visits > 9950) {
 				return (info.visits / 1000).toFixed(0) + "k";
 			} else if (info.visits > 999) {
 				return (info.visits / 1000).toFixed(1) + "k";
