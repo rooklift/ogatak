@@ -78,6 +78,24 @@ exports.load = () => {
 
 	// SEMI-DISABLED FOR 0.24 TEST BRANCH
 
+	let foo = {};
+
+	try {
+		if (fs.existsSync(exports.filepath)) {
+			Object.assign(foo, JSON.parse(fs.readFileSync(exports.filepath, "utf8")));
+		}
+		errortext = "";
+	} catch (err) {
+		console.log(err.toString());
+		errortext = err.toString();
+	}
+
+	// Copy the 3 values we actually need...
+
+	for (let key of ["engine", "engineconfig", "weights"]) {
+		exports.config[key] = foo[key];
+	}
+
 	// Copy default values for any missing keys into the config...
 	// We use a copy so that any objects that are assigned are not the default objects.
 
