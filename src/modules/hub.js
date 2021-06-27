@@ -802,7 +802,7 @@ let hub_props = {
 		if (this.pending_up_down !== 0) {
 			this.dropped_inputs++;
 		}
-		this.pending_up_down = n;
+		this.pending_up_down = n;		// We could consider adjusting by n rather than replacing.
 	},
 
 	// Spinners (in a setTimeout loop).............................................................
