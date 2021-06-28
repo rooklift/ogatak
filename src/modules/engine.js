@@ -51,10 +51,7 @@ let engine_prototype = {
 			this.last_sent_string = msg;
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
-			this.exe = null;
-			this.has_quit = true;
-			this.running = null;
-			this.desired = null;
+			this.shutdown();
 		}
 	},
 
@@ -150,6 +147,16 @@ let engine_prototype = {
 			return;
 		}
 
+		this.exe.once("error", (err) => {
+			alert("Got exe error:\n" + err.toString());
+			this.shutdown();
+		});
+
+		this.exe.stdin.once("error", (err) => {
+			alert("Got exe.stdin error:\n" + err.toString());
+			this.shutdown();
+		});
+
 		this.create_scanners();
 	},
 
@@ -231,8 +238,9 @@ let engine_prototype = {
 			this.exe.kill();
 		}
 		this.exe = null;
+		this.running = null;
+		this.desired = null;
 	},
-
 };
 
 
