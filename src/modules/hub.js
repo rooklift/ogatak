@@ -651,7 +651,14 @@ let hub_props = {
 	},
 
 	clear_cache: function() {
+
+		if (this.engine.version[0] < 1 || this.engine.version[1] < 9) {
+			alert("Not supported by this version of KataGo.");
+			return;
+		}
+
 		this.halt();
+
 		this.engine.__send({
 			id: "clear_cache",			// Think this id doesn't matter.
 			action: "clear_cache"
