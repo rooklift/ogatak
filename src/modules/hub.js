@@ -651,6 +651,7 @@ let hub_props = {
 	},
 
 	clear_cache: function() {
+		this.halt();
 		this.engine.__send({
 			id: "clear_cache",			// Think this id doesn't matter.
 			action: "clear_cache"
