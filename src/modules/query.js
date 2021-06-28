@@ -29,6 +29,7 @@ exports.base_query = function(node) {
 	o.overrideSettings = {
 		reportAnalysisWinratesAs: "SIDETOMOVE",
 		wideRootNoise: config.widerootnoise ? 0.05 : 0,
+		rootSymmetryPruning: config.symmetry_pruning ? true : false,
 	};
 
 	return o;

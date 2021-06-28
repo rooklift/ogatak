@@ -94,6 +94,7 @@ module.exports = {
 			break;
 
 		case "widerootnoise":
+		case "symmetry_pruning":
 
 			if (this.engine.desired) {
 				this.go();

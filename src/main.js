@@ -921,6 +921,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Symmetry pruning",
+					type: "checkbox",
+					checked: config.symmetry_pruning,
+					click: () => {
+						win.webContents.send("toggle", "symmetry_pruning");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
@@ -2283,6 +2291,12 @@ function menu_build() {
 				},
 				{
 					type: "separator",
+				},
+				{
+					label: "Reset cache",
+					click: () => {
+						win.webContents.send("call", "clear_cache");
+					}
 				},
 				{
 					label: "Restart engine",

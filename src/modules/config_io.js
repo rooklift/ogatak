@@ -66,6 +66,7 @@ exports.defaults = {
 	"central_node_colour": "#d2b074ff",
 
 	"widerootnoise": true,
+	"symmetry_pruning": true,
 
 	"dead_stone_prediction": true,
 

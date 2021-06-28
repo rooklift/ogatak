@@ -650,6 +650,13 @@ let hub_props = {
 		this.draw();
 	},
 
+	clear_cache: function() {
+		this.engine.__send({
+			id: "clear_cache",			// Think this id doesn't matter.
+			action: "clear_cache"
+		});
+	},
+
 	restart_engine: function() {
 		if (this.engine.exe) {
 			this.halt();
