@@ -223,3 +223,29 @@ exports.valid_analysis_object = function(o) {		// Return value must be true or f
 
 	return false;
 };
+
+exports.parse_version = function(s) {
+
+	if (typeof s !== "string") {
+		return [0, 0, 0];
+	}
+
+	let parts = s.split(".");
+
+	if (parts.length !== 3) {
+		return [0, 0, 0];
+	}
+
+	let ret = [];
+
+	for (let part of parts) {
+		let n = parseInt(part, 10);
+		if (Number.isNaN(n)) {
+			return [0, 0, 0];
+		}
+		ret.push(n);
+	}
+
+	return ret;
+};
+

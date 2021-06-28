@@ -7,7 +7,7 @@ const readline = require("readline");
 const {ipcRenderer} = require("electron");
 
 const stringify = require("./stringify");
-const {node_id_from_search_id} = require("./utils");
+const {node_id_from_search_id, parse_version} = require("./utils");
 const {base_query, full_query, full_query_matches_base} = require("./query");
 
 function new_engine() {
@@ -17,6 +17,8 @@ function new_engine() {
 	eng.exe = null;
 	eng.filepath = "";
 	eng.weights = "";
+
+	eng.version = [0, 0, 0];	// Gets updated to something like [1, 9, 0]
 
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
@@ -54,13 +56,13 @@ let engine_prototype = {
 		}
 
 		if (this.desired) {
-			let hypothetical_base = base_query(node);
+			let hypothetical_base = base_query(node, this);
 			if (full_query_matches_base(this.desired, hypothetical_base)) {
 				return;				// Because everything matches - the search desired is already set as such.
 			}
 		}
 
-		this.desired = full_query(node);
+		this.desired = full_query(node, this);
 		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		if (this.running) {
@@ -117,6 +119,8 @@ let engine_prototype = {
 			return;
 		}
 
+		this.__send({id: "query_version", action: "query_version"});
+
 		this.create_scanners();
 	},
 
@@ -167,6 +171,9 @@ let engine_prototype = {
 			}
 			if (o.error || o.warning) {
 				alert("Engine said:\n" + stringify(o));
+			}
+			if (o.action === "query_version") {
+				this.version = parse_version(o.version);
 			}
 			if (o.isDuringSearch === false || o.error) {
 				if (this.running && this.running.id === o.id) {		// The current search has terminated.

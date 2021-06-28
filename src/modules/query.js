@@ -4,7 +4,7 @@ const {node_id_from_search_id} = require("./utils");
 
 let next_query_id = 1;
 
-exports.base_query = function(node) {
+exports.base_query = function(node, engine) {
 
 	// A base query without the expensive things.
 	// Every key that's used at all should be in 100% of the queries, even for default values.
@@ -32,12 +32,18 @@ exports.base_query = function(node) {
 		rootSymmetryPruning: config.symmetry_pruning ? true : false,
 	};
 
+	// For compatibility reasons, we can only include some things depending on version...
+
+	if (engine.version[0] < 1 || engine.version[1] < 9) {
+		delete o.overrideSettings.rootSymmetryPruning;
+	}
+
 	return o;
 };
 
-exports.full_query = function(query_node) {
+exports.full_query = function(query_node, engine) {
 
-	let o = exports.base_query(query_node);
+	let o = exports.base_query(query_node, engine);
 
 	let setup = [];
 	let moves = [];
