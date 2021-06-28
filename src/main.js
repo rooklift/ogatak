@@ -2293,7 +2293,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Reset cache",
+					label: "Clear cache",
 					click: () => {
 						win.webContents.send("call", "clear_cache");
 					}
