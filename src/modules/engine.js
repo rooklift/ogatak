@@ -24,7 +24,6 @@ function new_engine() {
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
 	eng.has_quit = false;
-	eng.last_sent_string = "";
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
@@ -43,12 +42,8 @@ let engine_prototype = {
 		}
 		try {
 			let msg = JSON.stringify(o);
-			if (o.action === "terminate" && msg === this.last_sent_string) {
-				return;
-			}
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
-			this.last_sent_string = msg;
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
 			this.shutdown();
