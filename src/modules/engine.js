@@ -23,7 +23,7 @@ function new_engine() {
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
-	eng.have_quit = false;
+	eng.has_quit = false;
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
@@ -46,6 +46,10 @@ let engine_prototype = {
 			this.exe.stdin.write("\n");
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
+			this.exe = null;
+			this.has_quit = true;
+			this.running = null;
+			this.desired = null;
 		}
 	},
 
@@ -97,7 +101,7 @@ let engine_prototype = {
 
 	setup: function(filepath, engineconfig, weights) {
 
-		if (this.exe || this.have_quit) {
+		if (this.exe || this.has_quit) {
 			throw "Engine object should not be reused!";
 		}
 
@@ -126,7 +130,7 @@ let engine_prototype = {
 
 	setup_with_command(command, argslist) {
 
-		if (this.exe || this.have_quit) {
+		if (this.exe || this.has_quit) {
 			throw "Engine object should not be reused!";
 		}
 
@@ -159,7 +163,7 @@ let engine_prototype = {
 		});
 
 		this.scanner.on("line", (line) => {
-			if (this.have_quit) {
+			if (this.has_quit) {
 				return;
 			}
 			let o;
@@ -192,7 +196,7 @@ let engine_prototype = {
 		});
 
 		this.err_scanner.on("line", (line) => {
-			if (this.have_quit) {
+			if (this.has_quit) {
 				return;
 			}
 			if (config.stderr_to_console) {
@@ -217,7 +221,7 @@ let engine_prototype = {
 	},
 
 	shutdown: function() {				// Note: Don't reuse the engine object.
-		this.have_quit = true;
+		this.has_quit = true;
 		if (this.exe) {
 			this.exe.kill();
 		}

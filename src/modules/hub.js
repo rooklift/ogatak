@@ -641,7 +641,7 @@ let hub_props = {
 	},
 
 	maybe_start_engine: function() {	// This gets called only by hub_settings.js, and never if config.arbitrary_command exists.
-		if (this.engine.exe) {
+		if (this.engine.exe || this.engine.has_quit) {
 			this.halt();
 			this.engine.shutdown();
 			this.engine = new_engine();
@@ -666,7 +666,7 @@ let hub_props = {
 	},
 
 	restart_engine: function() {
-		if (this.engine.exe) {
+		if (this.engine.exe || this.engine.has_quit) {
 			this.halt();
 			this.engine.shutdown();
 			this.engine = new_engine();
