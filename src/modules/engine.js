@@ -8,7 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const stringify = require("./stringify");
 const {node_id_from_search_id, parse_version} = require("./utils");
-const {base_query, full_query, full_query_matches_base} = require("./query");
+const {base_query, finalise_query, full_query_matches_base} = require("./query");
 
 function new_engine() {
 
@@ -44,6 +44,7 @@ let engine_prototype = {
 			let msg = JSON.stringify(o);
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
+			log("--> " + msg);
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
 			this.shutdown();
@@ -57,13 +58,14 @@ let engine_prototype = {
 		}
 
 		if (this.desired) {
-			let hypothetical_base = base_query(node, this);
-			if (full_query_matches_base(this.desired, hypothetical_base)) {
+			let query = base_query(node, this);
+			if (full_query_matches_base(this.desired, query)) {
 				return;				// Because everything matches - the search desired is already set as such.
 			}
 		}
 
-		this.desired = full_query(node, this);
+		finalise_query(query, node, this);
+		this.desired = query;
 		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		if (this.running) {
@@ -144,11 +146,13 @@ let engine_prototype = {
 
 		this.exe.once("error", (err) => {
 			alert("Got exe error:\n" + err.toString());
+			log(err.toString());
 			this.shutdown();
 		});
 
 		this.exe.stdin.once("error", (err) => {
 			alert("Got exe.stdin error:\n" + err.toString());
+			log(err.toString());
 			this.shutdown();
 		});
 
@@ -178,7 +182,19 @@ let engine_prototype = {
 				o = JSON.parse(line);
 			} catch (err) {
 				alert("Engine said:\n" + line);						// We got some non-JSON line.
+				log("< " + line);
 				return;
+			}
+			if (o.rootInfo) {
+				if (o.isDuringSearch) {
+					log(`< [Received update for ${o.id}]`);
+				} else if (o.noResults) {
+					log(`< [Received noResults update for ${o.id}]`);
+				} else {
+					log(`< [Received final update for ${o.id}]`);
+				}
+			} else {
+				log("< " + line);
 			}
 			if (o.error || o.warning) {
 				alert("Engine said:\n" + stringify(o));
@@ -202,6 +218,7 @@ let engine_prototype = {
 					}
 				}
 			}
+
 			hub.receive_object(o);
 		});
 
