@@ -67,7 +67,7 @@ let engine_prototype = {
 			}
 		}
 
-		finalise_query(query, node, this);
+		finalise_query(query, node);
 		this.desired = query;
 		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
