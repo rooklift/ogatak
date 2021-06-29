@@ -150,6 +150,10 @@ let engine_prototype = {
 
 	finish_setup: function() {
 
+		log("");
+		log("-----------------------------------------------------------------------------------");
+		log(`KataGo startup at ${new Date().toUTCString()}`);
+
 		this.exe.once("error", (err) => {
 			alert("Got exe error:\n" + err.toString());
 			log("Got exe error:" + err.toString());
