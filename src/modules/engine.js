@@ -45,7 +45,11 @@ let engine_prototype = {
 			let msg = JSON.stringify(o);
 			this.exe.stdin.write(msg);			// If there's an exception here, the exe.stdin exception handler (created below)
 			this.exe.stdin.write("\n");			// will set this.exe to null, causing this second line to throw... meh, it's fine.
-			log("--> " + msg);
+			if (o.moves) {
+				log(`--> (Request ${o.id}, ${o.moves.length} moves)`);
+			} else {
+				log("--> " + msg);
+			}
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
 			log("While sending to engine: " + err.toString());
@@ -194,7 +198,7 @@ let engine_prototype = {
 			}
 			if (o.rootInfo) {
 				if (o.isDuringSearch) {
-					log(`< [Received update for ${o.id}]`);
+					log(`< [Received update for ${o.id}, ${o.rootInfo.visits} visits]`);
 				} else if (o.noResults) {
 					log(`< [Received noResults update for ${o.id}]`);
 				} else {
