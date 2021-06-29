@@ -57,8 +57,9 @@ let engine_prototype = {
 			return;
 		}
 
+		let query = base_query(node, this);
+
 		if (this.desired) {
-			let query = base_query(node, this);
 			if (full_query_matches_base(this.desired, query)) {
 				return;				// Because everything matches - the search desired is already set as such.
 			}
