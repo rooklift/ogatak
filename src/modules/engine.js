@@ -199,17 +199,7 @@ let engine_prototype = {
 				log("< " + line);
 				return;
 			}
-			if (o.rootInfo) {
-				if (o.isDuringSearch) {
-					log(`< [Update for ${o.id}, ${o.rootInfo.visits} visits]`);
-				} else {
-					log(`< [FINAL update for ${o.id}, ${o.rootInfo.visits} visits]`);
-				}
-			} else if (o.noResults) {
-				log(`< [NORESULTS update for ${o.id}]`);
-			} else {
-				log("< " + line);
-			}
+			this.log_received_object(o, line);
 			if (o.error || o.warning) {
 				alert("Engine said:\n" + stringify(o));
 			}
@@ -232,7 +222,6 @@ let engine_prototype = {
 					}
 				}
 			}
-
 			hub.receive_object(o);
 		});
 
@@ -253,6 +242,20 @@ let engine_prototype = {
 		});
 	},
 
+	log_received_object: function(o, line) {			// args are the object and the line that generated it
+		if (o.rootInfo) {
+			if (o.isDuringSearch) {
+				log(`< [Update for ${o.id}, ${o.rootInfo.visits} visits]`);
+			} else {
+				log(`< [FINAL update for ${o.id}, ${o.rootInfo.visits} visits]`);
+			}
+		} else if (o.noResults) {
+			log(`< [NORESULTS update for ${o.id}]`);
+		} else {
+			log("< " + line);
+		}
+	},
+
 	problem_text: function() {
 		if (this.exe) return "";
 		if (!this.filepath) return "Engine not set";
@@ -261,7 +264,7 @@ let engine_prototype = {
 		return `Engine (${path.basename(this.filepath)}) not running`;
 	},
 
-	shutdown: function() {				// Note: Don't reuse the engine object.
+	shutdown: function() {								// Note: Don't reuse the engine object.
 		this.has_quit = true;
 		if (this.exe) {
 			this.exe.kill();
