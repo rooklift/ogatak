@@ -203,7 +203,7 @@ let engine_prototype = {
 				if (o.isDuringSearch) {
 					log(`< [Update for ${o.id}, ${o.rootInfo.visits} visits]`);
 				} else {
-					log(`< [FINAL update for ${o.id}]`);
+					log(`< [FINAL update for ${o.id}, ${o.rootInfo.visits} visits]`);
 				}
 			} else if (o.noResults) {
 				log(`< [NORESULTS update for ${o.id}]`);
