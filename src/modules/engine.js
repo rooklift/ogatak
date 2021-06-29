@@ -6,6 +6,7 @@ const path = require("path");
 const readline = require("readline");
 const {ipcRenderer} = require("electron");
 
+const log = require("./log");
 const stringify = require("./stringify");
 const {node_id_from_search_id, parse_version} = require("./utils");
 const {base_query, finalise_query, full_query_matches_base} = require("./query");
@@ -47,6 +48,7 @@ let engine_prototype = {
 			log("--> " + msg);
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
+			log("While sending to engine: " + err.toString());
 			this.shutdown();
 		}
 	},
@@ -123,9 +125,7 @@ let engine_prototype = {
 			return;
 		}
 
-		this.__send({id: "query_version", action: "query_version"});
-
-		this.create_scanners();
+		this.finish_setup();
 	},
 
 	setup_with_command(command, argslist) {
@@ -145,22 +145,22 @@ let engine_prototype = {
 			return;
 		}
 
+		this.finish_setup();
+	},
+
+	finish_setup: function() {
+
 		this.exe.once("error", (err) => {
 			alert("Got exe error:\n" + err.toString());
-			log(err.toString());
+			log("Got exe error:" + err.toString());
 			this.shutdown();
 		});
 
 		this.exe.stdin.once("error", (err) => {
 			alert("Got exe.stdin error:\n" + err.toString());
-			log(err.toString());
+			log("Got exe.stdin error:" + err.toString());
 			this.shutdown();
 		});
-
-		this.create_scanners();
-	},
-
-	create_scanners: function() {
 
 		this.scanner = readline.createInterface({
 			input: this.exe.stdout,
@@ -173,6 +173,8 @@ let engine_prototype = {
 			output: undefined,
 			terminal: false
 		});
+
+		this.__send({id: "query_version", action: "query_version"});
 
 		this.scanner.on("line", (line) => {
 			if (this.has_quit) {
@@ -227,6 +229,7 @@ let engine_prototype = {
 			if (this.has_quit) {
 				return;
 			}
+			log("! " + line);
 			if (config.stderr_to_console) {
 				console.log("! " + line);
 			}
@@ -237,7 +240,6 @@ let engine_prototype = {
 				alert("KataGo said:\n" + line);
 			}
 		});
-
 	},
 
 	problem_text: function() {

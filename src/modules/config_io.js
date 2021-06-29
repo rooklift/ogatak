@@ -70,6 +70,7 @@ exports.defaults = {
 
 	"dead_stone_prediction": true,
 
+	"logfile": null,
 	"width": 1200,
 	"height": 780,
 	"auto_square_size": true,
