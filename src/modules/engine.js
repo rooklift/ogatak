@@ -185,6 +185,9 @@ let engine_prototype = {
 			}
 			if (o.action === "query_version") {
 				this.version = parse_version(o.version);
+				if (this.version[0] === 1 && this.version[1] === 9 && this.version[2] === 0) {
+					alert("This exact version of KataGo (1.9.0) is known to crash under Ogatak, consider downgrading or upgrading.");
+				}
 			}
 			if (o.isDuringSearch === false || o.error) {
 				if (this.running && this.running.id === o.id) {		// The current search has terminated.
