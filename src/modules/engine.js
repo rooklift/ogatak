@@ -219,8 +219,8 @@ let engine_prototype = {
 					alert("This exact version of KataGo (1.9.0) is known to crash under Ogatak, consider downgrading or upgrading.");
 				}
 			}
-			if (o.isDuringSearch === false || o.error) {
-				if (this.running && this.running.id === o.id) {		// The current search has terminated.
+			if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
+				if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
 					if (this.desired === this.running) {
 						this.desired = null;
 						ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
