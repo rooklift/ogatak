@@ -51,8 +51,7 @@ let engine_prototype = {
 				log("--> " + msg);
 			}
 		} catch (err) {
-			alert("While sending to engine:\n" + err.toString());
-			log("While sending to engine: " + err.toString());
+			this.log_and_alert("While sending to engine:", err.toString());
 			this.shutdown();
 		}
 	},
@@ -159,14 +158,12 @@ let engine_prototype = {
 		log(`KataGo startup at ${new Date().toUTCString()}`);
 
 		this.exe.once("error", (err) => {
-			alert("Got exe error:\n" + err.toString());
-			log("Got exe error: " + err.toString());
+			this.log_and_alert("Got exe error:", err.toString());
 			this.shutdown();
 		});
 
 		this.exe.stdin.once("error", (err) => {
-			alert("Got exe.stdin error:\n" + err.toString());
-			log("Got exe.stdin error: " + err.toString());
+			this.log_and_alert("Got exe.stdin error:", err.toString());
 			this.shutdown();
 		});
 
@@ -195,8 +192,7 @@ let engine_prototype = {
 					throw "Got Non-object!";
 				}
 			} catch (err) {
-				alert("Engine said:\n" + line);						// We got some non-JSON line.
-				log("< " + line);
+				this.log_and_alert("Received non-JSON:", line);
 				return;
 			}
 			this.log_received_object(o, line);
@@ -254,6 +250,11 @@ let engine_prototype = {
 		} else {
 			log("< " + line);
 		}
+	},
+
+	log_and_alert: function(...args) {
+		log(args.join(" "));
+		alert(args.join("\n"));
 	},
 
 	problem_text: function() {
