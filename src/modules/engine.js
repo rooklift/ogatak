@@ -191,6 +191,9 @@ let engine_prototype = {
 			let o;
 			try {
 				o = JSON.parse(line);
+				if (typeof o !== "object" || o === null) {
+					throw "Got Non-object!";
+				}
 			} catch (err) {
 				alert("Engine said:\n" + line);						// We got some non-JSON line.
 				log("< " + line);
@@ -199,11 +202,11 @@ let engine_prototype = {
 			if (o.rootInfo) {
 				if (o.isDuringSearch) {
 					log(`< [Received update for ${o.id}, ${o.rootInfo.visits} visits]`);
-				} else if (o.noResults) {
-					log(`< [Received noResults update for ${o.id}]`);
 				} else {
 					log(`< [Received final update for ${o.id}]`);
 				}
+			} else if (o.noResults) {
+				log(`< [Received noResults update for ${o.id}]`);
 			} else {
 				log("< " + line);
 			}
