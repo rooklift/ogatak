@@ -4,16 +4,16 @@ const {node_id_from_search_id} = require("./utils");
 
 let next_query_id = 1;
 
-exports.base_query = function(node, engine) {
+exports.base_query = function(query_node, engine) {
 
 	// A base query without the expensive things.
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
-	let board = node.get_board();
+	let board = query_node.get_board();
 
 	let o = {};
 
-	o.id = `${node.id}:${next_query_id++}`;
+	o.id = `${query_node.id}:${next_query_id++}`;
 
 	o.rules = board.rules === "Unknown" ? config.default_rules : board.rules;
 	o.komi = board.komi;
@@ -41,7 +41,7 @@ exports.base_query = function(node, engine) {
 	return o;
 };
 
-exports.finalise_query = function(o, query_node, engine) {
+exports.finalise_query = function(o, query_node) {
 
 	let setup = [];
 	let moves = [];
