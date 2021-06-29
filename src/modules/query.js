@@ -41,9 +41,7 @@ exports.base_query = function(node, engine) {
 	return o;
 };
 
-exports.full_query = function(query_node, engine) {
-
-	let o = exports.base_query(query_node, engine);
+exports.finalise_query = function(o, query_node, engine) {
 
 	let setup = [];
 	let moves = [];
@@ -84,8 +82,6 @@ exports.full_query = function(query_node, engine) {
 	if (moves.length === 0) {
 		o.initialPlayer = query_node.get_board().active.toUpperCase();
 	}
-
-	return o;
 };
 
 exports.full_query_matches_base = function(full, base) {
