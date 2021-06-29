@@ -2304,6 +2304,50 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Engine report rate",
+					submenu: [
+						{
+							label: "Fast",
+							type: "checkbox",
+							checked: config.report_every === 0.1,
+							click: () => {
+								win.webContents.send("set", {
+									key: "report_every",
+									value: 0.1
+								});
+								set_checks("Misc", "Engine report rate", "Fast");
+							}
+						},
+						{
+							label: "Medium",
+							type: "checkbox",
+							checked: config.report_every === 0.2,
+							click: () => {
+								win.webContents.send("set", {
+									key: "report_every",
+									value: 0.2
+								});
+								set_checks("Misc", "Engine report rate", "Medium");
+							}
+						},
+						{
+							label: "Slow",
+							type: "checkbox",
+							checked: config.report_every === 0.4,
+							click: () => {
+								win.webContents.send("set", {
+									key: "report_every",
+									value: 0.4
+								});
+								set_checks("Misc", "Engine report rate", "Slow");
+							}
+						},
+					]
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Clear cache",
 					click: () => {
 						win.webContents.send("call", "clear_cache");
