@@ -201,12 +201,12 @@ let engine_prototype = {
 			}
 			if (o.rootInfo) {
 				if (o.isDuringSearch) {
-					log(`< [Received update for ${o.id}, ${o.rootInfo.visits} visits]`);
+					log(`< [Update for ${o.id}, ${o.rootInfo.visits} visits]`);
 				} else {
-					log(`< [Received final update for ${o.id}]`);
+					log(`< [FINAL update for ${o.id}]`);
 				}
 			} else if (o.noResults) {
-				log(`< [Received noResults update for ${o.id}]`);
+				log(`< [NORESULTS update for ${o.id}]`);
 			} else {
 				log("< " + line);
 			}
