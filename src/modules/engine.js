@@ -43,8 +43,8 @@ let engine_prototype = {
 		}
 		try {
 			let msg = JSON.stringify(o);
-			this.exe.stdin.write(msg);
-			this.exe.stdin.write("\n");
+			this.exe.stdin.write(msg);			// If there's an exception here, the exe.stdin exception handler (created below)
+			this.exe.stdin.write("\n");			// will set this.exe to null, causing this second line to throw... meh, it's fine.
 			log("--> " + msg);
 		} catch (err) {
 			alert("While sending to engine:\n" + err.toString());
