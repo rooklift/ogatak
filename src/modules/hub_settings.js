@@ -102,6 +102,7 @@ module.exports = {
 			break;
 
 		case "dead_stone_prediction":
+		case "dead_stone_per_move":
 
 			if (this.engine.desired) {
 				this.go();

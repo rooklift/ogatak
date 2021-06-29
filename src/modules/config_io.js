@@ -69,6 +69,7 @@ exports.defaults = {
 	"symmetry_pruning": true,
 
 	"dead_stone_prediction": true,
+	"dead_stone_per_move": true,
 
 	"logfile": null,
 	"width": 1200,

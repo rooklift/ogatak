@@ -24,7 +24,7 @@ exports.base_query = function(query_node, engine) {
 	o.reportDuringSearchEvery = 0.1;
 
 	o.includeOwnership = config.dead_stone_prediction ? true : false;
-	o.includeMovesOwnership = config.dead_stone_prediction ? true : false;
+	o.includeMovesOwnership = (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false;
 
 	o.overrideSettings = {
 		reportAnalysisWinratesAs: "SIDETOMOVE",

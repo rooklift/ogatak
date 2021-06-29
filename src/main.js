@@ -905,14 +905,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Dead stone prediction",
-					type: "checkbox",
-					checked: config.dead_stone_prediction,
-					click: () => {
-						win.webContents.send("toggle", "dead_stone_prediction");
-					}
-				},
-				{
 					label: "Wide root noise",
 					type: "checkbox",
 					checked: config.widerootnoise,
@@ -926,6 +918,25 @@ function menu_build() {
 					checked: config.symmetry_pruning,
 					click: () => {
 						win.webContents.send("toggle", "symmetry_pruning");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Dead stone prediction",
+					type: "checkbox",
+					checked: config.dead_stone_prediction,
+					click: () => {
+						win.webContents.send("toggle", "dead_stone_prediction");
+					}
+				},
+				{
+					label: "...per move",
+					type: "checkbox",
+					checked: config.dead_stone_per_move,
+					click: () => {
+						win.webContents.send("toggle", "dead_stone_per_move");
 					}
 				},
 				{
