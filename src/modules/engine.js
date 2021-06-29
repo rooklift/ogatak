@@ -156,13 +156,13 @@ let engine_prototype = {
 
 		this.exe.once("error", (err) => {
 			alert("Got exe error:\n" + err.toString());
-			log("Got exe error:" + err.toString());
+			log("Got exe error: " + err.toString());
 			this.shutdown();
 		});
 
 		this.exe.stdin.once("error", (err) => {
 			alert("Got exe.stdin error:\n" + err.toString());
-			log("Got exe.stdin error:" + err.toString());
+			log("Got exe.stdin error: " + err.toString());
 			this.shutdown();
 		});
 
