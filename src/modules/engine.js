@@ -11,6 +11,10 @@ const stringify = require("./stringify");
 const {node_id_from_search_id, parse_version} = require("./utils");
 const {base_query, finalise_query, full_query_matches_base} = require("./query");
 
+const bad_versions = [
+	[1, 9, 0],
+];
+
 function new_engine() {
 
 	let eng = Object.create(engine_prototype);
@@ -201,8 +205,10 @@ let engine_prototype = {
 			}
 			if (o.action === "query_version") {
 				this.version = parse_version(o.version);
-				if (this.version[0] === 1 && this.version[1] === 9 && this.version[2] === 0) {
-					alert("This exact version of KataGo (1.9.0) is known to crash under Ogatak, consider downgrading or upgrading.");
+				for (let bv of bad_versions) {
+					if (this.version[0] = bv[0] && this.version[1] === bv[1] && this.version[2] === bv[2]) {
+						alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
+					}
 				}
 			}
 			if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
