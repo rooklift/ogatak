@@ -392,6 +392,16 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Quit",
+					accelerator: "CommandOrControl+Q",
+					role: "quit"
+				},
+			]
+		},
+		{
+			label: "Setup",
+			submenu: [
+				{
 					label: "Locate KataGo...",
 					click: () => {
 						let files = open_dialog();
@@ -450,9 +460,10 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Quit",
-					accelerator: "CommandOrControl+Q",
-					role: "quit"
+					label: "Restart engine",
+					click: () => {
+						win.webContents.send("call", "restart_engine");
+					}
 				},
 			]
 		},
@@ -2382,12 +2393,6 @@ function menu_build() {
 					label: "Clear cache",
 					click: () => {
 						win.webContents.send("call", "clear_cache");
-					}
-				},
-				{
-					label: "Restart engine",
-					click: () => {
-						win.webContents.send("call", "restart_engine");
 					}
 				},
 			]
