@@ -38,8 +38,8 @@ let graph_drawer_prototype = {
 		this.drawable_width = Math.max(0, this.canvas.width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, this.boardcanvas.height - (config.square_size / 2));
 
-		if (this.drawable_width <= 0 || this.drawable_height <= 0) {
-			this.draw_position(node);		// Will set its own canvas to zero size.
+		if (this.drawable_width <= 16 || this.drawable_height <= 0) {
+			this.draw_position(node);		// Just so it sets its size.
 			return;
 		}
 
@@ -142,7 +142,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		if (this.drawable_width <= 0 || this.drawable_height <= 0) {
+		if (this.drawable_width <= 16 || this.drawable_height <= 0) {
 			return;
 		}
 
