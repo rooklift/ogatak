@@ -154,7 +154,7 @@ function menu_build() {
 
 	const template = [
 		{
-			label: "App",
+			label: "File",
 			submenu: [
 				{
 					label: "About",
