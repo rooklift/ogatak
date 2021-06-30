@@ -2434,4 +2434,3 @@ function set_one_check(state, ...menupath) {
 		item.checked = state;
 	}
 }
-

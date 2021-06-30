@@ -90,4 +90,3 @@ function speedtestwatch(visits, starttime) {
 		}, 100);
 	}
 }
-
