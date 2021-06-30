@@ -2264,6 +2264,37 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Play Black",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", {
+							fn: "start_play_colour",
+							args: ["b"]
+						});
+					}
+				},
+				{
+					label: "Play White",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", {
+							fn: "start_play_colour",
+							args: ["w"]
+						});
+					}
+				},
+				{
+					label: "Halt",
+					click: () => {
+						win.webContents.send("call", "halt");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Log engine stderr to console",
 					type: "checkbox",
 					checked: config.stderr_to_console,
