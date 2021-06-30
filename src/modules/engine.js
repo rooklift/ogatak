@@ -206,7 +206,7 @@ let engine_prototype = {
 			if (o.action === "query_version") {
 				this.version = parse_version(o.version);
 				for (let bv of bad_versions) {
-					if (this.version[0] = bv[0] && this.version[1] === bv[1] && this.version[2] === bv[2]) {
+					if (this.version[0] === bv[0] && this.version[1] === bv[1] && this.version[2] === bv[2]) {
 						alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
 					}
 				}
