@@ -243,7 +243,7 @@ let engine_prototype = {
 				log(`< [FINAL update for ${o.id}, ${o.rootInfo.visits} visits]`);
 			}
 		} else if (o.noResults) {
-			log(`< [NORESULTS update for ${o.id}]`);
+			log(`< [NO RESULTS update for ${o.id}]`);
 		} else {
 			log("< " + line);
 		}
