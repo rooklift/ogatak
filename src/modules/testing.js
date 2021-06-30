@@ -25,6 +25,15 @@ exports.load = function(n = 0) {
 
 // ------------------------------------------------------------------------------------------------
 
+exports.stress = function(moves, cycles, delay) {
+	if (moves === undefined || cycles === undefined || delay === undefined) {
+		throw "Bad call";
+	}
+	hub.go_to_root();
+	hub.go();
+	stresser(0, moves, cycles, delay, false, [], performance.now());
+};
+
 function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 
 	// i - current step, initial call should be 0
@@ -58,14 +67,7 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 	}
 }
 
-exports.stress = function(moves, cycles, delay) {
-	if (moves === undefined || cycles === undefined || delay === undefined) {
-		throw "Bad call";
-	}
-	hub.go_to_root();
-	hub.go();
-	stresser(0, moves, cycles, delay, false, [], performance.now());
-};
+// ------------------------------------------------------------------------------------------------
 
 exports.speedtest = function(visits) {
 
@@ -75,17 +77,17 @@ exports.speedtest = function(visits) {
 	hub.go_to_end();
 	hub.go();
 
-	let starttime = performance.now();
+	speedtestwatch(visits, performance.now());
+};
 
-	let checker = () => {
-		if (hub.node && hub.node.has_valid_analysis() && hub.node.analysis.rootInfo.visits > visits) {
-			console.log(`${path.basename(config.engine)}: ${visits} visits took ${(performance.now() - starttime).toFixed(0)} ms.`);
-			hub.halt();
-		} else {
-			setTimeout(checker, 100);
-		}
-	};
-
-	checker();
+function speedtestwatch(visits, starttime) {
+	if (hub.node && hub.node.has_valid_analysis() && hub.node.analysis.rootInfo.visits > visits) {
+		console.log(`${path.basename(config.engine)}: ${visits} visits took ${(performance.now() - starttime).toFixed(0)} ms.`);
+		hub.halt();
+	} else {
+		setTimeout(() => {
+			speedtestwatch(visits, starttime)
+		}, 100);
+	}
 };
 
