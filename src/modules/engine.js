@@ -8,7 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const stringify = require("./stringify");
-const {node_id_from_search_id, parse_version} = require("./utils");
+const {node_id_from_search_id, parse_version, compare_versions} = require("./utils");
 const {base_query, finalise_query, full_query_matches_base} = require("./query");
 
 const bad_versions = [
@@ -200,13 +200,16 @@ let engine_prototype = {
 				return;
 			}
 			this.log_received_object(o, line);
-			if (o.error || o.warning) {
+			if (o.error) {
 				alert("Engine said:\n" + stringify(o));
+			}
+			if (o.warning) {
+				console.log("Engine warning: " + o.warning);
 			}
 			if (o.action === "query_version") {
 				this.version = parse_version(o.version);
 				for (let bv of bad_versions) {
-					if (this.version[0] === bv[0] && this.version[1] === bv[1] && this.version[2] === bv[2]) {
+					if (compare_versions(bv, this.version) === 0) {
 						alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
 					}
 				}

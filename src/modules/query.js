@@ -1,6 +1,6 @@
 "use strict";
 
-const {node_id_from_search_id} = require("./utils");
+const {node_id_from_search_id, compare_versions} = require("./utils");
 
 let next_query_id = 1;
 
@@ -26,16 +26,17 @@ exports.base_query = function(query_node, engine) {
 	o.includeOwnership = config.dead_stone_prediction ? true : false;
 	o.includeMovesOwnership = (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false;
 
-	o.overrideSettings = {
+	o.overrideSettings = {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 		reportAnalysisWinratesAs: "SIDETOMOVE",
 		wideRootNoise: config.widerootnoise ? 0.05 : 0,
 		rootSymmetryPruning: config.symmetry_pruning ? true : false,
 	};
 
-	// For compatibility reasons, we can only include some things depending on version...
+	// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.
+	// So if the engine is earlier than that, strip out fields it hasn't heard of.
 
-	if (engine.version[0] < 1 || (engine.version[0] === 1 && engine.version[1] < 9)) {
-		delete o.overrideSettings.rootSymmetryPruning;
+	if (compare_versions(engine.version, [1,9,1]) === -1) {
+		delete o.overrideSettings.rootSymmetryPruning;			// Introduced in 1.9.0 but that's a crashy version anyway, so the 1.9.1 check is fine.
 	}
 
 	return o;

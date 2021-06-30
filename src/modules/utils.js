@@ -249,3 +249,16 @@ exports.parse_version = function(s) {
 	return ret;
 };
 
+exports.compare_versions = function(a, b) {		// args are both arrays like [1,8,2]
+
+	if (a[0] < b[0]) return -1;
+	if (a[0] > b[0]) return 1;
+
+	if (a[1] < b[1]) return -1;
+	if (a[1] > b[1]) return 1;
+
+	if (a[2] < b[2]) return -1;
+	if (a[2] > b[2]) return 1;
+
+	return 0;
+};

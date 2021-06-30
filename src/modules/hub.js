@@ -21,7 +21,7 @@ const save_sgf = require("./save_sgf");
 
 const {defaults} = require("./config_io");
 const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object} = require("./utils");
+const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -642,7 +642,7 @@ let hub_props = {
 
 	clear_cache: function() {
 
-		if (this.engine.version[0] < 1 || this.engine.version[1] < 9) {
+		if (compare_versions(this.engine.version, [1,9,0]) === -1) {
 			alert("Not supported by this version of KataGo.");
 			return;
 		}
