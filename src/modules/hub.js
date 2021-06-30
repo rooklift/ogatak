@@ -59,6 +59,7 @@ exports.new_hub = function() {
 
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
+	hub.__play_colour = null;					// Don't set this directly, because it should be ack'd
 
 	hub.tabber = new_tabber(
 		document.getElementById("tabdiv")
@@ -347,10 +348,15 @@ let hub_props = {
 
 		let want_to_go = this.engine.desired ? true : false;
 
+		if (this.__play_colour) {
+			want_to_go = this.__play_colour === this.node.get_board().active;
+		}
+
 		if (!opts.keep_autoplay_settings) {
-			if (this.__autoanalysis || this.__autoplay) {
+			if (this.__autoanalysis || this.__autoplay || this.__play_colour) {
 				this.set_autoanalysis(false);
 				this.set_autoplay(false);
+				this.set_play_colour(null);
 				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
 			}
 		}
@@ -358,7 +364,7 @@ let hub_props = {
 		if (want_to_go) {
 			this.go();
 		} else {
-			this.halt();
+			this.engine.halt();					// Don't use this.halt() which adjusts auto-stuff.
 		}
 
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
@@ -550,7 +556,7 @@ let hub_props = {
 
 				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
-					this.halt();
+					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
 					return;								// Just to avoid the redundant draw()
 
@@ -597,9 +603,10 @@ let hub_props = {
 		this.engine.analyse(this.node);
 	},
 
-	halt: function() {
+	halt: function() {						// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
+		this.set_play_colour(null);
 		this.engine.halt();
 	},
 
@@ -633,9 +640,27 @@ let hub_props = {
 		}
 	},
 
-	start_autoanalysis() {
+	set_play_colour: function(val) {
+
+		this.__play_colour = (val === "b" || val === "w") ? val : null;
+
+		if (this.__play_colour === "b") {
+			ipcRenderer.send("set_check_true", ["Misc", "Play Black"]);
+			ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+		} else if (this.__play_colour === "w") {
+			ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+			ipcRenderer.send("set_check_true", ["Misc", "Play White"]);
+		} else {
+			ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+			ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+		}
+
+	},
+
+	start_autoanalysis: function() {
 		this.set_autoanalysis(true);
 		this.set_autoplay(false);
+		this.set_play_colour(null);
 		if (!this.engine.desired) {
 			this.go();
 		}
@@ -644,7 +669,17 @@ let hub_props = {
 	start_autoplay: function() {
 		this.set_autoanalysis(false);
 		this.set_autoplay(true);
+		this.set_play_colour(null);
 		if (!this.engine.desired) {
+			this.go();
+		}
+	},
+
+	start_play_colour: function(val) {
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
+		this.set_play_colour(val);
+		if (!this.engine.desired && this.node.get_board().active === val) {
 			this.go();
 		}
 	},
@@ -887,14 +922,6 @@ let hub_props = {
 			}
 		}
 		setTimeout(this.window_resize_checker.bind(this), 250);
-	},
-
-	play_colour_spinner: function() {
-
-		if (this.__play_colour && this.__play_colour === this.node.get_board().active && !this.engine.desired) {
-			this.go();
-		}
-		setTimeout(this.play_colour_spinner.bind(this), 100);
 	},
 
 };
