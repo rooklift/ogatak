@@ -611,53 +611,67 @@ let hub_props = {
 	},
 
 	toggle_ponder: function() {
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
+		this.set_play_colour(null);
 		if (this.engine.desired) {
 			this.halt();
 		} else {
-			this.set_autoanalysis(false);
-			this.set_autoplay(false);
-			this.set_play_colour(null);
 			this.go();
 		}
 	},
 
 	set_autoanalysis: function(val) {
 
-		this.__autoanalysis = val ? true : false;
+		val = val ? true : false;
 
-		if (this.__autoanalysis) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Autoanalysis"]);
-		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Autoanalysis"]);
+		if (this.__autoanalysis !== val) {
+			this.__autoanalysis = val;
+			if (val) {
+				ipcRenderer.send("set_check_true", ["Analysis", "Autoanalysis"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Analysis", "Autoanalysis"]);
+			}
 		}
+
+		return val;
 	},
 
 	set_autoplay: function(val) {
 
-		this.__autoplay = val ? true : false;
+		val = val ? true : false;
 
-		if (this.__autoplay) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Self-play"]);
-		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Self-play"]);
+		if (this.__autoplay !== val) {
+			this.__autoplay = val;
+			if (val) {
+				ipcRenderer.send("set_check_true", ["Analysis", "Self-play"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Analysis", "Self-play"]);
+			}
 		}
+
+		return val;
 	},
 
 	set_play_colour: function(val) {
 
-		this.__play_colour = (val === "b" || val === "w") ? val : null;
+		val = (val === "b" || val === "w") ? val : null;
 
-		if (this.__play_colour === "b") {
-			ipcRenderer.send("set_check_true", ["Misc", "Play Black"]);
-			ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
-		} else if (this.__play_colour === "w") {
-			ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
-			ipcRenderer.send("set_check_true", ["Misc", "Play White"]);
-		} else {
-			ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
-			ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+		if (this.__play_colour !== val) {
+			this.__play_colour = val;
+			if (val === "b") {
+				ipcRenderer.send("set_check_true", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+			} else if (val === "w") {
+				ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_true", ["Misc", "Play White"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+			}
 		}
 
+		return val;
 	},
 
 	start_autoanalysis: function() {
