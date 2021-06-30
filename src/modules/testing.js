@@ -7,8 +7,8 @@ let positions = [
 	;B[qd];W[dc];B[cp];W[pp];B[nq];W[ep];B[gq];W[fo];B[cm];W[hp];B[qn];W[pn]
 	;B[pm];W[on];B[qo];W[qp];B[kp];W[pk];B[po];W[oo];B[op];W[om];B[qm];W[pl]
 	;B[rp];W[rq];B[qq];W[pq];B[qr];W[ro];B[sp];W[sq];B[pr];W[so];B[rp];W[sp]
-	;B[oq];W[rp];B[rl];W[rk];B[rr])`
-,
+	;B[oq];W[rp];B[rl];W[rk];B[rr])`,
+
 	`(;SZ[19]KM[7.5]RE[W+R]RU[Chinese]
 	;B[pd];W[dp];B[cd];W[qp];B[op];W[oq];B[nq];W[pq];B[cn];W[fq];B[mp];W[po]
 	;B[iq];W[ec];B[hd];W[cg];B[ed];W[cj];B[dc];W[bp];B[nc];W[qi];B[ep];W[eo]
@@ -86,8 +86,8 @@ function speedtestwatch(visits, starttime) {
 		hub.halt();
 	} else {
 		setTimeout(() => {
-			speedtestwatch(visits, starttime)
+			speedtestwatch(visits, starttime);
 		}, 100);
 	}
-};
+}
 
