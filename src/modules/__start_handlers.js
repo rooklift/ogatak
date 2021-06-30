@@ -38,7 +38,7 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	let s = event_path_class_string(event, "td_");
 	if (s) {
 		if (event.which === 2) {
-			hub.new_active_view_from_move(s);
+			hub.new_active_view_try_move(s);
 		} else {
 			hub.try_move(s);
 		}

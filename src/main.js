@@ -392,6 +392,16 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Quit",
+					accelerator: "CommandOrControl+Q",
+					role: "quit"
+				},
+			]
+		},
+		{
+			label: "Setup",
+			submenu: [
+				{
 					label: "Locate KataGo...",
 					click: () => {
 						let files = open_dialog();
@@ -450,9 +460,10 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Quit",
-					accelerator: "CommandOrControl+Q",
-					role: "quit"
+					label: "Restart engine",
+					click: () => {
+						win.webContents.send("call", "restart_engine");
+					}
 				},
 			]
 		},
@@ -2264,6 +2275,37 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Play Black",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", {
+							fn: "start_play_colour",
+							args: ["b"]
+						});
+					}
+				},
+				{
+					label: "Play White",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", {
+							fn: "start_play_colour",
+							args: ["w"]
+						});
+					}
+				},
+				{
+					label: "Halt",
+					click: () => {
+						win.webContents.send("call", "halt");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Log engine stderr to console",
 					type: "checkbox",
 					checked: config.stderr_to_console,
@@ -2351,12 +2393,6 @@ function menu_build() {
 					label: "Clear cache",
 					click: () => {
 						win.webContents.send("call", "clear_cache");
-					}
-				},
-				{
-					label: "Restart engine",
-					click: () => {
-						win.webContents.send("call", "restart_engine");
 					}
 				},
 			]

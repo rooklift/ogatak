@@ -59,6 +59,7 @@ exports.new_hub = function() {
 
 	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
+	hub.__play_colour = null;					// Don't set this directly, because it should be ack'd
 
 	hub.tabber = new_tabber(
 		document.getElementById("tabdiv")
@@ -149,7 +150,7 @@ let hub_props = {
 		this.switch_tab(index);
 	},
 
-	new_active_view_from_move: function(s) {
+	new_active_view_try_move: function(s) {
 		let index = this.tabber.create_inactive_tab_after_active(this.node.try_move(s));
 		this.switch_tab(index);
 	},
@@ -347,10 +348,15 @@ let hub_props = {
 
 		let want_to_go = this.engine.desired ? true : false;
 
+		if (this.__play_colour) {
+			want_to_go = this.__play_colour === this.node.get_board().active;
+		}
+
 		if (!opts.keep_autoplay_settings) {
-			if (this.__autoanalysis || this.__autoplay) {
+			if (this.__autoanalysis || this.__autoplay || this.__play_colour) {
 				this.set_autoanalysis(false);
 				this.set_autoplay(false);
+				this.set_play_colour(null);
 				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
 			}
 		}
@@ -358,7 +364,7 @@ let hub_props = {
 		if (want_to_go) {
 			this.go();
 		} else {
-			this.halt();
+			this.engine.halt();					// Don't use this.halt() which adjusts auto-stuff.
 		}
 
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
@@ -546,22 +552,31 @@ let hub_props = {
 
 			this.node.receive_analysis(o);
 
-			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
+			if (o.rootInfo.visits > config.autoanalysis_visits) {
 
-				if (this.node.children.length > 0) {
-					this.next();
-					return;							// Just to avoid the redundant draw()
-				} else {
-					this.halt();
-				}
+				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
-			} else if (this.__autoplay && o.rootInfo.visits > config.autoanalysis_visits) {
-
-				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
-					this.halt();
-				} else {
+					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
-					return;							// Just to avoid the redundant draw()
+					return;								// Just to avoid the redundant draw()
+
+				} else if (this.__autoanalysis) {
+
+					if (this.node.children.length > 0) {
+						this.next();
+						return;							// Just to avoid the redundant draw()
+					} else {
+						this.halt();
+					}
+
+				} else if (this.__autoplay) {
+
+					if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
+						this.halt();
+					} else {
+						this.play_best();
+						return;							// Just to avoid the redundant draw()
+					}
 				}
 			}
 
@@ -588,13 +603,17 @@ let hub_props = {
 		this.engine.analyse(this.node);
 	},
 
-	halt: function() {
+	halt: function() {						// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		this.set_autoanalysis(false);
 		this.set_autoplay(false);
+		this.set_play_colour(null);
 		this.engine.halt();
 	},
 
 	toggle_ponder: function() {
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
+		this.set_play_colour(null);
 		if (this.engine.desired) {
 			this.halt();
 		} else {
@@ -604,29 +623,61 @@ let hub_props = {
 
 	set_autoanalysis: function(val) {
 
-		this.__autoanalysis = val ? true : false;
+		val = val ? true : false;
 
-		if (this.__autoanalysis) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Autoanalysis"]);
-		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Autoanalysis"]);
+		if (this.__autoanalysis !== val) {
+			this.__autoanalysis = val;
+			if (val) {
+				ipcRenderer.send("set_check_true", ["Analysis", "Autoanalysis"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Analysis", "Autoanalysis"]);
+			}
 		}
+
+		return val;
 	},
 
 	set_autoplay: function(val) {
 
-		this.__autoplay = val ? true : false;
+		val = val ? true : false;
 
-		if (this.__autoplay) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Self-play"]);
-		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Self-play"]);
+		if (this.__autoplay !== val) {
+			this.__autoplay = val;
+			if (val) {
+				ipcRenderer.send("set_check_true", ["Analysis", "Self-play"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Analysis", "Self-play"]);
+			}
 		}
+
+		return val;
 	},
 
-	start_autoanalysis() {
+	set_play_colour: function(val) {
+
+		val = (val === "b" || val === "w") ? val : null;
+
+		if (this.__play_colour !== val) {
+			this.__play_colour = val;
+			if (val === "b") {
+				ipcRenderer.send("set_check_true", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+			} else if (val === "w") {
+				ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_true", ["Misc", "Play White"]);
+			} else {
+				ipcRenderer.send("set_check_false", ["Misc", "Play Black"]);
+				ipcRenderer.send("set_check_false", ["Misc", "Play White"]);
+			}
+		}
+
+		return val;
+	},
+
+	start_autoanalysis: function() {
 		this.set_autoanalysis(true);
 		this.set_autoplay(false);
+		this.set_play_colour(null);
 		if (!this.engine.desired) {
 			this.go();
 		}
@@ -635,7 +686,17 @@ let hub_props = {
 	start_autoplay: function() {
 		this.set_autoanalysis(false);
 		this.set_autoplay(true);
+		this.set_play_colour(null);
 		if (!this.engine.desired) {
+			this.go();
+		}
+	},
+
+	start_play_colour: function(val) {
+		this.set_autoanalysis(false);
+		this.set_autoplay(false);
+		this.set_play_colour(val);
+		if (!this.engine.desired && this.node.get_board().active === val) {
 			this.go();
 		}
 	},
