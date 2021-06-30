@@ -614,6 +614,9 @@ let hub_props = {
 		if (this.engine.desired) {
 			this.halt();
 		} else {
+			this.set_autoanalysis(false);
+			this.set_autoplay(false);
+			this.set_play_colour(null);
 			this.go();
 		}
 	},
