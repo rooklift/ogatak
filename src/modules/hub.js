@@ -149,7 +149,7 @@ let hub_props = {
 		this.switch_tab(index);
 	},
 
-	new_active_view_from_move: function(s) {
+	new_active_view_try_move: function(s) {
 		let index = this.tabber.create_inactive_tab_after_active(this.node.try_move(s));
 		this.switch_tab(index);
 	},
@@ -546,22 +546,31 @@ let hub_props = {
 
 			this.node.receive_analysis(o);
 
-			if (this.__autoanalysis && o.rootInfo.visits > config.autoanalysis_visits) {
+			if (o.rootInfo.visits > config.autoanalysis_visits) {
 
-				if (this.node.children.length > 0) {
-					this.next();
-					return;							// Just to avoid the redundant draw()
-				} else {
+				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
+
 					this.halt();
-				}
-
-			} else if (this.__autoplay && o.rootInfo.visits > config.autoanalysis_visits) {
-
-				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
-					this.halt();
-				} else {
 					this.play_best();
-					return;							// Just to avoid the redundant draw()
+					return;								// Just to avoid the redundant draw()
+
+				} else if (this.__autoanalysis) {
+
+					if (this.node.children.length > 0) {
+						this.next();
+						return;							// Just to avoid the redundant draw()
+					} else {
+						this.halt();
+					}
+
+				} else if (this.__autoplay) {
+
+					if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
+						this.halt();
+					} else {
+						this.play_best();
+						return;							// Just to avoid the redundant draw()
+					}
 				}
 			}
 
@@ -878,6 +887,14 @@ let hub_props = {
 			}
 		}
 		setTimeout(this.window_resize_checker.bind(this), 250);
+	},
+
+	play_colour_spinner: function() {
+
+		if (this.__play_colour && this.__play_colour === this.node.get_board().active && !this.engine.desired) {
+			this.go();
+		}
+		setTimeout(this.play_colour_spinner.bind(this), 100);
 	},
 
 };

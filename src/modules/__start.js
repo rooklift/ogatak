@@ -31,5 +31,6 @@ hub.active_tab_draw_spinner();
 hub.graph_draw_spinner();
 hub.tree_draw_spinner();
 hub.up_down_spinner();
+hub.play_colour_spinner();
 
 ipcRenderer.send("renderer_ready", null);
