@@ -23,7 +23,7 @@ function new_engine() {
 	eng.filepath = "";
 	eng.weights = "";
 
-	eng.version = [0, 0, 0];	// Gets updated to something like [1, 9, 0]
+	eng.version = [99, 99, 99];	// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
 
 	eng.running = null;			// The search object actually running.
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
