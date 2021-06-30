@@ -34,7 +34,7 @@ exports.base_query = function(query_node, engine) {
 
 	// For compatibility reasons, we can only include some things depending on version...
 
-	if (engine.version[0] < 1 || engine.version[1] < 9) {
+	if (engine.version[0] < 1 || (engine.version[0] === 1 && engine.version[1] < 9)) {
 		delete o.overrideSettings.rootSymmetryPruning;
 	}
 
