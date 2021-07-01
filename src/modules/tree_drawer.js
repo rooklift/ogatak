@@ -27,25 +27,31 @@ let tree_drawer_prototype = {
 
 		this.clickers = [];
 		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
-		this.must_draw = false;
 
+		// The graph (to the left of the tree) may be the wrong size if the window is being resized.
+		// Don't modify the canvas at all until that situation resolves itself...
+
+		if (this.grapher.has_correct_size() === false) {
+			this.must_draw = true;							// Ensure we actually draw once the graph has resized correctly.
+			return;
+		}
+
+		// We're committed to a draw of some sort, which might just be blanking the canvas...
+
+		this.must_draw = false;
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
-		// Various reasons why we might not want to draw...
+		// Various reasons why we might to leave everything blank...
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
-			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
 		if (!central_node.parent && central_node.children.length === 0) {
-			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
-		if (!this.grapher.has_correct_size()) {
-			this.last_draw_cost = performance.now() - start_time;
-			return;
-		}
+
+		// We're committed to a full draw...
 
 		this.draw_count++;
 
