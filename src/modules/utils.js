@@ -142,7 +142,9 @@ exports.moveinfo_filter = function(node) {
 
 	for (let info of node.analysis.moveInfos) {
 		if (info.order === 0 || (info.visits > node.analysis.rootInfo.visits * config.visits_threshold)) {
-			ret.push(info);
+			if (!info.isSymmetryOf) {
+				ret.push(info);
+			}
 		}
 	}
 
