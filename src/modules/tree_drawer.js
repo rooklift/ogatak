@@ -1,10 +1,11 @@
 "use strict";
 
-function new_tree_drawer(canvas) {
+function new_tree_drawer(canvas, grapher) {					// The grapher object is provided so we can check its size; we don't use it otherwise.
 
 	let drawer = Object.create(tree_drawer_prototype);
 
 	drawer.canvas = canvas;
+	drawer.grapher = grapher;
 	drawer.clickers = [];
 
 	drawer.central_node = null;
@@ -31,12 +32,17 @@ let tree_drawer_prototype = {
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
 
+		// Various reasons why we might not want to draw...
+
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}
-
 		if (!central_node.parent && central_node.children.length === 0) {
+			this.last_draw_cost = performance.now() - start_time;
+			return;
+		}
+		if (!this.grapher.has_correct_size()) {
 			this.last_draw_cost = performance.now() - start_time;
 			return;
 		}

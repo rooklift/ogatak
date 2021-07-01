@@ -8,8 +8,8 @@ function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas prov
 	drawer.positioncanvas = positioncanvas;
 	drawer.boardcanvas = boardcanvas;
 
-	drawer.draw_x_offset = 0;				// These are all to
-	drawer.draw_y_offset = 0;				// be set later.
+	drawer.draw_x_offset = 0;									// These are all to
+	drawer.draw_y_offset = 0;									// be set later.
 	drawer.drawable_width = 0;
 	drawer.drawable_height = 0;
 
@@ -21,16 +21,24 @@ function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas prov
 
 let graph_drawer_prototype = {
 
+	correct_width: function() {
+		return Math.max(0, Math.min(config.graph_width, window.innerWidth - this.canvas.getBoundingClientRect().left));
+	},
+
+	correct_height: function() {
+		return this.boardcanvas.height + 128;
+	},
+
+	has_correct_size: function() {
+		return this.canvas.width === this.correct_width() && this.canvas.height === this.correct_height();
+	},
+
 	draw_graph: function(node) {
 
 		this.line_end = node.get_end();		// Set this now, before any early returns.
 
-		if (!node) {
-			throw "draw_graph() needs a node argument";
-		}
-
-		this.canvas.width = Math.max(0, Math.min(config.graph_width, window.innerWidth - this.canvas.getBoundingClientRect().left));
-		this.canvas.height = this.boardcanvas.height + 128;
+		this.canvas.width = this.correct_width();
+		this.canvas.height = this.correct_height();
 
 		this.draw_x_offset = 16;
 		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
