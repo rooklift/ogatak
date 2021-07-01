@@ -42,7 +42,7 @@ exports.new_hub = function() {
 	hub.grapher = new_grapher(
 		document.getElementById("graphcanvas"),
 		document.getElementById("graphpositioncanvas"),
-		document.getElementById("boardcanvas")
+		hub.maindrawer
 	);
 
 	hub.tree_drawer = new_tree_drawer(

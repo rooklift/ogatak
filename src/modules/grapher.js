@@ -1,12 +1,12 @@
 "use strict";
 
-function new_grapher(canvas, positioncanvas, boardcanvas) {		// boardcanvas provided so we can match its height; we don't use it otherwise.
+function new_grapher(canvas, positioncanvas, board_drawer) {	// The board_drawer object is provided so we can match its height; we don't use it otherwise.
 
 	let drawer = Object.create(graph_drawer_prototype);
 
 	drawer.canvas = canvas;
 	drawer.positioncanvas = positioncanvas;
-	drawer.boardcanvas = boardcanvas;
+	drawer.board_drawer = board_drawer;
 
 	drawer.draw_x_offset = 0;									// These are all to
 	drawer.draw_y_offset = 0;									// be set later.
@@ -26,7 +26,7 @@ let graph_drawer_prototype = {
 	},
 
 	correct_height: function() {
-		return this.boardcanvas.height + 128;
+		return this.board_drawer.canvas.height + 128;
 	},
 
 	has_correct_size: function() {
@@ -41,10 +41,10 @@ let graph_drawer_prototype = {
 		this.canvas.height = this.correct_height();
 
 		this.draw_x_offset = 16;
-		this.draw_y_offset = this.boardcanvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
+		this.draw_y_offset = this.board_drawer.canvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
 
 		this.drawable_width = Math.max(0, this.canvas.width - (this.draw_x_offset * 2));
-		this.drawable_height = Math.max(0, this.boardcanvas.height - (config.square_size / 2));
+		this.drawable_height = Math.max(0, this.board_drawer.canvas.height - (config.square_size / 2));
 
 		if (this.drawable_width <= 16 || this.drawable_height <= 0) {
 			this.draw_position(node);		// Just so it sets its size.
