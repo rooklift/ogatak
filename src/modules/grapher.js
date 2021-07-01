@@ -1,6 +1,6 @@
 "use strict";
 
-function new_grapher(canvas, positioncanvas, board_drawer) {	// The board_drawer object is provided so we can match its height; we don't use it otherwise.
+function new_grapher(canvas, positioncanvas, board_drawer) {	// board_drawer object provided so we can match its height; not used otherwise.
 
 	let drawer = Object.create(graph_drawer_prototype);
 

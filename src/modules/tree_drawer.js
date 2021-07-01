@@ -1,6 +1,6 @@
 "use strict";
 
-function new_tree_drawer(canvas, grapher) {					// The grapher object is provided so we can check its size; we don't use it otherwise.
+function new_tree_drawer(canvas, grapher) {					// grapher object provided so we can check its size; not used otherwise.
 
 	let drawer = Object.create(tree_drawer_prototype);
 
