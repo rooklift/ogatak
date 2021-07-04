@@ -129,9 +129,15 @@ let tree_drawer_prototype = {
 
 				ctx.beginPath();
 				ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-				ctx.strokeStyle = node.blessed_line ? config.tree_main_colour : config.tree_off_colour;
-				ctx.lineWidth = 2;
-				ctx.stroke();
+
+				if (node.blessed_line) {
+					ctx.fillStyle = config.tree_main_colour;
+					ctx.fill();
+				} else {
+					ctx.strokeStyle =config.tree_off_colour;
+					ctx.lineWidth = 2;
+					ctx.stroke();
+				}
 
 				if (node.parent) {
 					ctx.strokeStyle = node.blessed_line && !gsib ? config.tree_main_colour : config.tree_off_colour;

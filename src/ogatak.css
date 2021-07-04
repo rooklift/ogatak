@@ -1,6 +1,7 @@
 body {
+	background-image: url("./gfx/tatami.png");
 	background-color: #080808ff;
-	color: #efefefff;
+	color: #000000ff;
 	height: 100%;
 	margin: 0;
 	overflow: hidden;
@@ -83,8 +84,9 @@ body {
 }
 
 #boardinfo {
+	font-weight: bold;
 	grid-area: a;
-	color: #e0b872ff;
+	color: #000000ff;
 	font-family: monospace, monospace;
 	line-height: 150%;
 	white-space: pre;
@@ -92,7 +94,7 @@ body {
 }
 
 .info_highlight {
-	color: #ffffffff;
+	color: #000000ff;
 }
 
 #preloaders {

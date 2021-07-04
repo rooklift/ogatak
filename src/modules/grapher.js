@@ -180,7 +180,7 @@ let graph_drawer_prototype = {
 
 		// Move number...
 
-		ctx.fillStyle = "#ffffffff";
+		ctx.fillStyle = "#000000ff";
 		ctx.textAlign = "right";
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
