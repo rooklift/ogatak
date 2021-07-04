@@ -32,4 +32,8 @@ hub.graph_draw_spinner();
 hub.tree_draw_spinner();
 hub.up_down_spinner();
 
+if (config_io.error()) {
+	alert(`${config_io.filename} failed to load. It will not be saved to until you fix this. Error:\n` + config_io.error());
+}
+
 ipcRenderer.send("renderer_ready", null);
