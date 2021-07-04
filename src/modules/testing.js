@@ -25,12 +25,15 @@ exports.load = function(n = 0) {
 
 // ------------------------------------------------------------------------------------------------
 
-exports.stress = function(moves, cycles, delay) {
+exports.stress = function(moves, cycles, delay, with_engine = true) {
 	if (moves === undefined || cycles === undefined || delay === undefined) {
 		throw "Bad call";
 	}
+	hub.halt();
 	hub.go_to_root();
-	hub.go();
+	if (with_engine) {
+		hub.go();
+	}
 	stresser(0, moves, cycles, delay, false, [], performance.now());
 };
 
