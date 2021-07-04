@@ -75,7 +75,6 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 exports.speedtest = function(visits) {
 
 	hub.halt();
-	hub.clear_cache();
 	hub.forget_analysis_tree();
 	hub.go_to_end();
 	hub.go();
