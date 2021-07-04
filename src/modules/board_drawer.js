@@ -92,6 +92,8 @@ let board_drawer_prototype = {
 
 	set_td: function(x, y, foo) {
 
+	/*
+
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 		if (!td) throw "set_td(): bad x/y";
 
@@ -106,6 +108,29 @@ let board_drawer_prototype = {
 		}
 
 		this.tablestate[x][y] = foo;
+
+	*/
+
+		// Experimental use of canvas instead. FIXME: names etc, this isn't setting td...
+
+		let ctx = this.canvas.getContext("2d");
+		ctx.imageSmoothingQuality = "high";
+
+		let gx = x * config.square_size;
+		let gy = y * config.square_size;
+
+		switch (foo) {
+			case   "": break;
+			case  "b": ctx.drawImage(black_stone, gx, gy, config.square_size, config.square_size); break;
+			case  "w": ctx.drawImage(white_stone, gx, gy, config.square_size, config.square_size); break;
+			case "ko": ctx.drawImage(ko_marker, gx, gy, config.square_size, config.square_size); break;
+			case "bm": ctx.drawImage(black_stone_marked, gx, gy, config.square_size, config.square_size); break;
+			case "wm": ctx.drawImage(white_stone_marked, gx, gy, config.square_size, config.square_size); break;
+			default: throw "set_td(): bad call";
+		}
+
+		this.tablestate[x][y] = foo;			// FIXME - is tablestate needed even?
+
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -152,6 +177,8 @@ let board_drawer_prototype = {
 
 		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
+
+		this.htmltable.style.display = "none";		// FIXME - part of the canvas experiment.
 
 		this.canvas.width = Math.max(19, this.width) * config.square_size;				// We force the canvas to be at least big enough for a 19x19 board, this
 		this.canvas.height = Math.max(19, this.height) * config.square_size;			// makes other elements like the graph stay put when the board is smaller.
@@ -339,9 +366,7 @@ let board_drawer_prototype = {
 					}
 				}
 
-				if (this.tablestate[x][y] !== desired) {
-					this.set_td(x, y, desired);
-				}
+				this.set_td(x, y, desired);
 			}
 		}
 	},
