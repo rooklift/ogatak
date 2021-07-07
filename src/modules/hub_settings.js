@@ -116,7 +116,6 @@ module.exports = {
 
 		switch (key) {
 
-
 		case "autoanalysis_visits":
 			ipcRenderer.send("set_checks", ["Analysis", "Autoanalysis visits", value]);
 			break;
