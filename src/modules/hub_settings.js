@@ -112,7 +112,8 @@ module.exports = {
 
 		}
 
-		// Separarely, fix any relevant menu items.................................................
+		// Separarely, fix any multi-check menu items..............................................
+		// (We don't currently worry about single-check items, hmm.)
 
 		switch (key) {
 
