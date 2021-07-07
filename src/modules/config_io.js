@@ -51,7 +51,7 @@ exports.defaults = {
 
 	"thumbnail_square_size": 4,
 
-	"graph_type": "winrate",
+	"graph_type": "Winrate",
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 	"minor_graph_colour": "#444444ff",

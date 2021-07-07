@@ -119,7 +119,7 @@ let graph_drawer_prototype = {
 
 		ctx.strokeStyle = config.minor_graph_colour;
 
-		if (config.graph_type === "score") {
+		if (config.graph_type === "Score") {
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.minor_graph_linewidth);
 		} else {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.minor_graph_linewidth);
@@ -131,7 +131,7 @@ let graph_drawer_prototype = {
 		this.major_colour = history[history.length - 1].is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
 		ctx.strokeStyle = this.major_colour;
 
-		if (config.graph_type === "score") {
+		if (config.graph_type === "Score") {
 			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.major_graph_linewidth);
 		} else {
 			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.major_graph_linewidth);

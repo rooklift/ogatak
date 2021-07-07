@@ -1193,24 +1193,24 @@ function menu_build() {
 						{
 							label: "Winrate",
 							type: "checkbox",
-							checked: config.graph_type === "winrate",
+							checked: config.graph_type === "Winrate",
 							accelerator: "F9",
 							click: () => {
 								win.webContents.send("set", {
 									key: "graph_type",
-									value: "winrate"
+									value: "Winrate"
 								});
 							}
 						},
 						{
 							label: "Score",
 							type: "checkbox",
-							checked: config.graph_type === "score",
+							checked: config.graph_type === "Score",
 							accelerator: "F10",
 							click: () => {
 								win.webContents.send("set", {
 									key: "graph_type",
-									value: "score"
+									value: "Score"
 								});
 							}
 						},
