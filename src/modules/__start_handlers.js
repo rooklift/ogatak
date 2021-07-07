@@ -77,7 +77,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	let node = hub.tree_drawer.node_from_click(hub.node, event);
-	hub.set_node(node);
+	hub.set_node(node, {bless: true});
 });
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...

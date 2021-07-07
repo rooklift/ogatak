@@ -122,7 +122,7 @@ let hub_props = {
 			let node = config.load_at_end ? root.get_end() : root;
 
 			if (overwrite) {
-				this.set_node(node);
+				this.set_node(node, {bless: true});
 			} else {
 				switch_index = this.tabber.create_inactive_tab_at_end(node);
 			}
@@ -141,7 +141,7 @@ let hub_props = {
 			return;
 		}
 		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
-		this.set_node(switch_node);
+		this.set_node(switch_node, {bless: true});
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
 	},
@@ -162,7 +162,7 @@ let hub_props = {
 			this.new_game(19, 19);
 		} else {
 			let node = this.tabber.close_active_tab();
-			this.set_node(node);
+			this.set_node(node, {bless: true});
 		}
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
@@ -334,7 +334,7 @@ let hub_props = {
 		let opts = {
 			keep_autoplay_settings: false,
 			full_graph_draw: false,				// Beware: these actions won't be taken if node === this.node
-			bless: true							// as the function has already returned (see above).
+			bless: false							// as the function has already returned (see above).
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);
@@ -385,12 +385,12 @@ let hub_props = {
 
 	try_move: function(s) {
 		let node = this.node.try_move(s);
-		this.set_node(node, {keep_autoplay_settings: true});
+		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
 	pass: function() {
 		let node = this.node.pass();
-		this.set_node(node, {keep_autoplay_settings: true});
+		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
 	play_best: function() {
@@ -400,7 +400,7 @@ let hub_props = {
 				this.pass();
 			} else {
 				let node = this.node.force_move(s);
-				this.set_node(node, {keep_autoplay_settings: true});
+				this.set_node(node, {keep_autoplay_settings: true, bless: true});
 			}
 		}
 	},
@@ -436,14 +436,14 @@ let hub_props = {
 	prev_sibling: function() {
 		let sib = this.node.greater_sibling();
 		if (sib) {
-			this.set_node(sib);
+			this.set_node(sib, {bless: true});
 		}
 	},
 
 	next_sibling: function() {
 		let sib = this.node.lesser_sibling();
 		if (sib) {
-			this.set_node(sib);
+			this.set_node(sib, {bless: true});
 		}
 	},
 
