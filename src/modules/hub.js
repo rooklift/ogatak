@@ -799,7 +799,6 @@ let hub_props = {
 
 		if (!config.candidate_moves) {
 			this.set("candidate_moves", true);
-			ipcRenderer.send("set_check_true", ["Display", "Candidate moves"]);
 			return;
 		}
 

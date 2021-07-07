@@ -112,8 +112,7 @@ module.exports = {
 
 		}
 
-		// Separarely, fix any multi-check menu items..............................................
-		// (We don't currently worry about single-check items, hmm.)
+		// Fix any multi-check menu items..........................................................
 
 		const multichecks = {
 			autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
@@ -141,6 +140,27 @@ module.exports = {
 			if (value > 0) label = `N > ${value * 100}%`;
 			ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
 		}
+
+		// Fix any toggle menu items...............................................................
+
+		const togglechecks = {
+			widerootnoise:			["Analysis", "Wide root noise"],
+			symmetry_pruning:		["Analysis", "Symmetry pruning"],
+			dead_stone_prediction:	["Analysis", "Dead stone prediction"],
+			dead_stone_per_move:	["Analysis", "...per move"],
+			candidate_moves:		["Display", "Candidate moves"],
+			mouseover_pv:			["Display", "...with PV mouseover"],
+			visit_colours:			["Display", "...colour by visits"],
+			next_move_markers:		["Display", "Next move markers"],
+			auto_square_size:		["Sizes", "Auto-resize squares"],
+			stderr_to_console:		["Misc", "Log engine stderr to console"],
+			load_at_end:			["Misc", "Load games at final position"],
+		};
+
+		if (key in togglechecks) {
+			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
+		}
+
 	},
 
 	// --------------------------------------------------------------------------------------------
