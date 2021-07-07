@@ -120,7 +120,7 @@ module.exports = {
 			ipcRenderer.send("set_checks", ["Analysis", "Autoanalysis visits", value]);
 			break;
 
-		case "number":
+		case "numbers":
 			ipcRenderer.send("set_checks", ["Display", "Numbers", value]);
 			break;
 		case "graph_type":
