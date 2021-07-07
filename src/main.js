@@ -2377,7 +2377,7 @@ function set_checks(...menupath) {
 		let items = get_submenu_items(menupath.slice(0, -1));
 		for (let n = 0; n < items.length; n++) {
 			if (items[n].checked !== undefined) {
-				items[n].checked = items[n].label === menupath[menupath.length - 1];
+				items[n].checked = items[n].label === stringify(menupath[menupath.length - 1]);
 			}
 		}
 	}, 50);
