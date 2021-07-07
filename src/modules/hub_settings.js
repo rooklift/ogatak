@@ -9,7 +9,7 @@ module.exports = {
 
 		config[key] = value;
 
-		// Any followup actions...
+		// Any followup actions....................................................................
 
 		switch (key) {
 
@@ -44,7 +44,6 @@ module.exports = {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
 					this.set("square_size", new_size);
-					ipcRenderer.send("set_checks", ["Sizes", "Board squares", new_size.toString()]);
 				}
 			}
 			this.tree_drawer.must_draw = true;
@@ -109,6 +108,40 @@ module.exports = {
 				this.go();
 			}
 			this.draw();
+			break;
+
+		}
+
+		// Separarely, fix any relevant menu items.................................................
+
+		switch (key) {
+
+		case "square_size":
+			ipcRenderer.send("set_checks", ["Sizes", "Board squares", value]);
+			break;
+		case "board_font_size":
+			ipcRenderer.send("set_checks", ["Sizes", "Board font", value]);
+			break;
+		case "board_line_width":
+			ipcRenderer.send("set_checks", ["Sizes", "Board lines", value]);
+			break;
+		case "info_font_size":
+			ipcRenderer.send("set_checks", ["Sizes", "Info font", value]);
+			break;
+		case "graph_width":
+			ipcRenderer.send("set_checks", ["Sizes", "Graph width", value]);
+			break;
+		case "major_graph_linewidth":
+			ipcRenderer.send("set_checks", ["Sizes", "Graph major lines", value]);
+			break;
+		case "minor_graph_linewidth":
+			ipcRenderer.send("set_checks", ["Sizes", "Graph minor lines", value]);
+			break;
+		case "thumbnail_square_size":
+			ipcRenderer.send("set_checks", ["Sizes", "Thumbnail squares", value]);
+			break;
+		case "tree_spacing":
+			ipcRenderer.send("set_checks", ["Sizes", "Tree spacing", value]);
 			break;
 
 		}

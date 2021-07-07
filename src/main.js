@@ -1324,7 +1324,6 @@ function menu_build() {
 									key: "square_size",
 									value: 72
 								});
-								set_checks("Sizes", "Board squares", "72");
 							}
 						},
 						{
@@ -1336,7 +1335,6 @@ function menu_build() {
 									key: "square_size",
 									value: 68
 								});
-								set_checks("Sizes", "Board squares", "68");
 							}
 						},
 						{
@@ -1348,7 +1346,6 @@ function menu_build() {
 									key: "square_size",
 									value: 64
 								});
-								set_checks("Sizes", "Board squares", "64");
 							}
 						},
 						{
@@ -1360,7 +1357,6 @@ function menu_build() {
 									key: "square_size",
 									value: 60
 								});
-								set_checks("Sizes", "Board squares", "60");
 							}
 						},
 						{
@@ -1372,7 +1368,6 @@ function menu_build() {
 									key: "square_size",
 									value: 56
 								});
-								set_checks("Sizes", "Board squares", "56");
 							}
 						},
 						{
@@ -1384,7 +1379,6 @@ function menu_build() {
 									key: "square_size",
 									value: 52
 								});
-								set_checks("Sizes", "Board squares", "52");
 							}
 						},
 						{
@@ -1396,7 +1390,6 @@ function menu_build() {
 									key: "square_size",
 									value: 48
 								});
-								set_checks("Sizes", "Board squares", "48");
 							}
 						},
 						{
@@ -1408,7 +1401,6 @@ function menu_build() {
 									key: "square_size",
 									value: 44
 								});
-								set_checks("Sizes", "Board squares", "44");
 							}
 						},
 						{
@@ -1420,7 +1412,6 @@ function menu_build() {
 									key: "square_size",
 									value: 40
 								});
-								set_checks("Sizes", "Board squares", "40");
 							}
 						},
 						{
@@ -1432,7 +1423,6 @@ function menu_build() {
 									key: "square_size",
 									value: 38
 								});
-								set_checks("Sizes", "Board squares", "38");
 							}
 						},
 						{
@@ -1444,7 +1434,6 @@ function menu_build() {
 									key: "square_size",
 									value: 36
 								});
-								set_checks("Sizes", "Board squares", "36");
 							}
 						},
 						{
@@ -1456,7 +1445,6 @@ function menu_build() {
 									key: "square_size",
 									value: 34
 								});
-								set_checks("Sizes", "Board squares", "34");
 							}
 						},
 						{
@@ -1468,7 +1456,6 @@ function menu_build() {
 									key: "square_size",
 									value: 32
 								});
-								set_checks("Sizes", "Board squares", "32");
 							}
 						},
 						{
@@ -1480,7 +1467,6 @@ function menu_build() {
 									key: "square_size",
 									value: 30
 								});
-								set_checks("Sizes", "Board squares", "30");
 							}
 						},
 					]
@@ -1497,7 +1483,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 32
 								});
-								set_checks("Sizes", "Board font", "32");
 							}
 						},
 						{
@@ -1509,7 +1494,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 30
 								});
-								set_checks("Sizes", "Board font", "30");
 							}
 						},
 						{
@@ -1521,7 +1505,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 28
 								});
-								set_checks("Sizes", "Board font", "28");
 							}
 						},
 						{
@@ -1533,7 +1516,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 26
 								});
-								set_checks("Sizes", "Board font", "26");
 							}
 						},
 						{
@@ -1545,7 +1527,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 24
 								});
-								set_checks("Sizes", "Board font", "24");
 							}
 						},
 						{
@@ -1557,7 +1538,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 22
 								});
-								set_checks("Sizes", "Board font", "22");
 							}
 						},
 						{
@@ -1569,7 +1549,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 20
 								});
-								set_checks("Sizes", "Board font", "20");
 							}
 						},
 						{
@@ -1581,7 +1560,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 18
 								});
-								set_checks("Sizes", "Board font", "18");
 							}
 						},
 						{
@@ -1593,7 +1571,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 16
 								});
-								set_checks("Sizes", "Board font", "16");
 							}
 						},
 						{
@@ -1605,7 +1582,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 14
 								});
-								set_checks("Sizes", "Board font", "14");
 							}
 						},
 						{
@@ -1617,7 +1593,6 @@ function menu_build() {
 									key: "board_font_size",
 									value: 12
 								});
-								set_checks("Sizes", "Board font", "12");
 							}
 						},
 					]
@@ -1690,7 +1665,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 32
 								});
-								set_checks("Sizes", "Info font", "32");
 							}
 						},
 						{
@@ -1702,7 +1676,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 30
 								});
-								set_checks("Sizes", "Info font", "30");
 							}
 						},
 						{
@@ -1714,7 +1687,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 28
 								});
-								set_checks("Sizes", "Info font", "28");
 							}
 						},
 						{
@@ -1726,7 +1698,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 26
 								});
-								set_checks("Sizes", "Info font", "26");
 							}
 						},
 						{
@@ -1738,7 +1709,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 24
 								});
-								set_checks("Sizes", "Info font", "24");
 							}
 						},
 						{
@@ -1750,7 +1720,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 22
 								});
-								set_checks("Sizes", "Info font", "22");
 							}
 						},
 						{
@@ -1762,7 +1731,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 20
 								});
-								set_checks("Sizes", "Info font", "20");
 							}
 						},
 						{
@@ -1774,7 +1742,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 18
 								});
-								set_checks("Sizes", "Info font", "18");
 							}
 						},
 						{
@@ -1786,7 +1753,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 16
 								});
-								set_checks("Sizes", "Info font", "16");
 							}
 						},
 						{
@@ -1798,7 +1764,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 14
 								});
-								set_checks("Sizes", "Info font", "14");
 							}
 						},
 						{
@@ -1810,7 +1775,6 @@ function menu_build() {
 									key: "info_font_size",
 									value: 12
 								});
-								set_checks("Sizes", "Info font", "12");
 							}
 						},
 					]
@@ -1830,7 +1794,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 512
 								});
-								set_checks("Sizes", "Graph width", "512");
 							}
 						},
 						{
@@ -1842,7 +1805,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 480
 								});
-								set_checks("Sizes", "Graph width", "480");
 							}
 						},
 						{
@@ -1854,7 +1816,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 448
 								});
-								set_checks("Sizes", "Graph width", "448");
 							}
 						},
 						{
@@ -1866,7 +1827,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 416
 								});
-								set_checks("Sizes", "Graph width", "416");
 							}
 						},
 						{
@@ -1878,7 +1838,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 384
 								});
-								set_checks("Sizes", "Graph width", "384");
 							}
 						},
 						{
@@ -1890,7 +1849,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 352
 								});
-								set_checks("Sizes", "Graph width", "352");
 							}
 						},
 						{
@@ -1902,7 +1860,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 320
 								});
-								set_checks("Sizes", "Graph width", "320");
 							}
 						},
 						{
@@ -1914,7 +1871,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 288
 								});
-								set_checks("Sizes", "Graph width", "288");
 							}
 						},
 						{
@@ -1926,7 +1882,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 256
 								});
-								set_checks("Sizes", "Graph width", "256");
 							}
 						},
 						{
@@ -1938,7 +1893,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 224
 								});
-								set_checks("Sizes", "Graph width", "224");
 							}
 						},
 						{
@@ -1950,7 +1904,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 192
 								});
-								set_checks("Sizes", "Graph width", "192");
 							}
 						},
 						{
@@ -1962,7 +1915,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 160
 								});
-								set_checks("Sizes", "Graph width", "160");
 							}
 						},
 						{
@@ -1974,7 +1926,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 128
 								});
-								set_checks("Sizes", "Graph width", "128");
 							}
 						},
 						{
@@ -1986,7 +1937,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 96
 								});
-								set_checks("Sizes", "Graph width", "96");
 							}
 						},
 						{
@@ -1998,7 +1948,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 64
 								});
-								set_checks("Sizes", "Graph width", "64");
 							}
 						},
 						{
@@ -2010,7 +1959,6 @@ function menu_build() {
 									key: "graph_width",
 									value: 0
 								});
-								set_checks("Sizes", "Graph width", "0");
 							}
 						}
 					]
@@ -2027,7 +1975,6 @@ function menu_build() {
 									key: "major_graph_linewidth",
 									value: 4
 								});
-								set_checks("Sizes", "Graph major lines", "4");
 							}
 						},
 						{
@@ -2039,7 +1986,6 @@ function menu_build() {
 									key: "major_graph_linewidth",
 									value: 3
 								});
-								set_checks("Sizes", "Graph major lines", "3");
 							}
 						},
 						{
@@ -2051,7 +1997,6 @@ function menu_build() {
 									key: "major_graph_linewidth",
 									value: 2
 								});
-								set_checks("Sizes", "Graph major lines", "2");
 							}
 						},
 						{
@@ -2063,7 +2008,6 @@ function menu_build() {
 									key: "major_graph_linewidth",
 									value: 1
 								});
-								set_checks("Sizes", "Graph major lines", "1");
 							}
 						},
 					]
@@ -2080,7 +2024,6 @@ function menu_build() {
 									key: "minor_graph_linewidth",
 									value: 4
 								});
-								set_checks("Sizes", "Graph minor lines", "4");
 							}
 						},
 						{
@@ -2092,7 +2035,6 @@ function menu_build() {
 									key: "minor_graph_linewidth",
 									value: 3
 								});
-								set_checks("Sizes", "Graph minor lines", "3");
 							}
 						},
 						{
@@ -2104,7 +2046,6 @@ function menu_build() {
 									key: "minor_graph_linewidth",
 									value: 2
 								});
-								set_checks("Sizes", "Graph minor lines", "2");
 							}
 						},
 						{
@@ -2116,7 +2057,6 @@ function menu_build() {
 									key: "minor_graph_linewidth",
 									value: 1
 								});
-								set_checks("Sizes", "Graph minor lines", "1");
 							}
 						},
 					]
@@ -2136,7 +2076,6 @@ function menu_build() {
 									key: "thumbnail_square_size",
 									value: 8
 								});
-								set_checks("Sizes", "Thumbnail squares", "8");
 							}
 						},
 						{
@@ -2148,7 +2087,6 @@ function menu_build() {
 									key: "thumbnail_square_size",
 									value: 6
 								});
-								set_checks("Sizes", "Thumbnail squares", "6");
 							}
 						},
 						{
@@ -2160,7 +2098,6 @@ function menu_build() {
 									key: "thumbnail_square_size",
 									value: 4
 								});
-								set_checks("Sizes", "Thumbnail squares", "4");
 							}
 						},
 					]
@@ -2180,7 +2117,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 48
 								});
-								set_checks("Sizes", "Tree spacing", "48");
 							}
 						},
 						{
@@ -2192,7 +2128,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 44
 								});
-								set_checks("Sizes", "Tree spacing", "44");
 							}
 						},
 						{
@@ -2204,7 +2139,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 40
 								});
-								set_checks("Sizes", "Tree spacing", "40");
 							}
 						},
 						{
@@ -2216,7 +2150,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 36
 								});
-								set_checks("Sizes", "Tree spacing", "36");
 							}
 						},
 						{
@@ -2228,7 +2161,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 32
 								});
-								set_checks("Sizes", "Tree spacing", "32");
 							}
 						},
 						{
@@ -2240,7 +2172,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 28
 								});
-								set_checks("Sizes", "Tree spacing", "28");
 							}
 						},
 						{
@@ -2252,7 +2183,6 @@ function menu_build() {
 									key: "tree_spacing",
 									value: 24
 								});
-								set_checks("Sizes", "Tree spacing", "24");
 							}
 						},
 					]
