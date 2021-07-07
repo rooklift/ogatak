@@ -1609,7 +1609,6 @@ function menu_build() {
 									key: "board_line_width",
 									value: 4
 								});
-								set_checks("Sizes", "Board lines", "4");
 							}
 						},
 						{
@@ -1621,7 +1620,6 @@ function menu_build() {
 									key: "board_line_width",
 									value: 3
 								});
-								set_checks("Sizes", "Board lines", "3");
 							}
 						},
 						{
@@ -1633,7 +1631,6 @@ function menu_build() {
 									key: "board_line_width",
 									value: 2
 								});
-								set_checks("Sizes", "Board lines", "2");
 							}
 						},
 						{
@@ -1645,7 +1642,6 @@ function menu_build() {
 									key: "board_line_width",
 									value: 1
 								});
-								set_checks("Sizes", "Board lines", "1");
 							}
 						},
 					]
