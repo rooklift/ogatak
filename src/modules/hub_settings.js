@@ -115,59 +115,32 @@ module.exports = {
 		// Separarely, fix any multi-check menu items..............................................
 		// (We don't currently worry about single-check items, hmm.)
 
-		switch (key) {
+		const multichecks = {
+			autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
+			numbers:				["Display", "Numbers"],
+			graph_type:				["Display", "Graph"],
+			square_size:			["Sizes", "Board squares"],
+			board_font_size:		["Sizes", "Board font"],
+			board_line_width:		["Sizes", "Board lines"],
+			info_font_size:			["Sizes", "Info font"],
+			graph_width:			["Sizes", "Graph width"],
+			major_graph_linewidth:	["Sizes", "Graph major lines"],
+			minor_graph_linewidth:	["Sizes", "Graph minor lines"],
+			thumbnail_square_size:	["Sizes", "Thumbnail squares"],
+			tree_spacing:			["Sizes", "Tree spacing"],
+			report_every:			["Misc", "Engine report rate"],
+		};
 
-		case "autoanalysis_visits":
-			ipcRenderer.send("set_checks", ["Analysis", "Autoanalysis visits", value]);
-			break;
+		if (key in multichecks) {
+			ipcRenderer.send("set_checks", multichecks[key].concat([value]));
+		}
 
-		case "visits_threshold":
+		if (key === "visits_threshold") {
 			let label = "?";
 			if (value === 0) label = "All";
 			if (value > 0) label = `N > ${value * 100}%`;
 			ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
-			break;
-		case "numbers":
-			ipcRenderer.send("set_checks", ["Display", "Numbers", value]);
-			break;
-		case "graph_type":
-			ipcRenderer.send("set_checks", ["Display", "Graph", value]);
-			break;
-
-		case "square_size":
-			ipcRenderer.send("set_checks", ["Sizes", "Board squares", value]);
-			break;
-		case "board_font_size":
-			ipcRenderer.send("set_checks", ["Sizes", "Board font", value]);
-			break;
-		case "board_line_width":
-			ipcRenderer.send("set_checks", ["Sizes", "Board lines", value]);
-			break;
-		case "info_font_size":
-			ipcRenderer.send("set_checks", ["Sizes", "Info font", value]);
-			break;
-		case "graph_width":
-			ipcRenderer.send("set_checks", ["Sizes", "Graph width", value]);
-			break;
-		case "major_graph_linewidth":
-			ipcRenderer.send("set_checks", ["Sizes", "Graph major lines", value]);
-			break;
-		case "minor_graph_linewidth":
-			ipcRenderer.send("set_checks", ["Sizes", "Graph minor lines", value]);
-			break;
-		case "thumbnail_square_size":
-			ipcRenderer.send("set_checks", ["Sizes", "Thumbnail squares", value]);
-			break;
-		case "tree_spacing":
-			ipcRenderer.send("set_checks", ["Sizes", "Tree spacing", value]);
-			break;
-
-		case "report_every":
-			ipcRenderer.send("set_checks", ["Misc", "Engine report rate", value]);
-			break;
-
 		}
-
 	},
 
 	// --------------------------------------------------------------------------------------------
