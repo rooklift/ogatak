@@ -117,7 +117,7 @@ let node_prototype = {
 			}
 		}
 
-		return this.children[0];
+		return this.children[0];		// Best not assume the stored id actually exists - if we get here, it didn't.
 	},
 
 	get_root: function() {
