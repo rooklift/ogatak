@@ -3,6 +3,37 @@
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 
+const multichecks = {
+	// visits_threshold not included here.
+	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
+	numbers:				["Display", "Numbers"],
+	graph_type:				["Display", "Graph"],
+	square_size:			["Sizes", "Board squares"],
+	board_font_size:		["Sizes", "Board font"],
+	board_line_width:		["Sizes", "Board lines"],
+	info_font_size:			["Sizes", "Info font"],
+	graph_width:			["Sizes", "Graph width"],
+	major_graph_linewidth:	["Sizes", "Graph major lines"],
+	minor_graph_linewidth:	["Sizes", "Graph minor lines"],
+	thumbnail_square_size:	["Sizes", "Thumbnail squares"],
+	tree_spacing:			["Sizes", "Tree spacing"],
+	report_every:			["Misc", "Engine report rate"],
+};
+
+const togglechecks = {
+	widerootnoise:			["Analysis", "Wide root noise"],
+	symmetry_pruning:		["Analysis", "Symmetry pruning"],
+	dead_stone_prediction:	["Analysis", "Dead stone prediction"],
+	dead_stone_per_move:	["Analysis", "...per move"],
+	candidate_moves:		["Display", "Candidate moves"],
+	mouseover_pv:			["Display", "...with PV mouseover"],
+	visit_colours:			["Display", "...colour by visits"],
+	next_move_markers:		["Display", "Next move markers"],
+	auto_square_size:		["Sizes", "Auto-resize squares"],
+	stderr_to_console:		["Misc", "Log engine stderr to console"],
+	load_at_end:			["Misc", "Load games at final position"],
+};
+
 module.exports = {
 
 	set: function(key, value) {
@@ -114,22 +145,6 @@ module.exports = {
 
 		// Fix any multi-check menu items..........................................................
 
-		const multichecks = {
-			autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
-			numbers:				["Display", "Numbers"],
-			graph_type:				["Display", "Graph"],
-			square_size:			["Sizes", "Board squares"],
-			board_font_size:		["Sizes", "Board font"],
-			board_line_width:		["Sizes", "Board lines"],
-			info_font_size:			["Sizes", "Info font"],
-			graph_width:			["Sizes", "Graph width"],
-			major_graph_linewidth:	["Sizes", "Graph major lines"],
-			minor_graph_linewidth:	["Sizes", "Graph minor lines"],
-			thumbnail_square_size:	["Sizes", "Thumbnail squares"],
-			tree_spacing:			["Sizes", "Tree spacing"],
-			report_every:			["Misc", "Engine report rate"],
-		};
-
 		if (key in multichecks) {
 			ipcRenderer.send("set_checks", multichecks[key].concat([value]));
 		}
@@ -142,20 +157,6 @@ module.exports = {
 		}
 
 		// Fix any toggle menu items...............................................................
-
-		const togglechecks = {
-			widerootnoise:			["Analysis", "Wide root noise"],
-			symmetry_pruning:		["Analysis", "Symmetry pruning"],
-			dead_stone_prediction:	["Analysis", "Dead stone prediction"],
-			dead_stone_per_move:	["Analysis", "...per move"],
-			candidate_moves:		["Display", "Candidate moves"],
-			mouseover_pv:			["Display", "...with PV mouseover"],
-			visit_colours:			["Display", "...colour by visits"],
-			next_move_markers:		["Display", "Next move markers"],
-			auto_square_size:		["Sizes", "Auto-resize squares"],
-			stderr_to_console:		["Misc", "Log engine stderr to console"],
-			load_at_end:			["Misc", "Load games at final position"],
-		};
 
 		if (key in togglechecks) {
 			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
