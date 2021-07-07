@@ -116,6 +116,24 @@ module.exports = {
 
 		switch (key) {
 
+
+		case "autoanalysis_visits":
+			ipcRenderer.send("set_checks", ["Analysis", "Autoanalysis visits", value]);
+			break;
+
+		case "number":
+			ipcRenderer.send("set_checks", ["Display", "Numbers", value]);
+			break;
+		case "graph_type":
+			ipcRenderer.send("set_checks", ["Display", "Graph", value]);
+			break;
+		case "visits_threshold":
+			let label = "?";
+			if (value === 0) label = "All";
+			if (value > 0) label = `N > ${value * 100}%`;
+			ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+			break;
+
 		case "square_size":
 			ipcRenderer.send("set_checks", ["Sizes", "Board squares", value]);
 			break;
@@ -142,6 +160,10 @@ module.exports = {
 			break;
 		case "tree_spacing":
 			ipcRenderer.send("set_checks", ["Sizes", "Tree spacing", value]);
+			break;
+
+		case "report_every":
+			ipcRenderer.send("set_checks", ["Misc", "Engine report rate", value]);
 			break;
 
 		}

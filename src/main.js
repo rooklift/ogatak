@@ -684,7 +684,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 10000
 								});
-								set_checks("Analysis", "Autoanalysis visits", "10000");
 							}
 						},
 						{
@@ -696,7 +695,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 5000
 								});
-								set_checks("Analysis", "Autoanalysis visits", "5000");
 							}
 						},
 						{
@@ -708,7 +706,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 2500
 								});
-								set_checks("Analysis", "Autoanalysis visits", "2500");
 							}
 						},
 						{
@@ -720,7 +717,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 1000
 								});
-								set_checks("Analysis", "Autoanalysis visits", "1000");
 							}
 						},
 						{
@@ -732,7 +728,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 500
 								});
-								set_checks("Analysis", "Autoanalysis visits", "500");
 							}
 						},
 						{
@@ -744,7 +739,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 250
 								});
-								set_checks("Analysis", "Autoanalysis visits", "250");
 							}
 						},
 						{
@@ -756,7 +750,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 100
 								});
-								set_checks("Analysis", "Autoanalysis visits", "100");
 							}
 						},
 						{
@@ -768,7 +761,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 50
 								});
-								set_checks("Analysis", "Autoanalysis visits", "50");
 							}
 						},
 						{
@@ -780,7 +772,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 25
 								});
-								set_checks("Analysis", "Autoanalysis visits", "25");
 							}
 						},
 						{
@@ -792,7 +783,6 @@ function menu_build() {
 									key: "autoanalysis_visits",
 									value: 10
 								});
-								set_checks("Analysis", "Autoanalysis visits", "10");
 							}
 						}
 					]
@@ -977,7 +967,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0
 								});
-								set_checks("Display", "Visit filter", "All");
 							}
 						},
 						{
@@ -993,7 +982,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.005
 								});
-								set_checks("Display", "Visit filter", "N > 0.5%");
 							}
 						},
 						{
@@ -1005,7 +993,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.01
 								});
-								set_checks("Display", "Visit filter", "N > 1%");
 							}
 						},
 						{
@@ -1018,7 +1005,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.02
 								});
-								set_checks("Display", "Visit filter", "N > 2%");
 							}
 						},
 						{
@@ -1030,7 +1016,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.04
 								});
-								set_checks("Display", "Visit filter", "N > 4%");
 							}
 						},
 						{
@@ -1043,7 +1028,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.06
 								});
-								set_checks("Display", "Visit filter", "N > 6%");
 							}
 						},
 						{
@@ -1055,7 +1039,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.08
 								});
-								set_checks("Display", "Visit filter", "N > 8%");
 							}
 						},
 						{
@@ -1068,7 +1051,6 @@ function menu_build() {
 									key: "visits_threshold",
 									value: 0.1
 								});
-								set_checks("Display", "Visit filter", "N > 10%");
 							}
 						},
 					]
@@ -1086,7 +1068,6 @@ function menu_build() {
 									key: "numbers",
 									value: "LCB + Visits"
 								});
-								set_checks("Display", "Numbers", "LCB + Visits");
 							}
 						},
 						{
@@ -1099,7 +1080,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Score + Visits"
 								});
-								set_checks("Display", "Numbers", "Score + Visits");
 							}
 						},
 						{
@@ -1112,7 +1092,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Delta + Visits"
 								});
-								set_checks("Display", "Numbers", "Delta + Visits");
 							}
 						},
 						{
@@ -1127,7 +1106,6 @@ function menu_build() {
 									key: "numbers",
 									value: "LCB"
 								});
-								set_checks("Display", "Numbers", "LCB");
 							}
 						},
 						{
@@ -1139,7 +1117,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Score"
 								});
-								set_checks("Display", "Numbers", "Score");
 							}
 						},
 						{
@@ -1151,7 +1128,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Delta"
 								});
-								set_checks("Display", "Numbers", "Delta");
 							}
 						},
 						{
@@ -1163,7 +1139,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Visits"
 								});
-								set_checks("Display", "Numbers", "Visits");
 							}
 						},
 						{
@@ -1175,7 +1150,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Visits (%)"
 								});
-								set_checks("Display", "Numbers", "Visits (%)");
 							}
 						},
 						{
@@ -1187,7 +1161,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Order"
 								});
-								set_checks("Display", "Numbers", "Order");
 							}
 						},
 						{
@@ -1199,7 +1172,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Policy"
 								});
-								set_checks("Display", "Numbers", "Policy");
 							}
 						},
 						{
@@ -1211,7 +1183,6 @@ function menu_build() {
 									key: "numbers",
 									value: "Winrate"
 								});
-								set_checks("Display", "Numbers", "Winrate");
 							}
 						},
 					]
@@ -1229,7 +1200,6 @@ function menu_build() {
 									key: "graph_type",
 									value: "winrate"
 								});
-								set_checks("Display", "Graph", "Winrate");
 							}
 						},
 						{
@@ -1242,7 +1212,6 @@ function menu_build() {
 									key: "graph_type",
 									value: "score"
 								});
-								set_checks("Display", "Graph", "Score");
 							}
 						},
 					]
@@ -2275,7 +2244,7 @@ function menu_build() {
 					label: "Engine report rate",
 					submenu: [
 						{
-							label: "Fast",
+							label: "0.1",
 							type: "checkbox",
 							checked: config.report_every === 0.1,
 							click: () => {
@@ -2283,11 +2252,10 @@ function menu_build() {
 									key: "report_every",
 									value: 0.1
 								});
-								set_checks("Misc", "Engine report rate", "Fast");
 							}
 						},
 						{
-							label: "Medium",
+							label: "0.2",
 							type: "checkbox",
 							checked: config.report_every === 0.2,
 							click: () => {
@@ -2295,11 +2263,10 @@ function menu_build() {
 									key: "report_every",
 									value: 0.2
 								});
-								set_checks("Misc", "Engine report rate", "Medium");
 							}
 						},
 						{
-							label: "Slow",
+							label: "0.4",
 							type: "checkbox",
 							checked: config.report_every === 0.4,
 							click: () => {
@@ -2307,7 +2274,6 @@ function menu_build() {
 									key: "report_every",
 									value: 0.4
 								});
-								set_checks("Misc", "Engine report rate", "Slow");
 							}
 						},
 					]
@@ -2349,9 +2315,9 @@ function get_submenu_items(menupath) {
 
 	let o = menu.items;
 	for (let p of menupath) {
-		p = stringify(p);
+		p = stringify(p).toLowerCase();
 		for (let item of o) {
-			if (item.label === p) {
+			if (item.label.toLowerCase() === p) {
 				if (item.submenu) {
 					o = item.submenu.items;
 					break;
@@ -2375,9 +2341,10 @@ function set_checks(...menupath) {
 
 	setTimeout(() => {
 		let items = get_submenu_items(menupath.slice(0, -1));
+		let desired = stringify(menupath[menupath.length - 1]).toLowerCase();
 		for (let n = 0; n < items.length; n++) {
 			if (items[n].checked !== undefined) {
-				items[n].checked = items[n].label === stringify(menupath[menupath.length - 1]);
+				items[n].checked = items[n].label.toLowerCase() === desired;
 			}
 		}
 	}, 50);
