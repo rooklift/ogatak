@@ -820,8 +820,6 @@ let hub_props = {
 		}
 
 		this.set("numbers", values[si]);
-
-		ipcRenderer.send("set_checks", ["Display", "Numbers", values[si]]);
 	},
 
 	// Mouse.......................................................................................
