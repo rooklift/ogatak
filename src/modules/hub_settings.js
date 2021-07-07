@@ -121,17 +121,17 @@ module.exports = {
 			ipcRenderer.send("set_checks", ["Analysis", "Autoanalysis visits", value]);
 			break;
 
-		case "numbers":
-			ipcRenderer.send("set_checks", ["Display", "Numbers", value]);
-			break;
-		case "graph_type":
-			ipcRenderer.send("set_checks", ["Display", "Graph", value]);
-			break;
 		case "visits_threshold":
 			let label = "?";
 			if (value === 0) label = "All";
 			if (value > 0) label = `N > ${value * 100}%`;
 			ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+			break;
+		case "numbers":
+			ipcRenderer.send("set_checks", ["Display", "Numbers", value]);
+			break;
+		case "graph_type":
+			ipcRenderer.send("set_checks", ["Display", "Graph", value]);
 			break;
 
 		case "square_size":
