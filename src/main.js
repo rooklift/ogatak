@@ -121,7 +121,7 @@ function startup() {
 	});
 
 	electron.ipcMain.on("save_as_required", (event, msg) => {
-		let file = save_dialog();
+		let file = save_dialog(win, {});
 		if (typeof file === "string" && file.length > 0) {
 			win.webContents.send("call", {
 				fn: "save",
@@ -347,7 +347,7 @@ function menu_build() {
 					label: "Open SGF / GIB / NGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
-						let files = open_dialog({properties: ["multiSelections"]});
+						let files = open_dialog(win, {properties: ["multiSelections"]});
 						if (Array.isArray(files) && files.length > 0) {
 							win.webContents.send("call", {
 								fn: "load_multifile",
@@ -379,7 +379,7 @@ function menu_build() {
 				{
 					label: "Save as...",
 					click: () => {
-						let file = save_dialog();
+						let file = save_dialog(win, {});
 						if (typeof file === "string" && file.length > 0) {
 							win.webContents.send("call", {
 								fn: "save",
@@ -404,7 +404,7 @@ function menu_build() {
 				{
 					label: "Locate KataGo...",
 					click: () => {
-						let files = open_dialog();
+						let files = open_dialog(win, {});
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
 							win.webContents.send("set", {
@@ -417,7 +417,7 @@ function menu_build() {
 				{
 					label: "Locate KataGo config...",
 					click: () => {
-						let files = open_dialog();
+						let files = open_dialog(win, {});
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
 							win.webContents.send("set", {
@@ -430,7 +430,7 @@ function menu_build() {
 				{
 					label: "Choose weights...",
 					click: () => {
-						let files = open_dialog();
+						let files = open_dialog(win, {});
 						if (Array.isArray(files) && files.length > 0) {
 							let file = files[0];
 							win.webContents.send("set", {
