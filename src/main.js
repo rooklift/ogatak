@@ -2367,6 +2367,8 @@ function set_one_check(state, ...menupath) {
 	}
 }
 
+// --------------------------------------------------------------------------------------------------------------
+
 function two_process_set(key, value) {
 	config[key] = value;
 	win.webContents.send("set", {key, value});
