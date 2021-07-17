@@ -2370,6 +2370,11 @@ function set_one_check(state, ...menupath) {
 // --------------------------------------------------------------------------------------------------------------
 
 function two_process_set(key, value) {
+
+	// For most keys we don't care that the main and renderer processes get their configs out
+	// of sync as the user changes things, but this function can be used when it does matter.
+	// Remember it's the renderer process that actually saves our config file.
+
 	config[key] = value;
 	win.webContents.send("set", {key, value});
 }
