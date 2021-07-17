@@ -146,8 +146,8 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 				if (!node) {
 					throw "SGF load error: new subtree started but node was nil";
 				}
-				let chars_to_skip = load_sgf_recursive(buf, i, node).readcount;
-				i += chars_to_skip - 1;					// Subtract 1: the ( character we have read is also counted by the recurse.
+				i += load_sgf_recursive(buf, i, node).readcount - 1;
+				// We subtract 1 as the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
 					throw "SGF load error: subtree ended but local root was nil";
