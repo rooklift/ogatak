@@ -84,6 +84,11 @@ exports.defaults = {
 	"autoanalysis_visits": 500,
 	"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
 	"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
+
+	"sgf_folder": "",
+	"katago_folder": "",
+	"kataconfig_folder": "",
+	"weights_folder": "",
 };
 
 // ---------------------------------------------------------------------------------------------------------------------------
