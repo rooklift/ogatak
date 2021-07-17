@@ -18,7 +18,6 @@ global.alert = (msg) => {
 
 global.config = config_io.config;
 global.zoomfactor = parseFloat(querystring.parse(global.location.search).zoomfactor);
-global.save_config = config_io.save;
 global.testing = require("./testing");
 global.hub = require("./hub").new_hub();
 
