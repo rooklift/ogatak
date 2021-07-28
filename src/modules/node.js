@@ -256,8 +256,10 @@ let node_prototype = {
 		}
 
 		let pl = this.get("PL");
-		if (pl === "B" || pl === "b" || pl === "1") this.__board.active = "b";
-		if (pl === "W" || pl === "w" || pl === "2") this.__board.active = "w";
+		if (typeof pl === "string") {
+			if (pl[0] === "B" || pl[0] === "b" || pl[0] === "1") this.__board.active = "b";
+			if (pl[0] === "W" || pl[0] === "w" || pl[0] === "2") this.__board.active = "w";
+		}
 
 		let km = parseFloat(this.get("KM"));
 		if (Number.isNaN(km) === false) {
