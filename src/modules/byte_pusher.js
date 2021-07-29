@@ -4,7 +4,7 @@
 
 const util = require("util");
 
-const decoder_cache = Object.create(null);			// So we reuse decoders, dunno how expensive they are to create (?)
+let decoder_cache = Object.create(null);			// So we reuse decoders, dunno how expensive they are to create (?)
 
 module.exports = function(encoding = "UTF-8", size = 16) {
 
