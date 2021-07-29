@@ -3,18 +3,15 @@
 // I bet Node has something like this, but I didn't read the docs.
 
 const util = require("util");
-const decoder = new util.TextDecoder("utf8");
 
-module.exports = function(size) {
-
-	if (!size || size <= 0) {
-		size = 16;
-	}
+module.exports = function(encoding = "utf8", size = 16) {
 
 	return {
 
 		storage: new Uint8Array(size),
-		length: 0,							// Both the length and also the next index to write to.
+		length: 0,									// Both the length and also the next index to write to.
+
+		decoder: new util.TextDecoder(encoding),	// This can throw.
 
 		push: function(c) {
 			if (this.length >= this.storage.length) {
@@ -37,7 +34,7 @@ module.exports = function(size) {
 		},
 
 		string: function() {
-			return decoder.decode(this.bytes());
+			return this.decoder.decode(this.bytes());
 		}
 	};
 };

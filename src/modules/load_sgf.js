@@ -43,8 +43,8 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 	let tree_started = false;
 	let inside_value = false;
 
-	let value = new_byte_pusher();
-	let key = new_byte_pusher();
+	let value = new_byte_pusher("utf8");
+	let key = new_byte_pusher("ascii");
 	let keycomplete = false;
 
 	for (let i = off; i < buf.length; i++) {
