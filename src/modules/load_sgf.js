@@ -106,6 +106,8 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 						}
 						if (encoding_is_ok) {
 							return load_sgf_recursive(buf, off, null, value_string);
+						} else {
+							console.log(`While loading SGF, got CA[${value_string}] which is not supported.`);
 						}
 					}
 				}
