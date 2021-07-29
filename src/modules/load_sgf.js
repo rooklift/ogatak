@@ -105,10 +105,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 							encoding_is_ok = false;
 						}
 						if (encoding_is_ok) {
-							console.log(`While loading, switched encoding to "${value_string}"`);
 							return load_sgf_recursive(buf, off, null, value_string);
-						} else {
-							console.log(`While loading, got bad CA value "${value_string}"`);
 						}
 					}
 				}
