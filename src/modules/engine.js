@@ -231,7 +231,10 @@ let engine_prototype = {
 		});
 
 		this.err_scanner.on("line", (line) => {
-			if (this.has_quit) {
+			if (line.includes("exception")) {
+				alert("KataGo said:\n" + line);
+			}
+			if (this.has_quit) {		// Do this after the above, so that exceptions that caused the quit can be displayed.
 				return;
 			}
 			log("! " + line);
@@ -240,9 +243,6 @@ let engine_prototype = {
 			}
 			if (line.startsWith("Beginning GPU tuning")) {
 				alert("KataGo is currently tuning itself, this may take some time." + (config.stderr_to_console ? " Open the dev console to see its progress." : ""));
-			}
-			if (line.includes("exception")) {
-				alert("KataGo said:\n" + line);
 			}
 		});
 	},
