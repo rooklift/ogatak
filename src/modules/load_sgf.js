@@ -23,6 +23,10 @@ function load_sgf(buf) {
 	let ret = [];
 	let off = 0;
 
+	if (buf.length > 3 && buf[0] === 239 && buf[1] === 187 && buf[2] === 191) {
+		off = 3;			// Skip a BOM
+	}
+
 	while (buf.length - off >= 3) {
 		try {
 			let o = load_sgf_recursive(buf, off, null, "UTF-8");
