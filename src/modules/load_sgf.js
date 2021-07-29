@@ -29,7 +29,7 @@ function load_sgf(buf) {
 
 	while (buf.length - off >= 3) {
 		try {
-			let o = load_sgf_recursive(buf, off, null, "UTF-8");
+			let o = load_sgf_recursive(buf, off, null, "UTF-8", true);
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
@@ -54,7 +54,7 @@ function load_sgf(buf) {
 	return ret;
 }
 
-function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
+function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_restart) {
 
 	let root = null;
 	let node = null;
@@ -99,7 +99,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 				// In the event that we are in the root and find a CA, and if it's not the encoding
 				// we're using, restart the parse from the beginning with the correct encoding. We
 				// make no effort to account for encoding synonyms (utf8, UTF-8 etc)...
-				if (!parent_of_local_root && key_string === "CA" && node.props.CA.length === 1) {
+				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
 					if (value_string !== encoding) {
 						let encoding_is_ok;
 						try {
@@ -109,7 +109,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 							encoding_is_ok = false;
 						}
 						if (encoding_is_ok) {
-							return load_sgf_recursive(buf, off, null, value_string);
+							return load_sgf_recursive(buf, off, null, value_string, false);
 						} else {
 							console.log(`While loading SGF, got CA[${value_string}] which is not supported.`);
 						}
@@ -144,7 +144,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 				if (!node) {
 					throw "SGF load error: new subtree started but node was nil";
 				}
-				i += load_sgf_recursive(buf, i, node, encoding).readcount - 1;
+				i += load_sgf_recursive(buf, i, node, encoding, false).readcount - 1;
 				// We subtract 1 as the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
