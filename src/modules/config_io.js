@@ -105,7 +105,7 @@ exports.load = () => {
 
 	try {
 		if (fs.existsSync(exports.filepath)) {
-			Object.assign(exports.config, JSON.parse(fs.readFileSync(exports.filepath, "utf8")));
+			Object.assign(exports.config, JSON.parse(fs.readFileSync(exports.filepath, "UTF-8")));
 		}
 		errortext = "";
 	} catch (err) {
