@@ -160,8 +160,6 @@ exports.save = () => {
 
 exports.create_if_needed = () => {
 
-	// Note that this must be called fairly late, when userData directory exists.
-
 	if (fs.existsSync(exports.filepath)) {
 		return;
 	}
