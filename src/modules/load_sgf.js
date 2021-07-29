@@ -1,5 +1,18 @@
 "use strict";
 
+/*
+	Notes on charsets:
+
+	The parser is very much byte-level. However, when storing values to the node.props,
+	it does use a TextDecoder to convert the bytes of the value to string, and does use
+	any known CA property for decoding.
+
+	So this will work, as long as the files don't have multibyte characters which embed
+	a \ or ] byte, in which case it will fail.
+*/
+
+const util = require("util");
+
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
 
@@ -12,7 +25,7 @@ function load_sgf(buf) {
 
 	while (buf.length - off >= 3) {
 		try {
-			let o = load_sgf_recursive(buf, off, null);
+			let o = load_sgf_recursive(buf, off, null, "UTF-8");
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
@@ -29,6 +42,7 @@ function load_sgf(buf) {
 	}
 
 	for (let root of ret) {
+		apply_ca_fix(root);
 		apply_komi_fix(root);
 		apply_pl_fix(root);
 	}
@@ -36,14 +50,14 @@ function load_sgf(buf) {
 	return ret;
 }
 
-function load_sgf_recursive(buf, off, parent_of_local_root) {
+function load_sgf_recursive(buf, off, parent_of_local_root, encoding) {
 
 	let root = null;
 	let node = null;
 	let tree_started = false;
 	let inside_value = false;
 
-	let value = new_byte_pusher("utf8");
+	let value = new_byte_pusher(encoding);
 	let key = new_byte_pusher("ascii");
 	let keycomplete = false;
 
@@ -75,7 +89,29 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 				if (!node) {
 					throw "SGF load error: value ended by ] but node was nil";
 				}
-				node.add_value(key.string(), value.string());
+				let key_string = key.string();
+				let value_string = value.string();
+				node.add_value(key_string, value_string);
+				// In the event that we are in the root and find a CA, and if it's not the encoding
+				// we're using, restart the parse from the beginning with the correct encoding. We
+				// make no effort to account for encoding synonyms (utf8, UTF-8 etc)...
+				if (!parent_of_local_root && key_string === "CA" && node.props.CA.length === 1) {
+					if (value_string !== encoding) {
+						let encoding_is_ok;
+						try {
+							let test = new util.TextDecoder(value_string);
+							encoding_is_ok = true;
+						} catch (err) {
+							encoding_is_ok = false;
+						}
+						if (encoding_is_ok) {
+							console.log(`While loading, switched encoding to "${value_string}"`);
+							return load_sgf_recursive(buf, off, null, value_string);
+						} else {
+							console.log(`While loading, got bad CA value "${value_string}"`);
+						}
+					}
+				}
 			} else {
 				value.push(c);
 			}
@@ -105,7 +141,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 				if (!node) {
 					throw "SGF load error: new subtree started but node was nil";
 				}
-				i += load_sgf_recursive(buf, i, node).readcount - 1;
+				i += load_sgf_recursive(buf, i, node, encoding).readcount - 1;
 				// We subtract 1 as the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
@@ -134,6 +170,10 @@ function load_sgf_recursive(buf, off, parent_of_local_root) {
 	}
 
 	throw "SGF load error: reached end of input";
+}
+
+function apply_ca_fix(root) {
+	root.set("CA", "UTF-8");
 }
 
 function apply_komi_fix(root) {
