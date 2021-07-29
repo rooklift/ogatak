@@ -97,10 +97,9 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
 				// In the event that we are in the root and find a CA, and if it's not the encoding
-				// we're using, restart the parse from the beginning with the correct encoding. We
-				// make no effort to account for encoding synonyms (utf8, UTF-8 etc)...
+				// we're using, restart the parse from the beginning with the correct encoding.
 				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
-					if (value_string !== encoding) {
+					if (value_string !== encoding && (!is_utf8_alias(value_string) || !is_utf8_alias(encoding))) {
 						let encoding_is_ok;
 						try {
 							let test = new util.TextDecoder(value_string);
@@ -205,6 +204,11 @@ function apply_pl_fix(root) {
 	if (node.get("W") && node.get("B") === undefined) {
 		root.set("PL", "W");
 	}
+}
+
+function is_utf8_alias(s) {
+	s = s.toLowerCase();
+	return s === "utf8" || s === "utf-8";
 }
 
 
