@@ -2,6 +2,9 @@
 
 const fs = require("fs");
 
+// Although JS stores strings internally as UTF-16 or something, Node's writeFileSync()
+// uses UTF-8 by default. So all our output files are UTF-8.
+
 function save_sgf(node, filepath) {
 	try {
 		fs.writeFileSync(filepath, tree_string(node.get_root()));
