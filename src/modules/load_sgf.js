@@ -45,7 +45,7 @@ function load_sgf(buf) {
 	}
 
 	for (let root of ret) {
-		apply_ca_fix(root);
+		apply_basic_props_fix(root);
 		apply_komi_fix(root);
 		apply_pl_fix(root);
 	}
@@ -173,7 +173,9 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 	throw "SGF load error: reached end of input";
 }
 
-function apply_ca_fix(root) {
+function apply_basic_props_fix(root) {
+	root.set("GM", 1);
+	root.set("FF", 4);
 	root.set("CA", "UTF-8");
 }
 

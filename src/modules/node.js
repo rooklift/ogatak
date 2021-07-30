@@ -513,13 +513,22 @@ let node_prototype = {
 
 		let list = [];
 
-		// Note that Object.keys() usually returns things in insertion order...
+		let keys = Object.keys(this.props);		// Object.keys() usually returns things in insertion order...
 
-		for (let key of Object.keys(this.props)) {
+		if (!this.parent) {
+			keys.sort((a, b) => {
+				if (a === "GM") return -1; if (b === "GM") return 1;
+				if (a === "FF") return -1; if (b === "FF") return 1;
+				if (a === "CA") return -1; if (b === "CA") return 1;
+				return 0;
+			});
+		}
+
+		for (let key of keys) {
 
 			let vals = this.all_values(key);
 
-			if (vals.length === 0) {		// Should be impossible.
+			if (vals.length === 0) {			// Should be impossible.
 				continue;
 			}
 
