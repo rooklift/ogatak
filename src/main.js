@@ -2385,21 +2385,25 @@ function set_checks(menupath) {
 	}, 50);
 }
 
-function set_one_check(state, menupath) {
-
-	state = state ? true : false;
+function set_one_check(desired_state, menupath) {
 
 	if (!menu_is_set) {
 		return;
 	}
 
 	let item = get_submenu_items(menupath);
+
 	if (item.checked !== undefined) {
-		item.checked = state;
+		item.checked = desired_state ? true : false;
 	}
 }
 
 function verify_menupath(menupath) {
+
+	if (!menu_is_set) {						// Not possible given how this is used, I think.
+		return;
+	}
+
 	try {
 		get_submenu_items(menupath);
 	} catch (err) {
