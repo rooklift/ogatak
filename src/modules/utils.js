@@ -1,6 +1,9 @@
 "use strict";
 
+const util = require("util");
 const stringify = require("./stringify");
+
+// ------------------------------------------------------------------------------------------------
 
 exports.xy_to_s = function(x, y) {
 
@@ -263,4 +266,13 @@ exports.compare_versions = function(a, b) {		// args are both arrays like [1,8,2
 	if (a[2] > b[2]) return 1;
 
 	return 0;
+};
+
+exports.encoding_supported_by_textdecoder = function(s) {
+	try {
+		let test = new util.TextDecoder(s);
+		return true;
+	} catch (err) {
+		return false;
+	}
 };

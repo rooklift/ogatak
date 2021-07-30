@@ -1,20 +1,19 @@
 "use strict";
 
-/*
-	Notes on charsets:
-
-	The parser is very much byte-level. However, when storing values to the node.props,
-	it does use a TextDecoder to convert the bytes of the value to string, and does use
-	any known CA property for decoding.
-
-	So this will work, as long as the files don't have multibyte characters which embed
-	a \ or ] byte, in which case it will fail.
-*/
-
-const util = require("util");
+//	Notes on charsets:
+//
+//	The parser is very much byte-level. However, when storing values to the node.props,
+//	it does use a TextDecoder to convert the bytes of the value to string, and does use
+//	any known CA property for decoding.
+//
+//	So this will work, as long as the files don't have multibyte characters which embed
+//	a \ or ] byte, in which case it will fail.
 
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
+const {encoding_supported_by_textdecoder} = require("./utils");
+
+// ------------------------------------------------------------------------------------------------
 
 function load_sgf(buf) {
 
@@ -29,7 +28,7 @@ function load_sgf(buf) {
 
 	while (buf.length - off >= 3) {
 		try {
-			let o = load_sgf_recursive(buf, off, null, "UTF-8", true);
+			let o = load_sgf_recursive(buf, off, null, "UTF-8", true);		// Start by assuming UTF-8, the function can restart if needed.
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
@@ -61,7 +60,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 	let tree_started = false;
 	let inside_value = false;
 
-	let value = new_byte_pusher(encoding);
+	let value = new_byte_pusher(encoding);				// encoding must be supported by util.TextDecoder
 	let key = new_byte_pusher("ascii");
 	let keycomplete = false;
 
@@ -99,18 +98,11 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				let key_string = key.string();
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
-				// In the event that we are in the root and find a CA, and if it's not the encoding
-				// we're using, restart the parse from the beginning with the correct encoding.
+				// If we find a CA, and if it's not the encoding we're using, restart the parse
+				// from the beginning with the correct encoding (assuming we're allowed to)...
 				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
 					if (value_string !== encoding && (!is_utf8_alias(value_string) || !is_utf8_alias(encoding))) {
-						let encoding_is_ok;
-						try {
-							let test = new util.TextDecoder(value_string);
-							encoding_is_ok = true;
-						} catch (err) {
-							encoding_is_ok = false;
-						}
-						if (encoding_is_ok) {
+						if (encoding_supported_by_textdecoder(value_string)) {
 							return load_sgf_recursive(buf, off, null, value_string, false);
 						} else {
 							console.log(`While loading SGF, got CA[${value_string}] which is not supported.`);
