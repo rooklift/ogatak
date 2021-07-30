@@ -2220,7 +2220,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Permissive SGF reader",
+					label: "Permissive SGF reader (unreliable)",
 					type: "checkbox",
 					checked: config.lax_sgf_reading,
 					click: () => {
