@@ -76,6 +76,7 @@ exports.defaults = {
 	"width": 1200,
 	"height": 780,
 	"auto_square_size": true,
+	"lax_sgf_reading": false,
 	"stderr_to_console": true,
 	"load_at_end": true,
 	"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.

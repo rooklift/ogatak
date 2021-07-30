@@ -166,7 +166,12 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				}
 				key.push(c);
 			} else {
-				throw "SGF load error: unacceptable byte while expecting key";
+				if (config.lax_sgf_reading) {
+					key.reset();						// Just reset the key on any unexpected byte
+					keycomplete = false;
+				} else {
+					throw "SGF load error: unacceptable byte while expecting key";
+				}
 			}
 		}
 	}

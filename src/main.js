@@ -2220,6 +2220,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Permissive SGF reader",
+					type: "checkbox",
+					checked: config.lax_sgf_reading,
+					click: () => {
+						win.webContents.send("toggle", "lax_sgf_reading");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
