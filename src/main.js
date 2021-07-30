@@ -418,7 +418,7 @@ function menu_build() {
 					},
 				},
 				{
-					label: "Locate KataGo config...",
+					label: "Locate KataGo analysis config...",
 					click: () => {
 						let files = open_dialog(win, {defaultPath: config.kataconfig_folder});
 						if (Array.isArray(files) && files.length > 0) {
