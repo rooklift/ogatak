@@ -35,6 +35,9 @@ const togglechecks = {
 	lax_sgf_reading:		["Misc", "Permissive SGF reader (unreliable)"],
 };
 
+// The following lines just ask main process to check the menupath exists,
+// so we catch mistakes early in the dev process...
+
 for (let menupath of Object.values(multichecks)) {
 	ipcRenderer.send("verify_menupath", menupath);
 }
