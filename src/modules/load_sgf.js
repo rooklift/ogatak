@@ -76,7 +76,10 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				tree_started = true;
 				continue;
 			} else {
-				throw "SGF load error: unexpected byte before (";
+				if (!config.lax_sgf_reading) {
+					throw "SGF load error: unexpected byte before (";
+				}
+				continue;
 			}
 		}
 
@@ -166,12 +169,11 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				}
 				key.push(c);
 			} else {
-				if (config.lax_sgf_reading) {
-					key.reset();						// Just reset the key on any unexpected byte
-					keycomplete = false;
-				} else {
+				if (!config.lax_sgf_reading) {
 					throw "SGF load error: unacceptable byte while expecting key";
 				}
+				key.reset();							// In lax mode, just reset the key on any unexpected byte
+				keycomplete = false;
 			}
 		}
 	}
