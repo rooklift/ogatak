@@ -98,6 +98,9 @@ function load_ngf(buf) {
 	let root = new_node(null);
 	let node = root;
 
+	root.set("GM", 1);
+	root.set("FF", 4);
+	root.set("CA", "UTF-8");
 	root.set("SZ", boardsize);
 	root.set("RU", "Korean");
 	root.set("KM", komi);

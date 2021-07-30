@@ -296,26 +296,30 @@ let hub_props = {
 
 	__new_game: function(width, height, komi, rules, handicap) {
 
-		let node = new_node();
+		let root = new_node();
+
+		root.set("GM", 1);
+		root.set("FF", 4);
+		root.set("CA", "UTF-8");
 
 		if (width === height) {
-			node.set("SZ", width);
+			root.set("SZ", width);
 		} else {
-			node.set("SZ", `${width}:${height}`);
+			root.set("SZ", `${width}:${height}`);
 		}
 
 		let points = handicap_stones(handicap, width, height, false);
 		for (let point of points) {
-			node.add_value("AB", point);
+			root.add_value("AB", point);
 		}
 		if (points.length > 1) {
-			node.set("HA", points.length);
+			root.set("HA", points.length);
 		}
 
-		node.set("KM", komi);
-		node.set("RU", rules);
+		root.set("RU", rules);
+		root.set("KM", komi);
 
-		this.add_roots([node]);
+		this.add_roots([root]);
 	},
 
 	place_handicap: function(handicap) {
