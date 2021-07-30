@@ -21,6 +21,10 @@ exports.config = {};
 
 exports.defaults = {
 
+	// ---------------------------------------------------------
+	// REMEMBER, WHEN ADDING THINGS, ALSO ADD TO hub_settings.js
+	// ---------------------------------------------------------
+
 	"arbitrary_command": "",				// Must be edited by the user in config.json
 	"arbitrary_argslist": [],				// Likewise.
 
