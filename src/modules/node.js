@@ -513,6 +513,8 @@ let node_prototype = {
 
 		let list = [];
 
+		// Note that Object.keys() usually returns things in insertion order...
+
 		for (let key of Object.keys(this.props)) {
 
 			let vals = this.all_values(key);
