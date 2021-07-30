@@ -14,10 +14,9 @@ module.exports = function(encoding = "UTF-8", size = 16) {
 
 	return {
 
+		decoder: decoder_cache[encoding],
 		storage: new Uint8Array(size),
 		length: 0,									// Both the length and also the next index to write to.
-
-		decoder: decoder_cache[encoding],
 
 		push: function(c) {
 			if (this.length >= this.storage.length) {
