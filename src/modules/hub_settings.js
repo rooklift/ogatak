@@ -35,6 +35,14 @@ const togglechecks = {
 	lax_sgf_reading:		["Misc", "Permissive SGF reader (unreliable)"],
 };
 
+for (let menupath of Object.values(multichecks)) {
+	ipcRenderer.send("verify_menupath", menupath);
+}
+
+for (let menupath of Object.values(togglechecks)) {
+	ipcRenderer.send("verify_menupath", menupath);
+}
+
 module.exports = {
 
 	set: function(key, value) {

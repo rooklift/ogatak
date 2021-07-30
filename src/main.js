@@ -109,15 +109,19 @@ function startup() {
 	});
 
 	electron.ipcMain.on("set_checks", (event, msg) => {
-		set_checks(...msg);
+		set_checks(msg);
 	});
 
 	electron.ipcMain.on("set_check_false", (event, msg) => {
-		set_one_check(false, ...msg);
+		set_one_check(false, msg);
 	});
 
 	electron.ipcMain.on("set_check_true", (event, msg) => {
-		set_one_check(true, ...msg);
+		set_one_check(true, msg);
+	});
+
+	electron.ipcMain.on("verify_menupath", (event, msg) => {
+		verify_menupath(msg);
 	});
 
 	electron.ipcMain.on("save_as_required", (event, msg) => {
@@ -2321,27 +2325,47 @@ function menu_build() {
 
 function get_submenu_items(menupath) {
 
+	// Not case-sensitive (or even type sensitive) in the menupath array, above.
+	//
 	// If the path is to a submenu, this returns a list of all items in the submenu.
 	// If the path is to a specific menu item, it just returns that item.
 
-	let o = menu.items;
-	for (let p of menupath) {
-		p = stringify(p).toLowerCase();
-		for (let item of o) {
-			if (item.label.toLowerCase() === p) {
+	let items = menu.items;
+
+	let total_found = 0;			// How many items of the menupath we've found.
+
+	for (let s of menupath) {
+
+		s = stringify(s).toLowerCase();
+		let found = false;
+
+		for (let item of items) {
+
+			if (item.label.toLowerCase() === s) {
+
+				found = true;
+				total_found++;
+
 				if (item.submenu) {
-					o = item.submenu.items;
+					items = item.submenu.items;
 					break;
+				} else if (total_found === menupath.length) {
+					return item;
 				} else {
-					return item;		// No submenu so this must be the end.
+					throw "get_submenu_items() got invalid menupath";
 				}
 			}
 		}
+
+		if (!found) {
+			throw "get_submenu_items() got invalid menupath";
+		}
 	}
-	return o;
+
+	return items;
 }
 
-function set_checks(...menupath) {
+function set_checks(menupath) {
 
 	if (!menu_is_set) {
 		return;
@@ -2361,7 +2385,7 @@ function set_checks(...menupath) {
 	}, 50);
 }
 
-function set_one_check(state, ...menupath) {
+function set_one_check(state, menupath) {
 
 	state = state ? true : false;
 
@@ -2372,6 +2396,14 @@ function set_one_check(state, ...menupath) {
 	let item = get_submenu_items(menupath);
 	if (item.checked !== undefined) {
 		item.checked = state;
+	}
+}
+
+function verify_menupath(menupath) {
+	try {
+		get_submenu_items(menupath);
+	} catch (err) {
+		alert(`Failed to verify menupath: ${stringify(menupath)}`);
 	}
 }
 
