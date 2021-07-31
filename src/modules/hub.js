@@ -1,8 +1,5 @@
 "use strict";
 
-// FIXME - trees are now never getting destroyed
-// (well, unless the GC is very smart, which it might be).
-
 const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
@@ -157,6 +154,9 @@ let hub_props = {
 	},
 
 	close_tab: function() {
+
+		let node_to_destroy = this.tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
+
 		if (this.tabber.tabs.length === 1) {
 			this.node = null;
 			this.new_game(19, 19);
@@ -166,6 +166,11 @@ let hub_props = {
 		}
 		this.tabber.draw_tabs(this.node);
 		this.update_title();
+
+		if (node_to_destroy) {
+			node_to_destroy.destroy_tree();
+		}
+
 	},
 
 	// Saving and loading .........................................................................
@@ -338,7 +343,7 @@ let hub_props = {
 		let opts = {
 			keep_autoplay_settings: false,
 			full_graph_draw: false,				// Beware: these actions won't be taken if node === this.node
-			bless: false							// as the function has already returned (see above).
+			bless: false						// as the function has already returned (see above).
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);

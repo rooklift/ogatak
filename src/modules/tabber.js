@@ -160,6 +160,28 @@ let tabber_prototype = {
 		return fixed.length !== initial_length;
 	},
 
+	tree_exists_in_inactive_tabs: function(node) {
+
+		if (!node) {
+			return false;
+		}
+
+		let root = node.get_root();
+
+		for (let t of this.tabs) {
+
+			if (t === ACTIVE_TAB_MARKER) {
+				continue;
+			}
+
+			if (t.get_root() === root) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
 	create_inactive_tab_after_active: function(node) {
 
 		if (typeof node !== "object" || node === null) {
