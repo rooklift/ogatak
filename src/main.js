@@ -2297,7 +2297,13 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Clear cache",
+					label: "Log Electron RAM state to console",
+					click: () => {
+						win.webContents.send("call", "log_ram");
+					}
+				},
+				{
+					label: "Clear KataGo cache",
 					click: () => {
 						win.webContents.send("call", "clear_cache");
 					}
