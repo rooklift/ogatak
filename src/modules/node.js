@@ -516,7 +516,8 @@ let node_prototype = {
 		let keys = Object.keys(this.props);		// Object.keys() usually returns things in insertion order.
 
 		if (!this.parent) {
-			keys.sort((a, b) => {				// This pattern is valid because a is never the same as b.
+			keys.sort((a, b) => {				// This sort pattern moves certain specified things to the start.
+				if (a === b) return 0;			// Impossible in this exact case.
 				if (a === "GM") return -1; if (b === "GM") return 1;
 				if (a === "FF") return -1; if (b === "FF") return 1;
 				if (a === "CA") return -1; if (b === "CA") return 1;
