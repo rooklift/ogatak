@@ -49,6 +49,7 @@ exports.defaults = {
 	"candidate_moves": true,
 	"numbers": "LCB + Visits",
 	"visits_threshold": 0.02,
+	"dead_threshold": 0,
 	"mouseover_pv": true,
 	"next_move_markers": true,
 	"visit_colours": true,

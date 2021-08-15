@@ -103,6 +103,7 @@ module.exports = {
 		case "candidate_moves":
 		case "numbers":
 		case "visits_threshold":
+		case "dead_threshold":
 		case "mouseover_pv":
 		case "next_move_markers":
 		case "visit_colours":

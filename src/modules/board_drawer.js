@@ -328,7 +328,7 @@ let board_drawer_prototype = {
 						if (ownership_perspective !== state) {
 							own *= -1;
 						}
-						if (own < 0) {
+						if (own < config.dead_threshold) {
 							desired = state === "b" ? "bm" : "wm";
 						}
 					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
