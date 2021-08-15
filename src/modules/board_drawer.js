@@ -31,7 +31,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.infodiv = infodiv;
 
 	drawer.tablestate = new_2d_array(52, 52, null);				// 2d array of "", "b", "w", "ko", "bm", "wm" ... we only look at indices inside our size.
-	drawer.exclusion_array = new_2d_array(52, 52, null);		// 2d array used by draw_board for exclusions sent by the PV drawer.
+	drawer.no_mark = new_2d_array(52, 52, null);				// 2d array used by draw_board for points getting a PV number (and so not a dead mark).
 
 	drawer.last_draw_was_pv = false;
 
@@ -284,12 +284,9 @@ let board_drawer_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
-	draw_board: function(board, responsible_node, ownership, ownership_perspective, markdead_exclusions) {
+	draw_board: function(board, responsible_node, ownership, ownership_perspective, no_mark_list) {
 
 		this.draw_board.calls = (this.draw_board.calls || 0) + 1;
-
-		// The ownership stuff should only be passed to this function if drawing it is desired.
-		// We don't really check config.dead_stone_prediction, except for other reasons.
 
 		// Note that the board one would get from responsible_node.get_board() is not necessarily
 		// the same as the board passed to us, because this function is used to draw the final
@@ -299,12 +296,12 @@ let board_drawer_prototype = {
 			this.rebuild(board.width, board.height);
 		}
 
-		if (markdead_exclusions) {
-			for (let s of markdead_exclusions) {
+		if (no_mark_list) {
+			for (let s of no_mark_list) {
 				if (s.length === 2) {
 					let x = s.charCodeAt(0) - 97;
 					let y = s.charCodeAt(1) - 97;
-					this.exclusion_array[x][y] = this.draw_board.calls;				// How we tell that it was set to excluded this call.
+					this.no_mark[x][y] = this.draw_board.calls;				// How we tell that [x][y] was set this particular call.
 				}
 			}
 		}
@@ -320,24 +317,26 @@ let board_drawer_prototype = {
 
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
-				} else if (state === "b" || state === "w") {						// Sometimes upgrade desired to "bm" or "wm".
-					if (this.exclusion_array[x][y] === this.draw_board.calls) {
-						// Nothing. Exclusions passed by draw_pv are not to be marked.
-					} else if (ownership) {
-						let own = ownership[x + (y * board.width)];
-						if (ownership_perspective !== state) {
-							own *= -1;
-						}
-						if (own < config.dead_threshold) {
-							desired = state === "b" ? "bm" : "wm";
-						}
-					} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
-						// Might be acceptable to keep the element as bm/wm until we get an update from the engine...
-						if (config.dead_stone_prediction && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-							desired = state === "b" ? "bm" : "wm";
+				} else if (state === "b" || state === "w") {				// Sometimes upgrade desired to "bm" or "wm".
+					if (config.dead_stone_prediction && this.no_mark[x][y] !== this.draw_board.calls) {
+						if (ownership) {
+							let own = ownership[x + (y * board.width)];
+							if (ownership_perspective !== state) {
+								own *= -1;
+							}
+							if (own < config.dead_threshold) {
+								desired = state === "b" ? "bm" : "wm";
+							}
+						} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
+							// Might be acceptable to keep the element as bm/wm until we get an update from the engine...
+							if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
+								desired = state === "b" ? "bm" : "wm";
+							}
 						}
 					}
 				}
+
+				// Now actually draw...
 
 				if (this.tablestate[x][y] !== desired) {
 					this.set_td(x, y, desired);
