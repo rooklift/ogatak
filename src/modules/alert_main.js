@@ -23,6 +23,7 @@ module.exports = function(msg) {
 	alerts_open++;
 
 	if (major_version <= 5) {		// Old API. Providing a callback makes the window not block the process.
+									// Best keep this compatibility with v5 so that we can alert the user to use v6!
 
 		electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {
 			alerts_open--;

@@ -1,5 +1,9 @@
 "use strict";
 
+if (!process || !process.versions || Number.isNaN(parseInt(process.versions.electron, 10)) || parseInt(process.versions.electron, 10) < 6) {
+	throw new Error("Ogatak requires Electron 6 or higher.");
+}
+
 const electron = require("electron");
 const path = require("path");
 const url = require("url");
@@ -23,11 +27,6 @@ if (electron.app.isReady()) {
 		startup();
 	});
 }
-
-// --------------------------------------------------------------------------------------------------------------
-
-const save_dialog = electron.dialog.showSaveDialogSync || electron.dialog.showSaveDialog;
-const open_dialog = electron.dialog.showOpenDialogSync || electron.dialog.showOpenDialog;
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -125,14 +124,16 @@ function startup() {
 	});
 
 	electron.ipcMain.on("save_as_required", (event, msg) => {
-		let file = save_dialog(win, {defaultPath: config.sgf_folder});
-		if (typeof file === "string" && file.length > 0) {
-			win.webContents.send("call", {
-				fn: "save",
-				args: [file]
-			});
-			two_process_set("sgf_folder", path.dirname(file));
-		}
+		electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+		.then(o => {
+			if (typeof o.filePath === "string" && o.filePath.length > 0) {
+				win.webContents.send("call", {
+					fn: "save",
+					args: [o.filePath]
+				});
+				two_process_set("sgf_folder", path.dirname(o.filePath));
+			}
+		});
 	});
 
 	electron.Menu.setApplicationMenu(menu);
@@ -352,14 +353,16 @@ function menu_build() {
 					label: "Open SGF / GIB / NGF...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
-						let files = open_dialog(win, {defaultPath: config.sgf_folder, properties: ["multiSelections"]});
-						if (Array.isArray(files) && files.length > 0) {
-							win.webContents.send("call", {
-								fn: "load_multifile",
-								args: [files]
-							});
-							two_process_set("sgf_folder", path.dirname(files[0]));
-						}
+						electron.dialog.showOpenDialog(win, {defaultPath: config.sgf_folder, properties: ["multiSelections"]})
+						.then(o => {
+							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
+								win.webContents.send("call", {
+									fn: "load_multifile",
+									args: [o.filePaths]
+								});
+								two_process_set("sgf_folder", path.dirname(o.filePaths[0]));
+							}
+						});
 					}
 				},
 				{
@@ -385,15 +388,17 @@ function menu_build() {
 				{
 					label: "Save as...",
 					click: () => {
-						let file = save_dialog(win, {defaultPath: config.sgf_folder});
-						if (typeof file === "string" && file.length > 0) {
-							win.webContents.send("call", {
-								fn: "save",
-								args: [file]
-							});
-							two_process_set("sgf_folder", path.dirname(file));
-						}
-					}
+						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+						.then(o => {
+							if (typeof o.filePath === "string" && o.filePath.length > 0) {
+								win.webContents.send("call", {
+									fn: "save",
+									args: [o.filePath]
+								});
+								two_process_set("sgf_folder", path.dirname(o.filePath));
+							}
+						});
+					},
 				},
 				{
 					type: "separator",
@@ -411,40 +416,46 @@ function menu_build() {
 				{
 					label: "Locate KataGo...",
 					click: () => {
-						let files = open_dialog(win, {defaultPath: config.katago_folder});
-						if (Array.isArray(files) && files.length > 0) {
-							win.webContents.send("set", {
-								key: "engine",
-								value: files[0]
-							});
-							two_process_set("katago_folder", path.dirname(files[0]));
-						}
+						electron.dialog.showOpenDialog(win, {defaultPath: config.katago_folder})
+						.then(o => {
+							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
+								win.webContents.send("set", {
+									key: "engine",
+									value: o.filePaths[0]
+								});
+								two_process_set("katago_folder", path.dirname(o.filePaths[0]));
+							}
+						});
 					},
 				},
 				{
 					label: "Locate KataGo analysis config...",
 					click: () => {
-						let files = open_dialog(win, {defaultPath: config.kataconfig_folder});
-						if (Array.isArray(files) && files.length > 0) {
-							win.webContents.send("set", {
-								key: "engineconfig",
-								value: files[0]
-							});
-							two_process_set("kataconfig_folder", path.dirname(files[0]));
-						}
+						electron.dialog.showOpenDialog(win, {defaultPath: config.kataconfig_folder})
+						.then(o => {
+							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
+								win.webContents.send("set", {
+									key: "engineconfig",
+									value: o.filePaths[0]
+								});
+								two_process_set("kataconfig_folder", path.dirname(o.filePaths[0]));
+							}
+						});
 					},
 				},
 				{
 					label: "Choose weights...",
 					click: () => {
-						let files = open_dialog(win, {defaultPath: config.weights_folder});
-						if (Array.isArray(files) && files.length > 0) {
-							win.webContents.send("set", {
-								key: "weights",
-								value: files[0]
-							});
-							two_process_set("weights_folder", path.dirname(files[0]));
-						}
+						electron.dialog.showOpenDialog(win, {defaultPath: config.weights_folder})
+						.then(o => {
+							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
+								win.webContents.send("set", {
+									key: "weights",
+									value: o.filePaths[0]
+								});
+								two_process_set("weights_folder", path.dirname(o.filePaths[0]));
+							}
+						});
 					},
 				},
 				{
@@ -2358,13 +2369,13 @@ function get_submenu_items(menupath) {
 				} else if (total_found === menupath.length) {
 					return item;
 				} else {
-					throw "get_submenu_items() got invalid menupath";
+					throw new Error("get_submenu_items() got invalid menupath");
 				}
 			}
 		}
 
 		if (!found) {
-			throw "get_submenu_items() got invalid menupath";
+			throw new Error("get_submenu_items() got invalid menupath");
 		}
 	}
 
