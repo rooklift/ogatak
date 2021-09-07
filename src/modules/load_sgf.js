@@ -1,17 +1,16 @@
 "use strict";
 
-//	Notes on charsets:
+// Charset notes:
 //
-//	The parser is very much byte-level. However, when storing values to the node.props,
-//	it does use a TextDecoder to convert the bytes of the value to string, and does use
-//	any known CA property for decoding.
+// The parser assumes UTF-8. However, if it encounters a CA property on its very first call,
+// it will throw a specific error and then we decode the **entire file** from that charset and
+// turn it into UTF-8, then start again.
 //
-//	So this will work, as long as the files don't have multibyte characters which embed
-//	a \ or ] byte, in which case it will fail.
+// This will likely fail if there is a multigame file with differing charsets, but that's weird.
 
+const decoders = require("./decoders");
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
-const {encoding_supported_by_textdecoder} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -21,22 +20,27 @@ function load_sgf(buf) {
 
 	let ret = [];
 	let off = 0;
+	let allow_charset_reset = true;		// This is true only for the very first call to load_sgf_recursive().
 
 	if (buf.length > 3 && buf[0] === 239 && buf[1] === 187 && buf[2] === 191) {
-		off = 3;			// Skip a BOM
+		buf = buf.slice(3);				// Skip the BOM. Note buf.slice() references the same memory (not that it matters to us).
 	}
 
-	while (buf.length - off >= 3) {
+	while (buf.length - off > 0) {
 		try {
-			let o = load_sgf_recursive(buf, off, null, "UTF-8", true);		// Start by assuming UTF-8, the function can restart if needed.
+			let o = load_sgf_recursive(buf, off, null, allow_charset_reset);
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
-			if (ret.length > 0) {
-				break;
+			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset.
+				buf = convert_buf(buf, err.charset);
+			} else if (ret.length > 0) {
+				break;															// Break the while loop.
 			} else {
 				throw err;
 			}
+		} finally {
+			allow_charset_reset = false;
 		}
 	}
 
@@ -53,14 +57,14 @@ function load_sgf(buf) {
 	return ret;
 }
 
-function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_restart) {
+function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset) {
 
 	let root = null;
 	let node = null;
 	let tree_started = false;
 	let inside_value = false;
 
-	let value = new_byte_pusher(encoding);				// encoding must be supported by util.TextDecoder
+	let value = new_byte_pusher("UTF-8");
 	let key = new_byte_pusher("ascii");
 	let keycomplete = false;
 
@@ -98,15 +102,10 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				let key_string = key.string();
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
-				// If we find a CA, and if it's not the encoding we're using, restart the parse
-				// from the beginning with the correct encoding (assuming we're allowed to)...
-				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
-					if (value_string !== encoding && (!is_utf8_alias(value_string) || !is_utf8_alias(encoding))) {
-						if (encoding_supported_by_textdecoder(value_string)) {
-							return load_sgf_recursive(buf, off, null, value_string, false);
-						} else {
-							console.log(`While loading SGF, got CA[${value_string}] which is not supported.`);
-						}
+				// See notes on character sets, above...
+				if (allow_charset_reset && key_string === "CA" && node.props.CA.length === 1) {
+					if (!is_utf8_alias(value_string) && decoders.available(value_string)) {
+						throw {charset: value_string};
 					}
 				}
 			} else {
@@ -138,7 +137,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				if (!node) {
 					throw "SGF load error: new subtree started but node was nil";
 				}
-				i += load_sgf_recursive(buf, i, node, encoding, false).readcount - 1;
+				i += load_sgf_recursive(buf, i, node, false).readcount - 1;
 				// We subtract 1 as the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
@@ -209,9 +208,17 @@ function apply_pl_fix(root) {
 
 function is_utf8_alias(s) {
 	s = s.toLowerCase();
-	return s === "utf8" || s === "utf-8";
+	return s === "utf8" || s === "utf-8" || s === "ascii" || s === "us-ascii";		// I guess.
 }
 
+function convert_buf(buf, source_encoding) {
 
+	// Converts a buffer from some encoding to a UTF-8 encoded buffer.
+
+	let decoder = decoders.get_decoder(source_encoding);		// This can throw if source_encoding is not supported.
+	let s = decoder.decode(buf);
+	let ret = Buffer.from(s, "UTF-8");
+	return ret;
+}
 
 module.exports = load_sgf;
