@@ -32,7 +32,7 @@ function load_sgf(buf) {
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
-			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset.
+			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset. Only possible for 1st call.
 				buf = convert_buf(buf, err.charset);
 			} else if (ret.length > 0) {
 				break;															// Break the while loop.

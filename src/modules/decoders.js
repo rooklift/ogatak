@@ -11,8 +11,10 @@ module.exports = {
 
 	get_decoder: function(encoding) {
 
+		// This can throw if encoding is not supported.
+
 		if (this.decoders[encoding] === undefined) {
-			this.decoders[encoding] = new util.TextDecoder(encoding);		// This can throw if encoding is not supported.
+			this.decoders[encoding] = new util.TextDecoder(encoding);
 		}
 
 		return this.decoders[encoding];
@@ -20,6 +22,9 @@ module.exports = {
 	},
 
 	available: function(encoding) {
+
+		// Tests whether it's possible for us to decode the given encoder.
+		// If it is, the relevant decoder will be created if it doesn't exist.
 
 		try {
 			this.get_decoder(encoding);
