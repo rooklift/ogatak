@@ -9,6 +9,8 @@
 //	So this will work, as long as the files don't have multibyte characters which embed
 //	a \ or ] byte, in which case it will fail.
 
+const util = require("util");
+
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
 const {encoding_supported_by_textdecoder} = require("./utils");
@@ -28,7 +30,7 @@ function load_sgf(buf) {
 
 	while (buf.length - off >= 3) {
 		try {
-			let o = load_sgf_recursive(buf, off, null, "UTF-8", true);		// Start by assuming UTF-8, the function can restart if needed.
+			let o = load_sgf_recursive(buf, off, null, "UTF-8", off <= 3 ? true : false);		// Allow CA restart only for first game? Meh.
 			ret.push(o.root);
 			off += o.readcount;
 		} catch (err) {
@@ -103,7 +105,8 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
 					if (value_string !== encoding && (!is_utf8_alias(value_string) || !is_utf8_alias(encoding))) {
 						if (encoding_supported_by_textdecoder(value_string)) {
-							return load_sgf_recursive(buf, off, null, value_string, false);
+							return load_sgf_recursive(decode_buf(buf, value_string), 0, null, "UTF-8", false);
+							// return load_sgf_recursive(buf, off, null, value_string, false);
 						} else {
 							console.log(`While loading SGF, got CA[${value_string}] which is not supported.`);
 						}
@@ -212,6 +215,11 @@ function is_utf8_alias(s) {
 	return s === "utf8" || s === "utf-8";
 }
 
-
+function decode_buf(buf, encoding) {
+	let decoder = new util.TextDecoder(encoding);
+	let s = decoder.decode(buf);
+	let ret = Buffer.from(s, "UTF-8");
+	return ret;
+}
 
 module.exports = load_sgf;
