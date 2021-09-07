@@ -9,11 +9,9 @@
 //	So this will work, as long as the files don't have multibyte characters which embed
 //	a \ or ] byte, in which case it will fail.
 
-const util = require("util");
-
+const decoders = require("./decoders");
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
-const {encoding_supported_by_textdecoder} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -104,7 +102,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, encoding, allow_ca_r
 				// from the beginning with the correct encoding (assuming we're allowed to)...
 				if (allow_ca_restart && key_string === "CA" && node.props.CA.length === 1) {
 					if (value_string !== encoding && (!is_utf8_alias(value_string) || !is_utf8_alias(encoding))) {
-						if (encoding_supported_by_textdecoder(value_string)) {
+						if (decoders.available(value_string)) {
 							return load_sgf_recursive(decode_buf(buf, value_string), 0, null, "UTF-8", false);
 							// return load_sgf_recursive(buf, off, null, value_string, false);
 						} else {
@@ -216,7 +214,7 @@ function is_utf8_alias(s) {
 }
 
 function decode_buf(buf, encoding) {
-	let decoder = new util.TextDecoder(encoding);
+	let decoder = decoders.get_decoder(encoding);		// This can throw if encoding is not supported.
 	let s = decoder.decode(buf);
 	let ret = Buffer.from(s, "UTF-8");
 	return ret;
