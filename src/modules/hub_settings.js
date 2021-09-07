@@ -32,7 +32,6 @@ const togglechecks = {
 	auto_square_size:		["Sizes", "Auto-resize squares"],
 	stderr_to_console:		["Misc", "Log engine stderr to console"],
 	load_at_end:			["Misc", "Load games at final position"],
-	lax_sgf_reading:		["Misc", "Permissive SGF reader (unreliable)"],
 };
 
 // The following lines just ask main process to check the menupath exists,
