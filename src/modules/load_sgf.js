@@ -22,8 +22,16 @@ function load_sgf(buf) {
 	let off = 0;
 	let allow_charset_reset = true;		// This is true only for the very first call to load_sgf_recursive().
 
-	if (buf.length > 3 && buf[0] === 239 && buf[1] === 187 && buf[2] === 191) {
-		buf = buf.slice(3);				// Skip the BOM. Note buf.slice() references the same memory (not that it matters to us).
+	// Rarely the encoding will be obvious from initial byte-order marks...
+
+	if (buf.length > 3) {
+	 	if (buf[0] === 239 && buf[1] === 187 && buf[2] === 191) {				// Presumably a UTF-8 file (which is what we want anyway).
+			buf = buf.slice(3);													// Skip the UTF-8 BOM. Note that slice() references the same memory.
+			allow_charset_reset = false;
+		} else if (buf[0] === 255 && buf[1] === 254) {							// Presumably a UTF-16LE file. Should be rare in the wild.
+			buf = convert_buf(buf, "utf-16le");
+			allow_charset_reset = false;
+		}
 	}
 
 	while (buf.length - off > 0) {
