@@ -20,13 +20,9 @@ let menu = menu_build();
 let menu_is_set = false;
 let win;						// We're supposed to keep global references to every window we make.
 
-if (electron.app.isReady()) {
+electron.app.whenReady().then(() => {
 	startup();
-} else {
-	electron.app.once("ready", () => {
-		startup();
-	});
-}
+});
 
 // --------------------------------------------------------------------------------------------------------------
 
