@@ -194,6 +194,8 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 
+		// Normal draw method for when no PV is being displayed.
+
 		this.clear_canvas();
 
 		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
@@ -213,24 +215,30 @@ let board_drawer_prototype = {
 		this.last_draw_was_pv = false;
 	},
 
-	draw_pv: function(node, point) {					// Return true / false whether this happened.
+	draw_pv: function(node, point) {
 
-		if (!config.candidate_moves || !config.mouseover_pv) {
+		// Special draw method that draws a PV, unless this is prevented by some
+		// setting or by the point (mouse location) not corresponding to a move
+		// about which we have info, etc etc...
+		//
+		// Returns true / false whether this happened.
+
+		if (!point || !config.candidate_moves || !config.mouseover_pv) {
 			return false;
 		}
 
-		let filtered_infos = moveinfo_filter(node);
+		let filtered_infos = moveinfo_filter(node);		// All possible move infos, maybe one of which corresponds to the point argument.
 
 		if (filtered_infos.length < 1) {
 			return false;
 		}
 
 		let startboard = node.get_board();
-		let gtp = startboard.gtp(point);
+		let gtp = startboard.gtp(point);				// Gets a string like "K10" from the mouse point argument (which is like "jj").
 
 		let info;
 
-		for (let foo of filtered_infos) {
+		for (let foo of filtered_infos) {				// Of all the moves in our list, is one of them the one we're interested in?
 			if (foo.move === gtp) {
 				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
 					info = foo;
