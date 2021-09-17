@@ -135,6 +135,18 @@ let board_drawer_prototype = {
 			throw "rebuild() needs board sizes";
 		}
 
+		// Remove all registered "mouseenter" handlers on the old TD elements...
+		// This might be rather unnecessary, they should get GC'd anyway.
+
+		if (this.width && this.height) {
+			for (let x = 0; x < this.width; x++) {
+				for (let y = 0; y < this.height; y++) {
+					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+					td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
+				}
+			}
+		}
+
 		this.width = width;
 		this.height = height;
 
@@ -151,7 +163,7 @@ let board_drawer_prototype = {
 				td.className = "td_" + s;
 				td.width = config.square_size;
 				td.height = config.square_size;
-				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);
+				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);			// Add "mouseenter" handler to the TD element.
 				tr.appendChild(td);
 			}
 		}
