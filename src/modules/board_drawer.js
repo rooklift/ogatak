@@ -18,6 +18,23 @@ const white_stone_marked_url = `url("${white_stone_marked.src}")`;
 const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
 const ko_marker_url = `url("${ko_marker.src}")`;
 
+// ------------------------------------------------------------------------------------------------
+// Create the event handlers for all usable values of x,y...
+// These will be attached to TD elements, firing on "mouseenter" events.
+
+let mouseenter_handlers = new_2d_array(25, 25, null);
+
+for (let x = 0; x < 25; x++) {
+	for (let y = 0; y < 25; y++) {
+		let s = xy_to_s(x, y);
+		mouseenter_handlers[x][y] = () => {
+			hub.mouse_entering_point(s);
+		};
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	let drawer = Object.create(board_drawer_prototype);
@@ -30,8 +47,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
 
-	drawer.tablestate = new_2d_array(52, 52, null);				// 2d array of "", "b", "w", "ko", "bm", "wm" ... we only look at indices inside our size.
-	drawer.no_mark = new_2d_array(52, 52, null);				// 2d array used by draw_board for points getting a PV number (and so not a dead mark).
+	drawer.tablestate = new_2d_array(25, 25, null);				// 2d array of "", "b", "w", "ko", "bm", "wm" ... we only look at indices inside our size.
+	drawer.no_mark = new_2d_array(25, 25, null);				// 2d array used by draw_board for points getting a PV number (and so not a dead mark).
 
 	drawer.last_draw_was_pv = false;
 
@@ -134,9 +151,7 @@ let board_drawer_prototype = {
 				td.className = "td_" + s;
 				td.width = config.square_size;
 				td.height = config.square_size;
-				td.addEventListener("mouseenter", (event) => {
-					hub.mouse_entering_point(s);
-				});
+				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);
 				tr.appendChild(td);
 			}
 		}
