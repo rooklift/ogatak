@@ -1,7 +1,7 @@
 "use strict";
 
-// Note that this just does the gridlines on the board.
-// The wood is simply the background of some other div.
+// Exports a function which returns an image (as data URL) of the
+// board's gridlines (and hoshi points) on a transparent background.
 
 const {handicap_stones} = require("./utils");
 

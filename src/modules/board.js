@@ -1,5 +1,13 @@
 "use strict";
 
+// The board object contains info about the state of a game of Go,
+// including ko, captures, player-to-move, and rules.
+//
+// Note that functions which take a point argument generally expect
+// it to be a string in SGF format, e.g. "cc".
+//
+// The state at each board point is either "" or "b" or "w".
+
 const {opposite_colour, xy_to_s, points_list} = require("./utils");
 
 function new_board(width, height, state = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
@@ -36,7 +44,10 @@ let board_prototype = {
 		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
-	in_bounds: function(s) {				// Note: any pass-ish things are not "in bounds".
+	in_bounds: function(s) {
+
+		// Returns true / false if the point is on the board.
+		// Note: any pass-ish things are not "in bounds".
 
 		if (typeof s !== "string" || s.length !== 2) {
 			return false;
@@ -50,6 +61,8 @@ let board_prototype = {
 
 	state_at: function(s) {
 
+		// Converts the point to [x][y] and returns the state there, "" or "b" or "w".
+
 		if (this.in_bounds(s) === false) {
 			return "";
 		}
@@ -62,6 +75,8 @@ let board_prototype = {
 
 	set_at: function(s, colour) {
 
+		// Converts the point to [x][y] and sets the state there, colour should be "" or "b" or "w".
+
 		if (this.in_bounds(s) === false) {
 			return;
 		}
@@ -73,6 +88,9 @@ let board_prototype = {
 	},
 
 	one_liberty_singleton: function(s) {
+
+		// True iff the point has a stone which is not
+		// part of a group and has exactly 1 liberty.
 
 		let colour = this.state_at(s);
 
@@ -100,6 +118,9 @@ let board_prototype = {
 
 	neighbours: function(s) {
 
+		// Returns a list of points (in SGF format, e.g. "cc")
+		// which neighbour the point given.
+
 		let ret = [];
 
 		if (this.in_bounds(s) === false) {
@@ -117,7 +138,10 @@ let board_prototype = {
 		return ret;
 	},
 
-	ko_square_finder: function(s) {
+	empty_neighbour: function(s) {
+
+		// Returns an arbitrary empty neighbour of a point.
+		// Useful for finding ko square.
 
 		for (let neighbour of this.neighbours(s)) {
 			if (!this.state_at(neighbour)) {
@@ -129,6 +153,8 @@ let board_prototype = {
 	},
 
 	destroy_group: function(s) {
+
+		// Destroys the group and returns the number of stones removed.
 
 		let colour = this.state_at(s);
 
@@ -197,11 +223,18 @@ let board_prototype = {
 		return false;
 	},
 
-	legal_move: function(s) {								// Note: does not consider passes as "legal moves".
+	legal_move: function(s) {
+
+		// Returns true if the active player can legally play at the point given.
+		// Note: does NOT consider passes as "legal moves".
+
 		return this.legal_move_colour(s, this.active);
 	},
 
-	legal_move_colour: function(s, colour) {				// Note: does not consider passes as "legal moves".
+	legal_move_colour: function(s, colour) {
+
+		// Returns true if the given colour can legally play at the point given.
+		// Note: does NOT consider passes as "legal moves".
 
 		if (this.in_bounds(s) === false) {
 			return false;
@@ -244,7 +277,9 @@ let board_prototype = {
 		return false;
 	},
 
-	play_move_or_pass: function(s, colour) {			// No legality checks.
+	play_move_or_pass: function(s, colour) {
+
+		// Play the move (or pass) given. Contains no legality checks!
 
 		if (colour !== "b" && colour !== "w") {
 			throw "play_move_or_pass() - Invalid colour";
@@ -277,7 +312,7 @@ let board_prototype = {
 
 		if (caps === 1) {
 			if (this.one_liberty_singleton(s)) {
-				this.ko = this.ko_square_finder(s);
+				this.ko = this.empty_neighbour(s);
 			}
 		}
 	},
@@ -362,6 +397,10 @@ let board_prototype = {
 	},
 
 	setup_list: function() {
+
+		// Returns a list of [player string, location string] tuples which can be sent to
+		// KataGo as its "initialStones" argument.
+
 		let ret = [];
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
