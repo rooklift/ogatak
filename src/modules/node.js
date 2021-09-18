@@ -1,5 +1,9 @@
 "use strict";
 
+// The node object contains the state of an SGF node, i.e. a node in a game tree.
+// SGF properties are stored as a map of key --> list of values, with everything
+// being stored as a string.
+
 const path = require("path");
 
 const new_board = require("./board");
@@ -17,7 +21,7 @@ function new_node(parent) {
 	node.id = `node_${next_node_id++}`;
 	node.parent = parent;
 	node.children = [];
-	node.props = Object.create(null);
+	node.props = Object.create(null);			// key --> list of values (strings only)
 	node.analysis = null;
 	node.__board = null;
 	node.__blessed_child_id = null;				// Usually don't inspect this directly, rather call get_blessed_child()
@@ -591,6 +595,9 @@ function destroy_tree_recursive(node) {
 }
 
 function coerce_board_prop_recursive(node, prop, value) {
+
+	// Used for setting things like komi and rules in
+	// all boards (NOT nodes) in the tree.
 
 	while (true) {
 
