@@ -472,7 +472,10 @@ let node_prototype = {
 
 	receive_analysis: function(o) {
 
-		this.analysis = o;		// No validation... caller should run valid_analysis_object(o) first!
+		// Save a KataGo analysis object into the node for display.
+		// No validation... caller should run valid_analysis_object(o) first!
+
+		this.analysis = o;
 
 		let winrate = this.analysis.moveInfos[0].winrate;
 
@@ -514,6 +517,8 @@ let node_prototype = {
 	},
 
 	string: function() {
+
+		// Returns a ;-prefixed string which can be saved into an SGF file.
 
 		let list = [];
 
