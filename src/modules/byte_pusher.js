@@ -1,5 +1,9 @@
 "use strict";
 
+// Exports a function which returns a "byte pusher", which is used to
+// store a short sequence of bytes while parsing files. The pusher
+// has an associated encoding which is used by its string() method.
+
 const decoders = require("./decoders");
 
 module.exports = function(encoding = "UTF-8", size = 16) {

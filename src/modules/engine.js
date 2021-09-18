@@ -11,7 +11,7 @@ const stringify = require("./stringify");
 const {node_id_from_search_id, parse_version, compare_versions} = require("./utils");
 const {base_query, finalise_query, full_query_matches_base} = require("./query");
 
-const bad_versions = [
+const bad_versions = [			// Versions of KataGo which are somehow broken.
 	[1, 9, 0],
 ];
 
@@ -39,6 +39,9 @@ function new_engine() {
 let engine_prototype = {
 
 	__send: function(o) {
+
+		// Sends the object to the KataGo Analysis Engine by converting it to JSON and writing it to stdin.
+
 		if (!this.exe) {
 			return;
 		}
@@ -61,6 +64,10 @@ let engine_prototype = {
 	},
 
 	analyse: function(node) {
+
+		// Sets this.desired to be a query for the node.
+		// If a query is currently running, sends a stop message to the engine.
+		// Otherwise, sends the desired query to the engine, and sets this.running.
 
 		if (!this.exe) {
 			return;
@@ -91,6 +98,8 @@ let engine_prototype = {
 	},
 
 	halt: function() {
+
+		// Clears this.desired, and sends a stop message if required.
 
 		if (!this.exe) {
 			return;

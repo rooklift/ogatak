@@ -37,6 +37,8 @@ for (let x = 0; x < 25; x++) {
 
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
+	// Only one of these is ever created.
+
 	let drawer = Object.create(board_drawer_prototype);
 
 	drawer.width = null;
