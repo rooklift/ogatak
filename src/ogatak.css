@@ -22,10 +22,11 @@ body {
 #gridder {
 	display: grid;
 	grid-template-columns: min-content min-content min-content 1fr;
-	grid-template-rows: min-content 1fr;
+	grid-template-rows: min-content min-content 1fr;
 	grid-template-areas:
 		"d a a e"
-		"d b c e";
+		"d b c e"
+		"d b c f";
 }
 
 #tabdiv {
@@ -38,6 +39,10 @@ body {
 	overflow-x: hidden;
 	overflow-y: scroll;
 	pointer-events: auto;
+}
+
+#comments {
+	grid-area: f;
 }
 
 #graphcanvas {

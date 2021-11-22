@@ -389,6 +389,10 @@ let hub_props = {
 
 		this.tree_drawer.must_draw = true;
 
+		let commentdiv = document.getElementById("comments");
+
+		commentdiv.innerHTML = this.node.get("C");
+
 		return true;
 	},
 
