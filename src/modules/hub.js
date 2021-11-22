@@ -5,6 +5,7 @@ const path = require("path");
 const {ipcRenderer} = require("electron");
 
 const new_board_drawer = require("./board_drawer");
+const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
 const new_grapher = require("./grapher");
 const new_node = require("./node");
@@ -45,6 +46,10 @@ exports.new_hub = function() {
 	hub.tree_drawer = new_tree_drawer(
 		document.getElementById("treecanvas"),
 		hub.grapher
+	);
+
+	hub.comment_drawer = new_comment_drawer(
+		document.getElementById("comments")
 	);
 
 	hub.engine = new_engine();
@@ -389,9 +394,7 @@ let hub_props = {
 
 		this.tree_drawer.must_draw = true;
 
-		let commentdiv = document.getElementById("comments");
-
-		commentdiv.innerHTML = this.node.get("C");
+		this.comment_drawer.draw(this.node);
 
 		return true;
 	},
