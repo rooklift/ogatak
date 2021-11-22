@@ -28,8 +28,6 @@ let comment_drawer_prototype = {
 		s = replace_all(s,  `'`  ,  `&apos;`  );
 		s = replace_all(s,  `"`  ,  `&quot;`  );
 
-		s = replace_all(s,  `\n` ,  `<br>`    );		// The above are safety-ish things, but this is more aesthetic.
-
 		this.div.innerHTML = s;
 	}
 };

@@ -45,6 +45,7 @@ body {
 	grid-area: f;
 	font-family: monospace, monospace;
 	margin: 1em 1em 0 0;
+	white-space: pre-wrap;
 }
 
 #graphcanvas {
