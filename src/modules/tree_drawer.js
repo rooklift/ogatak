@@ -40,7 +40,7 @@ let tree_drawer_prototype = {
 
 		this.must_draw = false;
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top);
+		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
 
 		// Various reasons why we might to leave everything blank...
 

@@ -17,6 +17,7 @@ const multichecks = {
 	minor_graph_linewidth:	["Sizes", "Graph minor lines"],
 	thumbnail_square_size:	["Sizes", "Thumbnail squares"],
 	tree_spacing:			["Sizes", "Tree spacing"],
+	comment_height: 		["Sizes", "Comment box"],
 	report_every:			["Misc", "Engine report rate"],
 };
 
@@ -132,6 +133,12 @@ module.exports = {
 		case "tree_main_colour":
 		case "central_node_colour":
 
+			this.tree_drawer.must_draw = true;
+			break;
+
+		case "comment_height":
+
+			this.comment_drawer.draw(this.node);
 			this.tree_drawer.must_draw = true;
 			break;
 
