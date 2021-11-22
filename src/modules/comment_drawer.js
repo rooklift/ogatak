@@ -18,6 +18,10 @@ let comment_drawer_prototype = {
 			s = "";
 		}
 
+		if (config.comment_height <= 0) {
+			s = "";
+		}
+
 		s = replace_all(s,  `&`  ,  `&amp;`   );		// This needs to be first of course.
 		s = replace_all(s,  `<`  ,  `&lt;`    );
 		s = replace_all(s,  `>`  ,  `&gt;`    );

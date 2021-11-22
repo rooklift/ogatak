@@ -132,8 +132,13 @@ module.exports = {
 		case "tree_off_colour":
 		case "tree_main_colour":
 		case "central_node_colour":
-		case "comment_height":						// Maybe do more for this?
 
+			this.tree_drawer.must_draw = true;
+			break;
+
+		case "comment_height":
+
+			this.comment_drawer.draw(this.node);
 			this.tree_drawer.must_draw = true;
 			break;
 
