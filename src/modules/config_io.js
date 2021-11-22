@@ -64,6 +64,7 @@ exports.defaults = {
 	"major_graph_var_colour": "#4b8ba2ff",
 	"midline_graph_colour": "#222222ff",
 	"graph_width": 224,
+	"comment_height": 256,
 
 	"tree_spacing": 24,
 	"tree_off_colour": "#444444ff",

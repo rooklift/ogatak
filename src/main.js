@@ -2166,6 +2166,44 @@ function menu_build() {
 						},
 					]
 				},
+				{
+					label: "Comment box",
+					submenu: [
+						{
+							label: "256",
+							type: "checkbox",
+							checked: config.comment_height === 256,
+							click: () => {
+								win.webContents.send("set", {
+									key: "comment_height",
+									value: 256
+								});
+							}
+						},
+						{
+							label: "128",
+							type: "checkbox",
+							checked: config.comment_height === 128,
+							click: () => {
+								win.webContents.send("set", {
+									key: "comment_height",
+									value: 128
+								});
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.comment_height === 0,
+							click: () => {
+								win.webContents.send("set", {
+									key: "comment_height",
+									value: 0
+								});
+							}
+						},
+					]
+				},
 			]
 		},
 		{
