@@ -11,7 +11,7 @@ document.addEventListener("wheel", (event) => {
 	let path = event.path || (event.composedPath && event.composedPath());
 	if (path) {
 		for (let item of path) {
-			if (item.id === "tabdiv") {		// Can have a scrollbar.
+			if (item.id === "tabdiv" || item.id === "comments") {		// Can have a scrollbar.
 				return;
 			}
 		}
