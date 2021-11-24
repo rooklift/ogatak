@@ -2170,6 +2170,28 @@ function menu_build() {
 					label: "Comment box",
 					submenu: [
 						{
+							label: "512",
+							type: "checkbox",
+							checked: config.comment_height === 512,
+							click: () => {
+								win.webContents.send("set", {
+									key: "comment_height",
+									value: 512
+								});
+							}
+						},
+						{
+							label: "384",
+							type: "checkbox",
+							checked: config.comment_height === 384,
+							click: () => {
+								win.webContents.send("set", {
+									key: "comment_height",
+									value: 384
+								});
+							}
+						},
+						{
 							label: "256",
 							type: "checkbox",
 							checked: config.comment_height === 256,
