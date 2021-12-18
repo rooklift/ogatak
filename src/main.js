@@ -415,10 +415,7 @@ function menu_build() {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.katago_folder})
 						.then(o => {
 							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
-								win.webContents.send("set", {
-									key: "engine",
-									value: o.filePaths[0]
-								});
+								win.webContents.send("set", {engine: o.filePaths[0]});
 								two_process_set("katago_folder", path.dirname(o.filePaths[0]));
 							}
 						});
@@ -430,10 +427,7 @@ function menu_build() {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.kataconfig_folder})
 						.then(o => {
 							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
-								win.webContents.send("set", {
-									key: "engineconfig",
-									value: o.filePaths[0]
-								});
+								win.webContents.send("set", {engineconfig: o.filePaths[0]});
 								two_process_set("kataconfig_folder", path.dirname(o.filePaths[0]));
 							}
 						});
@@ -445,10 +439,7 @@ function menu_build() {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.weights_folder})
 						.then(o => {
 							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
-								win.webContents.send("set", {
-									key: "weights",
-									value: o.filePaths[0]
-								});
+								win.webContents.send("set", {weights: o.filePaths[0]});
 								two_process_set("weights_folder", path.dirname(o.filePaths[0]));
 							}
 						});
@@ -694,10 +685,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 10000,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 10000
-								});
+								win.webContents.send("set", {autoanalysis_visits: 10000});
 							}
 						},
 						{
@@ -705,10 +693,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 5000,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 5000
-								});
+								win.webContents.send("set", {autoanalysis_visits: 5000});
 							}
 						},
 						{
@@ -716,10 +701,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 2500,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 2500
-								});
+								win.webContents.send("set", {autoanalysis_visits: 2500});
 							}
 						},
 						{
@@ -727,10 +709,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 1000,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 1000
-								});
+								win.webContents.send("set", {autoanalysis_visits: 1000});
 							}
 						},
 						{
@@ -738,10 +717,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 500,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 500
-								});
+								win.webContents.send("set", {autoanalysis_visits: 500});
 							}
 						},
 						{
@@ -749,10 +725,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 250,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 250
-								});
+								win.webContents.send("set", {autoanalysis_visits: 250});
 							}
 						},
 						{
@@ -760,10 +733,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 100,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 100
-								});
+								win.webContents.send("set", {autoanalysis_visits: 100});
 							}
 						},
 						{
@@ -771,10 +741,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 50,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 50
-								});
+								win.webContents.send("set", {autoanalysis_visits: 50});
 							}
 						},
 						{
@@ -782,10 +749,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 25,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 25
-								});
+								win.webContents.send("set", {autoanalysis_visits: 25});
 							}
 						},
 						{
@@ -793,10 +757,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.autoanalysis_visits === 10,
 							click: () => {
-								win.webContents.send("set", {
-									key: "autoanalysis_visits",
-									value: 10
-								});
+								win.webContents.send("set", {autoanalysis_visits: 10});
 							}
 						}
 					]
@@ -977,10 +938,7 @@ function menu_build() {
 							checked: config.visits_threshold === 0,
 							accelerator: "A",
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0
-								});
+								win.webContents.send("set", {visits_threshold: 0});
 							}
 						},
 						{
@@ -992,10 +950,7 @@ function menu_build() {
 							checked: config.visits_threshold === 0.005,
 							accelerator: "F1",
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.005
-								});
+								win.webContents.send("set", {visits_threshold: 0.005});
 							}
 						},
 						{
@@ -1003,10 +958,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.visits_threshold === 0.01,
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.01
-								});
+								win.webContents.send("set", {visits_threshold: 0.01});
 							}
 						},
 						{
@@ -1015,10 +967,7 @@ function menu_build() {
 							checked: config.visits_threshold === 0.02,
 							accelerator: "F2",
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.02
-								});
+								win.webContents.send("set", {visits_threshold: 0.02});
 							}
 						},
 						{
@@ -1026,10 +975,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.visits_threshold === 0.04,
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.04
-								});
+								win.webContents.send("set", {visits_threshold: 0.04});
 							}
 						},
 						{
@@ -1038,10 +984,7 @@ function menu_build() {
 							checked: config.visits_threshold === 0.06,
 							accelerator: "F3",
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.06
-								});
+								win.webContents.send("set", {visits_threshold: 0.06});
 							}
 						},
 						{
@@ -1049,10 +992,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.visits_threshold === 0.08,
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.08
-								});
+								win.webContents.send("set", {visits_threshold: 0.08});
 							}
 						},
 						{
@@ -1061,10 +1001,7 @@ function menu_build() {
 							checked: config.visits_threshold === 0.1,
 							accelerator: "F4",
 							click: () => {
-								win.webContents.send("set", {
-									key: "visits_threshold",
-									value: 0.1
-								});
+								win.webContents.send("set", {visits_threshold: 0.1});
 							}
 						},
 					]
@@ -1078,10 +1015,7 @@ function menu_build() {
 							checked: config.numbers === "LCB + Visits",
 							accelerator: "F5",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "LCB + Visits"
-								});
+								win.webContents.send("set", {numbers: "LCB + Visits"});
 							}
 						},
 						{
@@ -1090,10 +1024,7 @@ function menu_build() {
 							checked: config.numbers === "Score + Visits",
 							accelerator: "F6",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Score + Visits"
-								});
+								win.webContents.send("set", {numbers: "Score + Visits"});
 							}
 						},
 						{
@@ -1102,10 +1033,7 @@ function menu_build() {
 							checked: config.numbers === "Delta + Visits",
 							accelerator: "F7",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Delta + Visits"
-								});
+								win.webContents.send("set", {numbers: "Delta + Visits"});
 							}
 						},
 						{
@@ -1116,10 +1044,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "LCB",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "LCB"
-								});
+								win.webContents.send("set", {numbers: "LCB"});
 							}
 						},
 						{
@@ -1127,10 +1052,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Score",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Score"
-								});
+								win.webContents.send("set", {numbers: "Score"});
 							}
 						},
 						{
@@ -1138,10 +1060,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Delta",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Delta"
-								});
+								win.webContents.send("set", {numbers: "Delta"});
 							}
 						},
 						{
@@ -1149,10 +1068,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Visits",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Visits"
-								});
+								win.webContents.send("set", {numbers: "Visits"});
 							}
 						},
 						{
@@ -1160,10 +1076,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Visits (%)",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Visits (%)"
-								});
+								win.webContents.send("set", {numbers: "Visits (%)"});
 							}
 						},
 						{
@@ -1171,10 +1084,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Order",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Order"
-								});
+								win.webContents.send("set", {numbers: "Order"});
 							}
 						},
 						{
@@ -1182,10 +1092,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Policy",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Policy"
-								});
+								win.webContents.send("set", {numbers: "Policy"});
 							}
 						},
 						{
@@ -1193,10 +1100,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.numbers === "Winrate",
 							click: () => {
-								win.webContents.send("set", {
-									key: "numbers",
-									value: "Winrate"
-								});
+								win.webContents.send("set", {numbers: "Winrate"});
 							}
 						},
 					]
@@ -1210,10 +1114,7 @@ function menu_build() {
 							checked: config.graph_type === "Winrate",
 							accelerator: "F9",
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_type",
-									value: "Winrate"
-								});
+								win.webContents.send("set", {graph_type: "Winrate"});
 							}
 						},
 						{
@@ -1222,10 +1123,7 @@ function menu_build() {
 							checked: config.graph_type === "Score",
 							accelerator: "F10",
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_type",
-									value: "Score"
-								});
+								win.webContents.send("set", {graph_type: "Score"});
 							}
 						},
 					]
@@ -1303,10 +1201,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 72,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 72
-								});
+								win.webContents.send("set", {square_size: 72});
 							}
 						},
 						{
@@ -1314,10 +1209,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 68,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 68
-								});
+								win.webContents.send("set", {square_size: 68});
 							}
 						},
 						{
@@ -1325,10 +1217,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 64,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 64
-								});
+								win.webContents.send("set", {square_size: 64});
 							}
 						},
 						{
@@ -1336,10 +1225,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 60,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 60
-								});
+								win.webContents.send("set", {square_size: 60});
 							}
 						},
 						{
@@ -1347,10 +1233,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 56,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 56
-								});
+								win.webContents.send("set", {square_size: 56});
 							}
 						},
 						{
@@ -1358,10 +1241,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 52,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 52
-								});
+								win.webContents.send("set", {square_size: 52});
 							}
 						},
 						{
@@ -1369,10 +1249,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 48,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 48
-								});
+								win.webContents.send("set", {square_size: 48});
 							}
 						},
 						{
@@ -1380,10 +1257,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 44,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 44
-								});
+								win.webContents.send("set", {square_size: 44});
 							}
 						},
 						{
@@ -1391,10 +1265,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 40,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 40
-								});
+								win.webContents.send("set", {square_size: 40});
 							}
 						},
 						{
@@ -1402,10 +1273,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 38,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 38
-								});
+								win.webContents.send("set", {square_size: 38});
 							}
 						},
 						{
@@ -1413,10 +1281,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 36,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 36
-								});
+								win.webContents.send("set", {square_size: 36});
 							}
 						},
 						{
@@ -1424,10 +1289,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 34,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 34
-								});
+								win.webContents.send("set", {square_size: 34});
 							}
 						},
 						{
@@ -1435,10 +1297,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 32,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 32
-								});
+								win.webContents.send("set", {square_size: 32});
 							}
 						},
 						{
@@ -1446,10 +1305,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.square_size === 30,
 							click: () => {
-								win.webContents.send("set", {
-									key: "square_size",
-									value: 30
-								});
+								win.webContents.send("set", {square_size: 30});
 							}
 						},
 					]
@@ -1462,10 +1318,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 32,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 32
-								});
+								win.webContents.send("set", {board_font_size: 32});
 							}
 						},
 						{
@@ -1473,10 +1326,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 30,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 30
-								});
+								win.webContents.send("set", {board_font_size: 30});
 							}
 						},
 						{
@@ -1484,10 +1334,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 28,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 28
-								});
+								win.webContents.send("set", {board_font_size: 28});
 							}
 						},
 						{
@@ -1495,10 +1342,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 26,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 26
-								});
+								win.webContents.send("set", {board_font_size: 26});
 							}
 						},
 						{
@@ -1506,10 +1350,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 24,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 24
-								});
+								win.webContents.send("set", {board_font_size: 24});
 							}
 						},
 						{
@@ -1517,10 +1358,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 22,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 22
-								});
+								win.webContents.send("set", {board_font_size: 22});
 							}
 						},
 						{
@@ -1528,10 +1366,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 20,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 20
-								});
+								win.webContents.send("set", {board_font_size: 20});
 							}
 						},
 						{
@@ -1539,10 +1374,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 18,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 18
-								});
+								win.webContents.send("set", {board_font_size: 18});
 							}
 						},
 						{
@@ -1550,10 +1382,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 16,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 16
-								});
+								win.webContents.send("set", {board_font_size: 16});
 							}
 						},
 						{
@@ -1561,10 +1390,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 14,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 14
-								});
+								win.webContents.send("set", {board_font_size: 14});
 							}
 						},
 						{
@@ -1572,10 +1398,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_font_size === 12,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_font_size",
-									value: 12
-								});
+								win.webContents.send("set", {board_font_size: 12});
 							}
 						},
 					]
@@ -1588,10 +1411,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_line_width === 4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_line_width",
-									value: 4
-								});
+								win.webContents.send("set", {board_line_width: 4});
 							}
 						},
 						{
@@ -1599,10 +1419,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_line_width === 3,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_line_width",
-									value: 3
-								});
+								win.webContents.send("set", {board_line_width: 3});
 							}
 						},
 						{
@@ -1610,10 +1427,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_line_width === 2,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_line_width",
-									value: 2
-								});
+								win.webContents.send("set", {board_line_width: 2});
 							}
 						},
 						{
@@ -1621,10 +1435,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.board_line_width === 1,
 							click: () => {
-								win.webContents.send("set", {
-									key: "board_line_width",
-									value: 1
-								});
+								win.webContents.send("set", {board_line_width: 1});
 							}
 						},
 					]
@@ -1640,10 +1451,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 32,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 32
-								});
+								win.webContents.send("set", {info_font_size: 32});
 							}
 						},
 						{
@@ -1651,10 +1459,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 30,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 30
-								});
+								win.webContents.send("set", {info_font_size: 30});
 							}
 						},
 						{
@@ -1662,10 +1467,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 28,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 28
-								});
+								win.webContents.send("set", {info_font_size: 28});
 							}
 						},
 						{
@@ -1673,10 +1475,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 26,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 26
-								});
+								win.webContents.send("set", {info_font_size: 26});
 							}
 						},
 						{
@@ -1684,10 +1483,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 24,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 24
-								});
+								win.webContents.send("set", {info_font_size: 24});
 							}
 						},
 						{
@@ -1695,10 +1491,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 22,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 22
-								});
+								win.webContents.send("set", {info_font_size: 22});
 							}
 						},
 						{
@@ -1706,10 +1499,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 20,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 20
-								});
+								win.webContents.send("set", {info_font_size: 20});
 							}
 						},
 						{
@@ -1717,10 +1507,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 18,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 18
-								});
+								win.webContents.send("set", {info_font_size: 18});
 							}
 						},
 						{
@@ -1728,10 +1515,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 16,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 16
-								});
+								win.webContents.send("set", {info_font_size: 16});
 							}
 						},
 						{
@@ -1739,10 +1523,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 14,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 14
-								});
+								win.webContents.send("set", {info_font_size: 14});
 							}
 						},
 						{
@@ -1750,10 +1531,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.info_font_size === 12,
 							click: () => {
-								win.webContents.send("set", {
-									key: "info_font_size",
-									value: 12
-								});
+								win.webContents.send("set", {info_font_size: 12});
 							}
 						},
 					]
@@ -1769,10 +1547,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 512,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 512
-								});
+								win.webContents.send("set", {graph_width: 512});
 							}
 						},
 						{
@@ -1780,10 +1555,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 480,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 480
-								});
+								win.webContents.send("set", {graph_width: 480});
 							}
 						},
 						{
@@ -1791,10 +1563,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 448,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 448
-								});
+								win.webContents.send("set", {graph_width: 448});
 							}
 						},
 						{
@@ -1802,10 +1571,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 416,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 416
-								});
+								win.webContents.send("set", {graph_width: 416});
 							}
 						},
 						{
@@ -1813,10 +1579,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 384,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 384
-								});
+								win.webContents.send("set", {graph_width: 384});
 							}
 						},
 						{
@@ -1824,10 +1587,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 352,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 352
-								});
+								win.webContents.send("set", {graph_width: 352});
 							}
 						},
 						{
@@ -1835,10 +1595,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 320,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 320
-								});
+								win.webContents.send("set", {graph_width: 320});
 							}
 						},
 						{
@@ -1846,10 +1603,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 288,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 288
-								});
+								win.webContents.send("set", {graph_width: 288});
 							}
 						},
 						{
@@ -1857,10 +1611,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 256,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 256
-								});
+								win.webContents.send("set", {graph_width: 256});
 							}
 						},
 						{
@@ -1868,10 +1619,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 224,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 224
-								});
+								win.webContents.send("set", {graph_width: 224});
 							}
 						},
 						{
@@ -1879,10 +1627,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 192,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 192
-								});
+								win.webContents.send("set", {graph_width: 192});
 							}
 						},
 						{
@@ -1890,10 +1635,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 160,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 160
-								});
+								win.webContents.send("set", {graph_width: 160});
 							}
 						},
 						{
@@ -1901,10 +1643,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 128,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 128
-								});
+								win.webContents.send("set", {graph_width: 128});
 							}
 						},
 						{
@@ -1912,10 +1651,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 96,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 96
-								});
+								win.webContents.send("set", {graph_width: 96});
 							}
 						},
 						{
@@ -1923,10 +1659,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 64,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 64
-								});
+								win.webContents.send("set", {graph_width: 64});
 							}
 						},
 						{
@@ -1934,10 +1667,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.graph_width === 0,
 							click: () => {
-								win.webContents.send("set", {
-									key: "graph_width",
-									value: 0
-								});
+								win.webContents.send("set", {graph_width: 0});
 							}
 						}
 					]
@@ -1950,10 +1680,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.major_graph_linewidth === 4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "major_graph_linewidth",
-									value: 4
-								});
+								win.webContents.send("set", {major_graph_linewidth: 4});
 							}
 						},
 						{
@@ -1961,10 +1688,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.major_graph_linewidth === 3,
 							click: () => {
-								win.webContents.send("set", {
-									key: "major_graph_linewidth",
-									value: 3
-								});
+								win.webContents.send("set", {major_graph_linewidth: 3});
 							}
 						},
 						{
@@ -1972,10 +1696,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.major_graph_linewidth === 2,
 							click: () => {
-								win.webContents.send("set", {
-									key: "major_graph_linewidth",
-									value: 2
-								});
+								win.webContents.send("set", {major_graph_linewidth: 2});
 							}
 						},
 						{
@@ -1983,10 +1704,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.major_graph_linewidth === 1,
 							click: () => {
-								win.webContents.send("set", {
-									key: "major_graph_linewidth",
-									value: 1
-								});
+								win.webContents.send("set", {major_graph_linewidth: 1});
 							}
 						},
 					]
@@ -1999,10 +1717,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.minor_graph_linewidth === 4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "minor_graph_linewidth",
-									value: 4
-								});
+								win.webContents.send("set", {minor_graph_linewidth: 4});
 							}
 						},
 						{
@@ -2010,10 +1725,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.minor_graph_linewidth === 3,
 							click: () => {
-								win.webContents.send("set", {
-									key: "minor_graph_linewidth",
-									value: 3
-								});
+								win.webContents.send("set", {minor_graph_linewidth: 3});
 							}
 						},
 						{
@@ -2021,10 +1733,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.minor_graph_linewidth === 2,
 							click: () => {
-								win.webContents.send("set", {
-									key: "minor_graph_linewidth",
-									value: 2
-								});
+								win.webContents.send("set", {minor_graph_linewidth: 2});
 							}
 						},
 						{
@@ -2032,10 +1741,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.minor_graph_linewidth === 1,
 							click: () => {
-								win.webContents.send("set", {
-									key: "minor_graph_linewidth",
-									value: 1
-								});
+								win.webContents.send("set", {minor_graph_linewidth: 1});
 							}
 						},
 					]
@@ -2051,10 +1757,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.thumbnail_square_size === 8,
 							click: () => {
-								win.webContents.send("set", {
-									key: "thumbnail_square_size",
-									value: 8
-								});
+								win.webContents.send("set", {thumbnail_square_size: 8});
 							}
 						},
 						{
@@ -2062,10 +1765,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.thumbnail_square_size === 6,
 							click: () => {
-								win.webContents.send("set", {
-									key: "thumbnail_square_size",
-									value: 6
-								});
+								win.webContents.send("set", {thumbnail_square_size: 6});
 							}
 						},
 						{
@@ -2073,10 +1773,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.thumbnail_square_size === 4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "thumbnail_square_size",
-									value: 4
-								});
+								win.webContents.send("set", {thumbnail_square_size: 4});
 							}
 						},
 					]
@@ -2092,10 +1789,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 48,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 48
-								});
+								win.webContents.send("set", {tree_spacing: 48});
 							}
 						},
 						{
@@ -2103,10 +1797,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 44,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 44
-								});
+								win.webContents.send("set", {tree_spacing: 44});
 							}
 						},
 						{
@@ -2114,10 +1805,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 40,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 40
-								});
+								win.webContents.send("set", {tree_spacing: 40});
 							}
 						},
 						{
@@ -2125,10 +1813,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 36,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 36
-								});
+								win.webContents.send("set", {tree_spacing: 36});
 							}
 						},
 						{
@@ -2136,10 +1821,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 32,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 32
-								});
+								win.webContents.send("set", {tree_spacing: 32});
 							}
 						},
 						{
@@ -2147,10 +1829,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 28,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 28
-								});
+								win.webContents.send("set", {tree_spacing: 28});
 							}
 						},
 						{
@@ -2158,10 +1837,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.tree_spacing === 24,
 							click: () => {
-								win.webContents.send("set", {
-									key: "tree_spacing",
-									value: 24
-								});
+								win.webContents.send("set", {tree_spacing: 24});
 							}
 						},
 					]
@@ -2174,10 +1850,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.comment_height === 512,
 							click: () => {
-								win.webContents.send("set", {
-									key: "comment_height",
-									value: 512
-								});
+								win.webContents.send("set", {comment_height: 512});
 							}
 						},
 						{
@@ -2185,10 +1858,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.comment_height === 384,
 							click: () => {
-								win.webContents.send("set", {
-									key: "comment_height",
-									value: 384
-								});
+								win.webContents.send("set", {comment_height: 384});
 							}
 						},
 						{
@@ -2196,10 +1866,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.comment_height === 256,
 							click: () => {
-								win.webContents.send("set", {
-									key: "comment_height",
-									value: 256
-								});
+								win.webContents.send("set", {comment_height: 256});
 							}
 						},
 						{
@@ -2207,10 +1874,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.comment_height === 128,
 							click: () => {
-								win.webContents.send("set", {
-									key: "comment_height",
-									value: 128
-								});
+								win.webContents.send("set", {comment_height: 128});
 							}
 						},
 						{
@@ -2218,10 +1882,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.comment_height === 0,
 							click: () => {
-								win.webContents.send("set", {
-									key: "comment_height",
-									value: 0
-								});
+								win.webContents.send("set", {comment_height: 0});
 							}
 						},
 					]
@@ -2322,10 +1983,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.report_every === 0.1,
 							click: () => {
-								win.webContents.send("set", {
-									key: "report_every",
-									value: 0.1
-								});
+								win.webContents.send("set", {report_every: 0.1});
 							}
 						},
 						{
@@ -2333,10 +1991,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.report_every === 0.2,
 							click: () => {
-								win.webContents.send("set", {
-									key: "report_every",
-									value: 0.2
-								});
+								win.webContents.send("set", {report_every: 0.2});
 							}
 						},
 						{
@@ -2344,10 +1999,7 @@ function menu_build() {
 							type: "checkbox",
 							checked: config.report_every === 0.4,
 							click: () => {
-								win.webContents.send("set", {
-									key: "report_every",
-									value: 0.4
-								});
+								win.webContents.send("set", {report_every: 0.4});
 							}
 						},
 					]
@@ -2485,5 +2137,8 @@ function two_process_set(key, value) {
 	// Remember it's the renderer process that actually saves our config file.
 
 	config[key] = value;
-	win.webContents.send("set", {key, value});
+
+	let msg = {};
+	msg[key] = value;					// not msg = {key: value} which makes the key "key"
+	win.webContents.send("set", msg);
 }

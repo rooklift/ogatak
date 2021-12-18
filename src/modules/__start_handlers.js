@@ -147,7 +147,9 @@ window.addEventListener("error", (event) => {
 // ------------------------------------------------------------------------------------------------
 
 ipcRenderer.on("set", (event, msg) => {
-	hub.set(msg.key, msg.value);
+	for (let [key, value] of Object.entries(msg)) {
+		hub.set(key, value);
+	}
 });
 
 ipcRenderer.on("toggle", (event, msg) => {
