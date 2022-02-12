@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 
-const new_board_drawer = require("./board_drawer");
+const new_board_drawer = require("./board_drawer_new");
 const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
 const new_grapher = require("./grapher");
