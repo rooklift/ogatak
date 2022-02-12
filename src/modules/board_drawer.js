@@ -1,31 +1,20 @@
 "use strict";
 
+// FIXME - remember to fix config.numbers if it's bad in the config.
+
+// Background graphic is set as the TABLE background.
+// TD elements contain nothing, black stone, white stone, or ko marker.
+// Everything else is drawn to a CANVAS above that.
+
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
 
-const black_stone = new Image(); black_stone.src = "./gfx/black_stone.png";
-const black_stone_url = `url("${black_stone.src}")`;
-
-const white_stone = new Image(); white_stone.src = "./gfx/white_stone.png";
-const white_stone_url = `url("${white_stone.src}")`;
-
-const black_stone_marked = new Image(); black_stone_marked.src = "./gfx/black_stone_marked.png";
-const black_stone_marked_url = `url("${black_stone_marked.src}")`;
-
-const white_stone_marked = new Image(); white_stone_marked.src = "./gfx/white_stone_marked.png";
-const white_stone_marked_url = `url("${white_stone_marked.src}")`;
-
-const ko_marker = new Image(); ko_marker.src = "./gfx/ko.png";
-const ko_marker_url = `url("${ko_marker.src}")`;
-
 // ------------------------------------------------------------------------------------------------
-// Create the event handlers for all usable values of x,y...
-// These will be attached to TD elements, firing on "mouseenter" events.
 
 let mouseenter_handlers = new_2d_array(25, 25, null);
 
-for (let x = 0; x < 25; x++) {
-	for (let y = 0; y < 25; y++) {
+for (let x = 0; x < 25; x++) {				// Create the event handlers for all usable values of x,y...
+	for (let y = 0; y < 25; y++) {			// These will be attached to TD elements, firing on "mouseenter" events.
 		let s = xy_to_s(x, y);
 		mouseenter_handlers[x][y] = () => {
 			hub.mouse_entering_point(s);
@@ -35,103 +24,42 @@ for (let x = 0; x < 25; x++) {
 
 // ------------------------------------------------------------------------------------------------
 
+const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
+const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
+const   ko_marker = new Image();	  ko_marker.src =          "./gfx/ko.png";		const   ko_marker_url = `url("${ko_marker.src}")`;
+
+// ------------------------------------------------------------------------------------------------
+
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
-	// Only one of these is ever created.
+	// Only one of these is ever created. We could dispense with having this object at all, and
+	// just have functions in this module (instead of methods in the object) but meh.
 
 	let drawer = Object.create(board_drawer_prototype);
-
-	drawer.width = null;
-	drawer.height = null;
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
 
-	drawer.tablestate = new_2d_array(25, 25, null);				// 2d array of "", "b", "w", "ko", "bm", "wm" ... we only look at indices inside our size.
-	drawer.no_mark = new_2d_array(25, 25, null);				// 2d array used by draw_board for points getting a PV number (and so not a dead mark).
+	drawer.width = null;
+	drawer.height = null;
 
 	drawer.last_draw_was_pv = false;
+
+	// These 2 things are updated as the canvas or TDs are changed:
+	drawer.table_state = new_2d_array(25, 25, null);	// "", "b", "w", "ko" ... what the TD is displaying.
+	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark is displayed here.
+
+	// By contrast, this stores only things waiting to be drawn to the canvas:
+	drawer.needed_marks = new_2d_array(25, 25, null);	// objects representing stuff.
 
 	return drawer;
 }
 
 let board_drawer_prototype = {
 
-	clear_canvas: function() {
-		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
-
-	fcircle: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
-		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
-		ctx.beginPath();
-		ctx.arc(gx, gy, fraction * config.square_size / 2, 0, 2 * Math.PI);
-		ctx.fill();
-	},
-
-	circle: function(x, y, linewidth, colour) {
-		let ctx = this.canvas.getContext("2d");
-		ctx.lineWidth = linewidth;
-		ctx.strokeStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
-		ctx.beginPath();
-		ctx.arc(gx, gy, (config.square_size / 2) - (linewidth / 2), 0, 2 * Math.PI);
-		ctx.stroke();
-	},
-
-	text: function(x, y, msg, colour) {
-		let ctx = this.canvas.getContext("2d");
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
-		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
-		ctx.fillText(msg, gx, gy + 1);
-	},
-
-	text_two: function(x, y, msg, msg2, colour) {
-		let ctx = this.canvas.getContext("2d");
-		ctx.textAlign = "center";
-		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
-		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 3) - 0.5;
-		ctx.fillText(msg, gx, gy + 1);
-		gy = y * config.square_size + (config.square_size * 2 / 3) + 0.5;
-		ctx.fillText(msg2, gx, gy + 1);
-	},
-
-	set_td: function(x, y, foo) {
-
-		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-		if (!td) throw "set_td(): bad x/y";
-
-		switch (foo) {
-			case   "": td.style["background-image"] =                     ""; break;
-			case  "b": td.style["background-image"] =        black_stone_url; break;
-			case  "w": td.style["background-image"] =        white_stone_url; break;
-			case "ko": td.style["background-image"] =          ko_marker_url; break;
-			case "bm": td.style["background-image"] = black_stone_marked_url; break;
-			case "wm": td.style["background-image"] = white_stone_marked_url; break;
-			default: throw "set_td(): bad call";
-		}
-
-		this.tablestate[x][y] = foo;
-	},
-
-	// --------------------------------------------------------------------------------------------
-
-	rebuild: function(width, height) {
-
-		// Reset all the things.
+	rebuild: function(width, height) {		// Reset all the things...
 
 		if (!width || !height) {
 			throw "rebuild() needs board sizes";
@@ -165,14 +93,15 @@ let board_drawer_prototype = {
 				td.className = "td_" + s;
 				td.width = config.square_size;
 				td.height = config.square_size;
-				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);			// Add "mouseenter" handler to the TD element.
+				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);	// Add "mouseenter" handler to the TD element.
 				tr.appendChild(td);
 			}
 		}
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				this.tablestate[x][y] = "";
+		for (let x = 0; x < 25; x++) {
+			for (let y = 0; y < 25; y++) {
+				this.table_state[x][y] = "";
+				this.death_marks[x][y] = false;
 			}
 		}
 
@@ -182,8 +111,8 @@ let board_drawer_prototype = {
 		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
 
-		this.canvas.width = Math.max(19, this.width) * config.square_size;				// We force the canvas to be at least big enough for a 19x19 board, this
-		this.canvas.height = Math.max(19, this.height) * config.square_size;			// makes other elements like the graph stay put when the board is smaller.
+		this.canvas.width = Math.max(19, this.width) * config.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
+		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
 
 		this.fix_infodiv();
 	},
@@ -194,44 +123,118 @@ let board_drawer_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
+	fcircle: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
+		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.arc(gx, gy, fraction * config.square_size / 2, 0, 2 * Math.PI);
+		ctx.fill();
+	},
+
+	circle: function(x, y, linewidth, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.lineWidth = linewidth;
+		ctx.strokeStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.arc(gx, gy, (config.square_size / 2) - (linewidth / 2), 0, 2 * Math.PI);
+		ctx.stroke();
+	},
+
+	fsquare: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
+		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
+		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
+		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
+	},
+
+	text: function(x, y, msg, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.fillText(msg, gx, gy + 1);
+	},
+
+	text_two: function(x, y, msg, msg2, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 3) - 0.5;
+		ctx.fillText(msg, gx, gy + 1);
+		gy = y * config.square_size + (config.square_size * 2 / 3) + 0.5;
+		ctx.fillText(msg2, gx, gy + 1);
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	set_td: function(x, y, foo) {
+
+		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+		if (!td) throw "set_td(): bad x/y";
+
+		switch (foo) {
+			case "":
+				td.style["background-image"] = "";
+				break;
+			case "b":
+				td.style["background-image"] = black_stone_url;
+				break;
+			case "w":
+				td.style["background-image"] = white_stone_url;
+				break;
+			case "ko":
+				td.style["background-image"] = ko_marker_url;
+				break;
+			default:
+				throw "set_td(): bad call";
+		}
+
+		this.table_state[x][y] = foo;
+	},
+
+	// --------------------------------------------------------------------------------------------
+
 	draw_standard: function(node) {
 
 		// Normal draw method for when no PV is being displayed.
 
-		this.clear_canvas();
-
-		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
-			this.draw_board(node.get_board(), node, node.analysis.ownership, node.get_board().active, null);
-		} else {
-			this.draw_board(node.get_board(), node, null, null, null);
+		this.draw_board(node.get_board());
+		
+		if (config.dead_stone_prediction) {
+			if (node.has_valid_analysis() && node.analysis.ownership) {
+				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+				// Although no info is available, we expect it soon because the engine is running on the position,
+				// therefore we can just draw what death marks we had already, to prevent flicker.
+				this.carry_death_marks(node.get_board());
+			}
 		}
 
-		let filtered_infos = moveinfo_filter(node);		// Might be []
+		this.plan_previous_markers(node);
+		this.plan_analysis_circles(node, moveinfo_filter(node));
+		this.plan_next_markers(node);
 
-		this.draw_previous_markers(node);
-		this.draw_analysis_circles(node, filtered_infos);
-		this.draw_next_markers(node);
-		this.draw_analysis_text(node, filtered_infos);
+		this.draw_canvas();
 		this.draw_node_info(node);
-
 		this.last_draw_was_pv = false;
 	},
 
 	draw_pv: function(node, point) {
 
-		// Special draw method that draws a PV, unless this is prevented by some
-		// setting or by the point (mouse location) not corresponding to a move
-		// about which we have info, etc etc...
-		//
 		// Returns true / false whether this happened.
 
 		if (!point || !config.candidate_moves || !config.mouseover_pv) {
-			return false;
-		}
-
-		let filtered_infos = moveinfo_filter(node);		// All possible move infos, maybe one of which corresponds to the point argument.
-
-		if (filtered_infos.length < 1) {
 			return false;
 		}
 
@@ -240,7 +243,7 @@ let board_drawer_prototype = {
 
 		let info;
 
-		for (let foo of filtered_infos) {				// Of all the moves in our list, is one of them the one we're interested in?
+		for (let foo of moveinfo_filter(node)) {		// Of all the moves in our list, is one of them the one we're interested in?
 			if (foo.move === gtp) {
 				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
 					info = foo;
@@ -253,94 +256,71 @@ let board_drawer_prototype = {
 			return false;
 		}
 
-		// We have a valid info, so the draw will proceed...
-
-		this.clear_canvas();
-
-		// Create our final board...
+		// We have a valid info, so the draw will proceed..........................................
 
 		let finalboard = startboard.copy();
 		let points = [];
 
 		for (let move of info.pv) {
-			let s = finalboard.parse_gtp_move(move);
+			let s = finalboard.parse_gtp_move(move);	// "K10" --> "jj"		(off-board becomes "")
 			finalboard.play(s);
-			points.push(s);				// Note that passes are included as "", so our later colour alteration works correctly.
+			points.push(s);				// Passes are included as "", so our later colour alteration works correctly.
 		}
 
-		// We draw the final board now so that this.tablestate contains correct info about what is in the table, which we use in a bit...
+		this.draw_board(finalboard);
 
 		if (config.dead_stone_prediction && config.dead_stone_per_move && info.ownership) {
-			this.draw_board(finalboard, node, info.ownership, startboard.active, points);
+			this.plan_death_marks(finalboard, info.ownership, startboard.active);
 		} else if (config.dead_stone_prediction && node.analysis.ownership) {
-			this.draw_board(finalboard, node, node.analysis.ownership, startboard.active, points);
-		} else {
-			this.draw_board(finalboard, node, null, null, null);
+			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 		}
-
-		// Create a map of sgf_points (s) --> {text, fill} objects...
 
 		let colour = startboard.active;
 		let n = 1;
-
-		let numbers_to_draw = {};
 
 		for (let s of points) {
 
 			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
 
-				let fill = colour === "b" ? "#ffffffff" : "#000000ff";					// We use the last colour played on a point
-				let text = numbers_to_draw[s] ? "+" : n.toString();						// If 2 or more stones were played, text becomes "+"
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
 
-				numbers_to_draw[s] = {text, fill};
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+					let o = this.needed_marks[x][y];
+
+					if (o && o.type === "pv") {		// This is 2nd (or later) time this point is played on the PV.
+						o.text = "+";
+						o.colour = (colour === "b") ? "#ffffffff" : "#000000ff";
+					} else {
+						this.needed_marks[x][y] = {
+							type: "pv",
+							text: n.toString(),
+							colour: (colour === "b") ? "#ffffffff" : "#000000ff",
+						}
+					}
+				}
 			}
 
 			colour = opposite_colour(colour);
 			n++;
 		}
 
-		// And draw...
-
-		for (let [s, ntd] of Object.entries(numbers_to_draw)) {
-
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-
-			if (this.tablestate[x][y] === "" || this.tablestate[x][y] === "ko") {		// Stone captured; draw wood colour so grid doesn't clash with the text.
-				this.fcircle(x, y, 1, config.wood_colour);
-			}
-
-			this.text(x, y, ntd.text, ntd.fill);
-		}
-
+		this.draw_canvas();
 		this.draw_node_info(node, info);
-
 		this.last_draw_was_pv = true;
+
 		return true;
 	},
 
 	// --------------------------------------------------------------------------------------------
 
-	draw_board: function(board, responsible_node, ownership, ownership_perspective, no_mark_list) {
+	draw_board: function(board) {
 
-		this.draw_board.calls = (this.draw_board.calls || 0) + 1;
-
-		// Note that the board one would get from responsible_node.get_board() is not necessarily
-		// the same as the board passed to us, because this function is used to draw the final
-		// board position after a PV.
+		// i.e. solely changing the TD elements.
 
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
-		}
-
-		if (no_mark_list) {
-			for (let s of no_mark_list) {
-				if (s.length === 2) {
-					let x = s.charCodeAt(0) - 97;
-					let y = s.charCodeAt(1) - 97;
-					this.no_mark[x][y] = this.draw_board.calls;				// How we tell that [x][y] was set this particular call.
-				}
-			}
 		}
 
 		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;
@@ -349,40 +329,258 @@ let board_drawer_prototype = {
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 
-				let state = board.state[x][y];
-				let desired = state;
+				let desired = board.state[x][y];
 
 				if (x === board_ko_x && y === board_ko_y) {
 					desired = "ko";
-				} else if (state === "b" || state === "w") {				// Sometimes upgrade desired to "bm" or "wm".
-					if (config.dead_stone_prediction && this.no_mark[x][y] !== this.draw_board.calls) {
-						if (ownership) {
-							let own = ownership[x + (y * board.width)];
-							if (ownership_perspective !== state) {
-								own *= -1;
-							}
-							if (own < config.dead_threshold) {
-								desired = state === "b" ? "bm" : "wm";
-							}
-						} else if (this.tablestate[x][y] === (state === "b" ? "bm" : "wm")) {
-							// Might be acceptable to keep the element as bm/wm until we get an update from the engine...
-							if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === responsible_node.id) {
-								desired = state === "b" ? "bm" : "wm";
-							}
-						}
-					}
 				}
 
-				// Now actually draw...
-
-				if (this.tablestate[x][y] !== desired) {
+				if (this.table_state[x][y] !== desired) {
 					this.set_td(x, y, desired);
 				}
 			}
 		}
 	},
 
-	draw_node_info: function(node, override_moveinfo) {
+	draw_canvas: function() {
+
+		let ctx = this.canvas.getContext("2d");
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+		// Draw the canvas based on what's in this.needed_marks.
+		// Also clear items from the needed_marks as they are drawn.
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				this.death_marks[x][y] = false;				// This must be kept up to date.
+
+				let o = this.needed_marks[x][y];
+				if (!o) {
+					continue;
+				}
+
+				switch (o.type) {
+
+					case "analysis":
+
+						this.fcircle(x, y, 1, config.wood_colour);
+
+						if (o.fill) {
+							this.fcircle(x, y, 1, o.fill);
+						}
+
+						if (o.next_mark_colour) {
+							this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
+						}
+
+						if (o.text.length >= 2) {
+							this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
+						} else if (o.text.length === 1) {
+							this.text(x, y, o.text[0], "#000000ff");
+						}
+
+						break;
+
+					case "death":
+
+						this.death_marks[x][y] = true;
+						this.fsquare(x, y, 1/6, o.colour);
+						break;
+
+					case "previous":
+
+						this.fcircle(x, y, 2/5, config.previous_marker);
+						break;
+
+					case "next":
+
+						this.circle(x, y, config.next_marker_linewidth, o.colour);
+						break;
+
+					case "pv":
+
+						this.text(x, y, o.text, o.colour);
+						break;
+
+				}
+
+				this.needed_marks[x][y] = null;
+			}
+		}
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	plan_death_marks: function(board, ownership, ownership_perspective) {
+
+		if (!config.dead_stone_prediction || !ownership) {
+			return;
+		}
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				let state = board.state[x][y];
+
+				if (state !== "b" && state !== "w") {
+					continue;
+				}
+
+				let own = ownership[x + (y * board.width)];
+				if (ownership_perspective !== state) {
+					own *= -1;
+				}
+				if (own < config.dead_threshold) {
+					this.needed_marks[x][y] = {
+						type: "death",
+						colour: (state === "b") ? "#ffffffff" : "#000000ff",
+					};
+				}
+			}
+		}
+	},
+
+	carry_death_marks: function(board) {
+
+		// Called when there's no ownership available for the board but one is expected soon
+		// because the engine is running on the position. Therefore, we carry over whatever
+		// death marks we had already.
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				let state = board.state[x][y];
+
+				if (state !== "b" && state !== "w") {
+					continue;
+				}
+
+				if (this.death_marks[x][y]) {
+					this.needed_marks[x][y] = {
+						type: "death",
+						colour: (state === "b") ? "#ffffffff" : "#000000ff",
+					}
+				}
+			}
+		}
+	},
+
+	plan_previous_markers: function(node) {
+
+		let moves_played = node.all_values("B").concat(node.all_values("W"));
+
+		for (let s of moves_played) {			// Probably just one (but illegal SGF is possible).
+
+			if (s.length === 2) {
+
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+					this.needed_marks[x][y] = {type: "previous"};
+				}
+			}
+		}
+	},
+
+	plan_analysis_circles: function(node, filtered_infos) {
+		
+		if (!config.candidate_moves) {
+			return;
+		}
+
+		let board = node.get_board();
+
+		let number_types = config.numbers.split(" + ");
+
+		for (let info of filtered_infos) {
+
+			let s = board.parse_gtp_move(info.move);
+
+			if (s.length !== 2) {				// This is a pass.
+				continue;
+			}
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+				let o = {
+					type: "analysis",
+					text: [],
+					fill: null,
+					next_mark_colour: null,			// Maybe set by plan_next_markers().
+				};
+
+				if (info.order === 0) {
+					if (board.active === "b") o.fill = config.top_colour_black;
+					if (board.active === "w") o.fill = config.top_colour_white;
+				} else if (config.visit_colours) {
+					let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
+					if (board.active === "b") o.fill = config.off_colour_black.slice(0, 7) + opacity_hex;
+					if (board.active === "w") o.fill = config.off_colour_white.slice(0, 7) + opacity_hex;
+				}
+
+				for (let t of number_types) {
+					o.text.push(string_from_info(info, node, t));
+				}
+
+				this.needed_marks[x][y] = o;
+			}
+		}
+	},
+
+	plan_next_markers: function(node) {
+
+		if (!config.next_move_markers) {
+			return;
+		}
+
+		let board = node.get_board();
+
+		for (let key of ["B", "W"]) {
+
+			let draw_colour = (key === "B") ? "#00000080" : "#ffffffa0";
+
+			for (let n = 0; n < node.children.length; n++) {
+
+				let moves_played = node.children[n].all_values(key);
+
+				for (let s of moves_played) {			// Probably just one per child.
+
+					if (s.length === 2) {
+
+						let x = s.charCodeAt(0) - 97;
+						let y = s.charCodeAt(1) - 97;
+
+						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+							let o = this.needed_marks[x][y];
+
+							if (o && o.type === "analysis") {
+								o.next_mark_colour = draw_colour;
+							} else {
+								this.needed_marks[x][y] = {
+									type: "next",
+									colour: draw_colour,
+								};
+
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	draw_node_info: function(node, override_moveinfo) {		// Is there a reason this isn't a separate module?
 
 		if (hub.engine.problem_text()) {
 			this.draw_engine_problem();
@@ -439,128 +637,9 @@ let board_drawer_prototype = {
 		this.infodiv.innerHTML = `<span class="info_highlight">${s}<br>Resolve this via the Setup menu.</span>`;
 	},
 
-	draw_previous_markers: function(node) {
-		let moves_played = node.all_values("B").concat(node.all_values("W"));
-		for (let s of moves_played) {					// Probably just one.
-			if (s.length === 2) {
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
-				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-					this.fcircle(x, y, 0.4, config.previous_marker);
-				}
-			}
-		}
-	},
-
-	draw_next_markers: function(node) {
-		if (!config.next_move_markers) {
-			return;
-		}
-		let board = node.get_board();
-		for (let key of ["B", "W"]) {
-			for (let n = 0; n < node.children.length; n++) {
-				let moves_played = node.children[n].all_values(key);
-				for (let s of moves_played) {			// Probably just one per child.
-					if (s.length === 2) {
-						let x = s.charCodeAt(0) - 97;
-						let y = s.charCodeAt(1) - 97;
-						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-							this.circle(x, y, config.next_marker_linewidth, key === "B" ? "#00000080" : "#ffffffa0");
-						}
-					}
-				}
-			}
-		}
-	},
-
-	draw_analysis_circles: function(node, filtered_infos) {
-
-		if (!config.candidate_moves) {
-			return;
-		}
-
-		let board = node.get_board();
-
-		for (let info of filtered_infos) {
-
-			let s = board.parse_gtp_move(info.move);
-
-			if (s.length !== 2) {							// This is a pass.
-				continue;
-			}
-
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-
-			this.fcircle(x, y, 1, config.wood_colour);		// Initial fill of wood colour just to clear the board lines.
-
-			let fill = null;
-
-			if (info.order === 0) {
-				if (board.active === "b") fill = config.top_colour_black;
-				if (board.active === "w") fill = config.top_colour_white;
-			} else if (config.visit_colours) {
-				let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
-				if (board.active === "b") fill = config.off_colour_black.slice(0, 7) + opacity_hex;
-				if (board.active === "w") fill = config.off_colour_white.slice(0, 7) + opacity_hex;
-			}
-
-			if (fill) {
-				this.fcircle(x, y, 1, fill);
-			}
-		}
-	},
-
-	draw_analysis_text: function(node, filtered_infos) {
-
-		if (!config.candidate_moves) {
-			return;
-		}
-
-		let board = node.get_board();
-		let got_bad_type = false;
-
-		for (let info of filtered_infos) {
-
-			let s = board.parse_gtp_move(info.move);
-
-			if (s.length !== 2) {							// This is a pass.
-				continue;
-			}
-
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-
-			let text = "";
-			let text2 = "";
-
-			if (config.numbers.includes(" + ")) {
-				let [foo, bar] = config.numbers.split(" + ");
-				text = string_from_info(info, node, foo);
-				text2 = string_from_info(info, node, bar);
-			} else {
-				text = string_from_info(info, node, config.numbers);
-			}
-
-			if (text2) {
-				this.text_two(x, y, text, text2, "#000000ff");
-			} else if (text) {
-				this.text(x, y, text, "#000000ff");
-			}
-
-			if (text === "?" || text2 === "?") {
-				got_bad_type = true;
-			}
-		}
-
-		if (got_bad_type) {
-			setTimeout(() => {								// Lame hack to fix bad values in config.json
-				hub.cycle_numbers();
-			}, 0);
-		}
-	},
 };
 
+// ------------------------------------------------------------------------------------------------
 
 function string_from_info(info, node, type) {
 
@@ -617,6 +696,6 @@ function string_from_info(info, node, type) {
 	}
 }
 
-
+// ------------------------------------------------------------------------------------------------
 
 module.exports = new_board_drawer;
