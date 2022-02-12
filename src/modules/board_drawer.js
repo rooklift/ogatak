@@ -417,6 +417,8 @@ let board_drawer_prototype = {
 				if (!o) {
 					continue;
 				}
+
+				let tstate;			// var used in the switch.
 				
 				switch (o.type) {
 
@@ -454,9 +456,8 @@ let board_drawer_prototype = {
 						break;
 
 					case "pv":
-					case "label":
 
-						let tstate = this.table_state[x][y];
+						tstate = this.table_state[x][y];
 						if (tstate !== "b" && tstate !== "w") {
 							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 						}
@@ -464,27 +465,37 @@ let board_drawer_prototype = {
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
+					case "label":
+
+						tstate = this.table_state[x][y];
+						if (tstate !== "b" && tstate !== "w") {
+							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+						}
+						this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
 					case "SQ":
 
-						this.fsquare(x, y, 0.5, mark_colour_from_state(this.table_state[x][y]));
+						this.fsquare(x, y, 0.5, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "CR":
 
-						this.fcircle(x, y, 0.5, mark_colour_from_state(this.table_state[x][y]));
+						this.fcircle(x, y, 0.5, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "MA":
 
-						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(this.table_state[x][y]));
+						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "TR":
 
-						this.triangle(x, y, mark_colour_from_state(this.table_state[x][y]));
+						this.triangle(x, y, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
@@ -761,10 +772,10 @@ let board_drawer_prototype = {
 
 // ------------------------------------------------------------------------------------------------
 
-function mark_colour_from_state(state) {
+function mark_colour_from_state(state, dflt = "#ff0000ff") {
 	if (state === "b") return "#ffffffff";
 	if (state === "w") return "#000000ff";
-	return "#ff0000ff";
+	return dflt;
 }
 
 function string_from_info(info, node, type) {
