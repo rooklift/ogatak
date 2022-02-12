@@ -46,8 +46,13 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.height = null;
 
 	drawer.last_draw_was_pv = false;
-	drawer.tablestate = new_2d_array(25, 25, null);		// 2d array of "", "b", "w", "ko" ... tracks the actual state of the TDs.
-	drawer.needed_marks = new_2d_array(25, 25, null);	// 2d array of objects representing stuff waiting to be drawn on the canvas.
+
+	// These 2 things are updated as the canvas or TDs are changed:
+	drawer.table_state = new_2d_array(25, 25, null);	// "", "b", "w", "ko" ... what the TD is displaying.
+	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark has actually been drawn here.
+
+	// By contrast, this stores only things waiting to be drawn to the canvas:
+	drawer.needed_marks = new_2d_array(25, 25, null);	// objects representing stuff.
 
 	return drawer;
 }
@@ -95,7 +100,8 @@ let board_drawer_prototype = {
 
 		for (let x = 0; x < 25; x++) {
 			for (let y = 0; y < 25; y++) {
-				this.tablestate[x][y] = "";
+				this.table_state[x][y] = "";
+				this.death_marks[x][y] = false;
 			}
 		}
 
@@ -199,7 +205,7 @@ let board_drawer_prototype = {
 				throw "set_td(): bad call";
 		}
 
-		this.tablestate[x][y] = foo;
+		this.table_state[x][y] = foo;
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -328,7 +334,7 @@ let board_drawer_prototype = {
 					desired = "ko";
 				}
 
-				if (this.tablestate[x][y] !== desired) {
+				if (this.table_state[x][y] !== desired) {
 					this.set_td(x, y, desired);
 				}
 			}
@@ -345,6 +351,8 @@ let board_drawer_prototype = {
 		for (let x = 0; x < this.width; x++) {
 
 			for (let y = 0; y < this.height; y++) {
+
+				this.death_marks[x][y] = false;				// This must be kept up to date.
 
 				let o = this.needed_marks[x][y];
 				if (!o) {
@@ -375,6 +383,7 @@ let board_drawer_prototype = {
 
 					case "death":
 
+						this.death_marks[x][y] = true;
 						this.fsquare(x, y, 1/6, o.colour);
 						break;
 
