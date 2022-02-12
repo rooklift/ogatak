@@ -22,7 +22,7 @@
 // requires another tracking array showing where death marks have been drawn.
 
 const background = require("./background");
-const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -167,6 +167,34 @@ let board_drawer_prototype = {
 		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
 	},
 
+	cross: function(x, y, linewidth, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.lineWidth = linewidth;
+		ctx.strokeStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.moveTo(gx - (config.square_size / 4), gy - (config.square_size / 4));
+		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.moveTo(gx - (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.lineTo(gx + (config.square_size / 4), gy - (config.square_size / 4));
+		ctx.stroke();
+	},
+
+	triangle: function(x, y, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.moveTo(gx, gy - (config.square_size / 4));
+		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.lineTo(gx - (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.fill();
+	},
+
 	text: function(x, y, msg, colour) {
 		let ctx = this.canvas.getContext("2d");
 		ctx.textAlign = "center";
@@ -238,6 +266,7 @@ let board_drawer_prototype = {
 
 		this.plan_previous_markers(node);
 		this.plan_analysis_circles(node, moveinfo_filter(node));
+		this.plan_shapes(node);
 		this.plan_labels(node);
 		this.plan_next_markers(node);		// Should be last, since it can adjust other planned objects.
 
@@ -354,6 +383,12 @@ let board_drawer_prototype = {
 		}
 	},
 
+	maybe_draw_next_move_marker(o, x, y) {		// Helper for draw_canvas()
+		if (o.next_mark_colour) {
+			this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
+		}
+	},
+
 	draw_canvas: function() {
 
 		// Assumes whatever board is being drawn has already been drawn,
@@ -393,9 +428,7 @@ let board_drawer_prototype = {
 							this.fcircle(x, y, 1, o.fill);
 						}
 
-						if (o.next_mark_colour) {
-							this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
-						}
+						this.maybe_draw_next_move_marker(o, x, y);
 
 						if (o.text.length >= 2) {
 							this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
@@ -412,7 +445,7 @@ let board_drawer_prototype = {
 					case "death":
 
 						this.death_marks[x][y] = true;
-						this.fsquare(x, y, 1/6, this.table_state[x][y] === "b" ? "#ffffffff" : "#000000ff");
+						this.fsquare(x, y, 1/6, mark_colour_from_state(this.table_state[x][y]));
 						break;
 
 					case "previous":
@@ -423,20 +456,38 @@ let board_drawer_prototype = {
 					case "pv":
 					case "label":
 
-						if (this.table_state[x][y] === "b") {
-							this.text(x, y, o.text, "#ffffffff");
-						} else if (this.table_state[x][y] === "w") {
-							this.text(x, y, o.text, "#000000ff");
-						} else {
-							this.fcircle(x, y, 1, config.wood_colour);
-							this.text(x, y, o.text, "#ff0000ff");
+						let tstate = this.table_state[x][y];
+						if (tstate !== "b" && tstate !== "w") {
+							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 						}
-
-						if (o.next_mark_colour) {
-							this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
-						}
-
+						this.text(x, y, o.text, mark_colour_from_state(tstate));
+						this.maybe_draw_next_move_marker(o, x, y);
 						break;
+
+					case "SQ":
+
+						this.fsquare(x, y, 0.5, mark_colour_from_state(this.table_state[x][y]));
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
+					case "CR":
+
+						this.fcircle(x, y, 0.5, mark_colour_from_state(this.table_state[x][y]));
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
+					case "MA":
+
+						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(this.table_state[x][y]));
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
+					case "TR":
+
+						this.triangle(x, y, mark_colour_from_state(this.table_state[x][y]));
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
 				}
 			}
 		}
@@ -565,18 +616,31 @@ let board_drawer_prototype = {
 		}
 	},
 
+	plan_shapes: function(node) {
+
+		for (let key of ["MA", "TR", "SQ", "CR"]) {
+			for (let val of node.all_values(key)) {
+				for (let s of points_list(val)) {
+					let x = s.charCodeAt(0) - 97;
+					let y = s.charCodeAt(1) - 97;
+					if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+						this.needed_marks[x][y] = {type: key};
+					}
+				}
+			}
+		}
+	},
+
 	plan_labels: function(node) {
 
-		let labels = node.all_values("LB");
+		for (let val of node.all_values("LB")) {
 
-		for (let item of labels) {
-
-			if (item.length < 4) {
+			if (val.length < 4) {
 				continue;
 			}
 
-			let s = item.slice(0, 2);
-			let text = item.slice(3).trim();
+			let s = val.slice(0, 2);
+			let text = val.slice(3).trim();			// One character only
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
@@ -593,7 +657,8 @@ let board_drawer_prototype = {
 	plan_next_markers: function(node) {
 
 		// Note that, since these can coincide with various things, if an object is already
-		// present at the location, we simply add a next_mark_colour property to it.
+		// present at the location, we simply add a next_mark_colour property to it. This
+		// function should be called last of the planners.
 
 		if (!config.next_move_markers) {
 			return;
@@ -695,6 +760,12 @@ let board_drawer_prototype = {
 };
 
 // ------------------------------------------------------------------------------------------------
+
+function mark_colour_from_state(state) {
+	if (state === "b") return "#ffffffff";
+	if (state === "w") return "#000000ff";
+	return "#ff0000ff";
+}
 
 function string_from_info(info, node, type) {
 
