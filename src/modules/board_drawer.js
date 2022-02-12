@@ -167,9 +167,9 @@ let board_drawer_prototype = {
 		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
 	},
 
-	cross: function(x, y, linewidth, colour) {
+	cross: function(x, y, line_fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
-		ctx.lineWidth = linewidth;
+		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
@@ -481,7 +481,7 @@ let board_drawer_prototype = {
 
 					case "MA":
 
-						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(tstate, "#00000080"));
+						this.cross(x, y, 0.1666, mark_colour_from_state(tstate, "#00000080"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
