@@ -447,7 +447,7 @@ let board_drawer_prototype = {
 					case "death":
 
 						this.death_marks[x][y] = true;
-						this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080");
+						this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 						break;
 
 					case "previous":
