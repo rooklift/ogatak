@@ -63,7 +63,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.last_draw_was_pv = false;
 
 	// These 2 things are updated as the canvas or TDs are changed:
-	drawer.table_state = new_2d_array(25, 25, null);	// "", "b", "w", "ko" ... what the TD is displaying.
+	drawer.table_state = new_2d_array(25, 25, "");		// "", "b", "w", "ko" ... what the TD is displaying.
 	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark is displayed here.
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
