@@ -218,6 +218,8 @@ let board_drawer_prototype = {
 		
 		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
 			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+			this.carry_death_marks(node.get_board());
 		}
 
 		this.plan_previous_markers(node);
@@ -436,6 +438,32 @@ let board_drawer_prototype = {
 						type: "death",
 						colour: (state === "b") ? "#ffffffff" : "#000000ff",
 					};
+				}
+			}
+		}
+	},
+
+	carry_death_marks: function(board) {
+
+		// Called when there's no ownership available for the board but one is expected soon
+		// because the engine is running on the position. Therefore, we carry over whatever
+		// death marks we had already.
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				let state = board.state[x][y];
+
+				if (state !== "b" && state !== "w") {
+					continue;
+				}
+
+				if (this.death_marks[x][y]) {
+					this.needed_marks[x][y] = {
+						type: "death",
+						colour: (state === "b") ? "#ffffffff" : "#000000ff",
+					}
 				}
 			}
 		}
