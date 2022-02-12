@@ -418,7 +418,7 @@ let board_drawer_prototype = {
 					continue;
 				}
 
-				let tstate;			// var used in the switch.
+				let tstate = this.table_state[x][y];
 				
 				switch (o.type) {
 
@@ -447,7 +447,7 @@ let board_drawer_prototype = {
 					case "death":
 
 						this.death_marks[x][y] = true;
-						this.fsquare(x, y, 1/6, mark_colour_from_state(this.table_state[x][y]));
+						this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080");
 						break;
 
 					case "previous":
@@ -457,17 +457,15 @@ let board_drawer_prototype = {
 
 					case "pv":
 
-						tstate = this.table_state[x][y];
 						if (tstate !== "b" && tstate !== "w") {
 							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 						}
-						this.text(x, y, o.text, mark_colour_from_state(tstate));
+						this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "label":
 
-						tstate = this.table_state[x][y];
 						if (tstate !== "b" && tstate !== "w") {
 							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 						}
@@ -477,25 +475,25 @@ let board_drawer_prototype = {
 
 					case "SQ":
 
-						this.fsquare(x, y, 0.5, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
+						this.fsquare(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "CR":
 
-						this.fcircle(x, y, 0.5, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
+						this.fcircle(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "MA":
 
-						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
+						this.cross(x, y, config.next_marker_linewidth, mark_colour_from_state(tstate, "#00000080"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
 					case "TR":
 
-						this.triangle(x, y, mark_colour_from_state(this.table_state[x][y], "#000000ff"));
+						this.triangle(x, y, mark_colour_from_state(tstate, "#00000080"));
 						this.maybe_draw_next_move_marker(o, x, y);
 						break;
 
@@ -772,7 +770,8 @@ let board_drawer_prototype = {
 
 // ------------------------------------------------------------------------------------------------
 
-function mark_colour_from_state(state, dflt = "#ff0000ff") {
+function mark_colour_from_state(state, dflt) {
+	if (!dflt) throw "mark_colour_from_state(): bad call";
 	if (state === "b") return "#ffffffff";
 	if (state === "w") return "#000000ff";
 	return dflt;
