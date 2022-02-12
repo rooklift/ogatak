@@ -142,12 +142,12 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	fsquare: function(x, y, colour) {
+	fsquare: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 3);
-		let gy = y * config.square_size + (config.square_size / 3);
-		ctx.fillRect(gx, gy, config.square_size / 3, config.square_size / 3);
+		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
+		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
+		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
 	},
 
 	text: function(x, y, msg, colour) {
@@ -207,18 +207,28 @@ let board_drawer_prototype = {
 		this.draw_node_info(node);
 
 		let filtered_infos = moveinfo_filter(node);
-			
-		// this.plan_death_marks();							// FIXME
+		
+		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
+			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+		}
+
 		this.plan_previous_markers(node);
 		this.plan_analysis_circles(node, filtered_infos);
 		this.plan_next_markers(node);
 
 		this.draw_canvas();
 
+		this.last_draw_was_pv = false;
+
 	},
 
 	draw_pv: function(node, point) {
+
+		// For any early bailout:
 		return false;
+
+		this.last_draw_was_pv = true;
+		return true;
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -266,31 +276,42 @@ let board_drawer_prototype = {
 					continue;
 				}
 
-				if (o.type === "analysis") {
+				switch (o.type) {
 
-					this.fcircle(x, y, 1, config.wood_colour);
+					case "analysis":
 
-					if (o.fill) {
-						this.fcircle(x, y, 1, o.fill);
-					}
+						this.fcircle(x, y, 1, config.wood_colour);
 
-					if (o.next_mark_colour) {
-						this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
-					}
+						if (o.fill) {
+							this.fcircle(x, y, 1, o.fill);
+						}
 
-					if (o.text.length >= 2) {
-						this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
-					} else if (o.text.length === 1) {
-						this.text(x, y, o.text[0], "#000000ff");
-					}
+						if (o.next_mark_colour) {
+							this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
+						}
 
-				} else if (o.type === "previous") {
+						if (o.text.length >= 2) {
+							this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
+						} else if (o.text.length === 1) {
+							this.text(x, y, o.text[0], "#000000ff");
+						}
 
-					this.fcircle(x, y, 0.4, config.previous_marker);
+						break;
 
-				} else if (o.type === "next") {
+					case "death":
 
-					this.circle(x, y, config.next_marker_linewidth, o.colour);
+						this.fsquare(x, y, 1/6, o.colour);
+						break;
+
+					case "previous":
+
+						this.fcircle(x, y, 2/5, config.previous_marker);
+						break;
+
+					case "next":
+
+						this.circle(x, y, config.next_marker_linewidth, o.colour);
+						break;
 
 				}
 
@@ -302,8 +323,32 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
+
 		if (!config.dead_stone_prediction || !ownership) {
 			return;
+		}
+
+		for (let x = 0; x < this.width; x++) {
+
+			for (let y = 0; y < this.height; y++) {
+
+				let state = board.state[x][y];
+
+				if (state !== "b" && state !== "w") {
+					continue;
+				}
+
+				let own = ownership[x + (y * board.width)];
+				if (ownership_perspective !== state) {
+					own *= -1;
+				}
+				if (own < config.dead_threshold) {
+					this.needed_marks[x][y] = {
+						type: "death",
+						colour: (state === "b") ? "#ffffffff" : "#000000ff",
+					};
+				}
+			}
 		}
 	},
 
