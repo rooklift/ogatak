@@ -1,7 +1,5 @@
 "use strict";
 
-// FIXME - remember to fix config.numbers if it's bad in the config.
-
 // Background graphic is set as the TABLE background.
 // TD elements contain nothing, black stone, white stone, or ko marker.
 // Everything else is drawn to a CANVAS above that.
@@ -350,6 +348,8 @@ let board_drawer_prototype = {
 		// Draw the canvas based on what's in this.needed_marks.
 		// Also clear items from the needed_marks as they are drawn.
 
+		let got_bad_analysis_text = false;
+
 		for (let x = 0; x < this.width; x++) {
 
 			for (let y = 0; y < this.height; y++) {
@@ -381,6 +381,10 @@ let board_drawer_prototype = {
 							this.text(x, y, o.text[0], "#000000ff");
 						}
 
+						if (o.text[0] === "?" || o.text[1] === "?") {		// Lame hack, see below
+							got_bad_analysis_text = true;
+						}
+
 						break;
 
 					case "death":
@@ -408,6 +412,12 @@ let board_drawer_prototype = {
 
 				this.needed_marks[x][y] = null;
 			}
+		}
+
+		if (got_bad_analysis_text) {
+			setTimeout(() => {					// Lame hack to fix bad values in config.json
+				hub.cycle_numbers();
+			}, 0);
 		}
 	},
 
