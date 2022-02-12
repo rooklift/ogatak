@@ -13,9 +13,8 @@
 // -- Then we actually draw it.
 //
 // One mild complication is that next-move-markers can coincide with various things,
-// therefore those planning objects have a field to indicate whether they should get
-// such a marker; this field (if present) is adjusted when planning for next-move-
-// markers.
+// therefore we simply add a field (next_mark_colour) to such objects if they are
+// getting such a mark.
 //
 // Another complication is flicker introduced in death marks when stepping forward in
 // a game, as for a moment there is no ownership info available. To avoid this, we
@@ -239,7 +238,8 @@ let board_drawer_prototype = {
 
 		this.plan_previous_markers(node);
 		this.plan_analysis_circles(node, moveinfo_filter(node));
-		this.plan_next_markers(node);
+		this.plan_labels(node);
+		this.plan_next_markers(node);		// Should be last, since it can adjust other planned objects.
 
 		this.draw_canvas();
 		this.draw_node_info(node);
@@ -291,7 +291,6 @@ let board_drawer_prototype = {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 		}
 
-		let colour = startboard.active;
 		let n = 1;
 
 		for (let s of points) {
@@ -307,18 +306,15 @@ let board_drawer_prototype = {
 
 					if (o && o.type === "pv") {		// This is 2nd (or later) time this point is played on the PV.
 						o.text = "+";
-						o.colour = (colour === "b") ? "#ffffffff" : "#000000ff";
 					} else {
 						this.needed_marks[x][y] = {
 							type: "pv",
 							text: n.toString(),
-							colour: (colour === "b") ? "#ffffffff" : "#000000ff",
 						}
 					}
 				}
 			}
 
-			colour = opposite_colour(colour);
 			n++;
 		}
 
@@ -360,11 +356,12 @@ let board_drawer_prototype = {
 
 	draw_canvas: function() {
 
+		// Assumes whatever board is being drawn has already been drawn,
+		// therefore this.table_state is correct. Colours are mostly
+		// determined based on what is actually drawn in the table.
+
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-		// Draw the canvas based on what's in this.needed_marks.
-		// Also clear items from the needed_marks as they are drawn.
 
 		let got_bad_analysis_text = false;
 
@@ -372,13 +369,17 @@ let board_drawer_prototype = {
 
 			for (let y = 0; y < this.height; y++) {
 
-				this.death_marks[x][y] = false;				// This must be kept up to date.
+				// Do these next things in the right order!
 
 				let o = this.needed_marks[x][y];
+
+				this.death_marks[x][y] = false;				// These arrays must be kept up to date,
+				this.needed_marks[x][y] = null;				// so clear them here.
+			
 				if (!o) {
 					continue;
 				}
-
+				
 				switch (o.type) {
 
 					case "analysis":
@@ -408,7 +409,7 @@ let board_drawer_prototype = {
 					case "death":
 
 						this.death_marks[x][y] = true;
-						this.fsquare(x, y, 1/6, o.colour);
+						this.fsquare(x, y, 1/6, this.table_state[x][y] === "b" ? "#ffffffff" : "#000000ff");
 						break;
 
 					case "previous":
@@ -422,13 +423,19 @@ let board_drawer_prototype = {
 						break;
 
 					case "pv":
+					case "label":
 
-						this.text(x, y, o.text, o.colour);
+						if (this.table_state[x][y] === "b") {
+							this.text(x, y, o.text, "#ffffffff");
+						} else if (this.table_state[x][y] === "w") {
+							this.text(x, y, o.text, "#000000ff");
+						} else {
+							this.fcircle(x, y, 1, config.wood_colour);
+							this.text(x, y, o.text, "#ff0000ff");
+						}
+
 						break;
-
 				}
-
-				this.needed_marks[x][y] = null;
 			}
 		}
 
@@ -462,10 +469,7 @@ let board_drawer_prototype = {
 					own *= -1;
 				}
 				if (own < config.dead_threshold) {
-					this.needed_marks[x][y] = {
-						type: "death",
-						colour: (state === "b") ? "#ffffffff" : "#000000ff",
-					};
+					this.needed_marks[x][y] = {type: "death"};
 				}
 			}
 		}
@@ -488,10 +492,7 @@ let board_drawer_prototype = {
 				}
 
 				if (this.death_marks[x][y]) {
-					this.needed_marks[x][y] = {
-						type: "death",
-						colour: (state === "b") ? "#ffffffff" : "#000000ff",
-					}
+					this.needed_marks[x][y] = {type: "death"};
 				}
 			}
 		}
@@ -542,7 +543,6 @@ let board_drawer_prototype = {
 					type: "analysis",
 					text: [],
 					fill: null,
-					next_mark_colour: null,		// Any value other than undefined allows this to be adjusted by plan_next_markers()
 				};
 
 				if (info.order === 0) {
@@ -563,7 +563,35 @@ let board_drawer_prototype = {
 		}
 	},
 
+	plan_labels: function(node) {
+
+		let labels = node.all_values("LB");
+
+		for (let item of labels) {
+
+			if (item.length < 4) {
+				continue;
+			}
+
+			let s = item.slice(0, 2);
+			let text = item.slice(3).trim();
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+				this.needed_marks[x][y] = {
+					type: "label",
+					text: text,
+				}
+			}
+		}
+	},
+
 	plan_next_markers: function(node) {
+
+		// Note that, since these can coincide with various things, if an object is already
+		// present at the location, we simply add a next_mark_colour property to it.
 
 		if (!config.next_move_markers) {
 			return;
@@ -588,10 +616,8 @@ let board_drawer_prototype = {
 
 						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
 
-							let o = this.needed_marks[x][y];
-
-							if (o && o.next_mark_colour !== undefined) {
-								o.next_mark_colour = draw_colour;
+							if (this.needed_marks[x][y]) {
+								this.needed_marks[x][y].next_mark_colour = draw_colour;
 							} else {
 								this.needed_marks[x][y] = {
 									type: "next",
