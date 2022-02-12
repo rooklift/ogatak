@@ -491,7 +491,7 @@ let board_drawer_prototype = {
 		}
 	},
 
-	maybe_draw_next_move_marker(o, x, y) {		// Helper for draw_canvas()
+	maybe_draw_next_move_marker(o, x, y) {			// Helper for draw_planned_canvas_object()
 		if (o.next_mark_colour) {
 			this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
 		}
