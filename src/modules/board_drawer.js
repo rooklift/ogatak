@@ -307,9 +307,9 @@ let board_drawer_prototype = {
 		let points = [];
 
 		for (let move of info.pv) {
-			let s = finalboard.parse_gtp_move(move);	// "K10" --> "jj"		(off-board becomes "")
+			let s = finalboard.parse_gtp_move(move);	// "K10" --> "jj" (off-board becomes "")
 			finalboard.play(s);
-			points.push(s);				// Passes are included as "", so our later colour alteration works correctly.
+			points.push(s);								// Passes are included as "" (so our numbering works below)
 		}
 
 		this.draw_board(finalboard);
@@ -324,7 +324,7 @@ let board_drawer_prototype = {
 
 		for (let s of points) {
 
-			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
+			if (s.length === 2) {						// Otherwise, it's a pass and we don't draw it.
 
 				let x = s.charCodeAt(0) - 97;
 				let y = s.charCodeAt(1) - 97;
@@ -333,7 +333,7 @@ let board_drawer_prototype = {
 
 					let o = this.needed_marks[x][y];
 
-					if (o && o.type === "pv") {		// This is 2nd (or later) time this point is played on the PV.
+					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
 						o.text = "+";
 					} else {
 						this.needed_marks[x][y] = {
@@ -380,12 +380,6 @@ let board_drawer_prototype = {
 					this.set_td(x, y, desired);
 				}
 			}
-		}
-	},
-
-	maybe_draw_next_move_marker(o, x, y) {		// Helper for draw_canvas()
-		if (o.next_mark_colour) {
-			this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
 		}
 	},
 
@@ -505,6 +499,12 @@ let board_drawer_prototype = {
 			setTimeout(() => {					// Lame hack to fix bad values in config.json
 				hub.cycle_numbers();
 			}, 0);
+		}
+	},
+
+	maybe_draw_next_move_marker(o, x, y) {		// Helper for draw_canvas()
+		if (o.next_mark_colour) {
+			this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
 		}
 	},
 
