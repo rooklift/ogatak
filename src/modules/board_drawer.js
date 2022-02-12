@@ -49,7 +49,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	// These 2 things are updated as the canvas or TDs are changed:
 	drawer.table_state = new_2d_array(25, 25, null);	// "", "b", "w", "ko" ... what the TD is displaying.
-	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark has actually been drawn here.
+	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark is displayed here.
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
 	drawer.needed_marks = new_2d_array(25, 25, null);	// objects representing stuff.
@@ -122,11 +122,6 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
-
-	clear_canvas: function() {
-		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	},
 
 	fcircle: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
 		let ctx = this.canvas.getContext("2d");
@@ -349,7 +344,8 @@ let board_drawer_prototype = {
 
 	draw_canvas: function() {
 
-		this.clear_canvas();
+		let ctx = this.canvas.getContext("2d");
+		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		// Draw the canvas based on what's in this.needed_marks.
 		// Also clear items from the needed_marks as they are drawn.
