@@ -1,8 +1,25 @@
 "use strict";
 
-// Background graphic is set as the TABLE background.
-// TD elements contain nothing, black stone, white stone, or ko marker.
-// Everything else is drawn to a CANVAS above that.
+// Overview:
+//
+// -- Background graphic (which includes grid lines) is set as the table background.
+// -- TD elements contain one of: nothing, black stone, white stone, or ko marker.
+// -- Everything else is drawn to a canvas above that.
+//
+// To avoid conflicts when using the canvas:
+//
+// -- We plan everything to be drawn, placing objects in the .needed_marks array.
+// -- Since only 1 object can be at each spot, conflicts are avoided.
+// -- Then we actually draw it.
+//
+// One mild complication is that next move markers can coincide with analysis circles,
+// therefore the analysis planning objects have a field to indicate whether they should
+// get such a circle.
+//
+// Another complication is flicker introduced in death marks when stepping forward in
+// a game, as for a moment there is no ownership info available. To avoid this, we detect
+// this exact situation and redraw the death marks from the previous draw. This requires
+// another tracking array showing where death marks have been drawn.
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
