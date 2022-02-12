@@ -395,8 +395,6 @@ let board_drawer_prototype = {
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		let got_bad_analysis_text = false;
-
 		for (let x = 0; x < this.width; x++) {
 
 			for (let y = 0; y < this.height; y++) {
@@ -430,10 +428,6 @@ let board_drawer_prototype = {
 							this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
 						} else if (o.text.length === 1) {
 							this.text(x, y, o.text[0], "#000000ff");
-						}
-
-						if (o.text[0] === "?" || o.text[1] === "?") {		// Lame hack, see below
-							got_bad_analysis_text = true;
 						}
 
 						break;
@@ -498,12 +492,6 @@ let board_drawer_prototype = {
 
 				}
 			}
-		}
-
-		if (got_bad_analysis_text) {
-			setTimeout(() => {					// Lame hack to fix bad values in config.json
-				hub.cycle_numbers();
-			}, 0);
 		}
 	},
 
@@ -592,6 +580,7 @@ let board_drawer_prototype = {
 		let filtered_infos = moveinfo_filter(node);
 		let board = node.get_board();
 		let number_types = config.numbers.split(" + ");
+		let got_bad_analysis_text = false;
 
 		for (let info of filtered_infos) {
 
@@ -622,11 +611,21 @@ let board_drawer_prototype = {
 				}
 
 				for (let t of number_types) {
-					o.text.push(string_from_info(info, node, t));
+					let z = string_from_info(info, node, t);
+					if (z === "?") {
+						got_bad_analysis_text = true;
+					}
+					o.text.push(z);
 				}
 
 				this.needed_marks[x][y] = o;
 			}
+		}
+
+		if (got_bad_analysis_text) {
+			setTimeout(() => {					// Lame hack to fix bad values in config.json
+				hub.cycle_numbers();
+			}, 0);
 		}
 	},
 
