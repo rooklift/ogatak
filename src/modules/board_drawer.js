@@ -399,9 +399,6 @@ let board_drawer_prototype = {
 		// Assumes whatever board is being drawn has already been drawn,
 		// therefore this.table_state is correct. Colours are mostly
 		// determined based on what is actually drawn in the table.
-		
-		// WARNING: if the object contains a next_mark_colour field,
-		// it's up to each part of the switch to draw it nicely.
 
 		let tstate = this.table_state[x][y];
 				
@@ -415,7 +412,9 @@ let board_drawer_prototype = {
 					this.fcircle(x, y, 1, o.fill);
 				}
 
-				this.maybe_draw_next_move_marker(o, x, y);
+				if (o.next_mark_colour) {
+					this.circle(x, y, 0.085, 1, o.next_mark_colour);
+				}
 
 				if (o.text.length >= 2) {
 					this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
@@ -436,18 +435,12 @@ let board_drawer_prototype = {
 				this.fcircle(x, y, 2/5, config.previous_marker);
 				break;
 
-			case "next":
-
-				this.maybe_draw_next_move_marker(o, x, y);
-				break;
-
 			case "pv":
 
 				if (tstate !== "b" && tstate !== "w") {
 					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "label":
@@ -456,37 +449,33 @@ let board_drawer_prototype = {
 					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "SQ":
 
 				this.square(x, y, 0.085, 0.45, mark_colour_from_state(tstate, "#00000080"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "CR":
 
 				this.circle(x, y, 0.085, 0.55, mark_colour_from_state(tstate, "#00000080"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "MA":
 
 				this.cross(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "TR":
 
 				this.triangle(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
-				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 		}
-	},
 
-	maybe_draw_next_move_marker(o, x, y) {			// Helper for draw_planned_canvas_object()
-		if (o.next_mark_colour) {
+		// If the object has a next_mark_colour flag, it's fine to draw it
+		// at the end, except "analysis" objects need to finesse it...
+
+		if (o.next_mark_colour && o.type !== "analysis") {
 			this.circle(x, y, 0.085, 1, o.next_mark_colour);
 		}
 	},
