@@ -360,6 +360,9 @@ let board_drawer_prototype = {
 		// therefore this.table_state is correct. Colours are mostly
 		// determined based on what is actually drawn in the table.
 
+		// WARNING: if the object contains a next_mark_colour field,
+		// it's up to each part of the switch to draw it properly.
+
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -417,11 +420,6 @@ let board_drawer_prototype = {
 						this.fcircle(x, y, 2/5, config.previous_marker);
 						break;
 
-					case "next":
-
-						this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
-						break;
-
 					case "pv":
 					case "label":
 
@@ -432,6 +430,10 @@ let board_drawer_prototype = {
 						} else {
 							this.fcircle(x, y, 1, config.wood_colour);
 							this.text(x, y, o.text, "#ff0000ff");
+						}
+
+						if (o.next_mark_colour) {
+							this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
 						}
 
 						break;
