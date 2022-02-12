@@ -207,7 +207,6 @@ let board_drawer_prototype = {
 	draw_standard: function(node) {
 
 		this.draw_board(node.get_board());
-		this.draw_node_info(node);
 
 		let filtered_infos = moveinfo_filter(node);
 		
@@ -220,17 +219,96 @@ let board_drawer_prototype = {
 		this.plan_next_markers(node);
 
 		this.draw_canvas();
-
+		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
-
 	},
 
 	draw_pv: function(node, point) {
 
-		// For any early bailout:
-		return false;
+		// Returns true / false whether this happened.
 
+		if (!point || !config.candidate_moves || !config.mouseover_pv) {
+			return false;
+		}
+
+		let filtered_infos = moveinfo_filter(node);		// All possible move infos, maybe one of which corresponds to the point argument.
+
+		if (filtered_infos.length < 1) {
+			return false;
+		}
+
+		let startboard = node.get_board();
+		let gtp = startboard.gtp(point);				// Gets a string like "K10" from the mouse point argument (which is like "jj").
+
+		let info;
+
+		for (let foo of filtered_infos) {				// Of all the moves in our list, is one of them the one we're interested in?
+			if (foo.move === gtp) {
+				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
+					info = foo;
+				}
+				break;
+			}
+		}
+
+		if (!info) {
+			return false;
+		}
+
+		// We have a valid info, so the draw will proceed..........................................
+
+		let finalboard = startboard.copy();
+		let points = [];
+
+		for (let move of info.pv) {
+			let s = finalboard.parse_gtp_move(move);	// "K10" --> "jj"		(off-board becomes "")
+			finalboard.play(s);
+			points.push(s);				// Passes are included as "", so our later colour alteration works correctly.
+		}
+
+		this.draw_board(finalboard);
+
+		if (config.dead_stone_prediction && config.dead_stone_per_move && info.ownership) {
+			this.plan_death_marks(finalboard, info.ownership, startboard.active);
+		} else if (config.dead_stone_prediction && node.analysis.ownership) {
+			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
+		}
+
+		let colour = startboard.active;
+		let n = 1;
+
+		for (let s of points) {
+
+			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
+
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+					let o = this.needed_marks[x][y];
+
+					if (o && o.type === "pv") {		// This is 2nd (or later) time this point is played on the PV.
+						o.text = "+";
+						o.colour = (colour === "b") ? "#ffffffff" : "#000000ff";
+					} else {
+						this.needed_marks[x][y] = {
+							type: "pv",
+							text: n.toString(),
+							colour: (colour === "b") ? "#ffffffff" : "#000000ff",
+						}
+					}
+				}
+			}
+
+			colour = opposite_colour(colour);
+			n++;
+		}
+
+		this.draw_canvas();
+		this.draw_node_info(node, info);
 		this.last_draw_was_pv = true;
+
 		return true;
 	},
 
@@ -314,6 +392,11 @@ let board_drawer_prototype = {
 					case "next":
 
 						this.circle(x, y, config.next_marker_linewidth, o.colour);
+						break;
+
+					case "pv":
+
+						this.text(x, y, o.text, o.colour);
 						break;
 
 				}
