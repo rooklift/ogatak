@@ -206,16 +206,16 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 
-		this.draw_board(node.get_board());
+		// Normal draw method for when no PV is being displayed.
 
-		let filtered_infos = moveinfo_filter(node);
+		this.draw_board(node.get_board());
 		
 		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
 			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
 		}
 
 		this.plan_previous_markers(node);
-		this.plan_analysis_circles(node, filtered_infos);
+		this.plan_analysis_circles(node, moveinfo_filter(node));
 		this.plan_next_markers(node);
 
 		this.draw_canvas();
@@ -231,18 +231,12 @@ let board_drawer_prototype = {
 			return false;
 		}
 
-		let filtered_infos = moveinfo_filter(node);		// All possible move infos, maybe one of which corresponds to the point argument.
-
-		if (filtered_infos.length < 1) {
-			return false;
-		}
-
 		let startboard = node.get_board();
 		let gtp = startboard.gtp(point);				// Gets a string like "K10" from the mouse point argument (which is like "jj").
 
 		let info;
 
-		for (let foo of filtered_infos) {				// Of all the moves in our list, is one of them the one we're interested in?
+		for (let foo of moveinfo_filter(node)) {		// Of all the moves in our list, is one of them the one we're interested in?
 			if (foo.move === gtp) {
 				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
 					info = foo;
