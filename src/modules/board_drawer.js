@@ -390,8 +390,8 @@ let board_drawer_prototype = {
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				let o = this.needed_marks[x][y];
 				this.death_marks[x][y] = false;					// But maybe will become true during the draw.
+				let o = this.needed_marks[x][y];
 				if (o) {
 					this.draw_planned_canvas_object(o, x, y);
 				}
