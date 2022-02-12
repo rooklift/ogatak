@@ -9,9 +9,7 @@
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
 
-const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
-const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
-const   ko_marker = new Image();	  ko_marker.src =          "./gfx/ko.png";		const   ko_marker_url = `url("${ko_marker.src}")`;
+// ------------------------------------------------------------------------------------------------
 
 let mouseenter_handlers = new_2d_array(25, 25, null);
 
@@ -23,6 +21,14 @@ for (let x = 0; x < 25; x++) {				// Create the event handlers for all usable va
 		};
 	}
 }
+
+// ------------------------------------------------------------------------------------------------
+
+const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
+const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
+const   ko_marker = new Image();	  ko_marker.src =          "./gfx/ko.png";		const   ko_marker_url = `url("${ko_marker.src}")`;
+
+// ------------------------------------------------------------------------------------------------
 
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
@@ -40,20 +46,15 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.height = null;
 
 	drawer.last_draw_was_pv = false;
-	drawer.tablestate = new_2d_array(25, 25, null);		// 2d array of "", "b", "w", "ko" ... tracks the actual state of the TDs
-	drawer.needed_marks = new_2d_array(25, 25, null);	// 2d array of objects representing stuff to draw on the canvas. Built up by the functions.
+	drawer.tablestate = new_2d_array(25, 25, null);		// 2d array of "", "b", "w", "ko" ... tracks the actual state of the TDs.
+	drawer.needed_marks = new_2d_array(25, 25, null);	// 2d array of objects representing stuff waiting to be drawn on the canvas.
 
 	return drawer;
 }
 
 let board_drawer_prototype = {
 
-	rebuild: function(width, height) {
-
-		// Reset all the things.
-		// Called when board logical size changes.
-		// Called when square size changes.
-		// Called when line width changes.
+	rebuild: function(width, height) {		// Reset all the things...
 
 		if (!width || !height) {
 			throw "rebuild() needs board sizes";
@@ -92,8 +93,8 @@ let board_drawer_prototype = {
 			}
 		}
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
+		for (let x = 0; x < 25; x++) {
+			for (let y = 0; y < 25; y++) {
 				this.tablestate[x][y] = "";
 			}
 		}
@@ -174,6 +175,8 @@ let board_drawer_prototype = {
 		ctx.fillText(msg2, gx, gy + 1);
 	},
 
+	// --------------------------------------------------------------------------------------------
+
 	set_td: function(x, y, foo) {
 
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
@@ -235,6 +238,8 @@ let board_drawer_prototype = {
 
 	draw_board: function(board) {
 
+		// i.e. solely changing the TD elements.
+
 		if (this.width !== board.width || this.height !== board.height) {
 			this.rebuild(board.width, board.height);
 		}
@@ -257,8 +262,6 @@ let board_drawer_prototype = {
 			}
 		}
 	},
-
-	// --------------------------------------------------------------------------------------------
 
 	draw_canvas: function() {
 
@@ -386,27 +389,30 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			let o = {
-				type: "analysis",
-				text: [],
-				fill: null,
-				next_mark_colour: null,			// Maybe set by plan_next_markers().
-			};
+			if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
 
-			if (info.order === 0) {
-				if (board.active === "b") o.fill = config.top_colour_black;
-				if (board.active === "w") o.fill = config.top_colour_white;
-			} else if (config.visit_colours) {
-				let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
-				if (board.active === "b") o.fill = config.off_colour_black.slice(0, 7) + opacity_hex;
-				if (board.active === "w") o.fill = config.off_colour_white.slice(0, 7) + opacity_hex;
+				let o = {
+					type: "analysis",
+					text: [],
+					fill: null,
+					next_mark_colour: null,			// Maybe set by plan_next_markers().
+				};
+
+				if (info.order === 0) {
+					if (board.active === "b") o.fill = config.top_colour_black;
+					if (board.active === "w") o.fill = config.top_colour_white;
+				} else if (config.visit_colours) {
+					let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
+					if (board.active === "b") o.fill = config.off_colour_black.slice(0, 7) + opacity_hex;
+					if (board.active === "w") o.fill = config.off_colour_white.slice(0, 7) + opacity_hex;
+				}
+
+				for (let t of number_types) {
+					o.text.push(string_from_info(info, node, t));
+				}
+
+				this.needed_marks[x][y] = o;
 			}
-
-			for (let t of number_types) {
-				o.text.push(string_from_info(info, node, t));
-			}
-
-			this.needed_marks[x][y] = o;
 		}
 	},
 
