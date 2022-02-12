@@ -356,11 +356,16 @@ let board_drawer_prototype = {
 	},
 
 	plan_previous_markers: function(node) {
+
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
+
 		for (let s of moves_played) {			// Probably just one (but illegal SGF is possible).
+
 			if (s.length === 2) {
+
 				let x = s.charCodeAt(0) - 97;
 				let y = s.charCodeAt(1) - 97;
+
 				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
 					this.needed_marks[x][y] = {type: "previous"};
 				}
@@ -417,25 +422,40 @@ let board_drawer_prototype = {
 	},
 
 	plan_next_markers: function(node) {
+
 		if (!config.next_move_markers) {
 			return;
 		}
+
 		let board = node.get_board();
+
 		for (let key of ["B", "W"]) {
+
+			let draw_colour = (key === "B") ? "#00000080" : "#ffffffa0";
+
 			for (let n = 0; n < node.children.length; n++) {
+
 				let moves_played = node.children[n].all_values(key);
+
 				for (let s of moves_played) {			// Probably just one per child.
+
 					if (s.length === 2) {
+
 						let x = s.charCodeAt(0) - 97;
 						let y = s.charCodeAt(1) - 97;
+
 						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-							if (this.needed_marks[x][y] && this.needed_marks[x][y].type === "analysis") {
-								this.needed_marks[x][y].next_mark_colour = (key === "B") ? "#00000080" : "#ffffffa0";
+
+							let o = this.needed_marks[x][y];
+
+							if (o && o.type === "analysis") {
+								o.next_mark_colour = draw_colour;
 							} else {
 								this.needed_marks[x][y] = {
 									type: "next",
-									colour: (key === "B") ? "#00000080" : "#ffffffa0"
+									colour: draw_colour,
 								};
+
 							}
 						}
 					}
