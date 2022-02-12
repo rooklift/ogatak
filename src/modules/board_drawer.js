@@ -714,7 +714,7 @@ let board_drawer_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
-	draw_node_info: function(node, override_moveinfo) {		// Is there a reason this isn't a separate module?
+	draw_node_info: function(node, override_moveinfo) {
 
 		if (hub.engine.problem_text()) {
 			this.draw_engine_problem();
