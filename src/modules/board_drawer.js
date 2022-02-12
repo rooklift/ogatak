@@ -137,8 +137,10 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+	// Methods here that call for "fractions" want a number between 0 and 1 to set the size
+	// of something, relative to the square size.
 
-	fcircle: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
+	fcircle: function(x, y, fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
@@ -148,23 +150,38 @@ let board_drawer_prototype = {
 		ctx.fill();
 	},
 
-	circle: function(x, y, linewidth, colour) {
+	circle: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
-		ctx.lineWidth = linewidth;
+		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
 		ctx.beginPath();
-		ctx.arc(gx, gy, (config.square_size / 2) - (linewidth / 2), 0, 2 * Math.PI);
+		ctx.arc(gx, gy, (fraction * config.square_size / 2) - (line_fraction * config.square_size / 2), 0, 2 * Math.PI);
 		ctx.stroke();
 	},
 
-	fsquare: function(x, y, fraction, colour) {					// fraction being a size between 0 and 1
+	fsquare: function(x, y, fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
+	},
+
+	square: function(x, y, line_fraction, fraction, colour) {
+		let ctx = this.canvas.getContext("2d");
+		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.strokeStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy = y * config.square_size + (config.square_size / 2);
+		ctx.beginPath();
+		ctx.moveTo(gx - (fraction * config.square_size / 2), gy - (fraction * config.square_size / 2));
+		ctx.lineTo(gx + (fraction * config.square_size / 2), gy - (fraction * config.square_size / 2));
+		ctx.lineTo(gx + (fraction * config.square_size / 2), gy + (fraction * config.square_size / 2));
+		ctx.lineTo(gx - (fraction * config.square_size / 2), gy + (fraction * config.square_size / 2));
+		ctx.closePath();
+		ctx.stroke();
 	},
 
 	cross: function(x, y, line_fraction, colour) {
@@ -183,16 +200,18 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	triangle: function(x, y, colour) {
+	triangle: function(x, y, line_fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
-		ctx.fillStyle = colour;
+		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
 		ctx.beginPath();
 		ctx.moveTo(gx, gy - (config.square_size / 4) - 1);
 		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4) - 1);
 		ctx.lineTo(gx - (config.square_size / 4), gy + (config.square_size / 4) - 1);
-		ctx.fill();
+		ctx.closePath();
+		ctx.stroke();
 	},
 
 	text: function(x, y, msg, colour) {
@@ -442,25 +461,25 @@ let board_drawer_prototype = {
 
 			case "SQ":
 
-				this.fsquare(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
+				this.square(x, y, 0.085, 0.45, mark_colour_from_state(tstate, "#00000080"));
 				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "CR":
 
-				this.fcircle(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
+				this.circle(x, y, 0.085, 0.55, mark_colour_from_state(tstate, "#00000080"));
 				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "MA":
 
-				this.cross(x, y, 0.1666, mark_colour_from_state(tstate, "#00000080"));
+				this.cross(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
 				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 
 			case "TR":
 
-				this.triangle(x, y, mark_colour_from_state(tstate, "#00000080"));
+				this.triangle(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
 				this.maybe_draw_next_move_marker(o, x, y);
 				break;
 		}
@@ -468,7 +487,7 @@ let board_drawer_prototype = {
 
 	maybe_draw_next_move_marker(o, x, y) {			// Helper for draw_planned_canvas_object()
 		if (o.next_mark_colour) {
-			this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
+			this.circle(x, y, 0.085, 1, o.next_mark_colour);
 		}
 	},
 
