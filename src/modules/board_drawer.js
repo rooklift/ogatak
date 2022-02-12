@@ -265,9 +265,9 @@ let board_drawer_prototype = {
 		}
 
 		this.plan_previous_markers(node);
-		this.plan_analysis_circles(node, moveinfo_filter(node));
 		this.plan_shapes(node);
 		this.plan_labels(node);
+		this.plan_analysis_circles(node, moveinfo_filter(node));
 		this.plan_next_markers(node);		// Should be last, since it can adjust other planned objects.
 
 		this.draw_canvas();
@@ -396,7 +396,7 @@ let board_drawer_prototype = {
 		// determined based on what is actually drawn in the table.
 
 		// WARNING: if the object contains a next_mark_colour field,
-		// it's up to each part of the switch to draw it properly.
+		// it's up to each part of the switch to draw it nicely.
 
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
