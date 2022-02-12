@@ -216,10 +216,14 @@ let board_drawer_prototype = {
 
 		this.draw_board(node.get_board());
 		
-		if (config.dead_stone_prediction && node.has_valid_analysis() && node.analysis.ownership) {
-			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
-			this.carry_death_marks(node.get_board());
+		if (config.dead_stone_prediction) {
+			if (node.has_valid_analysis() && node.analysis.ownership) {
+				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+			} else if (!this.last_draw_was_pv && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+				// Although no info is available, we expect it soon because the engine is running on the position,
+				// therefore we can just draw what death marks we had already, to prevent flicker.
+				this.carry_death_marks(node.get_board());
+			}
 		}
 
 		this.plan_previous_markers(node);
