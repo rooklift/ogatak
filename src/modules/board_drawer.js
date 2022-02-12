@@ -449,6 +449,11 @@ let board_drawer_prototype = {
 						this.fcircle(x, y, 2/5, config.previous_marker);
 						break;
 
+					case "next":
+
+						this.maybe_draw_next_move_marker(o, x, y);
+						break;
+
 					case "pv":
 
 						if (tstate !== "b" && tstate !== "w") {
