@@ -385,113 +385,109 @@ let board_drawer_prototype = {
 
 	draw_canvas: function() {
 
-		// Assumes whatever board is being drawn has already been drawn,
-		// therefore this.table_state is correct. Colours are mostly
-		// determined based on what is actually drawn in the table.
-
-		// WARNING: if the object contains a next_mark_colour field,
-		// it's up to each part of the switch to draw it nicely.
-
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		for (let x = 0; x < this.width; x++) {
-
 			for (let y = 0; y < this.height; y++) {
-
-				// Do these next things in the right order!
-
 				let o = this.needed_marks[x][y];
-
-				this.death_marks[x][y] = false;				// These arrays must be kept up to date,
-				this.needed_marks[x][y] = null;				// so clear them here.
-			
-				if (!o) {
-					continue;
+				this.death_marks[x][y] = false;					// But maybe will become true during the draw.
+				if (o) {
+					this.draw_planned_canvas_object(o, x, y);
 				}
-
-				let tstate = this.table_state[x][y];
-				
-				switch (o.type) {
-
-					case "analysis":
-
-						this.fcircle(x, y, 1, config.wood_colour);
-
-						if (o.fill) {
-							this.fcircle(x, y, 1, o.fill);
-						}
-
-						this.maybe_draw_next_move_marker(o, x, y);
-
-						if (o.text.length >= 2) {
-							this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
-						} else if (o.text.length === 1) {
-							this.text(x, y, o.text[0], "#000000ff");
-						}
-
-						break;
-
-					case "death":
-
-						this.death_marks[x][y] = true;
-						this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
-						break;
-
-					case "previous":
-
-						this.fcircle(x, y, 2/5, config.previous_marker);
-						break;
-
-					case "next":
-
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "pv":
-
-						if (tstate !== "b" && tstate !== "w") {
-							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
-						}
-						this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "label":
-
-						if (tstate !== "b" && tstate !== "w") {
-							this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
-						}
-						this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "SQ":
-
-						this.fsquare(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "CR":
-
-						this.fcircle(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "MA":
-
-						this.cross(x, y, 0.1666, mark_colour_from_state(tstate, "#00000080"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-					case "TR":
-
-						this.triangle(x, y, mark_colour_from_state(tstate, "#00000080"));
-						this.maybe_draw_next_move_marker(o, x, y);
-						break;
-
-				}
+				this.needed_marks[x][y] = null;					// Clear this, it only stores marks that are still to be done.
 			}
+		}
+	},
+
+	draw_planned_canvas_object(o, x, y) {
+
+		// Assumes whatever board is being drawn has already been drawn,
+		// therefore this.table_state is correct. Colours are mostly
+		// determined based on what is actually drawn in the table.
+		
+		// WARNING: if the object contains a next_mark_colour field,
+		// it's up to each part of the switch to draw it nicely.
+
+		let tstate = this.table_state[x][y];
+				
+		switch (o.type) {
+
+			case "analysis":
+
+				this.fcircle(x, y, 1, config.wood_colour);
+
+				if (o.fill) {
+					this.fcircle(x, y, 1, o.fill);
+				}
+
+				this.maybe_draw_next_move_marker(o, x, y);
+
+				if (o.text.length >= 2) {
+					this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
+				} else if (o.text.length === 1) {
+					this.text(x, y, o.text[0], "#000000ff");
+				}
+
+				break;
+
+			case "death":
+
+				this.death_marks[x][y] = true;
+				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
+				break;
+
+			case "previous":
+
+				this.fcircle(x, y, 2/5, config.previous_marker);
+				break;
+
+			case "next":
+
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "pv":
+
+				if (tstate !== "b" && tstate !== "w") {
+					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+				}
+				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "label":
+
+				if (tstate !== "b" && tstate !== "w") {
+					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+				}
+				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "SQ":
+
+				this.fsquare(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "CR":
+
+				this.fcircle(x, y, 0.5, mark_colour_from_state(tstate, "#00000080"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "MA":
+
+				this.cross(x, y, 0.1666, mark_colour_from_state(tstate, "#00000080"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
+
+			case "TR":
+
+				this.triangle(x, y, mark_colour_from_state(tstate, "#00000080"));
+				this.maybe_draw_next_move_marker(o, x, y);
+				break;
 		}
 	},
 
