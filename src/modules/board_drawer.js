@@ -189,9 +189,9 @@ let board_drawer_prototype = {
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
 		ctx.beginPath();
-		ctx.moveTo(gx, gy - (config.square_size / 4));
-		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4));
-		ctx.lineTo(gx - (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.moveTo(gx, gy - (config.square_size / 4) - 1);
+		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4) - 1);
+		ctx.lineTo(gx - (config.square_size / 4), gy + (config.square_size / 4) - 1);
 		ctx.fill();
 	},
 
