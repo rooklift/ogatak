@@ -632,7 +632,7 @@ let board_drawer_prototype = {
 			}
 
 			let s = val.slice(0, 2);
-			let text = val.slice(3).trim();			// One character only
+			let text = val.slice(3).trim();
 
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
