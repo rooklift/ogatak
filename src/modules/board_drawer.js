@@ -267,7 +267,7 @@ let board_drawer_prototype = {
 		this.plan_previous_markers(node);
 		this.plan_shapes(node);
 		this.plan_labels(node);
-		this.plan_analysis_circles(node, moveinfo_filter(node));
+		this.plan_analysis_circles(node);
 		this.plan_next_markers(node);		// Should be last, since it can adjust other planned objects.
 
 		this.draw_canvas();
@@ -583,14 +583,14 @@ let board_drawer_prototype = {
 		}
 	},
 
-	plan_analysis_circles: function(node, filtered_infos) {
+	plan_analysis_circles: function(node) {
 		
 		if (!config.candidate_moves) {
 			return;
 		}
 
+		let filtered_infos = moveinfo_filter(node);
 		let board = node.get_board();
-
 		let number_types = config.numbers.split(" + ");
 
 		for (let info of filtered_infos) {
