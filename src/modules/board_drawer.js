@@ -266,6 +266,7 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+	// The 2 methods here are the main methods called by the hub...
 
 	draw_standard: function(node) {
 
@@ -296,7 +297,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {
 
-		// Returns true / false whether this happened.
+		// Returns true / false indicating whether this happened.
 
 		if (!point || !config.candidate_moves || !config.mouseover_pv) {
 			return false;
@@ -378,6 +379,9 @@ let board_drawer_prototype = {
 	},
 
 	draw_canvas: function() {
+
+		// Based solely on whatever objects are in this.needed_marks...
+		// All planning functions have to be called before this.
 
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
