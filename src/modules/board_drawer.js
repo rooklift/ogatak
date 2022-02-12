@@ -12,14 +12,15 @@
 // -- Since only 1 object can be at each spot, conflicts are avoided.
 // -- Then we actually draw it.
 //
-// One mild complication is that next move markers can coincide with analysis circles,
-// therefore the analysis planning objects have a field to indicate whether they should
-// get such a circle.
+// One mild complication is that next-move-markers can coincide with various things,
+// therefore those planning objects have a field to indicate whether they should get
+// such a marker; this field (if present) is adjusted when planning for next-move-
+// markers.
 //
 // Another complication is flicker introduced in death marks when stepping forward in
-// a game, as for a moment there is no ownership info available. To avoid this, we detect
-// this exact situation and redraw the death marks from the previous draw. This requires
-// another tracking array showing where death marks have been drawn.
+// a game, as for a moment there is no ownership info available. To avoid this, we
+// detect this exact situation and redraw the death marks from the previous draw. This
+// requires another tracking array showing where death marks have been drawn.
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff} = require("./utils");
@@ -417,7 +418,7 @@ let board_drawer_prototype = {
 
 					case "next":
 
-						this.circle(x, y, config.next_marker_linewidth, o.colour);
+						this.circle(x, y, config.next_marker_linewidth, o.next_mark_colour);
 						break;
 
 					case "pv":
@@ -541,7 +542,7 @@ let board_drawer_prototype = {
 					type: "analysis",
 					text: [],
 					fill: null,
-					next_mark_colour: null,			// Maybe set by plan_next_markers().
+					next_mark_colour: null,		// Any value other than undefined allows this to be adjusted by plan_next_markers()
 				};
 
 				if (info.order === 0) {
@@ -589,14 +590,13 @@ let board_drawer_prototype = {
 
 							let o = this.needed_marks[x][y];
 
-							if (o && o.type === "analysis") {
+							if (o && o.next_mark_colour !== undefined) {
 								o.next_mark_colour = draw_colour;
 							} else {
 								this.needed_marks[x][y] = {
 									type: "next",
-									colour: draw_colour,
+									next_mark_colour: draw_colour,
 								};
-
 							}
 						}
 					}
