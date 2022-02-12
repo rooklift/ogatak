@@ -320,32 +320,7 @@ let board_drawer_prototype = {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 		}
 
-		let n = 1;
-
-		for (let s of points) {
-
-			if (s.length === 2) {						// Otherwise, it's a pass and we don't draw it.
-
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
-
-				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-
-					let o = this.needed_marks[x][y];
-
-					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
-						o.text = "+";
-					} else {
-						this.needed_marks[x][y] = {
-							type: "pv",
-							text: n.toString(),
-						}
-					}
-				}
-			}
-
-			n++;
-		}
+		this.plan_pv_labels(points);
 
 		this.draw_canvas();
 		this.draw_node_info(node, info);
@@ -660,6 +635,36 @@ let board_drawer_prototype = {
 					text: text,
 				}
 			}
+		}
+	},
+
+	plan_pv_labels(points) {			// Where points is an array of the moves played in the PV, in order.
+
+		let n = 1;
+
+		for (let s of points) {
+
+			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
+
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+					let o = this.needed_marks[x][y];
+
+					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
+						o.text = "+";
+					} else {
+						this.needed_marks[x][y] = {
+							type: "pv",
+							text: n.toString(),
+						}
+					}
+				}
+			}
+
+			n++;
 		}
 	},
 
