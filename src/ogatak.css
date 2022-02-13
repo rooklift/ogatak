@@ -20,7 +20,7 @@ body {
 }
 
 #gridder {
-	display: grid;
+	display: none;		/* set to grid by renderer.js, just done like this to hide it until script is active. */
 	height: 100vh;
 	grid-template-columns: min-content min-content min-content 1fr;
 	grid-template-rows: min-content min-content 1fr;
