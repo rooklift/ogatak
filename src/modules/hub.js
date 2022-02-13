@@ -948,4 +948,21 @@ let hub_props = {
 		setTimeout(this.window_resize_checker.bind(this), 250);
 	},
 
+	bad_death_mark_spinner: function() {
+
+		// Super-lame hack to deal with the situation where death marks were carried over from a previous search
+		// but then the search was terminated instantly and those stale death marks need to be removed.
+
+		if (Array.isArray(this.maindrawer.death_marks) && this.maindrawer.death_marks.length > 0) {
+			if (!this.node.has_valid_analysis()) {
+				if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== this.node.id) {
+					this.draw();
+					console.log("bad_death_mark_spinner acted!");
+				}
+			}
+		}
+
+		setTimeout(this.bad_death_mark_spinner.bind(this), 200);
+	},
+
 };
