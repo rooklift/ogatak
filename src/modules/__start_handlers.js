@@ -138,6 +138,12 @@ window.addEventListener("drop", (event) => {
 	}
 });
 
+// Keep track of the time of the last window resize...
+
+window.addEventListener("resize", (event) => {
+	hub.last_resize = performance.now();
+});
+
 // Uncaught exceptions should trigger an alert (once only)...
 
 window.addEventListener("error", (event) => {

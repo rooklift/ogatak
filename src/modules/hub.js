@@ -39,13 +39,11 @@ exports.new_hub = function() {
 
 	hub.grapher = new_grapher(
 		document.getElementById("graphcanvas"),
-		document.getElementById("graphpositioncanvas"),
-		hub.maindrawer
+		document.getElementById("graphpositioncanvas")
 	);
 
 	hub.tree_drawer = new_tree_drawer(
-		document.getElementById("treecanvas"),
-		hub.grapher
+		document.getElementById("treecanvas")
 	);
 
 	hub.comment_drawer = new_comment_drawer(
@@ -70,6 +68,7 @@ exports.new_hub = function() {
 
 	hub.pending_up_down = 0;
 	hub.dropped_inputs = 0;
+	hub.last_resize = 0;
 
 	return hub;
 };

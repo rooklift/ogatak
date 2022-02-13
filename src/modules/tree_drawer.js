@@ -1,11 +1,10 @@
 "use strict";
 
-function new_tree_drawer(canvas, grapher) {					// grapher object provided so we can check its size; not used otherwise.
+function new_tree_drawer(canvas) {
 
 	let drawer = Object.create(tree_drawer_prototype);
 
 	drawer.canvas = canvas;
-	drawer.grapher = grapher;
 	drawer.clickers = [];
 
 	drawer.central_node = null;
@@ -24,21 +23,12 @@ let tree_drawer_prototype = {
 
 		let start_time = performance.now();
 		this.call_count++;
-
+		this.must_draw = false;
 		this.clickers = [];
 		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
 
-		// The graph (to the left of the tree) may be the wrong size if the window is being resized.
-		// Don't modify the canvas at all until that situation resolves itself...
+		// Always blank the canvas...
 
-		if (this.grapher.has_correct_width() === false) {
-			this.must_draw = true;							// Ensure we actually draw once the graph has resized correctly.
-			return;
-		}
-
-		// We're committed to a draw of some sort, which might just be blanking the canvas...
-
-		this.must_draw = false;
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
 
