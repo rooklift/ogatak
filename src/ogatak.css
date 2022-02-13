@@ -54,14 +54,14 @@ body {
 }
 
 #graphcanvas {
-	display: block;				/* Stops the parent element from being 4px bigger... */
+	display: block;						/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
 	margin: 0;
 	z-index: 1;
 }
 
 #graphpositioncanvas {
-	display: block;				/* Stops the parent element from being 4px bigger... */
+	display: block;						/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
 	margin: 0;
 	z-index: 2;
@@ -75,6 +75,7 @@ body {
 }
 
 #boardbg {
+	background-color: #d2b074ff;		/* Helps when the image is only partly drawn (on startup) */
 	background-image: url("./gfx/subdued_board.png");
 	grid-area: b;
 	margin: 16px 0 0 16px;
