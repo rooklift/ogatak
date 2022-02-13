@@ -56,7 +56,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	// These 2 things are updated as the canvas or TDs are changed:
 	drawer.table_state = new_2d_array(25, 25, "");		// Contains "", "b", "w", "ko" ... what the TD is displaying.
-	drawer.death_marks = [];							// List of [x, y] items of death marks actually existing.
+	drawer.death_marks = [];							// List of [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
 	drawer.needed_marks = new_2d_array(25, 25, null);	// Objects representing stuff.
