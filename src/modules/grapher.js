@@ -25,12 +25,8 @@ let graph_drawer_prototype = {
 		return Math.max(0, Math.min(config.graph_width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 	},
 
-	correct_height: function() {
-		return this.board_drawer.canvas.height + 128;
-	},
-
-	has_correct_size: function() {
-		return this.canvas.width === this.correct_width() && this.canvas.height === this.correct_height();
+	has_correct_width: function() {
+		return this.canvas.width === this.correct_width();
 	},
 
 	draw_graph: function(node) {
@@ -38,10 +34,10 @@ let graph_drawer_prototype = {
 		this.line_end = node.get_end();		// Set this now, before any early returns.
 
 		this.canvas.width = this.correct_width();
-		this.canvas.height = this.correct_height();
+		this.canvas.height = this.board_drawer.canvas.height + 128;
 
 		this.draw_x_offset = 16;
-		this.draw_y_offset = this.board_drawer.canvas.getBoundingClientRect().top - this.canvas.getBoundingClientRect().top + (config.square_size / 4);
+		this.draw_y_offset = config.square_size / 4;
 
 		this.drawable_width = Math.max(0, this.canvas.width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, this.board_drawer.canvas.height - (config.square_size / 2));

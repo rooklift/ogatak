@@ -31,7 +31,7 @@ let tree_drawer_prototype = {
 		// The graph (to the left of the tree) may be the wrong size if the window is being resized.
 		// Don't modify the canvas at all until that situation resolves itself...
 
-		if (this.grapher.has_correct_size() === false) {
+		if (this.grapher.has_correct_width() === false) {
 			this.must_draw = true;							// Ensure we actually draw once the graph has resized correctly.
 			return;
 		}
