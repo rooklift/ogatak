@@ -951,7 +951,8 @@ let hub_props = {
 	bad_death_mark_spinner: function() {
 
 		// Super-lame hack to deal with the situation where death marks were carried over from a previous search but then
-		// the new search was terminated instantly (or never started) and those stale death marks need to be removed.
+		// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
+		// (this is needed because nothing else is going to cause a draw to happen).
 
 		if (Array.isArray(this.maindrawer.death_marks) && this.maindrawer.death_marks.length > 0) {
 			if (!this.node.has_valid_analysis() || !this.node.analysis.ownership) {
