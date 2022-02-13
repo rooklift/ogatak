@@ -42,7 +42,7 @@ let tree_drawer_prototype = {
 		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
 		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
 
-		// Various reasons why we might to leave everything blank...
+		// Various reasons why we might leave everything blank...
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
