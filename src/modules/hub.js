@@ -957,7 +957,6 @@ let hub_props = {
 			if (!this.node.has_valid_analysis()) {
 				if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== this.node.id) {
 					this.draw();
-					console.log("bad_death_mark_spinner acted!");
 				}
 			}
 		}
