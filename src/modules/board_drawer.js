@@ -636,9 +636,9 @@ let board_drawer_prototype = {
 
 	plan_pv_labels(points) {			// Where points is an array of the moves played in the PV, in order.
 
-		let n = 1;
+		for (let n = 0; n < points.length; n++) {
 
-		for (let s of points) {
+			let s = points[n];
 
 			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
 
@@ -654,13 +654,11 @@ let board_drawer_prototype = {
 					} else {
 						this.needed_marks[x][y] = {
 							type: "pv",
-							text: n.toString(),
+							text: (n + 1).toString(),
 						};
 					}
 				}
 			}
-
-			n++;
 		}
 	},
 
