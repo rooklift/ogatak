@@ -650,7 +650,7 @@ let board_drawer_prototype = {
 					let o = this.needed_marks[x][y];
 
 					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
-						o.text = "+";
+						// o.text = "+";				// Bit of an aesthetic choice.
 					} else {
 						this.needed_marks[x][y] = {
 							type: "pv",
