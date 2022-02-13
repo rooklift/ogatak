@@ -1,25 +1,17 @@
 "use strict";
 
 // Overview:
-//
-// -- Background graphic (which includes grid lines) is set as the table background.
-// -- TD elements contain one of: nothing, black stone, white stone, or ko marker.
-// -- Everything else is drawn to a canvas above that.
+//  - Background graphic (which includes grid lines) is the table background.
+//  - TD elements contain one of nothing, black stone, white stone, or ko marker.
+//  - Everything else is drawn to a canvas above that.
 //
 // To avoid conflicts when using the canvas:
+//  - We plan everything to be drawn, placing objects in the .needed_marks array.
+//  - Since only 1 object can be at each spot, conflicts are avoided.
 //
-// -- We plan everything to be drawn, placing objects in the .needed_marks array.
-// -- Since only 1 object can be at each spot, conflicts are avoided.
-// -- Then we actually draw it.
-//
-// One mild complication is that next-move-markers can coincide with various things,
-// therefore we simply add a field (next_mark_colour) to such objects if they are
-// getting such a mark.
-//
-// Another complication is flicker introduced in death marks when stepping forward in
-// a game, as for a moment there is no ownership info available. To avoid this, we
-// detect this exact situation and redraw the death marks from the previous draw. This
-// requires another tracking array showing where death marks have been drawn.
+// Complications:
+//  - Next-move-markers can coincide with various stuff.
+//  - Flicker introduced by death marks when stepping forward.
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
@@ -63,11 +55,11 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.last_draw_was_pv = false;
 
 	// These 2 things are updated as the canvas or TDs are changed:
-	drawer.table_state = new_2d_array(25, 25, "");		// "", "b", "w", "ko" ... what the TD is displaying.
-	drawer.death_marks = new_2d_array(25, 25, false);	// true or false for whether a death mark is displayed here.
+	drawer.table_state = new_2d_array(25, 25, "");		// Contains "", "b", "w", "ko" ... what the TD is displaying.
+	drawer.death_marks = [];							// List of [x, y] items of death marks actually existing.
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
-	drawer.needed_marks = new_2d_array(25, 25, null);	// objects representing stuff.
+	drawer.needed_marks = new_2d_array(25, 25, null);	// Objects representing stuff.
 
 	return drawer;
 }
@@ -116,9 +108,10 @@ let board_drawer_prototype = {
 		for (let x = 0; x < 25; x++) {
 			for (let y = 0; y < 25; y++) {
 				this.table_state[x][y] = "";
-				this.death_marks[x][y] = false;
 			}
 		}
+
+		this.death_marks = [];													// Cleared whenever canvas is cleared.
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
 		this.backgrounddiv.style.height = (this.height * config.square_size).toString() + "px";
@@ -379,14 +372,15 @@ let board_drawer_prototype = {
 		let ctx = this.canvas.getContext("2d");
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+		this.death_marks = [];						// Cleared whenever canvas is cleared.
+
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-				this.death_marks[x][y] = false;					// But maybe will become true during the draw.
 				let o = this.needed_marks[x][y];
 				if (o) {
 					this.draw_planned_canvas_object(o, x, y);
 				}
-				this.needed_marks[x][y] = null;					// Clear this, it only stores marks that are still to be done.
+				this.needed_marks[x][y] = null;		// Deleting items as they are drawn.
 			}
 		}
 	},
@@ -423,7 +417,7 @@ let board_drawer_prototype = {
 
 			case "death":
 
-				this.death_marks[x][y] = true;
+				this.death_marks.push([x, y]);
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
@@ -480,8 +474,7 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 	// Planning methods that add stuff to this.needed_marks to be drawn later. Doing it this way
 	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
-	// can be at each spot in the needed_marks array. We could also use a map of point --> object,
-	// but I expect - without checking - that the array is faster...
+	// can be at each spot in the needed_marks array. We could also use a map of point --> object.
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
@@ -516,19 +509,9 @@ let board_drawer_prototype = {
 		// because the engine is running on the position. Therefore, we carry over whatever
 		// death marks we had already.
 
-		for (let x = 0; x < this.width; x++) {
-
-			for (let y = 0; y < this.height; y++) {
-
-				let state = board.state[x][y];
-
-				if (state !== "b" && state !== "w") {
-					continue;
-				}
-
-				if (this.death_marks[x][y]) {
-					this.needed_marks[x][y] = {type: "death"};
-				}
+		for (let [x, y] of this.death_marks) {
+			if (board.state[x][y] === "b" || board.state[x][y] === "w") {
+				this.needed_marks[x][y] = {type: "death"};
 			}
 		}
 	},
