@@ -245,21 +245,16 @@ let board_drawer_prototype = {
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 		if (!td) throw "set_td(): bad x/y";
 
-		switch (foo) {
-			case "":
-				td.style["background-image"] = "";
-				break;
-			case "b":
-				td.style["background-image"] = black_stone_url;
-				break;
-			case "w":
-				td.style["background-image"] = white_stone_url;
-				break;
-			case "ko":
-				td.style["background-image"] = ko_marker_url;
-				break;
-			default:
-				throw "set_td(): bad call";
+		if (foo === "") {
+			td.style["background-image"] = "";
+		} else if (foo === "b") {
+			td.style["background-image"] = black_stone_url;
+		} else if (foo === "w") {
+			td.style["background-image"] = white_stone_url;
+		} else if (foo === "ko") {
+			td.style["background-image"] = ko_marker_url;
+		} else {
+			throw "set_td(): bad call";
 		}
 
 		this.table_state[x][y] = foo;
