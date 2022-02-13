@@ -1,9 +1,10 @@
 "use strict";
 
 // Overview:
-//  - Background graphic (which includes grid lines) is the table background.
-//  - TD elements contain one of nothing, black stone, white stone, or ko marker.
-//  - Everything else is drawn to a canvas above that.
+//  - Single-purpose div:   wood texture
+//  - Table background:     grid lines
+//  - Table TD elements:    nothing / black stone / white stone / or ko marker
+//  - Canvas:               everything else
 //
 // To avoid conflicts when using the canvas:
 //  - We plan everything to be drawn, placing objects in the .needed_marks array.
