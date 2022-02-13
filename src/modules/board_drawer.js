@@ -137,8 +137,8 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
-	// Methods here that call for "fractions" want a number between 0 and 1 to set the size
-	// of something, relative to the square size.
+	// Low-level canvas methods. Methods that call for "fractions" want a number between 0 and 1 to
+	// set the size of something, relative to the square size...
 
 	fcircle: function(x, y, fraction, colour) {
 		let ctx = this.canvas.getContext("2d");
@@ -239,6 +239,7 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+	// Low-level table TD method...
 
 	set_td: function(x, y, foo) {
 
@@ -265,8 +266,6 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 
-		// Normal draw method for when no PV is being displayed.
-
 		this.draw_board(node.get_board());
 		
 		if (config.dead_stone_prediction) {
@@ -283,16 +282,14 @@ let board_drawer_prototype = {
 		this.plan_shapes(node);
 		this.plan_labels(node);
 		this.plan_analysis_circles(node);
-		this.plan_next_markers(node);		// Should be last, since it can adjust other planned objects.
+		this.plan_next_markers(node);					// Should be last, since it can adjust other planned objects.
 
 		this.draw_canvas();
 		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
 	},
 
-	draw_pv: function(node, point) {
-
-		// Returns true / false indicating whether this happened.
+	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
 		if (!point || !config.candidate_moves || !config.mouseover_pv) {
 			return false;
@@ -345,6 +342,7 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+	// Not to be called directly from the hub, these are mid-level helpers...
 
 	draw_board: function(board) {
 
@@ -480,6 +478,10 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+	// Planning methods that add stuff to this.needed_marks to be drawn later. Doing it this way
+	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
+	// can be at each spot in the needed_marks array. We could also use a map of point --> object,
+	// but I expect - without checking - that the array is faster...
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
