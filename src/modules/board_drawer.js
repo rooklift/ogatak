@@ -645,7 +645,7 @@ let board_drawer_prototype = {
 				this.needed_marks[x][y] = {
 					type: "label",
 					text: text,
-				}
+				};
 			}
 		}
 	},
@@ -671,7 +671,7 @@ let board_drawer_prototype = {
 						this.needed_marks[x][y] = {
 							type: "pv",
 							text: n.toString(),
-						}
+						};
 					}
 				}
 			}
