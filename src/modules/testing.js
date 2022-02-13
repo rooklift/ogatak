@@ -24,6 +24,8 @@ exports.load = function(n = 0) {
 };
 
 // ------------------------------------------------------------------------------------------------
+// testing.load()
+// testing.stress(41, 10, 100)
 
 exports.stress = function(moves, cycles, delay, with_engine = true) {
 	if (moves === undefined || cycles === undefined || delay === undefined) {
@@ -67,6 +69,7 @@ function stresser(i, n, cycles, delay, backwards, results, last_call_time) {
 		hub.halt();
 		console.log("Total calls...", results.length);
 		console.log("Worst 10...", results.sort((a, b) => b - a).slice(0, 10).map(n => Math.floor(n * 10) / 10));
+		console.log("Best 10....", results.sort((a, b) => a - b).slice(0, 10).map(n => Math.floor(n * 10) / 10));
 	}
 }
 
