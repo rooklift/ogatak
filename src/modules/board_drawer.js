@@ -3,7 +3,7 @@
 // Overview:
 //  - Single-purpose div:   wood texture
 //  - Table background:     grid lines
-//  - Table TD elements:    nothing / black stone / white stone / or ko marker
+//  - Table TD elements:    nothing / black stone / white stone / ko marker
 //  - Canvas:               everything else
 //
 // To avoid conflicts when using the canvas:
@@ -516,6 +516,8 @@ let board_drawer_prototype = {
 				this.needed_marks[x][y] = {type: "death"};
 			}
 		}
+
+		// Note that the hub has bad_death_mark_spinner() to clean up these marks if needed.
 	},
 
 	plan_previous_markers: function(node) {
