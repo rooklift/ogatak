@@ -954,7 +954,7 @@ let hub_props = {
 		// the new search was terminated instantly (or never started) and those stale death marks need to be removed.
 
 		if (Array.isArray(this.maindrawer.death_marks) && this.maindrawer.death_marks.length > 0) {
-			if (!this.node.has_valid_analysis()) {
+			if (!this.node.has_valid_analysis() || !node.analysis.ownership) {
 				if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== this.node.id) {
 					this.draw();
 				}
