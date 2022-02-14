@@ -30,15 +30,15 @@ let graph_drawer_prototype = {
 		this.canvas.width = config.graph_width;
 		this.canvas.height = hub.maindrawer.canvas.height + 128;
 
-		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
-
 		this.draw_x_offset = 16;
 		this.draw_y_offset = config.square_size / 4;
+
+		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, hub.maindrawer.canvas.height - (config.square_size / 2));
 
-		if (this.drawable_width < 64 || this.drawable_height < 64) {
+		if (this.drawable_width < 24 || this.drawable_height < 24) {
 			this.draw_position(node);		// Just so it sets its size.
 			return;
 		}
@@ -103,8 +103,14 @@ let graph_drawer_prototype = {
 		ctx.strokeStyle = config.midline_graph_colour;
 
 		ctx.beginPath();
-		ctx.moveTo(this.draw_x_offset + (this.drawable_width / 2), this.draw_y_offset);
-		ctx.lineTo(this.draw_x_offset + (this.drawable_width / 2), this.draw_y_offset + this.drawable_height);
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2),
+			this.draw_y_offset
+		);
+		ctx.lineTo(
+			this.draw_x_offset + (this.drawable_width / 2),
+			this.draw_y_offset + this.drawable_height
+		);
 		ctx.stroke();
 
 		// First the minor draw, i.e. the darker gray line...
@@ -142,7 +148,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		if (this.drawable_width < 64 || this.drawable_height < 64) {
+		if (this.drawable_width < 24 || this.drawable_height < 24) {
 			return;
 		}
 
@@ -180,9 +186,11 @@ let graph_drawer_prototype = {
 		ctx.textAlign = "right";
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
-		ctx.fillText(node.depth.toString(),
+		ctx.fillText(
+			node.depth.toString(),
 			this.draw_x_offset + this.drawable_width,
-			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset + 4);
+			this.draw_y_offset + (this.drawable_height * node.depth / node.graph_length_knower.val) + 4
+		);
 	},
 
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {
