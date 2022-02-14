@@ -56,14 +56,16 @@ body {
 #graphcanvas {
 	display: block;						/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 16px 0 0 0;
+	margin-top: 16px;
+	margin-left: auto;
 	z-index: 1;
 }
 
 #graphpositioncanvas {
 	display: block;						/* Stops the parent element from being 4px bigger... */
 	grid-area: c;
-	margin: 16px 0 0 0;
+	margin-top: 16px;
+	margin-left: auto;
 	z-index: 2;
 }
 
