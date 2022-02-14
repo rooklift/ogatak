@@ -130,6 +130,7 @@ module.exports = {
 
 		case "comment_height":
 
+			this.tree_drawer.must_draw = true;		// Because the tree drawer actually controls the height of the comments.
 			this.comment_drawer.draw(this.node);
 			break;
 
