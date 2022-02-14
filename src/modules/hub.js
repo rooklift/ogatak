@@ -68,7 +68,6 @@ exports.new_hub = function() {
 
 	hub.pending_up_down = 0;
 	hub.dropped_inputs = 0;
-	hub.last_resize = 0;
 
 	return hub;
 };
