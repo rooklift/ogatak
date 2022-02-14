@@ -10,8 +10,8 @@ function new_grapher(canvas, positioncanvas) {
 	drawer.ctx = canvas.getContext("2d");
 	drawer.posctx = positioncanvas.getContext("2d");
 
-	drawer.draw_x_offset = 0;									// These are all to
-	drawer.draw_y_offset = 0;									// be set later.
+	drawer.draw_x_offset = 0;									// These are all to be set later. Every coordinate is based
+	drawer.draw_y_offset = 0;									// on the drawable sizes, then shifted by the offsets.
 	drawer.drawable_width = 0;
 	drawer.drawable_height = 0;
 
@@ -27,16 +27,18 @@ let graph_drawer_prototype = {
 
 		this.line_end = node.get_end();		// Set this now, before any early returns.
 
-		this.canvas.width = Math.max(0, Math.min(config.graph_width, window.innerWidth - this.canvas.getBoundingClientRect().left));
+		this.canvas.width = config.graph_width;
 		this.canvas.height = hub.maindrawer.canvas.height + 128;
+
+		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
 		this.draw_x_offset = 16;
 		this.draw_y_offset = config.square_size / 4;
 
-		this.drawable_width = Math.max(0, this.canvas.width - (this.draw_x_offset * 2));
+		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, hub.maindrawer.canvas.height - (config.square_size / 2));
 
-		if (this.drawable_width <= 16 || this.drawable_height <= 0) {
+		if (this.drawable_width < 64 || this.drawable_height < 64) {
 			this.draw_position(node);		// Just so it sets its size.
 			return;
 		}
@@ -101,8 +103,8 @@ let graph_drawer_prototype = {
 		ctx.strokeStyle = config.midline_graph_colour;
 
 		ctx.beginPath();
-		ctx.moveTo(this.canvas.width / 2, this.draw_y_offset);
-		ctx.lineTo(this.canvas.width / 2, this.drawable_height + this.draw_y_offset);
+		ctx.moveTo(this.drawable_width / 2, this.draw_y_offset);
+		ctx.lineTo(this.drawable_width / 2, this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
 		// First the minor draw, i.e. the darker gray line...
@@ -140,7 +142,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		if (this.drawable_width <= 16 || this.drawable_height <= 0) {
+		if (this.drawable_width < 64 || this.drawable_height < 64) {
 			return;
 		}
 
@@ -153,16 +155,16 @@ let graph_drawer_prototype = {
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2 - config.major_graph_linewidth,
+		ctx.moveTo(this.drawable_width / 2 - config.major_graph_linewidth,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
 		ctx.lineTo(this.draw_x_offset,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
 		ctx.beginPath();
-		ctx.moveTo(this.positioncanvas.width / 2 + config.major_graph_linewidth,
+		ctx.moveTo(this.drawable_width / 2 + config.major_graph_linewidth,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
-		ctx.lineTo(this.canvas.width - this.draw_x_offset,
+		ctx.lineTo(this.drawable_width - this.draw_x_offset,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
 		ctx.stroke();
 
@@ -175,7 +177,7 @@ let graph_drawer_prototype = {
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
 		ctx.fillText(node.depth.toString(),
-			this.canvas.width - this.draw_x_offset,
+			this.drawable_width - this.draw_x_offset,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset + 4);
 	},
 
