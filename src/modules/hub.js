@@ -938,7 +938,7 @@ let hub_props = {
 			config.height = height;
 
 			this.tree_drawer.must_draw = true;
-			
+
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
@@ -947,7 +947,7 @@ let hub_props = {
 			}
 		}
 
-		setTimeout(this.window_resize_checker.bind(this), 250);
+		setTimeout(this.window_resize_checker.bind(this), 125);
 	},
 
 	bad_death_mark_spinner: function() {
