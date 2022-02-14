@@ -30,7 +30,7 @@ exports.new_hub = function() {
 	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
 
-	hub.maindrawer = new_board_drawer(
+	hub.board_drawer = new_board_drawer(
 		document.getElementById("boardbg"),
 		document.getElementById("boardtable"),
 		document.getElementById("boardcanvas"),
@@ -79,11 +79,11 @@ let hub_props = {
 	draw: function() {
 		let s = this.mouse_point();
 		if (s) {
-			if (this.maindrawer.draw_pv(this.node, s)) {				// true iff this actually happened.
+			if (this.board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
 		}
-		this.maindrawer.draw_standard(this.node);
+		this.board_drawer.draw_standard(this.node);
 	},
 
 	update_title: function() {
@@ -866,15 +866,15 @@ let hub_props = {
 
 		// This returns true if a PV was drawn for the point s...
 
-		if (this.maindrawer.draw_pv(this.node, s)) {
+		if (this.board_drawer.draw_pv(this.node, s)) {
 			return;
 		}
 
 		// We did not draw a PV, so if the last draw that actually happened was a PV, it
 		// was for some other point, and we need to do a standard draw to hide it...
 
-		if (this.maindrawer.last_draw_was_pv) {
-			this.maindrawer.draw_standard(this.node);
+		if (this.board_drawer.last_draw_was_pv) {
+			this.board_drawer.draw_standard(this.node);
 		}
 	},
 
@@ -952,7 +952,7 @@ let hub_props = {
 		// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
 		// (this is needed because nothing else is going to cause a draw to happen).
 
-		if (Array.isArray(this.maindrawer.death_marks) && this.maindrawer.death_marks.length > 0) {
+		if (Array.isArray(this.board_drawer.death_marks) && this.board_drawer.death_marks.length > 0) {
 			if (!this.node.has_valid_analysis() || !this.node.analysis.ownership) {
 				if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== this.node.id) {
 					this.draw();

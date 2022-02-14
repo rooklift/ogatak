@@ -70,13 +70,13 @@ module.exports = {
 		case "board_line_width":
 		case "square_size":
 
-			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
+			this.board_drawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
 			break;
 
 		case "info_font_size":
 
-			this.maindrawer.fix_infodiv();
+			this.board_drawer.fix_infodiv();
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
