@@ -8,11 +8,9 @@ function new_tree_drawer(canvas) {
 	drawer.ctx = canvas.getContext("2d");
 
 	drawer.clickers = [];
-	drawer.central_node = null;
-	drawer.must_draw = false;								// Not actually used by the drawer itself. Used by hub as one reason to call us.
+	drawer.must_draw = false;
 	
 	drawer.last_draw_cost = 0;								// Various things for debugging.
-	drawer.call_count = 0;
 	drawer.draw_count = 0;
 
 	return drawer;
@@ -23,15 +21,23 @@ let tree_drawer_prototype = {
 	draw_tree: function(central_node) {
 
 		let start_time = performance.now();
-		this.call_count++;
+
+		let correct_width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		let correct_height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
+
+		if (!this.must_draw && this.canvas.width === correct_width && this.canvas.height === correct_height) {
+			return;
+		}
+
+		// Reset state...
+
 		this.must_draw = false;
 		this.clickers = [];
-		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
 
 		// Always blank the canvas...
 
-		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
+		this.canvas.width = correct_width;
+		this.canvas.height = correct_height;
 
 		// Various reasons why we might leave everything blank...
 

@@ -895,14 +895,12 @@ let hub_props = {
 	},
 
 	graph_draw_spinner: function() {
-		this.grapher.draw_graph(this.node);
+		this.grapher.draw_graph(this.node);			// Always does a full draw, seems fast enough.
 		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 	},
 
 	tree_draw_spinner: function() {
-		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
-			this.tree_drawer.draw_tree(this.node);
-		}
+		this.tree_drawer.draw_tree(this.node);		// Can skip the draw if not needed.
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
 	},
 
@@ -936,8 +934,6 @@ let hub_props = {
 
 			config.width = width;
 			config.height = height;
-
-			this.tree_drawer.must_draw = true;
 
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();

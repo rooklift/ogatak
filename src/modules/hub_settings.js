@@ -68,16 +68,10 @@ module.exports = {
 			break;
 
 		case "board_line_width":
-
-			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
-			this.draw();
-			break;
-
 		case "square_size":
 
 			this.maindrawer.rebuild(this.node.get_board().width, this.node.get_board().height);
 			this.draw();
-			this.tree_drawer.must_draw = true;
 			break;
 
 		case "info_font_size":
@@ -89,7 +83,6 @@ module.exports = {
 					this.set("square_size", new_size);
 				}
 			}
-			this.tree_drawer.must_draw = true;
 			break;
 
 		case "board_font_size":
@@ -138,7 +131,6 @@ module.exports = {
 		case "comment_height":
 
 			this.comment_drawer.draw(this.node);
-			this.tree_drawer.must_draw = true;
 			break;
 
 		case "widerootnoise":
