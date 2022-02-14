@@ -38,7 +38,7 @@ let graph_drawer_prototype = {
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, hub.maindrawer.canvas.height - (config.square_size / 2));
 
-		if (this.drawable_width < 24 || this.drawable_height < 24) {
+		if (this.too_small_to_draw()) {
 			this.draw_position(node);		// Just so it sets its size.
 			return;
 		}
@@ -148,7 +148,7 @@ let graph_drawer_prototype = {
 		this.positioncanvas.width = this.canvas.width;
 		this.positioncanvas.height = this.canvas.height;
 
-		if (this.drawable_width < 24 || this.drawable_height < 24) {
+		if (this.too_small_to_draw()) {
 			return;
 		}
 
@@ -192,6 +192,10 @@ let graph_drawer_prototype = {
 			this.draw_y_offset + (this.drawable_height * node.depth / node.graph_length_knower.val) + 4
 		);
 	},
+
+	too_small_to_draw: function() {
+		return this.drawable_width < 24 || this.drawable_height < 24;
+	}
 
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {
 
@@ -282,7 +286,7 @@ let graph_drawer_prototype = {
 
 	node_from_click: function(node, event) {
 
-		if (!event || !this.drawable_height) {
+		if (!event || this.too_small_to_draw()) {
 			return null;
 		}
 
