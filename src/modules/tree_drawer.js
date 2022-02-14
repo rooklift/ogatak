@@ -142,11 +142,11 @@ let tree_drawer_prototype = {
 							ctx.stroke();
 							ctx.beginPath();
 							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);					
-							ctx.lineTo(node.gx, node.gy - config.tree_spacing / 2);					// Vertical tiny line upwards from node.
+							ctx.lineTo(node.gx, node.gy - config.tree_spacing / 2 - 1);				// Vertical tiny line upwards from node.
 							ctx.stroke();
 							ctx.beginPath();
 							ctx.moveTo(node.parent.gx, node.parent.gy + config.tree_spacing / 4);
-							ctx.lineTo(node.parent.gx, node.gy - config.tree_spacing / 2);			// Vertical tiny line downwards from parent.
+							ctx.lineTo(node.parent.gx, node.gy - config.tree_spacing / 2 + 1);		// Vertical tiny line downwards from parent.
 							ctx.stroke();
 						} else {
 							ctx.beginPath();
