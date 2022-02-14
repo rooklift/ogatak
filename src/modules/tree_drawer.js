@@ -151,7 +151,7 @@ let tree_drawer_prototype = {
 						} else {
 							ctx.beginPath();
 							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 2);
-							ctx.lineTo(gsib.gx, gsib.gy - config.tree_spacing / 2);					// Horizontal line from above node to above sibling.
+							ctx.lineTo(gsib.gx + 1, gsib.gy - config.tree_spacing / 2);				// Horizontal line from above node to above sibling.
 							ctx.stroke();
 							ctx.beginPath();
 							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);
