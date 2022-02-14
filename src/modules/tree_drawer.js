@@ -33,17 +33,13 @@ let tree_drawer_prototype = {
 			return;
 		}
 
-		// Reset state...
+		// We're going to do some sort of draw, maybe just clearing the canvas...
 
 		this.must_draw = false;
 		this.clickers = [];
 
-		// Always blank the canvas...
-
 		this.canvas.width = correct_width;
 		this.canvas.height = correct_height;
-
-		// Various reasons why we might leave everything blank...
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
@@ -52,7 +48,7 @@ let tree_drawer_prototype = {
 			return;
 		}
 
-		// We're committed to a full draw...
+		// Full draw...
 
 		this.draw_count++;
 
