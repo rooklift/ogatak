@@ -11,25 +11,29 @@
 
 	<div id="gridder">
 
-		<div id="tabdiv"></div>
-
-		<div id="boardbg"></div>							<!-- wood texture only -->
-		<table id="boardtable"></table>						<!-- lines (as BG image) and stones (in td elements) -->
-		<canvas id="boardcanvas"></canvas>					<!-- analysis etc -->
-
 		<div id="preloaders">
 			<img src="./gfx/black_stone.png">				<!-- I noticed that these images flickered the first -->
 			<img src="./gfx/white_stone.png">				<!-- time they appear so trying this as a solution.  -->
 			<img src="./gfx/ko.png">
 		</div>
 
+		<!--------------------------------------------------------------------------------------------------------->
+
+		<div id="tabdiv"></div>
+		
 		<div id="boardinfo"></div>
+
+		<div id="boardbg"></div>							<!-- wood texture only -->
+		<table id="boardtable"></table>						<!-- lines (as BG image) and stones (in td elements) -->
+		<canvas id="boardcanvas"></canvas>					<!-- analysis etc -->
 
 		<canvas id="graphcanvas"></canvas>
 		<canvas id="graphpositioncanvas"></canvas>
 
-		<canvas id="treecanvas"></canvas>
-		<div id="comments"></div>
+		<div id="right_gridder">
+			<canvas id="treecanvas"></canvas>
+			<div id="comments"></div>
+		</div>
 
 	</div>
 

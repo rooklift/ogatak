@@ -1,18 +1,17 @@
 "use strict";
 
-function new_tree_drawer(canvas, grapher) {					// grapher object provided so we can check its size; not used otherwise.
+function new_tree_drawer(canvas) {
 
 	let drawer = Object.create(tree_drawer_prototype);
 
 	drawer.canvas = canvas;
-	drawer.grapher = grapher;
+	drawer.ctx = canvas.getContext("2d");
+
 	drawer.clickers = [];
-
-	drawer.central_node = null;
-	drawer.must_draw = false;								// Not actually used by the drawer itself. Used by hub as one reason to call us.
-
+	drawer.must_draw = false;
+	
 	drawer.last_draw_cost = 0;								// Various things for debugging.
-	drawer.call_count = 0;
+	drawer.call_count = 0;									// Although this is actually used by real logic now.
 	drawer.draw_count = 0;
 
 	return drawer;
@@ -23,26 +22,24 @@ let tree_drawer_prototype = {
 	draw_tree: function(central_node) {
 
 		let start_time = performance.now();
+
 		this.call_count++;
 
-		this.clickers = [];
-		this.central_node = central_node;					// Don't make this null, ever, it will provoke the spinner.
+		let correct_width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
+		let correct_height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
+		let size_is_ok = this.canvas.width === correct_width && this.canvas.height === correct_height;
 
-		// The graph (to the left of the tree) may be the wrong size if the window is being resized.
-		// Don't modify the canvas at all until that situation resolves itself...
-
-		if (this.grapher.has_correct_size() === false) {
-			this.must_draw = true;							// Ensure we actually draw once the graph has resized correctly.
+		if (!this.must_draw && (size_is_ok || this.call_count % 10 !== 0)) {
 			return;
 		}
 
-		// We're committed to a draw of some sort, which might just be blanking the canvas...
+		// We're going to do some sort of draw, maybe just clearing the canvas...
 
 		this.must_draw = false;
-		this.canvas.width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		this.canvas.height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
+		this.clickers = [];
 
-		// Various reasons why we might leave everything blank...
+		this.canvas.width = correct_width;
+		this.canvas.height = correct_height;
 
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
@@ -51,7 +48,7 @@ let tree_drawer_prototype = {
 			return;
 		}
 
-		// We're committed to a full draw...
+		// Full draw...
 
 		this.draw_count++;
 
@@ -76,7 +73,7 @@ let tree_drawer_prototype = {
 			provisional_central_node_gy + final_adjust_y
 		);
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.fillStyle = config.central_node_colour;
 		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
@@ -86,7 +83,7 @@ let tree_drawer_prototype = {
 
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 
 		let node = local_root;
 

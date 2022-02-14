@@ -39,13 +39,11 @@ exports.new_hub = function() {
 
 	hub.grapher = new_grapher(
 		document.getElementById("graphcanvas"),
-		document.getElementById("graphpositioncanvas"),
-		hub.maindrawer
+		document.getElementById("graphpositioncanvas")
 	);
 
 	hub.tree_drawer = new_tree_drawer(
-		document.getElementById("treecanvas"),
-		hub.grapher
+		document.getElementById("treecanvas")
 	);
 
 	hub.comment_drawer = new_comment_drawer(
@@ -897,14 +895,12 @@ let hub_props = {
 	},
 
 	graph_draw_spinner: function() {
-		this.grapher.draw_graph(this.node);
+		this.grapher.draw_graph(this.node);			// Always does a full draw, seems fast enough.
 		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 	},
 
 	tree_draw_spinner: function() {
-		if (this.tree_drawer.central_node !== this.node || this.tree_drawer.must_draw) {
-			this.tree_drawer.draw_tree(this.node);
-		}
+		this.tree_drawer.draw_tree(this.node);		// Can skip the draw if not needed.
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
 	},
 
@@ -931,13 +927,14 @@ let hub_props = {
 
 	window_resize_checker: function() {
 
-		let desired_config_width = Math.floor(window.innerWidth * zoomfactor);
-		let desired_config_height = Math.floor(window.innerHeight * zoomfactor);
+		let width = Math.floor(window.innerWidth * zoomfactor);
+		let height = Math.floor(window.innerHeight * zoomfactor);
 
-		if (config.width !== desired_config_width || config.height !== desired_config_height) {
-			config.width = desired_config_width;
-			config.height = desired_config_height;
-			this.tree_drawer.must_draw = true;
+		if (config.width !== width || config.height !== height) {
+
+			config.width = width;
+			config.height = height;
+
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
@@ -945,7 +942,8 @@ let hub_props = {
 				}
 			}
 		}
-		setTimeout(this.window_resize_checker.bind(this), 250);
+
+		setTimeout(this.window_resize_checker.bind(this), 125);
 	},
 
 	bad_death_mark_spinner: function() {
