@@ -6,6 +6,9 @@ function new_grapher(canvas, positioncanvas) {
 
 	drawer.canvas = canvas;
 	drawer.positioncanvas = positioncanvas;
+	
+	drawer.ctx = canvas.getContext("2d");
+	drawer.posctx = positioncanvas.getContext("2d");
 
 	drawer.draw_x_offset = 0;									// These are all to
 	drawer.draw_y_offset = 0;									// be set later.
@@ -38,7 +41,7 @@ let graph_drawer_prototype = {
 			return;
 		}
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 
 		let history = this.line_end.history();
 
@@ -141,7 +144,7 @@ let graph_drawer_prototype = {
 			return;
 		}
 
-		let ctx = this.positioncanvas.getContext("2d");
+		let ctx = this.posctx;
 
 		// Position marker...
 
@@ -178,7 +181,7 @@ let graph_drawer_prototype = {
 
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
 
 		let started = false;
@@ -215,7 +218,7 @@ let graph_drawer_prototype = {
 
 	__draw_interpolations: function(vals, max_val, graph_length, linewidth) {
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
 		ctx.setLineDash([linewidth, linewidth * 2]);
 

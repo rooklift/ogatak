@@ -50,6 +50,8 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.canvas = canvas;
 	drawer.infodiv = infodiv;
 
+	drawer.ctx = canvas.getContext("2d");
+
 	drawer.width = null;
 	drawer.height = null;
 
@@ -135,7 +137,7 @@ let board_drawer_prototype = {
 	// set the size of something, relative to the square size...
 
 	fcircle: function(x, y, fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
@@ -145,7 +147,7 @@ let board_drawer_prototype = {
 	},
 
 	circle: function(x, y, line_fraction, fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
@@ -156,7 +158,7 @@ let board_drawer_prototype = {
 	},
 
 	fsquare: function(x, y, fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
@@ -164,7 +166,7 @@ let board_drawer_prototype = {
 	},
 
 	square: function(x, y, line_fraction, fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
@@ -179,7 +181,7 @@ let board_drawer_prototype = {
 	},
 
 	cross: function(x, y, line_fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
@@ -195,7 +197,7 @@ let board_drawer_prototype = {
 	},
 
 	triangle: function(x, y, line_fraction, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
@@ -209,7 +211,7 @@ let board_drawer_prototype = {
 	},
 
 	text: function(x, y, msg, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
@@ -220,7 +222,7 @@ let board_drawer_prototype = {
 	},
 
 	text_two: function(x, y, msg, msg2, colour) {
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
@@ -371,7 +373,7 @@ let board_drawer_prototype = {
 		// Based solely on whatever objects are in this.needed_marks...
 		// All planning functions have to be called before this.
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		this.death_marks = [];						// Cleared whenever canvas is cleared.

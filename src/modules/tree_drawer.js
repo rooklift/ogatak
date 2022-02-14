@@ -5,11 +5,12 @@ function new_tree_drawer(canvas) {
 	let drawer = Object.create(tree_drawer_prototype);
 
 	drawer.canvas = canvas;
-	drawer.clickers = [];
+	drawer.ctx = canvas.getContext("2d");
 
+	drawer.clickers = [];
 	drawer.central_node = null;
 	drawer.must_draw = false;								// Not actually used by the drawer itself. Used by hub as one reason to call us.
-
+	
 	drawer.last_draw_cost = 0;								// Various things for debugging.
 	drawer.call_count = 0;
 	drawer.draw_count = 0;
@@ -66,7 +67,7 @@ let tree_drawer_prototype = {
 			provisional_central_node_gy + final_adjust_y
 		);
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 		ctx.fillStyle = config.central_node_colour;
 		ctx.fillRect(central_node.gx - config.tree_spacing / 3, central_node.gy - config.tree_spacing / 3, config.tree_spacing * 2 / 3, config.tree_spacing * 2 / 3);
 
@@ -76,7 +77,7 @@ let tree_drawer_prototype = {
 
 	__draw: function(local_root, central_node, central_node_gx, central_node_gy) {
 
-		let ctx = this.canvas.getContext("2d");
+		let ctx = this.ctx;
 
 		let node = local_root;
 
