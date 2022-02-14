@@ -23,11 +23,21 @@ body {
 	display: none;		/* set to grid by renderer.js, just done like this to hide it until script is active. */
 	height: 100vh;
 	grid-template-columns: min-content min-content min-content 1fr;
-	grid-template-rows: min-content min-content 1fr;
+	grid-template-rows: min-content 1fr;
 	grid-template-areas:
 		"d a a e"
-		"d b c e"
-		"d b c f";
+		"d b c e";
+}
+
+#right_gridder {
+	display: grid;
+	grid-area: e;
+	height: 100vh;
+	grid-template-columns: 1fr;
+	grid-template-rows: min-content 1fr;
+	grid-template-areas:
+		"f"
+		"g";
 }
 
 #tabdiv {
@@ -40,17 +50,6 @@ body {
 	overflow-x: hidden;
 	overflow-y: scroll;
 	pointer-events: auto;
-}
-
-#comments {
-	background-color: #181818ff;
-	grid-area: f;
-	font-family: monospace, monospace;
-	margin: 0;
-	overflow-x: hidden;
-	overflow-y: auto;
-	padding: 0.5em 0.5em 0.5em 0.5em;
-	white-space: pre-wrap;
 }
 
 #graphcanvas {
@@ -72,8 +71,19 @@ body {
 #treecanvas {
 	background-color: #111111ff;
 	display: block;
-	grid-area: e;
+	grid-area: f;
 	margin: 0 0 0 0;
+}
+
+#comments {
+	background-color: #181818ff;
+	grid-area: g;
+	font-family: monospace, monospace;
+	margin: 0;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	white-space: pre-wrap;
 }
 
 #boardbg {
