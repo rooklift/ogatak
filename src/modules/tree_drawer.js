@@ -89,7 +89,7 @@ let tree_drawer_prototype = {
 
 		while (true) {
 
-			if (!node.parent || (node.parent.draw_as_blessed_line && node.parent.get_blessed_child() === node))
+			if (!node.parent || (node.parent.draw_as_blessed_line && node.parent.get_blessed_child() === node)) {
 				node.draw_as_blessed_line = true;
 			} else {
 				node.draw_as_blessed_line = false;
