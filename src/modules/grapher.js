@@ -103,8 +103,8 @@ let graph_drawer_prototype = {
 		ctx.strokeStyle = config.midline_graph_colour;
 
 		ctx.beginPath();
-		ctx.moveTo(this.drawable_width / 2, this.draw_y_offset);
-		ctx.lineTo(this.drawable_width / 2, this.drawable_height + this.draw_y_offset);
+		ctx.moveTo(this.draw_x_offset + (this.drawable_width / 2), this.draw_y_offset);
+		ctx.lineTo(this.draw_x_offset + (this.drawable_width / 2), this.draw_y_offset + this.drawable_height);
 		ctx.stroke();
 
 		// First the minor draw, i.e. the darker gray line...
@@ -155,17 +155,21 @@ let graph_drawer_prototype = {
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
-		ctx.moveTo(this.drawable_width / 2 - config.major_graph_linewidth,
-			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
-		ctx.lineTo(this.draw_x_offset,
-			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2) - config.major_graph_linewidth,
+			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+		ctx.lineTo(
+			this.draw_x_offset,
+			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
 		ctx.stroke();
 
 		ctx.beginPath();
-		ctx.moveTo(this.drawable_width / 2 + config.major_graph_linewidth,
-			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
-		ctx.lineTo(this.drawable_width - this.draw_x_offset,
-			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset);
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2) + config.major_graph_linewidth,
+			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+		ctx.lineTo(
+			this.draw_x_offset + this.drawable_width,
+			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
 		ctx.stroke();
 
 		ctx.setLineDash([]);
@@ -177,7 +181,7 @@ let graph_drawer_prototype = {
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
 		ctx.fillText(node.depth.toString(),
-			this.drawable_width - this.draw_x_offset,
+			this.draw_x_offset + this.drawable_width,
 			node.depth / node.graph_length_knower.val * this.drawable_height + this.draw_y_offset + 4);
 	},
 
@@ -201,8 +205,8 @@ let graph_drawer_prototype = {
 			let val = vals[n];
 			let fraction = (val + max_val) / (max_val * 2);
 
-			let gx = (this.drawable_width * fraction) + this.draw_x_offset;
-			let gy = (this.drawable_height * n / graph_length) + this.draw_y_offset;
+			let gx = this.draw_x_offset + (this.drawable_width * fraction);
+			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 			if (!started) {
 				if (typeof vals[n + 1] === "number") {
@@ -239,8 +243,8 @@ let graph_drawer_prototype = {
 
 					let val = vals[n - 1];
 					let fraction = (val + max_val) / (max_val * 2);
-					let gx = (this.drawable_width * fraction) + this.draw_x_offset;
-					let gy = (this.drawable_height * (n - 1) / graph_length) + this.draw_y_offset;
+					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gy = this.draw_y_offset + (this.drawable_height * (n - 1) / graph_length);
 
 					ctx.beginPath();
 					ctx.moveTo(gx, gy);
@@ -255,8 +259,8 @@ let graph_drawer_prototype = {
 
 					let val = vals[n];
 					let fraction = (val + max_val) / (max_val * 2);
-					let gx = (this.drawable_width * fraction) + this.draw_x_offset;
-					let gy = (this.drawable_height * n / graph_length) + this.draw_y_offset;
+					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 					ctx.lineTo(gx, gy);
 					ctx.stroke();
