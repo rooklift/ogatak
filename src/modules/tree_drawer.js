@@ -132,17 +132,36 @@ let tree_drawer_prototype = {
 				ctx.stroke();
 
 				if (node.parent) {
-					ctx.strokeStyle = node.draw_as_blessed_line && !gsib ? config.tree_main_colour : config.tree_off_colour;
+					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
 					ctx.lineWidth = 2;
 					if (gsib) {
-						ctx.beginPath();
-						ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy);
-						ctx.lineTo(gsib.gx + (config.tree_spacing / 4), gsib.gy);
-						ctx.stroke();
+						if (node.draw_as_blessed_line) {
+							ctx.beginPath();
+							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 2);
+							ctx.lineTo(node.parent.gx, node.gy - config.tree_spacing / 2);			// Horizontal line from above node to main line.
+							ctx.stroke();
+							ctx.beginPath();
+							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);					
+							ctx.lineTo(node.gx, node.gy - config.tree_spacing / 2);					// Vertical tiny line upwards from node.
+							ctx.stroke();
+							ctx.beginPath();
+							ctx.moveTo(node.parent.gx, node.parent.gy + config.tree_spacing / 4);
+							ctx.lineTo(node.parent.gx, node.gy - config.tree_spacing / 2);			// Vertical tiny line downwards from parent.
+							ctx.stroke();
+						} else {
+							ctx.beginPath();
+							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 2);
+							ctx.lineTo(gsib.gx, gsib.gy - config.tree_spacing / 2);					// Horizontal line from above node to above sibling.
+							ctx.stroke();
+							ctx.beginPath();
+							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);
+							ctx.lineTo(node.gx, node.gy - config.tree_spacing / 2);					// Vertical tiny line upwards from node.
+							ctx.stroke();
+						}
 					} else {
 						ctx.beginPath();
 						ctx.moveTo(node.gx, node.gy - (config.tree_spacing / 4));
-						ctx.lineTo(node.parent.gx, node.parent.gy + (config.tree_spacing / 4));
+						ctx.lineTo(node.parent.gx, node.parent.gy + (config.tree_spacing / 4));		// Full vertical line from node to parent.
 						ctx.stroke();
 					}
 				}
