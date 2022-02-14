@@ -195,7 +195,7 @@ let graph_drawer_prototype = {
 
 	too_small_to_draw: function() {
 		return this.drawable_width < 24 || this.drawable_height < 24;
-	}
+	},
 
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {
 
