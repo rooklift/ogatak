@@ -19,31 +19,43 @@ body {
 	background-color: #444444ff;
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #gridder {
-	display: none;		/* set to grid by renderer.js, just done like this to hide it until script is active. */
+	display: none;				/* set to grid by renderer.js, just done like this to hide it until script is active. */
 	height: 100vh;
-	grid-template-columns: min-content min-content min-content 1fr;
+	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"d a a e"
-		"d b c e";
+		"tabs info t_c"
+		"tabs b_g  t_c";
 }
 
-#right_gridder {
+#gridder_board_graph {
+	display: grid;
+	grid-area: b_g;
+	grid-template-columns: min-content 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas:
+		"board graph";
+}
+
+#gridder_tree_comments {					
 	background-color: #111111ff;
 	display: grid;
-	grid-area: e;
+	grid-area: t_c;
 	height: 100vh;
 	grid-template-columns: 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"f"
-		"g";
+		"tree"
+		"comments";
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #tabdiv {
-	/* background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2Pg4OD4DwABTAEYzq6tsQAAAABJRU5ErkJggg=="); */
-	grid-area: d;
+	grid-area: tabs;
 	font-family: monospace, monospace;
 	height: 100vh;
 	margin: 0;
@@ -53,32 +65,72 @@ body {
 	pointer-events: auto;
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
+#boardinfo {
+	grid-area: info;
+	color: #e0b872ff;
+	font-family: monospace, monospace;
+	line-height: 150%;
+	white-space: pre;
+	margin: 16px 0 0 16px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
+#boardbg {
+	grid-area: board;
+	background-color: #d2b074ff;		/* Matching the board. */
+	background-image: url("./gfx/subdued_board.png");
+	margin: 16px 0 0 16px;
+	z-index: 1;
+}
+
+#boardtable {
+	grid-area: board;
+	border-collapse: collapse;
+	margin: 16px 0 0 16px;
+	pointer-events: auto;
+	z-index: 2;
+}
+
+#boardcanvas {
+	grid-area: board;
+	margin: 16px 0 0 16px;
+	pointer-events: none;
+	z-index: 3;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #graphcanvas {
+	grid-area: graph;
 	display: block;						/* Stops the parent element from being 4px bigger... */
-	grid-area: c;
+	margin-left: 0;
 	margin-top: 16px;
-	margin-left: auto;
 	z-index: 1;
 }
 
 #graphpositioncanvas {
+	grid-area: graph;
 	display: block;						/* Stops the parent element from being 4px bigger... */
-	grid-area: c;
+	margin-left: 0;
 	margin-top: 16px;
-	margin-left: auto;
 	z-index: 2;
 }
 
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #treecanvas {
+	grid-area: tree;
 	background-color: #111111ff;
 	display: block;
-	grid-area: f;
 	margin: 0 0 0 0;
 }
 
 #comments {
+	grid-area: comments;
 	background-color: #181818ff;
-	grid-area: g;
 	font-family: monospace, monospace;
 	margin: 0;
 	overflow-x: hidden;
@@ -87,41 +139,7 @@ body {
 	white-space: pre-wrap;
 }
 
-#boardbg {
-	background-color: #d2b074ff;		/* Helps when the image is only partly drawn (on startup) */
-	background-image: url("./gfx/subdued_board.png");
-	grid-area: b;
-	margin: 16px 0 0 16px;
-	z-index: 1;
-}
-
-#boardtable {
-	grid-area: b;
-	border-collapse: collapse;
-	margin: 16px 0 0 16px;
-	pointer-events: auto;
-	z-index: 2;
-}
-
-#boardcanvas {
-	grid-area: b;
-	margin: 16px 0 0 16px;
-	pointer-events: none;
-	z-index: 3;
-}
-
-#boardinfo {
-	grid-area: a;
-	color: #e0b872ff;
-	font-family: monospace, monospace;
-	line-height: 150%;
-	white-space: pre;
-	margin: 16px 0 0 16px;
-}
-
-.info_highlight {
-	color: #ffffffff;
-}
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
 #preloaders {
 	display: none;
@@ -135,4 +153,8 @@ td {
 	border: 0;
 	margin: 0;
 	padding: 0;
+}
+
+.info_highlight {
+	color: #ffffffff;
 }
