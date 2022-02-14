@@ -30,6 +30,7 @@ body {
 }
 
 #right_gridder {
+	background-color: #111111ff;
 	display: grid;
 	grid-area: e;
 	height: 100vh;
