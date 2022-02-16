@@ -9,34 +9,29 @@
 </head>
 <body>
 
+
+	<div id="preloaders">
+		<img src="./gfx/black_stone.png">				<!-- I noticed that these images flickered the first -->
+		<img src="./gfx/white_stone.png">				<!-- time they appear so trying this as a solution.  -->
+	</div>
+
+
 	<div id="gridder">
-
-		<div id="preloaders">
-			<img src="./gfx/black_stone.png">				<!-- I noticed that these images flickered the first -->
-			<img src="./gfx/white_stone.png">				<!-- time they appear so trying this as a solution.  -->
-		</div>
-
-		<!--------------------------------------------------------------------------------------------------------->
-
 		<div id="tabdiv"></div>
-		
 		<div id="boardinfo"></div>
-
 		<div id="gridder_board_graph">
-			<div id="boardbg"></div>							<!-- wood texture only -->
-			<table id="boardtable"></table>						<!-- lines (as BG image) and stones (in td elements) -->
-			<canvas id="boardcanvas"></canvas>					<!-- analysis etc -->
-
+			<div id="boardbg"></div>					<!-- wood texture only -->
+			<table id="boardtable"></table>				<!-- lines (as BG image) and stones (in td elements) -->
+			<canvas id="boardcanvas"></canvas>			<!-- analysis etc -->
 			<canvas id="graphcanvas"></canvas>
 			<canvas id="graphpositioncanvas"></canvas>
 		</div>
-
 		<div id="gridder_tree_comments">
 			<canvas id="treecanvas"></canvas>
 			<div id="comments"></div>
 		</div>
-
 	</div>
+
 
 </body>
 </html>

@@ -143,8 +143,6 @@ body {
 
 #preloaders {
 	display: none;
-	grid-area: b;
-	z-index: 4;
 }
 
 td {
