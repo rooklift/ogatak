@@ -34,7 +34,6 @@ for (let x = 0; x < 25; x++) {				// Create the event handlers for all usable va
 
 const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
 const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
-const   ko_marker = new Image();	  ko_marker.src =          "./gfx/ko.png";		const   ko_marker_url = `url("${ko_marker.src}")`;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -60,7 +59,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	drawer.last_draw_was_pv = false;
 
 	// These 2 things are updated as the canvas or TDs are changed:
-	drawer.table_state = new_2d_array(25, 25, "");		// Contains "", "b", "w", "ko" ... what the TD is displaying.
+	drawer.table_state = new_2d_array(25, 25, "");		// Contains "", "b", "w" ... what the TD is displaying.
 	drawer.death_marks = [];							// List of [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
@@ -256,8 +255,6 @@ let board_drawer_prototype = {
 			td.style["background-image"] = black_stone_url;
 		} else if (foo === "w") {
 			td.style["background-image"] = white_stone_url;
-		} else if (foo === "ko") {
-			td.style["background-image"] = ko_marker_url;
 		} else {
 			throw "set_td(): bad call";
 		}
@@ -283,6 +280,7 @@ let board_drawer_prototype = {
 			}
 		}
 
+		this.plan_ko_marker(node);
 		this.plan_previous_markers(node);
 		this.plan_shapes(node);
 		this.plan_labels(node);
@@ -359,17 +357,11 @@ let board_drawer_prototype = {
 			this.rebuild(board.width, board.height);
 		}
 
-		let board_ko_x = board.ko ? board.ko.charCodeAt(0) - 97 : -1;
-		let board_ko_y = board.ko ? board.ko.charCodeAt(1) - 97 : -1;
-
 		for (let x = 0; x < this.width; x++) {
+
 			for (let y = 0; y < this.height; y++) {
 
 				let desired = board.state[x][y];
-
-				if (x === board_ko_x && y === board_ko_y) {
-					desired = "ko";
-				}
 
 				if (this.table_state[x][y] !== desired) {
 					this.set_td(x, y, desired);
@@ -429,6 +421,11 @@ let board_drawer_prototype = {
 
 				break;
 
+			case "ko":
+
+				this.fcircle(x, y, 0.4, "#00000080");
+				break;
+
 			case "death":
 
 				this.death_marks.push([x, y]);
@@ -437,7 +434,7 @@ let board_drawer_prototype = {
 
 			case "previous":
 
-				this.fcircle(x, y, 2/5, config.previous_marker);
+				this.fcircle(x, y, 0.4, config.previous_marker);
 				break;
 
 			case "pv":
@@ -530,6 +527,45 @@ let board_drawer_prototype = {
 		}
 
 		// Note that the hub has bad_death_mark_spinner() to clean up these marks if needed.
+	},
+
+	plan_pv_labels(points) {			// Where points is an array of the moves played in the PV, in order.
+
+		for (let n = 0; n < points.length; n++) {
+
+			let s = points[n];
+
+			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
+
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+
+				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+
+					let o = this.needed_marks[x][y];
+
+					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
+						// o.text = "+";				// Bit of an aesthetic choice.
+					} else {
+						this.needed_marks[x][y] = {
+							type: "pv",
+							text: (n + 1).toString(),
+						};
+					}
+				}
+			}
+		}
+	},
+
+	plan_ko_marker: function(node) {
+
+		let board = node.get_board();
+
+		if (board.ko) {
+			let x = board.ko.charCodeAt(0) - 97;
+			let y = board.ko.charCodeAt(1) - 97;
+			this.needed_marks[x][y] = {type: "ko"};
+		}
 	},
 
 	plan_previous_markers: function(node) {
@@ -642,34 +678,6 @@ let board_drawer_prototype = {
 					type: "label",
 					text: text,
 				};
-			}
-		}
-	},
-
-	plan_pv_labels(points) {			// Where points is an array of the moves played in the PV, in order.
-
-		for (let n = 0; n < points.length; n++) {
-
-			let s = points[n];
-
-			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
-
-				let x = s.charCodeAt(0) - 97;
-				let y = s.charCodeAt(1) - 97;
-
-				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
-
-					let o = this.needed_marks[x][y];
-
-					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
-						// o.text = "+";				// Bit of an aesthetic choice.
-					} else {
-						this.needed_marks[x][y] = {
-							type: "pv",
-							text: (n + 1).toString(),
-						};
-					}
-				}
 			}
 		}
 	},
