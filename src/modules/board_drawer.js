@@ -89,6 +89,10 @@ let board_drawer_prototype = {
 			}
 		}
 
+		if (this.width > 19 || width > 19) {
+			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;		// Lame hack to avoid flicker when switching to/from large boards.
+		}
+
 		this.width = width;
 		this.height = height;
 		this.square_size = config.square_size;
