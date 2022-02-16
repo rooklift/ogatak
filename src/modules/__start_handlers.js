@@ -49,13 +49,11 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 
 document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 	let s = event_path_class_string(event, "boardinfo_");
-	if ((s) === "rules") {
+	if (s === "rules") {
 		hub.cycle_rules(event.which !== 1);
-	}
-	if ((s) === "komi") {
+	} else if (s === "komi") {
 		hub.cycle_komi(event.which !== 1);
-	}
-	if ((s) === "numbers") {
+	} else if (s === "numbers") {
 		hub.cycle_numbers(event.which !== 1);
 	}
 });
@@ -86,28 +84,22 @@ window.addEventListener("keydown", function(event) {
 	if (event.code === "PageUp") {
 		event.preventDefault();
 		hub.input_up_down(-10);
-	}
-	if (event.code === "PageDown") {
+	} else if (event.code === "PageDown") {
 		event.preventDefault();
 		hub.input_up_down(10);
-	}
-	if (event.code === "Home") {
+	} else if (event.code === "Home") {
 		event.preventDefault();
 		hub.go_to_root();
-	}
-	if (event.code === "End") {
+	} else if (event.code === "End") {
 		event.preventDefault();
 		hub.go_to_end();
-	}
-	if (event.code === "ArrowUp") {
+	} else if (event.code === "ArrowUp") {
 		event.preventDefault();
 		hub.input_up_down(-1);
-	}
-	if (event.code === "ArrowDown") {
+	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
-	}
-	if (event.code === "Space") {
+	} else if (event.code === "Space") {
 		event.preventDefault();
 		hub.toggle_ponder();
 	}
