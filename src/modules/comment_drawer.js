@@ -14,10 +14,6 @@ let comment_drawer_prototype = {
 
 		let s = node.get("C");
 
-		if (typeof s !== "string") {
-			s = "";
-		}
-
 		if (config.comment_height <= 0) {
 			s = "";
 		}

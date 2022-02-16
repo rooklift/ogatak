@@ -76,11 +76,12 @@ let node_prototype = {
 
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
 
-		// Note that the string could conceivably be "" so simply checking the return
-		// value for truthiness is not quite valid for checking if the key exists.
+		// Always returns a string. Some stuff relies on this now. (We used to return undefined.)
+		// Note that an actual value could be "" so simply checking the return value for truthiness
+		// is not valid for checking if the key exists. Call node.has_key() if that's important.
 
 		if (!this.has_key(key)) {
-			return undefined;
+			return "";
 		}
 		return this.props[key][0];
 	},
@@ -269,10 +270,8 @@ let node_prototype = {
 		}
 
 		let pl = this.get("PL");
-		if (typeof pl === "string") {
-			if (pl[0] === "B" || pl[0] === "b" || pl[0] === "1") this.__board.active = "b";
-			if (pl[0] === "W" || pl[0] === "w" || pl[0] === "2") this.__board.active = "w";
-		}
+		if (pl[0] === "B" || pl[0] === "b" || pl === "1") this.__board.active = "b";
+		if (pl[0] === "W" || pl[0] === "w" || pl === "2") this.__board.active = "w";
 
 		let km = parseFloat(this.get("KM"));
 		if (Number.isNaN(km) === false) {
@@ -301,8 +300,10 @@ let node_prototype = {
 		let propkey = board.active.toUpperCase();
 
 		for (let child of this.children) {
-			if (child.get(propkey) === s) {
-				return child;
+			if (child.has_key(propkey)) {
+				if (child.get(propkey) === s) {
+					return child;
+				}
 			}
 		}
 
@@ -318,8 +319,8 @@ let node_prototype = {
 		let propkey = board.active.toUpperCase();
 
 		for (let child of this.children) {
-			if (child.has_key(propkey)) {								// The child has a B/W property (do need this test)...
-				if (board.in_bounds(child.get(propkey)) === false) {	// And it is not a real move...
+			if (child.has_key(propkey)) {
+				if (board.in_bounds(child.get(propkey)) === false) {
 					return child;
 				}
 			}
