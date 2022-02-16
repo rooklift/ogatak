@@ -67,13 +67,6 @@ module.exports = {
 			}
 			break;
 
-		case "board_line_width":
-		case "square_size":
-
-			this.board_drawer.rebuild(this.node.get_board().width, this.node.get_board().height);
-			this.draw();
-			break;
-
 		case "info_font_size":
 
 			this.board_drawer.fix_infodiv();
@@ -85,7 +78,9 @@ module.exports = {
 			}
 			break;
 
+		case "square_size":
 		case "board_font_size":
+		case "board_line_width":
 		case "top_colour_black":
 		case "top_colour_white":
 		case "off_colour_black":
