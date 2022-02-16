@@ -54,7 +54,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
 	drawer.width = null;
 	drawer.height = null;
-
+	drawer.square_size = null;
 	drawer.last_draw_was_pv = false;
 
 	// These 2 things are updated as the canvas or TDs are changed:
@@ -89,6 +89,7 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
+		this.square_size = config.square_size;
 
 		let png = background(this.width, this.height, config.square_size);
 		this.htmltable.style["background-image"] = `url("${png}")`;
@@ -345,7 +346,7 @@ let board_drawer_prototype = {
 
 		// i.e. solely changing the TD elements.
 
-		if (this.width !== board.width || this.height !== board.height) {
+		if (this.width !== board.width || this.height !== board.height || this.square_size !== config.square_size) {
 			this.rebuild(board.width, board.height);
 		}
 
