@@ -69,7 +69,11 @@ let node_prototype = {
 		this.props[key].push(stringify(value));
 	},
 
-	get: function(key) {				// On the assumption there is only 1 value for this key.
+	get: function(key) {				// On the assumption there is at most 1 value for this key.
+
+		// Note that the string could conceivably be "" so simply checking the return
+		// value for truthiness is not quite valid for checking if the key exists.
+
 		if (!this.props[key]) {
 			return undefined;
 		}
