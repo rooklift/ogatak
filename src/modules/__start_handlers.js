@@ -25,6 +25,7 @@ document.addEventListener("wheel", (event) => {
 // Clicking a tab should switch tabs...
 
 document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
+	event.preventDefault();
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
 		hub.switch_tab(parseInt(i, 10));
@@ -48,6 +49,7 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 // Clicking on the boardinfo...
 
 document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
+	event.preventDefault();
 	let s = event_path_class_string(event, "boardinfo_");
 	if (s === "rules") {
 		hub.cycle_rules(event.which !== 1);
@@ -69,13 +71,33 @@ document.getElementById("boardtable").addEventListener("mouseleave", (event) => 
 // Clicking on the graph should go to that position in the game...
 
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
+	event.preventDefault();
 	let node = hub.grapher.node_from_click(hub.node, event);
-	hub.set_node(node, {bless: false});
+	if (node) {
+		if (event.which === 2) {
+			hub.new_active_view_arbitrary_node(node);
+		} else {
+			hub.set_node(node, {bless: false});
+		}
+	}
 });
 
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
+	event.preventDefault();
 	let node = hub.tree_drawer.node_from_click(hub.node, event);
-	hub.set_node(node, {bless: true});
+	if (node) {
+		if (event.which === 2) {
+			hub.new_active_view_arbitrary_node(node);
+		} else {
+			hub.set_node(node, {bless: true});
+		}
+	}
+});
+
+// This is mostly to prevent stray middle-clicks entering "scroll" mode...
+
+document.getElementById("gridder").addEventListener("mousedown", (event) => {
+	event.preventDefault();
 });
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...

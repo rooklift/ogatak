@@ -152,8 +152,18 @@ let hub_props = {
 	},
 
 	new_active_view_try_move: function(s) {
-		let index = this.tabber.create_inactive_tab_after_active(this.node.try_move(s));
-		this.switch_tab(index);
+		let node = this.node.try_move(s);
+		if (node !== this.node) {
+			let index = this.tabber.create_inactive_tab_after_active(node);
+			this.switch_tab(index);
+		}
+	},
+
+	new_active_view_arbitrary_node: function(node) {
+		if (node) {
+			let index = this.tabber.create_inactive_tab_after_active(node);
+			this.switch_tab(index);
+		}
 	},
 
 	close_tab: function() {
@@ -399,7 +409,9 @@ let hub_props = {
 
 	try_move: function(s) {
 		let node = this.node.try_move(s);
-		this.set_node(node, {keep_autoplay_settings: true, bless: true});
+		if (node !== this.node) {
+			this.set_node(node, {keep_autoplay_settings: true, bless: true});
+		}
 	},
 
 	pass: function() {
