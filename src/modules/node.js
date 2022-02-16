@@ -48,6 +48,10 @@ function new_node(parent) {
 
 let node_prototype = {
 
+	has_key: function(key) {
+		return Array.isArray(this.props[key]);
+	},
+
 	set: function(key, value) {
 		if (this.__board) {
 			throw "set() called on node but board already existed";
@@ -63,10 +67,11 @@ let node_prototype = {
 		if (this.__board) {
 			throw "add_value() called on node but board already existed";
 		}
-		if (!this.props[key]) {
-			this.props[key] = [];
+		if (!this.has_key(key)) {
+			this.props[key] = [stringify(value)];
+		} else {
+			this.props[key].push(stringify(value));
 		}
-		this.props[key].push(stringify(value));
 	},
 
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
@@ -74,7 +79,7 @@ let node_prototype = {
 		// Note that the string could conceivably be "" so simply checking the return
 		// value for truthiness is not quite valid for checking if the key exists.
 
-		if (!this.props[key]) {
+		if (!this.has_key(key)) {
 			return undefined;
 		}
 		return this.props[key][0];
@@ -86,7 +91,7 @@ let node_prototype = {
 
 	all_values: function(key) {
 		let ret = [];
-		if (!this.props[key]) {
+		if (!this.has_key(key)) {
 			return ret;
 		}
 		for (let value of this.props[key]) {
@@ -313,7 +318,7 @@ let node_prototype = {
 		let propkey = board.active.toUpperCase();
 
 		for (let child of this.children) {
-			if (child.props[propkey]) {									// The child has a B/W property...
+			if (child.has_key(propkey)) {								// The child has a B/W property (do need this test)...
 				if (board.in_bounds(child.get(propkey)) === false) {	// And it is not a real move...
 					return child;
 				}
@@ -499,7 +504,7 @@ let node_prototype = {
 
 		let root = this.get_root();
 
-		if (root.props.PB || root.props.PW) {
+		if (root.has_key("PB") || root.has_key("PW")) {
 
 			let blackname = root.get("PB") || "Unknown";
 			let whitename = root.get("PW") || "Unknown";

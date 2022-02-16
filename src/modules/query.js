@@ -49,9 +49,9 @@ exports.finalise_query = function(o, query_node) {
 
 	for (let node of query_node.history_reversed()) {
 
-		let nodemovecount = (node.props.B ? node.props.B.length : 0) + (node.props.W ? node.props.W.length : 0);
+		let nodemovecount = (node.has_key("B") ? node.props.B.length : 0) + (node.has_key("W") ? node.props.W.length : 0);
 
-		if (node.props.AB || node.props.AW || node.props.AE || nodemovecount > 1) {
+		if (node.has_key("AB") || node.has_key("AW") || node.has_key("AE") || nodemovecount > 1) {
 
 			// This node will serve as the setup position.
 			// Note that stones from any B or W properties will be included in the setup.
@@ -63,11 +63,11 @@ exports.finalise_query = function(o, query_node) {
 
 			// This node can be included in the moves list.
 
-			if (node.props.B) {
+			if (node.has_key("B")) {
 				let s = node.get("B");
 				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 			}
-			if (node.props.W) {
+			if (node.has_key("W")) {
 				let s = node.get("W");
 				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
 			}

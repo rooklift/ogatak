@@ -135,7 +135,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				if (key_string === "") {
 					throw `SGF load error: value started with [ but key was ""`;
 				}
-				if ((key_string === "B" || key_string === "W") && (node.props.B || node.props.W)) {
+				if ((key_string === "B" || key_string === "W") && (node.has_key("B") || node.has_key("W"))) {
 					throw `SGF load error: multiple moves in node`;
 				}
 			} else if (c === 40) {						// that is (
@@ -196,13 +196,13 @@ function apply_pl_fix(root) {
 	// In some ancient games, white plays first.
 	// Add a PL property to the root if so.
 
-	if (root.get("PL") || root.props.B || root.props.W || root.children.length === 0) {
+	if (root.has_key("PL") || root.has_key("B") || root.has_key("W") || root.children.length === 0) {
 		return;
 	}
 
 	let node = root.children[0];
 
-	if (node.get("W") && node.get("B") === undefined) {
+	if (node.has_key("W") && !node.has_key("B")) {
 		root.set("PL", "W");
 	}
 }
