@@ -1,7 +1,7 @@
 "use strict";
 
 if (!process || !process.versions || Number.isNaN(parseInt(process.versions.electron, 10)) || parseInt(process.versions.electron, 10) < 6) {
-	throw new Error("Ogatak requires Electron 6 or higher.");
+	throw new Error("Ogatak requires Electron 6 or higher.");		// Why? I forget.
 }
 
 const electron = require("electron");
@@ -13,8 +13,7 @@ const colour_choices = require("./modules/colour_choices");
 const config_io = require("./modules/config_io");
 const stringify = require("./modules/stringify");
 
-config_io.load();
-let config = config_io.config;
+config_io.load();				// Creates global.config
 
 let menu = menu_build();
 let menu_is_set = false;
