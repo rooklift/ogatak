@@ -97,8 +97,13 @@ let board_drawer_prototype = {
 		this.square_size = config.square_size;
 		this.board_line_width = config.board_line_width;
 
-		let png = background(this.width, this.height, config.square_size);
-		this.htmltable.style["background-image"] = `url("${png}")`;
+		if (config.square_size > 2) {
+			let png = background(this.width, this.height, config.square_size);
+			this.htmltable.style["background-image"] = `url("${png}")`;
+		} else {
+			this.htmltable.style["background-image"] = "none";
+		}
+
 		this.htmltable.innerHTML = "";
 
 		for (let y = 0; y < this.height; y++) {
