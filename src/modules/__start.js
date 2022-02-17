@@ -3,10 +3,10 @@
 const {ipcRenderer} = require("electron");
 const querystring = require("querystring");
 
-const config_io = require("./config_io");
+const config_io = require("./config_io");		// Creates global.config
 const stringify = require("./stringify");
 
-config_io.load();					// Creates global.config
+config_io.load();								// Populates global.config
 config_io.create_if_needed();
 
 // ---------------------------------------------------------------------------------------------------

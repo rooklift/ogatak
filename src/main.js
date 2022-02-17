@@ -10,10 +10,10 @@ const url = require("url");
 
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
-const config_io = require("./modules/config_io");
+const config_io = require("./modules/config_io");					// Creates global.config
 const stringify = require("./modules/stringify");
 
-config_io.load();				// Creates global.config
+config_io.load();													// Populates global.config
 
 let menu = menu_build();
 let menu_is_set = false;
