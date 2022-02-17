@@ -88,8 +88,15 @@ let board_drawer_prototype = {
 			}
 		}
 
+		// Couple of lame hacks that prevent flicker when transitioning to/from extreme board or square sizes...
+
 		if (this.width > 19 || width > 19) {
-			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;		// Lame hack to avoid flicker when switching to/from large boards.
+			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;
+		}
+
+		if (config.square_size < 2) {
+			hub.grapher.canvas.width = hub.grapher.canvas.width;
+			hub.grapher.positioncanvas.width = hub.grapher.positioncanvas.width;
 		}
 
 		this.width = width;
