@@ -50,6 +50,10 @@ exports.new_hub = function() {
 		document.getElementById("comments")
 	);
 
+	hub.tabber = new_tabber(
+		document.getElementById("tabdiv")
+	);
+
 	hub.engine = new_engine();
 
 	if (config.arbitrary_command) {
@@ -62,15 +66,11 @@ exports.new_hub = function() {
 	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
 	hub.__play_colour = null;					// Don't set this directly, because it should be ack'd
 
-	hub.tabber = new_tabber(
-		document.getElementById("tabdiv")
-	);
-
 	hub.pending_up_down = 0;
 	hub.dropped_inputs = 0;
 
-	hub.board_drawer.fix_infodiv_font();
 	hub.comment_drawer.fix_font();
+	hub.board_drawer.fix_infodiv_font();
 
 	return hub;
 };
