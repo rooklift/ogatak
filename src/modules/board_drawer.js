@@ -43,7 +43,6 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	// just have functions in this module (instead of methods in the object) but meh.
 
 	let drawer = Object.create(board_drawer_prototype);
-	drawer.fix_infodiv_font();
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
@@ -66,6 +65,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	// By contrast, this stores only things waiting to be drawn to the canvas:
 	drawer.needed_marks = new_2d_array(25, 25, null);	// Objects representing stuff.
 
+	drawer.fix_infodiv_font();
 	return drawer;
 }
 

@@ -4,8 +4,8 @@ const {replace_all} = require("./utils");
 
 function new_comment_drawer(div) {
 	let drawer = Object.create(comment_drawer_prototype);
-	drawer.fix_font();
 	drawer.div = div;
+	drawer.fix_font();
 	return drawer;
 }
 
