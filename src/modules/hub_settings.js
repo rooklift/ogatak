@@ -69,14 +69,17 @@ module.exports = {
 
 		case "info_font_size":
 
+			this.comment_drawer.fix_font();
 			this.board_drawer.fix_infodiv_font();
+
+			// Changing the infodiv font will affect the space left for the board, thus...
+
 			if (config.auto_square_size) {
 				let new_size = this.calculate_square_size();
 				if (new_size !== config.square_size) {
 					this.set("square_size", new_size);
 				}
 			}
-			this.comment_drawer.fix_font();
 			break;
 
 		case "square_size":

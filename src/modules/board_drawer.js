@@ -132,8 +132,6 @@ let board_drawer_prototype = {
 
 		this.canvas.width = Math.max(19, this.width) * config.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
 		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
-
-		this.fix_infodiv_font();
 	},
 
 	fix_infodiv_font: function() {
