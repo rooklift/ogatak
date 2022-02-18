@@ -69,9 +69,6 @@ exports.new_hub = function() {
 	hub.pending_up_down = 0;
 	hub.dropped_inputs = 0;
 
-	hub.comment_drawer.fix_font();
-	hub.board_drawer.fix_infodiv_font();
-
 	return hub;
 };
 

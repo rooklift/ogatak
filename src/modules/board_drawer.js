@@ -43,6 +43,7 @@ function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 	// just have functions in this module (instead of methods in the object) but meh.
 
 	let drawer = Object.create(board_drawer_prototype);
+	drawer.fix_infodiv_font();
 
 	drawer.backgrounddiv = backgrounddiv;
 	drawer.htmltable = htmltable;
