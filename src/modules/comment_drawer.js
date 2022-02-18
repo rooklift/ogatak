@@ -25,6 +25,10 @@ let comment_drawer_prototype = {
 		s = replace_all(s,  `"`  ,  `&quot;`  );
 
 		this.div.innerHTML = s;
+	},
+
+	fix_font: function() {
+		this.div.style["font-size"] = config.info_font_size.toString() + "px";
 	}
 };
 
