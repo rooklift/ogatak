@@ -48,19 +48,16 @@ module.exports = function(width, height, square_size) {
 
 	}
 
-	if (square_size > 9) {		// square size, not board size
+	let hoshi = handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false);
 
-		let hoshi = handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false);
-
-		for (let s of hoshi) {
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-			let gx = (x * square_size) + (square_size / 2) + offset;
-			let gy = (y * square_size) + (square_size / 2) + offset;
-			ctx.beginPath();
-			ctx.arc(gx, gy, config.board_line_width * 2, 0, 3 * Math.PI);
-			ctx.fill();
-		}
+	for (let s of hoshi) {
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+		let gx = (x * square_size) + (square_size / 2) + offset;
+		let gy = (y * square_size) + (square_size / 2) + offset;
+		ctx.beginPath();
+		ctx.arc(gx, gy, config.board_line_width * 2, 0, 3 * Math.PI);
+		ctx.fill();
 	}
 
 	return c.toDataURL("image/png");

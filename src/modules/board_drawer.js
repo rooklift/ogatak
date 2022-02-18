@@ -88,15 +88,8 @@ let board_drawer_prototype = {
 			}
 		}
 
-		// Couple of lame hacks that prevent flicker when transitioning to/from extreme board or square sizes...
-
 		if (this.width > 19 || width > 19) {
-			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;
-		}
-
-		if (config.square_size < 2) {
-			hub.grapher.canvas.width = hub.grapher.canvas.width;
-			hub.grapher.positioncanvas.width = hub.grapher.positioncanvas.width;
+			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards
 		}
 
 		this.width = width;
@@ -104,12 +97,8 @@ let board_drawer_prototype = {
 		this.square_size = config.square_size;
 		this.board_line_width = config.board_line_width;
 
-		if (config.square_size > 2) {
-			let png = background(this.width, this.height, config.square_size);
-			this.htmltable.style["background-image"] = `url("${png}")`;
-		} else {
-			this.htmltable.style["background-image"] = "none";
-		}
+		let png = background(this.width, this.height, config.square_size);
+		this.htmltable.style["background-image"] = `url("${png}")`;
 
 		this.htmltable.innerHTML = "";
 

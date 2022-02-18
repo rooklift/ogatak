@@ -764,7 +764,7 @@ let hub_props = {
 
 	calculate_square_size: function() {
 		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
-		return Math.max(0, Math.floor((dy - 8) / 19));
+		return Math.max(10, Math.floor((dy - 8) / 19));
 	},
 
 	log_ram: function() {
