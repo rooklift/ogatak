@@ -838,7 +838,7 @@ function string_from_info(info, node, type) {
 			}
 			return info.visits.toString();
 		case "Order":
-			return (info.order + 1).toString();
+			return info.order.toString();
 		default:
 			return "?";
 	}
