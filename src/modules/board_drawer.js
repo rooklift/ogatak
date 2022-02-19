@@ -39,8 +39,7 @@ const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		con
 
 function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
 
-	// Only one of these is ever created. We could dispense with having this object at all, and
-	// just have functions in this module (instead of methods in the object) but meh.
+	// Only one of these is ever created.
 
 	let drawer = Object.create(board_drawer_prototype);
 
