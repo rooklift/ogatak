@@ -9,14 +9,14 @@ module.exports = (msg) => {
 
 		if (msg instanceof Error) {
 			msg = msg.toString();
-		}
-		if (typeof msg === "object") {
+		} else if (typeof msg === "object") {
 			msg = JSON.stringify(msg);
-		}
-		if (typeof msg === "undefined") {
+		} else if (typeof msg === "undefined") {
 			msg = "undefined";
+		} else {
+			msg = msg.toString();
 		}
-		msg = msg.toString().trim();
+		msg = msg.trim();
 		return msg;
 
 	} catch (err) {
