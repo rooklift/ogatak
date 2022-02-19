@@ -53,14 +53,11 @@ module.exports = {
 
 	last_draw_was_pv: false,
 
-	// These 2 things are updated as the canvas or TDs are changed:
-	table_state: new_2d_array(25, 25, ""),		// Contains "", "b", "w" ... what the TD is displaying.
-	death_marks: [],							// List of [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
+	table_state: new_2d_array(25, 25, ""),		// Updated live, contains "", "b", "w" ... what the TD is displaying.
+	death_marks: [],							// Updated live, [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
+	needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
-	// By contrast, this stores only things waiting to be drawn to the canvas:
-	needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff.
-
-	rebuild: function(width, height) {		// Reset all the things...
+	rebuild: function(width, height) {			// Reset all the things...
 
 		if (!width || !height) {
 			throw "rebuild() needs board sizes";
