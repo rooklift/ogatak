@@ -34,12 +34,7 @@ require("./__start_handlers");
 hub.new_game(19, 19);
 tabber.draw_tabs(hub.node);
 
-hub.window_resize_checker();
-hub.active_tab_draw_spinner();
-hub.graph_draw_spinner();
-hub.tree_draw_spinner();
-hub.up_down_spinner();
-hub.bad_death_mark_spinner();
+require("./__start_spinners");
 
 if (config_io.error()) {
 	alert(`${config_io.filename} failed to load. It will not be saved to until you fix this. Error:\n` + config_io.error());
