@@ -785,6 +785,15 @@ function menu_build() {
 								});
 							}
 						},
+						{
+							label: "Stone Scoring",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_rules",
+									args: ["Stone Scoring"]
+								});
+							}
+						},
 					]
 				},
 				{

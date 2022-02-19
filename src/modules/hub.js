@@ -777,7 +777,7 @@ let hub_main_props = {
 
 	cycle_rules: function(reverse) {
 
-		const values = ["Chinese", "Japanese"];
+		const values = ["Chinese", "Japanese", "Stone Scoring"];
 
 		let current = this.node.get_board().rules;
 
