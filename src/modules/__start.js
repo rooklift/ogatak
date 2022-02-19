@@ -19,8 +19,7 @@ global.alert = (msg) => {
 global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 global.testing = require("./testing");
 
-global.hub = require("./hub").new_hub();
-
+global.hub = require("./hub");
 global.tabber = require("./tabber");
 global.board_drawer = require("./board_drawer");
 global.grapher = require("./grapher");

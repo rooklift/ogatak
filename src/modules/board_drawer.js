@@ -37,25 +37,32 @@ const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		con
 
 // ------------------------------------------------------------------------------------------------
 
-module.exports = {
+function init() {
 
-	backgrounddiv: document.getElementById("boardbg"),
-	htmltable:     document.getElementById("boardtable"),
-	canvas:        document.getElementById("boardcanvas"),
-	infodiv:       document.getElementById("boardinfo"),
+	let ret = Object.create(board_drawer_prototype);
 
-	ctx: document.getElementById("boardcanvas").getContext("2d"),
+	ret.backgrounddiv = document.getElementById("boardbg");
+	ret.htmltable     = document.getElementById("boardtable");
+	ret.canvas        = document.getElementById("boardcanvas");
+	ret.infodiv       = document.getElementById("boardinfo");
 
-	width: null,
-	height: null,
-	square_size: null,
-	board_line_width: null,
+	ret.ctx = document.getElementById("boardcanvas").getContext("2d");
 
-	last_draw_was_pv: false,
+	ret.width = null;
+	ret.height = null;
+	ret.square_size = null;
+	ret.board_line_width = null;
 
-	table_state: new_2d_array(25, 25, ""),		// Updated live, contains "", "b", "w" ... what the TD is displaying.
-	death_marks: [],							// Updated live, [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
-	needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
+	ret.last_draw_was_pv = false;
+
+	ret.table_state = new_2d_array(25, 25, "");		// Updated live, contains "", "b", "w" ... what the TD is displaying.
+	ret.death_marks = [];							// Updated live, [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
+	ret.needed_marks = new_2d_array(25, 25, null);	// Objects representing stuff waiting to be drawn to the canvas.
+
+	return ret;
+}
+
+let board_drawer_prototype = {
 
 	rebuild: function(width, height) {			// Reset all the things...
 
@@ -837,3 +844,6 @@ function string_from_info(info, node, type) {
 	}
 }
 
+
+
+module.exports = init();

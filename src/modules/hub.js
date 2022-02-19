@@ -18,30 +18,30 @@ const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, 
 
 // ------------------------------------------------------------------------------------------------
 
-exports.new_hub = function() {
+function init() {
 
 	let hub_prototype = {};
 	Object.assign(hub_prototype, hub_main_props);
 	Object.assign(hub_prototype, require("./hub_settings"));
-	let hub = Object.create(hub_prototype);
+	let ret = Object.create(hub_prototype);
 
-	hub.node = null;
-	hub.engine = new_engine();
+	ret.node = null;
+	ret.engine = new_engine();
 
 	if (config.arbitrary_command) {
-		hub.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
+		ret.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
 	} else {
-		hub.engine.setup(config.engine, config.engineconfig, config.weights);
+		ret.engine.setup(config.engine, config.engineconfig, config.weights);
 	}
 
-	hub.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
-	hub.__autoplay = false;						// Don't set this directly, because it should be ack'd
-	hub.__play_colour = null;					// Don't set this directly, because it should be ack'd
+	ret.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
+	ret.__autoplay = false;						// Don't set this directly, because it should be ack'd
+	ret.__play_colour = null;					// Don't set this directly, because it should be ack'd
 
-	hub.pending_up_down = 0;
-	hub.dropped_inputs = 0;
+	ret.pending_up_down = 0;
+	ret.dropped_inputs = 0;
 
-	return hub;
+	return ret;
 };
 
 let hub_main_props = {
@@ -948,3 +948,7 @@ let hub_main_props = {
 	},
 
 };
+
+
+
+module.exports = init();

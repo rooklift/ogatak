@@ -1,20 +1,27 @@
 "use strict";
 
-module.exports = {
+function init() {
 
-	canvas: document.getElementById("graphcanvas"),
-	positioncanvas: document.getElementById("graphpositioncanvas"),
+	let ret = Object.create(grapher_prototype);
+
+	ret.canvas = document.getElementById("graphcanvas");
+	ret.positioncanvas = document.getElementById("graphpositioncanvas");
 	
-	ctx: document.getElementById("graphcanvas").getContext("2d"),
-	posctx: document.getElementById("graphpositioncanvas").getContext("2d"),
+	ret.ctx = document.getElementById("graphcanvas").getContext("2d");
+	ret.posctx = document.getElementById("graphpositioncanvas").getContext("2d");
 
-	draw_x_offset: 0,									// These are all to be set later. Every coordinate is based
-	draw_y_offset: 0,									// on the drawable sizes, then shifted by the offsets.
-	drawable_width: 0,
-	drawable_height: 0,
+	ret.draw_x_offset = 0;									// These are all to be set later. Every coordinate is based
+	ret.draw_y_offset = 0;									// on the drawable sizes, then shifted by the offsets.
+	ret.drawable_width = 0;
+	ret.drawable_height = 0;
 
-	line_end: null,
-	major_colour: config.major_graph_colour,			// Cached so draw_position() knows what colour to use cheaply.
+	ret.line_end = null;
+	ret.major_colour = config.major_graph_colour;			// Cached so draw_position() knows what colour to use cheaply.
+
+	return ret;
+}
+
+let grapher_prototype = {
 
 	draw_graph: function(node) {
 
@@ -302,3 +309,6 @@ module.exports = {
 	},
 };
 
+
+
+module.exports = init();

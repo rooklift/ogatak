@@ -1,16 +1,23 @@
 "use strict";
 
-module.exports = {
+function init() {
 
-	canvas: document.getElementById("treecanvas"),
-	ctx: document.getElementById("treecanvas").getContext("2d"),
+	let ret = Object.create(tree_drawer_prototype);
 
-	clickers: [],
-	must_draw: false,
+	ret.canvas = document.getElementById("treecanvas");
+	ret.ctx = document.getElementById("treecanvas").getContext("2d");
+
+	ret.clickers = [];
+	ret.must_draw = false;
 	
-	last_draw_cost: 0,								// Various things for debugging.
-	call_count: 0,									// Although this is actually used by real logic now.
-	draw_count: 0,
+	ret.last_draw_cost = 0;						// Various things for debugging.
+	ret.call_count = 0;							// Although this is actually used by real logic now.
+	ret.draw_count = 0;
+
+	return ret;
+}
+
+let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
 
@@ -260,3 +267,6 @@ function reserver(local_root, reservations) {
 	}
 }
 
+
+
+module.exports = init();
