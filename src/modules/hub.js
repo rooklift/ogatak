@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 
-const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
 const new_node = require("./node");
 const new_tabber = require("./tabber");
@@ -26,10 +25,6 @@ exports.new_hub = function() {
 
 	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
-
-	hub.comment_drawer = new_comment_drawer(
-		document.getElementById("comments")
-	);
 
 	hub.tabber = new_tabber(
 		document.getElementById("tabdiv")
@@ -383,7 +378,7 @@ let hub_props = {
 
 		tree_drawer.must_draw = true;
 
-		this.comment_drawer.draw(this.node);
+		comment_drawer.draw(this.node);
 
 		return true;
 	},

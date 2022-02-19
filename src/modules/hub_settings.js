@@ -69,7 +69,7 @@ module.exports = {
 
 		case "info_font_size":
 
-			this.comment_drawer.fix_font();
+			comment_drawer.fix_font();
 			board_drawer.fix_infodiv_font();
 
 			// Changing the infodiv font will affect the space left for the board, thus...
@@ -130,7 +130,7 @@ module.exports = {
 		case "comment_height":
 
 			tree_drawer.must_draw = true;			// Because the tree drawer actually controls the height of the comments.
-			this.comment_drawer.draw(this.node);
+			comment_drawer.draw(this.node);
 			break;
 
 		case "widerootnoise":

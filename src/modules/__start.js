@@ -23,8 +23,10 @@ global.hub = require("./hub").new_hub();
 global.board_drawer = require("./board_drawer");
 global.grapher = require("./grapher");
 global.tree_drawer = require("./tree_drawer");
+global.comment_drawer = require("./comment_drawer");
 
 board_drawer.fix_infodiv_font();
+comment_drawer.fix_font();
 
 require("./__start_handlers");
 
