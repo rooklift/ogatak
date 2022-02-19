@@ -237,50 +237,58 @@ let node_prototype = {
 
 	get_board: function() {
 
-		if (this.__board) {
-			return this.__board;
+		let nodes_without_boards = [];
+
+		let nd = this;
+		while (nd && !nd.__board) {
+			nodes_without_boards.push(nd);
+			nd = nd.parent;
 		}
+		nodes_without_boards.reverse();
 
-		if (!this.parent) {
-			this.__board = new_board(this.width(), this.height());
-		} else {
-			this.__board = this.parent.get_board().copy();
-		}
+		for (let node of nodes_without_boards) {
 
-		for (let s of this.all_values("AE")) {
-			this.__board.add_empty(s);
-		}
+			if (!node.parent) {
+				node.__board = new_board(node.width(), node.height());
+			} else {
+				node.__board = node.parent.__board.copy();
+			}
 
-		for (let s of this.all_values("AB")) {
-			this.__board.add_black(s);
-			this.__board.active = "w";
-		}
+			for (let s of node.all_values("AE")) {
+				node.__board.add_empty(s);
+			}
 
-		for (let s of this.all_values("AW")) {
-			this.__board.add_white(s);
-			this.__board.active = "b";
-		}
+			for (let s of node.all_values("AB")) {
+				node.__board.add_black(s);
+				node.__board.active = "w";
+			}
 
-		for (let s of this.all_values("B")) {
-			this.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
-		}
+			for (let s of node.all_values("AW")) {
+				node.__board.add_white(s);
+				node.__board.active = "b";
+			}
 
-		for (let s of this.all_values("W")) {
-			this.__board.play_white(s);				// Will treat s as a pass if it's not a valid move.
-		}
+			for (let s of node.all_values("B")) {
+				node.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
+			}
 
-		let pl = this.get("PL");
-		if (pl[0] === "B" || pl[0] === "b" || pl === "1") this.__board.active = "b";
-		if (pl[0] === "W" || pl[0] === "w" || pl === "2") this.__board.active = "w";
+			for (let s of node.all_values("W")) {
+				node.__board.play_white(s);				// Will treat s as a pass if it's not a valid move.
+			}
 
-		let km = parseFloat(this.get("KM"));
-		if (Number.isNaN(km) === false) {
-			this.__board.komi = km;
-		}
+			let pl = node.get("PL");
+			if (pl[0] === "B" || pl[0] === "b" || pl === "1") node.__board.active = "b";
+			if (pl[0] === "W" || pl[0] === "w" || pl === "2") node.__board.active = "w";
 
-		let ru = this.get("RU");
-		if (ru) {
-			this.__board.rules = ru;
+			let km = parseFloat(node.get("KM"));
+			if (Number.isNaN(km) === false) {
+				node.__board.komi = km;
+			}
+
+			let ru = node.get("RU");
+			if (ru) {
+				node.__board.rules = ru;
+			}
 		}
 
 		return this.__board;
