@@ -17,7 +17,6 @@ global.alert = (msg) => {
 };
 
 global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
-global.testing = require("./testing");
 
 global.hub = require("./hub");
 global.tabber = require("./tabber");
