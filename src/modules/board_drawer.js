@@ -37,38 +37,28 @@ const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		con
 
 // ------------------------------------------------------------------------------------------------
 
-function new_board_drawer(backgrounddiv, htmltable, canvas, infodiv) {
+module.exports = {
 
-	// Only one of these is ever created.
+	backgrounddiv: document.getElementById("boardbg"),
+	htmltable:     document.getElementById("boardtable"),
+	canvas:        document.getElementById("boardcanvas"),
+	infodiv:       document.getElementById("boardinfo"),
 
-	let drawer = Object.create(board_drawer_prototype);
+	ctx: document.getElementById("boardcanvas").getContext("2d"),
 
-	drawer.backgrounddiv = backgrounddiv;
-	drawer.htmltable = htmltable;
-	drawer.canvas = canvas;
-	drawer.infodiv = infodiv;
+	width: null,
+	height: null,
+	square_size: null,
+	board_line_width: null,
 
-	drawer.ctx = canvas.getContext("2d");
-
-	drawer.width = null;
-	drawer.height = null;
-	drawer.square_size = null;
-	drawer.board_line_width = null;
-
-	drawer.last_draw_was_pv = false;
+	last_draw_was_pv: false,
 
 	// These 2 things are updated as the canvas or TDs are changed:
-	drawer.table_state = new_2d_array(25, 25, "");		// Contains "", "b", "w" ... what the TD is displaying.
-	drawer.death_marks = [];							// List of [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
+	table_state: new_2d_array(25, 25, ""),		// Contains "", "b", "w" ... what the TD is displaying.
+	death_marks: [],							// List of [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
 
 	// By contrast, this stores only things waiting to be drawn to the canvas:
-	drawer.needed_marks = new_2d_array(25, 25, null);	// Objects representing stuff.
-
-	drawer.fix_infodiv_font();
-	return drawer;
-}
-
-let board_drawer_prototype = {
+	needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff.
 
 	rebuild: function(width, height) {		// Reset all the things...
 
@@ -850,6 +840,3 @@ function string_from_info(info, node, type) {
 	}
 }
 
-// ------------------------------------------------------------------------------------------------
-
-module.exports = new_board_drawer;

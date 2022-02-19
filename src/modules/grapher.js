@@ -28,7 +28,7 @@ let graph_drawer_prototype = {
 		this.line_end = node.get_end();		// Set this now, before any early returns.
 
 		this.canvas.width = config.graph_width;
-		this.canvas.height = hub.board_drawer.canvas.height + 48;
+		this.canvas.height = board_drawer.canvas.height + 48;
 
 		this.draw_x_offset = 16;
 		this.draw_y_offset = config.square_size / 4;
@@ -36,7 +36,7 @@ let graph_drawer_prototype = {
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
-		this.drawable_height = Math.max(0, hub.board_drawer.canvas.height - (config.square_size / 2));
+		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.square_size / 2));
 
 		if (this.too_small_to_draw()) {
 			this.draw_position(node);		// Just so it sets its size.

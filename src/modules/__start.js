@@ -18,7 +18,10 @@ global.alert = (msg) => {
 
 global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 global.testing = require("./testing");
+
 global.hub = require("./hub").new_hub();
+global.board_drawer = require("./board_drawer");
+board_drawer.fix_infodiv_font();
 
 require("./__start_handlers");
 

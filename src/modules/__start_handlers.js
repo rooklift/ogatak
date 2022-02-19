@@ -63,8 +63,8 @@ document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 // The mouse leaving the board may require a redraw...
 
 document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
-	if (hub.board_drawer.last_draw_was_pv) {
-		hub.board_drawer.draw_standard(hub.node);
+	if (board_drawer.last_draw_was_pv) {
+		board_drawer.draw_standard(hub.node);
 	}
 });
 
