@@ -116,7 +116,7 @@ module.exports = {
 		case "midline_graph_colour":
 		case "graph_width":
 
-			this.grapher.draw_graph(this.node);
+			grapher.draw_graph(this.node);
 			break;
 
 		case "tree_spacing":

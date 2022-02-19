@@ -4,10 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 
-const new_board_drawer = require("./board_drawer");
 const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
-const new_grapher = require("./grapher");
 const new_node = require("./node");
 const new_tabber = require("./tabber");
 const new_tree_drawer = require("./tree_drawer");
@@ -29,11 +27,6 @@ exports.new_hub = function() {
 
 	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
-
-	hub.grapher = new_grapher(
-		document.getElementById("graphcanvas"),
-		document.getElementById("graphpositioncanvas")
-	);
 
 	hub.tree_drawer = new_tree_drawer(
 		document.getElementById("treecanvas")
@@ -386,11 +379,11 @@ let hub_props = {
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
 		if (opts.full_graph_draw) {
-			this.grapher.draw_graph(this.node);
-		} else if (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
-			this.grapher.draw_graph(this.node);
+			grapher.draw_graph(this.node);
+		} else if (grapher.line_end && node.get_end() !== grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
+			grapher.draw_graph(this.node);
 		} else {
-			this.grapher.draw_position(this.node);
+			grapher.draw_position(this.node);
 		}
 
 		this.tree_drawer.must_draw = true;
@@ -473,7 +466,7 @@ let hub_props = {
 		let ok = this.set_node(this.node.return_to_main_line_helper(), {full_graph_draw: true, bless: false});
 
 		if (!ok) {									// set_node() returned instantly, so we gotta draw graph and tree...
-			this.grapher.draw_graph(this.node);
+			grapher.draw_graph(this.node);
 			this.tree_drawer.must_draw = true;
 		}
 	},
@@ -900,7 +893,7 @@ let hub_props = {
 	},
 
 	graph_draw_spinner: function() {
-		this.grapher.draw_graph(this.node);			// Always does a full draw, seems fast enough.
+		grapher.draw_graph(this.node);				// Always does a full draw, seems fast enough.
 		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 	},
 

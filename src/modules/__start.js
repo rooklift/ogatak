@@ -21,6 +21,8 @@ global.testing = require("./testing");
 
 global.hub = require("./hub").new_hub();
 global.board_drawer = require("./board_drawer");
+global.grapher = require("./grapher");
+
 board_drawer.fix_infodiv_font();
 
 require("./__start_handlers");
