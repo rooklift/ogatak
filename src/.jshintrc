@@ -5,8 +5,13 @@
 	"sub": true,
 	"globals": {
 		"alert": true,
+		"board_drawer": true,
+		"comment_drawer": true,
 		"config": true,
+		"grapher": true,
 		"hub": true,
+		"tabber": true,
+		"tree_drawer": true,
 		"zoomfactor": true
 	}
 }
