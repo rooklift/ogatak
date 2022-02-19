@@ -18,12 +18,22 @@ global.alert = (msg) => {
 
 global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 global.testing = require("./testing");
+
 global.hub = require("./hub").new_hub();
+
+global.tabber = require("./tabber");
+global.board_drawer = require("./board_drawer");
+global.grapher = require("./grapher");
+global.tree_drawer = require("./tree_drawer");
+global.comment_drawer = require("./comment_drawer");
+
+board_drawer.fix_infodiv_font();
+comment_drawer.fix_font();
 
 require("./__start_handlers");
 
 hub.new_game(19, 19);
-hub.tabber.draw_tabs(hub.node);
+tabber.draw_tabs(hub.node);
 
 hub.window_resize_checker();
 hub.active_tab_draw_spinner();

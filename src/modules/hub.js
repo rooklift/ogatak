@@ -4,13 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const {ipcRenderer} = require("electron");
 
-const new_board_drawer = require("./board_drawer");
-const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
-const new_grapher = require("./grapher");
 const new_node = require("./node");
-const new_tabber = require("./tabber");
-const new_tree_drawer = require("./tree_drawer");
 
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -25,35 +20,12 @@ const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, 
 
 exports.new_hub = function() {
 
-	let hub = Object.create({});
+	let hub_prototype = {};
+	Object.assign(hub_prototype, hub_main_props);
+	Object.assign(hub_prototype, require("./hub_settings"));
+	let hub = Object.create(hub_prototype);
 
-	Object.assign(hub, hub_props);
-	Object.assign(hub, require("./hub_settings"));
-
-	hub.board_drawer = new_board_drawer(
-		document.getElementById("boardbg"),
-		document.getElementById("boardtable"),
-		document.getElementById("boardcanvas"),
-		document.getElementById("boardinfo")
-	);
-
-	hub.grapher = new_grapher(
-		document.getElementById("graphcanvas"),
-		document.getElementById("graphpositioncanvas")
-	);
-
-	hub.tree_drawer = new_tree_drawer(
-		document.getElementById("treecanvas")
-	);
-
-	hub.comment_drawer = new_comment_drawer(
-		document.getElementById("comments")
-	);
-
-	hub.tabber = new_tabber(
-		document.getElementById("tabdiv")
-	);
-
+	hub.node = null;
 	hub.engine = new_engine();
 
 	if (config.arbitrary_command) {
@@ -72,18 +44,18 @@ exports.new_hub = function() {
 	return hub;
 };
 
-let hub_props = {
+let hub_main_props = {
 
 	// Draw........................................................................................
 
 	draw: function() {
 		let s = this.mouse_point();
 		if (s) {
-			if (this.board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
+			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
 		}
-		this.board_drawer.draw_standard(this.node);
+		board_drawer.draw_standard(this.node);
 	},
 
 	update_title: function() {
@@ -111,9 +83,9 @@ let hub_props = {
 
 			if (!this.node) {
 				overwrite = true;
-			} else if (this.tabber.inactive_tab_exists(this.node)) {
+			} else if (tabber.inactive_tab_exists(this.node)) {
 				overwrite = false;
-			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
+			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
 				overwrite = true;
 			} else {
 				overwrite = false;
@@ -124,60 +96,60 @@ let hub_props = {
 			if (overwrite) {
 				this.set_node(node, {bless: true});
 			} else {
-				switch_index = this.tabber.create_inactive_tab_at_end(node);
+				switch_index = tabber.create_inactive_tab_at_end(node);
 			}
 		}
 
 		if (switch_index !== null) {
 			this.switch_tab(switch_index);
 		} else {
-			this.tabber.draw_active_tab(this.node);
+			tabber.draw_active_tab(this.node);
 			this.update_title();
 		}
 	},
 
 	switch_tab: function(index) {
-		if (index < 0 || index >= this.tabber.tabs.length) {
+		if (index < 0 || index >= tabber.tabs.length) {
 			return;
 		}
-		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
+		let switch_node = tabber.deactivate_node_activate_index(this.node, index);
 		this.set_node(switch_node, {bless: true});
-		this.tabber.draw_tabs(this.node);
+		tabber.draw_tabs(this.node);
 		this.update_title();
 	},
 
 	new_active_view: function() {
-		let index = this.tabber.create_inactive_tab_after_active(this.node);
+		let index = tabber.create_inactive_tab_after_active(this.node);
 		this.switch_tab(index);
 	},
 
 	new_active_view_try_move: function(s) {
 		let node = this.node.try_move(s);
 		if (node !== this.node) {
-			let index = this.tabber.create_inactive_tab_after_active(node);
+			let index = tabber.create_inactive_tab_after_active(node);
 			this.switch_tab(index);
 		}
 	},
 
 	new_active_view_arbitrary_node: function(node) {
 		if (node) {
-			let index = this.tabber.create_inactive_tab_after_active(node);
+			let index = tabber.create_inactive_tab_after_active(node);
 			this.switch_tab(index);
 		}
 	},
 
 	close_tab: function() {
 
-		let node_to_destroy = this.tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
+		let node_to_destroy = tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
 
-		if (this.tabber.tabs.length === 1) {
+		if (tabber.tabs.length === 1) {
 			this.node = null;
 			this.new_game(19, 19);
 		} else {
-			let node = this.tabber.close_active_tab();
+			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		this.tabber.draw_tabs(this.node);
+		tabber.draw_tabs(this.node);
 		this.update_title();
 
 		if (node_to_destroy) {
@@ -393,16 +365,16 @@ let hub_props = {
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
 		if (opts.full_graph_draw) {
-			this.grapher.draw_graph(this.node);
-		} else if (this.grapher.line_end && node.get_end() !== this.grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
-			this.grapher.draw_graph(this.node);
+			grapher.draw_graph(this.node);
+		} else if (grapher.line_end && node.get_end() !== grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
+			grapher.draw_graph(this.node);
 		} else {
-			this.grapher.draw_position(this.node);
+			grapher.draw_position(this.node);
 		}
 
-		this.tree_drawer.must_draw = true;
+		tree_drawer.must_draw = true;
 
-		this.comment_drawer.draw(this.node);
+		comment_drawer.draw(this.node);
 
 		return true;
 	},
@@ -480,8 +452,8 @@ let hub_props = {
 		let ok = this.set_node(this.node.return_to_main_line_helper(), {full_graph_draw: true, bless: false});
 
 		if (!ok) {									// set_node() returned instantly, so we gotta draw graph and tree...
-			this.grapher.draw_graph(this.node);
-			this.tree_drawer.must_draw = true;
+			grapher.draw_graph(this.node);
+			tree_drawer.must_draw = true;
 		}
 	},
 
@@ -513,7 +485,7 @@ let hub_props = {
 		}
 
 		if (changed && !suppress_draw) {
-			this.tree_drawer.must_draw = true;
+			tree_drawer.must_draw = true;
 		}
 	},
 
@@ -526,12 +498,12 @@ let hub_props = {
 					child.detach();
 				}
 				this.draw();									// Clear the next move markers.
-				this.tree_drawer.must_draw = true;
+				tree_drawer.must_draw = true;
 			}
 			this.node.save_ok = false;
 		}
-		if (this.tabber.remove_deleted_nodes()) {
-			this.tabber.draw_tabs(this.node);
+		if (tabber.remove_deleted_nodes()) {
+			tabber.draw_tabs(this.node);
 		}
 	},
 
@@ -552,9 +524,9 @@ let hub_props = {
 
 		if (changed) {
 			this.draw();
-			this.tree_drawer.must_draw = true;
-			if (this.tabber.remove_deleted_nodes()) {
-				this.tabber.draw_tabs(this.node);
+			tree_drawer.must_draw = true;
+			if (tabber.remove_deleted_nodes()) {
+				tabber.draw_tabs(this.node);
 			}
 		}
 	},
@@ -878,15 +850,15 @@ let hub_props = {
 
 		// This returns true if a PV was drawn for the point s...
 
-		if (this.board_drawer.draw_pv(this.node, s)) {
+		if (board_drawer.draw_pv(this.node, s)) {
 			return;
 		}
 
 		// We did not draw a PV, so if the last draw that actually happened was a PV, it
 		// was for some other point, and we need to do a standard draw to hide it...
 
-		if (this.board_drawer.last_draw_was_pv) {
-			this.board_drawer.draw_standard(this.node);
+		if (board_drawer.last_draw_was_pv) {
+			board_drawer.draw_standard(this.node);
 		}
 	},
 
@@ -902,17 +874,17 @@ let hub_props = {
 	// Spinners (in a setTimeout loop).............................................................
 
 	active_tab_draw_spinner: function() {
-		this.tabber.draw_active_tab(this.node);
+		tabber.draw_active_tab(this.node);
 		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));			// Enforce minimum of 50
 	},
 
 	graph_draw_spinner: function() {
-		this.grapher.draw_graph(this.node);			// Always does a full draw, seems fast enough.
+		grapher.draw_graph(this.node);				// Always does a full draw, seems fast enough.
 		setTimeout(this.graph_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 	},
 
 	tree_draw_spinner: function() {
-		this.tree_drawer.draw_tree(this.node);		// Can skip the draw if not needed.
+		tree_drawer.draw_tree(this.node);			// Can skip the draw if not needed.
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
 	},
 
@@ -964,7 +936,7 @@ let hub_props = {
 		// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
 		// (this is needed because nothing else is going to cause a draw to happen).
 
-		if (Array.isArray(this.board_drawer.death_marks) && this.board_drawer.death_marks.length > 0) {
+		if (Array.isArray(board_drawer.death_marks) && board_drawer.death_marks.length > 0) {
 			if (!this.node.has_valid_analysis() || !this.node.analysis.ownership) {
 				if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== this.node.id) {
 					this.draw();

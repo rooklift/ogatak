@@ -1,34 +1,27 @@
 "use strict";
 
-function new_grapher(canvas, positioncanvas) {
+module.exports = {
 
-	let drawer = Object.create(graph_drawer_prototype);
-
-	drawer.canvas = canvas;
-	drawer.positioncanvas = positioncanvas;
+	canvas: document.getElementById("graphcanvas"),
+	positioncanvas: document.getElementById("graphpositioncanvas"),
 	
-	drawer.ctx = canvas.getContext("2d");
-	drawer.posctx = positioncanvas.getContext("2d");
+	ctx: document.getElementById("graphcanvas").getContext("2d"),
+	posctx: document.getElementById("graphpositioncanvas").getContext("2d"),
 
-	drawer.draw_x_offset = 0;									// These are all to be set later. Every coordinate is based
-	drawer.draw_y_offset = 0;									// on the drawable sizes, then shifted by the offsets.
-	drawer.drawable_width = 0;
-	drawer.drawable_height = 0;
+	draw_x_offset: 0,									// These are all to be set later. Every coordinate is based
+	draw_y_offset: 0,									// on the drawable sizes, then shifted by the offsets.
+	drawable_width: 0,
+	drawable_height: 0,
 
-	drawer.line_end = null;
-	drawer.major_colour = config.major_graph_colour;			// Cached so draw_position() knows what colour to use cheaply.
-
-	return drawer;
-}
-
-let graph_drawer_prototype = {
+	line_end: null,
+	major_colour: config.major_graph_colour,			// Cached so draw_position() knows what colour to use cheaply.
 
 	draw_graph: function(node) {
 
 		this.line_end = node.get_end();		// Set this now, before any early returns.
 
 		this.canvas.width = config.graph_width;
-		this.canvas.height = hub.board_drawer.canvas.height + 48;
+		this.canvas.height = board_drawer.canvas.height + 48;
 
 		this.draw_x_offset = 16;
 		this.draw_y_offset = config.square_size / 4;
@@ -36,7 +29,7 @@ let graph_drawer_prototype = {
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
-		this.drawable_height = Math.max(0, hub.board_drawer.canvas.height - (config.square_size / 2));
+		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.square_size / 2));
 
 		if (this.too_small_to_draw()) {
 			this.draw_position(node);		// Just so it sets its size.
@@ -309,6 +302,3 @@ let graph_drawer_prototype = {
 	},
 };
 
-
-
-module.exports = new_grapher;

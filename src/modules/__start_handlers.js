@@ -63,8 +63,8 @@ document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 // The mouse leaving the board may require a redraw...
 
 document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
-	if (hub.board_drawer.last_draw_was_pv) {
-		hub.board_drawer.draw_standard(hub.node);
+	if (board_drawer.last_draw_was_pv) {
+		board_drawer.draw_standard(hub.node);
 	}
 });
 
@@ -72,7 +72,7 @@ document.getElementById("boardtable").addEventListener("mouseleave", (event) => 
 
 document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
 	event.preventDefault();
-	let node = hub.grapher.node_from_click(hub.node, event);
+	let node = grapher.node_from_click(hub.node, event);
 	if (node) {
 		if (event.which === 2) {
 			hub.new_active_view_arbitrary_node(node);
@@ -84,7 +84,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	event.preventDefault();
-	let node = hub.tree_drawer.node_from_click(hub.node, event);
+	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
 		if (event.which === 2) {
 			hub.new_active_view_arbitrary_node(node);

@@ -2,14 +2,9 @@
 
 const {replace_all} = require("./utils");
 
-function new_comment_drawer(div) {
-	let drawer = Object.create(comment_drawer_prototype);
-	drawer.div = div;
-	drawer.fix_font();
-	return drawer;
-}
+module.exports = {
 
-let comment_drawer_prototype = {
+	div: document.getElementById("comments"),
 
 	draw: function(node) {
 
@@ -33,4 +28,3 @@ let comment_drawer_prototype = {
 	}
 };
 
-module.exports = new_comment_drawer;

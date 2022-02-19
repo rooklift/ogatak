@@ -1,23 +1,16 @@
 "use strict";
 
-function new_tree_drawer(canvas) {
+module.exports = {
 
-	let drawer = Object.create(tree_drawer_prototype);
+	canvas: document.getElementById("treecanvas"),
+	ctx: document.getElementById("treecanvas").getContext("2d"),
 
-	drawer.canvas = canvas;
-	drawer.ctx = canvas.getContext("2d");
-
-	drawer.clickers = [];
-	drawer.must_draw = false;
+	clickers: [],
+	must_draw: false,
 	
-	drawer.last_draw_cost = 0;								// Various things for debugging.
-	drawer.call_count = 0;									// Although this is actually used by real logic now.
-	drawer.draw_count = 0;
-
-	return drawer;
-}
-
-let tree_drawer_prototype = {
+	last_draw_cost: 0,								// Various things for debugging.
+	call_count: 0,									// Although this is actually used by real logic now.
+	draw_count: 0,
 
 	draw_tree: function(central_node) {
 
@@ -267,6 +260,3 @@ function reserver(local_root, reservations) {
 	}
 }
 
-
-
-module.exports = new_tree_drawer;

@@ -69,8 +69,8 @@ module.exports = {
 
 		case "info_font_size":
 
-			this.comment_drawer.fix_font();
-			this.board_drawer.fix_infodiv_font();
+			comment_drawer.fix_font();
+			board_drawer.fix_infodiv_font();
 
 			// Changing the infodiv font will affect the space left for the board, thus...
 
@@ -104,7 +104,7 @@ module.exports = {
 
 		case "thumbnail_square_size":
 
-			this.tabber.draw_tabs(this.node);
+			tabber.draw_tabs(this.node);
 			break;
 
 		case "graph_type":
@@ -116,7 +116,7 @@ module.exports = {
 		case "midline_graph_colour":
 		case "graph_width":
 
-			this.grapher.draw_graph(this.node);
+			grapher.draw_graph(this.node);
 			break;
 
 		case "tree_spacing":
@@ -124,13 +124,13 @@ module.exports = {
 		case "tree_main_colour":
 		case "central_node_colour":
 
-			this.tree_drawer.must_draw = true;
+			tree_drawer.must_draw = true;
 			break;
 
 		case "comment_height":
 
-			this.tree_drawer.must_draw = true;		// Because the tree drawer actually controls the height of the comments.
-			this.comment_drawer.draw(this.node);
+			tree_drawer.must_draw = true;			// Because the tree drawer actually controls the height of the comments.
+			comment_drawer.draw(this.node);
 			break;
 
 		case "widerootnoise":
