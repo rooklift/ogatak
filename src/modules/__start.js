@@ -29,11 +29,10 @@ global.comment_drawer = require("./comment_drawer");
 board_drawer.fix_infodiv_font();
 comment_drawer.fix_font();
 
-require("./__start_handlers");
-
 hub.new_game(19, 19);
 tabber.draw_tabs(hub.node);
 
+require("./__start_handlers");
 require("./__start_spinners");
 
 if (config_io.error()) {
