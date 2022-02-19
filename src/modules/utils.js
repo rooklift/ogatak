@@ -1,5 +1,7 @@
 "use strict";
 
+const querystring = require("querystring");
+
 const decoders = require("./decoders");
 const stringify = require("./stringify");
 
@@ -266,4 +268,10 @@ exports.compare_versions = function(a, b) {		// args are both arrays like [1,8,2
 	if (a[2] > b[2]) return 1;
 
 	return 0;
+};
+
+exports.get_href_query_val = function(key) {
+	let s = global.location.search;
+	if (s[0] === "?") s = s.slice(1);
+	return querystring.parse(s)[key];
 };

@@ -5,15 +5,15 @@
 const electron = require("electron");
 const fs = require("fs");
 const path = require("path");
-const querystring = require("querystring");
+const {get_href_query_val} = require("./utils");
 
 exports.filename = "config.json";
 
 // To avoid using "remote", we rely on the main process passing userData location in the query...
 
 exports.filepath = electron.app ?
-		path.join(electron.app.getPath("userData"), exports.filename) :									// in Main process
-		path.join(querystring.parse(global.location.search)["?user_data_path"], exports.filename);		// in Renderer process
+		path.join(electron.app.getPath("userData"), exports.filename) :			// in Main process
+		path.join(get_href_query_val("user_data_path"), exports.filename);		// in Renderer process
 
 // ---------------------------------------------------------------------------------------------------------------------------
 

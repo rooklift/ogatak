@@ -1,7 +1,7 @@
 "use strict";
 
 const {ipcRenderer} = require("electron");
-const querystring = require("querystring");
+const {get_href_query_val} = require("./utils");
 
 const config_io = require("./config_io");		// Creates global.config
 const stringify = require("./stringify");
@@ -16,7 +16,7 @@ global.alert = (msg) => {
 	ipcRenderer.send("alert", stringify(msg));
 };
 
-global.zoomfactor = parseFloat(querystring.parse(global.location.search).zoomfactor);
+global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 global.testing = require("./testing");
 global.hub = require("./hub").new_hub();
 
