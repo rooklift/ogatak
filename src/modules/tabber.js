@@ -9,17 +9,13 @@ const thumbnail = require("./thumbnail");
 
 const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
-function new_tabber(tabdiv) {
-	let tabber = Object.create(tabber_prototype);
-	tabber.tabs = [ACTIVE_TAB_MARKER];
-	tabber.tabdiv = tabdiv;
-	tabber.image_cache = {};
-	tabber.image_cache_square_size = config.thumbnail_square_size;
-	tabber.last_drawn_active_id = "";
-	return tabber;
-}
+module.exports = {
 
-let tabber_prototype = {
+	tabdiv: document.getElementById("tabdiv"),
+	tabs:[ACTIVE_TAB_MARKER],
+	image_cache: {},
+	image_cache_square_size: config.thumbnail_square_size,
+	last_drawn_active_id: "",
 
 	validate_cache: function() {
 		if (this.image_cache_square_size !== config.thumbnail_square_size) {	// Everything in the cache will be the wrong size.
@@ -236,6 +232,3 @@ let tabber_prototype = {
 	},
 };
 
-
-
-module.exports = new_tabber;

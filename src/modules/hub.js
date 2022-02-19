@@ -6,7 +6,6 @@ const {ipcRenderer} = require("electron");
 
 const new_engine = require("./engine");
 const new_node = require("./node");
-const new_tabber = require("./tabber");
 
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -25,10 +24,6 @@ exports.new_hub = function() {
 
 	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
-
-	hub.tabber = new_tabber(
-		document.getElementById("tabdiv")
-	);
 
 	hub.engine = new_engine();
 
@@ -87,9 +82,9 @@ let hub_props = {
 
 			if (!this.node) {
 				overwrite = true;
-			} else if (this.tabber.inactive_tab_exists(this.node)) {
+			} else if (tabber.inactive_tab_exists(this.node)) {
 				overwrite = false;
-			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (this.tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
+			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
 				overwrite = true;
 			} else {
 				overwrite = false;
@@ -100,60 +95,60 @@ let hub_props = {
 			if (overwrite) {
 				this.set_node(node, {bless: true});
 			} else {
-				switch_index = this.tabber.create_inactive_tab_at_end(node);
+				switch_index = tabber.create_inactive_tab_at_end(node);
 			}
 		}
 
 		if (switch_index !== null) {
 			this.switch_tab(switch_index);
 		} else {
-			this.tabber.draw_active_tab(this.node);
+			tabber.draw_active_tab(this.node);
 			this.update_title();
 		}
 	},
 
 	switch_tab: function(index) {
-		if (index < 0 || index >= this.tabber.tabs.length) {
+		if (index < 0 || index >= tabber.tabs.length) {
 			return;
 		}
-		let switch_node = this.tabber.deactivate_node_activate_index(this.node, index);
+		let switch_node = tabber.deactivate_node_activate_index(this.node, index);
 		this.set_node(switch_node, {bless: true});
-		this.tabber.draw_tabs(this.node);
+		tabber.draw_tabs(this.node);
 		this.update_title();
 	},
 
 	new_active_view: function() {
-		let index = this.tabber.create_inactive_tab_after_active(this.node);
+		let index = tabber.create_inactive_tab_after_active(this.node);
 		this.switch_tab(index);
 	},
 
 	new_active_view_try_move: function(s) {
 		let node = this.node.try_move(s);
 		if (node !== this.node) {
-			let index = this.tabber.create_inactive_tab_after_active(node);
+			let index = tabber.create_inactive_tab_after_active(node);
 			this.switch_tab(index);
 		}
 	},
 
 	new_active_view_arbitrary_node: function(node) {
 		if (node) {
-			let index = this.tabber.create_inactive_tab_after_active(node);
+			let index = tabber.create_inactive_tab_after_active(node);
 			this.switch_tab(index);
 		}
 	},
 
 	close_tab: function() {
 
-		let node_to_destroy = this.tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
+		let node_to_destroy = tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
 
-		if (this.tabber.tabs.length === 1) {
+		if (tabber.tabs.length === 1) {
 			this.node = null;
 			this.new_game(19, 19);
 		} else {
-			let node = this.tabber.close_active_tab();
+			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		this.tabber.draw_tabs(this.node);
+		tabber.draw_tabs(this.node);
 		this.update_title();
 
 		if (node_to_destroy) {
@@ -506,8 +501,8 @@ let hub_props = {
 			}
 			this.node.save_ok = false;
 		}
-		if (this.tabber.remove_deleted_nodes()) {
-			this.tabber.draw_tabs(this.node);
+		if (tabber.remove_deleted_nodes()) {
+			tabber.draw_tabs(this.node);
 		}
 	},
 
@@ -529,8 +524,8 @@ let hub_props = {
 		if (changed) {
 			this.draw();
 			tree_drawer.must_draw = true;
-			if (this.tabber.remove_deleted_nodes()) {
-				this.tabber.draw_tabs(this.node);
+			if (tabber.remove_deleted_nodes()) {
+				tabber.draw_tabs(this.node);
 			}
 		}
 	},
@@ -878,7 +873,7 @@ let hub_props = {
 	// Spinners (in a setTimeout loop).............................................................
 
 	active_tab_draw_spinner: function() {
-		this.tabber.draw_active_tab(this.node);
+		tabber.draw_active_tab(this.node);
 		setTimeout(this.active_tab_draw_spinner.bind(this), Math.max(50, config.graph_draw_delay));			// Enforce minimum of 50
 	},
 

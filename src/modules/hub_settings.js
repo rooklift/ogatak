@@ -104,7 +104,7 @@ module.exports = {
 
 		case "thumbnail_square_size":
 
-			this.tabber.draw_tabs(this.node);
+			tabber.draw_tabs(this.node);
 			break;
 
 		case "graph_type":
