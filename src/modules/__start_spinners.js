@@ -2,22 +2,22 @@
 
 const {node_id_from_search_id} = require("./utils");
 
-function active_tab_draw_spinner() {
+(function active_tab_draw_spinner() {
 	tabber.draw_active_tab(hub.node);
 	setTimeout(active_tab_draw_spinner, Math.max(50, config.graph_draw_delay));			// Enforce minimum of 50
-}
+})();
 
-function graph_draw_spinner() {
+(function graph_draw_spinner() {
 	grapher.draw_graph(hub.node);				// Always does a full draw, seems fast enough.
 	setTimeout(graph_draw_spinner, Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
-}
+})();
 
-function tree_draw_spinner() {
+(function tree_draw_spinner() {
 	tree_drawer.draw_tree(hub.node);			// Can skip the draw if not needed.
 	setTimeout(tree_draw_spinner, Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
-}
+})();
 
-function up_down_spinner() {
+(function up_down_spinner() {
 
 	// The point of this is to avoid a situation where a draw is slow, while up/down events are piling up, leading to a bunch of draws
 	// being required all at once. Instead of that, up/down events just adjust a variable, and this spinner does the actual draws.
@@ -36,9 +36,9 @@ function up_down_spinner() {
 	}
 
 	setTimeout(up_down_spinner, config.input_delay);			// This can be a very low number, even 0 might be OK?
-}
+})();
 
-function window_resize_checker() {
+(function window_resize_checker() {
 
 	let width = Math.floor(window.innerWidth * zoomfactor);
 	let height = Math.floor(window.innerHeight * zoomfactor);
@@ -57,9 +57,9 @@ function window_resize_checker() {
 	}
 
 	setTimeout(window_resize_checker, 125);
-}
+})();
 
-function bad_death_mark_spinner() {
+(function bad_death_mark_spinner() {
 
 	// Super-lame hack to deal with the situation where death marks were carried over from a previous search but then
 	// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
@@ -74,13 +74,5 @@ function bad_death_mark_spinner() {
 	}
 
 	setTimeout(bad_death_mark_spinner, 190);
-}
+})();
 
-
-
-active_tab_draw_spinner();
-graph_draw_spinner();
-tree_draw_spinner();
-up_down_spinner();
-window_resize_checker();
-bad_death_mark_spinner();
