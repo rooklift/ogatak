@@ -25,6 +25,7 @@ exports.new_hub = function() {
 	Object.assign(hub_prototype, require("./hub_settings"));
 	let hub = Object.create(hub_prototype);
 
+	hub.node = null;
 	hub.engine = new_engine();
 
 	if (config.arbitrary_command) {
