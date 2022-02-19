@@ -237,6 +237,10 @@ let node_prototype = {
 
 	get_board: function() {
 
+		if (this.__board) {
+			return this.__board;
+		}
+
 		let nodes_without_boards = [];
 
 		let nd = this;
