@@ -79,7 +79,7 @@ module.exports = {
 		}
 
 		if (this.width > 19 || width > 19) {
-			hub.tree_drawer.canvas.width = hub.tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards
+			tree_drawer.canvas.width = tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards
 		}
 
 		this.width = width;

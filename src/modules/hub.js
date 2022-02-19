@@ -8,7 +8,6 @@ const new_comment_drawer = require("./comment_drawer");
 const new_engine = require("./engine");
 const new_node = require("./node");
 const new_tabber = require("./tabber");
-const new_tree_drawer = require("./tree_drawer");
 
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
@@ -27,10 +26,6 @@ exports.new_hub = function() {
 
 	Object.assign(hub, hub_props);
 	Object.assign(hub, require("./hub_settings"));
-
-	hub.tree_drawer = new_tree_drawer(
-		document.getElementById("treecanvas")
-	);
 
 	hub.comment_drawer = new_comment_drawer(
 		document.getElementById("comments")
@@ -386,7 +381,7 @@ let hub_props = {
 			grapher.draw_position(this.node);
 		}
 
-		this.tree_drawer.must_draw = true;
+		tree_drawer.must_draw = true;
 
 		this.comment_drawer.draw(this.node);
 
@@ -467,7 +462,7 @@ let hub_props = {
 
 		if (!ok) {									// set_node() returned instantly, so we gotta draw graph and tree...
 			grapher.draw_graph(this.node);
-			this.tree_drawer.must_draw = true;
+			tree_drawer.must_draw = true;
 		}
 	},
 
@@ -499,7 +494,7 @@ let hub_props = {
 		}
 
 		if (changed && !suppress_draw) {
-			this.tree_drawer.must_draw = true;
+			tree_drawer.must_draw = true;
 		}
 	},
 
@@ -512,7 +507,7 @@ let hub_props = {
 					child.detach();
 				}
 				this.draw();									// Clear the next move markers.
-				this.tree_drawer.must_draw = true;
+				tree_drawer.must_draw = true;
 			}
 			this.node.save_ok = false;
 		}
@@ -538,7 +533,7 @@ let hub_props = {
 
 		if (changed) {
 			this.draw();
-			this.tree_drawer.must_draw = true;
+			tree_drawer.must_draw = true;
 			if (this.tabber.remove_deleted_nodes()) {
 				this.tabber.draw_tabs(this.node);
 			}
@@ -898,7 +893,7 @@ let hub_props = {
 	},
 
 	tree_draw_spinner: function() {
-		this.tree_drawer.draw_tree(this.node);		// Can skip the draw if not needed.
+		tree_drawer.draw_tree(this.node);			// Can skip the draw if not needed.
 		setTimeout(this.tree_draw_spinner.bind(this), Math.max(17, config.tree_draw_delay));				// Enforce minimum of 17
 	},
 

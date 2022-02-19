@@ -84,7 +84,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	event.preventDefault();
-	let node = hub.tree_drawer.node_from_click(hub.node, event);
+	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
 		if (event.which === 2) {
 			hub.new_active_view_arbitrary_node(node);
