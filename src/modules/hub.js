@@ -20,10 +20,10 @@ const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, 
 
 exports.new_hub = function() {
 
-	let hub = Object.create({});
-
-	Object.assign(hub, hub_props);
-	Object.assign(hub, require("./hub_settings"));
+	let hub_prototype = {};
+	Object.assign(hub_prototype, hub_main_props);
+	Object.assign(hub_prototype, require("./hub_settings"));
+	let hub = Object.create(hub_prototype);
 
 	hub.engine = new_engine();
 
@@ -43,7 +43,7 @@ exports.new_hub = function() {
 	return hub;
 };
 
-let hub_props = {
+let hub_main_props = {
 
 	// Draw........................................................................................
 
