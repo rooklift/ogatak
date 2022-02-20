@@ -4,6 +4,9 @@
 //
 // The tabber does NOT automatically draw itself when the tabs change in any way,
 // therefore care must be taken by the hub to draw at the right times.
+//
+// It used to be possible to have multiple tabs of the same tree, this was removed
+// as a possibility in v1.0.9 - around 2022-02-20. All related logic was deleted.
 
 const thumbnail = require("./thumbnail");
 
