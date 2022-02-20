@@ -6,7 +6,7 @@ const stringify = require("./stringify");
 
 const config_io = require("./config_io");		// Creates global.config
 config_io.load();								// Populates global.config
-config_io.create_if_needed();
+config_io.create_if_needed();					// Saves config.json if it doesn't exist
 
 // ---------------------------------------------------------------------------------------------------
 // The order of events is important...
