@@ -81,12 +81,11 @@ let hub_main_props = {
 			let root = new_roots[n];
 
 			// It might be acceptable to make the first root replace the one and only tab...
+			// (Note that this is ignored later if this.node doesn't even exist.)
 
 			let overwrite = false;
 
-			if (!this.node) {
-				overwrite = true;
-			} else if (tabber.tabs.length === 1 && n === 0) {
+			if (tabber.tabs.length === 1 && n === 0) {
 				if (!this.node.parent && this.node.children.length === 0) {
 					overwrite = true;
 				}
