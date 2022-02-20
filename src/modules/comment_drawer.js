@@ -2,9 +2,13 @@
 
 const {replace_all} = require("./utils");
 
-module.exports = {
+function init() {
+	let ret = Object.create(comment_drawer_prototype);
+	ret.div = document.getElementById("comments");
+	return ret;
+}
 
-	div: document.getElementById("comments"),
+let comment_drawer_prototype = {
 
 	draw: function(node) {
 
@@ -28,3 +32,6 @@ module.exports = {
 	}
 };
 
+
+
+module.exports = init();
