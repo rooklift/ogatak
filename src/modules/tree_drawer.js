@@ -2,19 +2,19 @@
 
 function init() {
 
-	let ret = Object.create(tree_drawer_prototype);
+	return Object.assign(Object.create(tree_drawer_prototype), {
 
-	ret.canvas = document.getElementById("treecanvas");
-	ret.ctx = document.getElementById("treecanvas").getContext("2d");
+		canvas: document.getElementById("treecanvas"),
+		ctx: document.getElementById("treecanvas").getContext("2d"),
 
-	ret.clickers = [];
-	ret.must_draw = false;
-	
-	ret.last_draw_cost = 0;						// Various things for debugging.
-	ret.call_count = 0;							// Although this is actually used by real logic now.
-	ret.draw_count = 0;
+		clickers: [],
+		must_draw: false,
 
-	return ret;
+		last_draw_cost: 0,				// Various things for debugging.
+		call_count: 0,					// Although this is actually used by real logic now.
+		draw_count: 0,
+
+	});
 }
 
 let tree_drawer_prototype = {

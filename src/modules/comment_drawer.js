@@ -3,9 +3,9 @@
 const {replace_all} = require("./utils");
 
 function init() {
-	let ret = Object.create(comment_drawer_prototype);
-	ret.div = document.getElementById("comments");
-	return ret;
+	return Object.assign(Object.create(comment_drawer_prototype), {
+		div: document.getElementById("comments")
+	});
 }
 
 let comment_drawer_prototype = {

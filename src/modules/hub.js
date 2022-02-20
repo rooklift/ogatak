@@ -23,26 +23,29 @@ function init() {
 	let hub_prototype = {};
 	Object.assign(hub_prototype, hub_main_props);
 	Object.assign(hub_prototype, require("./hub_settings"));
-	let ret = Object.create(hub_prototype);
 
-	ret.node = null;
-	ret.engine = new_engine();
+	let eng = new_engine();
 
 	if (config.arbitrary_command) {
-		ret.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
+		eng.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
 	} else {
-		ret.engine.setup(config.engine, config.engineconfig, config.weights);
+		eng.setup(config.engine, config.engineconfig, config.weights);
 	}
 
-	ret.__autoanalysis = false;					// Don't set this directly, because it should be ack'd
-	ret.__autoplay = false;						// Don't set this directly, because it should be ack'd
-	ret.__play_colour = null;					// Don't set this directly, because it should be ack'd
+	return Object.assign(Object.create(hub_prototype), {
 
-	ret.pending_up_down = 0;
-	ret.dropped_inputs = 0;
+		node: null,
+		engine: eng,
 
-	return ret;
-};
+		__autoanalysis: false,			// Don't set this directly, because it should be ack'd
+		__autoplay: false,				// Don't set this directly, because it should be ack'd
+		__play_colour: null,			// Don't set this directly, because it should be ack'd
+
+		pending_up_down: 0,
+		dropped_inputs: 0,
+
+	});
+}
 
 let hub_main_props = {
 

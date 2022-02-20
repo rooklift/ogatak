@@ -2,30 +2,30 @@
 
 function init() {
 
-	let ret = Object.create(grapher_prototype);
+	return Object.assign(Object.create(grapher_prototype), {
 
-	ret.canvas = document.getElementById("graphcanvas");
-	ret.positioncanvas = document.getElementById("graphpositioncanvas");
-	
-	ret.ctx = document.getElementById("graphcanvas").getContext("2d");
-	ret.posctx = document.getElementById("graphpositioncanvas").getContext("2d");
+		canvas: document.getElementById("graphcanvas"),
+		positioncanvas: document.getElementById("graphpositioncanvas"),
+		
+		ctx: document.getElementById("graphcanvas").getContext("2d"),
+		posctx: document.getElementById("graphpositioncanvas").getContext("2d"),
 
-	ret.draw_x_offset = 0;									// These are all to be set later. Every coordinate is based
-	ret.draw_y_offset = 0;									// on the drawable sizes, then shifted by the offsets.
-	ret.drawable_width = 0;
-	ret.drawable_height = 0;
+		draw_x_offset: 0,									// These are all to be set later. Every coordinate is based
+		draw_y_offset: 0,									// on the drawable sizes, then shifted by the offsets.
+		drawable_width: 0,
+		drawable_height: 0,
 
-	ret.line_end = null;
-	ret.major_colour = config.major_graph_colour;			// Cached so draw_position() knows what colour to use cheaply.
+		line_end: null,
+		major_colour: config.major_graph_colour,			// Cached so draw_position() knows what colour to use cheaply.
 
-	return ret;
+	});
 }
 
 let grapher_prototype = {
 
 	draw_graph: function(node) {
 
-		this.line_end = node.get_end();		// Set this now, before any early returns.
+		this.line_end = node.get_end();						// Set this now, before any early returns.
 
 		this.canvas.width = config.graph_width;
 		this.canvas.height = board_drawer.canvas.height + 48;
@@ -39,7 +39,7 @@ let grapher_prototype = {
 		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.square_size / 2));
 
 		if (this.too_small_to_draw()) {
-			this.draw_position(node);		// Just so it sets its size.
+			this.draw_position(node);						// Just so it sets its size.
 			return;
 		}
 
@@ -50,7 +50,7 @@ let grapher_prototype = {
 		let scores = [];
 		let winrates = [];
 
-		let abs_score_max = 5;				// To start with, means our score graph will have at least axis -5 to 5.
+		let abs_score_max = 5;								// To start with, means our score graph will have at least axis -5 to 5.
 
 		for (let h_node of history) {
 

@@ -10,13 +10,13 @@ const thumbnail = require("./thumbnail");
 const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
 function init() {
-	let ret = Object.create(tabber_prototype);
-	ret.div = document.getElementById("tabdiv");
-	ret.tabs = [ACTIVE_TAB_MARKER];
-	ret.image_cache = {};
-	ret.image_cache_square_size = config.thumbnail_square_size;
-	ret.last_drawn_active_id = "";
-	return ret;
+	return Object.assign(Object.create(tabber_prototype), {
+		div: document.getElementById("tabdiv"),
+		tabs: [ACTIVE_TAB_MARKER],
+		image_cache: {},
+		image_cache_square_size: config.thumbnail_square_size,
+		last_drawn_active_id: "",
+	});
 }
 
 let tabber_prototype = {
