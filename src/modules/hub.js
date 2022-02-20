@@ -72,27 +72,27 @@ let hub_main_props = {
 
 	// Tabs........................................................................................
 
-	add_roots: function(new_roots, force_new_tab = false) {
+	add_roots: function(new_roots, mode = "") {
+
+		// Special modes are "handicap" and "file" - they can sometimes replace this.node.
 
 		let switch_index = null;
 
-		for (let n = 0; n < new_roots.length; n++) {
+		for (let root of new_roots) {
 
-			let root = new_roots[n];
+			let will_replace = false;
 
-			// It might be acceptable to make the first root replace the one and only tab...
-
-			let can_replace = false;
-
-			if (this.node && tabber.tabs.length === 1 && n === 0) {
-				if (!this.node.parent && this.node.children.length === 0) {
-					can_replace = true;
-				}
+			if (!this.node) {
+				will_replace = true;
+			} else if (mode === "handicap" && this.node.is_bare_root()) {
+				will_replace = true;
+			} else if (mode === "file" && this.node.is_bare_root() && tabber.tabs.length === 1) {
+				will_replace = true;
 			}
 
 			let node = config.load_at_end ? root.get_end() : root;
 
-			if (!this.node || (can_replace && !force_new_tab)) {
+			if (will_replace) {
 				this.set_node(node, {bless: true});
 			} else {
 				switch_index = tabber.create_inactive_tab_at_end(node);
@@ -195,7 +195,7 @@ let hub_main_props = {
 		try {
 			let buf = Buffer.from(s);
 			let roots = this.get_roots_from_buffer(buf, "sgf", "");
-			this.add_roots(roots);
+			this.add_roots(roots, "file");
 		} catch (err) {
 			console.log("load_sgf_from_string():", err);
 			alert("While loading from string:\n" + err.toString());
@@ -250,7 +250,7 @@ let hub_main_props = {
 			alert("Load error:\n" + loader_errors[0].toString());
 		}
 
-		this.add_roots(new_roots);
+		this.add_roots(new_roots, "file");
 	},
 
 	// New game....................................................................................
@@ -292,7 +292,7 @@ let hub_main_props = {
 		root.set("RU", rules);
 		root.set("KM", komi);
 
-		this.add_roots([root], true);
+		this.add_roots([root], handicap ? "handicap" : "");
 	},
 
 	place_handicap: function(handicap) {

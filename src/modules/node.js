@@ -444,6 +444,10 @@ let node_prototype = {
 		return true;
 	},
 
+	is_bare_root: function() {
+		return !this.parent && this.children.length === 0;
+	},
+
 	detach: function() {
 
 		// Returns the node that the hub should point to,
