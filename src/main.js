@@ -316,15 +316,6 @@ function menu_build() {
 								});
 							}
 						},
-						{
-							label: "0",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [0]
-								});
-							}
-						},
 					]
 				},
 				{
