@@ -78,7 +78,7 @@ let hub_main_props = {
 
 		let switch_index = null;
 
-		for (let root of new_roots) {
+		for (let [n, root] of new_roots.entries()) {
 
 			let will_replace = false;
 
@@ -86,7 +86,7 @@ let hub_main_props = {
 				will_replace = true;
 			} else if (mode === "handicap" && this.node.is_bare_root()) {
 				will_replace = true;
-			} else if (mode === "file" && this.node.is_bare_root() && tabber.tabs.length === 1) {
+			} else if (mode === "file" && this.node.is_bare_root() && tabber.tabs.length === 1 && n === 0) {
 				will_replace = true;
 			}
 
