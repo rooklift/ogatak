@@ -297,7 +297,6 @@ let hub_main_props = {
 		} else {
 			this.add_roots([root], "");
 		}
-
 	},
 
 	place_handicap: function(handicap) {
