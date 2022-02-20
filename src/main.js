@@ -367,20 +367,35 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Save",
+					label: "Save game",
 					accelerator: "CommandOrControl+S",
 					click: () => {
 						win.webContents.send("call", "save_fast");
 					}
 				},
 				{
-					label: "Save as...",
+					label: "Save game as...",
 					click: () => {
 						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
 						.then(o => {
 							if (typeof o.filePath === "string" && o.filePath.length > 0) {
 								win.webContents.send("call", {
 									fn: "save",
+									args: [o.filePath]
+								});
+								two_process_set("sgf_folder", path.dirname(o.filePath));
+							}
+						});
+					},
+				},
+				{
+					label: "Save collection as...",
+					click: () => {
+						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+						.then(o => {
+							if (typeof o.filePath === "string" && o.filePath.length > 0) {
+								win.webContents.send("call", {
+									fn: "save_collection",
 									args: [o.filePath]
 								});
 								two_process_set("sgf_folder", path.dirname(o.filePath));

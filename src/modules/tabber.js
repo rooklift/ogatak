@@ -171,6 +171,14 @@ let tabber_prototype = {
 
 		return node;
 	},
+
+	tab_node_list: function(active_node) {
+		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		let ret = Array.from(this.tabs);
+		ret[active_index] = active_node;
+		return ret;
+	}
+
 };
 
 

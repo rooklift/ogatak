@@ -10,7 +10,7 @@ const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
-const save_sgf = require("./save_sgf");
+const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {get_title, set_title} = require("./title");
@@ -151,6 +151,11 @@ let hub_main_props = {
 		} else {
 			ipcRenderer.send("save_as_required");
 		}
+	},
+
+	save_collection: function(filepath) {
+		let nodes = tabber.tab_node_list(this.node);
+		save_sgf_multi(nodes, filepath);
 	},
 
 	get_roots_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
