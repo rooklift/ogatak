@@ -132,7 +132,6 @@ let hub_main_props = {
 		this.update_title();
 
 		node_to_destroy.destroy_tree();
-
 	},
 
 	// Saving and loading .........................................................................
