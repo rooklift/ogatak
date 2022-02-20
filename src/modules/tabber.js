@@ -11,7 +11,7 @@ const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
 function init() {
 	let ret = Object.create(tabber_prototype);
-	ret.tabdiv = document.getElementById("tabdiv");
+	ret.div = document.getElementById("tabdiv");
 	ret.tabs = [ACTIVE_TAB_MARKER];
 	ret.image_cache = {};
 	ret.image_cache_square_size = config.thumbnail_square_size;
@@ -37,8 +37,8 @@ let tabber_prototype = {
 
 		this.validate_cache();
 
-		this.tabdiv.innerHTML = "";
-		this.tabdiv.appendChild(document.createElement("br"));
+		this.div.innerHTML = "";
+		this.div.appendChild(document.createElement("br"));
 
 		let items = [];
 
@@ -62,9 +62,9 @@ let tabber_prototype = {
 			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
 			img.title = node.game_title_text();
 
-			this.tabdiv.appendChild(img);
-			this.tabdiv.appendChild(document.createElement("br"));
-			this.tabdiv.appendChild(document.createElement("br"));
+			this.div.appendChild(img);
+			this.div.appendChild(document.createElement("br"));
+			this.div.appendChild(document.createElement("br"));
 		}
 
 		for (let key of Object.keys(this.image_cache)) {
