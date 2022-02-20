@@ -133,10 +133,6 @@ let tabber_prototype = {
 		return switch_node;
 	},
 
-	active_tab_is_last_tab: function() {
-		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
-	},
-
 	create_inactive_tab_at_end: function(node) {
 
 		if (typeof node !== "object" || node === null) {
