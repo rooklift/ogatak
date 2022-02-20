@@ -4,6 +4,9 @@
 //
 // The tabber does NOT automatically draw itself when the tabs change in any way,
 // therefore care must be taken by the hub to draw at the right times.
+//
+// It used to be possible to have multiple tabs of the same tree, this was removed
+// as a possibility in v1.0.9 - around 2022-02-20. All related logic was deleted.
 
 const thumbnail = require("./thumbnail");
 
@@ -130,74 +133,8 @@ let tabber_prototype = {
 		return switch_node;
 	},
 
-	inactive_tab_exists: function(node) {			// Returns true if one of the inactive tabs is for the node given.
-		for (let t of this.tabs) {
-			if (t === node) {
-				return true;
-			}
-		}
-		return false;
-	},
-
 	active_tab_is_last_tab: function() {
 		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
-	},
-
-	remove_deleted_nodes: function() {				// Returns true iff some tab was deleted.
-
-		let initial_length = this.tabs.length;
-
-		let fixed = [];
-
-		for (let node of this.tabs) {
-			if (node === ACTIVE_TAB_MARKER || !node.destroyed) {
-				fixed.push(node);
-			}
-		}
-
-		this.tabs = fixed;
-
-		return fixed.length !== initial_length;
-	},
-
-	tree_exists_in_inactive_tabs: function(node) {
-
-		if (!node) {
-			return false;
-		}
-
-		let root = node.get_root();
-
-		for (let t of this.tabs) {
-
-			if (t === ACTIVE_TAB_MARKER) {
-				continue;
-			}
-
-			if (t.get_root() === root) {
-				return true;
-			}
-		}
-
-		return false;
-	},
-
-	create_inactive_tab_after_active: function(node) {
-
-		if (typeof node !== "object" || node === null) {
-			throw "create_inactive_tab_after_active(): bad argument";
-		}
-
-		// Returns the index, so it can be easily switched to immediately.
-
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "create_inactive_tab_after_active(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
-
-		this.tabs.splice(active_index + 1, 0, node);
-
-		return active_index + 1;
 	},
 
 	create_inactive_tab_at_end: function(node) {

@@ -38,11 +38,7 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "td_");
 	if (s) {
-		if (event.which === 2) {
-			hub.new_active_view_try_move(s);
-		} else {
-			hub.try_move(s);
-		}
+		hub.try_move(s);
 	}
 });
 
@@ -74,11 +70,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 	event.preventDefault();
 	let node = grapher.node_from_click(hub.node, event);
 	if (node) {
-		if (event.which === 2) {
-			hub.new_active_view_arbitrary_node(node);
-		} else {
-			hub.set_node(node, {bless: false});
-		}
+		hub.set_node(node, {bless: false});
 	}
 });
 
@@ -86,11 +78,7 @@ document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
-		if (event.which === 2) {
-			hub.new_active_view_arbitrary_node(node);
-		} else {
-			hub.set_node(node, {bless: true});
-		}
+		hub.set_node(node, {bless: true});
 	}
 });
 

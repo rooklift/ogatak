@@ -82,16 +82,12 @@ let hub_main_props = {
 
 			// It might be acceptable to make the first root overwrite the current node...
 
-			let overwrite;
+			let overwrite = false;
 
 			if (!this.node) {
 				overwrite = true;
-			} else if (tabber.inactive_tab_exists(this.node)) {
-				overwrite = false;
 			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
 				overwrite = true;
-			} else {
-				overwrite = false;
 			}
 
 			let node = config.load_at_end ? root.get_end() : root;
@@ -121,29 +117,9 @@ let hub_main_props = {
 		this.update_title();
 	},
 
-	new_active_view: function() {
-		let index = tabber.create_inactive_tab_after_active(this.node);
-		this.switch_tab(index);
-	},
-
-	new_active_view_try_move: function(s) {
-		let node = this.node.try_move(s);
-		if (node !== this.node) {
-			let index = tabber.create_inactive_tab_after_active(node);
-			this.switch_tab(index);
-		}
-	},
-
-	new_active_view_arbitrary_node: function(node) {
-		if (node) {
-			let index = tabber.create_inactive_tab_after_active(node);
-			this.switch_tab(index);
-		}
-	},
-
 	close_tab: function() {
 
-		let node_to_destroy = tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;
+		let node_to_destroy = this.node;
 
 		if (tabber.tabs.length === 1) {
 			this.node = null;
@@ -155,10 +131,7 @@ let hub_main_props = {
 		tabber.draw_tabs(this.node);
 		this.update_title();
 
-		if (node_to_destroy) {
-			node_to_destroy.destroy_tree();
-		}
-
+		node_to_destroy.destroy_tree();
 	},
 
 	// Saving and loading .........................................................................
@@ -505,9 +478,6 @@ let hub_main_props = {
 			}
 			this.node.save_ok = false;
 		}
-		if (tabber.remove_deleted_nodes()) {
-			tabber.draw_tabs(this.node);
-		}
 	},
 
 	delete_other_lines: function() {
@@ -528,9 +498,6 @@ let hub_main_props = {
 		if (changed) {
 			this.draw();
 			tree_drawer.must_draw = true;
-			if (tabber.remove_deleted_nodes()) {
-				tabber.draw_tabs(this.node);
-			}
 		}
 	},
 
