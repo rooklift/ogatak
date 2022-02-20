@@ -292,7 +292,12 @@ let hub_main_props = {
 		root.set("RU", rules);
 		root.set("KM", komi);
 
-		this.add_roots([root], handicap ? "handicap" : "");
+		if (handicap) {
+			this.add_roots([root], "handicap");			// Puts add_roots into a special mode where it can (maybe) replace this.node
+		} else {
+			this.add_roots([root], "");
+		}
+
 	},
 
 	place_handicap: function(handicap) {
