@@ -16,8 +16,6 @@ global.alert = (msg) => {
 	ipcRenderer.send("alert", stringify(msg));
 };
 
-global.zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
-
 global.hub = require("./hub");
 global.tabber = require("./tabber");
 global.board_drawer = require("./board_drawer");
