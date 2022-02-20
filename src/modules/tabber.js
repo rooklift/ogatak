@@ -134,24 +134,6 @@ let tabber_prototype = {
 		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
 	},
 
-	create_inactive_tab_after_active: function(node) {
-
-		if (typeof node !== "object" || node === null) {
-			throw "create_inactive_tab_after_active(): bad argument";
-		}
-
-		// Returns the index, so it can be easily switched to immediately.
-
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "create_inactive_tab_after_active(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
-
-		this.tabs.splice(active_index + 1, 0, node);
-
-		return active_index + 1;
-	},
-
 	create_inactive_tab_at_end: function(node) {
 
 		if (typeof node !== "object" || node === null) {
