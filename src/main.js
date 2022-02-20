@@ -119,7 +119,10 @@ function startup() {
 	});
 
 	electron.ipcMain.on("save_as_required", (event, msg) => {
-		electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+		electron.dialog.showSaveDialog(win, {
+			defaultPath: config.sgf_folder,
+			filters: [{name: "Smart Game Format", extensions: ["sgf"]}, {name: "All files", extensions: ["*"]}]
+		})
 		.then(o => {
 			if (typeof o.filePath === "string" && o.filePath.length > 0) {
 				win.webContents.send("call", {
@@ -376,7 +379,10 @@ function menu_build() {
 				{
 					label: "Save game as...",
 					click: () => {
-						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+						electron.dialog.showSaveDialog(win, {
+							defaultPath: config.sgf_folder,
+							filters: [{name: "Smart Game Format", extensions: ["sgf"]}, {name: "All files", extensions: ["*"]}]
+						})
 						.then(o => {
 							if (typeof o.filePath === "string" && o.filePath.length > 0) {
 								win.webContents.send("call", {
@@ -394,7 +400,10 @@ function menu_build() {
 				{
 					label: "Save collection as...",
 					click: () => {
-						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
+						electron.dialog.showSaveDialog(win, {
+							defaultPath: config.sgf_folder,
+							filters: [{name: "Smart Game Format", extensions: ["sgf"]}, {name: "All files", extensions: ["*"]}]
+						})
 						.then(o => {
 							if (typeof o.filePath === "string" && o.filePath.length > 0) {
 								win.webContents.send("call", {
