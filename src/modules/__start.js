@@ -2,10 +2,9 @@
 
 const {ipcRenderer} = require("electron");
 const {get_href_query_val} = require("./utils");
-
-const config_io = require("./config_io");		// Creates global.config
 const stringify = require("./stringify");
 
+const config_io = require("./config_io");		// Creates global.config
 config_io.load();								// Populates global.config
 config_io.create_if_needed();
 
