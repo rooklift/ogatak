@@ -389,6 +389,9 @@ function menu_build() {
 					},
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Save collection as...",
 					click: () => {
 						electron.dialog.showSaveDialog(win, {defaultPath: config.sgf_folder})
