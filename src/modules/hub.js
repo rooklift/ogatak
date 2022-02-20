@@ -105,6 +105,8 @@ let hub_main_props = {
 			tabber.draw_active_tab(this.node);
 			this.update_title();
 		}
+
+		tabber.div.scrollTop = tabber.div.scrollHeight;
 	},
 
 	switch_tab: function(index) {
