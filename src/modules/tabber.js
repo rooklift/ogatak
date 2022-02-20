@@ -130,56 +130,8 @@ let tabber_prototype = {
 		return switch_node;
 	},
 
-	inactive_tab_exists: function(node) {			// Returns true if one of the inactive tabs is for the node given.
-		for (let t of this.tabs) {
-			if (t === node) {
-				return true;
-			}
-		}
-		return false;
-	},
-
 	active_tab_is_last_tab: function() {
 		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
-	},
-
-	remove_deleted_nodes: function() {				// Returns true iff some tab was deleted.
-
-		let initial_length = this.tabs.length;
-
-		let fixed = [];
-
-		for (let node of this.tabs) {
-			if (node === ACTIVE_TAB_MARKER || !node.destroyed) {
-				fixed.push(node);
-			}
-		}
-
-		this.tabs = fixed;
-
-		return fixed.length !== initial_length;
-	},
-
-	tree_exists_in_inactive_tabs: function(node) {
-
-		if (!node) {
-			return false;
-		}
-
-		let root = node.get_root();
-
-		for (let t of this.tabs) {
-
-			if (t === ACTIVE_TAB_MARKER) {
-				continue;
-			}
-
-			if (t.get_root() === root) {
-				return true;
-			}
-		}
-
-		return false;
 	},
 
 	create_inactive_tab_after_active: function(node) {
