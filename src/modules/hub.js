@@ -85,7 +85,7 @@ let hub_main_props = {
 
 			let overwrite = false;
 
-			if (tabber.tabs.length === 1 && n === 0) {
+			if (this.node && tabber.tabs.length === 1 && n === 0) {
 				if (!this.node.parent && this.node.children.length === 0) {
 					overwrite = true;
 				}
