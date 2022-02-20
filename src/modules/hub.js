@@ -72,7 +72,7 @@ let hub_main_props = {
 
 	// Tabs........................................................................................
 
-	add_roots: function(new_roots) {
+	add_roots: function(new_roots, force_new_tab = false) {
 
 		let switch_index = null;
 
@@ -80,19 +80,21 @@ let hub_main_props = {
 
 			let root = new_roots[n];
 
-			// It might be acceptable to make the first root overwrite the current node...
+			// It might be acceptable to make the first root replace the one and only tab...
 
 			let overwrite = false;
 
 			if (!this.node) {
 				overwrite = true;
-			} else if (n === 0 && !this.node.parent && this.node.children.length === 0 && (tabber.active_tab_is_last_tab() || new_roots.length === 1)) {
-				overwrite = true;
+			} else if (tabber.tabs.length === 1 && n === 0) {
+				if (!this.node.parent && this.node.children.length === 0) {
+					overwrite = true;
+				}
 			}
 
 			let node = config.load_at_end ? root.get_end() : root;
 
-			if (overwrite) {
+			if (!this.node || (overwrite && !force_new_tab)) {
 				this.set_node(node, {bless: true});
 			} else {
 				switch_index = tabber.create_inactive_tab_at_end(node);
@@ -290,7 +292,7 @@ let hub_main_props = {
 		root.set("RU", rules);
 		root.set("KM", komi);
 
-		this.add_roots([root]);
+		this.add_roots([root], true);
 	},
 
 	place_handicap: function(handicap) {
