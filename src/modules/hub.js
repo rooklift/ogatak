@@ -99,14 +99,13 @@ let hub_main_props = {
 			}
 		}
 
-		if (switch_index !== null) {
-			this.switch_tab(switch_index);
-		} else {
+		if (switch_index === null) {				// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();
+		} else {									// We added tabs to the end
+			this.switch_tab(switch_index);
+			tabber.div.scrollTop = tabber.div.scrollHeight;
 		}
-
-		tabber.div.scrollTop = tabber.div.scrollHeight;
 	},
 
 	switch_tab: function(index) {
