@@ -81,19 +81,18 @@ let hub_main_props = {
 			let root = new_roots[n];
 
 			// It might be acceptable to make the first root replace the one and only tab...
-			// (Note that this is ignored later if this.node doesn't even exist.)
 
-			let overwrite = false;
+			let can_replace = false;
 
 			if (this.node && tabber.tabs.length === 1 && n === 0) {
 				if (!this.node.parent && this.node.children.length === 0) {
-					overwrite = true;
+					can_replace = true;
 				}
 			}
 
 			let node = config.load_at_end ? root.get_end() : root;
 
-			if (!this.node || (overwrite && !force_new_tab)) {
+			if (!this.node || (can_replace && !force_new_tab)) {
 				this.set_node(node, {bless: true});
 			} else {
 				switch_index = tabber.create_inactive_tab_at_end(node);
