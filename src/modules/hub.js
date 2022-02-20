@@ -121,26 +121,6 @@ let hub_main_props = {
 		this.update_title();
 	},
 
-	new_active_view: function() {
-		let index = tabber.create_inactive_tab_after_active(this.node);
-		this.switch_tab(index);
-	},
-
-	new_active_view_try_move: function(s) {
-		let node = this.node.try_move(s);
-		if (node !== this.node) {
-			let index = tabber.create_inactive_tab_after_active(node);
-			this.switch_tab(index);
-		}
-	},
-
-	new_active_view_arbitrary_node: function(node) {
-		if (node) {
-			let index = tabber.create_inactive_tab_after_active(node);
-			this.switch_tab(index);
-		}
-	},
-
 	close_tab: function() {
 
 		let node_to_destroy = tabber.tree_exists_in_inactive_tabs(this.node) ? null : this.node;

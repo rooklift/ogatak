@@ -328,13 +328,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "New view into this game",
-					accelerator: "CommandOrControl+T",
-					click: () => {
-						win.webContents.send("call", "new_active_view");
-					}
-				},
-				{
 					label: "Close tab",
 					accelerator: "CommandOrControl+W",
 					click: () => {
