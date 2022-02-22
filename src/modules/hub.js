@@ -367,41 +367,25 @@ let hub_main_props = {
 		return true;
 	},
 
-	add_pv: function(s) {		// User middle-clicked on square s
+	add_pv: function() {
 
-		if (!config.candidate_moves || !config.mouseover_pv) {
-			return;
-		}
+		// User middle-clicked the board. We don't even need to worry about what the square
+		// was - any PV that is actually being drawn is stored as board_drawer.pv
 
-		let board = this.node.get_board();
-		let gtp = board.gtp(s);
-		let info;
+		if (Array.isArray(board_drawer.pv) && board_drawer.pv.length > 0) {
 
-		for (let foo of moveinfo_filter(this.node)) {		// So add_pv() only acts if the clicked spot is actually displaying.
-			if (foo.move === gtp) {
-				if (Array.isArray(foo.pv) && foo.pv.length > 0) {
-					info = foo;
+			let node = this.node;
+
+			for (let s of board_drawer.pv) {
+				if (s === "") {
+					node = node.pass();
+				} else {
+					node = node.try_move(s);
 				}
-				break;
 			}
+
+			tree_drawer.must_draw = true;
 		}
-
-		if (!info) {
-			return;
-		}
-
-		let node = this.node;
-
-		for (let move of info.pv) {
-			let s = board.parse_gtp_move(move);
-			if (s === "") {
-				node = node.pass();
-			} else {
-				node = node.try_move(s);
-			}
-		}
-
-		tree_drawer.must_draw = true;
 	},
 
 	try_move: function(s) {

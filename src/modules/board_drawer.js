@@ -53,11 +53,12 @@ function init() {
 		square_size: null,
 		board_line_width: null,
 
-		last_draw_was_pv: false,
-
 		table_state: new_2d_array(25, 25, ""),		// Updated live, contains "", "b", "w" ... what the TD is displaying.
 		death_marks: [],							// Updated live, [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
+
+		pv: null,									// The PV that has actually been drawn, or null if there isn't one.
+		last_draw_was_pv: false,
 		
 	});
 }
@@ -283,6 +284,7 @@ let board_drawer_prototype = {
 		this.draw_canvas();
 		this.draw_node_info(node);
 		this.last_draw_was_pv = false;
+		this.pv = null;
 	},
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
@@ -333,6 +335,7 @@ let board_drawer_prototype = {
 		this.draw_canvas();
 		this.draw_node_info(node, info);
 		this.last_draw_was_pv = true;
+		this.pv = points;
 
 		return true;
 	},
@@ -522,13 +525,13 @@ let board_drawer_prototype = {
 		// Note that the hub has bad_death_mark_spinner() to clean up these marks if needed.
 	},
 
-	plan_pv_labels(points) {			// Where points is an array of the moves played in the PV, in order.
+	plan_pv_labels: function(points) {		// Where points is an array of the moves played in the PV, in order.
 
 		for (let n = 0; n < points.length; n++) {
 
 			let s = points[n];
 
-			if (s.length === 2) {		// Otherwise, it's a pass and we don't draw it.
+			if (s.length === 2) {			// Otherwise, it's a pass and we don't draw it.
 
 				let x = s.charCodeAt(0) - 97;
 				let y = s.charCodeAt(1) - 97;
