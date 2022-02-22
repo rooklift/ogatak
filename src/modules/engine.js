@@ -50,8 +50,8 @@ let engine_prototype = {
 		}
 		try {
 			let msg = JSON.stringify(o);
-			this.exe.stdin.write(msg);			// If there's an exception here, the exe.stdin exception handler (created below)
-			this.exe.stdin.write("\n");			// will set this.exe to null, causing this second line to throw... meh, it's fine.
+			this.exe.stdin.write(msg);
+			this.exe.stdin.write("\n");
 			if (o.moves) {
 				log(`--> (Request ${o.id}, ${o.moves.length} moves)`);
 			} else {
