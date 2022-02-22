@@ -610,7 +610,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Promote 1 level",
+					label: "Promote line",
 					accelerator: "CommandOrControl+K",
 					click: () => {
 						win.webContents.send("call", {
