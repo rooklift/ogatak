@@ -369,8 +369,8 @@ let hub_main_props = {
 
 	add_pv: function() {
 
-		// User middle-clicked the board. We don't even need to worry about what the square
-		// was - any PV that is actually being drawn is stored as board_drawer.pv
+		// We don't even need to worry about what the relevant square (first move)
+		// is - any PV that is actually being drawn is stored as board_drawer.pv
 
 		if (Array.isArray(board_drawer.pv) && board_drawer.pv.length > 0) {
 
