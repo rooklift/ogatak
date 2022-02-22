@@ -5,4 +5,6 @@
 
 document.getElementById("gridder").style["display"] = "grid";
 
+// And then this does everything:
+
 require("./modules/__start");
