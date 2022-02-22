@@ -228,14 +228,6 @@ let board_prototype = {
 		// Returns true if the active player can legally play at the point given.
 		// Note: does NOT consider passes as "legal moves".
 
-		return this.legal_move_colour(s, this.active);
-	},
-
-	legal_move_colour: function(s, colour) {
-
-		// Returns true if the given colour can legally play at the point given.
-		// Note: does NOT consider passes as "legal moves".
-
 		if (this.in_bounds(s) === false) {
 			return false;
 		}
@@ -259,13 +251,13 @@ let board_prototype = {
 		}
 
 		for (let neighbour of neighbours) {
-			if (this.state_at(neighbour) === colour) {
+			if (this.state_at(neighbour) === this.active) {
 				let touched = Object.create(null);
 				touched[s] = true;
 				if (this.has_liberties_recurse(neighbour, touched)) {
 					return true;				// One of the groups we're joining has a liberty other than s.
 				}
-			} else if (this.state_at(neighbour) === opposite_colour(colour)) {
+			} else if (this.state_at(neighbour) === opposite_colour(this.active)) {
 				let touched = Object.create(null);
 				touched[s] = true;
 				if (this.has_liberties_recurse(neighbour, touched) === false) {
@@ -279,7 +271,7 @@ let board_prototype = {
 
 	play_move_or_pass: function(s, colour) {
 
-		// Play the move (or pass) given. Contains no legality checks!
+		// Play the move (or pass) given... contains no legality checks... can play ko... can play the inactive colour!
 
 		if (colour !== "b" && colour !== "w") {
 			throw "play_move_or_pass() - Invalid colour";
