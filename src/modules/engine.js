@@ -45,7 +45,7 @@ let engine_prototype = {
 		if (!this.exe) {
 			return;
 		}
-		if (typeof o !== "object") {
+		if (typeof o !== "object" || o === null) {
 			throw "__send() requires an object";
 		}
 		try {
