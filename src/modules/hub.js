@@ -311,10 +311,12 @@ let hub_main_props = {
 			return false;
 		}
 
+		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
+
 		let opts = {
 			keep_autoplay_settings: false,
-			full_graph_draw: false,				// Beware: these actions won't be taken if node === this.node
-			bless: false						// as the function has already returned (see above).
+			full_graph_draw: false,
+			bless: false				// When a caller leaves this as false, it's just because it isn't necessary.
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);
