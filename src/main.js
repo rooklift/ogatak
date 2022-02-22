@@ -610,10 +610,20 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Promote 1 level",
+					accelerator: "CommandOrControl+K",
+					click: () => {
+						win.webContents.send("call", "promote");
+					}
+				},
+				{
 					label: "Promote line to main line",
 					accelerator: "CommandOrControl+L",
 					click: () => {
-						win.webContents.send("call", "promote_to_main_line");
+						win.webContents.send("call", {
+							fn: "promote_to_main_line",
+							args: [true]
+						});
 					}
 				},
 				{

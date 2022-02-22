@@ -437,7 +437,7 @@ let hub_main_props = {
 
 		let ok = this.set_node(this.node.return_to_main_line_helper(), {full_graph_draw: true, bless: false});
 
-		if (!ok) {									// set_node() returned instantly, so we gotta draw graph and tree...
+		if (!ok) {									// set_node() returned instantly, so the following didn't get done...
 			grapher.draw_graph(this.node);
 			tree_drawer.must_draw = true;
 		}
@@ -451,10 +451,9 @@ let hub_main_props = {
 		this.set_node(this.node.next_fork_helper(), {bless: false});
 	},
 
-	promote_to_main_line: function(suppress_draw) {
+	promote_to_main_line: function(include_descendants) {
 
-		let node = this.node.get_end();
-		let changed = false;
+		let node = include_descendants ? this.node.get_end() : this.node;
 
 		while (node.parent) {
 			if (node.parent.children[0] !== node) {
@@ -462,7 +461,6 @@ let hub_main_props = {
 					if (node.parent.children[n] === node) {
 						node.parent.children[n] = node.parent.children[0];
 						node.parent.children[0] = node;
-						changed = true;
 						break;
 					}
 				}
@@ -470,9 +468,29 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
-		if (changed && !suppress_draw) {
-			tree_drawer.must_draw = true;
+		tree_drawer.must_draw = true;
+	},
+
+	promote: function() {
+
+		let node = this.node;
+
+		while (node.parent) {
+			if (node.parent.children[0] !== node) {
+				for (let n = 1; n < node.parent.children.length; n++) {
+					if (node.parent.children[n] === node) {
+						let swapper = node.parent.children[n - 1];
+						node.parent.children[n - 1] = node;
+						node.parent.children[n] = swapper;
+						break;
+					}
+				}
+				break;		// 1 tree change only
+			}
+			node = node.parent;
 		}
+
+		tree_drawer.must_draw = true;
 	},
 
 	delete_node: function() {
@@ -495,20 +513,16 @@ let hub_main_props = {
 		this.promote_to_main_line(true);
 
 		let node = this.node.get_root();
-		let changed = false;
 
 		while (node.children.length > 0) {
 			for (let child of node.children.slice(1)) {
 				child.detach();
-				changed = true;
 			}
 			node = node.children[0];
 		}
 
-		if (changed) {
-			this.draw();
-			tree_drawer.must_draw = true;
-		}
+		tree_drawer.must_draw = true;
+		this.draw();											// I guess, because next move markers may need cleared.
 	},
 
 	forget_analysis_tree: function() {
