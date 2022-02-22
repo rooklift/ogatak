@@ -117,6 +117,7 @@ let board_drawer_prototype = {
 		}
 
 		this.death_marks = [];													// Cleared whenever canvas is cleared.
+		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
 		this.backgrounddiv.style.height = (this.height * config.square_size).toString() + "px";
