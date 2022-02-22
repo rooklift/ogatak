@@ -41,7 +41,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	setTimeout(up_down_spinner, config.input_delay);			// This can be a very low number, even 0 might be OK?
 })();
 
-(function window_resize_checker() {
+(function window_resize_spinner() {
 
 	let width = Math.floor(window.innerWidth * zoomfactor);
 	let height = Math.floor(window.innerHeight * zoomfactor);
@@ -59,7 +59,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 
-	setTimeout(window_resize_checker, 125);
+	setTimeout(window_resize_spinner, 125);
 })();
 
 (function bad_death_mark_spinner() {
