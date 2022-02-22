@@ -712,9 +712,9 @@ let hub_main_props = {
 			this.engine = new_engine();
 		}
 		if (config.arbitrary_command) {
-			hub.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
+			this.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
 		} else {
-			hub.engine.setup(config.engine, config.engineconfig, config.weights);
+			this.engine.setup(config.engine, config.engineconfig, config.weights);
 		}
 		this.draw();
 	},
