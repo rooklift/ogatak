@@ -53,9 +53,9 @@ function init() {
 		square_size: null,
 		board_line_width: null,
 
-		pv: null,									// The PV that has actually been drawn, or null if there isn't one.
-		death_marks: [],							// Updated live, [x, y] items of death marks existing. Relied on by bad_death_mark_spinner().
-		table_state: new_2d_array(25, 25, ""),		// Updated live, contains "", "b", "w" ... what the TD is displaying.
+		pv: null,									// The PV drawn, or null if there isn't one.
+		death_marks: [],							// [x, y] items of death marks drawn.
+		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
