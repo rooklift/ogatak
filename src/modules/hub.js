@@ -369,8 +369,8 @@ let hub_main_props = {
 
 	add_pv: function() {						// Not sure if want. The end of the PV is poor quality.
 
-		// We don't even need to worry about what the relevant square (first move)
-		// is - any PV that is actually being drawn is stored as board_drawer.pv
+		// We don't need to worry about what the relevant square (first move) is
+		// because any PV that is actually being drawn is stored as board_drawer.pv
 
 		if (board_drawer.pv) {
 
