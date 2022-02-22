@@ -471,9 +471,9 @@ let hub_main_props = {
 		tree_drawer.must_draw = true;
 	},
 
-	promote: function() {
+	promote: function(include_descendants) {
 
-		let node = this.node;
+		let node = include_descendants ? this.node.get_end() : this.node;
 
 		while (node.parent) {
 			if (node.parent.children[0] !== node) {

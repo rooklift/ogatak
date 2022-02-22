@@ -613,7 +613,10 @@ function menu_build() {
 					label: "Promote 1 level",
 					accelerator: "CommandOrControl+K",
 					click: () => {
-						win.webContents.send("call", "promote");
+						win.webContents.send("call", {
+							fn: "promote",
+							args: [true]
+						});
 					}
 				},
 				{
