@@ -372,7 +372,7 @@ let hub_main_props = {
 		// We don't even need to worry about what the relevant square (first move)
 		// is - any PV that is actually being drawn is stored as board_drawer.pv
 
-		if (Array.isArray(board_drawer.pv) && board_drawer.pv.length > 0) {
+		if (board_drawer.pv) {
 
 			let node = this.node;
 
@@ -874,7 +874,7 @@ let hub_main_props = {
 		// We did not draw a PV, so if the last draw that actually happened was a PV, it
 		// was for some other point, and we need to do a standard draw to hide it...
 
-		if (board_drawer.last_draw_was_pv) {
+		if (board_drawer.pv) {
 			board_drawer.draw_standard(this.node);
 		}
 	},

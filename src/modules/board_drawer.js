@@ -58,7 +58,6 @@ function init() {
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
 		pv: null,									// The PV that has actually been drawn, or null if there isn't one.
-		last_draw_was_pv: false,
 		
 	});
 }
@@ -283,7 +282,6 @@ let board_drawer_prototype = {
 
 		this.draw_canvas();
 		this.draw_node_info(node);
-		this.last_draw_was_pv = false;
 		this.pv = null;
 	},
 
@@ -334,7 +332,6 @@ let board_drawer_prototype = {
 
 		this.draw_canvas();
 		this.draw_node_info(node, info);
-		this.last_draw_was_pv = true;
 		this.pv = points;
 
 		return true;
