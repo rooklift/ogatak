@@ -14,7 +14,7 @@ const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions} = require("./utils");
+const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions, moveinfo_filter} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -365,6 +365,27 @@ let hub_main_props = {
 		comment_drawer.draw(this.node);
 
 		return true;
+	},
+
+	add_pv: function() {
+
+		// We don't even need to worry about what the relevant square (first move)
+		// is - any PV that is actually being drawn is stored as board_drawer.pv
+
+		if (Array.isArray(board_drawer.pv) && board_drawer.pv.length > 0) {
+
+			let node = this.node;
+
+			for (let s of board_drawer.pv) {
+				if (s === "") {
+					node = node.pass();
+				} else {
+					node = node.try_move(s);
+				}
+			}
+
+			tree_drawer.must_draw = true;
+		}
 	},
 
 	try_move: function(s) {
