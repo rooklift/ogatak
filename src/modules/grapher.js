@@ -132,7 +132,7 @@ let grapher_prototype = {
 		ctx.lineWidth = linewidth;
 		ctx.strokeStyle = colour;
 
-		let graph_length = node.graph_length_knower.val;
+		let graph_depth = node.graph_depth_knower.val;
 
 		// Draw solid portions.....................................................................
 
@@ -149,7 +149,7 @@ let grapher_prototype = {
 			}
 
 			let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
-			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
+			let gy = this.draw_y_offset + (this.drawable_height * n / graph_depth);
 
 			if (!started) {
 				if (typeof vals[n + 1] === "number") {
@@ -180,7 +180,7 @@ let grapher_prototype = {
 				if (!started) {
 
 					let gx = this.draw_x_offset + (this.drawable_width * vals[n - 1]);
-					let gy = this.draw_y_offset + (this.drawable_height * (n - 1) / graph_length);
+					let gy = this.draw_y_offset + (this.drawable_height * (n - 1) / graph_depth);
 
 					ctx.beginPath();
 					ctx.moveTo(gx, gy);
@@ -194,7 +194,7 @@ let grapher_prototype = {
 				if (started) {
 
 					let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
-					let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
+					let gy = this.draw_y_offset + (this.drawable_height * n / graph_depth);
 
 					ctx.lineTo(gx, gy);
 					ctx.stroke();
@@ -238,7 +238,7 @@ let grapher_prototype = {
 		}
 
 		let ctx = this.posctx;
-		let graph_length = node.graph_length_knower.val;
+		let graph_depth = node.graph_depth_knower.val;
 
 		// Position marker...
 
@@ -249,19 +249,19 @@ let grapher_prototype = {
 		ctx.beginPath();
 		ctx.moveTo(
 			this.draw_x_offset + (this.drawable_width / 2) - config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_depth * this.drawable_height));
 		ctx.lineTo(
 			this.draw_x_offset,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_depth * this.drawable_height));
 		ctx.stroke();
 
 		ctx.beginPath();
 		ctx.moveTo(
 			this.draw_x_offset + (this.drawable_width / 2) + config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_depth * this.drawable_height));
 		ctx.lineTo(
 			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_depth * this.drawable_height));
 		ctx.stroke();
 
 		ctx.setLineDash([]);
@@ -275,7 +275,7 @@ let grapher_prototype = {
 		ctx.fillText(
 			node.depth.toString(),
 			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (this.drawable_height * node.depth / graph_length) + 4
+			this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
 		);
 	},
 
@@ -295,7 +295,7 @@ let grapher_prototype = {
 
 		let node_list = node.get_end().history();
 
-		let click_depth = Math.round(node.graph_length_knower.val * mousey / this.drawable_height);
+		let click_depth = Math.round(node.graph_depth_knower.val * mousey / this.drawable_height);
 
 		if (click_depth < 0) click_depth = 0;
 		if (click_depth >= node_list.length) click_depth = node_list.length - 1;
