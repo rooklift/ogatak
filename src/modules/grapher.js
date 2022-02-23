@@ -43,8 +43,10 @@ let grapher_prototype = {
 			return;
 		}
 
-		let ctx = this.ctx;
+		// The real work...
 
+		let ctx = this.ctx;
+		let graph_length = node.graph_length_knower.val;
 		let history = this.line_end.history();
 
 		let scores = [];
@@ -118,9 +120,9 @@ let grapher_prototype = {
 		ctx.strokeStyle = config.minor_graph_colour;
 
 		if (config.graph_type === "Score") {
-			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.minor_graph_linewidth);
+			this.__draw_vals(winrates, 1, graph_length, config.minor_graph_linewidth);
 		} else {
-			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.minor_graph_linewidth);
+			this.__draw_vals(scores, abs_score_max, graph_length, config.minor_graph_linewidth);
 		}
 
 		// Next the major draw, i.e. the brighter line...
@@ -130,9 +132,9 @@ let grapher_prototype = {
 		ctx.strokeStyle = this.major_colour;
 
 		if (config.graph_type === "Score") {
-			this.__draw_vals(scores, abs_score_max, node.graph_length_knower.val, config.major_graph_linewidth);
+			this.__draw_vals(scores, abs_score_max, graph_length, config.major_graph_linewidth);
 		} else {
-			this.__draw_vals(winrates, 1, node.graph_length_knower.val, config.major_graph_linewidth);
+			this.__draw_vals(winrates, 1, graph_length, config.major_graph_linewidth);
 		}
 
 		// Then the position line on top...
@@ -153,6 +155,7 @@ let grapher_prototype = {
 		}
 
 		let ctx = this.posctx;
+		let graph_length = node.graph_length_knower.val;
 
 		// Position marker...
 
@@ -163,19 +166,19 @@ let grapher_prototype = {
 		ctx.beginPath();
 		ctx.moveTo(
 			this.draw_x_offset + (this.drawable_width / 2) - config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
 		ctx.lineTo(
 			this.draw_x_offset,
-			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
 		ctx.stroke();
 
 		ctx.beginPath();
 		ctx.moveTo(
 			this.draw_x_offset + (this.drawable_width / 2) + config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
 		ctx.lineTo(
 			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (node.depth / node.graph_length_knower.val * this.drawable_height));
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
 		ctx.stroke();
 
 		ctx.setLineDash([]);
@@ -189,7 +192,7 @@ let grapher_prototype = {
 		ctx.fillText(
 			node.depth.toString(),
 			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (this.drawable_height * node.depth / node.graph_length_knower.val) + 4
+			this.draw_y_offset + (this.drawable_height * node.depth / graph_length) + 4
 		);
 	},
 
