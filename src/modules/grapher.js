@@ -50,13 +50,10 @@ let grapher_prototype = {
 		// The real work...
 
 		let ctx = this.ctx;
-		let graph_length = node.graph_length_knower.val;
 		let history = this.line_end.history();
 
 		let scores = [];
 		let winrates = [];
-
-		let abs_score_max = 5;								// To start with, means our score graph will have at least axis -5 to 5.
 
 		for (let h_node of history) {
 
@@ -68,10 +65,6 @@ let grapher_prototype = {
 				if (h_node.get_board().active === "w") {
 					score = score * -1;
 					winrate = 1 - winrate;
-				}
-
-				if (Math.abs(score) > abs_score_max) {
-					abs_score_max = Math.abs(score);
 				}
 
 				if (winrate < 0) winrate = 0;
@@ -103,51 +96,53 @@ let grapher_prototype = {
 			}
 		}
 
-		// 50% line...
+		// With everything we need present in the arrays, we can draw...
 
-		ctx.lineWidth = config.minor_graph_linewidth;
-		ctx.strokeStyle = config.midline_graph_colour;
+		this.__draw_midline();
+		this.__draw_tracker(node, winrates, scores);
+		this.draw_position(node);
 
-		ctx.beginPath();
-		ctx.moveTo(
-			this.draw_x_offset + (this.drawable_width / 2),
-			this.draw_y_offset
-		);
-		ctx.lineTo(
-			this.draw_x_offset + (this.drawable_width / 2),
-			this.draw_y_offset + this.drawable_height
-		);
-		ctx.stroke();
+	},
+
+	__draw_tracker: function(node, winrates, scores) {
+
+		let ctx = this.ctx;
+		let graph_length = node.graph_length_knower.val;
+		let use_main_line_colours = this.line_end.is_main_line();
+
+		// Work out the highest (absolute) score, so we can draw appropriate fractions of it...
+
+		let abs_score_max = 5;
+
+		for (let score of scores) {
+			if ( score > abs_score_max) abs_score_max =  score;
+			if (-score > abs_score_max) abs_score_max = -score;
+		}
 
 		// First the minor draw, i.e. the darker gray line...
 
 		ctx.strokeStyle = config.minor_graph_colour;
 
 		if (config.graph_type === "Score") {
-			this.__draw_vals(winrates, 1, graph_length, config.minor_graph_linewidth);
+			this.__draw_tracker_vals(winrates, 1, graph_length, config.minor_graph_linewidth);
 		} else {
-			this.__draw_vals(scores, abs_score_max, graph_length, config.minor_graph_linewidth);
+			this.__draw_tracker_vals(scores, abs_score_max, graph_length, config.minor_graph_linewidth);
 		}
 
 		// Next the major draw, i.e. the brighter line...
 		// We cache the colour we use so that draw_position() can cheaply know what colour it should use.
 
-		this.major_colour = history[history.length - 1].is_main_line() ? config.major_graph_colour : config.major_graph_var_colour;
+		this.major_colour = (use_main_line_colours) ? config.major_graph_colour : config.major_graph_var_colour;
 		ctx.strokeStyle = this.major_colour;
 
 		if (config.graph_type === "Score") {
-			this.__draw_vals(scores, abs_score_max, graph_length, config.major_graph_linewidth);
+			this.__draw_tracker_vals(scores, abs_score_max, graph_length, config.major_graph_linewidth);
 		} else {
-			this.__draw_vals(winrates, 1, graph_length, config.major_graph_linewidth);
+			this.__draw_tracker_vals(winrates, 1, graph_length, config.major_graph_linewidth);
 		}
-
-		// Then the position line on top...
-
-		this.draw_position(node);
-
 	},
 
-	__draw_vals: function(vals, max_val, graph_length, linewidth) {
+	__draw_tracker_vals: function(vals, max_val, graph_length, linewidth) {
 
 		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
@@ -232,6 +227,26 @@ let grapher_prototype = {
 		}
 
 		ctx.setLineDash([]);
+	},
+
+	__draw_midline: function() {
+
+		let ctx = this.ctx;
+
+		ctx.lineWidth = config.minor_graph_linewidth;
+		ctx.strokeStyle = config.midline_graph_colour;
+
+		ctx.beginPath();
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2),
+			this.draw_y_offset
+		);
+		ctx.lineTo(
+			this.draw_x_offset + (this.drawable_width / 2),
+			this.draw_y_offset + this.drawable_height
+		);
+		ctx.stroke();
+
 	},
 
 	draw_position: function(node) {
