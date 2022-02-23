@@ -54,9 +54,8 @@ function init() {
 		board_line_width: null,
 
 		pv: null,									// The PV drawn, or null if there isn't one.
-		death_marks: [],							// [x, y] items of death marks drawn.
+		has_death_marks: false						// Used by bad_death_mark_spinner().
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
-		
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
 	});
@@ -116,7 +115,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.death_marks = [];													// Cleared whenever canvas is cleared.
+		this.has_death_marks = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -267,10 +266,7 @@ let board_drawer_prototype = {
 			if (node.has_valid_analysis() && node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
-				// Although no info is available, we expect it soon because the engine is running on the position,
-				// therefore we can just draw what death marks we had already, to prevent flicker. Note that the
-				// hub has bad_death_mark_spinner() to clean up these marks if needed.
-				this.carry_death_marks(node.get_board());
+				this.carry_death_marks(node);
 			}
 		}
 
@@ -372,7 +368,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		this.death_marks = [];						// Cleared whenever canvas is cleared.
+		this.has_death_marks = false;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -422,7 +418,7 @@ let board_drawer_prototype = {
 
 			case "death":
 
-				this.death_marks.push([x, y]);
+				this.has_death_marks = true;
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
@@ -508,19 +504,14 @@ let board_drawer_prototype = {
 		}
 	},
 
-	carry_death_marks: function(board) {
+	carry_death_marks: function(node) {
 
-		// Called when there's no ownership available for the board but one is expected soon
-		// because the engine is running on the position. Therefore, we carry over whatever
-		// death marks we had already.
+		// Temporarily use parent's death marks while we await analysis coming in.
+		// bad_death_mark_spinner() cleans these up if needed.
 
-		for (let [x, y] of this.death_marks) {
-			if (board.state[x][y] === "b" || board.state[x][y] === "w") {
-				this.needed_marks[x][y] = {type: "death"};
-			}
+		if (node.parent && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
+			this.plan_death_marks(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);
 		}
-
-		// Note that the hub has bad_death_mark_spinner() to clean up these marks if needed.
 	},
 
 	plan_pv_labels: function(points) {		// Where points is an array of the moves played in the PV, in order.

@@ -68,7 +68,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
 	// (this is needed because nothing else is going to cause a draw to happen).
 
-	if (Array.isArray(board_drawer.death_marks) && board_drawer.death_marks.length > 0) {
+	if (board_drawer.has_death_marks) {
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
 			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
 				hub.draw();
