@@ -29,8 +29,8 @@ let grapher_prototype = {
 
 	draw_graph: function(node) {
 
-		this.line_end = node.get_end();						// Set this now, before any early returns.
-		this.is_entirely_main_line = this.line_end.is_main_line();
+		this.line_end = node.get_end();									// Set these now, before
+		this.is_entirely_main_line = this.line_end.is_main_line();		// any early returns...
 
 		this.canvas.width = config.graph_width;
 		this.canvas.height = board_drawer.canvas.height + 48;
@@ -53,8 +53,8 @@ let grapher_prototype = {
 		let ctx = this.ctx;
 		let history = this.line_end.history();
 
-		let scores = [];									// -1 to 1 from Black's POV
-		let winrates = [];									// -1 to 1 from Black's POV
+		let scores = [];									// 0 to 1 from Black's POV
+		let winrates = [];									// 0 to 1 from Black's POV
 
 		let abs_score_max = 5;
 
@@ -76,8 +76,6 @@ let grapher_prototype = {
 				if (winrate < 0) winrate = 0;
 				if (winrate > 1) winrate = 1;
 
-				winrate = (winrate - 0.5) * 2;				// Rescale to -1..1, our draw code likes symmetry around zero.
-
 				scores.push(score);
 				winrates.push(winrate);
 
@@ -92,7 +90,6 @@ let grapher_prototype = {
 					winrate = parseFloat(sbkv);
 					if (Number.isNaN(winrate) === false) {
 						winrate /= 100;
-						winrate = (winrate - 0.5) * 2;		// Rescale to -1..1, our draw code likes symmetry around zero.
 					} else {
 						winrate = null;
 					}
@@ -102,11 +99,11 @@ let grapher_prototype = {
 			}
 		}
 
-		// Normalise our scores to the -1..1 range as well...
+		// Normalise our scores to the 0..1 range as well...
 
 		for (let n = 0; n < scores.length; n++) {
 			if (scores[n] !== null) {
-				scores[n] = scores[n] / abs_score_max;
+				scores[n] = (scores[n] + abs_score_max) / (abs_score_max * 2);
 			}
 		}
 
@@ -150,10 +147,7 @@ let grapher_prototype = {
 				continue;
 			}
 
-			let val = vals[n];
-			let fraction = (val + 1) / 2;
-
-			let gx = this.draw_x_offset + (this.drawable_width * fraction);
+			let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
 			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 			if (!started) {
@@ -184,9 +178,7 @@ let grapher_prototype = {
 
 				if (!started) {
 
-					let val = vals[n - 1];
-					let fraction = (val + 1) / 2;
-					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gx = this.draw_x_offset + (this.drawable_width * vals[n - 1]);
 					let gy = this.draw_y_offset + (this.drawable_height * (n - 1) / graph_length);
 
 					ctx.beginPath();
@@ -200,9 +192,7 @@ let grapher_prototype = {
 
 				if (started) {
 
-					let val = vals[n];
-					let fraction = (val + 1) / 2;
-					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
 					let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 					ctx.lineTo(gx, gy);
@@ -216,8 +206,6 @@ let grapher_prototype = {
 	},
 
 	__draw_swings: function(node, vals, linewidth, colour) {
-
-		// Assumes vals are normalised to -1..1 range
 
 		let graph_length = node.graph_length_knower.val;
 
@@ -248,7 +236,7 @@ let grapher_prototype = {
 			ctx.beginPath();
 			ctx.moveTo(gx, gy);
 
-			ctx.lineTo(gx + (deltas[n] * this.drawable_width / 2), gy);
+			ctx.lineTo(gx + (deltas[n] * this.drawable_width), gy);
 			ctx.stroke();
 		}
 	},
