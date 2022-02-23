@@ -52,7 +52,7 @@ let grapher_prototype = {
 
 		let history = this.line_end.history();
 
-		let scores = [];									// 0 to 1 from Black's POV
+		let scores = [];									// 0 to 1 from Black's POV (after manipulations)
 		let winrates = [];									// 0 to 1 from Black's POV
 
 		let abs_score_max = 5;
@@ -124,7 +124,7 @@ let grapher_prototype = {
 
 	__draw_tracker: function(node, vals, linewidth, colour) {
 
-		// Assumes vals are normalised to -1..1 range
+		// Assumes vals are normalised to 0..1 range
 
 		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
