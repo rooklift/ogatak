@@ -108,14 +108,16 @@ let grapher_prototype = {
 
 		// With everything we need present in the arrays, we can draw...
 
+		let major_colour = this.is_entirely_main_line ? config.major_graph_colour : config.major_graph_var_colour;
+
 		this.__draw_midline();
 
 		if (config.graph_type === "Score") {
 			this.__draw_tracker(node, winrates, config.minor_graph_linewidth, config.minor_graph_colour);
-			this.__draw_tracker(node, scores, config.major_graph_linewidth, config.major_graph_colour);
+			this.__draw_tracker(node, scores, config.major_graph_linewidth, major_colour);
 		} else if (config.graph_type === "Winrate") {
 			this.__draw_tracker(node, scores, config.minor_graph_linewidth, config.minor_graph_colour);
-			this.__draw_tracker(node, winrates, config.major_graph_linewidth, config.major_graph_colour);
+			this.__draw_tracker(node, winrates, config.major_graph_linewidth, major_colour);
 		}
 
 		this.draw_position(node);
