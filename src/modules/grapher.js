@@ -27,28 +27,29 @@ let grapher_prototype = {
 		return this.drawable_width < 24 || this.drawable_height < 24;
 	},
 
-	draw_graph: function(node) {
+	reset_grapher: function(node) {
 
-		this.line_end = node.get_end();									// Set these now, before
-		this.is_entirely_main_line = this.line_end.is_main_line();		// any early returns...
+		this.line_end = node.get_end();
+		this.is_entirely_main_line = this.line_end.is_main_line();
 
-		this.canvas.width = config.graph_width;
-		this.canvas.height = board_drawer.canvas.height + 48;
-
-		this.draw_x_offset = 16;
-		this.draw_y_offset = config.square_size / 4;
+		this.canvas.width = this.positioncanvas.width = config.graph_width;
+		this.canvas.height = this.positioncanvas.height = board_drawer.canvas.height + 48;
 
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
+		this.draw_x_offset = 16;
+		this.draw_y_offset = config.square_size / 4;
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.square_size / 2));
+	},
+
+	draw_graph: function(node) {
+
+		this.reset_grapher(node);
 
 		if (this.too_small_to_draw()) {
-			this.draw_position(node);						// Just so it sets its size.
 			return;
 		}
-
-		// The real work...
 
 		let history = this.line_end.history();
 
@@ -120,7 +121,7 @@ let grapher_prototype = {
 			this.__draw_tracker(node, winrates, config.major_graph_linewidth, major_colour);
 		}
 
-		this.draw_position(node);
+		this.draw_position(node, true);
 
 	},
 
@@ -226,18 +227,18 @@ let grapher_prototype = {
 
 	},
 
-	draw_position: function(node) {
+	draw_position: function(node, skip_blanking = false) {
 
-		// Clear the position canvas, while also making sure it's the right size...
+		let ctx = this.posctx;
 
-		this.positioncanvas.width = this.canvas.width;
-		this.positioncanvas.height = this.canvas.height;
+		if (!skip_blanking) {
+			ctx.clearRect(0, 0, this.positioncanvas.width, this.positioncanvas.height);
+		}
 
 		if (this.too_small_to_draw()) {
 			return;
 		}
 
-		let ctx = this.posctx;
 		let graph_depth = node.graph_depth_knower.val;
 
 		// Position marker...
