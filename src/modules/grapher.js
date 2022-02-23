@@ -23,6 +23,10 @@ function init() {
 
 let grapher_prototype = {
 
+	too_small_to_draw: function() {
+		return this.drawable_width < 24 || this.drawable_height < 24;
+	},
+
 	draw_graph: function(node) {
 
 		this.line_end = node.get_end();						// Set this now, before any early returns.
@@ -143,63 +147,6 @@ let grapher_prototype = {
 
 	},
 
-	draw_position: function(node) {
-
-		// Clear the position canvas, while also making sure it's the right size...
-
-		this.positioncanvas.width = this.canvas.width;
-		this.positioncanvas.height = this.canvas.height;
-
-		if (this.too_small_to_draw()) {
-			return;
-		}
-
-		let ctx = this.posctx;
-		let graph_length = node.graph_length_knower.val;
-
-		// Position marker...
-
-		ctx.lineWidth = config.major_graph_linewidth;
-		ctx.strokeStyle = this.major_colour;													// Cached from last full draw, so we don't need to work it out.
-		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
-
-		ctx.beginPath();
-		ctx.moveTo(
-			this.draw_x_offset + (this.drawable_width / 2) - config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
-		ctx.lineTo(
-			this.draw_x_offset,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
-		ctx.stroke();
-
-		ctx.beginPath();
-		ctx.moveTo(
-			this.draw_x_offset + (this.drawable_width / 2) + config.major_graph_linewidth,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
-		ctx.lineTo(
-			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
-		ctx.stroke();
-
-		ctx.setLineDash([]);
-
-		// Move number...
-
-		ctx.fillStyle = "#ffffffff";
-		ctx.textAlign = "right";
-		ctx.textBaseline = "top";
-		ctx.font = `${config.info_font_size}px Courier New`;
-		ctx.fillText(
-			node.depth.toString(),
-			this.draw_x_offset + this.drawable_width,
-			this.draw_y_offset + (this.drawable_height * node.depth / graph_length) + 4
-		);
-	},
-
-	too_small_to_draw: function() {
-		return this.drawable_width < 24 || this.drawable_height < 24;
-	},
-
 	__draw_vals: function(vals, max_val, graph_length, linewidth) {
 
 		let ctx = this.ctx;
@@ -285,6 +232,59 @@ let grapher_prototype = {
 		}
 
 		ctx.setLineDash([]);
+	},
+
+	draw_position: function(node) {
+
+		// Clear the position canvas, while also making sure it's the right size...
+
+		this.positioncanvas.width = this.canvas.width;
+		this.positioncanvas.height = this.canvas.height;
+
+		if (this.too_small_to_draw()) {
+			return;
+		}
+
+		let ctx = this.posctx;
+		let graph_length = node.graph_length_knower.val;
+
+		// Position marker...
+
+		ctx.lineWidth = config.major_graph_linewidth;
+		ctx.strokeStyle = this.major_colour;													// Cached from last full draw, so we don't need to work it out.
+		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
+
+		ctx.beginPath();
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2) - config.major_graph_linewidth,
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+		ctx.lineTo(
+			this.draw_x_offset,
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(
+			this.draw_x_offset + (this.drawable_width / 2) + config.major_graph_linewidth,
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+		ctx.lineTo(
+			this.draw_x_offset + this.drawable_width,
+			this.draw_y_offset + (node.depth / graph_length * this.drawable_height));
+		ctx.stroke();
+
+		ctx.setLineDash([]);
+
+		// Move number...
+
+		ctx.fillStyle = "#ffffffff";
+		ctx.textAlign = "right";
+		ctx.textBaseline = "top";
+		ctx.font = `${config.info_font_size}px Courier New`;
+		ctx.fillText(
+			node.depth.toString(),
+			this.draw_x_offset + this.drawable_width,
+			this.draw_y_offset + (this.drawable_height * node.depth / graph_length) + 4
+		);
 	},
 
 	node_from_click: function(node, event) {
