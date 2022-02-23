@@ -16,7 +16,7 @@ function init() {
 		drawable_height: 0,
 
 		line_end: null,
-		major_colour: config.major_graph_colour,			// Cached so draw_position() knows what colour to use cheaply.
+		is_entirely_main_line: false,						// Cached so draw_position() knows what colour to use cheaply.
 
 	});
 }
@@ -29,7 +29,8 @@ let grapher_prototype = {
 
 	draw_graph: function(node) {
 
-		this.line_end = node.get_end();						// Set this now, before any early returns.
+		this.line_end = node.get_end();									// Set these now, before
+		this.is_entirely_main_line = this.line_end.is_main_line();		// any early returns...
 
 		this.canvas.width = config.graph_width;
 		this.canvas.height = board_drawer.canvas.height + 48;
@@ -49,11 +50,12 @@ let grapher_prototype = {
 
 		// The real work...
 
-		let ctx = this.ctx;
 		let history = this.line_end.history();
 
-		let scores = [];
-		let winrates = [];
+		let scores = [];									// 0 to 1 from Black's POV
+		let winrates = [];									// 0 to 1 from Black's POV
+
+		let abs_score_max = 5;
 
 		for (let h_node of history) {
 
@@ -67,10 +69,11 @@ let grapher_prototype = {
 					winrate = 1 - winrate;
 				}
 
+				if ( score > abs_score_max) abs_score_max =  score;
+				if (-score > abs_score_max) abs_score_max = -score;
+
 				if (winrate < 0) winrate = 0;
 				if (winrate > 1) winrate = 1;
-
-				winrate = (winrate - 0.5) * 2;				// Rescale to -1..1, our draw code likes symmetry around zero.
 
 				scores.push(score);
 				winrates.push(winrate);
@@ -86,7 +89,6 @@ let grapher_prototype = {
 					winrate = parseFloat(sbkv);
 					if (Number.isNaN(winrate) === false) {
 						winrate /= 100;
-						winrate = (winrate - 0.5) * 2;		// Rescale to -1..1, our draw code likes symmetry around zero.
 					} else {
 						winrate = null;
 					}
@@ -96,55 +98,41 @@ let grapher_prototype = {
 			}
 		}
 
+		// Normalise our scores to the 0..1 range...
+
+		for (let n = 0; n < scores.length; n++) {
+			if (scores[n] !== null) {
+				scores[n] = (scores[n] + abs_score_max) / (abs_score_max * 2);
+			}
+		}
+
 		// With everything we need present in the arrays, we can draw...
 
 		this.__draw_midline();
-		this.__draw_tracker(node, winrates, scores);
+
+		if (config.graph_type === "Score") {
+			this.__draw_tracker(node, winrates, config.minor_graph_linewidth, config.minor_graph_colour);
+			this.__draw_tracker(node, scores, config.major_graph_linewidth, config.major_graph_colour);
+		} else if (config.graph_type === "Winrate") {
+			this.__draw_tracker(node, scores, config.minor_graph_linewidth, config.minor_graph_colour);
+			this.__draw_tracker(node, winrates, config.major_graph_linewidth, config.major_graph_colour);
+		}
+
 		this.draw_position(node);
 
 	},
 
-	__draw_tracker: function(node, winrates, scores) {
+	__draw_tracker: function(node, vals, linewidth, colour) {
 
-		let ctx = this.ctx;
-		let graph_length = node.graph_length_knower.val;
-
-		// Work out the highest (absolute) score, so we can draw appropriate fractions of it...
-
-		let abs_score_max = 5;
-
-		for (let score of scores) {
-			if ( score > abs_score_max) abs_score_max =  score;
-			if (-score > abs_score_max) abs_score_max = -score;
-		}
-
-		// First the minor draw, i.e. the darker gray line...
-
-		ctx.strokeStyle = config.minor_graph_colour;
-
-		if (config.graph_type === "Score") {
-			this.__draw_tracker_vals(winrates, 1, graph_length, config.minor_graph_linewidth);
-		} else {
-			this.__draw_tracker_vals(scores, abs_score_max, graph_length, config.minor_graph_linewidth);
-		}
-
-		// Next the major draw, i.e. the brighter line...
-		// We cache the colour we use so that draw_position() can cheaply know what colour it should use.
-
-		this.major_colour = (this.line_end.is_main_line()) ? config.major_graph_colour : config.major_graph_var_colour;
-		ctx.strokeStyle = this.major_colour;
-
-		if (config.graph_type === "Score") {
-			this.__draw_tracker_vals(scores, abs_score_max, graph_length, config.major_graph_linewidth);
-		} else {
-			this.__draw_tracker_vals(winrates, 1, graph_length, config.major_graph_linewidth);
-		}
-	},
-
-	__draw_tracker_vals: function(vals, max_val, graph_length, linewidth) {
+		// Assumes vals are normalised to -1..1 range
 
 		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
+		ctx.strokeStyle = colour;
+
+		let graph_length = node.graph_length_knower.val;
+
+		// Draw solid portions.....................................................................
 
 		let started = false;
 
@@ -158,10 +146,7 @@ let grapher_prototype = {
 				continue;
 			}
 
-			let val = vals[n];
-			let fraction = (val + max_val) / (max_val * 2);
-
-			let gx = this.draw_x_offset + (this.drawable_width * fraction);
+			let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
 			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 			if (!started) {
@@ -175,16 +160,11 @@ let grapher_prototype = {
 			}
 		}
 
-		this.__draw_interpolations(vals, max_val, graph_length, linewidth);
-	},
+		// Draw interpolations.....................................................................
 
-	__draw_interpolations: function(vals, max_val, graph_length, linewidth) {
-
-		let ctx = this.ctx;
-		ctx.lineWidth = linewidth;
 		ctx.setLineDash([linewidth, linewidth * 2]);
 
-		let started = false;
+		started = false;
 		let seen_real_value = false;
 
 		for (let n = 0; n < vals.length; n++) {
@@ -197,9 +177,7 @@ let grapher_prototype = {
 
 				if (!started) {
 
-					let val = vals[n - 1];
-					let fraction = (val + max_val) / (max_val * 2);
-					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gx = this.draw_x_offset + (this.drawable_width * vals[n - 1]);
 					let gy = this.draw_y_offset + (this.drawable_height * (n - 1) / graph_length);
 
 					ctx.beginPath();
@@ -213,9 +191,7 @@ let grapher_prototype = {
 
 				if (started) {
 
-					let val = vals[n];
-					let fraction = (val + max_val) / (max_val * 2);
-					let gx = this.draw_x_offset + (this.drawable_width * fraction);
+					let gx = this.draw_x_offset + (this.drawable_width * vals[n]);
 					let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
 
 					ctx.lineTo(gx, gy);
@@ -265,7 +241,7 @@ let grapher_prototype = {
 		// Position marker...
 
 		ctx.lineWidth = config.major_graph_linewidth;
-		ctx.strokeStyle = this.major_colour;													// Cached from last full draw, so we don't need to work it out.
+		ctx.strokeStyle = this.is_entirely_main_line ? config.major_graph_colour : config.major_graph_var_colour;	// Cached so we don't need to work it out.
 		ctx.setLineDash([config.major_graph_linewidth, config.major_graph_linewidth * 2]);
 
 		ctx.beginPath();
