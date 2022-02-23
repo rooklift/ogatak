@@ -108,7 +108,6 @@ let grapher_prototype = {
 
 		let ctx = this.ctx;
 		let graph_length = node.graph_length_knower.val;
-		let use_main_line_colours = this.line_end.is_main_line();
 
 		// Work out the highest (absolute) score, so we can draw appropriate fractions of it...
 
@@ -132,7 +131,7 @@ let grapher_prototype = {
 		// Next the major draw, i.e. the brighter line...
 		// We cache the colour we use so that draw_position() can cheaply know what colour it should use.
 
-		this.major_colour = (use_main_line_colours) ? config.major_graph_colour : config.major_graph_var_colour;
+		this.major_colour = (this.line_end.is_main_line()) ? config.major_graph_colour : config.major_graph_var_colour;
 		ctx.strokeStyle = this.major_colour;
 
 		if (config.graph_type === "Score") {
