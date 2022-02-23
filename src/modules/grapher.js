@@ -50,7 +50,6 @@ let grapher_prototype = {
 
 		// The real work...
 
-		let ctx = this.ctx;
 		let history = this.line_end.history();
 
 		let scores = [];									// 0 to 1 from Black's POV
@@ -99,7 +98,7 @@ let grapher_prototype = {
 			}
 		}
 
-		// Normalise our scores to the 0..1 range as well...
+		// Normalise our scores to the 0..1 range...
 
 		for (let n = 0; n < scores.length; n++) {
 			if (scores[n] !== null) {
@@ -112,10 +111,10 @@ let grapher_prototype = {
 		this.__draw_midline();
 
 		if (config.graph_type === "Score") {
-			this.__draw_swings(node, scores, config.minor_graph_linewidth, config.minor_graph_colour);
+			this.__draw_tracker(node, winrates, config.minor_graph_linewidth, config.minor_graph_colour);
 			this.__draw_tracker(node, scores, config.major_graph_linewidth, config.major_graph_colour);
 		} else if (config.graph_type === "Winrate") {
-			this.__draw_swings(node, winrates, config.minor_graph_linewidth, config.minor_graph_colour);
+			this.__draw_tracker(node, scores, config.minor_graph_linewidth, config.minor_graph_colour);
 			this.__draw_tracker(node, winrates, config.major_graph_linewidth, config.major_graph_colour);
 		}
 
@@ -203,42 +202,6 @@ let grapher_prototype = {
 		}
 
 		ctx.setLineDash([]);
-	},
-
-	__draw_swings: function(node, vals, linewidth, colour) {
-
-		let graph_length = node.graph_length_knower.val;
-
-		let deltas = [];
-
-		for (let n = 0; n < vals.length; n++) {
-			if (typeof vals[n - 1] === "number" && typeof vals[n] === "number") {
-				let d = vals[n] - vals[n - 1];
-				deltas.push(d);
-			} else {
-				deltas.push(0);
-			}
-		}
-
-		// Draw...
-
-		let ctx = this.ctx;
-		ctx.lineWidth = linewidth;
-		ctx.strokeStyle = colour;
-
-		for (let n = 0; n < deltas.length; n++) {
-
-			if (!deltas[n]) continue;
-
-			let gx = this.draw_x_offset + (this.drawable_width * 0.5);
-			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
-
-			ctx.beginPath();
-			ctx.moveTo(gx, gy);
-
-			ctx.lineTo(gx + (deltas[n] * this.drawable_width), gy);
-			ctx.stroke();
-		}
 	},
 
 	__draw_midline: function() {
