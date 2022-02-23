@@ -54,7 +54,7 @@ function init() {
 		board_line_width: null,
 
 		pv: null,									// The PV drawn, or null if there isn't one.
-		has_death_marks: false						// Used by bad_death_mark_spinner().
+		has_death_marks: false,						// Used by bad_death_mark_spinner().
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
