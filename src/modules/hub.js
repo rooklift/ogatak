@@ -14,7 +14,7 @@ const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions, moveinfo_filter} = require("./utils");
+const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
