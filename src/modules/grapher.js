@@ -99,6 +99,7 @@ let grapher_prototype = {
 		// With everything we need present in the arrays, we can draw...
 
 		this.__draw_midline();
+		this.__draw_swings(node, winrates, scores);
 		this.__draw_tracker(node, winrates, scores);
 		this.draw_position(node);
 
@@ -118,7 +119,7 @@ let grapher_prototype = {
 			if (-score > abs_score_max) abs_score_max = -score;
 		}
 
-		// First the minor draw, i.e. the darker gray line...
+/*		// First the minor draw, i.e. the darker gray line...
 
 		ctx.strokeStyle = config.minor_graph_colour;
 
@@ -127,7 +128,7 @@ let grapher_prototype = {
 		} else {
 			this.__draw_tracker_vals(scores, abs_score_max, graph_length, config.minor_graph_linewidth);
 		}
-
+*/
 		// Next the major draw, i.e. the brighter line...
 		// We cache the colour we use so that draw_position() can cheaply know what colour it should use.
 
@@ -226,6 +227,61 @@ let grapher_prototype = {
 		}
 
 		ctx.setLineDash([]);
+	},
+
+	__draw_swings: function(node, winrates, scores) {
+
+		let graph_length = node.graph_length_knower.val;
+		let linewidth = config.major_graph_linewidth;
+
+		let deltas = [];
+
+		let array = config.graph_type === "Score" ? scores : winrates;
+
+		for (let n = 0; n < array.length; n++) {
+			if (typeof array[n - 1] === "number" && typeof array[n] === "number") {
+				let d = array[n] - array[n - 1];
+				deltas.push(d);
+			} else {
+				deltas.push(0);
+			}
+		}
+
+		let max_graph_val = 1;
+
+		if (config.graph_type === "Score") {
+			for (let delta of deltas) {
+				if ( delta > max_graph_val) max_graph_val =  delta;
+				if (-delta > max_graph_val) max_graph_val = -delta;
+			}
+		}
+
+		this.__draw_bars(deltas, max_graph_val, graph_length, linewidth);
+	},
+
+	__draw_bars: function(vals, max_val, graph_length, linewidth) {
+
+		let ctx = this.ctx;
+		ctx.lineWidth = linewidth;
+		ctx.strokeStyle = config.minor_graph_color;
+
+		// Draw...
+
+		for (let n = 0; n < vals.length; n++) {
+
+			if (!vals[n]) continue;
+
+			let fraction = 0.5 * vals[n] / max_val;
+
+			let gx = this.draw_x_offset + (this.drawable_width * 0.5);
+			let gy = this.draw_y_offset + (this.drawable_height * n / graph_length);
+
+			ctx.beginPath();
+			ctx.moveTo(gx, gy);
+
+			ctx.lineTo(gx + (fraction * this.drawable_width), gy);
+			ctx.stroke();
+		}
 	},
 
 	__draw_midline: function() {
