@@ -263,10 +263,18 @@ let board_drawer_prototype = {
 		this.draw_board(node.get_board());
 		
 		if (config.dead_stone_prediction) {
+
+			// Normal case: use this node's ownership map...
+
 			if (node.has_valid_analysis() && node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+
+			// Special case: use parent's ownership map, iff we expect actual data from current node to be arriving soon...
+
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
-				this.carry_death_marks(node);
+				if (node.parent && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
+					this.plan_death_marks(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);
+				}
 			}
 		}
 
@@ -501,16 +509,6 @@ let board_drawer_prototype = {
 					this.needed_marks[x][y] = {type: "death"};
 				}
 			}
-		}
-	},
-
-	carry_death_marks: function(node) {
-
-		// Temporarily use parent's death marks while we await analysis coming in.
-		// bad_death_mark_spinner() cleans these up if needed.
-
-		if (node.parent && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
-			this.plan_death_marks(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);
 		}
 	},
 
