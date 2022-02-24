@@ -150,7 +150,7 @@ let engine_prototype = {
 			throw "Engine object should not be reused!";
 		}
 
-		if (Array.isArray(argslist) === false) {
+		if (!Array.isArray(argslist)) {
 			argslist = [];
 			alert("Engine argslist was ignored because it was not an array.");
 		}
