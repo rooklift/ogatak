@@ -511,7 +511,9 @@ let hub_main_props = {
 
 	delete_node: function() {
 		if (this.node.parent) {
-			this.set_node(this.node.detach(), {bless: false});
+			let parent = this.node.parent;
+			this.node.detach();
+			this.set_node(parent, {bless: false});
 		} else {												// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
 				this.node.detach_children();

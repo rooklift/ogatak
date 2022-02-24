@@ -451,10 +451,8 @@ let node_prototype = {
 
 	detach: function() {
 
-		// Returns the node that the hub should point to, which is the parent unless the call is a bad one.
-
 		let parent = this.parent;
-		if (!parent) return this;		// Fail
+		if (!parent) return;			// Fail
 
 		// The following replaces the children array, rather than mutating it, so it's actually safe to iterate over some
 		// node's children and detach some of them, because the iteration will be over the original (unchanging) array.
@@ -463,7 +461,6 @@ let node_prototype = {
 
 		this.parent = null;
 		destroy_tree_recursive(this);
-		return parent;
 	},
 
 	detach_siblings: function() {
