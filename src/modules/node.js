@@ -159,7 +159,7 @@ let node_prototype = {
 		let moves = this.all_values("B").concat(this.all_values("W"));
 
 		for (let move of moves) {
-			if (this.get_board().in_bounds(move) === false) {
+			if (!this.get_board().in_bounds(move)) {
 				return true;
 			}
 		}
@@ -176,7 +176,7 @@ let node_prototype = {
 			return 19;
 		}
 		let sz = parseInt(sz_prop, 10);
-		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
+		if (!Number.isNaN(sz) && sz > 0 && sz <= 25) {
 			return sz;
 		}
 		return 19;
@@ -197,7 +197,7 @@ let node_prototype = {
 			sz_slice = sz_prop;
 		}
 		let sz = parseInt(sz_slice, 10);
-		if (Number.isNaN(sz) === false && sz > 0 && sz <= 25) {
+		if (!Number.isNaN(sz) && sz > 0 && sz <= 25) {
 			return sz;
 		}
 		return 19;
@@ -289,7 +289,7 @@ let node_prototype = {
 			if (pl[0] === "W" || pl[0] === "w" || pl === "2") node.__board.active = "w";
 
 			let km = parseFloat(node.get("KM"));
-			if (Number.isNaN(km) === false) {
+			if (!Number.isNaN(km)) {
 				node.__board.komi = km;
 			}
 
@@ -304,7 +304,7 @@ let node_prototype = {
 
 	try_move: function(s) {							// Note: not to be used for passing.
 		let board = this.get_board();
-		if (board.legal_move(s) === false) {
+		if (!board.legal_move(s)) {
 			return this;
 		}
 		return this.force_move(s);
@@ -336,7 +336,7 @@ let node_prototype = {
 
 		for (let child of this.children) {
 			if (child.has_key(propkey)) {
-				if (board.in_bounds(child.get(propkey)) === false) {
+				if (!board.in_bounds(child.get(propkey))) {
 					return child;
 				}
 			}
