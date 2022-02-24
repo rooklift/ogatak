@@ -15,7 +15,7 @@
 //  - Flicker introduced by death marks when stepping forward.
 
 const background = require("./background");
-const {moveinfo_filter, node_id_from_search_id, pad, opposite_colour, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
+const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 

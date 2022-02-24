@@ -1,8 +1,6 @@
 "use strict";
 
 const querystring = require("querystring");
-
-const decoders = require("./decoders");
 const stringify = require("./stringify");
 
 // ------------------------------------------------------------------------------------------------

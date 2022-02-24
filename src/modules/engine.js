@@ -8,7 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const stringify = require("./stringify");
-const {node_id_from_search_id, parse_version, compare_versions} = require("./utils");
+const {parse_version, compare_versions} = require("./utils");
 const {base_query, finalise_query, full_query_matches_base} = require("./query");
 
 const bad_versions = [			// Versions of KataGo which are somehow broken.

@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require("fs");
-const path = require("path");
 const {ipcRenderer} = require("electron");
 
 const new_engine = require("./engine");
@@ -13,8 +12,8 @@ const load_sgf = require("./load_sgf");
 const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
-const {get_title, set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, xy_to_s, valid_analysis_object, compare_versions} = require("./utils");
+const {set_title} = require("./title");
+const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
