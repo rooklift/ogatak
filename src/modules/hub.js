@@ -465,7 +465,7 @@ let hub_main_props = {
 		this.set_node(this.node.next_fork_helper(), {bless: false});
 	},
 
-	promote_to_main_line: function(include_descendants) {
+	promote_to_main_line: function(include_descendants, suppress_graph_draw) {
 
 		let node = include_descendants ? this.node.get_end() : this.node;
 
@@ -482,6 +482,9 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
+		if (!suppress_graph_draw) {
+			grapher.draw_graph(this.node);
+		}
 		tree_drawer.must_draw = true;
 	},
 
@@ -516,6 +519,7 @@ let hub_main_props = {
 					child.detach();
 				}
 				this.draw();									// Clear the next move markers.
+				grapher.draw_graph(this.node);
 				tree_drawer.must_draw = true;
 			}
 			this.node.save_ok = false;
@@ -524,7 +528,7 @@ let hub_main_props = {
 
 	delete_other_lines: function() {
 
-		this.promote_to_main_line(true);
+		this.promote_to_main_line(true, true);
 
 		let node = this.node.get_root();
 
@@ -535,8 +539,9 @@ let hub_main_props = {
 			node = node.children[0];
 		}
 
-		tree_drawer.must_draw = true;
 		this.draw();											// I guess, because next move markers may need cleared.
+		grapher.draw_graph(this.node);
+		tree_drawer.must_draw = true;
 	},
 
 	forget_analysis_tree: function() {
