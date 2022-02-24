@@ -451,15 +451,10 @@ let hub_main_props = {
 	},
 
 	return_to_main: function() {
-
-		this.node.bless_main_line();				// Done before set_node() so that it draws the correct graph.
-
-		let ok = this.set_node(this.node.return_to_main_line_helper(), {bless: false});
-
-		if (!ok) {									// set_node() returned instantly, so the following didn't get done...
-			grapher.draw_graph(this.node);
-			tree_drawer.must_draw = true;
-		}
+		this.set_node(this.node.return_to_main_line_helper(), {bless: false});
+		this.node.bless_main_line();
+		grapher.draw_graph(this.node);
+		tree_drawer.must_draw = true;
 	},
 
 	previous_fork: function() {
