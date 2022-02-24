@@ -188,6 +188,7 @@ module.exports = {
 			throw "Key not in defaults";
 		}
 		this.set(key, defaults[key]);
+		return defaults[key];
 	},
 
 };
