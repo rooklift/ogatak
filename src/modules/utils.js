@@ -81,7 +81,7 @@ exports.node_id_from_search_id = function(s) {		// "node_123:456" --> "node_123"
 	if (typeof s !== "string") {
 		return "";
 	}
-	if (s.includes(":") === false) {
+	if (!s.includes(":")) {
 		return "";
 	}
 	return s.slice(0, s.indexOf(":"));
@@ -137,7 +137,7 @@ exports.pad = function(s, width) {
 
 exports.moveinfo_filter = function(node) {
 
-	if (node.has_valid_analysis() === false) {
+	if (!node.has_valid_analysis()) {
 		return [];
 	}
 
