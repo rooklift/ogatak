@@ -15,7 +15,6 @@ function init() {
 		drawable_width: 0,
 		drawable_height: 0,
 
-		line_end: null,
 		is_entirely_main_line: false,						// Cached so draw_position() knows what colour to use cheaply.
 
 	});
@@ -27,10 +26,9 @@ let grapher_prototype = {
 		return this.drawable_width < 24 || this.drawable_height < 24;
 	},
 
-	reset_grapher: function(node) {
+	reset_grapher: function(ieml) {
 
-		this.line_end = node.get_end();
-		this.is_entirely_main_line = this.line_end.is_main_line();
+		this.is_entirely_main_line = ieml;
 
 		this.canvas.width = this.positioncanvas.width = config.graph_width;
 		this.canvas.height = this.positioncanvas.height = board_drawer.canvas.height + 48;
@@ -45,13 +43,14 @@ let grapher_prototype = {
 
 	draw_graph: function(node) {
 
-		this.reset_grapher(node);
+		let end_node = node.get_end();
+		this.reset_grapher(end_node.is_main_line());
 
 		if (this.too_small_to_draw()) {
 			return;
 		}
 
-		let history = this.line_end.history();
+		let history = end_node.history();
 
 		let scores = [];									// 0 to 1 from Black's POV (after manipulations)
 		let winrates = [];									// 0 to 1 from Black's POV

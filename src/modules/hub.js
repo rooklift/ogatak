@@ -315,14 +315,14 @@ let hub_main_props = {
 
 		let opts = {
 			keep_autoplay_settings: false,
-			full_graph_draw: false,
-			bless: false				// When a caller leaves this as false, it's just because it isn't necessary.
+			bless: false		// When a caller leaves this as false, it's just because it isn't necessary.
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);
 
 		// The above is I think Crockford's way of doing arguments to methods.
 
+		let old_node = this.node;
 		this.node = node;
 
 		if (opts.bless) {
@@ -352,16 +352,13 @@ let hub_main_props = {
 
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
-		if (opts.full_graph_draw) {
-			grapher.draw_graph(this.node);
-		} else if (grapher.line_end && node.get_end() !== grapher.line_end.get_end()) {		// get_end() because maybe gained descendents
+		if (!old_node || old_node.destroyed || old_node.get_end() !== this.node.get_end()) {		// We've switched lines, or even trees.
 			grapher.draw_graph(this.node);
 		} else {
 			grapher.draw_position(this.node);
 		}
 
 		tree_drawer.must_draw = true;
-
 		comment_drawer.draw(this.node);
 
 		return true;
@@ -458,7 +455,7 @@ let hub_main_props = {
 
 		this.node.bless_main_line();				// Done before set_node() so that it draws the correct graph.
 
-		let ok = this.set_node(this.node.return_to_main_line_helper(), {full_graph_draw: true, bless: false});
+		let ok = this.set_node(this.node.return_to_main_line_helper(), {bless: false});
 
 		if (!ok) {									// set_node() returned instantly, so the following didn't get done...
 			grapher.draw_graph(this.node);
