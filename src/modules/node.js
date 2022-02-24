@@ -131,7 +131,8 @@ let node_prototype = {
 			}
 		}
 
-		return this.children[0];		// Best not assume the stored id actually exists - if we get here, it didn't.
+		this.__blessed_child_id = null;		// Best not assume the stored id actually exists - if we get here, it didn't.
+		return this.children[0];
 	},
 
 	get_root: function() {
@@ -476,6 +477,16 @@ let node_prototype = {
 		}
 
 		parent.children = [this];
+	},
+
+	detach_children: function() {
+
+		for (let child of this.children) {
+			child.parent = null;
+			destroy_tree_recursive(child);
+		}
+
+		this.children = [];
 	},
 
 	destroy_tree: function() {

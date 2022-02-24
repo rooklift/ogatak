@@ -514,9 +514,7 @@ let hub_main_props = {
 			this.set_node(this.node.detach(), {bless: false});
 		} else {												// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
-				for (let child of this.node.children) {
-					child.detach();
-				}
+				this.node.detach_children();
 				this.draw();									// Clear the next move markers.
 				grapher.draw_graph(this.node);
 				tree_drawer.must_draw = true;
