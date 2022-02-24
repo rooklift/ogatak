@@ -50,7 +50,7 @@ function load_gib(buf) {
 
 			let handicap = parseInt(fields[3], 10);
 
-			if (Number.isNaN(handicap) === false && handicap > 1) {
+			if (!Number.isNaN(handicap) && handicap > 1) {
 				root.set("HA", handicap);
 				for (let s of handicap_stones(handicap, 19, 19, true)) {
 					root.add_value("AB", s);
@@ -65,7 +65,7 @@ function load_gib(buf) {
 			let x = parseInt(fields[4], 10);
 			let y = parseInt(fields[5], 10);
 
-			if (Number.isNaN(x) === false && Number.isNaN(y) === false) {
+			if (!Number.isNaN(x) && !Number.isNaN(y)) {
 				let key = fields[3] === "2" ? "W" : "B";
 				node = new_node(node);
 				node.set(key, xy_to_s(x, y));
@@ -118,7 +118,7 @@ function parse_gib_gametag(line) {
 
 			let grlt = parseInt(s.slice(1), 10);
 
-			if (Number.isNaN(grlt) === false) {
+			if (!Number.isNaN(grlt)) {
 
 				switch (grlt) {
 
@@ -146,7 +146,7 @@ function parse_gib_gametag(line) {
 
 		if (s[0] === "G") {
 			let gongje = parseInt(s.slice(1), 10);
-			if (Number.isNaN(gongje) === false) {
+			if (!Number.isNaN(gongje)) {
 				km = (gongje / 10).toString();
 			}
 		}
