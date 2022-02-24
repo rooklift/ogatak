@@ -507,6 +507,7 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
+		grapher.draw_graph(this.node);							// In case we became the main line, in which case colours need updated.
 		tree_drawer.must_draw = true;
 	},
 
