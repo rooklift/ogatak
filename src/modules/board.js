@@ -63,7 +63,7 @@ let board_prototype = {
 
 		// Converts the point to [x][y] and returns the state there, "" or "b" or "w".
 
-		if (this.in_bounds(s) === false) {
+		if (!this.in_bounds(s)) {
 			return "";
 		}
 
@@ -77,7 +77,7 @@ let board_prototype = {
 
 		// Converts the point to [x][y] and sets the state there, colour should be "" or "b" or "w".
 
-		if (this.in_bounds(s) === false) {
+		if (!this.in_bounds(s)) {
 			return;
 		}
 
@@ -123,7 +123,7 @@ let board_prototype = {
 
 		let ret = [];
 
-		if (this.in_bounds(s) === false) {
+		if (!this.in_bounds(s)) {
 			return ret;
 		}
 
@@ -228,7 +228,7 @@ let board_prototype = {
 		// Returns true if the active player can legally play at the point given.
 		// Note: does NOT consider passes as "legal moves".
 
-		if (this.in_bounds(s) === false) {
+		if (!this.in_bounds(s)) {
 			return false;
 		}
 
@@ -260,7 +260,7 @@ let board_prototype = {
 			} else if (this.state_at(neighbour) === opposite_colour(this.active)) {
 				let touched = Object.create(null);
 				touched[s] = true;
-				if (this.has_liberties_recurse(neighbour, touched) === false) {
+				if (!this.has_liberties_recurse(neighbour, touched)) {
 					return true;				// One of the enemy groups has no liberties other than s.
 				}
 			}
@@ -280,7 +280,7 @@ let board_prototype = {
 		this.ko = null;
 		this.active = colour === "b" ? "w" : "b";
 
-		if (this.in_bounds(s) === false) {				// Treat as a pass.
+		if (!this.in_bounds(s)) {				// Treat as a pass.
 			return;
 		}
 
@@ -292,13 +292,13 @@ let board_prototype = {
 			let neighbour_colour = this.state_at(neighbour);
 
 			if (neighbour_colour && neighbour_colour !== colour) {
-				if (this.has_liberties(neighbour) === false) {
+				if (!this.has_liberties(neighbour)) {
 					caps += this.destroy_group(neighbour);
 				}
 			}
 		}
 
-		if (this.has_liberties(s) === false) {
+		if (!this.has_liberties(s)) {
 			this.destroy_group(s);
 		}
 
@@ -347,7 +347,7 @@ let board_prototype = {
 	},
 
 	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
-		if (this.in_bounds(s) === false) {
+		if (!this.in_bounds(s)) {
 			return "pass";
 		}
 		let x = s.charCodeAt(0) - 97;
