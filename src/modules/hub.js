@@ -465,7 +465,7 @@ let hub_main_props = {
 		this.set_node(this.node.next_fork_helper(), {bless: false});
 	},
 
-	promote_to_main_line: function(include_descendants, suppress_graph_draw) {
+	promote_to_main_line: function(include_descendants) {
 
 		let node = include_descendants ? this.node.get_end() : this.node;
 
@@ -482,9 +482,7 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
-		if (!suppress_graph_draw) {
-			grapher.draw_graph(this.node);
-		}
+		grapher.draw_graph(this.node);
 		tree_drawer.must_draw = true;
 	},
 
@@ -529,15 +527,17 @@ let hub_main_props = {
 
 	delete_other_lines: function() {
 
-		this.promote_to_main_line(true, true);
+		let node = this.node.get_end();
 
-		let node = this.node.get_root();
-
-		while (node.children.length > 0) {
-			for (let child of node.children.slice(1)) {
-				child.detach();
+		while (node.parent) {
+			if (node.parent.children.length > 1) {
+				for (let sibling of node.parent.children) {
+					if (sibling !== node) {
+						sibling.detach();
+					}
+				}
 			}
-			node = node.children[0];
+			node = node.parent;
 		}
 
 		this.draw();											// I guess, because next move markers may need cleared.
