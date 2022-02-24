@@ -307,7 +307,11 @@ let hub_main_props = {
 
 	set_node: function(node, supplied_opts) {
 
-		if (!node || this.node === node) {
+		if (!node || node.destroyed) {
+			throw "set_node() called with invalid node";
+		}
+
+		if (this.node === node) {
 			return false;
 		}
 
@@ -385,10 +389,8 @@ let hub_main_props = {
 	},
 
 	try_move: function(s) {						// Can't be used for passing.
-		let node = this.node.try_move(s);
-		if (node !== this.node) {
-			this.set_node(node, {keep_autoplay_settings: true, bless: true});
-		}
+		let node = this.node.try_move(s);		// Note try_move() returns the original node on failure.
+		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
 	pass: function() {
