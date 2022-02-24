@@ -80,7 +80,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 
 		let c = buf[i];
 
-		if (tree_started === false) {
+		if (!tree_started) {
 			if (c <= 32) {
 				continue;
 			} else if (c === 40) {						// that is (
