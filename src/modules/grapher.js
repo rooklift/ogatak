@@ -93,7 +93,7 @@ let grapher_prototype = {
 
 				if (sbkv) {
 					winrate = parseFloat(sbkv);
-					if (Number.isNaN(winrate) === false) {
+					if (!Number.isNaN(winrate)) {
 						winrate /= 100;
 					} else {
 						winrate = null;
