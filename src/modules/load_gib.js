@@ -32,8 +32,8 @@ function load_gib(buf) {
 			if (re) root.set("RE", re);
 			if (km) root.set("KM", km);
 
-			if (pb && pb.includes("�") === false) root.set("PB", pb);
-			if (pw && pw.includes("�") === false) root.set("PW", pw);
+			if (pb && !pb.includes("�")) root.set("PB", pb);
+			if (pw && !pw.includes("�")) root.set("PW", pw);
 		}
 
 		// Split the line into tokens for the handicap and move parsing...
