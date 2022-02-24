@@ -11,7 +11,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 })();
 
 (function graph_draw_spinner() {
-	grapher.draw_graph(hub.node);				// Always does a full draw, seems fast enough.
+	grapher.draw_graph(hub.node, true);			// Always does a full draw, seems fast enough.
 	setTimeout(graph_draw_spinner, Math.max(50, config.graph_draw_delay));				// Enforce minimum of 50
 })();
 

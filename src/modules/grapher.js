@@ -17,6 +17,8 @@ function init() {
 
 		is_entirely_main_line: false,						// Cached so draw_position() knows what colour to use cheaply.
 
+		non_auto_call_count: 0,								// For debugging.
+
 	});
 }
 
@@ -41,7 +43,11 @@ let grapher_prototype = {
 		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.square_size / 2));
 	},
 
-	draw_graph: function(node) {
+	draw_graph: function(node, is_auto_call) {
+
+		if (!is_auto_call) {
+			this.non_auto_call_count++;
+		}
 
 		let end_node = node.get_end();
 		this.reset_grapher(end_node.is_main_line());
