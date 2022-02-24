@@ -32,11 +32,11 @@ function load_ngf(buf) {
 	let pw_fields = lines[2].split(" ").filter(z => z !== "");
 	let pb_fields = lines[3].split(" ").filter(z => z !== "");
 
-	if (pw_fields.length > 0 && pw_fields[0].includes("�") === false) {
+	if (pw_fields.length > 0 && !pw_fields[0].includes("�")) {
 		pw = pw_fields[0];
 	}
 
-	if (pb_fields.length > 0 && pb_fields[0].includes("�") === false) {
+	if (pb_fields.length > 0 && !pb_fields[0].includes("�")) {
 		pb = pb_fields[0];
 	}
 
