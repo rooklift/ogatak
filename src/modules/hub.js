@@ -219,8 +219,8 @@ let hub_main_props = {
 				continue;
 			}
 
-			if (got_actual_file === false) {						// The next test is maybe expensive (?) so only do it until we get to real files in the array.
-				if (fs.existsSync(filepath) === false) {			// Can happen when extra args are passed to main process. Silently ignore.
+			if (!got_actual_file) {									// The next test is maybe expensive (?) so only do it until we get to real files in the array.
+				if (!fs.existsSync(filepath)) {						// Can happen when extra args are passed to main process. Silently ignore.
 					continue;
 				}
 			}
@@ -550,7 +550,7 @@ let hub_main_props = {
 
 	receive_object: function(o) {
 
-		if (valid_analysis_object(o) === false) {
+		if (!valid_analysis_object(o)) {
 			return;
 		}
 
