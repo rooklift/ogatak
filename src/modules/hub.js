@@ -315,16 +315,16 @@ let hub_main_props = {
 
 		let opts = {
 			keep_autoplay_settings: false,
-			bless: false		// When a caller leaves this as false, it's just because it isn't necessary.
+			bless: false						// When a caller leaves this as false, it's just because it isn't necessary.
 		};
 
-		if (supplied_opts) Object.assign(opts, supplied_opts);				// I think this is Crockford's way of doing arguments to methods.
+		if (supplied_opts) Object.assign(opts, supplied_opts);		// I think this is Crockford's way of doing arguments to methods.
 
-		let previous_line_end = (this.node && !this.node.destroyed) ? this.node.get_end() : null;	// Do this before the bless changes things.
+		let previous_line_end = (this.node && !this.node.destroyed) ? this.node.get_end() : null;
 
 		this.node = node;
 
-		if (opts.bless) {
+		if (opts.bless) {						// Do this after previous_line_end has been noted.
 			this.node.bless();
 		}
 
