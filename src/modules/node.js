@@ -451,11 +451,13 @@ let node_prototype = {
 
 	detach: function() {
 
-		// Returns the node that the hub should point to,
-		// which is the parent unless the call is a bad one.
+		// Returns the node that the hub should point to, which is the parent unless the call is a bad one.
 
 		let parent = this.parent;
 		if (!parent) return this;		// Fail
+
+		// It's good to not mutate the array in place -- at some point some code iterated over foo.children
+		// and detached some of them, which works as long as we here REPLACE rather than mutate the array.
 
 		parent.children = parent.children.filter(child => child !== this);
 
