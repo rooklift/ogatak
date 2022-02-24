@@ -318,11 +318,10 @@ let hub_main_props = {
 			bless: false		// When a caller leaves this as false, it's just because it isn't necessary.
 		};
 
-		if (supplied_opts) Object.assign(opts, supplied_opts);
+		if (supplied_opts) Object.assign(opts, supplied_opts);				// I think this is Crockford's way of doing arguments to methods.
 
-		// The above is I think Crockford's way of doing arguments to methods.
+		let previous_line_end = (this.node && !this.node.destroyed) ? this.node.get_end() : null;	// Do this before the bless changes things.
 
-		let old_node = this.node;
 		this.node = node;
 
 		if (opts.bless) {
@@ -352,7 +351,7 @@ let hub_main_props = {
 
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
-		if (!old_node || old_node.destroyed || old_node.get_end() !== this.node.get_end()) {		// We've switched lines, or even trees.
+		if (previous_line_end !== this.node.get_end()) {
 			grapher.draw_graph(this.node);
 		} else {
 			grapher.draw_position(this.node);
