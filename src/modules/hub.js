@@ -530,13 +530,7 @@ let hub_main_props = {
 		let node = this.node.get_end();
 
 		while (node.parent) {
-			if (node.parent.children.length > 1) {
-				for (let sibling of node.parent.children) {
-					if (sibling !== node) {
-						sibling.detach();
-					}
-				}
-			}
+			node.detach_siblings();
 			node = node.parent;
 		}
 

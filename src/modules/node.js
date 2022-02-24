@@ -458,13 +458,24 @@ let node_prototype = {
 
 		parent.children = parent.children.filter(child => child !== this);
 
-		if (this.parent.__blessed_child_id === this.id) {
-			this.parent.__blessed_child_id = null;
-		}
-
 		this.parent = null;
 		destroy_tree_recursive(this);
 		return parent;
+	},
+
+	detach_siblings: function() {
+
+		let parent = this.parent;
+		if (!parent || parent.children.length === 1) return;
+
+		for (let sibling of parent.children) {
+			if (sibling !== this) {
+				sibling.parent = null;
+				destroy_tree_recursive(sibling);
+			}
+		}
+
+		parent.children = [this];
 	},
 
 	destroy_tree: function() {
