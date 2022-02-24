@@ -124,7 +124,7 @@ exports.load = () => {
 	let defaults_copy = JSON.parse(JSON.stringify(exports.defaults));
 
 	for (let key of Object.keys(defaults_copy)) {
-		if (config.hasOwnProperty(key) === false) {
+		if (!config.hasOwnProperty(key)) {
 			config[key] = defaults_copy[key];
 		}
 	}
