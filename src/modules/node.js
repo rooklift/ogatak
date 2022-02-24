@@ -456,8 +456,8 @@ let node_prototype = {
 		let parent = this.parent;
 		if (!parent) return this;		// Fail
 
-		// It's good to not mutate the array in place -- at some point some code iterated over foo.children
-		// and detached some of them, which works as long as we here REPLACE rather than mutate the array.
+		// The following replaces the children array, rather than mutating it, so it's actually safe to iterate over some
+		// node's children and detach some of them, because the iteration will be over the original (unchanging) array.
 
 		parent.children = parent.children.filter(child => child !== this);
 
