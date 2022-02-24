@@ -119,19 +119,22 @@ let node_prototype = {
 
 		if (this.children.length === 0) {
 			return undefined;
+		} else if (!this.__blessed_child_id) {
+			return this.children[0];
 		} else if (this.children.length === 1) {
+			this.__blessed_child_id = null;
 			return this.children[0];
 		}
 
-		if (this.__blessed_child_id) {
-			for (let child of this.children) {
-				if (child.id === this.__blessed_child_id) {
-					return child;
-				}
+		for (let child of this.children) {
+			if (child.id === this.__blessed_child_id) {
+				return child;
 			}
 		}
 
-		this.__blessed_child_id = null;		// Best not assume the stored id actually exists - if we get here, it didn't.
+		// Best not assume the stored id actually exists - if we get here, it didn't.
+
+		this.__blessed_child_id = null;
 		return this.children[0];
 	},
 
