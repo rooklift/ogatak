@@ -384,7 +384,7 @@ let hub_main_props = {
 		}
 	},
 
-	try_move: function(s) {
+	try_move: function(s) {						// Can't be used for passing.
 		let node = this.node.try_move(s);
 		if (node !== this.node) {
 			this.set_node(node, {keep_autoplay_settings: true, bless: true});
