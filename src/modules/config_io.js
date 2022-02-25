@@ -84,9 +84,6 @@ exports.defaults = {
 	"auto_square_size": true,
 	"stderr_to_console": true,
 	"load_at_end": true,
-	"tree_draw_delay": 17,					// Note that the tree draw will be skipped if not needed.
-	"graph_draw_delay": 200,				// The graph draw, however, is never skipped.
-	"input_delay": 0,
 	"autoanalysis_visits": 500,
 	"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
 	"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
