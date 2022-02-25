@@ -22,6 +22,9 @@ let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
 
+		// For fairly lame reasons, this function is also responsible for closing the fullbox when the tree changes in
+		// any way. This helps avoid flicker what would be caused by the tree updating just after the fullbox closed.
+
 		let start_time = performance.now();
 
 		this.call_count++;
@@ -37,7 +40,7 @@ let tree_drawer_prototype = {
 		// We're going to do some sort of draw, maybe just clearing the canvas...
 
 		if (this.must_draw) {
-			fullbox.hide();			// We want to do this whenever the node changes. But we do it here for anti-flicker reasons.
+			fullbox.hide();
 		}
 
 		this.must_draw = false;
