@@ -273,3 +273,12 @@ exports.get_href_query_val = function(key) {
 	if (s[0] === "?") s = s.slice(1);
 	return querystring.parse(s)[key];
 };
+
+exports.safe_html = function(s) {
+	s = exports.replace_all(s,  `&`  ,  `&amp;`   );		// This needs to be first of course.
+	s = exports.replace_all(s,  `<`  ,  `&lt;`    );
+	s = exports.replace_all(s,  `>`  ,  `&gt;`    );
+	s = exports.replace_all(s,  `'`  ,  `&apos;`  );
+	s = exports.replace_all(s,  `"`  ,  `&quot;`  );
+	return s;
+};

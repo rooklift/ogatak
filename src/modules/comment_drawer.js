@@ -1,6 +1,6 @@
 "use strict";
 
-const {replace_all} = require("./utils");
+const {safe_html} = require("./utils");
 
 function init() {
 	return Object.assign(Object.create(comment_drawer_prototype), {
@@ -11,20 +11,12 @@ function init() {
 let comment_drawer_prototype = {
 
 	draw: function(node) {
-
 		let s = node.get("C");
-
-		if (config.comment_height <= 0) {
-			s = "";
+		if (!s || config.comment_height <= 0) {
+			this.div.innerHTML = "";
+		} else {
+			this.div.innerHTML = safe_html(s);
 		}
-
-		s = replace_all(s,  `&`  ,  `&amp;`   );		// This needs to be first of course.
-		s = replace_all(s,  `<`  ,  `&lt;`    );
-		s = replace_all(s,  `>`  ,  `&gt;`    );
-		s = replace_all(s,  `'`  ,  `&apos;`  );
-		s = replace_all(s,  `"`  ,  `&quot;`  );
-
-		this.div.innerHTML = s;
 	},
 
 	fix_font: function() {
