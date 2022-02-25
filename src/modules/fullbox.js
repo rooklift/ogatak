@@ -60,6 +60,12 @@ let fullbox_prototype = {
 		this.show();
 	},
 
+	exit_stderr_mode: function() {
+		if (this.stderr_mode) {
+			this.hide();
+		}
+	},
+
 	accept_stderr: function(s) {
 		if (this.stderr_mode) {
 			this.inner_div.innerHTML += safe_html(s) + "<br>";

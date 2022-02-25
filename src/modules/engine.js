@@ -258,7 +258,7 @@ let engine_prototype = {
 			if (line.startsWith("Beginning GPU tuning")) {
 				fullbox.enter_stderr_mode();
 			} else if (line.includes("ready to begin handling requests")) {
-				fullbox.hide();
+				fullbox.exit_stderr_mode();
 			}
 
 			fullbox.accept_stderr(line);
