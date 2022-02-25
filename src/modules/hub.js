@@ -13,7 +13,7 @@ const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions} = require("./utils");
+const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, safe_html} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -735,12 +735,15 @@ let hub_main_props = {
 	// Misc........................................................................................
 
 	display_props: function(rootflag) {
+		this.halt();
 		let props = rootflag ? this.node.get_root().props : this.node.props;
 		let lines = [];
 		for (let key of Object.keys(props)) {
-			lines.push(`${key}: [${props[key].join("][")}]`);
+			let vals = props[key].map(val => safe_html(val));
+			lines.push(`<span class="fullbox_em">${safe_html(key)}:</span> [${vals.join("][")}]`);
 		}
-		alert(lines.join("\n"));
+		fullbox.set(lines.join("<br>"));
+		fullbox.show();
 	},
 
 	autoset_square_size: function() {
@@ -759,6 +762,10 @@ let hub_main_props = {
 			let mb_rounded = Math.floor(mb * 1000) / 1000;			// 3 d.p.
 			console.log(type, "(MB)", mb_rounded);
 		}
+	},
+
+	escape: function() {
+		fullbox.hide();
 	},
 
 	quit: function() {

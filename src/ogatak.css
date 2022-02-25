@@ -141,6 +141,29 @@ body {
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
+#fullbox {
+	background-color: #080808;
+	display: none;
+	font-family: monospace, monospace;
+	font-size: 100%;
+	height: 100%;
+	left: 0;
+	overflow-y: auto;
+	pointer-events: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 6;
+}
+
+#fullbox_content {
+	overflow: hidden;
+	padding: 2em;
+	white-space: pre;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #preloaders {
 	display: none;
 }
@@ -155,4 +178,8 @@ td {
 
 .info_highlight {
 	color: #ffffffff;
+}
+
+.fullbox_em {
+	color: #6cccee;
 }

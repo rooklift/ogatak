@@ -69,8 +69,9 @@ module.exports = {
 
 		case "info_font_size":
 
-			comment_drawer.fix_font();
 			board_drawer.fix_infodiv_font();
+			comment_drawer.fix_font();
+			fullbox.fix_font();
 
 			// Changing the infodiv font will affect the space left for the board, thus...
 

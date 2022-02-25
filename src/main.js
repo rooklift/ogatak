@@ -1938,6 +1938,16 @@ function menu_build() {
 			label: "Misc",
 			submenu: [
 				{
+					label: "Escape",
+					accelerator: "Escape",
+					click: () => {
+						win.webContents.send("call", "escape");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					role: "toggledevtools"
 				},
 				{
