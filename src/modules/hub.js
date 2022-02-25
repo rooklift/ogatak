@@ -317,7 +317,7 @@ let hub_main_props = {
 
 		if (this.node === node) {
 			fullbox.hide();						// We actually want to always do this when node changes, but
-			return false;						// as an anti-flicker trick, we let tree_drawer do it normally.
+			return false;						// for various reasons, we let tree_drawer do it normally.
 		}
 
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
