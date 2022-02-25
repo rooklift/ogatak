@@ -43,6 +43,9 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 
 (function window_resize_spinner() {
 
+	// Poll the window size and adjust our settings if needed. Does nothing if main.js has told us we
+	// are maxed (by setting our config.maxed var). Likely some harmless race condition here but meh.
+
 	if (!config.maxed) {
 
 		let width = Math.floor(window.innerWidth * zoomfactor);
