@@ -4,17 +4,24 @@ function init() {
 	return Object.assign(Object.create(fullbox_prototype), {
 		outer_div: document.getElementById("fullbox"),
 		inner_div: document.getElementById("fullbox_content"),
+		is_visible: false,
 	});
 }
 
 let fullbox_prototype = {
 
 	show: function() {
-		this.outer_div.style["display"] = "block";
+		if (!this.is_visible) {
+			this.outer_div.style["display"] = "block";
+			this.is_visible = true;
+		}
 	},
 
 	hide: function() {
-		this.outer_div.style["display"] = "none";
+		if (this.is_visible) {
+			this.outer_div.style["display"] = "none";
+			this.is_visible = false;
+		}
 	},
 
 	set: function(s) {						// No sanitizing, beware!
@@ -24,10 +31,6 @@ let fullbox_prototype = {
 
 	fix_font: function() {
 		this.inner_div.style["font-size"] = config.info_font_size.toString() + "px";
-	},
-
-	is_visible: function() {
-		return this.outer_div.style["display"] === "block";
 	},
 
 };

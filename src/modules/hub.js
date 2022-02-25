@@ -119,7 +119,7 @@ let hub_main_props = {
 
 	close_tab: function() {
 
-		if (fullbox.is_visible()) {		// If the fullbox is open, close it instead...
+		if (fullbox.is_visible) {		// If the fullbox is open, close it instead...
 			fullbox.hide();
 			return;
 		}
@@ -315,9 +315,8 @@ let hub_main_props = {
 			throw "set_node() called with invalid node";
 		}
 
-		fullbox.hide();
-
 		if (this.node === node) {
+			fullbox.hide();
 			return false;
 		}
 

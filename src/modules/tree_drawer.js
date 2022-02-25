@@ -35,6 +35,8 @@ let tree_drawer_prototype = {
 
 		// We're going to do some sort of draw, maybe just clearing the canvas...
 
+		fullbox.hide();			// We want to do this whenever the node changes. But we do it here for anti-flicker reasons.
+
 		this.must_draw = false;
 		this.clickers = [];
 
