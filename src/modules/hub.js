@@ -614,6 +614,7 @@ let hub_main_props = {
 	},
 
 	go: function() {
+		fullbox.hide();
 		this.engine.analyse(this.node);
 	},
 
