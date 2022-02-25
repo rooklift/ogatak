@@ -80,6 +80,7 @@ module.exports = {
 			break;
 
 		case "auto_square_size":
+		case "maxed":							// This is a rather special setting.
 
 			if (config.auto_square_size) {
 				this.autoset_square_size();
