@@ -3,7 +3,7 @@
 // Overview:
 //  - Single-purpose div:   wood texture
 //  - Table background:     grid lines
-//  - Table TD elements:    nothing / black stone / white stone / ko marker
+//  - Table TD elements:    nothing / black stone / white stone
 //  - Canvas:               everything else
 //
 // To avoid conflicts when using the canvas:
