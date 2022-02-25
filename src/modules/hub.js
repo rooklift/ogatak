@@ -13,7 +13,7 @@ const {save_sgf, save_sgf_multi} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {set_title} = require("./title");
-const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, safe_html} = require("./utils");
+const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, safe_html, pad} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -309,6 +309,8 @@ let hub_main_props = {
 		if (!node || node.destroyed) {
 			throw "set_node() called with invalid node";
 		}
+
+		fullbox.hide();
 
 		if (this.node === node) {
 			return false;
@@ -737,10 +739,11 @@ let hub_main_props = {
 	display_props: function(rootflag) {
 		this.halt();
 		let props = rootflag ? this.node.get_root().props : this.node.props;
+		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys
 		let lines = [];
 		for (let key of Object.keys(props)) {
 			let vals = props[key].map(val => safe_html(val));
-			lines.push(`<span class="fullbox_em">${safe_html(key)}:</span> [${vals.join("][")}]`);
+			lines.push(`<span class="fullbox_em">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
 		}
 		fullbox.set(lines.join("<br>"));
 		fullbox.show();

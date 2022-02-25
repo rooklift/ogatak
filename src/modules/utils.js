@@ -122,7 +122,7 @@ exports.handicap_stones = function(count, width, height, tygem) {
 	return stones.slice(0, count).map(z => exports.xy_to_s(z[0], z[1]));
 };
 
-exports.pad = function(s, width) {
+exports.pad = function(s, width, leftflag) {
 
 	s = stringify(s);
 
@@ -132,7 +132,7 @@ exports.pad = function(s, width) {
 
 	let padding = " ".repeat(width - s.length);
 
-	return s + padding;
+	return leftflag ? padding + s : s + padding;
 };
 
 exports.moveinfo_filter = function(node) {
