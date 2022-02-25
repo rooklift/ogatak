@@ -240,19 +240,29 @@ let engine_prototype = {
 		});
 
 		this.err_scanner.on("line", (line) => {
+
 			if (line.includes("exception")) {
 				alert("KataGo said:\n" + line);
 			}
+
 			if (this.has_quit) {		// Do this after the above, so that exceptions that caused the quit can be displayed.
 				return;
 			}
+
 			log("! " + line);
+
 			if (config.stderr_to_console) {
 				console.log("! " + line);
 			}
+
 			if (line.startsWith("Beginning GPU tuning")) {
-				alert("KataGo is currently tuning itself, this may take some time." + (config.stderr_to_console ? " Open the dev console to see its progress." : ""));
+				fullbox.enter_stderr_mode();
+			} else if (line.includes("ready to begin handling requests")) {
+				fullbox.hide();
 			}
+
+			fullbox.accept_stderr(line);
+
 		});
 	},
 

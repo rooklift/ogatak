@@ -7,6 +7,7 @@ function init() {
 		outer_div: document.getElementById("fullbox"),
 		inner_div: document.getElementById("fullbox_content"),
 		is_visible: false,
+		stderr_mode: false,
 	});
 }
 
@@ -19,23 +20,26 @@ let fullbox_prototype = {
 	show: function() {
 		if (!this.is_visible) {
 			this.outer_div.style["display"] = "block";
-			this.is_visible = true;
 		}
+		this.is_visible = true;
 	},
 
 	hide: function() {
 		if (this.is_visible) {
 			this.outer_div.style["display"] = "none";
-			this.is_visible = false;
 		}
+		this.is_visible = false;
+		this.stderr_mode = false;
 	},
 
 	set: function(s) {						// No sanitizing, beware!
-		this.inner_div.innerHTML = s;
-		console.log(s);
+		if (!this.stderr_mode) {
+			this.inner_div.innerHTML = s;
+			this.show();
+		}
 	},
 
-	display_node_props(node) {
+	display_node_props: function(node) {
 		let props = node.props;
 		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys
 		let lines = [];
@@ -48,7 +52,19 @@ let fullbox_prototype = {
 			lines.push(`<span class="fullbox_em">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
 		}
 		this.set(lines.join("<br>"));
+	},
+
+	enter_stderr_mode: function() {
+		this.stderr_mode = true;
+		this.inner_div.innerHTML = "";
 		this.show();
+	},
+
+	accept_stderr: function(s) {
+		if (this.stderr_mode) {
+			this.inner_div.innerHTML += s + "<br>";
+			this.outer_div.scrollTop = this.outer_div.scrollHeight
+		}
 	},
 
 };
