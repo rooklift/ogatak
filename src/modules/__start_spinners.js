@@ -43,16 +43,19 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 
 (function window_resize_spinner() {
 
-	let width = Math.floor(window.innerWidth * zoomfactor);
-	let height = Math.floor(window.innerHeight * zoomfactor);
+	if (!config.maxed) {
 
-	if (config.width !== width || config.height !== height) {
+		let width = Math.floor(window.innerWidth * zoomfactor);
+		let height = Math.floor(window.innerHeight * zoomfactor);
 
-		config.width = width;
-		config.height = height;
+		if (config.width !== width || config.height !== height) {
 
-		if (config.auto_square_size) {
-			hub.autoset_square_size();
+			config.width = width;
+			config.height = height;
+
+			if (config.auto_square_size) {
+				hub.autoset_square_size();
+			}
 		}
 	}
 
