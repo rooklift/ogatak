@@ -62,7 +62,7 @@ let fullbox_prototype = {
 
 	accept_stderr: function(s) {
 		if (this.stderr_mode) {
-			this.inner_div.innerHTML += s + "<br>";
+			this.inner_div.innerHTML += safe_html(s) + "<br>";
 			this.outer_div.scrollTop = this.outer_div.scrollHeight
 		}
 	},
