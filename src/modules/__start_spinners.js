@@ -52,10 +52,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		config.height = height;
 
 		if (config.auto_square_size) {
-			let new_size = hub.calculate_square_size();
-			if (new_size !== config.square_size) {
-				hub.set("square_size", new_size);
-			}
+			hub.autoset_square_size();
 		}
 	}
 

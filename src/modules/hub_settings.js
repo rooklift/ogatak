@@ -75,10 +75,14 @@ module.exports = {
 			// Changing the infodiv font will affect the space left for the board, thus...
 
 			if (config.auto_square_size) {
-				let new_size = this.calculate_square_size();
-				if (new_size !== config.square_size) {
-					this.set("square_size", new_size);
-				}
+				this.autoset_square_size();
+			}
+			break;
+
+		case "auto_square_size":
+
+			if (config.auto_square_size) {
+				this.autoset_square_size();
 			}
 			break;
 

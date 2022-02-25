@@ -743,9 +743,12 @@ let hub_main_props = {
 		alert(lines.join("\n"));
 	},
 
-	calculate_square_size: function() {
+	autoset_square_size: function() {
 		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
-		return Math.max(10, Math.floor((dy - 8) / 19));
+		let ss = Math.max(10, Math.floor((dy - 8) / 19));
+		if (ss !== config.square_size) {
+			this.set("square_size", ss);
+		}
 	},
 
 	log_ram: function() {
