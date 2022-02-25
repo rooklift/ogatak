@@ -1,5 +1,9 @@
 "use strict";
 
+// For fairly lame reasons, tree_drawer is also responsible for closing the fullbox when the tree changes:
+//  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
+//  - Since .must_draw is the one thing in the app that always gets changed when the tree changes, I guess it's OK.
+
 function init() {
 
 	return Object.assign(Object.create(tree_drawer_prototype), {
@@ -21,10 +25,6 @@ function init() {
 let tree_drawer_prototype = {
 
 	draw_tree: function(central_node) {
-
-		// For fairly lame reasons, this function is also responsible for closing the fullbox when the tree changes in any way.
-		// This helps avoid flicker what would be caused by the tree updating just after the fullbox closed. Since this.must_draw
-		// is the one thing in the app that always gets changed when the tree changes, I guess this is OK.
 
 		let start_time = performance.now();
 
