@@ -24,7 +24,7 @@ let fullbox_prototype = {
 		this.is_visible = true;
 	},
 
-	hide: function() {
+	hide: function() {						// Also the only thing that ever does (this.stderr_mode = false)
 		if (this.is_visible) {
 			this.outer_div.style["display"] = "none";
 		}
