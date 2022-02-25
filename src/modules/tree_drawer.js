@@ -8,7 +8,8 @@ function init() {
 		ctx: document.getElementById("treecanvas").getContext("2d"),
 
 		clickers: [],
-		must_draw: false,
+		must_draw: false,				// Set from outside if the tree changes.
+		weak_draw: false,				// Like must_draw, but doesn't close the fullbox.
 
 		last_draw_cost: 0,				// Various things for debugging.
 		call_count: 0,					// Although this is actually used by real logic now.
@@ -29,7 +30,7 @@ let tree_drawer_prototype = {
 		let correct_height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_height);
 		let size_is_ok = this.canvas.width === correct_width && this.canvas.height === correct_height;
 
-		if (!this.must_draw && (size_is_ok || this.call_count % 10 !== 0)) {
+		if (!this.must_draw && !this.weak_draw && (size_is_ok || this.call_count % 10 !== 0)) {
 			return;
 		}
 
@@ -40,6 +41,7 @@ let tree_drawer_prototype = {
 		}
 
 		this.must_draw = false;
+		this.weak_draw = false;
 		this.clickers = [];
 
 		this.canvas.width = correct_width;

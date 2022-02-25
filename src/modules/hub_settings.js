@@ -130,12 +130,12 @@ module.exports = {
 		case "tree_main_colour":
 		case "central_node_colour":
 
-			tree_drawer.must_draw = true;
+			tree_drawer.weak_draw = true;
 			break;
 
 		case "comment_height":
 
-			tree_drawer.must_draw = true;			// Because the tree drawer actually controls the height of the comments.
+			tree_drawer.weak_draw = true;			// Because the tree drawer actually controls the height of the comments.
 			comment_drawer.draw(this.node);
 			break;
 
