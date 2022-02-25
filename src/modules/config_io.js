@@ -80,6 +80,7 @@ exports.defaults = {
 	"logfile": null,
 	"width": 1200,
 	"height": 780,
+	"maxed": false,
 	"auto_square_size": true,
 	"stderr_to_console": true,
 	"load_at_end": true,

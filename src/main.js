@@ -51,6 +51,11 @@ function startup() {
 		} catch (err) {
 			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
 		}
+
+		if (config.maxed) {
+			win.maximize();
+		}
+
 		win.show();
 		win.focus();
 	});
@@ -58,6 +63,14 @@ function startup() {
 	win.once("close", (event) => {					// Note the once...
 		event.preventDefault();						// We prevent the close one time only,
 		win.webContents.send("call", "quit");		// to let renderer's "quit" method run once. It then sends "terminate" back.
+	});
+
+	win.on("maximize", (event) => {
+		win.webContents.send("set", {"maxed": true});
+	});
+
+	win.on("unmaximize", (event) => {
+		win.webContents.send("set", {"maxed": false});
 	});
 
 	electron.ipcMain.on("terminate", () => {
