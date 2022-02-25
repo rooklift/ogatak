@@ -2011,6 +2011,7 @@ function menu_build() {
 				},
 				{
 					label: "Show root properties",
+					accelerator: "CommandOrControl+P",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
@@ -2020,6 +2021,7 @@ function menu_build() {
 				},
 				{
 					label: "Show node properties",
+					accelerator: "CommandOrControl+Shift+P",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
