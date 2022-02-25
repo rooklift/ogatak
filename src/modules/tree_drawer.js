@@ -1,8 +1,11 @@
 "use strict";
 
-// For fairly lame reasons, tree_drawer is also responsible for closing the fullbox when the tree changes:
+// Note that tree_drawer is also responsible for closing the fullbox when the tree changes...
+//
 //  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
-//  - Since .must_draw is the one thing in the app that always gets changed when the tree changes, I guess it's OK.
+//
+//  - Since the tree changing is the condition upon which I want fullbox to auto-close, I guess it makes
+//    some sense to do it here in the tree_drawer code.
 
 function init() {
 
