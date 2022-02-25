@@ -26,6 +26,10 @@ let fullbox_prototype = {
 		this.inner_div.style["font-size"] = config.info_font_size.toString() + "px";
 	},
 
+	is_visible: function() {
+		return this.outer_div.style["display"] === "block";
+	},
+
 };
 
 

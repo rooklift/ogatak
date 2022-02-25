@@ -119,6 +119,11 @@ let hub_main_props = {
 
 	close_tab: function() {
 
+		if (fullbox.is_visible()) {		// If the fullbox is open, close it instead...
+			fullbox.hide();
+			return;
+		}
+
 		let node_to_destroy = this.node;
 
 		if (tabber.tabs.length === 1) {
