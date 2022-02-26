@@ -4,8 +4,8 @@ const {safe_html, pad} = require("./utils");
 
 function init() {
 	return Object.assign(Object.create(fullbox_prototype), {
-		outer_div: document.getElementById("fullbox"),
-		inner_div: document.getElementById("fullbox_content"),
+		outer_div: document.getElementById("fbox"),
+		inner_div: document.getElementById("fbox_content"),
 		is_visible: false,
 		stderr_mode: false,
 	});

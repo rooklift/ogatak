@@ -141,7 +141,7 @@ body {
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
-#fullbox {
+#fbox {
 	background-color: #080808;
 	display: none;
 	font-family: monospace, monospace;
@@ -156,7 +156,7 @@ body {
 	z-index: 6;
 }
 
-#fullbox_content {
+#fbox_content {
 	overflow: hidden;
 	padding: 2em;
 	white-space: pre;
