@@ -929,6 +929,22 @@ function menu_build() {
 					label: "PV length (max)",
 					submenu: [
 						{
+							label: "30",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 30,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 30});
+							}
+						},
+						{
+							label: "28",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 28,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 28});
+							}
+						},
+						{
 							label: "26",
 							type: "checkbox",
 							checked: config.analysis_pv_len === 26,
