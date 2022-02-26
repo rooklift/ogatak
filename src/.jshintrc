@@ -8,6 +8,7 @@
 		"board_drawer": true,
 		"comment_drawer": true,
 		"config": true,
+		"fullbox": true,
 		"grapher": true,
 		"hub": true,
 		"tabber": true,

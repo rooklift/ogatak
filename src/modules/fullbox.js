@@ -45,7 +45,7 @@ let fullbox_prototype = {
 		let lines = [];
 		for (let key of Object.keys(props)) {
 			let vals = props[key].map(val => {
-				val = safe_html(val)
+				val = safe_html(val);
 				if (key === "PB" || key === "PW" || key === "RE") val = `<span class="fullbox_em">${val}</span>`;
 				return val;
 			});
@@ -69,7 +69,7 @@ let fullbox_prototype = {
 	accept_stderr: function(s) {
 		if (this.stderr_mode) {
 			this.inner_div.innerHTML += safe_html(s) + "<br>";
-			this.outer_div.scrollTop = this.outer_div.scrollHeight
+			this.outer_div.scrollTop = this.outer_div.scrollHeight;
 		}
 	},
 
