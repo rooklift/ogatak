@@ -255,13 +255,15 @@ let engine_prototype = {
 				console.log("! " + line);
 			}
 
-			if (line.startsWith("Beginning GPU tuning")) {
+			if (line.includes("Beginning GPU tuning")) {
 				fullbox.enter_stderr_mode();
-			} else if (line.includes("ready to begin handling requests")) {
+			}
+			if (fullbox.stderr_mode) {
+				fullbox.accept_stderr(line);
+			}
+			if (line.includes("ready to begin handling requests")) {
 				fullbox.exit_stderr_mode();
 			}
-
-			fullbox.accept_stderr(line);
 
 		});
 	},
