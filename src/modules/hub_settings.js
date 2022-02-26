@@ -6,6 +6,7 @@ const {defaults} = require("./config_io");
 const multichecks = {
 	// visits_threshold not included here.
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
+	analysis_pv_len:		["Analysis", "PV length (max)"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
 	square_size:			["Sizes", "Board squares"],
@@ -139,6 +140,7 @@ module.exports = {
 			comment_drawer.draw(this.node);
 			break;
 
+		case "analysis_pv_len":
 		case "widerootnoise":
 		case "symmetry_pruning":
 		case "report_every":

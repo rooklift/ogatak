@@ -11,25 +11,24 @@ exports.base_query = function(query_node, engine) {
 
 	let board = query_node.get_board();
 
-	let o = {};
+	let o = {
 
-	o.id = `${query_node.id}:${next_query_id++}`;
+		id: `${query_node.id}:${next_query_id++}`,
+		rules: (board.rules === "Unknown") ? config.default_rules : board.rules,
+		komi: board.komi,
+		boardXSize: board.width,
+		boardYSize: board.height,
+		maxVisits: 1000000,
+		analysisPVLen: config.analysis_pv_len - 1,
+		reportDuringSearchEvery: config.report_every,
+		includeOwnership: (config.dead_stone_prediction) ? true : false,
+		includeMovesOwnership: (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false,
 
-	o.rules = board.rules === "Unknown" ? config.default_rules : board.rules;
-	o.komi = board.komi;
-	o.boardXSize = board.width;
-	o.boardYSize = board.height;
-
-	o.maxVisits = 1000000;
-	o.reportDuringSearchEvery = config.report_every;
-
-	o.includeOwnership = config.dead_stone_prediction ? true : false;
-	o.includeMovesOwnership = (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false;
-
-	o.overrideSettings = {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
-		reportAnalysisWinratesAs: "SIDETOMOVE",
-		wideRootNoise: config.widerootnoise ? 0.05 : 0,
-		rootSymmetryPruning: config.symmetry_pruning ? true : false,
+		overrideSettings: {									// REMEMBER to add new (post-1.9.1) features to the deletions below.
+			reportAnalysisWinratesAs: "SIDETOMOVE",
+			wideRootNoise: (config.widerootnoise) ? 0.05 : 0,
+			rootSymmetryPruning: (config.symmetry_pruning) ? true : false,
+		}
 	};
 
 	// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.

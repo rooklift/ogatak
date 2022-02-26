@@ -70,10 +70,10 @@ exports.defaults = {
 	"tree_main_colour": "#909090ff",
 	"central_node_colour": "#d2b074ff",
 
+	"analysis_pv_len": 16,
 	"widerootnoise": true,
 	"symmetry_pruning": true,
 	"report_every": 0.1,
-
 	"dead_stone_prediction": true,
 	"dead_stone_per_move": true,
 

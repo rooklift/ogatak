@@ -319,7 +319,7 @@ let board_drawer_prototype = {
 		let finalboard = startboard.copy();
 		let points = [];
 
-		for (let move of info.pv) {
+		for (let move of info.pv.slice(0, config.analysis_pv_len)) {
 			let s = finalboard.parse_gtp_move(move);	// "K10" --> "jj" (off-board becomes "")
 			finalboard.play(s);
 			points.push(s);								// Passes are included as "" (so our numbering works below)

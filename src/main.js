@@ -926,6 +926,86 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "PV length (max)",
+					submenu: [
+						{
+							label: "26",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 26,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 26});
+							}
+						},
+						{
+							label: "24",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 24,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 24});
+							}
+						},
+						{
+							label: "22",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 22,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 22});
+							}
+						},
+						{
+							label: "20",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 20,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 20});
+							}
+						},
+						{
+							label: "18",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 18,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 18});
+							}
+						},
+						{
+							label: "16",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 16,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 16});
+							}
+						},
+						{
+							label: "14",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 14,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 14});
+							}
+						},
+						{
+							label: "12",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 12,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 12});
+							}
+						},
+						{
+							label: "10",
+							type: "checkbox",
+							checked: config.analysis_pv_len === 10,
+							click: () => {
+								win.webContents.send("set", {analysis_pv_len: 10});
+							}
+						},
+					]
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Wide root noise",
 					type: "checkbox",
 					checked: config.widerootnoise,
