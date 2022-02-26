@@ -11,9 +11,6 @@ function init() {
 	});
 }
 
-// I see that accessing .style.display does not give you computed styles from CSS.
-// So we have the is_visible key as a proxy for it, I guess.
-
 let fullbox_prototype = {
 
 	fix_font: function() {
