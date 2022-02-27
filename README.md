@@ -6,8 +6,8 @@
 ## Upsides
 
 * Relatively simple once set up.
-* Has most normal Lizzie-like features.
-* Correctly handles many SGF files that trouble other GUIs (especially handicaps and mid-game board edits).
+* Has most normal Lizzie-like features (though not constant PV display).
+* Correctly handles many SGF files that trouble other GUIs, especially handicaps and mid-game board edits.
 * I personally like the aesthetics...
 
 ## Downsides
