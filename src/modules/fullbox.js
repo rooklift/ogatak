@@ -85,7 +85,7 @@ let fullbox_prototype = {
 			`    <span class="yellow">${config.weights}</span>\n\n` +
 			`${name} config file is at:\n\n` +
 			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
-			`RAM usage (MB):\n\n` + 
+			`RAM usage (MB) (engine not included):\n\n` + 
 			`${ram_strings.join("\n")}`
 		);
 	},
