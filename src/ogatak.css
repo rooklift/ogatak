@@ -176,10 +176,14 @@ td {
 	padding: 0;
 }
 
-.info_highlight {
+.white {
 	color: #ffffffff;
 }
 
-.fullbox_em {
+.blue {
 	color: #6cccee;
+}
+
+.yellow {
+	color: #ffff99;
 }
