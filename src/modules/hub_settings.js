@@ -61,6 +61,22 @@ module.exports = {
 		case "engineconfig":
 		case "weights":
 
+			// Some shennanigans to actually live-update the about box, if it's open...
+
+			let possibly_existing_about_box_span_id =
+				key === "engine" ? "about_box_engine" :
+				key === "engineconfig" ? "about_box_engineconfig" :
+				key === "weights" ? "about_box_weights" :
+				null;
+
+			let about_box_span = document.getElementById(possibly_existing_about_box_span_id);
+
+			if (about_box_span) {
+				about_box_span.innerHTML = value;
+			}
+
+			// Now start the engine, maybe...
+
 			if (config.arbitrary_command) {
 				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
 			} else {
