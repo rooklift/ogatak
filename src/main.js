@@ -667,7 +667,7 @@ function menu_build() {
 					label: "Go / halt toggle",
 					type: "checkbox",
 					checked: false,
-					accelerator: "Space",											// Likely intercepted by the renderer process, see __start_handlers.js
+					accelerator: "Space",				// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "toggle_ponder");
 					}
@@ -2200,39 +2200,24 @@ function get_submenu_items(menupath) {
 	// If the path is to a submenu, this returns a list of all items in the submenu.
 	// If the path is to a specific menu item, it just returns that item.
 
-	let items = menu.items;
-
-	let total_found = 0;			// How many items of the menupath we've found.
+	let ret = menu.items;
 
 	for (let s of menupath) {
 
 		s = stringify(s).toLowerCase();
-		let found = false;
 
-		for (let item of items) {
+		ret = ret.find(o => o.label.toLowerCase() === s);
 
-			if (item.label.toLowerCase() === s) {
-
-				found = true;
-				total_found++;
-
-				if (item.submenu) {
-					items = item.submenu.items;
-					break;
-				} else if (total_found === menupath.length) {
-					return item;
-				} else {
-					throw new Error("get_submenu_items() got invalid menupath");
-				}
-			}
+		if (ret === undefined) {
+			throw `get_submenu_items() invalid path: ${menupath}`;
 		}
 
-		if (!found) {
-			throw new Error("get_submenu_items() got invalid menupath");
+		if (ret.submenu) {
+			ret = ret.submenu.items;
 		}
 	}
 
-	return items;
+	return ret;
 }
 
 function set_checks(menupath) {
