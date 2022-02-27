@@ -33,7 +33,7 @@ require("./__start_handlers");
 require("./__start_spinners");
 
 if (config_io.error()) {
-	alert(`${config_io.filename} failed to load. It will not be saved to until you fix this. Error:\n` + config_io.error());
+	fullbox.warn_bad_config();
 }
 
 ipcRenderer.send("renderer_ready", null);

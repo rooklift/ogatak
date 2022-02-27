@@ -1,5 +1,6 @@
 "use strict";
 
+const config_io = require("./config_io");
 const {safe_html, pad} = require("./utils");
 
 function init() {
@@ -43,20 +44,7 @@ let fullbox_prototype = {
 		}
 	},
 
-	display_node_props: function(node) {
-		let props = node.props;
-		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys
-		let lines = [];
-		for (let key of Object.keys(props)) {
-			let vals = props[key].map(val => {
-				val = safe_html(val);
-				if (key === "PB" || key === "PW" || key === "RE") val = `<span class="fullbox_em">${val}</span>`;
-				return val;
-			});
-			lines.push(`<span class="fullbox_em">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
-		}
-		this.set(lines.join("<br>"));
-	},
+	// --------------------------------------------------------------------------------------------
 
 	enter_stderr_mode: function() {
 		this.stderr_mode = true;
@@ -75,6 +63,34 @@ let fullbox_prototype = {
 			this.inner_div.innerHTML += safe_html(s) + "<br>";
 			this.outer_div.scrollTop = this.outer_div.scrollHeight;
 		}
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	display_node_props: function(node) {
+		let props = node.props;
+		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys
+		let lines = [];
+		for (let key of Object.keys(props)) {
+			let vals = props[key].map(val => {
+				val = safe_html(val);
+				if (key === "PB" || key === "PW" || key === "RE") val = `<span class="blue">${val}</span>`;
+				return val;
+			});
+			lines.push(`<span class="blue">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
+		}
+		this.set(lines.join("<br>"));
+	},
+
+	warn_bad_config: function() {
+		this.set(
+			`<span class="blue">${config_io.filename}</span> could not be parsed.\n\n` +
+			`It will not be saved to until you fix this.\n` +
+			`This means your settings will not be saved.\n\n` +
+			`You should fix this.\n` +
+			`You can also just delete the file.\n\n` +
+			`Error: <span class="yellow">${config_io.error()}</span>`
+		);
 	},
 
 };

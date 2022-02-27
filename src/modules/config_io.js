@@ -112,6 +112,7 @@ exports.load = () => {
 		}
 		errortext = "";
 	} catch (err) {
+		console.log(`While loading ${exports.filename}:`);
 		console.log(err.toString());
 		errortext = err.toString();
 	}
