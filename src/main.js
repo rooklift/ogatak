@@ -176,7 +176,10 @@ function menu_build() {
 				{
 					label: "About",
 					click: () => {
-						alert(`${electron.app.getName()} (${electron.app.getVersion()}) in Electron (${process.versions.electron})`);
+						win.webContents.send("call", {
+							fn: "about",
+							args: [electron.app.getName(), electron.app.getVersion()]
+						})
 					}
 				},
 				{

@@ -67,6 +67,20 @@ let fullbox_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
+	about: function(name, version) {
+		this.set(
+			`<span class="blue">${name} ${version}</span> in <span class="blue">Electron ${process.versions.electron}</span>\n` +
+			`Written by <span class="green">Rooklift</span>\n\n` +
+			`Engine, engine config, and weights are at:\n\n` +
+			`    <span class="yellow">${config.engine}</span>\n` +
+			`    <span class="yellow">${config.engineconfig}</span>\n` +
+			`    <span class="yellow">${config.weights}</span>\n\n` +
+			`${name} config file is at:\n\n` +
+			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
+			`(Press Escape)`
+		);
+	},
+
 	display_node_props: function(node) {
 		let props = node.props;
 		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys

@@ -739,12 +739,23 @@ let hub_main_props = {
 		this.draw();
 	},
 
-	// Misc........................................................................................
+	// Fullbox.....................................................................................
+
+	about: function(name, version) {
+		this.halt();
+		fullbox.about(name, version);
+	},
 
 	display_props: function(rootflag) {
 		this.halt();
 		fullbox.display_node_props(rootflag ? this.node.get_root() : this.node);
 	},
+
+	escape: function() {
+		fullbox.hide();
+	},
+
+	// Misc........................................................................................
 
 	autoset_square_size: function() {
 		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
@@ -762,10 +773,6 @@ let hub_main_props = {
 			let mb_rounded = Math.floor(mb * 1000) / 1000;			// 3 d.p.
 			console.log(type, "(MB)", mb_rounded);
 		}
-	},
-
-	escape: function() {
-		fullbox.hide();
 	},
 
 	quit: function() {
