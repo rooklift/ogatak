@@ -179,7 +179,7 @@ function menu_build() {
 						win.webContents.send("call", {
 							fn: "about",
 							args: [electron.app.getName(), electron.app.getVersion()]
-						})
+						});
 					}
 				},
 				{
