@@ -64,9 +64,9 @@ module.exports = {
 			// Some shennanigans to actually live-update the about box, if it's open...
 
 			let possibly_existing_about_box_span_id =
-				key === "engine" ? "about_box_engine" :
+				key === "engine"       ? "about_box_engine"       :
 				key === "engineconfig" ? "about_box_engineconfig" :
-				key === "weights" ? "about_box_weights" :
+				key === "weights"      ? "about_box_weights"      :
 				null;
 
 			let about_box_span = document.getElementById(possibly_existing_about_box_span_id);
