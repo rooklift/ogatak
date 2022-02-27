@@ -434,6 +434,19 @@ let node_prototype = {
 		return node;
 	},
 
+	ancestor_with_valid_analysis: function(depth) {
+
+		if (this.has_valid_analysis()) {
+			return this;
+		}
+
+		if (depth <= 0 || !this.parent) {
+			return null;
+		}
+
+		return this.parent.ancestor_with_valid_analysis(depth - 1);
+	},
+
 	is_main_line: function() {
 
 		let node = this;

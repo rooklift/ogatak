@@ -269,11 +269,12 @@ let board_drawer_prototype = {
 			if (node.has_valid_analysis() && node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
 
-			// Special case: use parent's ownership map, iff we expect actual data from current node to be arriving soon...
+			// Special case: use recent ancestor's ownership map, iff we expect actual data from current node to be arriving soon...
 
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
-				if (node.parent && node.parent.has_valid_analysis() && node.parent.analysis.ownership) {
-					this.plan_death_marks(node.get_board(), node.parent.analysis.ownership, node.parent.get_board().active);
+				let analysis_node = node.ancestor_with_valid_analysis(8);
+				if (analysis_node && analysis_node.analysis.ownership) {
+					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				}
 			}
 		}
