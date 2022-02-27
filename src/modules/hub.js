@@ -765,16 +765,6 @@ let hub_main_props = {
 		}
 	},
 
-	log_ram: function() {
-		console.log(`RAM after ${Math.floor(performance.now() / 1000)} seconds:`);
-		for (let foo of Object.entries(process.memoryUsage())) {
-			let type = foo[0] + " ".repeat(12 - foo[0].length);
-			let mb = foo[1] / (1024 * 1024);
-			let mb_rounded = Math.floor(mb * 1000) / 1000;			// 3 d.p.
-			console.log(type, "(MB)", mb_rounded);
-		}
-	},
-
 	quit: function() {
 		this.engine.shutdown();
 		config_io.save();					// As long as we use the sync save, this will complete before we

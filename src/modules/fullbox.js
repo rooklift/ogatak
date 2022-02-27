@@ -68,6 +68,15 @@ let fullbox_prototype = {
 	// --------------------------------------------------------------------------------------------
 
 	about: function(name, version) {
+
+		let ram_strings = [];
+		for (let foo of Object.entries(process.memoryUsage())) {
+			let type = pad(foo[0], 16, true);
+			let mb = foo[1] / (1024 * 1024);
+			let mb_rounded = Math.floor(mb * 1000) / 1000;			// 3 d.p.
+			ram_strings.push(`${type} : ${mb_rounded}`);
+		}
+
 		this.set(
 			`<span class="green">${name} ${version}</span> running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
 			`Engine, engine config, and weights are at:\n\n` +
@@ -75,7 +84,20 @@ let fullbox_prototype = {
 			`    <span class="yellow">${config.engineconfig}</span>\n` +
 			`    <span class="yellow">${config.weights}</span>\n\n` +
 			`${name} config file is at:\n\n` +
-			`    <span class="yellow">${config_io.filepath}</span>`
+			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
+			`RAM usage (MB):\n\n` + 
+			`${ram_strings.join("\n")}`
+		);
+	},
+
+	warn_bad_config: function() {
+		this.set(
+			`<span class="blue">${config_io.filename}</span> could not be parsed.\n\n` +
+			`It will not be saved to until you fix this.\n` +
+			`This means your settings will not be saved.\n\n` +
+			`You should fix this.\n` +
+			`You can also just delete the file.\n\n` +
+			`Error: <span class="yellow">${config_io.error()}</span>`
 		);
 	},
 
@@ -92,17 +114,6 @@ let fullbox_prototype = {
 			lines.push(`<span class="blue">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
 		}
 		this.set(lines.join("<br>"));
-	},
-
-	warn_bad_config: function() {
-		this.set(
-			`<span class="blue">${config_io.filename}</span> could not be parsed.\n\n` +
-			`It will not be saved to until you fix this.\n` +
-			`This means your settings will not be saved.\n\n` +
-			`You should fix this.\n` +
-			`You can also just delete the file.\n\n` +
-			`Error: <span class="yellow">${config_io.error()}</span>`
-		);
 	},
 
 };

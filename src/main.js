@@ -491,7 +491,13 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Restart engine",
+					label: "Clear cache",
+					click: () => {
+						win.webContents.send("call", "clear_cache");
+					}
+				},
+				{
+					label: "Restart",
 					click: () => {
 						win.webContents.send("call", "restart_engine");
 					}
@@ -2162,18 +2168,6 @@ function menu_build() {
 				},
 				{
 					type: "separator",
-				},
-				{
-					label: "Log Electron RAM state to console",
-					click: () => {
-						win.webContents.send("call", "log_ram");
-					}
-				},
-				{
-					label: "Clear KataGo cache",
-					click: () => {
-						win.webContents.send("call", "clear_cache");
-					}
 				},
 			]
 		}
