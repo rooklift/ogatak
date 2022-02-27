@@ -69,8 +69,7 @@ let fullbox_prototype = {
 
 	about: function(name, version) {
 		this.set(
-			`<span class="green">${name} ${version}</span>, written by <span class="green">Rooklift,</span> ` +
-			`running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
+			`<span class="green">${name} ${version}</span> running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
 			`Engine, engine config, and weights are at:\n\n` +
 			`    <span class="yellow">${config.engine}</span>\n` +
 			`    <span class="yellow">${config.engineconfig}</span>\n` +
