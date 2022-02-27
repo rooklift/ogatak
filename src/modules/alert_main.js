@@ -1,10 +1,7 @@
 "use strict";
 
 // Exports a function we use to draw alert messages.
-//
-// To be used in the main process only (so when the
-// renderer needs to make an alert, it sends the
-// message to main via IPC).
+// To be used in the main process only (so when the renderer needs to make an alert, it sends the message to main via IPC).
 
 const electron = require("electron");
 const stringify = require("./stringify");
