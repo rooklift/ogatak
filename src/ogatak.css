@@ -142,7 +142,7 @@ body {
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
 #fbox {
-	background-color: #080808;
+	background-color: #080808ff;
 	display: none;
 	font-family: monospace, monospace;
 	font-size: 100%;
@@ -181,13 +181,13 @@ td {
 }
 
 .blue {
-	color: #6cccee;
+	color: #6ccceeff;
 }
 
 .yellow {
-	color: #ffff99;
+	color: #ffff99ff;
 }
 
 .green {
-	color: #99ff99;
+	color: #99ff99ff;
 }
