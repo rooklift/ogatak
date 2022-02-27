@@ -11,6 +11,10 @@ function init() {
 	});
 }
 
+// is_visible will always correspond to outer_div.style being "block" or "none", but it's easier to access
+// and also, there's the annoying fact that accessing .style doesn't work for the initial styling computed
+// from the CSS (it only works for style that's "directly set").
+
 let fullbox_prototype = {
 
 	fix_font: function() {
