@@ -5,12 +5,12 @@
 
 ## Upsides
 
-* Relatively simple once set up
-* Correctly handles many SGF files that trouble other GUIs
+* Relatively simple once set up.
+* Has most normal Lizzie-like features.
+* Correctly handles many SGF files that trouble other GUIs (especially handicaps and mid-game board edits).
 * I personally like the aesthetics...
 
 ## Downsides
 
-* Simple could mean "lacks some features"
-* KataGo not included, setup takes at least a minute's effort
-* Electron-based app, everyone hates these (they're big)
+* KataGo not included, setup takes at least a minute's effort.
+* Electron-based app, everyone hates these (they're big).
