@@ -74,12 +74,21 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 	}
 });
 
+// Clicking on the tree should go to that position in the game...
+
 document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
 		hub.set_node(node, {bless: true});
 	}
+});
+
+// Clicking on the fullbox should close it...
+
+document.getElementById("fbox").addEventListener("mousedown", (event) => {
+	event.preventDefault();
+	fullbox.hide();
 });
 
 // This is mostly to prevent stray middle-clicks entering "scroll" mode...
