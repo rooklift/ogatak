@@ -315,9 +315,9 @@ let hub_main_props = {
 			throw "set_node() called with invalid node";
 		}
 
-		if (this.node === node) {
-			fullbox.hide();						// We actually want to always do this when node changes, but
-			return false;						// for various reasons, we let tree_drawer do it normally.
+		if (this.node === node) {				// A few things can call set_node() with the same node that's currently
+			fullbox.hide();						// active, in which case we do nothing important. But we likely want to
+			return false;						// close the fullbox, if it's open.
 		}
 
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
