@@ -185,19 +185,19 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	cross: function(x, y, line_fraction, colour) {
+	cross: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
 		ctx.beginPath();
-		ctx.moveTo(gx - (config.square_size / 4), gy - (config.square_size / 4));
-		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4));
+		ctx.moveTo(gx - (config.square_size * fraction / 2), gy - (config.square_size * fraction / 2));
+		ctx.lineTo(gx + (config.square_size * fraction / 2), gy + (config.square_size * fraction / 2));
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(gx - (config.square_size / 4), gy + (config.square_size / 4));
-		ctx.lineTo(gx + (config.square_size / 4), gy - (config.square_size / 4));
+		ctx.moveTo(gx - (config.square_size * fraction / 2), gy + (config.square_size * fraction / 2));
+		ctx.lineTo(gx + (config.square_size * fraction / 2), gy - (config.square_size * fraction / 2));
 		ctx.stroke();
 	},
 
@@ -469,7 +469,7 @@ let board_drawer_prototype = {
 
 			case "MA":
 
-				this.cross(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
+				this.cross(x, y, 0.085, 0.5, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
 			case "TR":
