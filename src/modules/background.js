@@ -5,7 +5,7 @@
 
 const {handicap_stones} = require("./utils");
 
-module.exports = function(width, height, square_size) {
+module.exports = function(width, height, square_size, board_line_width, grid_colour) {
 
 	let c = document.createElement("canvas");
 
@@ -13,13 +13,13 @@ module.exports = function(width, height, square_size) {
 	c.height = square_size * height;
 	let ctx = c.getContext("2d");
 
-	ctx.lineWidth = config.board_line_width;
-	ctx.strokeStyle = config.grid_colour;
-	ctx.fillStyle = config.grid_colour;
+	ctx.lineWidth = board_line_width;
+	ctx.strokeStyle = grid_colour;
+	ctx.fillStyle = grid_colour;
 
 	let offset = 0;
 
-	if ((config.board_line_width + square_size) % 2 === 1) {
+	if ((board_line_width + square_size) % 2 === 1) {
 		offset = 0.5;
 	}
 
@@ -57,7 +57,7 @@ module.exports = function(width, height, square_size) {
 		let gx = (x * square_size) + (square_size / 2) + offset;
 		let gy = (y * square_size) + (square_size / 2) + offset;
 		ctx.beginPath();
-		ctx.arc(gx, gy, config.board_line_width * 2, 0, 3 * Math.PI);
+		ctx.arc(gx, gy, board_line_width * 2, 0, 3 * Math.PI);
 		ctx.fill();
 	}
 
