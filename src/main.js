@@ -18,7 +18,6 @@ config_io.load();													// Populates global.config
 
 let menu = menu_build();
 let menu_is_set = false;
-let renderer_ready = false;
 let queued_files = [];
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 
@@ -36,24 +35,15 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 }
 
 // If we get a second-instance event, add more files to open...
-//
-// "This event is guaranteed to be emitted after the ready event of app gets emitted."
-// So we could likely move this down into our startup() function.
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
-	if (renderer_ready) {
-		win.webContents.send("call", {
-			fn: "load_multifile",
-			args: [commandLine.slice(1)]
-		});
-		setTimeout(() => {							// Give it a chance to actually load before it shows.
-			win.show();
-			win.focus();
-		}, 125);
-	} else {
-		queued_files = queued_files.concat(commandLine.slice(1));
-	}
+	queued_files = queued_files.concat(commandLine.slice(1));
 });
+
+// "This event is guaranteed to be emitted after the ready event of app gets emitted."
+// So it would likely be ok to create the above handler in our startup() function.
+
+// --------------------------------------------------------------------------------------------------------------
 
 electron.app.whenReady().then(() => {
 	startup();
@@ -118,19 +108,7 @@ function startup() {
 	});
 
 	electron.ipcMain.once("renderer_ready", () => {
-
-		renderer_ready = true;
-
-		// Open files via command line. We must wait until the renderer has properly loaded before we do this.
-		// While it might seem like we could do this after "ready-to-show" I'm not 100% sure that the renderer
-		// will have fully loaded when that fires.
-
-		if (queued_files.length > 0) {
-			win.webContents.send("call", {
-				fn: "load_multifile",
-				args: [queued_files]
-			});
-		}
+		queued_files_spinner();
 	});
 
 	electron.ipcMain.on("alert", (event, msg) => {
@@ -2314,4 +2292,31 @@ function two_process_set(key, value) {
 	let msg = {};
 	msg[key] = value;					// not msg = {key: value} which makes the key "key"
 	win.webContents.send("set", msg);
+}
+
+// --------------------------------------------------------------------------------------------------------------
+
+function queued_files_spinner() {
+
+	// The reason we do this is so that, when the user opens a bunch of files at once, they are batched up
+	// into a group instead of being sent one by one, which would cause a bunch of redraws. In practice,
+	// the startup process of all the second-instance apps seems to be slow enough this isn't too helpful.
+
+	if (queued_files.length > 0) {
+
+		win.webContents.send("call", {
+			fn: "load_multifile",
+			args: [queued_files]
+		});
+
+		queued_files = [];
+
+		setTimeout(() => {			// Give it a chance to actually load before it shows.
+			win.show();
+			win.focus();
+		}, 50);
+
+	}
+
+	setTimeout(queued_files_spinner, 125);
 }
