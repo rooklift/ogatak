@@ -23,6 +23,7 @@ let queued_files = [];
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 
 // --------------------------------------------------------------------------------------------------------------
+// Make note of argv strings which could be files to open...
 
 if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 	if (process.argv.length > 2) {
@@ -33,6 +34,8 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 		queued_files = queued_files.concat(process.argv.slice(1));
 	}
 }
+
+// If we get a second-instance event, add more files to open...
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
 	if (renderer_ready) {
