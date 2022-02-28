@@ -201,16 +201,17 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	triangle: function(x, y, line_fraction, colour) {
+	triangle: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * config.square_size;
 		ctx.strokeStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2);
 		let gy = y * config.square_size + (config.square_size / 2);
+		let unit = config.square_size * fraction / 2;
 		ctx.beginPath();
-		ctx.moveTo(gx, gy - (config.square_size / 4) - 1);
-		ctx.lineTo(gx + (config.square_size / 4), gy + (config.square_size / 4) - 1);
-		ctx.lineTo(gx - (config.square_size / 4), gy + (config.square_size / 4) - 1);
+		ctx.moveTo(gx, 1 + gy - unit);
+		ctx.lineTo(gx + unit * 0.866, 1 + gy + unit / 2);
+		ctx.lineTo(gx - unit * 0.866, 1 + gy + unit / 2);
 		ctx.closePath();
 		ctx.stroke();
 	},
@@ -474,7 +475,7 @@ let board_drawer_prototype = {
 
 			case "TR":
 
-				this.triangle(x, y, 0.085, mark_colour_from_state(tstate, "#00000080"));
+				this.triangle(x, y, 0.085, 0.6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 		}
 
