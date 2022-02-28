@@ -819,7 +819,20 @@ let hub_main_props = {
 
 	cycle_numbers: function(reverse) {
 
-		const values = ["LCB + Visits", "Score + Visits", "Delta + Visits", "LCB", "Score", "Delta", "Visits", "Visits (%)", "Order", "Policy", "Winrate"];
+		const values = [
+			"LCB + Visits",
+			"Score + Visits",
+			"Delta + Visits",
+			"LCB + Visits + Score",
+			"LCB",
+			"Score",
+			"Delta",
+			"Visits",
+			"Visits (%)",
+			"Order",
+			"Policy",
+			"Winrate"
+		];
 
 		if (!config.candidate_moves) {
 			this.set("candidate_moves", true);
