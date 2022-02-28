@@ -5,7 +5,7 @@
 //  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
 //
 //  - Since the tree changing is the condition upon which I want fullbox to auto-close, I guess it makes
-//    some sense to do it here in the tree_drawer code.
+//    some sense to do it here in the tree_drawer code, which is (hopefully) always called on a tree change.
 
 function init() {
 
