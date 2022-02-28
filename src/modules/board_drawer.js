@@ -39,7 +39,7 @@ const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		con
 
 function init() {
 
-	return Object.assign(Object.create(board_drawer_prototype), {
+	let ret = Object.assign(Object.create(board_drawer_prototype), {
 
 		backgrounddiv: document.getElementById("boardbg"),
 		htmltable:     document.getElementById("boardtable"),
@@ -60,6 +60,9 @@ function init() {
 		grid_colour: null,
 
 	});
+
+	ret.set_infodiv_font_size(config.info_font_size);
+	return ret;
 }
 
 let board_drawer_prototype = {
@@ -133,8 +136,8 @@ let board_drawer_prototype = {
 		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
 	},
 
-	fix_infodiv_font: function() {
-		this.infodiv.style["font-size"] = config.info_font_size.toString() + "px";
+	set_infodiv_font_size: function(value) {
+		this.infodiv.style["font-size"] = value.toString() + "px";
 	},
 
 	// --------------------------------------------------------------------------------------------

@@ -22,10 +22,6 @@ global.tree_drawer = require("./tree_drawer");
 global.comment_drawer = require("./comment_drawer");
 global.fullbox = require("./fullbox");
 
-board_drawer.fix_infodiv_font();
-comment_drawer.fix_font();
-fullbox.fix_font();
-
 hub.new_game(19, 19);
 tabber.draw_tabs(hub.node);
 

@@ -4,12 +4,14 @@ const config_io = require("./config_io");
 const {safe_html, pad} = require("./utils");
 
 function init() {
-	return Object.assign(Object.create(fullbox_prototype), {
+	let ret = Object.assign(Object.create(fullbox_prototype), {
 		outer_div: document.getElementById("fbox"),
 		inner_div: document.getElementById("fbox_content"),
 		is_visible: false,
 		stderr_mode: false,
 	});
+	ret.set_font_size(config.info_font_size);
+	return ret;
 }
 
 // is_visible will always correspond to outer_div.style being "block" or "none", but it's easier to access
@@ -18,8 +20,8 @@ function init() {
 
 let fullbox_prototype = {
 
-	fix_font: function() {
-		this.inner_div.style["font-size"] = config.info_font_size.toString() + "px";
+	set_font_size: function(value) {
+		this.inner_div.style["font-size"] = value.toString() + "px";
 	},
 
 	show: function() {

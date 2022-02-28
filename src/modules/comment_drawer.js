@@ -3,9 +3,11 @@
 const {safe_html} = require("./utils");
 
 function init() {
-	return Object.assign(Object.create(comment_drawer_prototype), {
+	let ret = Object.assign(Object.create(comment_drawer_prototype), {
 		div: document.getElementById("comments")
 	});
+	ret.set_font_size(config.info_font_size);
+	return ret;
 }
 
 let comment_drawer_prototype = {
@@ -19,8 +21,8 @@ let comment_drawer_prototype = {
 		}
 	},
 
-	fix_font: function() {
-		this.div.style["font-size"] = config.info_font_size.toString() + "px";
+	set_font_size: function(value) {
+		this.div.style["font-size"] = value.toString() + "px";
 	}
 };
 
