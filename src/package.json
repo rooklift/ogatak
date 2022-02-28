@@ -4,7 +4,7 @@
 	"author": "Rooklift",
 	"description": "KataGo interface",
 	"license": "AGPL-3.0",
-	"main": "main.js",
+	"main": "prestart.js",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/rooklift/ogatak"

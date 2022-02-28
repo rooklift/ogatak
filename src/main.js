@@ -1,23 +1,53 @@
 "use strict";
 
-if (!process || !process.versions || Number.isNaN(parseInt(process.versions.electron, 10)) || parseInt(process.versions.electron, 10) < 6) {
-	throw new Error("Ogatak requires Electron 6 or higher.");		// Why? I forget.
-}
+// Remember that prestart.js is run before this.
 
 const electron = require("electron");
 const path = require("path");
 const url = require("url");
-
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
 
+// --------------------------------------------------------------------------------------------------------------
+
 const config_io = require("./modules/config_io");					// Creates global.config
 config_io.load();													// Populates global.config
 
+// --------------------------------------------------------------------------------------------------------------
+
 let menu = menu_build();
 let menu_is_set = false;
-let win;						// We're supposed to keep global references to every window we make.
+let renderer_ready = false;
+let queued_files = [];
+let win;						// Need to keep global references to every window we make. (Is that still true?)
+
+// --------------------------------------------------------------------------------------------------------------
+
+if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
+	if (process.argv.length > 2) {
+		queued_files = queued_files.concat(process.argv.slice(2));
+	}
+} else {
+	if (process.argv.length > 1) {
+		queued_files = queued_files.concat(process.argv.slice(1));
+	}
+}
+
+electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
+	if (renderer_ready) {
+		win.webContents.send("call", {
+			fn: "load_multifile",
+			args: [commandLine.slice(1)]
+		});
+		setTimeout(() => {							// Give it a chance to actually load before it shows.
+			win.show();
+			win.focus();
+		}, 250);
+	} else {
+		queued_files = queued_files.concat(commandLine.slice(1));
+	}
+});
 
 electron.app.whenReady().then(() => {
 	startup();
@@ -83,26 +113,16 @@ function startup() {
 
 	electron.ipcMain.once("renderer_ready", () => {
 
+		renderer_ready = true;
+
 		// Open files via command line. We must wait until the renderer has properly loaded before we do this.
 		// While it might seem like we could do this after "ready-to-show" I'm not 100% sure that the renderer
 		// will have fully loaded when that fires.
 
-		let files = [];
-
-		if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
-			if (process.argv.length > 2) {
-				files = process.argv.slice(2);
-			}
-		} else {
-			if (process.argv.length > 1) {
-				files = process.argv.slice(1);
-			}
-		}
-
-		if (files.length > 0) {
+		if (queued_files.length > 0) {
 			win.webContents.send("call", {
 				fn: "load_multifile",
-				args: [files]
+				args: [queued_files]
 			});
 		}
 	});
