@@ -49,10 +49,10 @@ function init() {
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 
 		width: null,								// These are the things which can get detected as mismatched with
-		height: null,								// the config by draw_board() though some of them are not even
-		square_size: null,							// used in this file, instead being relevant to background().
-		board_line_width: null,
-		grid_colour: null,
+		height: null,								// the config by draw_board(), though some of them are not even
+		square_size: null,							// used in this file, instead being relevant to background(). But
+		board_line_width: null,						// it's nice for the board_drawer to be able to detect all of the
+		grid_colour: null,							// reasons rebuild() might be needed.
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_death_marks: false,						// Used by bad_death_mark_spinner().
