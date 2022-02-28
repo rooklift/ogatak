@@ -212,28 +212,25 @@ let hub_main_props = {
 		}
 
 		let new_roots = [];
-		let got_actual_file = false;
-
 		let loader_errors = [];
 
 		for (let n = 0; n < arr.length; n++) {
 
 			let filepath = arr[n];
 
-			if (filepath === __dirname || filepath === ".") {		// Can happen when extra args are passed to main process. Silently ignore.
+			// This function is called with args from argv on startup, so might contain some nonsense... (though we slice out the app itself)
+
+			if (filepath.endsWith(".exe") || filepath === __dirname || filepath === "." || filepath === "--allow-file-access-from-files") {
 				continue;
 			}
 
-			if (!got_actual_file) {									// The next test is maybe expensive (?) so only do it until we get to real files in the array.
-				if (!fs.existsSync(filepath)) {						// Can happen when extra args are passed to main process. Silently ignore.
-					continue;
-				}
+			if (!fs.existsSync(filepath)) {
+				continue;
 			}
 
 			try {
 
 				let buf = fs.readFileSync(filepath);
-				got_actual_file = true;
 
 				let type = "sgf";
 				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
@@ -769,6 +766,10 @@ let hub_main_props = {
 		this.engine.shutdown();
 		config_io.save();					// As long as we use the sync save, this will complete before we
 		ipcRenderer.send("terminate");		// send "terminate". Not sure about results if that wasn't so.
+	},
+
+	log: function(...args) {
+		console.log(...args);
 	},
 
 	// Komi and rules are part of the board........................................................
