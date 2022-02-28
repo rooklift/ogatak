@@ -752,12 +752,17 @@ let board_drawer_prototype = {
 			last_move = board.gtp(last_move_props[0]);
 		}
 
+		let numbers_string = "(hidden)";
+		if (config.candidate_moves) {
+			numbers_string = config.numbers.split(" + ").join(", ");
+		}
+
 		let s = "";
 
 		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 21)}</span></span>`;
+		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(numbers_string, 19)}</span></span>`;
 
 		s += "<br>";
 
