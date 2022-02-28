@@ -762,7 +762,7 @@ let board_drawer_prototype = {
 		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+		s += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
 
 		s += "<br>";
 
@@ -788,7 +788,7 @@ let board_drawer_prototype = {
 
 		s += `Caps by B|W: <span class="white">${pad(capstring, 9)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
-		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 7)}</span>`;
+		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.infodiv.innerHTML = s;
