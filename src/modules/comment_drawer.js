@@ -13,7 +13,15 @@ function init() {
 let comment_drawer_prototype = {
 
 	draw: function(node) {
-		let s = node.get("C");
+
+		let s = "";
+
+		if (node.has_key("C")) {
+			s = node.get("C");
+		} else if (node.has_key("GC")) {
+			s = node.get("GC");
+		}
+
 		if (!s || config.comment_height <= 0) {
 			this.div.innerHTML = "";
 		} else {
