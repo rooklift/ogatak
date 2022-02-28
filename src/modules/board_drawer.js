@@ -48,10 +48,11 @@ function init() {
 
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 
-		width: null,
-		height: null,
-		square_size: null,
+		width: null,								// These are the things which can get detected as mismatched with
+		height: null,								// the config by draw_board() though some of them are not even
+		square_size: null,							// used in this file, instead being relevant to background().
 		board_line_width: null,
+		grid_colour: null,
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_death_marks: false,						// Used by bad_death_mark_spinner().
@@ -89,6 +90,7 @@ let board_drawer_prototype = {
 		this.height = height;
 		this.square_size = config.square_size;
 		this.board_line_width = config.board_line_width;
+		this.grid_colour = config.grid_colour;
 
 		let png = background(this.width, this.height, config.square_size);
 		this.htmltable.style["background-image"] = `url("${png}")`;
@@ -346,22 +348,22 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 	// Not to be called directly from the hub, these are mid-level helpers...
 
-	draw_board: function(board) {
+	draw_board: function(board, force_rebuild) {
 
-		// i.e. solely changing the TD elements.
-
-		if (this.width !== board.width || this.height !== board.height) {
-			this.rebuild(board.width, board.height);
-		} else if (this.square_size !== config.square_size || this.board_line_width !== config.board_line_width) {
+		if (this.width !== board.width ||
+			this.height !== board.height ||
+			this.square_size !== config.square_size ||
+			this.board_line_width !== config.board_line_width ||
+			this.grid_colour !== config.grid_colour)
+		{
 			this.rebuild(board.width, board.height);
 		}
 
+		// Aside from possibly triggering a rebuild, this function solely deals with TD elements...
+
 		for (let x = 0; x < this.width; x++) {
-
 			for (let y = 0; y < this.height; y++) {
-
 				let desired = board.state[x][y];
-
 				if (this.table_state[x][y] !== desired) {
 					this.set_td(x, y, desired);
 				}

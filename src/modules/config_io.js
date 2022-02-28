@@ -33,6 +33,7 @@ exports.defaults = {
 	"weights": "",
 
 	"board_line_width": 1,
+	"grid_colour": "#000000ff",
 
 	"square_size": 36,
 

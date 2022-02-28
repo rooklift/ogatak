@@ -14,7 +14,8 @@ module.exports = function(width, height, square_size) {
 	let ctx = c.getContext("2d");
 
 	ctx.lineWidth = config.board_line_width;
-	ctx.strokeStyle = "#000000";
+	ctx.strokeStyle = config.grid_colour;
+	ctx.fillStyle = config.grid_colour;
 
 	let offset = 0;
 

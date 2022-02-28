@@ -108,6 +108,7 @@ module.exports = {
 		case "square_size":
 		case "board_font_size":
 		case "board_line_width":
+		case "grid_colour":
 		case "top_colour_black":
 		case "top_colour_white":
 		case "off_colour_black":
