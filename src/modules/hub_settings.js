@@ -49,7 +49,7 @@ for (let menupath of Object.values(togglechecks)) {
 
 module.exports = {
 
-	set: function(key, value) {
+	set: function(key, value, debug_missing_handlers = false) {
 
 		config[key] = value;
 
@@ -79,6 +79,8 @@ module.exports = {
 
 			if (config.arbitrary_command) {
 				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
+			} else if (debug_missing_handlers) {
+				// Skip messing with the engine, this flag indicates the call was for debugging reasons.
 			} else {
 				this.maybe_start_engine();
 			}
@@ -176,6 +178,13 @@ module.exports = {
 			this.draw();
 			break;
 
+		default:
+
+			if (debug_missing_handlers) {
+				console.log(`${key}`);
+			}
+			break;
+
 		}
 
 		// Fix any multi-check menu items..........................................................
@@ -205,7 +214,7 @@ module.exports = {
 		for (let key of Object.keys(o)) {
 			config[key] = o[key];
 		}
-		this.draw();						// Currently this is enough.
+		this.draw();								// Currently this is enough.
 	},
 
 	reset: function(key) {
@@ -214,6 +223,12 @@ module.exports = {
 		}
 		this.set(key, defaults[key]);
 		return defaults[key];
+	},
+
+	list_keys_without_handlers: function() {		// For debugging.
+		for (let key of Object.keys(config)) {
+			this.set(key, config[key], true);		// Note this sets the key to its current value, possibly triggering side effects.
+		}
 	},
 
 };
