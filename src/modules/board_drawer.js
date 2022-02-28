@@ -240,6 +240,23 @@ let board_drawer_prototype = {
 		ctx.fillText(msg2, gx, gy + 1);
 	},
 
+	text_three: function(x, y, msg, msg2, msg3, colour) {
+		let ctx = this.ctx;
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.fillStyle = colour;
+		let gx = x * config.square_size + (config.square_size / 2);
+		let gy;
+		
+		gy = y * config.square_size + (config.square_size * 0.22);
+		ctx.fillText(msg, gx, gy + 1);
+		gy = y * config.square_size + (config.square_size * 0.5);
+		ctx.fillText(msg2, gx, gy + 1);
+		gy = y * config.square_size + (config.square_size * 0.78);
+		ctx.fillText(msg3, gx, gy + 1);
+	},
+
 	// --------------------------------------------------------------------------------------------
 	// Low-level table TD method...
 
@@ -418,7 +435,9 @@ let board_drawer_prototype = {
 					this.circle(x, y, 0.085, 1, o.next_mark_colour);
 				}
 
-				if (o.text.length >= 2) {
+				if (o.text.length >= 3) {
+					this.text_three(x, y, o.text[0], o.text[1], o.text[2], "#000000ff");
+				} else if (o.text.length >= 2) {
 					this.text_two(x, y, o.text[0], o.text[1], "#000000ff");
 				} else if (o.text.length === 1) {
 					this.text(x, y, o.text[0], "#000000ff");
