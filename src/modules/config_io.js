@@ -128,7 +128,14 @@ exports.load = () => {
 			config[key] = defaults_copy[key];
 		}
 	}
+
+	apply_fixes();
 };
+
+function apply_fixes() {
+	config.numbers = config.numbers.split("+").map(z => z.trim()).join(" + ");
+	config.numbers = config.numbers.split(",").map(z => z.trim()).join(" + ");
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------
 
