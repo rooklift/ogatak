@@ -757,7 +757,7 @@ let board_drawer_prototype = {
 		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 11)}</span></span>`;
+		s += `<span class="boardinfo_numbers">Showing: <span class="white">${pad(config.candidate_moves ? config.numbers : "(hidden)", 21)}</span></span>`;
 
 		s += "<br>";
 
