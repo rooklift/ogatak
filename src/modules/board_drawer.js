@@ -48,16 +48,16 @@ function init() {
 
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 
-		width: null,								// These are the things which can get detected as mismatched with
-		height: null,								// the config by draw_board(), though some of them are not even
-		square_size: null,							// used in this file, instead being relevant to background(). But
-		board_line_width: null,						// it's nice for the board_drawer to be able to detect all of the
-		grid_colour: null,							// reasons rebuild() might be needed.
-
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_death_marks: false,						// Used by bad_death_mark_spinner().
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
+
+		width: null,
+		height: null,								
+		square_size: null,							// We need to store width and height... the other things are mostly stored so
+		board_line_width: null,						// we can detect when they don't match config and a rebuild() call is needed.
+		grid_colour: null,
 
 	});
 }
@@ -83,8 +83,11 @@ let board_drawer_prototype = {
 		}
 
 		if (this.width > 19 || width > 19) {
-			tree_drawer.canvas.width = tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards
+			tree_drawer.canvas.width = tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards. Not important.
 		}
+
+		// Obviously we want to save the width and height, but we also save the state of relevant config
+		// vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
 
 		this.width = width;
 		this.height = height;
@@ -92,7 +95,7 @@ let board_drawer_prototype = {
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
-		let png = background(this.width, this.height, config.square_size);
+		let png = background(this.width, this.height, config.square_size, config.board_line_width, config.grid_colour);
 		this.htmltable.style["background-image"] = `url("${png}")`;
 
 		this.htmltable.innerHTML = "";
