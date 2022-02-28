@@ -43,7 +43,7 @@ electron.app.on("second-instance", (event, commandLine, workingDirectory, additi
 		setTimeout(() => {							// Give it a chance to actually load before it shows.
 			win.show();
 			win.focus();
-		}, 250);
+		}, 125);
 	} else {
 		queued_files = queued_files.concat(commandLine.slice(1));
 	}
