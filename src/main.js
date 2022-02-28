@@ -36,6 +36,9 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 }
 
 // If we get a second-instance event, add more files to open...
+//
+// "This event is guaranteed to be emitted after the ready event of app gets emitted."
+// So we could likely move this down into our startup() function.
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
 	if (renderer_ready) {
