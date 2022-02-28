@@ -16,3 +16,7 @@
 * KataGo not included, setup takes at least a minute's effort.
 * Not really a full SGF editor (cannot write comments or draw labels).
 * Electron-based app, everyone hates these (they're big).
+
+## Talk to me
+
+I can often be found on the [Computer Go Discord](https://discord.com/invite/5vacH5F)
