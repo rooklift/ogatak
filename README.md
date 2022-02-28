@@ -19,4 +19,4 @@
 
 ## Talk to me
 
-I can often be found on the [Computer Go Discord](https://discord.com/invite/5vacH5F)
+* I can often be found on the [Computer Go Discord](https://discord.com/invite/5vacH5F)
