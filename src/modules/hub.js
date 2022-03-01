@@ -205,7 +205,7 @@ let hub_main_props = {
 		}
 	},
 
-	load_multifile(...args) {		// Tolerates whatever combination of arrays and strings are sent...
+	load_multifile: function(...args) {		// Tolerates whatever combination of arrays and strings are sent...
 
 		let arr = args.flat(Infinity);
 
