@@ -95,7 +95,7 @@ function startup() {
 		two_process_set("maxed", true);
 	});
 
-	win.on("unmaximize", (event) => {				// Note that these are not received when a maximized window is hidden / minimized.
+	win.on("unmaximize", (event) => {				// Note that these are not received when a maximized window is minimized.
 		two_process_set("maxed", false);
 	});
 
@@ -2311,11 +2311,11 @@ function queued_files_spinner() {
 
 		queued_files = [];
 
-		setTimeout(() => {			// Give it a chance to actually load before it shows.
-			if (config.maxed) {
-				win.maximize();		// Need to do this - if we only call show(), and the window is hidden, it will show at normal (non-max) size.
+		setTimeout(() => {				// Give it a chance to actually load before it shows.
+			if (win.isMinimized()) {
+				win.restore();			// Works regardless of whether the window was previously normal or maximized.
 			}
-			win.show();
+			win.show();					// Uh not sure this does anything, but meh.
 			win.focus();
 		}, 50);
 
