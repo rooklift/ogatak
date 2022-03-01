@@ -189,7 +189,7 @@ let hub_main_props = {
 		return new_roots;
 	},
 
-	load_sgf_from_string: function (s) {
+	load_sgf_from_string: function(s) {
 
 		if (typeof s !== "string") {
 			return;
