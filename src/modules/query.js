@@ -24,7 +24,7 @@ exports.base_query = function(query_node, engine) {
 		includeOwnership: (config.dead_stone_prediction) ? true : false,
 		includeMovesOwnership: (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false,
 
-		overrideSettings: {									// REMEMBER to add new (post-1.9.1) features to the deletions below.
+		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 			reportAnalysisWinratesAs: "SIDETOMOVE",
 			wideRootNoise: (config.widerootnoise) ? 0.05 : 0,
 			rootSymmetryPruning: (config.symmetry_pruning) ? true : false,
