@@ -58,8 +58,8 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
-		let scores = [];									// from Black's POV (will be 0..1 after manipulations)
-		let winrates = [];									// from Black's POV (0..1)
+		let scores = [];									// From Black's POV (-Inf...Inf, but rescaled later to 0..1)
+		let winrates = [];									// From Black's POV (0..1)
 
 		let abs_score_max = 5;
 
