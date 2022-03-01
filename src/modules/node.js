@@ -541,13 +541,13 @@ let node_prototype = {
 
 		this.analysis = o;
 
-		let winrate = this.analysis.moveInfos[0].winrate;
-		if (this.get_board().active === "w") {
-			winrate = 1 - winrate;
-		}
+		let winrate = this.analysis.moveInfos[0].winrate * 100;		// SBKV is 0..100
 		if (winrate < 0) winrate = 0;
-		if (winrate > 1) winrate = 1;
-		let val = (winrate * 100).toFixed(1);
+		if (winrate > 100) winrate = 100;
+		if (this.get_board().active === "w") {
+			winrate = 100 - winrate;
+		}
+		let val = (winrate).toFixed(1);
 		this.force_set("SBKV", val);
 
 		let score = this.analysis.moveInfos[0].scoreLead;
