@@ -552,7 +552,7 @@ let node_prototype = {
 
 		let score = this.analysis.moveInfos[0].scoreLead;
 		if (this.get_board().active === "w") {
-			score = score * -1;
+			score = -score;
 		}
 		val = score.toFixed(1);
 		this.force_set("OGSC", val);

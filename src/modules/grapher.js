@@ -71,7 +71,7 @@ let grapher_prototype = {
 				let winrate = h_node.analysis.moveInfos[0].winrate;
 
 				if (h_node.get_board().active === "w") {
-					score = score * -1;
+					score = -score;
 					winrate = 1 - winrate;
 				}
 
