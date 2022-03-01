@@ -374,11 +374,11 @@ let board_drawer_prototype = {
 
 	draw_board: function(board) {
 
-		if (this.width !== board.width
-			|| this.height !== board.height
-			|| this.square_size !== config.square_size
-			|| this.board_line_width !== config.board_line_width
-			|| this.grid_colour !== config.grid_colour
+		if (this.width !== board.width ||
+			this.height !== board.height ||
+			this.square_size !== config.square_size ||
+			this.board_line_width !== config.board_line_width ||
+			this.grid_colour !== config.grid_colour
 		) {
 			this.rebuild(board.width, board.height);
 		}
