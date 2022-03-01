@@ -826,7 +826,6 @@ let hub_main_props = {
 			"LCB + Visits",
 			"Score + Visits",
 			"Delta + Visits",
-			"LCB + Visits + Score",
 			"LCB",
 			"Score",
 			"Delta",
@@ -834,7 +833,8 @@ let hub_main_props = {
 			"Visits (%)",
 			"Order",
 			"Policy",
-			"Winrate"
+			"Winrate",
+			"LCB + Visits + Score",
 		];
 
 		if (!config.candidate_moves) {

@@ -1194,18 +1194,6 @@ function menu_build() {
 							type: "separator",
 						},
 						{
-							label: "LCB + Visits + Score",
-							type: "checkbox",
-							checked: config.numbers === "LCB + Visits + Score",
-							accelerator: "F8",
-							click: () => {
-								win.webContents.send("set", {numbers: "LCB + Visits + Score"});
-							}
-						},
-						{
-							type: "separator",
-						},
-						{
 							label: "LCB",
 							type: "checkbox",
 							checked: config.numbers === "LCB",
@@ -1267,6 +1255,18 @@ function menu_build() {
 							checked: config.numbers === "Winrate",
 							click: () => {
 								win.webContents.send("set", {numbers: "Winrate"});
+							}
+						},
+						{
+							type: "separator",
+						},
+						{
+							label: "LCB + Visits + Score",
+							type: "checkbox",
+							checked: config.numbers === "LCB + Visits + Score",
+							accelerator: "F8",
+							click: () => {
+								win.webContents.send("set", {numbers: "LCB + Visits + Score"});
 							}
 						},
 					]
