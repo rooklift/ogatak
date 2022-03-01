@@ -527,6 +527,7 @@ let node_prototype = {
 	forget_analysis: function() {
 		this.analysis = null;
 		this.force_delete_key("SBKV");
+		this.force_delete_key("OGSC");
 	},
 
 	has_valid_analysis: function() {
@@ -541,17 +542,20 @@ let node_prototype = {
 		this.analysis = o;
 
 		let winrate = this.analysis.moveInfos[0].winrate;
-
 		if (this.get_board().active === "w") {
 			winrate = 1 - winrate;
 		}
-
 		if (winrate < 0) winrate = 0;
 		if (winrate > 1) winrate = 1;
-
-		let val = (winrate * 100).toFixed(2);
-
+		let val = (winrate * 100).toFixed(1);
 		this.force_set("SBKV", val);
+
+		let score = this.analysis.moveInfos[0].scoreLead;
+		if (this.get_board().active === "w") {
+			score = score * -1;
+		}
+		val = score.toFixed(1);
+		this.force_set("OGSC", val);
 	},
 
 	game_title_text: function() {

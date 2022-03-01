@@ -58,8 +58,8 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
-		let scores = [];									// 0 to 1 from Black's POV (after manipulations)
-		let winrates = [];									// 0 to 1 from Black's POV
+		let scores = [];									// from Black's POV (will be 0..1 after manipulations)
+		let winrates = [];									// from Black's POV (0..1)
 
 		let abs_score_max = 5;
 
@@ -86,21 +86,27 @@ let grapher_prototype = {
 
 			} else {
 
-				scores.push(null);
-
-				let sbkv = h_node.get("SBKV");
-				let winrate = null;
-
-				if (sbkv) {
-					winrate = parseFloat(sbkv);
-					if (!Number.isNaN(winrate)) {
-						winrate /= 100;
+				let ogsc = h_node.get("OGSC");
+				if (ogsc) {
+					let score = parseFloat(ogsc);
+					if (!Number.isNaN(score)) {
+						scores.push(score);
+						if ( score > abs_score_max) abs_score_max =  score;
+						if (-score > abs_score_max) abs_score_max = -score;
 					} else {
-						winrate = null;
+						scores.push(null);
 					}
 				}
 
-				winrates.push(winrate);
+				let sbkv = h_node.get("SBKV");
+				if (sbkv) {
+					let winrate = parseFloat(sbkv);
+					if (!Number.isNaN(winrate)) {
+						winrates.push(winrate / 100);
+					} else {
+						winrates.push(null);
+					}
+				}
 			}
 		}
 
