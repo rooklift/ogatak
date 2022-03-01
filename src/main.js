@@ -99,6 +99,9 @@ function startup() {
 		two_process_set("maxed", false);
 	});
 
+	// Note that even though there is an event called "restore", in the event that we call win.restore() for a minimized window
+	// which wants to go back to being maximized, in that case it generates a "maximize" event, not a "restore" event.
+
 	electron.ipcMain.on("terminate", () => {
 		win.close();
 	});
