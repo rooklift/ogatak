@@ -92,11 +92,11 @@ function startup() {
 	});
 
 	win.on("maximize", (event) => {
-		win.webContents.send("set", {"maxed": true});
+		two_process_set("maxed", true);
 	});
 
-	win.on("unmaximize", (event) => {
-		win.webContents.send("set", {"maxed": false});
+	win.on("unmaximize", (event) => {				// Note that these are not received when a maximized window is hidden / minimized.
+		two_process_set("maxed", false);
 	});
 
 	electron.ipcMain.on("terminate", () => {
@@ -2312,6 +2312,9 @@ function queued_files_spinner() {
 		queued_files = [];
 
 		setTimeout(() => {			// Give it a chance to actually load before it shows.
+			if (config.maxed) {
+				win.maximize();		// Need to do this - if we only call show(), and the window is hidden, it will show at normal (non-max) size.
+			}
 			win.show();
 			win.focus();
 		}, 50);
