@@ -257,19 +257,13 @@ let hub_main_props = {
 
 	// New game....................................................................................
 
-	new_game: function(width, height) {
+	new_game: function(width, height, komi, rules, handicap) {
 
-		let komi = this.node ? this.node.get_board().komi : config.default_komi;
-		let rules = this.node ? this.node.get_board().rules : config.default_rules;
-
-		if (rules === "Unknown") {
-			rules = config.default_rules;
-		}
-
-		this.__new_game(width, height, komi, rules, 0);
-	},
-
-	__new_game: function(width, height, komi, rules, handicap) {
+		if (width === undefined) width = 19;
+		if (height === undefined) height = 19;
+		if (komi === undefined) komi = config.default_komi;
+		if (rules === undefined) rules = config.default_rules;
+		if (handicap === undefined) handicap = 0;
 
 		let root = new_node();
 
@@ -303,7 +297,7 @@ let hub_main_props = {
 
 	place_handicap: function(handicap) {
 		let board = this.node.get_board();
-		this.__new_game(board.width, board.height, board.komi, board.rules, handicap);
+		this.new_game(board.width, board.height, board.komi, board.rules, handicap);
 	},
 
 	// Tree........................................................................................
