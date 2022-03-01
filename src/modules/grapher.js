@@ -96,6 +96,8 @@ let grapher_prototype = {
 					} else {
 						scores.push(null);
 					}
+				} else {
+					scores.push(null);
 				}
 
 				let sbkv = h_node.get("SBKV");
@@ -108,6 +110,8 @@ let grapher_prototype = {
 					} else {
 						winrates.push(null);
 					}
+				} else {
+					winrates.push(null);
 				}
 			}
 		}
