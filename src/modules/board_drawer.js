@@ -548,7 +548,7 @@ let board_drawer_prototype = {
 				if (ownership_perspective !== state) {
 					own *= -1;
 				}
-				if (own < config.dead_threshold) {
+				if (own < 0) {
 					this.needed_marks[x][y] = {type: "death"};
 				}
 			}
