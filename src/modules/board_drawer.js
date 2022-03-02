@@ -136,6 +136,17 @@ let board_drawer_prototype = {
 		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
 	},
 
+	rebuild_if_needed(board) {
+		if (this.width !== board.width ||
+			this.height !== board.height ||
+			this.square_size !== config.square_size ||
+			this.board_line_width !== config.board_line_width ||
+			this.grid_colour !== config.grid_colour
+		) {
+			this.rebuild(board.width, board.height);
+		}
+	},
+
 	set_infodiv_font_size: function(value) {
 		this.infodiv.style["font-size"] = value.toString() + "px";
 	},
@@ -374,14 +385,7 @@ let board_drawer_prototype = {
 
 	draw_board: function(board) {
 
-		if (this.width !== board.width ||
-			this.height !== board.height ||
-			this.square_size !== config.square_size ||
-			this.board_line_width !== config.board_line_width ||
-			this.grid_colour !== config.grid_colour
-		) {
-			this.rebuild(board.width, board.height);
-		}
+		this.rebuild_if_needed(board);
 
 		// Aside from possibly triggering a rebuild, this function solely deals with TD elements...
 
