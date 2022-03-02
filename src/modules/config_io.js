@@ -76,6 +76,9 @@ exports.defaults = {
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 
+	"ownership_marks": 1,					//  (0: no)  (1: dead stones)  (2: full)
+	"ownership_per_move": true,
+
 	"logfile": null,
 	"width": 1200,
 	"height": 780,

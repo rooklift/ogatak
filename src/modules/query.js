@@ -21,8 +21,8 @@ exports.base_query = function(query_node, engine) {
 		maxVisits: 1000000,
 		analysisPVLen: config.analysis_pv_len - 1,
 		reportDuringSearchEvery: config.report_every,
-		includeOwnership: false,								// FIXME
-		includeMovesOwnership: false,							// FIXME
+		includeOwnership: (config.ownership_marks) ? true : false,
+		includeMovesOwnership: (config.ownership_marks && config.ownership_per_move) ? true : false,
 
 		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 			reportAnalysisWinratesAs: "SIDETOMOVE",

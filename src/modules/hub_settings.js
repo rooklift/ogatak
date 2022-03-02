@@ -167,6 +167,15 @@ module.exports = {
 			}
 			break;
 
+		case "ownership_marks":
+		case "ownership_per_move":
+
+			if (this.engine.desired) {
+				this.go();
+			}
+			this.draw();
+			break;
+
 		default:
 
 			if (debug_missing_handlers) {
