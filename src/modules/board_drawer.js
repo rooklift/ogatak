@@ -392,8 +392,8 @@ let board_drawer_prototype = {
 
 		// Aside from possibly triggering a rebuild, this function solely deals with TD elements...
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
 				let desired = board.state[x][y];
 				if (this.table_state[x][y] !== desired) {
 					this.set_td(x, y, desired);
@@ -534,9 +534,9 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		for (let x = 0; x < this.width; x++) {
+		for (let x = 0; x < board.width; x++) {
 
-			for (let y = 0; y < this.height; y++) {
+			for (let y = 0; y < board.height; y++) {
 
 				let state = board.state[x][y];
 
@@ -545,10 +545,12 @@ let board_drawer_prototype = {
 				}
 
 				let own = ownership[x + (y * board.width)];
-				if (ownership_perspective !== state) {
-					own *= -1;
+				if (ownership_perspective === "w") {
+					own = -own;								// In this function we consider ownership from Black's POV.
 				}
-				if (own < 0) {
+				if (own > 0 && state === "w") {
+					this.needed_marks[x][y] = {type: "death"};
+				} else if (own < 0 && state === "b") {
 					this.needed_marks[x][y] = {type: "death"};
 				}
 			}
@@ -561,16 +563,19 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				let own = ownership[x + (y * this.width)];
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
+
+				let state = board.state[x][y];
+
+				let own = ownership[x + (y * board.width)];
 				if (ownership_perspective === "w") {
 					own = -own;								// In this function we consider ownership from Black's POV.
 				}
-				if (own > 0 && board.state[x][y] !== "b") {
+				if (own > 0 && state !== "b") {
 					let alphahex = float_to_hex_ff(own);
 					this.needed_marks[x][y] = {type: "own", colour: "#000000" + alphahex};
-				} else if (own < 0 && board.state[x][y] !== "w") {
+				} else if (own < 0 && state !== "w") {
 					let alphahex = float_to_hex_ff(-own);
 					this.needed_marks[x][y] = {type: "own", colour: "#ffffff" + alphahex};
 				}
@@ -657,7 +662,7 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+			if (x >= 0 && x < board.width && y >= 0 && y < board.height) {
 
 				let o = {
 					type: "analysis",
@@ -758,7 +763,7 @@ let board_drawer_prototype = {
 						let x = s.charCodeAt(0) - 97;
 						let y = s.charCodeAt(1) - 97;
 
-						if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+						if (x >= 0 && x < board.width && y >= 0 && y < board.height) {
 
 							if (this.needed_marks[x][y]) {
 								this.needed_marks[x][y].next_mark_colour = draw_colour;
