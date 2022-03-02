@@ -434,9 +434,9 @@ let node_prototype = {
 		return node;
 	},
 
-	ancestor_with_valid_analysis: function(depth) {
+	ancestor_with_valid_analysis: function(depth, initial_call = true) {
 
-		if (this.has_valid_analysis()) {
+		if (!initial_call && this.has_valid_analysis()) {
 			return this;
 		}
 
@@ -444,7 +444,7 @@ let node_prototype = {
 			return null;
 		}
 
-		return this.parent.ancestor_with_valid_analysis(depth - 1);
+		return this.parent.ancestor_with_valid_analysis(depth - 1, false);
 	},
 
 	is_main_line: function() {
