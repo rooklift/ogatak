@@ -19,7 +19,7 @@
 
 ## Performance tip
 
-* The setting to request per-move ownership info from KataGo (see Analysis menu) is rather demanding and you should turn it off if you experience any lag.
+* The setting to request per-move ownership info from KataGo (see Analysis menu) is rather demanding and you should turn it off if you experience any lag. Alternatively, consider changing the engine report rate from the default 0.1 (which is the most intense) to something else.
 
 ## Talk to me
 
