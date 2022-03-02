@@ -17,7 +17,7 @@
 * Not really a full SGF editor (cannot write comments or draw labels).
 * Electron-based app, everyone hates these (they're big).
 
-## Performance tip
+## Performance tips
 
 * The setting to request per-move ownership info from KataGo (see Analysis menu) is rather demanding and you should turn it off if you experience any lag. Alternatively, consider changing the engine report rate from the default 0.1 (which is the most intense) to something else.
 
