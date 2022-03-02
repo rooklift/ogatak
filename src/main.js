@@ -1035,6 +1035,9 @@ function menu_build() {
 					]
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Wide root noise",
 					type: "checkbox",
 					checked: config.widerootnoise,
