@@ -17,6 +17,10 @@
 * Not really a full SGF editor (cannot write comments or draw labels).
 * Electron-based app, everyone hates these (they're big).
 
+## Performance tip
+
+* The setting to request per-move ownership info from KataGo (see Analysis menu) is rather demanding and you should turn it off if you experience any lag.
+
 ## Talk to me
 
 * I can often be found on the [Computer Go Discord](https://discord.com/invite/5vacH5F).
