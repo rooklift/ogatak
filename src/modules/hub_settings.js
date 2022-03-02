@@ -24,9 +24,9 @@ const multichecks = {
 };
 
 const togglechecks = {
-	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
+	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	candidate_moves:		["Display", "Candidate moves"],
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...colour by visits"],
