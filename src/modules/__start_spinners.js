@@ -65,22 +65,21 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	setTimeout(window_resize_spinner, 125);
 })();
 
-(function bad_mark_spinner() {
+(function bad_ownership_mark_spinner() {
 
-	// Our board drawer can draw marks based on ancestor nodes, on the assumption that real
-	// data for the current node will soon arrive. But if the search ends and it never does
-	// we need to clear those tentative marks.
+	// Our board drawer can draw ownership marks based on ancestor nodes, on the assumption that real
+	// data for the current node will soon arrive. But if the search ends and it never does we need
+	// to clear those tentative ownership marks.
 
-	if (board_drawer.has_tentative_marks) {
-		if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
-			hub.draw();
-			console.log("bad_mark_spinner() fired");
+	if (board_drawer.has_tentative_ownership_marks) {
+		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
+			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
+				hub.draw();
+				console.log("bad_ownership_mark_spinner() fired");
+			}
 		}
 	}
 
-	// Note that there's no need to worry about the case where real analysis arrives but
-	// doesn't contain the data we need, because in that case a draw() will happen anyway.
-
-	setTimeout(bad_mark_spinner, 190);
+	setTimeout(bad_ownership_mark_spinner, 190);
 })();
 

@@ -49,7 +49,7 @@ function init() {
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 
 		pv: null,									// The PV drawn, or null if there isn't one.
-		has_tentative_marks: false,					// Whether any marks drawn are based on old data.
+		has_tentative_ownership_marks: false,		// Whether any ownership marks drawn are based on old data.
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
@@ -123,7 +123,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.has_tentative_marks = false;
+		this.has_tentative_ownership_marks = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -314,6 +314,8 @@ let board_drawer_prototype = {
 					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active, true);
 				}
 			}
+
+			// Note that we don't do the tentative marks if the analysis exists but doesn't have ownership. 
 		}
 
 		this.plan_ko_marker(node);
@@ -407,7 +409,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		this.has_tentative_marks = false;
+		this.has_tentative_ownership_marks = false;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -515,7 +517,7 @@ let board_drawer_prototype = {
 		// the fact that we have such marks drawn...
 
 		if (o.tentative) {
-			this.has_tentative_marks = true;
+			this.has_tentative_ownership_marks = true;
 		}
 	},
 
