@@ -1035,6 +1035,22 @@ function menu_build() {
 					]
 				},
 				{
+					label: "Wide root noise",
+					type: "checkbox",
+					checked: config.widerootnoise,
+					click: () => {
+						win.webContents.send("toggle", "widerootnoise");
+					}
+				},
+				{
+					label: "Symmetry pruning",
+					type: "checkbox",
+					checked: config.symmetry_pruning,
+					click: () => {
+						win.webContents.send("toggle", "symmetry_pruning");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
@@ -1076,22 +1092,6 @@ function menu_build() {
 				},
 				{
 					type: "separator",
-				},
-				{
-					label: "Wide root noise",
-					type: "checkbox",
-					checked: config.widerootnoise,
-					click: () => {
-						win.webContents.send("toggle", "widerootnoise");
-					}
-				},
-				{
-					label: "Symmetry pruning",
-					type: "checkbox",
-					checked: config.symmetry_pruning,
-					click: () => {
-						win.webContents.send("toggle", "symmetry_pruning");
-					}
 				},
 				{
 					type: "separator",
