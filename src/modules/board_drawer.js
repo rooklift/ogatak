@@ -301,21 +301,16 @@ let board_drawer_prototype = {
 		
 		if (config.dead_stone_prediction) {
 
-			// If we have analysis, use it (assuming it has ownership).
-			// If we don't have analysis, use an ancestor's analysis to draw tentative marks.
+			// If possible, use this node's analysis. But to avoid flicker, we can use an older node's analysis.
 
-			if (node.has_valid_analysis()) {
-				if (node.analysis.ownership) {
-					this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-				}
+			if (node.has_valid_analysis() && node.analysis.ownership) {
+				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 				let analysis_node = node.ancestor_with_valid_analysis(8);
 				if (analysis_node && analysis_node.analysis.ownership) {
 					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				}
 			}
-
-			// Note that we don't do the tentative marks if the analysis exists but doesn't have ownership. 
 		}
 
 		this.plan_ko_marker(node);
