@@ -14,7 +14,7 @@ function new_byte_pusher(encoding = "UTF-8", size = 16) {
 		length: 0,													// Both the length and also the next index to write to.
 	});
 
-};
+}
 
 let byte_pusher_prototype = {
 
