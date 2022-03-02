@@ -38,7 +38,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		hub.backward(n * -1);
 	}
 
-	setTimeout(up_down_spinner, 0);
+	setTimeout(up_down_spinner, 10);
 })();
 
 (function window_resize_spinner() {
