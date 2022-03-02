@@ -78,6 +78,9 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 
+	// Note that there's no need to worry about the case where real analysis arrives but
+	// doesn't contain the data we need, because in that case a draw() will happen anyway.
+
 	setTimeout(bad_mark_spinner, 190);
 })();
 
