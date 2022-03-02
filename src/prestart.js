@@ -7,6 +7,7 @@ if (!process || !process.versions || Number.isNaN(parseInt(process.versions.elec
 const electron = require("electron");
 
 if (!electron.app.requestSingleInstanceLock()) {
+	console.log("Ogatak is apparently already running. Shutting down this instance.");
 	electron.app.quit();
 } else {
 	require("./main");

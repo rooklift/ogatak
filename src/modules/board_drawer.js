@@ -298,17 +298,22 @@ let board_drawer_prototype = {
 	draw_standard: function(node) {
 
 		this.draw_board(node.get_board());
-		
-		if (config.dead_stone_prediction) {
+
+		if (config.ownership_marks !== "None") {
 
 			// If possible, use this node's analysis. But to avoid flicker, we can use an older node's analysis.
 
 			if (node.has_valid_analysis() && node.analysis.ownership) {
+
 				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+				this.plan_ownership_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+
 				let analysis_node = node.ancestor_with_valid_analysis(8);
 				if (analysis_node && analysis_node.analysis.ownership) {
 					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
+					this.plan_ownership_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				}
 			}
 		}
@@ -362,10 +367,14 @@ let board_drawer_prototype = {
 
 		this.draw_board(finalboard);
 
-		if (config.dead_stone_prediction && config.dead_stone_per_move && info.ownership) {
-			this.plan_death_marks(finalboard, info.ownership, startboard.active);
-		} else if (config.dead_stone_prediction && node.analysis.ownership) {
-			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
+		if (config.ownership_marks !== "None") {
+			if (config.ownership_per_move && info.ownership) {
+				this.plan_death_marks(finalboard, info.ownership, startboard.active);
+				this.plan_ownership_marks(finalboard, info.ownership, startboard.active);
+			} else if (node.analysis.ownership) {
+				this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
+				this.plan_ownership_marks(finalboard, node.analysis.ownership, startboard.active);
+			}
 		}
 
 		this.plan_pv_labels(points);
@@ -460,6 +469,12 @@ let board_drawer_prototype = {
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
+			case "own":
+
+				this.has_ownership_marks = true;
+				this.fsquare(x, y, 1/3, o.colour);
+				break;
+
 			case "previous":
 
 				this.fcircle(x, y, 0.4, config.previous_marker);
@@ -518,7 +533,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
-		if (!config.dead_stone_prediction || !ownership) {
+		if (config.ownership_marks !== "Dead stones" || !ownership) {
 			return;
 		}
 
@@ -538,6 +553,27 @@ let board_drawer_prototype = {
 				}
 				if (own < config.dead_threshold) {
 					this.needed_marks[x][y] = {type: "death"};
+				}
+			}
+		}
+	},
+
+	plan_ownership_marks: function(board, ownership, ownership_perspective) {
+
+		if (config.ownership_marks !== "Whole board" || !ownership) {
+			return;
+		}
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				let own = ownership[x + (y * this.width)];
+				if (ownership_perspective === "w") {
+					own *= -1;	// In this function we consider ownership from Black's POV.
+				}
+				if (own > 0 && board.state[x][y] !== "b") {
+					this.needed_marks[x][y] = {type: "own", colour: "#000000ff"};
+				} else if (own < 0 && board.state[x][y] !== "w") {
+					this.needed_marks[x][y] = {type: "own", colour: "#ffffffff"};
 				}
 			}
 		}

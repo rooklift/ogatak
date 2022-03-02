@@ -11,6 +11,8 @@ exports.base_query = function(query_node, engine) {
 
 	let board = query_node.get_board();
 
+	let want_ownership = (config.ownership_marks === "Dead stones" || config.ownership_marks === "Whole board");
+
 	let o = {
 
 		id: `${query_node.id}:${next_query_id++}`,
@@ -21,8 +23,8 @@ exports.base_query = function(query_node, engine) {
 		maxVisits: 1000000,
 		analysisPVLen: config.analysis_pv_len - 1,
 		reportDuringSearchEvery: config.report_every,
-		includeOwnership: (config.dead_stone_prediction) ? true : false,
-		includeMovesOwnership: (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false,
+		includeOwnership: (want_ownership) ? true : false,
+		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
 		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 			reportAnalysisWinratesAs: "SIDETOMOVE",

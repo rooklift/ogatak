@@ -1038,6 +1038,46 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Ownership",
+					submenu: [
+						{
+							label: "None",
+							type: "checkbox",
+							checked: config.ownership_marks === "None",
+							click: () => {
+								win.webContents.send("set", {ownership_marks: "None"});
+							}
+						},
+						{
+							label: "Dead stones",
+							type: "checkbox",
+							checked: config.ownership_marks === "Dead stones",
+							click: () => {
+								win.webContents.send("set", {ownership_marks: "Dead stones"});
+							}
+						},
+						{
+							label: "Whole board",
+							type: "checkbox",
+							checked: config.ownership_marks === "Whole board",
+							click: () => {
+								win.webContents.send("set", {ownership_marks: "Whole board"});
+							}
+						},
+					]
+				},
+				{
+					label: "...per-move (costly)",
+					type: "checkbox",
+					checked: config.ownership_per_move,
+					click: () => {
+						win.webContents.send("toggle", "ownership_per_move");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Wide root noise",
 					type: "checkbox",
 					checked: config.widerootnoise,
@@ -1051,25 +1091,6 @@ function menu_build() {
 					checked: config.symmetry_pruning,
 					click: () => {
 						win.webContents.send("toggle", "symmetry_pruning");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Dead stone prediction",
-					type: "checkbox",
-					checked: config.dead_stone_prediction,
-					click: () => {
-						win.webContents.send("toggle", "dead_stone_prediction");
-					}
-				},
-				{
-					label: "...per move",
-					type: "checkbox",
-					checked: config.dead_stone_per_move,
-					click: () => {
-						win.webContents.send("toggle", "dead_stone_per_move");
 					}
 				},
 				{

@@ -7,6 +7,7 @@ const multichecks = {
 	// visits_threshold not included here.
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
 	analysis_pv_len:		["Analysis", "PV length (max)"],
+	ownership_marks:		["Analysis", "Ownership"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
 	square_size:			["Sizes", "Board squares"],
@@ -23,10 +24,9 @@ const multichecks = {
 };
 
 const togglechecks = {
+	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
-	dead_stone_prediction:	["Analysis", "Dead stone prediction"],
-	dead_stone_per_move:	["Analysis", "...per move"],
 	candidate_moves:		["Display", "Candidate moves"],
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...colour by visits"],
@@ -169,8 +169,8 @@ module.exports = {
 			}
 			break;
 
-		case "dead_stone_prediction":
-		case "dead_stone_per_move":
+		case "ownership_marks":
+		case "ownership_per_move":
 
 			if (this.engine.desired) {
 				this.go();
