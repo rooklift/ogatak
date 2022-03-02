@@ -7,6 +7,7 @@ const multichecks = {
 	// visits_threshold not included here.
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
 	analysis_pv_len:		["Analysis", "PV length (max)"],
+	ownership_marks:		["Analysis", "Ownership"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
 	square_size:			["Sizes", "Board squares"],
@@ -23,6 +24,7 @@ const multichecks = {
 };
 
 const togglechecks = {
+	ownership_per_move:		["Analysis", "Ownership per-move (costly)"],
 	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
 	candidate_moves:		["Display", "Candidate moves"],

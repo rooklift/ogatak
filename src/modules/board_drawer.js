@@ -299,7 +299,7 @@ let board_drawer_prototype = {
 
 		this.draw_board(node.get_board());
 
-		if (config.ownership_marks) {
+		if (config.ownership_marks !== "None") {
 
 			// If possible, use this node's analysis. But to avoid flicker, we can use an older node's analysis.
 
@@ -367,7 +367,7 @@ let board_drawer_prototype = {
 
 		this.draw_board(finalboard);
 
-		if (config.ownership_marks) {
+		if (config.ownership_marks !== "None") {
 			if (config.ownership_per_move && info.ownership) {
 				this.plan_death_marks(finalboard, info.ownership, startboard.active);
 				this.plan_ownership_marks(finalboard, info.ownership, startboard.active);
@@ -533,7 +533,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
-		if (config.ownership_marks !== 1 || !ownership) {
+		if (config.ownership_marks !== "Dead stones" || !ownership) {
 			return;
 		}
 
@@ -560,7 +560,7 @@ let board_drawer_prototype = {
 
 	plan_ownership_marks: function(board, ownership, ownership_perspective) {
 
-		if (config.ownership_marks !== 2 || !ownership) {
+		if (config.ownership_marks !== "Whole board" || !ownership) {
 			return;
 		}
 

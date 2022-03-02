@@ -47,7 +47,7 @@ exports.defaults = {
 	"wood_colour": "#d2b074ff",
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,
-	"numbers": "LCB + Visits",
+	"numbers": "LCB + Visits",								// Lame stringly typed
 	"visits_threshold": 0.02,
 	"dead_threshold": 0,
 	"mouseover_pv": true,
@@ -56,7 +56,7 @@ exports.defaults = {
 
 	"thumbnail_square_size": 4,
 
-	"graph_type": "Winrate",
+	"graph_type": "Winrate",								// Lame stringly typed
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 	"minor_graph_colour": "#444444ff",
@@ -76,7 +76,7 @@ exports.defaults = {
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 
-	"ownership_marks": 1,					//  (0: no)  (1: dead stones)  (2: full)
+	"ownership_marks": "Dead stones",						// Lame stringly typed
 	"ownership_per_move": true,
 
 	"logfile": null,
