@@ -6,36 +6,43 @@
 
 const decoders = require("./decoders");
 
-module.exports = function(encoding = "UTF-8", size = 16) {
+function new_byte_pusher(encoding = "UTF-8", size = 16) {
 
-	return {
-
-		decoder: decoders.get_decoder(encoding),	// This can throw if encoding is not supported.
+	return Object.assign(Object.create(byte_pusher_prototype), {
+		decoder: decoders.get_decoder(encoding),					// This can throw if encoding is not supported.
 		storage: new Uint8Array(size),
-		length: 0,									// Both the length and also the next index to write to.
+		length: 0,													// Both the length and also the next index to write to.
+	});
 
-		push: function(c) {
-			if (this.length >= this.storage.length) {
-				let new_storage = new Uint8Array(this.storage.length * 2);
-				for (let n = 0; n < this.storage.length; n++) {
-					new_storage[n] = this.storage[n];
-				}
-				this.storage = new_storage;
-			}
-			this.storage[this.length] = c;
-			this.length++;
-		},
-
-		reset: function() {
-			this.length = 0;
-		},
-
-		bytes: function() {
-			return this.storage.slice(0, this.length);
-		},
-
-		string: function() {
-			return this.decoder.decode(this.bytes());
-		}
-	};
 };
+
+let byte_pusher_prototype = {
+
+	push: function(c) {
+		if (this.length >= this.storage.length) {
+			let new_storage = new Uint8Array(this.storage.length * 2);
+			for (let n = 0; n < this.storage.length; n++) {
+				new_storage[n] = this.storage[n];
+			}
+			this.storage = new_storage;
+		}
+		this.storage[this.length] = c;
+		this.length++;
+	},
+
+	reset: function() {
+		this.length = 0;
+	},
+
+	bytes: function() {
+		return this.storage.slice(0, this.length);
+	},
+
+	string: function() {
+		return this.decoder.decode(this.bytes());
+	}
+};
+
+
+
+module.exports = new_byte_pusher;
