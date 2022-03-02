@@ -1067,7 +1067,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Ownership per-move (costly)",
+					label: "...per-move (costly)",
 					type: "checkbox",
 					checked: config.ownership_per_move,
 					click: () => {
