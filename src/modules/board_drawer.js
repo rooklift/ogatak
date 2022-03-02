@@ -49,7 +49,7 @@ function init() {
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 
 		pv: null,									// The PV drawn, or null if there isn't one.
-		has_death_marks: false,						// Used by bad_death_mark_spinner().
+		has_tentative_marks: false,					// Whether any marks drawn are based on old data.
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
@@ -123,7 +123,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.has_death_marks = false;
+		this.has_tentative_marks = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -301,17 +301,17 @@ let board_drawer_prototype = {
 		
 		if (config.dead_stone_prediction) {
 
-			// Normal case: use this node's ownership map...
+			// If we have analysis, use it (assuming it has ownership).
+			// If we don't have analysis, use an ancestor's analysis to draw tentative marks.
 
-			if (node.has_valid_analysis() && node.analysis.ownership) {
-				this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-
-			// Special case: use recent ancestor's ownership map, iff we expect actual data from current node to be arriving soon...
-
+			if (node.has_valid_analysis()) {
+				if (node.analysis.ownership) {
+					this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active, false);
+				}
 			} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 				let analysis_node = node.ancestor_with_valid_analysis(8);
 				if (analysis_node && analysis_node.analysis.ownership) {
-					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
+					this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active, true);
 				}
 			}
 		}
@@ -366,9 +366,9 @@ let board_drawer_prototype = {
 		this.draw_board(finalboard);
 
 		if (config.dead_stone_prediction && config.dead_stone_per_move && info.ownership) {
-			this.plan_death_marks(finalboard, info.ownership, startboard.active);
+			this.plan_death_marks(finalboard, info.ownership, startboard.active, false);
 		} else if (config.dead_stone_prediction && node.analysis.ownership) {
-			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
+			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active, false);
 		}
 
 		this.plan_pv_labels(points);
@@ -407,7 +407,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-		this.has_death_marks = false;
+		this.has_tentative_marks = false;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -459,7 +459,6 @@ let board_drawer_prototype = {
 
 			case "death":
 
-				this.has_death_marks = true;
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
@@ -511,6 +510,13 @@ let board_drawer_prototype = {
 		if (o.next_mark_colour && o.type !== "analysis") {
 			this.circle(x, y, 0.085, 1, o.next_mark_colour);
 		}
+
+		// If the object is tentative (meaning it was based on old data) note
+		// the fact that we have such marks drawn...
+
+		if (o.tentative) {
+			this.has_tentative_marks = true;
+		}
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -518,7 +524,7 @@ let board_drawer_prototype = {
 	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
 	// can be at each spot in the needed_marks array. We could also use a map of point --> object.
 
-	plan_death_marks: function(board, ownership, ownership_perspective) {
+	plan_death_marks: function(board, ownership, ownership_perspective, tentative) {
 
 		if (!config.dead_stone_prediction || !ownership) {
 			return;
@@ -539,7 +545,7 @@ let board_drawer_prototype = {
 					own *= -1;
 				}
 				if (own < config.dead_threshold) {
-					this.needed_marks[x][y] = {type: "death"};
+					this.needed_marks[x][y] = {type: "death", tentative: tentative};
 				}
 			}
 		}

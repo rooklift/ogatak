@@ -65,13 +65,13 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	setTimeout(window_resize_spinner, 125);
 })();
 
-(function bad_death_mark_spinner() {
+(function bad_mark_spinner() {
 
-	// Super-lame hack to deal with the situation where death marks were carried over from a previous search but then
-	// the new search was terminated instantly (or never started) and those stale death marks need to be removed now
-	// (this is needed because nothing else is going to cause a draw to happen).
+	// Our board drawer can draw marks based on ancestor nodes, on the assumption that real
+	// data for the current node will soon arrive. But if the search ends and it never does
+	// we need to clear those tentative marks.
 
-	if (board_drawer.has_death_marks) {
+	if (board_drawer.has_tentative_marks) {
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
 			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
 				hub.draw();
@@ -79,6 +79,6 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 
-	setTimeout(bad_death_mark_spinner, 190);
+	setTimeout(bad_mark_spinner, 190);
 })();
 
