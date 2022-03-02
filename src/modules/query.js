@@ -21,8 +21,8 @@ exports.base_query = function(query_node, engine) {
 		maxVisits: 1000000,
 		analysisPVLen: config.analysis_pv_len - 1,
 		reportDuringSearchEvery: config.report_every,
-		includeOwnership: (config.dead_stone_prediction) ? true : false,
-		includeMovesOwnership: (config.dead_stone_prediction && config.dead_stone_per_move) ? true : false,
+		includeOwnership: false,								// FIXME
+		includeMovesOwnership: false,							// FIXME
 
 		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 			reportAnalysisWinratesAs: "SIDETOMOVE",

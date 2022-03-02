@@ -75,8 +75,6 @@ exports.defaults = {
 	"widerootnoise": true,
 	"symmetry_pruning": true,
 	"report_every": 0.1,
-	"dead_stone_prediction": true,
-	"dead_stone_per_move": true,
 
 	"logfile": null,
 	"width": 1200,

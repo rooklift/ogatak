@@ -298,7 +298,7 @@ let board_drawer_prototype = {
 	draw_standard: function(node) {
 
 		this.draw_board(node.get_board());
-		
+/*																																			FIXME
 		if (config.dead_stone_prediction) {
 
 			// If possible, use this node's analysis. But to avoid flicker, we can use an older node's analysis.
@@ -312,7 +312,7 @@ let board_drawer_prototype = {
 				}
 			}
 		}
-
+*/
 		this.plan_ko_marker(node);
 		this.plan_previous_markers(node);
 		this.plan_shapes(node);
@@ -362,12 +362,13 @@ let board_drawer_prototype = {
 
 		this.draw_board(finalboard);
 
+/*																																			FIXME
 		if (config.dead_stone_prediction && config.dead_stone_per_move && info.ownership) {
 			this.plan_death_marks(finalboard, info.ownership, startboard.active);
 		} else if (config.dead_stone_prediction && node.analysis.ownership) {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 		}
-
+*/
 		this.plan_pv_labels(points);
 
 		this.draw_canvas();
@@ -518,7 +519,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
-		if (!config.dead_stone_prediction || !ownership) {
+		if (!SOMETHING || !ownership) {																			// FIXME
 			return;
 		}
 

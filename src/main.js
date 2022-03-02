@@ -1057,25 +1057,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Dead stone prediction",
-					type: "checkbox",
-					checked: config.dead_stone_prediction,
-					click: () => {
-						win.webContents.send("toggle", "dead_stone_prediction");
-					}
-				},
-				{
-					label: "...per move",
-					type: "checkbox",
-					checked: config.dead_stone_per_move,
-					click: () => {
-						win.webContents.send("toggle", "dead_stone_per_move");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Clear all analysis",
 					click: () => {
 						win.webContents.send("call", "forget_analysis_tree");

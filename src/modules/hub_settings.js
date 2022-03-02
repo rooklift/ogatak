@@ -25,8 +25,6 @@ const multichecks = {
 const togglechecks = {
 	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
-	dead_stone_prediction:	["Analysis", "Dead stone prediction"],
-	dead_stone_per_move:	["Analysis", "...per move"],
 	candidate_moves:		["Display", "Candidate moves"],
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...colour by visits"],
@@ -167,15 +165,6 @@ module.exports = {
 			if (this.engine.desired) {
 				this.go();
 			}
-			break;
-
-		case "dead_stone_prediction":
-		case "dead_stone_per_move":
-
-			if (this.engine.desired) {
-				this.go();
-			}
-			this.draw();
 			break;
 
 		default:
