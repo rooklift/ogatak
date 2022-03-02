@@ -75,7 +75,6 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
 			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
 				hub.draw();
-				console.log("bad_ownership_mark_spinner() fired");
 			}
 		}
 	}
