@@ -2,6 +2,8 @@
 
 const {defaults} = require("./config_io");
 
+// Note that the alpha values are ignored (true on 2022-03-02).
+
 module.exports = {
 
 	"Blue / Green": {
