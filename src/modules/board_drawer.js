@@ -186,8 +186,8 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	fsquare: function(x, y, fraction, colour, other_canvas_flag) {
-		let ctx = !other_canvas_flag ? this.ctx : this.ownerctx;
+	fsquare: function(x, y, fraction, colour, ownership_canvas_flag) {
+		let ctx = !ownership_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
