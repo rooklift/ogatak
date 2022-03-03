@@ -110,6 +110,7 @@ module.exports = {
 
 		case "wood_colour":
 			precompute_ownership_colours(value);
+			tabber.draw_tabs(this.node);
 			this.draw();
 			break;
 
