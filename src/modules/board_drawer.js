@@ -697,8 +697,8 @@ let board_drawer_prototype = {
 				if (info.order === 0) {
 					if (board.active === "b") o.fill = config.top_colour_black;
 					if (board.active === "w") o.fill = config.top_colour_white;
-				} else if (config.visit_colours) {
-					let opacity_hex = float_to_hex_ff(info.visits / filtered_infos[0].visits);
+				} else {
+					let opacity_hex = config.visit_colours ? float_to_hex_ff(info.visits / filtered_infos[0].visits) : "ff";
 					if (board.active === "b") o.fill = config.off_colour_black.slice(0, 7) + opacity_hex;
 					if (board.active === "w") o.fill = config.off_colour_white.slice(0, 7) + opacity_hex;
 				}
