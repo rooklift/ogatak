@@ -82,9 +82,9 @@ let fullbox_prototype = {
 		this.set(
 			`<span class="green">${name} ${version}</span> running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
 			`Engine, engine config, and weights are at:\n\n` +
-			`    <span class="yellow" id="about_box_engine">${config.engine}</span>\n` +
-			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig}</span>\n` +
-			`    <span class="yellow" id="about_box_weights">${config.weights}</span>\n\n` +
+			`    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n` +
+			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n` +
+			`    <span class="yellow" id="about_box_weights">${config.weights || "(unset)"}</span>\n\n` +
 			`${name} config file is at:\n\n` +
 			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
 			`RAM usage (MB) (engine not included):\n\n` + 
