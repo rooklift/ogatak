@@ -57,7 +57,7 @@ function init() {
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
 		analysis_circle_helps: new_2d_array(25, 25, null),		// Not updated if not drawing ownership.
-		helps_are_valid: false,									// false if the above array wasn't updated.
+		analysis_circle_helps_are_valid: false,					// false if the above array wasn't updated.
 
 		width: null,
 		height: null,								
@@ -130,7 +130,7 @@ let board_drawer_prototype = {
 		}
 
 		this.has_ownership_marks = false;
-		this.helps_are_valid = false;
+		this.analysis_circle_helps_are_valid = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -448,7 +448,7 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				if (this.helps_are_valid && this.analysis_circle_helps[x][y]) {
+				if (this.analysis_circle_helps_are_valid) {
 					this.fcircle(x, y, 1, this.analysis_circle_helps[x][y]);
 				} else {
 					this.fcircle(x, y, 1, config.wood_colour);
@@ -543,7 +543,7 @@ let board_drawer_prototype = {
 	clear_ownership_canvas: function() {
 		let ctx = this.ownerctx;
 		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.helps_are_valid = false;						// Always false unless the ownership canvas is actually drawn this cycle.
+		this.analysis_circle_helps_are_valid = false;		// Always false unless the ownership canvas is actually drawn this cycle.
 	},
 
 	draw_ownership_canvas: function(ownership, ownership_perspective) {
@@ -553,7 +553,7 @@ let board_drawer_prototype = {
 		}
 
 		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
-		this.helps_are_valid = true;
+		this.analysis_circle_helps_are_valid = true;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
