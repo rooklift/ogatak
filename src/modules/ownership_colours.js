@@ -1,5 +1,14 @@
 "use strict"
 
+// For the ownership map, we are interested in two different colours:
+//
+// -- What colour to draw to the ownership canvas.
+// -- What the resulting colour of the wood is.
+//
+// The latter is the troublesome thing but is kind of needed because we draw
+// "wood" colour at certain moments in the board_drawer, which therefore needs
+// to have a cached value of the true colour being displayed.
+
 const {float_to_hex_ff, int_to_hex_ff} = require("./utils");
 
 let black_vals = [];
