@@ -325,6 +325,11 @@ let board_drawer_prototype = {
 				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
 			}
+
+		} else {
+
+			this.draw_ownership_canvas(null, null);		// This must always be called somehow, to clear the canvas.
+
 		}
 
 		this.plan_ko_marker(node);
@@ -341,7 +346,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
-		if (!point || !config.candidate_moves || !config.mouseover_pv) {
+		if (!point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
 			return false;
 		}
 
@@ -382,6 +387,8 @@ let board_drawer_prototype = {
 		} else if (node.analysis.ownership) {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 			this.draw_ownership_canvas(node.analysis.ownership, startboard.active);
+		} else {
+			this.draw_ownership_canvas(null, null);		// This must always be called somehow, to clear the canvas.
 		}
 
 		this.plan_pv_labels(points);
