@@ -547,7 +547,7 @@ let board_drawer_prototype = {
 	clear_ownership_canvas: function() {
 		let ctx = this.ownerctx;
 		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.wood_helps_are_valid = false;		// Always false unless the ownership canvas is actually drawn this cycle.
+		this.wood_helps_are_valid = false;					// Always false unless the ownership canvas is actually drawn this cycle.
 	},
 
 	draw_ownership_canvas: function(ownership, ownership_perspective) {
