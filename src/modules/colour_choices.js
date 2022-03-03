@@ -41,6 +41,27 @@ exports.menu_dict = {
 		"off_colour_white": exports.yellow_bright,
 	},
 
+	"Blue / Red": {
+		"top_colour_black": exports.blue,
+		"top_colour_white": exports.blue,
+		"off_colour_black": exports.red,
+		"off_colour_white": exports.red,
+	},
+
+	"Blue": {
+		"top_colour_black": exports.blue,
+		"top_colour_white": exports.blue,
+		"off_colour_black": exports.blue,
+		"off_colour_white": exports.blue,
+	},
+
+	"Green": {
+		"top_colour_black": exports.green,
+		"top_colour_white": exports.green,
+		"off_colour_black": exports.green,
+		"off_colour_white": exports.green,
+	},
+
 	"Red": {
 		"top_colour_black": exports.red,
 		"top_colour_white": exports.red,
