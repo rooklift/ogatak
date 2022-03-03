@@ -2,6 +2,7 @@
 
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
+const {precompute_ownership_colours} = require("./ownership_colours");
 
 const multichecks = {
 	// visits_threshold not included here.
@@ -105,6 +106,12 @@ module.exports = {
 			if (config.auto_square_size) {
 				this.autoset_square_size();
 			}
+			break;
+
+		case "wood_colour":
+			precompute_ownership_colours(value);
+			tabber.draw_tabs(this.node);
+			this.draw();
 			break;
 
 		case "square_size":

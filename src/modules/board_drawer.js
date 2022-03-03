@@ -16,6 +16,7 @@
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
+const {get_ownership_colours} = require("./ownership_colours");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -42,16 +43,21 @@ function init() {
 	let ret = Object.assign(Object.create(board_drawer_prototype), {
 
 		backgrounddiv: document.getElementById("boardbg"),
+		ownercanvas:   document.getElementById("ownershipcanvas"),
 		htmltable:     document.getElementById("boardtable"),
 		canvas:        document.getElementById("boardcanvas"),
 		infodiv:       document.getElementById("boardinfo"),
 
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
+		ownerctx: document.getElementById("ownershipcanvas").getContext("2d"),
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_ownership_marks: false,					// Whether any ownership marks are being shown.
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
+
+		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Not updated if the ownership map isn't drawn.
+		wood_helps_are_valid: false,				// Thus, false if the above array wasn't updated.
 
 		width: null,
 		height: null,								
@@ -124,6 +130,7 @@ let board_drawer_prototype = {
 		}
 
 		this.has_ownership_marks = false;
+		this.wood_helps_are_valid = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -134,6 +141,9 @@ let board_drawer_prototype = {
 
 		this.canvas.width = Math.max(19, this.width) * config.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
 		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
+
+		this.ownercanvas.width = this.canvas.width;
+		this.ownercanvas.height = this.canvas.height;
 	},
 
 	rebuild_if_needed(board) {
@@ -176,8 +186,8 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	fsquare: function(x, y, fraction, colour) {
-		let ctx = this.ctx;
+	fsquare: function(x, y, fraction, colour, ownership_canvas_flag) {
+		let ctx = !ownership_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
@@ -271,6 +281,14 @@ let board_drawer_prototype = {
 		ctx.fillText(msg3, gx, gy + 1);
 	},
 
+	wood: function(x, y) {
+		if (this.wood_helps_are_valid) {
+			this.fcircle(x, y, 1, this.wood_helps[x][y]);
+		} else {
+			this.fcircle(x, y, 1, config.wood_colour);
+		}
+	},
+
 	// --------------------------------------------------------------------------------------------
 	// Low-level table TD method...
 
@@ -298,13 +316,14 @@ let board_drawer_prototype = {
 	draw_standard: function(node) {
 
 		this.draw_board(node.get_board());
+		this.clear_ownership_canvas();
 
 		if (node.has_valid_analysis() && node.analysis.ownership) {
 
 			// If possible, use this node's analysis.
 
 			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-			this.plan_ownership_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+			this.draw_ownership_canvas(node.analysis.ownership, node.get_board().active);
 
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
@@ -313,8 +332,9 @@ let board_drawer_prototype = {
 			let analysis_node = node.ancestor_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
-				this.plan_ownership_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
+				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
 			}
+
 		}
 
 		this.plan_ko_marker(node);
@@ -331,7 +351,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
-		if (!point || !config.candidate_moves || !config.mouseover_pv) {
+		if (!point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
 			return false;
 		}
 
@@ -365,13 +385,14 @@ let board_drawer_prototype = {
 		}
 
 		this.draw_board(finalboard);
+		this.clear_ownership_canvas();
 
 		if (config.ownership_per_move && info.ownership) {
 			this.plan_death_marks(finalboard, info.ownership, startboard.active);
-			this.plan_ownership_marks(finalboard, info.ownership, startboard.active);
+			this.draw_ownership_canvas(info.ownership, startboard.active);
 		} else if (node.analysis.ownership) {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
-			this.plan_ownership_marks(finalboard, node.analysis.ownership, startboard.active);
+			this.draw_ownership_canvas(node.analysis.ownership, startboard.active);
 		}
 
 		this.plan_pv_labels(points);
@@ -435,7 +456,7 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				this.fcircle(x, y, 1, config.wood_colour);
+				this.wood(x, y);
 
 				if (o.fill) {
 					this.fcircle(x, y, 1, o.fill);
@@ -480,7 +501,7 @@ let board_drawer_prototype = {
 			case "pv":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
 				break;
@@ -488,7 +509,7 @@ let board_drawer_prototype = {
 			case "label":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
 				break;
@@ -523,6 +544,35 @@ let board_drawer_prototype = {
 
 	},
 
+	clear_ownership_canvas: function() {
+		let ctx = this.ownerctx;
+		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
+		this.wood_helps_are_valid = false;					// Always false unless the ownership canvas is actually drawn this cycle.
+	},
+
+	draw_ownership_canvas: function(ownership, ownership_perspective) {
+
+		if (config.ownership_marks !== "Whole board" || !ownership) {
+			return;
+		}
+
+		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
+		this.wood_helps_are_valid = true;
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				let own = ownership[x + (y * this.width)];
+				if (ownership_perspective === "w") {
+					own = -own;								// In this function we consider ownership from Black's POV.
+				}
+
+				let precomps = get_ownership_colours(own);
+				this.fsquare(x, y, 1, precomps[0], true);
+				this.wood_helps[x][y] = precomps[1];
+			}
+		}
+	},
+
 	// --------------------------------------------------------------------------------------------
 	// Planning methods that add stuff to this.needed_marks to be drawn later. Doing it this way
 	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
@@ -530,7 +580,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
-		if (config.ownership_marks !== "Dead stones" || !ownership) {
+		if (config.ownership_marks === "None" || !ownership) {
 			return;
 		}
 
@@ -552,32 +602,6 @@ let board_drawer_prototype = {
 					this.needed_marks[x][y] = {type: "death"};
 				} else if (own < 0 && state === "b") {
 					this.needed_marks[x][y] = {type: "death"};
-				}
-			}
-		}
-	},
-
-	plan_ownership_marks: function(board, ownership, ownership_perspective) {
-
-		if (config.ownership_marks !== "Whole board" || !ownership) {
-			return;
-		}
-
-		for (let x = 0; x < board.width; x++) {
-			for (let y = 0; y < board.height; y++) {
-
-				let state = board.state[x][y];
-
-				let own = ownership[x + (y * board.width)];
-				if (ownership_perspective === "w") {
-					own = -own;								// In this function we consider ownership from Black's POV.
-				}
-				if (own > 0 && state !== "b") {
-					let alphahex = float_to_hex_ff(own);
-					this.needed_marks[x][y] = {type: "own", colour: "#000000" + alphahex};
-				} else if (own < 0 && state !== "w") {
-					let alphahex = float_to_hex_ff(-own);
-					this.needed_marks[x][y] = {type: "own", colour: "#ffffff" + alphahex};
 				}
 			}
 		}

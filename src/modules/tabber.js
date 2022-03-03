@@ -18,6 +18,7 @@ function init() {
 		tabs: [ACTIVE_TAB_MARKER],
 		image_cache: {},
 		image_cache_square_size: config.thumbnail_square_size,
+		image_cache_wood_colour: config.wood_colour,
 		last_drawn_active_id: "",
 	});
 }
@@ -25,10 +26,19 @@ function init() {
 let tabber_prototype = {
 
 	validate_cache: function() {
-		if (this.image_cache_square_size !== config.thumbnail_square_size) {	// Everything in the cache will be the wrong size.
+
+		if (this.image_cache_square_size !== config.thumbnail_square_size) {
+
 			console.log("tabber.validate_cache() detected a change in thumbnail_square_size, deleting cache...");
 			this.image_cache = {};
 			this.image_cache_square_size = config.thumbnail_square_size;
+
+		} else if (this.image_cache_wood_colour !== config.wood_colour) {
+
+			console.log("tabber.validate_cache() detected a change in wood_colour, deleting cache...");
+			this.image_cache = {};
+			this.image_cache_wood_colour = config.wood_colour;
+			
 		}
 	},
 
