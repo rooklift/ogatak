@@ -16,7 +16,7 @@
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
-const {get_precomputed_vals} = require("./ownership_colours");
+const {get_ownership_colours} = require("./ownership_colours");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -566,7 +566,7 @@ let board_drawer_prototype = {
 					own = -own;								// In this function we consider ownership from Black's POV.
 				}
 
-				let precomps = get_precomputed_vals(own);
+				let precomps = get_ownership_colours(own);
 				this.fsquare(x, y, 1, precomps[0], true);
 				this.analysis_circle_helps[x][y] = precomps[1];
 			}

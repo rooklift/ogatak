@@ -14,7 +14,7 @@ for (let n = 0; n < 256; n++) {
 	white_vals.push("#ffffff" + alphahex);
 }
 
-exports.get_precomputed_vals = function(own) {		// Where own is in range -1..1 from Black's POV
+exports.get_ownership_colours = function(own) {		// Where own is in range -1..1 from Black's POV
 
 	// Returns 2 values:
 	// -- What colour (pure black or white, but with an alpha) to draw to the ownership canvas.
