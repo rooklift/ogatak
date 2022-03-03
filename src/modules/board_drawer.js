@@ -766,7 +766,11 @@ let board_drawer_prototype = {
 						if (x >= 0 && x < board.width && y >= 0 && y < board.height) {
 
 							if (this.needed_marks[x][y]) {
-								this.needed_marks[x][y].next_mark_colour = draw_colour;
+								if (!this.needed_marks[x][y].next_mark_colour) {
+									this.needed_marks[x][y].next_mark_colour = draw_colour;
+								} else {
+									// We already have this mark due to some sibling, do nothing.
+								}
 							} else {
 								this.needed_marks[x][y] = {
 									type: "next",
