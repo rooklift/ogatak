@@ -56,8 +56,8 @@ function init() {
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
-		analysis_circle_helps: new_2d_array(25, 25, null),		// Not updated if not drawing ownership.
-		analysis_circle_helps_are_valid: false,					// false if the above array wasn't updated.
+		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Not updated if the ownership map isn't drawn.
+		wood_helps_are_valid: false,				// Thus, false if the above array wasn't updated.
 
 		width: null,
 		height: null,								
@@ -130,7 +130,7 @@ let board_drawer_prototype = {
 		}
 
 		this.has_ownership_marks = false;
-		this.analysis_circle_helps_are_valid = false;
+		this.wood_helps_are_valid = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
@@ -282,8 +282,8 @@ let board_drawer_prototype = {
 	},
 
 	wood: function(x, y) {
-		if (this.analysis_circle_helps_are_valid) {
-			this.fcircle(x, y, 1, this.analysis_circle_helps[x][y]);
+		if (this.wood_helps_are_valid) {
+			this.fcircle(x, y, 1, this.wood_helps[x][y]);
 		} else {
 			this.fcircle(x, y, 1, config.wood_colour);
 		}
@@ -547,7 +547,7 @@ let board_drawer_prototype = {
 	clear_ownership_canvas: function() {
 		let ctx = this.ownerctx;
 		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.analysis_circle_helps_are_valid = false;		// Always false unless the ownership canvas is actually drawn this cycle.
+		this.wood_helps_are_valid = false;		// Always false unless the ownership canvas is actually drawn this cycle.
 	},
 
 	draw_ownership_canvas: function(ownership, ownership_perspective) {
@@ -557,7 +557,7 @@ let board_drawer_prototype = {
 		}
 
 		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
-		this.analysis_circle_helps_are_valid = true;
+		this.wood_helps_are_valid = true;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -568,7 +568,7 @@ let board_drawer_prototype = {
 
 				let precomps = get_ownership_colours(own);
 				this.fsquare(x, y, 1, precomps[0], true);
-				this.analysis_circle_helps[x][y] = precomps[1];
+				this.wood_helps[x][y] = precomps[1];
 			}
 		}
 	},
