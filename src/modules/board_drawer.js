@@ -440,7 +440,7 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		this.has_ownership_marks = true;					// FIXME - rename this variable.
+		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
