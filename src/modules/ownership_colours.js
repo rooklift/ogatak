@@ -11,10 +11,8 @@
 
 const {float_to_hex_ff, int_to_hex_ff} = require("./utils");
 
-let black_vals = [];
-let white_vals = [];
-let black_blends = null;
-let white_blends = null;
+let black_vals = []; let black_blends = null;
+let white_vals = []; let white_blends = null;
 
 for (let n = 0; n < 256; n++) {
 	let own = n / 255;
@@ -22,25 +20,6 @@ for (let n = 0; n < 256; n++) {
 	black_vals.push("#000000" + alphahex);
 	white_vals.push("#ffffff" + alphahex);
 }
-
-exports.get_ownership_colours = function(own) {		// Where own is in range -1..1 from Black's POV
-
-	// Returns 2 values:
-	// -- What colour (pure black or white, but with an alpha) to draw to the ownership canvas.
-	// -- What the resulting colour on the screen will be (no alpha, i.e. ends in ff).
-
-	own *= 255;
-
-	if (own < 0) {
-		let index = Math.floor(-own);
-		if (index > 255) index = 255;
-		return [white_vals[index], white_blends[index]];
-	} else {
-		let index = Math.floor(own);
-		if (index > 255) index = 255;
-		return [black_vals[index], black_blends[index]];
-	}
-};
 
 exports.precompute_ownership_colours = function(wood_colour) {
 
@@ -71,4 +50,25 @@ exports.precompute_ownership_colours = function(wood_colour) {
 	}
 };
 
+exports.get_ownership_colours = function(own) {		// Where own is in range -1..1 from Black's POV
+
+	// Returns 2 values:
+	// -- What colour (pure black or white, but with an alpha) to draw to the ownership canvas.
+	// -- What the resulting colour on the screen will be (no alpha, i.e. ends in ff).
+
+	own *= 255;
+
+	if (own < 0) {
+		let index = Math.floor(-own);
+		if (index > 255) index = 255;
+		return [white_vals[index], white_blends[index]];
+	} else {
+		let index = Math.floor(own);
+		if (index > 255) index = 255;
+		return [black_vals[index], black_blends[index]];
+	}
+};
+
+
+// Do the precompute using the default wood colour.
 exports.precompute_ownership_colours(config.wood_colour);
