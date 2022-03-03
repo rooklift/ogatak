@@ -1340,7 +1340,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "...colour by visits",
+					label: "...fade by visits",
 					type: "checkbox",
 					checked: config.visit_colours,
 					accelerator: "B",

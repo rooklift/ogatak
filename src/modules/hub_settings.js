@@ -30,7 +30,7 @@ const togglechecks = {
 	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	candidate_moves:		["Display", "Candidate moves"],
 	mouseover_pv:			["Display", "...with PV mouseover"],
-	visit_colours:			["Display", "...colour by visits"],
+	visit_colours:			["Display", "...fade by visits"],
 	next_move_markers:		["Display", "Next move markers"],
 	auto_square_size:		["Sizes", "Auto-resize squares"],
 	stderr_to_console:		["Misc", "Log engine stderr to console"],
