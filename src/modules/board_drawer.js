@@ -55,6 +55,8 @@ function init() {
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
 
+		analysis_circle_helps: new_2d_array(25, 25, null),		// Not updated if not drawing ownership.
+
 		width: null,
 		height: null,								
 		square_size: null,							// We need to store width and height... the other things are mostly stored so
@@ -469,7 +471,11 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				this.fcircle(x, y, 1, config.wood_colour);
+				if (config.ownership_marks === "Whole board" && this.analysis_circle_helps[x][y]) {
+					this.fcircle(x, y, 1, this.analysis_circle_helps[x][y]);
+				} else {
+					this.fcircle(x, y, 1, config.wood_colour);
+				}
 
 				if (o.fill) {
 					this.fcircle(x, y, 1, o.fill);
