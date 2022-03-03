@@ -42,11 +42,13 @@ function init() {
 	let ret = Object.assign(Object.create(board_drawer_prototype), {
 
 		backgrounddiv: document.getElementById("boardbg"),
+		ownercanvas:   document.getElementById("ownershipcanvas"),
 		htmltable:     document.getElementById("boardtable"),
 		canvas:        document.getElementById("boardcanvas"),
 		infodiv:       document.getElementById("boardinfo"),
 
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
+		ownerctx: document.getElementById("ownershipcanvas").getContext("2d"),
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_ownership_marks: false,					// Whether any ownership marks are being shown.
@@ -134,6 +136,9 @@ let board_drawer_prototype = {
 
 		this.canvas.width = Math.max(19, this.width) * config.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
 		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
+
+		this.ownercanvas.width = this.canvas.width;
+		this.ownercanvas.height = this.canvas.height;
 	},
 
 	rebuild_if_needed(board) {
@@ -176,8 +181,8 @@ let board_drawer_prototype = {
 		ctx.stroke();
 	},
 
-	fsquare: function(x, y, fraction, colour) {
-		let ctx = this.ctx;
+	fsquare: function(x, y, fraction, colour, other_canvas_flag) {
+		let ctx = !other_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
 		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
 		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
@@ -304,7 +309,7 @@ let board_drawer_prototype = {
 			// If possible, use this node's analysis.
 
 			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-			this.plan_ownership_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
+			this.draw_ownership_canvas(node.analysis.ownership, node.get_board().active);
 
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
@@ -313,7 +318,7 @@ let board_drawer_prototype = {
 			let analysis_node = node.ancestor_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
-				this.plan_ownership_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
+				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
 			}
 		}
 
@@ -368,10 +373,10 @@ let board_drawer_prototype = {
 
 		if (config.ownership_per_move && info.ownership) {
 			this.plan_death_marks(finalboard, info.ownership, startboard.active);
-			this.plan_ownership_marks(finalboard, info.ownership, startboard.active);
+			this.draw_ownership_canvas(info.ownership, startboard.active);
 		} else if (node.analysis.ownership) {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
-			this.plan_ownership_marks(finalboard, node.analysis.ownership, startboard.active);
+			this.draw_ownership_canvas(node.analysis.ownership, startboard.active);
 		}
 
 		this.plan_pv_labels(points);
@@ -419,6 +424,35 @@ let board_drawer_prototype = {
 					this.draw_planned_canvas_object(o, x, y);
 				}
 				this.needed_marks[x][y] = null;		// Deleting items as they are drawn.
+			}
+		}
+	},
+
+	draw_ownership_canvas(ownership, ownership_perspective) {
+
+		let ctx = this.ownerctx;
+		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
+
+		if (config.ownership_marks !== "Whole board" || !ownership) {
+			return;
+		}
+
+		this.has_ownership_marks = true;					// FIXME - rename this variable.
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+
+				let own = ownership[x + (y * this.width)];
+				if (ownership_perspective === "w") {
+					own = -own;								// In this function we consider ownership from Black's POV.
+				}
+				if (own > 0) {
+					let alphahex = float_to_hex_ff(own / 2);
+					this.fsquare(x, y, 1, "#000000" + alphahex, true);
+				} else if (own < 0) {
+					let alphahex = float_to_hex_ff(-own / 2);
+					this.fsquare(x, y, 1, "#ffffff" + alphahex, true);
+				}
 			}
 		}
 	},
@@ -530,7 +564,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership, ownership_perspective) {
 
-		if (config.ownership_marks !== "Dead stones" || !ownership) {
+		if (config.ownership_marks === "None" || !ownership) {
 			return;
 		}
 
@@ -552,32 +586,6 @@ let board_drawer_prototype = {
 					this.needed_marks[x][y] = {type: "death"};
 				} else if (own < 0 && state === "b") {
 					this.needed_marks[x][y] = {type: "death"};
-				}
-			}
-		}
-	},
-
-	plan_ownership_marks: function(board, ownership, ownership_perspective) {
-
-		if (config.ownership_marks !== "Whole board" || !ownership) {
-			return;
-		}
-
-		for (let x = 0; x < board.width; x++) {
-			for (let y = 0; y < board.height; y++) {
-
-				let state = board.state[x][y];
-
-				let own = ownership[x + (y * board.width)];
-				if (ownership_perspective === "w") {
-					own = -own;								// In this function we consider ownership from Black's POV.
-				}
-				if (own > 0 && state !== "b") {
-					let alphahex = float_to_hex_ff(own);
-					this.needed_marks[x][y] = {type: "own", colour: "#000000" + alphahex};
-				} else if (own < 0 && state !== "w") {
-					let alphahex = float_to_hex_ff(-own);
-					this.needed_marks[x][y] = {type: "own", colour: "#ffffff" + alphahex};
 				}
 			}
 		}

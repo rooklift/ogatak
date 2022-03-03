@@ -86,19 +86,26 @@ body {
 	z-index: 1;
 }
 
+#ownershipcanvas {
+	grid-area: board;
+	margin: 16px 0 0 16px;
+	pointer-events: none;
+	z-index: 2;
+}
+
 #boardtable {
 	grid-area: board;
 	border-collapse: collapse;
 	margin: 16px 0 0 16px;
 	pointer-events: auto;
-	z-index: 2;
+	z-index: 3;
 }
 
 #boardcanvas {
 	grid-area: board;
 	margin: 16px 0 0 16px;
 	pointer-events: none;
-	z-index: 3;
+	z-index: 4;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
