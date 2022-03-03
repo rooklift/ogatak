@@ -16,6 +16,7 @@
 
 const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
+const {get_draw1_val} = require("./ownership_colours");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -443,18 +444,11 @@ let board_drawer_prototype = {
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
-
 				let own = ownership[x + (y * this.width)];
 				if (ownership_perspective === "w") {
 					own = -own;								// In this function we consider ownership from Black's POV.
 				}
-				if (own > 0) {
-					let alphahex = float_to_hex_ff(own / 2);
-					this.fsquare(x, y, 1, "#000000" + alphahex, true);
-				} else if (own < 0) {
-					let alphahex = float_to_hex_ff(-own / 2);
-					this.fsquare(x, y, 1, "#ffffff" + alphahex, true);
-				}
+				this.fsquare(x, y, 1, get_draw1_val(own), true);
 			}
 		}
 	},
