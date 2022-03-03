@@ -308,6 +308,7 @@ let board_drawer_prototype = {
 	draw_standard: function(node) {
 
 		this.draw_board(node.get_board());
+		this.clear_ownership_canvas();
 
 		if (node.has_valid_analysis() && node.analysis.ownership) {
 
@@ -325,10 +326,6 @@ let board_drawer_prototype = {
 				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
 			}
-
-		} else {
-
-			this.draw_ownership_canvas(null, null);		// This must always be called somehow, to clear the canvas.
 
 		}
 
@@ -380,6 +377,7 @@ let board_drawer_prototype = {
 		}
 
 		this.draw_board(finalboard);
+		this.clear_ownership_canvas();
 
 		if (config.ownership_per_move && info.ownership) {
 			this.plan_death_marks(finalboard, info.ownership, startboard.active);
@@ -387,8 +385,6 @@ let board_drawer_prototype = {
 		} else if (node.analysis.ownership) {
 			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
 			this.draw_ownership_canvas(node.analysis.ownership, startboard.active);
-		} else {
-			this.draw_ownership_canvas(null, null);		// This must always be called somehow, to clear the canvas.
 		}
 
 		this.plan_pv_labels(points);
@@ -436,33 +432,6 @@ let board_drawer_prototype = {
 					this.draw_planned_canvas_object(o, x, y);
 				}
 				this.needed_marks[x][y] = null;		// Deleting items as they are drawn.
-			}
-		}
-	},
-
-	draw_ownership_canvas(ownership, ownership_perspective) {
-
-		let ctx = this.ownerctx;
-		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-
-		if (config.ownership_marks !== "Whole board" || !ownership) {
-			this.helps_are_valid = false;
-			return;
-		}
-
-		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
-		this.helps_are_valid = true;
-
-		for (let x = 0; x < this.width; x++) {
-			for (let y = 0; y < this.height; y++) {
-				let own = ownership[x + (y * this.width)];
-				if (ownership_perspective === "w") {
-					own = -own;								// In this function we consider ownership from Black's POV.
-				}
-
-				let precomps = get_precomputed_vals(own);
-				this.fsquare(x, y, 1, precomps[0], true);
-				this.analysis_circle_helps[x][y] = precomps[1];
 			}
 		}
 	},
@@ -569,6 +538,35 @@ let board_drawer_prototype = {
 			this.circle(x, y, 0.085, 1, o.next_mark_colour);
 		}
 
+	},
+
+	clear_ownership_canvas: function() {
+		let ctx = this.ownerctx;
+		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
+		this.helps_are_valid = false;						// Always false unless the ownership canvas is actually drawn this cycle.
+	},
+
+	draw_ownership_canvas: function(ownership, ownership_perspective) {
+
+		if (config.ownership_marks !== "Whole board" || !ownership) {
+			return;
+		}
+
+		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
+		this.helps_are_valid = true;
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				let own = ownership[x + (y * this.width)];
+				if (ownership_perspective === "w") {
+					own = -own;								// In this function we consider ownership from Black's POV.
+				}
+
+				let precomps = get_precomputed_vals(own);
+				this.fsquare(x, y, 1, precomps[0], true);
+				this.analysis_circle_helps[x][y] = precomps[1];
+			}
+		}
 	},
 
 	// --------------------------------------------------------------------------------------------
