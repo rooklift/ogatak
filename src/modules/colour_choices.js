@@ -48,11 +48,4 @@ exports.menu_dict = {
 		"off_colour_white": exports.red,
 	},
 
-	"Green": {
-		"top_colour_black": exports.green,
-		"top_colour_white": exports.green,
-		"off_colour_black": exports.green,
-		"off_colour_white": exports.green,
-	},
-
 };
