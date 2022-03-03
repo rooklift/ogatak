@@ -315,8 +315,8 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 
+		this.clear_canvases();
 		this.draw_board(node.get_board());
-		this.clear_ownership_canvas();
 
 		if (node.has_valid_analysis() && node.analysis.ownership) {
 
@@ -384,8 +384,8 @@ let board_drawer_prototype = {
 			points.push(s);								// Passes are included as "" (so our numbering works below)
 		}
 
+		this.clear_canvases();
 		this.draw_board(finalboard);
-		this.clear_ownership_canvas();
 
 		if (config.ownership_per_move && info.ownership) {
 			this.plan_death_marks(finalboard, info.ownership, startboard.active);
@@ -427,11 +427,6 @@ let board_drawer_prototype = {
 
 		// Based solely on whatever objects are in this.needed_marks...
 		// All planning functions have to be called before this.
-
-		let ctx = this.ctx;
-		ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-		this.has_ownership_marks = false;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
@@ -487,12 +482,6 @@ let board_drawer_prototype = {
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
-			case "own":
-
-				this.has_ownership_marks = true;
-				this.fsquare(x, y, 1/3, o.colour);
-				break;
-
 			case "previous":
 
 				this.fcircle(x, y, 0.4, config.previous_marker);
@@ -544,10 +533,11 @@ let board_drawer_prototype = {
 
 	},
 
-	clear_ownership_canvas: function() {
-		let ctx = this.ownerctx;
-		ctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.wood_helps_are_valid = false;					// Always false unless the ownership canvas is actually drawn this cycle.
+	clear_canvases: function() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
+		this.has_ownership_marks = false;
+		this.wood_helps_are_valid = false;
 	},
 
 	draw_ownership_canvas: function(ownership, ownership_perspective) {
