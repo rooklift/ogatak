@@ -281,6 +281,14 @@ let board_drawer_prototype = {
 		ctx.fillText(msg3, gx, gy + 1);
 	},
 
+	wood: function(x, y) {
+		if (this.analysis_circle_helps_are_valid) {
+			this.fcircle(x, y, 1, this.analysis_circle_helps[x][y]);
+		} else {
+			this.fcircle(x, y, 1, config.wood_colour);
+		}
+	},
+
 	// --------------------------------------------------------------------------------------------
 	// Low-level table TD method...
 
@@ -448,11 +456,7 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				if (this.analysis_circle_helps_are_valid) {
-					this.fcircle(x, y, 1, this.analysis_circle_helps[x][y]);
-				} else {
-					this.fcircle(x, y, 1, config.wood_colour);
-				}
+				this.wood(x, y);
 
 				if (o.fill) {
 					this.fcircle(x, y, 1, o.fill);
@@ -497,7 +501,7 @@ let board_drawer_prototype = {
 			case "pv":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
 				break;
@@ -505,7 +509,7 @@ let board_drawer_prototype = {
 			case "label":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.fcircle(x, y, 1, config.wood_colour);		// Draw wood to hide the grid at this spot.
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
 				break;
