@@ -52,9 +52,9 @@ function init() {
 		ownerctx: document.getElementById("ownershipcanvas").getContext("2d"),
 
 		pv: null,									// The PV drawn, or null if there isn't one.
-		has_ownership_marks: false,					// Whether any ownership marks are being shown.
+		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
-		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the canvas.
+		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 
 		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Not updated if the ownership map isn't drawn.
 		wood_helps_are_valid: false,				// Thus, false if the above array wasn't updated.
@@ -129,7 +129,7 @@ let board_drawer_prototype = {
 			}
 		}
 
-		this.has_ownership_marks = false;
+		this.has_drawn_ownership = false;
 		this.wood_helps_are_valid = false;
 		this.pv = null;
 
@@ -478,7 +478,7 @@ let board_drawer_prototype = {
 
 			case "death":
 
-				this.has_ownership_marks = true;
+				this.has_drawn_ownership = true;
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
@@ -536,7 +536,7 @@ let board_drawer_prototype = {
 	clear_canvases: function() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.has_ownership_marks = false;
+		this.has_drawn_ownership = false;
 		this.wood_helps_are_valid = false;
 	},
 
@@ -546,7 +546,7 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		this.has_ownership_marks = true;					// FIXME - rename this variable, since ownership isn't "marks" now.
+		this.has_drawn_ownership = true;
 		this.wood_helps_are_valid = true;
 
 		for (let x = 0; x < this.width; x++) {

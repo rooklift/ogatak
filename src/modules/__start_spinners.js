@@ -71,7 +71,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	// data for the current node will soon arrive. But if the search ends and it never does we need
 	// to clear those tentative ownership marks.
 
-	if (board_drawer.has_ownership_marks) {
+	if (board_drawer.has_drawn_ownership) {
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
 			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
 				hub.draw();
