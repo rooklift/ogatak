@@ -433,8 +433,8 @@ let board_drawer_prototype = {
 				let o = this.needed_marks[x][y];
 				if (o) {
 					this.draw_planned_canvas_object(o, x, y);
+					this.needed_marks[x][y] = null;					// Deleting items as they are drawn.
 				}
-				this.needed_marks[x][y] = null;		// Deleting items as they are drawn.
 			}
 		}
 	},
