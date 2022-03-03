@@ -1,6 +1,6 @@
 "use strict"
 
-const {float_to_hex_ff} = require("./utils");
+const {float_to_hex_ff, int_to_hex_ff} = require("./utils");
 
 let black_vals = [];
 let white_vals = [];
@@ -33,7 +33,7 @@ exports.get_precomputed_vals = function(own) {		// Where own is in range -1..1 f
 	}
 };
 
-exports.precompute = function(wood_colour) {
+exports.precompute_ownership_colours = function(wood_colour) {
 
 	let c = document.createElement("canvas");
 
@@ -57,9 +57,9 @@ exports.precompute = function(wood_colour) {
 			let data = ctx.getImageData(8, 8, 1, 1).data;
 			let rgb = [data[0], data[1], data[2]];
 
-			target_array.push("#" + rgb[0].toString(16) + rgb[1].toString(16) + rgb[2].toString(16) + "ff");
+			target_array.push("#" + int_to_hex_ff(rgb[0]) + int_to_hex_ff(rgb[1]) + int_to_hex_ff(rgb[2]) + "ff");
 		}
 	}
 };
 
-exports.precompute(config.wood_colour);
+exports.precompute_ownership_colours(config.wood_colour);

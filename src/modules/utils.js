@@ -177,6 +177,14 @@ exports.float_to_hex_ff = function(n) {
 	return s;
 };
 
+exports.int_to_hex_ff = function(n) {
+	if (n < 0) n = 0;
+	if (n > 255) n = 255;
+	let s = n.toString(16);
+	if (s.length === 1) s = "0" + s;
+	return s;
+};
+
 exports.points_list = function(s) {
 
 	// Note that the values returned are not guaranteed to be valid / on-board etc.
