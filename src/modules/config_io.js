@@ -5,7 +5,9 @@
 const electron = require("electron");
 const fs = require("fs");
 const path = require("path");
+
 const {get_href_query_val} = require("./utils");
+const colour_choices = require("./colour_choices");
 
 exports.filename = "config.json";
 
@@ -40,10 +42,10 @@ exports.defaults = {
 	"info_font_size": 16,
 
 	"board_font_size": 14,
-	"top_colour_black": "#77ddddff",
-	"top_colour_white": "#77ddddff",
-	"off_colour_black": "#99dd55ff",
-	"off_colour_white": "#99dd55ff",
+	"top_colour_black": colour_choices.blue_bright,
+	"top_colour_white": colour_choices.blue_bright,
+	"off_colour_black": colour_choices.green_bright,
+	"off_colour_white": colour_choices.green_bright,
 	"wood_colour": "#d2b074ff",
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,

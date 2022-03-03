@@ -2213,13 +2213,13 @@ function menu_build() {
 		}
 	];
 
-	for (let key of Object.keys(colour_choices)) {
+	for (let key of Object.keys(colour_choices.menu_dict)) {
 		colour_choices_submenu.push({
 			label: key,
 			click: () => {
 				win.webContents.send("call", {
 					fn: "apply_colour_settings",
-					args: [colour_choices[key]]
+					args: [colour_choices.menu_dict[key]]
 				});
 			}
 		});

@@ -1,60 +1,58 @@
 "use strict";
 
-const {defaults} = require("./config_io");
-
 // Note that the alpha values are ignored (true on 2022-03-02).
 
-const red = "#ff7777ff";
-const blue = "#77ddddff";
-const green = "#99dd55ff";
-const yellow = "#dddd55ff";
+exports.red = "#ff7777ff";
+exports.blue = "#77ddddff";
+exports.green = "#99dd55ff";
+exports.yellow = "#dddd55ff";
 
-const blue_bright = "#77eeffff";
-const green_bright = "#99ff55ff";
-const yellow_bright = "#ffff55ff";
+exports.blue_bright = "#77eeffff";
+exports.green_bright = "#99ff55ff";
+exports.yellow_bright = "#ffff55ff";
 
-module.exports = {
+exports.menu_dict = {
 
 	"Blue / Green": {
-		"top_colour_black": blue,
-		"top_colour_white": blue,
-		"off_colour_black": green,
-		"off_colour_white": green,
+		"top_colour_black": exports.blue,
+		"top_colour_white": exports.blue,
+		"off_colour_black": exports.green,
+		"off_colour_white": exports.green,
 	},
 
 	"Blue / Green (brighter)": {
-		"top_colour_black": blue_bright,
-		"top_colour_white": blue_bright,
-		"off_colour_black": green_bright,
-		"off_colour_white": green_bright,
+		"top_colour_black": exports.blue_bright,
+		"top_colour_white": exports.blue_bright,
+		"off_colour_black": exports.green_bright,
+		"off_colour_white": exports.green_bright,
 	},
 
 	"Green / Yellow": {
-		"top_colour_black": green,
-		"top_colour_white": green,
-		"off_colour_black": yellow,
-		"off_colour_white": yellow,
+		"top_colour_black": exports.green,
+		"top_colour_white": exports.green,
+		"off_colour_black": exports.yellow,
+		"off_colour_white": exports.yellow,
 	},
 
 	"Green / Yellow (brighter)": {
-		"top_colour_black": green_bright,
-		"top_colour_white": green_bright,
-		"off_colour_black": yellow_bright,
-		"off_colour_white": yellow_bright,
+		"top_colour_black": exports.green_bright,
+		"top_colour_white": exports.green_bright,
+		"off_colour_black": exports.yellow_bright,
+		"off_colour_white": exports.yellow_bright,
 	},
 
 	"Red": {
-		"top_colour_black": red,
-		"top_colour_white": red,
-		"off_colour_black": red,
-		"off_colour_white": red,
+		"top_colour_black": exports.red,
+		"top_colour_white": exports.red,
+		"off_colour_black": exports.red,
+		"off_colour_white": exports.red,
 	},
 
 	"Green": {
-		"top_colour_black": green,
-		"top_colour_white": green,
-		"off_colour_black": green,
-		"off_colour_white": green,
+		"top_colour_black": exports.green,
+		"top_colour_white": exports.green,
+		"off_colour_black": exports.green,
+		"off_colour_white": exports.green,
 	},
 
 };
