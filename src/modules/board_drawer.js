@@ -56,8 +56,8 @@ function init() {
 		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 
-		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Not updated if the ownership map isn't drawn.
-		wood_helps_are_valid: false,				// Thus, false if the above array wasn't updated.
+		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
+		wood_helps_are_valid: false,				// Whether ownership canvas was drawn to since last clear. If not, above array is ignored.
 
 		width: null,
 		height: null,								
