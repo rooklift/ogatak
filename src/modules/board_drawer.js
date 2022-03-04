@@ -685,8 +685,10 @@ let board_drawer_prototype = {
 				};
 
 				if (info.order === 0) {
-					if (board.active === "b") o.fill = config.top_colour_black;
-					if (board.active === "w") o.fill = config.top_colour_white;
+					let colour = (board.active === "b") ? config.top_colour_black : config.top_colour_white;
+					if (!colour.endsWith("00") || colour.length !== 9) {
+						o.fill = colour;
+					}
 				} else {
 					let colour = (board.active === "b") ? config.off_colour_black : config.off_colour_white;
 					if (!colour.endsWith("00") || colour.length !== 9) {
