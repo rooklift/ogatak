@@ -200,10 +200,11 @@ module.exports = {
 		}
 
 		if (key === "visits_threshold") {
-			let label = "?";
-			if (value === 0) label = "All";
-			if (value > 0) label = `N > ${value * 100}%`;
-			ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+			this.fix_visit_filter_menu();
+		}
+
+		if (key === "top_colour_black" || key === "top_colour_white" || key === "off_colour_black" || key === "off_colour_white") {
+			this.fix_colours_menu();
 		}
 
 		// Fix any toggle menu items...............................................................
@@ -216,11 +217,28 @@ module.exports = {
 
 	// --------------------------------------------------------------------------------------------
 
+	fix_colours_menu: function() {
+		ipcRenderer.send("fix_colour_checks", {
+			top_colour_black: config.top_colour_black,
+			top_colour_white: config.top_colour_white,
+			off_colour_black: config.off_colour_black,
+			off_colour_white: config.off_colour_white,
+		});
+	},
+
+	fix_visit_filter_menu: function() {
+		let label = "?";
+		if (config.visits_threshold === 0) label = "All";
+		if (config.visits_threshold > 0) label = `N > ${config.visits_threshold * 100}%`;
+		ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+	},
+
 	apply_colour_settings: function(o) {
 		for (let key of Object.keys(o)) {
 			config[key] = o[key];
 		}
 		this.draw();								// Currently this is enough.
+		this.fix_colours_menu();
 	},
 
 	reset: function(key) {

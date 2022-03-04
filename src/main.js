@@ -134,6 +134,10 @@ function startup() {
 		set_one_check(true, msg);
 	});
 
+	electron.ipcMain.on("fix_colour_checks", (event, msg) => {
+		fix_colour_checks(msg);
+	});
+
 	electron.ipcMain.on("verify_menupath", (event, msg) => {
 		verify_menupath(msg);
 	});
@@ -2219,6 +2223,11 @@ function menu_build() {
 		} else {
 			colour_choices_submenu.push({
 				label: item.label,
+				type: "checkbox",
+				checked: config.top_colour_black === item.opts.top_colour_black &&
+				         config.top_colour_white === item.opts.top_colour_white &&
+				         config.off_colour_black === item.opts.off_colour_black &&
+				         config.off_colour_white === item.opts.off_colour_white,
 				click: () => {
 					win.webContents.send("call", {
 						fn: "apply_colour_settings",
@@ -2305,6 +2314,26 @@ function verify_menupath(menupath) {
 	} catch (err) {
 		alert(`Failed to verify menupath: ${stringify(menupath)}`);
 	}
+}
+
+function fix_colour_checks(msg) {
+	for (let item of colour_choices.items) {
+		if (!item.opts) {
+			continue;
+		}
+		let ok = true;
+		for (let key of Object.keys(item.opts)) {
+			if (item.opts[key] !== msg[key]) {
+				ok = false;
+				break;
+			}
+		}
+		if (ok) {
+			set_checks(["Display", "Colours", item.label]);
+			return;
+		}
+	}
+	set_checks(["Display", "Colours", "?"]);
 }
 
 // --------------------------------------------------------------------------------------------------------------
