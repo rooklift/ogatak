@@ -2213,16 +2213,20 @@ function menu_build() {
 		}
 	];
 
-	for (let key of Object.keys(colour_choices.menu_dict)) {
-		colour_choices_submenu.push({
-			label: key,
-			click: () => {
-				win.webContents.send("call", {
-					fn: "apply_colour_settings",
-					args: [colour_choices.menu_dict[key]]
-				});
-			}
-		});
+	for (let item of colour_choices.items) {
+		if (item.type === "separator") {
+			colour_choices_submenu.push({type: "separator"});
+		} else {
+			colour_choices_submenu.push({
+				label: item.label,
+				click: () => {
+					win.webContents.send("call", {
+						fn: "apply_colour_settings",
+						args: [item.opts]
+					});
+				}
+			});
+		}
 	}
 
 	return electron.Menu.buildFromTemplate(template);

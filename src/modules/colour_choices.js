@@ -11,62 +11,86 @@ exports.blue_bright = "#77eeffff";
 exports.green_bright = "#99ff55ff";
 exports.yellow_bright = "#ffff55ff";
 
-exports.menu_dict = {
-
-	"Blue / Green": {
-		"top_colour_black": exports.blue,
-		"top_colour_white": exports.blue,
-		"off_colour_black": exports.green,
-		"off_colour_white": exports.green,
+exports.items = [
+	{
+		label: "Blue / Green",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.blue,
+			"off_colour_black": exports.green,
+			"off_colour_white": exports.green,
+		},
 	},
-
-	"Blue / Green (brighter)": {
-		"top_colour_black": exports.blue_bright,
-		"top_colour_white": exports.blue_bright,
-		"off_colour_black": exports.green_bright,
-		"off_colour_white": exports.green_bright,
+	{
+		label: "Blue / Green (brighter)",
+		opts: {
+			"top_colour_black": exports.blue_bright,
+			"top_colour_white": exports.blue_bright,
+			"off_colour_black": exports.green_bright,
+			"off_colour_white": exports.green_bright,
+		},
 	},
-
-	"Green / Yellow": {
-		"top_colour_black": exports.green,
-		"top_colour_white": exports.green,
-		"off_colour_black": exports.yellow,
-		"off_colour_white": exports.yellow,
+	{
+		type: "separator"
 	},
-
-	"Green / Yellow (brighter)": {
-		"top_colour_black": exports.green_bright,
-		"top_colour_white": exports.green_bright,
-		"off_colour_black": exports.yellow_bright,
-		"off_colour_white": exports.yellow_bright,
+	{
+		label: "Green / Yellow",
+		opts: {
+			"top_colour_black": exports.green,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.yellow,
+			"off_colour_white": exports.yellow,
+		},
 	},
-
-	"Blue / Red": {
-		"top_colour_black": exports.blue,
-		"top_colour_white": exports.blue,
-		"off_colour_black": exports.red,
-		"off_colour_white": exports.red,
+	{
+		label: "Green / Yellow (brighter)",
+		opts: {
+			"top_colour_black": exports.green_bright,
+			"top_colour_white": exports.green_bright,
+			"off_colour_black": exports.yellow_bright,
+			"off_colour_white": exports.yellow_bright,
+		},
 	},
-
-	"Blue": {
-		"top_colour_black": exports.blue,
-		"top_colour_white": exports.blue,
-		"off_colour_black": exports.blue,
-		"off_colour_white": exports.blue,
+	{
+		type: "separator"
 	},
-
-	"Green": {
-		"top_colour_black": exports.green,
-		"top_colour_white": exports.green,
-		"off_colour_black": exports.green,
-		"off_colour_white": exports.green,
+	{
+		label: "Blue / Red",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.blue,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.red,
+		},
 	},
-
-	"Red": {
-		"top_colour_black": exports.red,
-		"top_colour_white": exports.red,
-		"off_colour_black": exports.red,
-		"off_colour_white": exports.red,
+	{
+		type: "separator"
 	},
-
-};
+	{
+		label: "Blue",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.blue,
+			"off_colour_black": exports.blue,
+			"off_colour_white": exports.blue,
+		},
+	},
+	{
+		label: "Green",
+		opts: {
+			"top_colour_black": exports.green,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.green,
+			"off_colour_white": exports.green,
+		},
+	},
+	{
+		label: "Red",
+		opts: {
+			"top_colour_black": exports.red,
+			"top_colour_white": exports.red,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.red,
+		}
+	},
+];
