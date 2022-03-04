@@ -33,3 +33,5 @@ if (config_io.error()) {
 }
 
 ipcRenderer.send("renderer_ready", null);
+
+require("./config_wood_fixer");					// Questionable solution to config.wood_colour not matching the board
