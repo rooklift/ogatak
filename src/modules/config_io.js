@@ -46,7 +46,7 @@ exports.defaults = {
 	"top_colour_white": colour_choices.blue,
 	"off_colour_black": colour_choices.green,
 	"off_colour_white": colour_choices.green,
-	"wood_colour": "#d2b074ff",
+	"wood_colour": "#d0ad75ff",								// Average of our board image, as claimed by matkl.github.io/average-color
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,
 	"numbers": "LCB + Visits",								// Lame stringly typed
