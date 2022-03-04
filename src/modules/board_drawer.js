@@ -688,9 +688,11 @@ let board_drawer_prototype = {
 					if (board.active === "b") o.fill = config.top_colour_black;
 					if (board.active === "w") o.fill = config.top_colour_white;
 				} else {
-					let opacity_hex = config.visit_colours ? float_to_hex_ff(info.visits / filtered_infos[0].visits) : "ff";
-					if (board.active === "b") o.fill = config.off_colour_black.slice(0, 7) + opacity_hex;
-					if (board.active === "w") o.fill = config.off_colour_white.slice(0, 7) + opacity_hex;
+					let colour = (board.active === "b") ? config.off_colour_black : config.off_colour_white;
+					if (!colour.endsWith("00") || colour.length !== 9) {
+						let opacity_hex = (config.visit_colours) ? float_to_hex_ff(info.visits / filtered_infos[0].visits) : "ff";
+						o.fill = colour.slice(0, 7) + opacity_hex;
+					}
 				}
 
 				for (let t of number_types) {

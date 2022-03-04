@@ -1,7 +1,7 @@
 "use strict";
 
-// Note that the alpha values are ignored (true on 2022-03-02).
-// Note that the values must be given in #rrggbb format (no shorthand like "red").
+// Note that the "off_colour" alpha values are ignored unless they are "00"
+// Note that the "off_colour" strings must be given in #rrggbbaa format (no shorthand like "red")
 
 exports.red = "#ff7777ff";
 exports.blue = "#77ddddff";
@@ -12,9 +12,11 @@ exports.blue_bright = "#77eeffff";
 exports.green_bright = "#99ff55ff";
 exports.yellow_bright = "#ffff55ff";
 
+exports.clear = "#00000000";
+
 exports.items = [
 	{
-		label: "Blue / Green",
+		label: "Blue + Green",
 		opts: {
 			"top_colour_black": exports.blue,
 			"top_colour_white": exports.blue,
@@ -23,19 +25,7 @@ exports.items = [
 		},
 	},
 	{
-		label: "Blue / Green (brighter)",
-		opts: {
-			"top_colour_black": exports.blue_bright,
-			"top_colour_white": exports.blue_bright,
-			"off_colour_black": exports.green_bright,
-			"off_colour_white": exports.green_bright,
-		},
-	},
-	{
-		type: "separator"
-	},
-	{
-		label: "Green / Yellow",
+		label: "Green + Yellow",
 		opts: {
 			"top_colour_black": exports.green,
 			"top_colour_white": exports.green,
@@ -44,19 +34,7 @@ exports.items = [
 		},
 	},
 	{
-		label: "Green / Yellow (brighter)",
-		opts: {
-			"top_colour_black": exports.green_bright,
-			"top_colour_white": exports.green_bright,
-			"off_colour_black": exports.yellow_bright,
-			"off_colour_white": exports.yellow_bright,
-		},
-	},
-	{
-		type: "separator"
-	},
-	{
-		label: "Green / Blue",
+		label: "Green + Blue",
 		opts: {
 			"top_colour_black": exports.green,
 			"top_colour_white": exports.green,
@@ -65,24 +43,42 @@ exports.items = [
 		},
 	},
 	{
-		label: "Green / Blue (brighter)",
+		label: "Blue + Red",
 		opts: {
-			"top_colour_black": exports.green_bright,
-			"top_colour_white": exports.green_bright,
-			"off_colour_black": exports.blue_bright,
-			"off_colour_white": exports.blue_bright,
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.blue,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.red,
 		},
 	},
 	{
 		type: "separator"
 	},
 	{
-		label: "Blue / Red",
+		label: "Blue + Green (brighter)",
 		opts: {
-			"top_colour_black": exports.blue,
-			"top_colour_white": exports.blue,
-			"off_colour_black": exports.red,
-			"off_colour_white": exports.red,
+			"top_colour_black": exports.blue_bright,
+			"top_colour_white": exports.blue_bright,
+			"off_colour_black": exports.green_bright,
+			"off_colour_white": exports.green_bright,
+		},
+	},
+	{
+		label: "Green + Yellow (brighter)",
+		opts: {
+			"top_colour_black": exports.green_bright,
+			"top_colour_white": exports.green_bright,
+			"off_colour_black": exports.yellow_bright,
+			"off_colour_white": exports.yellow_bright,
+		},
+	},
+	{
+		label: "Green + Blue (brighter)",
+		opts: {
+			"top_colour_black": exports.green_bright,
+			"top_colour_white": exports.green_bright,
+			"off_colour_black": exports.blue_bright,
+			"off_colour_white": exports.blue_bright,
 		},
 	},
 	{
@@ -117,6 +113,46 @@ exports.items = [
 	},
 	{
 		type: "separator"
+	},
+	{
+		label: "Blue + Transparent",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.blue,
+			"off_colour_black": exports.clear,
+			"off_colour_white": exports.clear,
+		},
+	},
+	{
+		label: "Green + Transparent",
+		opts: {
+			"top_colour_black": exports.green,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.clear,
+			"off_colour_white": exports.clear,
+		},
+	},
+	
+	{
+		label: "Red + Transparent",
+		opts: {
+			"top_colour_black": exports.red,
+			"top_colour_white": exports.red,
+			"off_colour_black": exports.clear,
+			"off_colour_white": exports.clear,
+		}
+	},
+	{
+		type: "separator"
+	},
+	{
+		label: "Transparent",
+		opts: {
+			"top_colour_black": exports.clear,
+			"top_colour_white": exports.clear,
+			"off_colour_black": exports.clear,
+			"off_colour_white": exports.clear,
+		}
 	},
 	{
 		label: "Rainbow",
