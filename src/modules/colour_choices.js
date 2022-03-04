@@ -1,6 +1,7 @@
 "use strict";
 
 // Note that the alpha values are ignored (true on 2022-03-02).
+// Note that the values must be given in #rrggbb format (no shorthand like "red").
 
 exports.red = "#ff7777ff";
 exports.blue = "#77ddddff";
