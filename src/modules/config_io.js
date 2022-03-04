@@ -70,7 +70,7 @@ exports.defaults = {
 	"tree_spacing": 24,
 	"tree_off_colour": "#444444ff",
 	"tree_main_colour": "#909090ff",
-	"central_node_colour": "#d2b074ff",
+	"central_node_colour": "#d0ad75ff",
 
 	"analysis_pv_len": 16,
 	"widerootnoise": true,
