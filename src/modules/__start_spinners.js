@@ -65,7 +65,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	setTimeout(window_resize_spinner, 125);
 })();
 
-(function bad_ownership_mark_spinner() {
+(function bad_ownership_spinner() {
 
 	// Our board drawer can draw ownership marks based on ancestor nodes, on the assumption that real
 	// data for the current node will soon arrive. But if the search ends and it never does we need
@@ -75,11 +75,11 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
 			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
 				hub.draw();
-				console.log("bad_ownership_mark_spinner() fired!");
+				console.log("bad_ownership_spinner() fired!");
 			}
 		}
 	}
 
-	setTimeout(bad_ownership_mark_spinner, 190);
+	setTimeout(bad_ownership_spinner, 190);
 })();
 
