@@ -16,7 +16,7 @@ let white_vals = []; let white_blends = null;
 
 for (let n = 0; n < 256; n++) {
 	let own = n / 255;
-	let alphahex = float_to_hex_ff(own / 2.5);
+	let alphahex = float_to_hex_ff(own / 2);
 	black_vals.push("#000000" + alphahex);
 	white_vals.push("#ffffff" + alphahex);
 }
