@@ -21,7 +21,7 @@ exports.base_query = function(query_node, engine) {
 		boardXSize: board.width,
 		boardYSize: board.height,
 		maxVisits: 1000000,
-		analysisPVLen: config.analysis_pv_len - 1,
+		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
 		includeOwnership: (want_ownership) ? true : false,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
