@@ -56,6 +56,27 @@ exports.items = [
 		type: "separator"
 	},
 	{
+		label: "Green / Blue",
+		opts: {
+			"top_colour_black": exports.green,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.blue,
+			"off_colour_white": exports.blue,
+		},
+	},
+	{
+		label: "Green / Blue (brighter)",
+		opts: {
+			"top_colour_black": exports.green_bright,
+			"top_colour_white": exports.green_bright,
+			"off_colour_black": exports.blue_bright,
+			"off_colour_white": exports.blue_bright,
+		},
+	},
+	{
+		type: "separator"
+	},
+	{
 		label: "Blue / Red",
 		opts: {
 			"top_colour_black": exports.blue,
@@ -94,4 +115,17 @@ exports.items = [
 			"off_colour_white": exports.red,
 		}
 	},
+	{
+		type: "separator"
+	},
+	{
+		label: "Rainbow",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.yellow,
+		}
+	},
+
 ];
