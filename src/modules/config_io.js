@@ -151,7 +151,7 @@ function apply_fixes() {
 				console.log(`wood_colour.json: bad colour string`);
 			}
 		} else {
-			console.log(`wood_colour.json: bad value`);
+			console.log(`wood_colour.json: bad object`);
 		}
 	} catch (err) {
 		console.log(`wood_colour.json: ${err.toString()}`);
