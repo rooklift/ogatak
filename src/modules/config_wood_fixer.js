@@ -45,6 +45,3 @@ img.addEventListener("load", () => {
 	}
 });
 img.src = "./gfx/subdued_board.png";
-
-
-
