@@ -718,7 +718,7 @@ let board_drawer_prototype = {
 
 	plan_shapes: function(node) {
 
-		for (let key of ["MA", "TR", "SQ", "CR"]) {
+		for (let key of ["TR", "SQ", "CR", "MA"]) {			// So in the event of coinciding stuff, MA has highest priority.
 			for (let val of node.all_values(key)) {
 				for (let s of points_list(val)) {
 					let x = s.charCodeAt(0) - 97;
