@@ -1075,6 +1075,7 @@ function menu_build() {
 							label: "Dead stones",
 							type: "checkbox",
 							checked: config.ownership_marks === "Dead stones",
+							accelerator: "CommandOrControl+[",
 							click: () => {
 								win.webContents.send("set", {ownership_marks: "Dead stones"});
 							}
@@ -1083,6 +1084,7 @@ function menu_build() {
 							label: "Whole board",
 							type: "checkbox",
 							checked: config.ownership_marks === "Whole board",
+							accelerator: "CommandOrControl+]",
 							click: () => {
 								win.webContents.send("set", {ownership_marks: "Whole board"});
 							}
