@@ -48,13 +48,10 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 
 	if (!config.maxed) {
 
-		let width = Math.floor(window.innerWidth * zoomfactor);
-		let height = Math.floor(window.innerHeight * zoomfactor);
+		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
 
-		if (config.width !== width || config.height !== height) {
-
-			config.width = width;
-			config.height = height;
+			config.width = window.innerWidth;
+			config.height = window.innerHeight;
 
 			if (config.auto_square_size) {
 				hub.autoset_square_size();

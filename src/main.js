@@ -56,8 +56,8 @@ function startup() {
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
 	win = new electron.BrowserWindow({
-		width: config.width,
-		height: config.height,
+		width: Math.round(config.width * desired_zoomfactor),
+		height: Math.round(config.height * desired_zoomfactor),
 		backgroundColor: "#000000",
 		resizable: true,
 		show: false,
