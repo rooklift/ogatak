@@ -7,6 +7,7 @@ exports.red = "#ff7777ff";
 exports.blue = "#77ddddff";
 exports.green = "#99dd55ff";
 exports.yellow = "#dddd55ff";
+exports.purple = "#d2b4deff";
 
 exports.blue_bright = "#77eeffff";
 exports.green_bright = "#99ff55ff";
@@ -146,6 +147,27 @@ exports.items = [
 		type: "separator"
 	},
 	{
+		label: "Red vs Purple",
+		opts: {
+			"top_colour_black": exports.red,
+			"top_colour_white": exports.purple,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.purple,
+		}
+	},
+	{
+		label: "BlueRed vs GreenYellow",
+		opts: {
+			"top_colour_black": exports.blue,
+			"top_colour_white": exports.green,
+			"off_colour_black": exports.red,
+			"off_colour_white": exports.yellow,
+		}
+	},
+	{
+		type: "separator"
+	},
+	{
 		label: "Transparent",
 		opts: {
 			"top_colour_black": exports.clear,
@@ -154,14 +176,6 @@ exports.items = [
 			"off_colour_white": exports.clear,
 		}
 	},
-	{
-		label: "Rainbow",
-		opts: {
-			"top_colour_black": exports.blue,
-			"top_colour_white": exports.green,
-			"off_colour_black": exports.red,
-			"off_colour_white": exports.yellow,
-		}
-	},
+	
 
 ];
