@@ -1,13 +1,13 @@
 "use strict";
 
-// From https://github.com/matkl/average-color -- MIT License
-//
 // We want our config.wood_colour value to actually match the board in use.
 // This is a slightly dubious way to make sure that is so.
 
 const {int_to_hex_ff} = require("./utils");
 
 function get_average_colour(img) {
+
+	// From https://github.com/matkl/average-color -- MIT License
 
 	let c = document.createElement("canvas");
 	c.width = img.naturalWidth;
