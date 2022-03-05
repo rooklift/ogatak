@@ -1,7 +1,8 @@
-* Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo) 1.7.0 or higher.
-* Graphics modified from [Sabaki](https://github.com/SabakiHQ/Sabaki), with thanks. Concept borrowed from [Lizzie](https://github.com/featurecat/lizzie).
-
 ![Screenshot](https://user-images.githubusercontent.com/16438795/156058144-1bad6a82-3850-44fb-821f-34e56a1a1f21.png)
+
+* Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo) 1.7.0 or higher.
+* Graphics modified from [Sabaki](https://github.com/SabakiHQ/Sabaki), with thanks.
+* Concept borrowed from [Lizzie](https://github.com/featurecat/lizzie), with influence from [LizGoban](https://github.com/kaorahi/lizgoban) and [LizzieYzy](https://github.com/yzyray/lizzieyzy).
 
 ## Upsides
 
