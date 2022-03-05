@@ -447,6 +447,27 @@ let node_prototype = {
 		return this.parent.ancestor_with_valid_analysis(depth - 1, false);
 	},
 
+	descendant_with_valid_analysis: function(depth, initial_call = true) {
+
+		if (!initial_call && this.has_valid_analysis()) {
+			return this;
+		}
+
+		if (depth <= 0 || this.children.length === 0) {
+			return null;
+		}
+
+		return this.children[0].descendant_with_valid_analysis(depth - 1, false);
+	},
+
+	anc_dec_with_valid_analysis: function(depth) {
+		let ret = this.ancestor_with_valid_analysis(depth);
+		if (ret) {
+			return ret;
+		}
+		return this.descendant_with_valid_analysis(depth);
+	},
+
 	is_main_line: function() {
 
 		let node = this;

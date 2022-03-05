@@ -327,9 +327,9 @@ let board_drawer_prototype = {
 
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
-			// But to avoid flicker, we can use an older node's analysis.
+			// But to avoid flicker, we can use some nearby node's analysis.
 
-			let analysis_node = node.ancestor_with_valid_analysis(8);
+			let analysis_node = node.anc_dec_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
 				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
 				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
