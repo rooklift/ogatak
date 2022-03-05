@@ -40,8 +40,7 @@ let img = new Image();
 img.addEventListener("load", () => {
 	let avg = get_average_colour(img);
 	if (avg !== config.wood_colour) {
-		console.log(`config.wood_colour === ${config.wood_colour} but img average === ${avg}`);
-		console.log(`Fixing...`);
+		console.log(`config.wood_colour === "${config.wood_colour}" but img average === "${avg}", fixing...`);
 		hub.set("wood_colour", avg);
 	}
 });
