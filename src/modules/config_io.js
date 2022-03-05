@@ -147,6 +147,8 @@ function apply_fixes() {
 					config.wood_colour = j.value;
 					console.log("Adjusted config.wood_colour to match wood_colour.json");
 				}
+			} else {
+				console.log(`wood_colour.json: bad colour string`);
 			}
 		} else {
 			console.log(`wood_colour.json: bad value`);
