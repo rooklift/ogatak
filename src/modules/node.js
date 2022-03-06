@@ -289,8 +289,8 @@ let node_prototype = {
 				node.__board.add_white(s);
 			}
 
-			if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
-			if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
+			if (node.has_key("AB") && !node.has_key("AW") node.__board.active = "w";
+			if (!node.has_key("AB") && node.has_key("AW") node.__board.active = "b";
 
 			for (let s of node.all_values("B")) {
 				node.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
@@ -585,14 +585,14 @@ let node_prototype = {
 			winrate = 100 - winrate;
 		}
 		let val = (winrate).toFixed(1);
-		this.set("SBKV", val);
+		this.force_set("SBKV", val);
 
 		let score = this.analysis.moveInfos[0].scoreLead;
 		if (this.get_board().active === "w") {
 			score = -score;
 		}
 		val = score.toFixed(1);
-		this.set("OGSC", val);
+		this.force_set("OGSC", val);
 	},
 
 	game_title_text: function() {
