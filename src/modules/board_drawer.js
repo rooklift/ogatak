@@ -18,6 +18,16 @@ const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 const {get_ownership_colours} = require("./ownership_colours");
 
+const mode_strings = {
+	"TR": "Triangle",
+	"CR": "Circle",
+	"SQ": "Square",
+	"MA": "Cross",
+	"AB": "Add Black",
+	"AW": "Add White",
+	"AE": "Add Empty",
+};
+
 // ------------------------------------------------------------------------------------------------
 
 let mouseenter_handlers = new_2d_array(25, 25, null);
@@ -811,6 +821,11 @@ let board_drawer_prototype = {
 			return;
 		}
 
+		if (config.mode) {
+			this.draw_edit_mode();
+			return;
+		}
+
 		let board = node.get_board();
 
 		let last_move = "";
@@ -864,6 +879,11 @@ let board_drawer_prototype = {
 	draw_engine_problem: function() {
 		let s = hub.engine.problem_text();
 		this.infodiv.innerHTML = `<span class="white">${s}<br>Resolve this via the Setup menu.</span>`;
+	},
+
+	draw_edit_mode: function() {
+		let s = `Edit mode: <span class="white">${mode_strings[config.mode]}</span>`;
+		this.infodiv.innerHTML = `${s}<br>Press <span class="white">escape</span> to exit...`;
 	},
 
 };

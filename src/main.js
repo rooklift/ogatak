@@ -681,6 +681,67 @@ function menu_build() {
 			]
 		},
 		{
+			label: "Edits",
+			submenu: [
+				{
+					label: "Normal",
+					accelerator: "1",
+					click: () => {
+						win.webContents.send("set", {mode: ""});
+					}
+				},
+				{
+					label: "Add Black",
+					accelerator: "2",
+					click: () => {
+						win.webContents.send("set", {mode: "AB"});
+					}
+				},
+				{
+					label: "Add White",
+					accelerator: "3",
+					click: () => {
+						win.webContents.send("set", {mode: "AW"});
+					}
+				},
+				{
+					label: "Add Empty",
+					accelerator: "4",
+					click: () => {
+						win.webContents.send("set", {mode: "AE"});
+					}
+				},
+				{
+					label: "Triangle",
+					accelerator: "5",
+					click: () => {
+						win.webContents.send("set", {mode: "TR"});
+					}
+				},
+				{
+					label: "Square",
+					accelerator: "6",
+					click: () => {
+						win.webContents.send("set", {mode: "SQ"});
+					}
+				},
+				{
+					label: "Circle",
+					accelerator: "7",
+					click: () => {
+						win.webContents.send("set", {mode: "CR"});
+					}
+				},
+				{
+					label: "Cross",
+					accelerator: "8",
+					click: () => {
+						win.webContents.send("set", {mode: "MA"});
+					}
+				},
+			]
+		},
+		{
 			label: "Analysis",
 			submenu: [
 				{

@@ -114,6 +114,7 @@ module.exports = {
 			this.draw();
 			break;
 
+		case "mode":
 		case "square_size":
 		case "board_font_size":
 		case "board_line_width":
