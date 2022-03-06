@@ -868,7 +868,7 @@ let hub_main_props = {
 	// Mouse.......................................................................................
 
 	click: function(s, mode) {
-		if (mode) {
+		if (!mode) {
 			this.try_move(s);
 		} else if (["TR", "SQ", "CR", "MA"].includes(mode)) {
 			this.node.toggle_shape_at(mode, s);
