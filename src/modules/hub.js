@@ -361,6 +361,7 @@ let hub_main_props = {
 
 		tree_drawer.must_draw = true;
 		comment_drawer.draw(this.node);
+		mode_selector.draw(this.node);
 
 		return true;
 	},
@@ -387,7 +388,7 @@ let hub_main_props = {
 	},
 
 	try_move: function(s) {						// Can't be used for passing.
-		let node = this.node.try_move(s);		// Note try_move() returns the original node on failure.
+		let node = this.node.try_move(s);		// Note node.try_move() returns the original node on failure.
 		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
@@ -768,7 +769,7 @@ let hub_main_props = {
 		console.log(...args);
 	},
 
-	// Komi and rules are part of the board........................................................
+	// Komi / rules / active are part of the board.................................................
 
 	coerce_rules: function(value) {
 		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
@@ -784,6 +785,17 @@ let hub_main_props = {
 			this.go();
 		}
 		this.draw();
+	},
+
+	toggle_active_player: function() {		// Adds a PL tag to the current node.
+		this.node.forget_analysis();
+		this.node.toggle_player_to_move();
+		this.node.change_id();				// Prevents the engine thinking the old query is still valid. Prevents the old query from updating the node.
+		if (this.engine.desired) {
+			this.go();
+		}
+		this.draw();
+		mode_selector.draw(this.node);
 	},
 
 	// Clickers in the infobox.....................................................................
@@ -856,6 +868,32 @@ let hub_main_props = {
 	},
 
 	// Mouse.......................................................................................
+
+	set_mode: function(mode) {
+		mode_selector.set_mode(mode, this.node);
+		mode_selector.draw(this.node);
+	},
+
+	click: function(s) {
+		if (!mode_selector.mode) {
+			this.try_move(s);
+		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.mode)) {
+			this.node.toggle_shape_at(mode_selector.mode, s);
+			this.draw();
+		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {
+			this.halt();
+			if (this.node.safe_to_edit()) {
+				this.node.forget_analysis();
+				this.node.apply_board_edit(mode_selector.mode, s);
+				this.node.change_id();									// Prevents tabber caching issues and stale analysis updates.
+				this.draw();
+			} else {
+				let node = new_node(this.node);
+				node.apply_board_edit(mode_selector.mode, s);
+				this.set_node(node, {bless: true});
+			}
+		}
+	},
 
 	mouse_point: function() {
 		let overlist = document.querySelectorAll(":hover");

@@ -32,13 +32,13 @@ document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
 	}
 });
 
-// Clicking on the board should make a move...
+// Clicking on the board...
 
 document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "td_");
 	if (s) {
-		hub.try_move(s);
+		hub.click(s);
 	}
 });
 

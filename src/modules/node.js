@@ -8,7 +8,7 @@ const path = require("path");
 
 const new_board = require("./board");
 const stringify = require("./stringify");
-const {replace_all, valid_analysis_object} = require("./utils");
+const {replace_all, valid_analysis_object, points_list} = require("./utils");
 
 let next_node_id = 1;
 
@@ -17,8 +17,8 @@ let next_node_id = 1;
 function new_node(parent) {
 
 	let node = Object.create(node_prototype);
+	node.change_id();
 
-	node.id = `node_${next_node_id++}`;
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);			// key --> list of values (strings only)
@@ -49,20 +49,10 @@ function new_node(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		if (this.__board) {
-			throw "set() called on node but board already existed";
-		}
-		this.props[key] = [stringify(value)];
-	},
-
-	force_set: function(key, value) {
 		this.props[key] = [stringify(value)];
 	},
 
 	add_value: function(key, value) {
-		if (this.__board) {
-			throw "add_value() called on node but board already existed";
-		}
 		if (!this.has_key(key)) {
 			this.props[key] = [stringify(value)];
 		} else {
@@ -70,27 +60,43 @@ let node_prototype = {
 		}
 	},
 
-	force_add_value: function(key, value) {
+	unset: function(key, value) {
 		if (!this.has_key(key)) {
-			this.props[key] = [stringify(value)];
-		} else {
-			this.props[key].push(stringify(value));
+			return;
+		}
+		value = stringify(value);
+		this.props[key] = this.props[key].filter(z => z !== value);
+		if (this.props[key].length === 0) {
+			delete this.props[key];
+		}
+	},
+
+	unset_starts_with(key, value) {
+		if (!this.has_key(key)) {
+			return;
+		}
+		value = stringify(value);
+		this.props[key] = this.props[key].filter(z => !z.startsWith(value));
+		if (this.props[key].length === 0) {
+			delete this.props[key];
 		}
 	},
 
 	delete_key: function(key) {
-		if (this.__board) {
-			throw "delete_key() called on node but board already existed";
-		}
 		delete this.props[key];
 	},
 
-	force_delete_key: function(key) {
-		delete this.props[key];
-	},
+	// --------------------------------------------------------------------------------------------
 
 	has_key: function(key) {
 		return Array.isArray(this.props[key]);
+	},
+
+	has_key_value: function(key, value) {
+		if (!this.has_key(key)) {
+			return false;
+		}
+		return this.props[key].indexOf(stringify(value)) !== -1;
 	},
 
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
@@ -114,6 +120,42 @@ let node_prototype = {
 			ret.push(value);
 		}
 		return ret;
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	toggle_shape_at(key, point) {
+
+		this.decompress_points_list("TR");
+		this.decompress_points_list("MA");
+		this.decompress_points_list("SQ");
+		this.decompress_points_list("CR");
+
+		let exists = this.has_key_value(key, point);
+
+		this.unset("TR", point);
+		this.unset("MA", point);
+		this.unset("SQ", point);
+		this.unset("CR", point);
+		this.unset_starts_with("LB", `${point}:`);
+
+		if (!exists) {
+			this.add_value(key, point);
+		}
+	},
+
+	// --------------------------------------------------------------------------------------------
+
+	change_id: function() {
+		if (!this.id) {
+			this.id = `node_${next_node_id++}`;
+		} else {
+			let old_id = this.id;
+			this.id = `node_${next_node_id++}`;
+			if (this.parent && this.parent.__blessed_child_id && this.parent.__blessed_child_id === old_id) {
+				this.parent.__blessed_child_id = this.id;
+			}
+		}
 	},
 
 	bless: function() {
@@ -180,6 +222,98 @@ let node_prototype = {
 		}
 
 		return false;
+	},
+
+	safe_to_edit: function() {
+		if (this.children.length > 0) {
+			return false;
+		}
+		if (this.has_key("B") || this.has_key("W")) {
+			return false;
+		}
+		return true;
+	},
+
+	decompress_points_list: function(key) {
+
+		let need_to_act = false;
+
+		let all_values = this.all_values(key);
+
+		for (let value of all_values) {
+			if (value.length === 5 && value[2] === ":") {
+				need_to_act = true;
+				break;
+			}
+		}
+
+		if (!need_to_act) {
+			return;
+		}
+
+		let points = Object.create(null);
+
+		for (let value of all_values) {
+			let pl = points_list(value);
+			for (let point of pl) {
+				points[point] = true;
+			}
+		}
+
+		this.delete_key(key);
+
+		for (let point of Object.keys(points)) {
+			this.add_value(key, point);
+		}
+	},
+
+	apply_board_edit: function(key, point) {
+
+		if (!this.get_board().in_bounds(point)) {
+			return;
+		}
+
+		this.decompress_points_list("AB");
+		this.decompress_points_list("AW");
+		this.decompress_points_list("AE");
+
+		let parent_state = (this.parent) ? this.parent.get_board().state_at(point) : "";
+		let current_state = this.get_board().state_at(point);
+		let desired_state;
+
+		if (key === "AB" && current_state === "b" || key === "AW" && current_state === "w") {
+			desired_state = "";
+		} else if (key === "AB") {
+			desired_state = "b";
+		} else if (key === "AW") {
+			desired_state = "w";
+		} else if (key === "AE") {
+			desired_state = "";
+		} else {
+			throw "apply_board_edit() - bad call";
+		}
+
+		this.unset("AB", point);
+		this.unset("AW", point);
+		this.unset("AE", point);
+
+		if (desired_state !== parent_state) {
+			if (desired_state === "")  this.add_value("AE", point);
+			if (desired_state === "b") this.add_value("AB", point);
+			if (desired_state === "w") this.add_value("AW", point);
+		}
+
+		this.__board = null;	// We could update __board, but this way lets us see any bugs, and ensures consistency with our normal get_board() result.
+	},
+
+	toggle_player_to_move: function() {
+		if (this.get_board().active === "b") {
+			this.set("PL", "W");
+			this.get_board().active = "w";
+		} else {
+			this.set("PL", "B");
+			this.get_board().active = "b";
+		}
 	},
 
 	width: function() {
@@ -283,13 +417,14 @@ let node_prototype = {
 
 			for (let s of node.all_values("AB")) {
 				node.__board.add_black(s);
-				node.__board.active = "w";
 			}
 
 			for (let s of node.all_values("AW")) {
 				node.__board.add_white(s);
-				node.__board.active = "b";
 			}
+
+			if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
+			if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
 
 			for (let s of node.all_values("B")) {
 				node.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
@@ -546,13 +681,13 @@ let node_prototype = {
 
 	coerce_komi: function(value) {
 		let root = this.get_root();
-		root.force_set("KM", value);
+		root.set("KM", value);
 		coerce_board_prop_recursive(root, "komi", value);
 	},
 
 	coerce_rules: function(value) {
 		let root = this.get_root();
-		root.force_set("RU", value);
+		root.set("RU", value);
 		coerce_board_prop_recursive(root, "rules", value);
 	},
 
@@ -562,8 +697,8 @@ let node_prototype = {
 
 	forget_analysis: function() {
 		this.analysis = null;
-		this.force_delete_key("SBKV");
-		this.force_delete_key("OGSC");
+		this.delete_key("SBKV");
+		this.delete_key("OGSC");
 	},
 
 	has_valid_analysis: function() {
@@ -584,14 +719,14 @@ let node_prototype = {
 			winrate = 100 - winrate;
 		}
 		let val = (winrate).toFixed(1);
-		this.force_set("SBKV", val);
+		this.set("SBKV", val);
 
 		let score = this.analysis.moveInfos[0].scoreLead;
 		if (this.get_board().active === "w") {
 			score = -score;
 		}
 		val = score.toFixed(1);
-		this.force_set("OGSC", val);
+		this.set("OGSC", val);
 	},
 
 	game_title_text: function() {

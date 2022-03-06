@@ -138,11 +138,23 @@ let tree_drawer_prototype = {
 
 				this.clickers.push({x: node.gx, y: node.gy, node: node});
 
-				ctx.beginPath();
-				ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-				ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
-				ctx.lineWidth = 2;
-				ctx.stroke();
+				if (node.has_key("B") || node.has_key("W")) {
+					ctx.beginPath();
+					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
+					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
+					ctx.lineWidth = 2;
+					ctx.stroke();
+				} else {
+					ctx.beginPath();
+					ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy - (config.tree_spacing / 4));
+					ctx.lineTo(node.gx + (config.tree_spacing / 4), node.gy - (config.tree_spacing / 4));
+					ctx.lineTo(node.gx + (config.tree_spacing / 4), node.gy + (config.tree_spacing / 4));
+					ctx.lineTo(node.gx - (config.tree_spacing / 4), node.gy + (config.tree_spacing / 4));
+					ctx.closePath();
+					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
+					ctx.lineWidth = 2;
+					ctx.stroke();
+				}
 
 				if (node.parent) {
 					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
