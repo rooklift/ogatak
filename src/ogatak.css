@@ -27,19 +27,8 @@ body {
 	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"m_t info t_c"
-		"m_t b_g  t_c";
-}
-
-#gridder_mode_tabs {
-	display: grid;
-	grid-area: m_t;
-	height: 100vh;
-	grid-template-columns: min-content;
-	grid-template-rows: min-content 1fr;
-	grid-template-areas:
-		"mode"
-		"tabs";
+		"tabs info t_c"
+		"tabs b_g  t_c";
 }
 
 #gridder_board_graph {
@@ -64,10 +53,6 @@ body {
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
-
-#mode {
-	grid-area: mode;
-}
 
 #tabdiv {
 	grid-area: tabs;
