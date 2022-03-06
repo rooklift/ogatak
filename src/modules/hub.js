@@ -876,7 +876,7 @@ let hub_main_props = {
 				this.draw();
 			} else {
 				let node = new_node(this.node);
-				node.add_value(mode_selector.mode, s);
+				node.apply_board_edit(mode_selector.mode, s);
 				this.set_node(node, {bless: true});
 			}
 		}
