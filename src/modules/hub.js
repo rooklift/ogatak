@@ -387,7 +387,7 @@ let hub_main_props = {
 	},
 
 	try_move: function(s) {						// Can't be used for passing.
-		let node = this.node.try_move(s);		// Note try_move() returns the original node on failure.
+		let node = this.node.try_move(s);		// Note node.try_move() returns the original node on failure.
 		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
@@ -856,6 +856,12 @@ let hub_main_props = {
 	},
 
 	// Mouse.......................................................................................
+
+	click: function(s) {
+		if (mode_selector.state === "normal") {
+			this.try_move(s);
+		}
+	},
 
 	mouse_point: function() {
 		let overlist = document.querySelectorAll(":hover");
