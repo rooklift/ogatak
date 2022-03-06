@@ -53,17 +53,6 @@ let node_prototype = {
 	},
 
 	add_value: function(key, value) {
-		if (this.__board) {
-			throw "add_value() called on node but board already existed";
-		}
-		if (!this.has_key(key)) {
-			this.props[key] = [stringify(value)];
-		} else {
-			this.props[key].push(stringify(value));
-		}
-	},
-
-	force_add_value: function(key, value) {
 		if (!this.has_key(key)) {
 			this.props[key] = [stringify(value)];
 		} else {
