@@ -60,17 +60,19 @@ exports.finalise_query = function(o, query_node) {
 			setup = node.get_board().setup_list();
 			break;
 
-		} else if (node.has_key("PL") && node === query_node) {
-
-			// There's a PL in the actual node we're going to examine.
-			// Don't think we have a choice but to treat this as a setup node as well.
-
-			setup = node.get_board().setup_list();
-			break;
-
 		} else if (nodemovecount === 1) {
 
-			// This node can be included in the moves list.
+			// The final move (i.e. the first one we see) will determine what colour KataGo plays but if
+			// query_node.get_board().active is the unnatural player instead, we will need to use a setup.
+
+			if (moves.length === 0) {
+				if ((node.has_key("B") && query_node.get_board().active === "b") || (node.has_key("W") && query_node.get_board().active === "w")) {
+					setup = query_node.get_board().setup_list();
+					break;
+				}
+			}
+
+			// But normally, this node can be included in the moves list.
 
 			if (node.has_key("B")) {
 				let s = node.get("B");
