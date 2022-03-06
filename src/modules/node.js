@@ -306,6 +306,16 @@ let node_prototype = {
 		this.__board = null;	// We could update __board, but this way lets us see any bugs, and ensures consistency with our normal get_board() result.
 	},
 
+	toggle_player_to_move: function() {
+		if (this.get_board().active === "b") {
+			this.set("PL", "B");
+			this.get_board().active = "w";
+		} else {
+			this.set("PL", "W");
+			this.get_board().active = "b";
+		}
+	},
+
 	width: function() {
 		if (this.__board) {
 			return this.__board.width;

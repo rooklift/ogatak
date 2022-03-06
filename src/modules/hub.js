@@ -768,7 +768,7 @@ let hub_main_props = {
 		console.log(...args);
 	},
 
-	// Komi and rules are part of the board........................................................
+	// Komi / rules / active are part of the board.................................................
 
 	coerce_rules: function(value) {
 		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
@@ -780,6 +780,16 @@ let hub_main_props = {
 
 	coerce_komi: function(value) {
 		this.node.coerce_komi(value);		// Sets the komi in every board in the tree.
+		if (this.engine.desired) {
+			this.go();
+		}
+		this.draw();
+	},
+
+	toggle_active_player: function() {
+		this.node.forget_analysis();
+		this.node.toggle_player_to_move();
+		this.node.change_id();
 		if (this.engine.desired) {
 			this.go();
 		}
