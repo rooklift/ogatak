@@ -8,7 +8,7 @@ const path = require("path");
 
 const new_board = require("./board");
 const stringify = require("./stringify");
-const {replace_all, valid_analysis_object} = require("./utils");
+const {replace_all, valid_analysis_object, points_list} = require("./utils");
 
 let next_node_id = 1;
 
@@ -133,8 +133,15 @@ let node_prototype = {
 	},
 
 	toggle_shape_at(key, point) {
+
+		this.decompress_points_list("TR");
+		this.decompress_points_list("MA");
+		this.decompress_points_list("SQ");
+		this.decompress_points_list("CR");
+
 		let exists = this.has_key_value(key, point);
 		this.clear_shape_at(point);
+
 		if (!exists) {
 			this.add_value(key, point);
 		}
@@ -227,21 +234,40 @@ let node_prototype = {
 		if (this.has_key("B") || this.has_key("W")) {
 			return false;
 		}
-		if (this.has_compressed_ab_aw_ae_props()) {
-			return false;
-		}
 		return true;
 	},
 
-	has_compressed_ab_aw_ae_props: function() {
-		for (let key of ["AB", "AW", "AE"]) {
-			for (let value of this.all_values(key)) {
-				if (value.length === 5 && value[2] === ":") {
-					return true;
-				}
+	decompress_points_list: function(key) {
+
+		let need_to_act = false;
+
+		let all_values = this.all_values(key);
+
+		for (let value of all_values) {
+			if (value.length === 5 && value[2] === ":") {
+				need_to_act = true;
+				break;
 			}
 		}
-		return false;
+
+		if (!need_to_act) {
+			return;
+		}
+
+		let points = Object.create(null);
+
+		for (let value of all_values) {
+			let pl = points_list(value);
+			for (let point of pl) {
+				points[point] = true;
+			}
+		}
+
+		this.delete_key(key);
+
+		for (let point of Object.keys(points)) {
+			this.add_value(key, point);
+		}
 	},
 
 	apply_board_edit: function(key, point) {
@@ -249,6 +275,10 @@ let node_prototype = {
 		if (!this.get_board().in_bounds(point)) {
 			return;
 		}
+
+		this.decompress_points_list("AB");
+		this.decompress_points_list("AW");
+		this.decompress_points_list("AE");
 
 		let parent_state = (this.parent) ? this.parent.get_board().state_at(point) : "";
 		let current_state = this.get_board().state_at(point);
