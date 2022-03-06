@@ -208,6 +208,58 @@ let node_prototype = {
 		return false;
 	},
 
+	safe_to_edit: function() {
+		if (this.children.length > 0) {
+			return false;
+		}
+		if (this.has_key("B") || this.has_key("W")) {
+			return false;
+		}
+		if (this.has_compressed_ab_aw_ae_props()) {
+			return false;
+		}
+		return true;
+	},
+
+	has_compressed_ab_aw_ae_props: function() {
+		return false;												// FIXME - todo
+	},
+
+	apply_board_edit: function(key, point) {
+
+		if (!this.get_board().in_bounds(point)) {
+			return;
+		}
+
+		let parent_state = (this.parent) ? this.parent.get_board().state_at(point) : "";
+		let current_state = this.get_board().state_at(point);
+		let desired_state;
+
+		if (key === "AB" && current_state === "b" || key === "AW" && current_state === "w") {
+			desired_state = "";
+		} else if (key === "AB") {
+			desired_state = "b";
+		} else if (key === "AW") {
+			desired_state = "w";
+		} else if (key === "AE") {
+			desired_state = "";
+		} else {
+			throw "apply_board_edit() - bad call";
+		}
+
+		this.unset("AB", point);
+		this.unset("AW", point);
+		this.unset("AE", point);
+
+		if (desired_state !== parent_state) {
+			if (desired_state === "")  this.add_value("AE", point);
+			if (desired_state === "b") this.add_value("AB", point);
+			if (desired_state === "w") this.add_value("AW", point);
+		}
+
+		this.__board = null;		// We could try to update but this way ensures we see any bugs, I guess.
+	},
+
 	width: function() {
 		if (this.__board) {
 			return this.__board.width;
@@ -309,12 +361,10 @@ let node_prototype = {
 
 			for (let s of node.all_values("AB")) {
 				node.__board.add_black(s);
-				node.__board.active = "w";
 			}
 
 			for (let s of node.all_values("AW")) {
 				node.__board.add_white(s);
-				node.__board.active = "b";
 			}
 
 			for (let s of node.all_values("B")) {
