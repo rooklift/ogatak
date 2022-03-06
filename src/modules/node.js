@@ -78,6 +78,28 @@ let node_prototype = {
 		}
 	},
 
+	unset: function(key, value) {
+		if (!this.has_key(key)) {
+			return;
+		}
+		value = stringify(value);
+		this.props[key] = this.props[key].filter(z => z !== value);
+		if (this.props[key].length === 0) {
+			delete this.props[key];
+		}
+	},
+
+	unset_starts_with(key, value) {
+		if (!this.has_key(key)) {
+			return;
+		}
+		value = stringify(value);
+		this.props[key] = this.props[key].filter(z => !z.startsWith(value));
+		if (this.props[key].length === 0) {
+			delete this.props[key];
+		}
+	},
+
 	delete_key: function(key) {
 		if (this.__board) {
 			throw "delete_key() called on node but board already existed";
@@ -89,8 +111,17 @@ let node_prototype = {
 		delete this.props[key];
 	},
 
+	// --------------------------------------------------------------------------------------------
+
 	has_key: function(key) {
 		return Array.isArray(this.props[key]);
+	},
+
+	has_key_value: function(key, value) {
+		if (!this.has_key(key)) {
+			return false;
+		}
+		return this.props[key].indexOf(stringify(value)) !== -1;
 	},
 
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
@@ -115,6 +146,26 @@ let node_prototype = {
 		}
 		return ret;
 	},
+
+	// --------------------------------------------------------------------------------------------
+
+	clear_shape_at(point) {
+		this.unset("TR", point);
+		this.unset("MA", point);
+		this.unset("SQ", point);
+		this.unset("CR", point);
+		this.unset_starts_with("LB", `${point}:`);
+	},
+
+	toggle_shape_at(key, point) {
+		let exists = this.has_key_value(key, point);
+		this.clear_shape_at(point);
+		if (!exists) {
+			this.force_add_value(key, point);
+		}
+	},
+
+	// --------------------------------------------------------------------------------------------
 
 	bless: function() {
 

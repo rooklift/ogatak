@@ -860,6 +860,9 @@ let hub_main_props = {
 	click: function(s) {
 		if (mode_selector.state === "normal") {
 			this.try_move(s);
+		} else if (["TR", "CR", "MA", "SQ"].includes(mode_selector.state)) {
+			this.node.toggle_shape_at(mode_selector.state, s);
+			this.draw();
 		}
 	},
 
