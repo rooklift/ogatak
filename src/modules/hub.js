@@ -872,7 +872,7 @@ let hub_main_props = {
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(mode_selector.mode, s);
-				this.node.change_id();									// Prevents various caching issues.
+				this.node.change_id();									// Prevents tabber caching issues and stale analysis updates.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
