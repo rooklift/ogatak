@@ -2,13 +2,16 @@
 
 function init() {
 	return Object.assign(Object.create(mode_selector_prototype), {
-		state: "",
+		mode: "",
 	});
 }
 
 let mode_selector_prototype = {
 
-	// TODO
+	set_mode: function(mode) {
+		this.mode = mode;
+		// FIXME - do whatever drawing of our buttons is needed.
+	}
 
 };
 

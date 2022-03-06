@@ -857,21 +857,25 @@ let hub_main_props = {
 
 	// Mouse.......................................................................................
 
+	set_mode: function(mode) {
+		mode_selector.set_mode(mode);
+	},
+
 	click: function(s) {
-		if (mode_selector.state === "") {
+		if (mode_selector.mode === "") {
 			this.try_move(s);
-		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.state)) {
-			this.node.toggle_shape_at(mode_selector.state, s);
+		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.mode)) {
+			this.node.toggle_shape_at(mode_selector.mode, s);
 			this.draw();
-		} else if (["AB", "AW", "AE"].includes(mode_selector.state)) {	// FIXME: tabs??
+		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {	// FIXME: tabs??
 			this.halt();												// FIXME: need to prevent stale analysis arriving.
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
-				this.node.apply_board_edit(mode_selector.state, s);
+				this.node.apply_board_edit(mode_selector.mode, s);
 				this.draw();
 			} else {
 				let nd = new_node(this.node);
-				nd.add_value(mode_selector.state, s);
+				nd.add_value(mode_selector.mode, s);
 				this.set_node(nd);
 			}
 		}
