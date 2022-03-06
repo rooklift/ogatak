@@ -19,14 +19,8 @@ const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, floa
 const {get_ownership_colours} = require("./ownership_colours");
 
 const mode_strings = {
-	"TR": "Triangle",
-	"CR": "Circle",
-	"SQ": "Square",
-	"MA": "Cross",
-	"AB": "Add Black",
-	"AW": "Add White",
-	"AE": "Add Empty",
-};
+	"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
+	"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross"};
 
 // ------------------------------------------------------------------------------------------------
 

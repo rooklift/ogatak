@@ -241,8 +241,8 @@ module.exports = {
 	fix_tools_menu: function() {
 
 		const mode_strings = {
-			"TR": "Triangle", "CR": "Circle", "SQ": "Square", "MA": "Cross",
-			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty"};
+			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
+			"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross"};
 
 		if (!config.mode) {
 			ipcRenderer.send("set_checks", ["Tools", "Normal"]);
