@@ -49,13 +49,6 @@ function new_node(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		if (this.__board) {
-			throw "set() called on node but board already existed";
-		}
-		this.props[key] = [stringify(value)];
-	},
-
-	force_set: function(key, value) {
 		this.props[key] = [stringify(value)];
 	},
 
@@ -547,13 +540,13 @@ let node_prototype = {
 
 	coerce_komi: function(value) {
 		let root = this.get_root();
-		root.force_set("KM", value);
+		root.set("KM", value);
 		coerce_board_prop_recursive(root, "komi", value);
 	},
 
 	coerce_rules: function(value) {
 		let root = this.get_root();
-		root.force_set("RU", value);
+		root.set("RU", value);
 		coerce_board_prop_recursive(root, "rules", value);
 	},
 
