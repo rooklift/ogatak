@@ -45,6 +45,8 @@ exports.base_query = function(query_node, engine) {
 
 exports.finalise_query = function(o, query_node) {
 
+	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
+
 	let setup = [];
 	let moves = [];
 
