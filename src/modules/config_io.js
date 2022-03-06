@@ -27,12 +27,14 @@ exports.defaults = {
 	// REMEMBER, WHEN ADDING THINGS, ALSO ADD TO hub_settings.js
 	// ---------------------------------------------------------
 
-	"arbitrary_command": "",				// Must be edited by the user in config.json
-	"arbitrary_argslist": [],				// Likewise.
+	"arbitrary_command": "",					// Must be edited by the user in config.json
+	"arbitrary_argslist": [],					// Likewise.
 
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",
+
+	"mode": "",									// Reset at launch.
 
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
@@ -46,10 +48,10 @@ exports.defaults = {
 	"top_colour_white": colour_choices.blue,
 	"off_colour_black": colour_choices.green,
 	"off_colour_white": colour_choices.green,
-	"wood_colour": "#d0ad75ff",								// Average of our board image, as claimed by matkl.github.io/average-color
+	"wood_colour": "#d0ad75ff",					// Average of our board image, as claimed by matkl.github.io/average-color
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,
-	"numbers": "LCB + Visits",								// Lame stringly typed
+	"numbers": "LCB + Visits",					// Lame stringly typed
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"next_move_markers": true,
@@ -57,7 +59,7 @@ exports.defaults = {
 
 	"thumbnail_square_size": 4,
 
-	"graph_type": "Winrate",								// Lame stringly typed
+	"graph_type": "Winrate",					// Lame stringly typed
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 	"minor_graph_colour": "#444444ff",
@@ -77,7 +79,7 @@ exports.defaults = {
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 
-	"ownership_marks": "Dead stones",						// Lame stringly typed
+	"ownership_marks": "Dead stones",			// Lame stringly typed
 	"ownership_per_move": true,
 
 	"logfile": null,
@@ -88,8 +90,8 @@ exports.defaults = {
 	"stderr_to_console": true,
 	"load_at_end": true,
 	"autoanalysis_visits": 500,
-	"default_rules": "Chinese",				// Used for game on startup, as well as when rules are "Unknown".
-	"default_komi": 7.5,					// Used for game on startup, but otherwise unknown komi is inferred as zero.
+	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "Unknown".
+	"default_komi": 7.5,						// Used for game on startup, but otherwise unknown komi is inferred as zero.
 
 	"sgf_folder": "",
 	"katago_folder": "",
@@ -135,6 +137,8 @@ exports.load = () => {
 };
 
 function apply_fixes() {
+
+	config.mode = exports.defaults.mode;
 
 	config.numbers = config.numbers.split("+").map(z => z.trim()).join(" + ");
 	config.numbers = config.numbers.split(",").map(z => z.trim()).join(" + ");

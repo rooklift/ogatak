@@ -867,22 +867,22 @@ let hub_main_props = {
 
 	// Mouse.......................................................................................
 
-	click: function(s, mode) {
-		if (!mode) {
+	click: function(s) {
+		if (!config.mode) {
 			this.try_move(s);
-		} else if (["TR", "SQ", "CR", "MA"].includes(mode)) {
-			this.node.toggle_shape_at(mode, s);
+		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
+			this.node.toggle_shape_at(config.mode, s);
 			this.draw();
-		} else if (["AB", "AW", "AE"].includes(mode)) {
+		} else if (["AB", "AW", "AE"].includes(config.mode)) {
 			this.halt();
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
-				this.node.apply_board_edit(mode, s);
+				this.node.apply_board_edit(config.mode, s);
 				this.node.change_id();									// Prevents tabber caching issues and stale analysis updates.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
-				node.apply_board_edit(mode, s);
+				node.apply_board_edit(config.mode, s);
 				this.set_node(node, {bless: true});
 			}
 		}
