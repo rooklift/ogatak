@@ -61,6 +61,13 @@ let node_prototype = {
 	},
 
 	delete_key: function(key) {
+		if (this.__board) {
+			throw "delete_key() called on node but board already existed";
+		}
+		delete this.props[key];
+	},
+
+	force_delete_key: function(key) {
 		delete this.props[key];
 	},
 
@@ -538,8 +545,8 @@ let node_prototype = {
 
 	forget_analysis: function() {
 		this.analysis = null;
-		this.delete_key("SBKV");
-		this.delete_key("OGSC");
+		this.force_delete_key("SBKV");
+		this.force_delete_key("OGSC");
 	},
 
 	has_valid_analysis: function() {
