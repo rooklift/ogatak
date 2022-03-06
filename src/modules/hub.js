@@ -867,12 +867,15 @@ let hub_main_props = {
 		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.mode)) {
 			this.node.toggle_shape_at(mode_selector.mode, s);
 			this.draw();
-		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {	// FIXME: tabs??
-			this.halt();												// FIXME: need to prevent stale analysis arriving.
+		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(mode_selector.mode, s);
+				this.node.change_id();									// Prevents various caching issues.
 				this.draw();
+				if (this.engine.desired) {
+					this.go();
+				}
 			} else {
 				let nd = new_node(this.node);
 				nd.add_value(mode_selector.mode, s);

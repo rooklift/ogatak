@@ -17,8 +17,8 @@ let next_node_id = 1;
 function new_node(parent) {
 
 	let node = Object.create(node_prototype);
+	node.change_id();
 
-	node.id = `node_${next_node_id++}`;
 	node.parent = parent;
 	node.children = [];
 	node.props = Object.create(null);			// key --> list of values (strings only)
@@ -141,6 +141,18 @@ let node_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
+
+	change_id: function() {
+		if (!this.id) {
+			this.id = `node_${next_node_id++}`;
+		} else {
+			let old_id = this.id;
+			this.id = `node_${next_node_id++}`;
+			if (this.parent && this.parent.__blessed_child_id && this.parent.__blessed_child_id === old_id) {
+				this.parent.__blessed_child_id = this.id;
+			}
+		}
+	},
 
 	bless: function() {
 
