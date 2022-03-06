@@ -20,7 +20,6 @@ global.board_drawer = require("./board_drawer");
 global.grapher = require("./grapher");
 global.tree_drawer = require("./tree_drawer");
 global.comment_drawer = require("./comment_drawer");
-global.mode_selector = require("./mode_selector");
 global.fullbox = require("./fullbox");
 
 hub.new_game(19, 19);

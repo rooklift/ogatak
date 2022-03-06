@@ -361,7 +361,6 @@ let hub_main_props = {
 
 		tree_drawer.must_draw = true;
 		comment_drawer.draw(this.node);
-		mode_selector.draw(this.node);
 
 		return true;
 	},
@@ -795,7 +794,6 @@ let hub_main_props = {
 			this.go();
 		}
 		this.draw();
-		mode_selector.draw(this.node);
 	},
 
 	// Clickers in the infobox.....................................................................
@@ -869,27 +867,22 @@ let hub_main_props = {
 
 	// Mouse.......................................................................................
 
-	set_mode: function(mode) {
-		mode_selector.set_mode(mode, this.node);
-		mode_selector.draw(this.node);
-	},
-
-	click: function(s) {
-		if (!mode_selector.mode) {
+	click: function(s, mode) {
+		if (mode) {
 			this.try_move(s);
-		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.mode)) {
-			this.node.toggle_shape_at(mode_selector.mode, s);
+		} else if (["TR", "SQ", "CR", "MA"].includes(mode)) {
+			this.node.toggle_shape_at(mode, s);
 			this.draw();
-		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {
+		} else if (["AB", "AW", "AE"].includes(mode)) {
 			this.halt();
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
-				this.node.apply_board_edit(mode_selector.mode, s);
+				this.node.apply_board_edit(mode, s);
 				this.node.change_id();									// Prevents tabber caching issues and stale analysis updates.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
-				node.apply_board_edit(mode_selector.mode, s);
+				node.apply_board_edit(mode, s);
 				this.set_node(node, {bless: true});
 			}
 		}
