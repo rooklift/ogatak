@@ -786,10 +786,10 @@ let hub_main_props = {
 		this.draw();
 	},
 
-	toggle_active_player: function() {
+	toggle_active_player: function() {		// Adds a PL tag to the current node.
 		this.node.forget_analysis();
 		this.node.toggle_player_to_move();
-		this.node.change_id();
+		this.node.change_id();				// Prevents the engine thinking the old query is still valid. Prevents the old query from updating the node.
 		if (this.engine.desired) {
 			this.go();
 		}
