@@ -18,7 +18,7 @@ let have_alerted_active_mismatch = false;
 function new_node(parent) {
 
 	// Note that the canonical source of which colour the next move should be is always get_board().active, no exceptions.
-	// In the event of any sort of discrepancy between get_board().active and what you'd expect from node props, get_board() prevails.
+	// If there's any discrepancy between get_board().active and what you'd expect from node props, get_board().active prevails.
 
 	let node = Object.create(node_prototype);
 	node.change_id();
