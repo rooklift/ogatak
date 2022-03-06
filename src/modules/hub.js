@@ -868,14 +868,12 @@ let hub_main_props = {
 			this.node.toggle_shape_at(mode_selector.mode, s);
 			this.draw();
 		} else if (["AB", "AW", "AE"].includes(mode_selector.mode)) {
+			this.halt();
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(mode_selector.mode, s);
 				this.node.change_id();									// Prevents various caching issues.
 				this.draw();
-				if (this.engine.desired) {
-					this.go();
-				}
 			} else {
 				let nd = new_node(this.node);
 				nd.add_value(mode_selector.mode, s);
