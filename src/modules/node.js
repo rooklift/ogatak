@@ -11,6 +11,7 @@ const stringify = require("./stringify");
 const {replace_all, valid_analysis_object, points_list} = require("./utils");
 
 let next_node_id = 1;
+let have_alerted_active_mismatch = false;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -712,6 +713,14 @@ let node_prototype = {
 
 		// Save a KataGo analysis object into the node for display.
 		// No validation... caller should run valid_analysis_object(o) first!
+
+		if (o.rootInfo.currentPlayer && o.rootInfo.currentPlayer.toLowerCase() !== this.get_board().active) {
+			if (!have_alerted_active_mismatch) {
+				alert(	"There was a mismatch between the expected colour of KataGo's analysis, and the actual colour. " +
+						"This is supposed to be impossible and the author of Ogatak would like to know how you made this happen.");
+				have_alerted_active_mismatch = true;
+			}
+		}
 
 		this.analysis = o;
 
