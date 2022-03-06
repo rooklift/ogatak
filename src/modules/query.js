@@ -60,7 +60,7 @@ exports.finalise_query = function(o, query_node) {
 			setup = node.get_board().setup_list();
 			break;
 
-		} else if (node.has_key("PL") && moves.length === 0) {
+		} else if (node.has_key("PL") && node === query_node) {
 
 			// There's a PL in the actual node we're going to examine.
 			// Don't think we have a choice but to treat this as a setup node as well.
