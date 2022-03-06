@@ -281,7 +281,7 @@ let node_prototype = {
 		let current_state = this.get_board().state_at(point);
 		let desired_state;
 
-		if (key === "AB" && current_state === "b" || key === "AW" && current_state === "w") {
+		if ((key === "AB" && current_state === "b") || (key === "AW" && current_state === "w")) {
 			desired_state = "";
 		} else if (key === "AB") {
 			desired_state = "b";
