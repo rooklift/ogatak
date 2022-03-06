@@ -309,7 +309,7 @@ let node_prototype = {
 	toggle_player_to_move: function() {
 		if (this.get_board().active === "b") {
 			this.set("PL", "W");
-			this.get_board().active = "w";
+			this.get_board().active = "w";				// But unlike above, I guess it's simple enough to update this directly.
 		} else {
 			this.set("PL", "B");
 			this.get_board().active = "b";
