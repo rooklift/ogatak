@@ -283,10 +283,12 @@ let node_prototype = {
 
 			for (let s of node.all_values("AB")) {
 				node.__board.add_black(s);
+				node.__board.active = "w";
 			}
 
 			for (let s of node.all_values("AW")) {
 				node.__board.add_white(s);
+				node.__board.active = "b";
 			}
 
 			if (node.has_key("AB") && !node.has_key("AW") node.__board.active = "w";
