@@ -367,6 +367,9 @@ let node_prototype = {
 				node.__board.add_white(s);
 			}
 
+			if (node.has_key("AB") && !node.has_key("AW") node.__board.active = "w";
+			if (!node.has_key("AB") && node.has_key("AW") node.__board.active = "b";
+
 			for (let s of node.all_values("B")) {
 				node.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
 			}
