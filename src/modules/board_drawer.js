@@ -868,7 +868,7 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		let bw_string = (board.active === "b") ? `(<span class="white">B</span>|W)` : `(B|<span class="white">W</span>)`;
+		let bw_string = (board.active === "b") ? `[<span class="white">B</span>|W]` : `[B|<span class="white">W</span>]`;
 		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
 
 		s += `<span class="boardinfo_active">${bw_string}</span> +caps: <span class="white">${pad(capstring, 9)}</span>`;
