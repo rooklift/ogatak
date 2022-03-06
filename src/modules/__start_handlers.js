@@ -53,6 +53,8 @@ document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 		hub.cycle_komi(event.which !== 1);
 	} else if (s === "numbers") {
 		hub.cycle_numbers(event.which !== 1);
+	} else if (s === "active") {
+		hub.toggle_active_player();
 	}
 });
 

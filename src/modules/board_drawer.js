@@ -841,6 +841,8 @@ let board_drawer_prototype = {
 
 		let s = "";
 
+		// Note the boardinfo_ prefix is used in __start_handlers.js
+
 		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
@@ -866,10 +868,10 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
-		let bw_string = (board.active === "b") ? `<span class="white">B</span>|W` : `B|<span class="white">W</span>`;
+		let bw_string = (board.active === "b") ? `(<span class="white">B</span>|W)` : `(B|<span class="white">W</span>)`;
 		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
 
-		s += `Caps by ${bw_string}: <span class="white">${pad(capstring, 9)}</span>`;
+		s += `<span class="boardinfo_active">${bw_string}</span> +caps: <span class="white">${pad(capstring, 9)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
 		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
