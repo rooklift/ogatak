@@ -691,6 +691,9 @@ function menu_build() {
 					}
 				},
 				{
+					type: "separator",
+				},
+				{
 					label: "Add Black",
 					accelerator: "2",
 					click: () => {
@@ -710,6 +713,9 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("set", {mode: "AE"});
 					}
+				},
+				{
+					type: "separator",
 				},
 				{
 					label: "Triangle",
