@@ -862,7 +862,7 @@ let hub_main_props = {
 	},
 
 	click: function(s) {
-		if (mode_selector.mode === "") {
+		if (!mode_selector.mode) {
 			this.try_move(s);
 		} else if (["TR", "SQ", "CR", "MA"].includes(mode_selector.mode)) {
 			this.node.toggle_shape_at(mode_selector.mode, s);
