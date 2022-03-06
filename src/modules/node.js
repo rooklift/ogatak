@@ -124,14 +124,6 @@ let node_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 
-	clear_shape_at(point) {
-		this.unset("TR", point);
-		this.unset("MA", point);
-		this.unset("SQ", point);
-		this.unset("CR", point);
-		this.unset_starts_with("LB", `${point}:`);
-	},
-
 	toggle_shape_at(key, point) {
 
 		this.decompress_points_list("TR");
@@ -140,7 +132,12 @@ let node_prototype = {
 		this.decompress_points_list("CR");
 
 		let exists = this.has_key_value(key, point);
-		this.clear_shape_at(point);
+
+		this.unset("TR", point);
+		this.unset("MA", point);
+		this.unset("SQ", point);
+		this.unset("CR", point);
+		this.unset_starts_with("LB", `${point}:`);
 
 		if (!exists) {
 			this.add_value(key, point);
