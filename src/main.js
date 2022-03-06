@@ -681,7 +681,7 @@ function menu_build() {
 			]
 		},
 		{
-			label: "Edits",
+			label: "Tools",
 			submenu: [
 				{
 					label: "Normal",
