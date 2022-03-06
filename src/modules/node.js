@@ -152,7 +152,7 @@ let node_prototype = {
 		} else {
 			let old_id = this.id;
 			this.id = `node_${next_node_id++}`;
-			if (this.parent && this.parent.__blessed_child_id && this.parent.__blessed_child_id === old_id) {
+			if (this.parent && this.parent.__blessed_child_id === old_id) {
 				this.parent.__blessed_child_id = this.id;
 			}
 		}
