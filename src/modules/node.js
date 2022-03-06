@@ -48,10 +48,6 @@ function new_node(parent) {
 
 let node_prototype = {
 
-	has_key: function(key) {
-		return Array.isArray(this.props[key]);
-	},
-
 	set: function(key, value) {
 		if (this.__board) {
 			throw "set() called on node but board already existed";
@@ -74,6 +70,29 @@ let node_prototype = {
 		}
 	},
 
+	force_add_value: function(key, value) {
+		if (!this.has_key(key)) {
+			this.props[key] = [stringify(value)];
+		} else {
+			this.props[key].push(stringify(value));
+		}
+	},
+
+	delete_key: function(key) {
+		if (this.__board) {
+			throw "delete_key() called on node but board already existed";
+		}
+		delete this.props[key];
+	},
+
+	force_delete_key: function(key) {
+		delete this.props[key];
+	},
+
+	has_key: function(key) {
+		return Array.isArray(this.props[key]);
+	},
+
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
 
 		// Always returns a string. Some stuff relies on this now. (We used to return undefined.)
@@ -84,10 +103,6 @@ let node_prototype = {
 			return "";
 		}
 		return this.props[key][0];
-	},
-
-	force_delete_key: function(key) {	// Remember not to use this if changing the key mutates the board.
-		delete this.props[key];
 	},
 
 	all_values: function(key) {
