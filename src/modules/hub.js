@@ -745,8 +745,11 @@ let hub_main_props = {
 	},
 
 	escape: function() {
-		fullbox.hide();
-		this.set("mode", "");
+		if (fullbox.is_visible) {
+			fullbox.hide();
+		} else {
+			this.set("mode", "");
+		}
 	},
 
 	// Misc........................................................................................
