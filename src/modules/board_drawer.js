@@ -361,7 +361,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
-		if (!point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
+		if (!point || config.mode || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
 			return false;
 		}
 
@@ -666,7 +666,7 @@ let board_drawer_prototype = {
 
 	plan_analysis_circles: function(node) {
 		
-		if (!config.candidate_moves) {
+		if (config.mode || !config.candidate_moves) {
 			return;
 		}
 
@@ -822,7 +822,7 @@ let board_drawer_prototype = {
 		}
 
 		if (config.mode) {
-			this.draw_edit_mode();
+			this.draw_edit_mode(node);
 			return;
 		}
 
@@ -866,9 +866,10 @@ let board_drawer_prototype = {
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
 
+		let bw_string = (board.active === "b") ? `<span class="white">B</span>|W` : `B|<span class="white">W</span>`;
 		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
 
-		s += `Caps by B|W: <span class="white">${pad(capstring, 9)}</span>`;
+		s += `Caps by ${bw_string}: <span class="white">${pad(capstring, 9)}</span>`;
 		s += `Score: <span class="white">${pad(score, 8)}</span>`;
 		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
 		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
@@ -881,9 +882,23 @@ let board_drawer_prototype = {
 		this.infodiv.innerHTML = `<span class="white">${s}<br>Resolve this via the Setup menu.</span>`;
 	},
 
-	draw_edit_mode: function() {
+	draw_edit_mode: function(node) {
+
+		let visits = "";
+
+		if (node.has_valid_analysis()) {
+			let moveinfo = node.analysis.moveInfos[0];
+			visits = `${moveinfo.visits} / ${node.analysis.rootInfo.visits}`;
+		}
+
 		let s = `Edit mode: <span class="white">${mode_strings[config.mode]}</span>`;
-		this.infodiv.innerHTML = `${s}<br>Press <span class="white">escape</span> to exit...`;
+		s += `<br>Press <span class="white">escape</span> to exit...`;
+
+		if (visits) {
+			s += " ".repeat(26) + `Visits: <span class="white">${pad(visits, 15)}</span>`;
+		}
+
+		this.infodiv.innerHTML = s;
 	},
 
 };
