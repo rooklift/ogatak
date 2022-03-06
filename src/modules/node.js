@@ -722,6 +722,8 @@ let node_prototype = {
 				alert(	"There was a mismatch between the expected colour of KataGo's analysis, and the actual colour. " +
 						"This is supposed to be impossible and the author of Ogatak would like to know how you made this happen.");
 				have_alerted_active_mismatch = true;
+
+				// It really should be impossible, because anything that changes .active will change the node.id
 			}
 		}
 
