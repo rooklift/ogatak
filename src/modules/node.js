@@ -276,7 +276,7 @@ let node_prototype = {
 			if (desired_state === "w") this.add_value("AW", point);
 		}
 
-		this.__board = null;		// We could try to update but this way ensures we see any bugs, I guess.
+		this.__board = null;	// We could update __board, but this way lets us see any bugs, and ensures consistency with our normal get_board() result.
 	},
 
 	width: function() {
