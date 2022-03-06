@@ -739,6 +739,15 @@ function menu_build() {
 						win.webContents.send("set", {mode: "MA"});
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Toggle active player",
+					click: () => {
+						win.webContents.send("call", "toggle_active_player");
+					}
+				},
 			]
 		},
 		{
