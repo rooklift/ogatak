@@ -234,7 +234,14 @@ let node_prototype = {
 	},
 
 	has_compressed_ab_aw_ae_props: function() {
-		return false;												// FIXME - todo
+		for (let key of ["AB", "AW", "AE"]) {
+			for (let value of this.all_values(key)) {
+				if (value.length === 5 && value[2] === ":") {
+					return true;
+				}
+			}
+		}
+		return false;
 	},
 
 	apply_board_edit: function(key, point) {
