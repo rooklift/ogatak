@@ -874,7 +874,6 @@ let hub_main_props = {
 				nd.add_value(mode_selector.state, s);
 				this.set_node(nd);
 			}
-			// FIXME: what are we doing about... who is to play?
 		}
 	},
 
