@@ -879,7 +879,7 @@ let hub_main_props = {
 			} else {
 				let nd = new_node(this.node);
 				nd.add_value(mode_selector.mode, s);
-				this.set_node(nd);
+				this.set_node(nd, {bless: true});
 			}
 		}
 	},
