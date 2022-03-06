@@ -361,6 +361,7 @@ let hub_main_props = {
 
 		tree_drawer.must_draw = true;
 		comment_drawer.draw(this.node);
+		mode_selector.draw(this.node);
 
 		return true;
 	},
@@ -794,6 +795,7 @@ let hub_main_props = {
 			this.go();
 		}
 		this.draw();
+		mode_selector.draw(this.node);
 	},
 
 	// Clickers in the infobox.....................................................................
@@ -868,7 +870,8 @@ let hub_main_props = {
 	// Mouse.......................................................................................
 
 	set_mode: function(mode) {
-		mode_selector.set_mode(mode);
+		mode_selector.set_mode(mode, this.node);
+		mode_selector.draw(this.node);
 	},
 
 	click: function(s) {
