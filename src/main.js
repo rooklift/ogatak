@@ -686,6 +686,8 @@ function menu_build() {
 				{
 					label: "Normal",
 					accelerator: "1",
+					type: "checkbox",
+					checked: !config.mode,
 					click: () => {
 						win.webContents.send("set", {mode: ""});
 					}
@@ -696,6 +698,8 @@ function menu_build() {
 				{
 					label: "Add Black",
 					accelerator: "2",
+					type: "checkbox",
+					checked: config.mode === "AB",
 					click: () => {
 						win.webContents.send("set", {mode: "AB"});
 					}
@@ -703,6 +707,8 @@ function menu_build() {
 				{
 					label: "Add White",
 					accelerator: "3",
+					type: "checkbox",
+					checked: config.mode === "AW",
 					click: () => {
 						win.webContents.send("set", {mode: "AW"});
 					}
@@ -710,6 +716,8 @@ function menu_build() {
 				{
 					label: "Add Empty",
 					accelerator: "4",
+					type: "checkbox",
+					checked: config.mode === "AE",
 					click: () => {
 						win.webContents.send("set", {mode: "AE"});
 					}
@@ -720,6 +728,8 @@ function menu_build() {
 				{
 					label: "Triangle",
 					accelerator: "5",
+					type: "checkbox",
+					checked: config.mode === "TR",
 					click: () => {
 						win.webContents.send("set", {mode: "TR"});
 					}
@@ -727,6 +737,8 @@ function menu_build() {
 				{
 					label: "Square",
 					accelerator: "6",
+					type: "checkbox",
+					checked: config.mode === "SQ",
 					click: () => {
 						win.webContents.send("set", {mode: "SQ"});
 					}
@@ -734,6 +746,8 @@ function menu_build() {
 				{
 					label: "Circle",
 					accelerator: "7",
+					type: "checkbox",
+					checked: config.mode === "CR",
 					click: () => {
 						win.webContents.send("set", {mode: "CR"});
 					}
@@ -741,6 +755,8 @@ function menu_build() {
 				{
 					label: "Cross",
 					accelerator: "8",
+					type: "checkbox",
+					checked: config.mode === "MA",
 					click: () => {
 						win.webContents.send("set", {mode: "MA"});
 					}

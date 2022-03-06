@@ -208,6 +208,10 @@ module.exports = {
 			this.fix_colours_menu();
 		}
 
+		if (key === "mode") {
+			this.fix_tools_menu();
+		}
+
 		// Fix any toggle menu items...............................................................
 
 		if (key in togglechecks) {
@@ -232,6 +236,19 @@ module.exports = {
 		if (config.visits_threshold === 0) label = "All";
 		if (config.visits_threshold > 0) label = `N > ${config.visits_threshold * 100}%`;
 		ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+	},
+
+	fix_tools_menu: function() {
+
+		const mode_strings = {
+			"TR": "Triangle", "CR": "Circle", "SQ": "Square", "MA": "Cross",
+			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty"};
+
+		if (!config.mode) {
+			ipcRenderer.send("set_checks", ["Tools", "Normal"]);
+		} else {
+			ipcRenderer.send("set_checks", ["Tools", mode_strings[config.mode]]);
+		}
 	},
 
 	apply_colour_settings: function(o) {
