@@ -308,10 +308,10 @@ let node_prototype = {
 
 	toggle_player_to_move: function() {
 		if (this.get_board().active === "b") {
-			this.set("PL", "B");
+			this.set("PL", "W");
 			this.get_board().active = "w";
 		} else {
-			this.set("PL", "W");
+			this.set("PL", "B");
 			this.get_board().active = "b";
 		}
 	},
