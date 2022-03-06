@@ -49,28 +49,10 @@ function new_node(parent) {
 let node_prototype = {
 
 	set: function(key, value) {
-		if (this.__board) {
-			throw "set() called on node but board already existed";
-		}
-		this.props[key] = [stringify(value)];
-	},
-
-	force_set: function(key, value) {
 		this.props[key] = [stringify(value)];
 	},
 
 	add_value: function(key, value) {
-		if (this.__board) {
-			throw "add_value() called on node but board already existed";
-		}
-		if (!this.has_key(key)) {
-			this.props[key] = [stringify(value)];
-		} else {
-			this.props[key].push(stringify(value));
-		}
-	},
-
-	force_add_value: function(key, value) {
 		if (!this.has_key(key)) {
 			this.props[key] = [stringify(value)];
 		} else {
@@ -101,13 +83,6 @@ let node_prototype = {
 	},
 
 	delete_key: function(key) {
-		if (this.__board) {
-			throw "delete_key() called on node but board already existed";
-		}
-		delete this.props[key];
-	},
-
-	force_delete_key: function(key) {
 		delete this.props[key];
 	},
 
@@ -161,7 +136,7 @@ let node_prototype = {
 		let exists = this.has_key_value(key, point);
 		this.clear_shape_at(point);
 		if (!exists) {
-			this.force_add_value(key, point);
+			this.add_value(key, point);
 		}
 	},
 
@@ -597,13 +572,13 @@ let node_prototype = {
 
 	coerce_komi: function(value) {
 		let root = this.get_root();
-		root.force_set("KM", value);
+		root.set("KM", value);
 		coerce_board_prop_recursive(root, "komi", value);
 	},
 
 	coerce_rules: function(value) {
 		let root = this.get_root();
-		root.force_set("RU", value);
+		root.set("RU", value);
 		coerce_board_prop_recursive(root, "rules", value);
 	},
 
@@ -613,8 +588,8 @@ let node_prototype = {
 
 	forget_analysis: function() {
 		this.analysis = null;
-		this.force_delete_key("SBKV");
-		this.force_delete_key("OGSC");
+		this.delete_key("SBKV");
+		this.delete_key("OGSC");
 	},
 
 	has_valid_analysis: function() {
@@ -635,14 +610,14 @@ let node_prototype = {
 			winrate = 100 - winrate;
 		}
 		let val = (winrate).toFixed(1);
-		this.force_set("SBKV", val);
+		this.set("SBKV", val);
 
 		let score = this.analysis.moveInfos[0].scoreLead;
 		if (this.get_board().active === "w") {
 			score = -score;
 		}
 		val = score.toFixed(1);
-		this.force_set("OGSC", val);
+		this.set("OGSC", val);
 	},
 
 	game_title_text: function() {
