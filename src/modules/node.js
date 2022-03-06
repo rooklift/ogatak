@@ -269,6 +269,9 @@ let node_prototype = {
 
 	apply_board_edit: function(key, point) {
 
+		// Note that at the end of this, this.__board is deleted and
+		// will be rebuilt, possibly changing the active player.
+
 		if (!this.get_board().in_bounds(point)) {
 			return;
 		}
