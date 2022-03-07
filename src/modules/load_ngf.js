@@ -24,6 +24,10 @@ function load_ngf(buf) {
 		boardsize = 19;
 	}
 
+	if (boardsize > 19) {
+		throw "NGF load error: sizes above 19 not supported";
+	}
+
 	// ------------------------------------------------------------------------------------------------
 
 	let pw = "";
