@@ -849,15 +849,18 @@ let hub_main_props = {
 
 	cycle_komi: function(reverse) {
 
-		const values = [0, 0.5, 4.5, 5, 5.5, 6, 6.5, 7, 7.5];
+		let komi = this.node.get_board().komi;
 
-		let current = this.node.get_board().komi;
+		if (reverse) {
+			komi -= 0.5;
+		} else {
+			komi += 0.5;
+		}
 
-		let si = values.indexOf(current) + (reverse ? -1 : 1);
-		if (si >= values.length) si = 0;
-		if (si < 0) si = values.length - 1;
+		if (komi < 0) komi = 7.5;
+		if (komi > 7.5) komi = 0;
 
-		this.coerce_komi(values[si]);
+		this.coerce_komi(komi);
 	},
 
 	cycle_numbers: function(reverse) {

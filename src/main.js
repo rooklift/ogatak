@@ -1017,7 +1017,67 @@ function menu_build() {
 							}
 						},
 						{
-							type: "separator",
+							label: "4",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [4]
+								});
+							}
+						},
+						{
+							label: "3.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [3.5]
+								});
+							}
+						},
+						{
+							label: "3",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [3]
+								});
+							}
+						},
+						{
+							label: "2.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [2.5]
+								});
+							}
+						},
+						{
+							label: "2",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [2]
+								});
+							}
+						},
+						{
+							label: "1.5",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [1.5]
+								});
+							}
+						},
+						{
+							label: "1",
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_komi",
+									args: [1]
+								});
+							}
 						},
 						{
 							label: "0.5",
