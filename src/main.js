@@ -2463,7 +2463,7 @@ function queued_files_spinner() {
 			if (win.isMinimized()) {
 				win.restore();			// Works regardless of whether the window was previously normal or maximized.
 			}
-			win.show();					// Uh not sure this does anything, but meh. (Maybe on some platform?)
+			// win.show();				// Not sure this does anything, might even be causing bugs, see Electron #26277
 			win.focus();
 		}, 50);
 
