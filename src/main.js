@@ -2452,20 +2452,21 @@ function queued_files_spinner() {
 
 	if (queued_files.length > 0) {
 
+		// We need to focus asap before the file actually loads, because the load might generate
+		// an error alert, which must happen after the focus() so the alert is on top.
+
+		if (win.isMinimized()) {
+			win.restore();			// Works regardless of whether the window was previously normal or maximized.
+		}
+		// win.show();				// Not sure this does anything, might even be causing bugs, see Electron #26277
+		win.focus();
+
 		win.webContents.send("call", {
 			fn: "load_multifile",
 			args: [queued_files]
 		});
 
 		queued_files = [];
-
-		setTimeout(() => {				// Give it a chance to actually load before it shows.
-			if (win.isMinimized()) {
-				win.restore();			// Works regardless of whether the window was previously normal or maximized.
-			}
-			// win.show();				// Not sure this does anything, might even be causing bugs, see Electron #26277
-			win.focus();
-		}, 50);
 
 	}
 
