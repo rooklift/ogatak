@@ -52,7 +52,7 @@ let tabber_prototype = {
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 
 		if (index === -1) {
-			throw "draw_active_tab(): could not find active tab marker in tabs";
+			throw "draw_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
 
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
