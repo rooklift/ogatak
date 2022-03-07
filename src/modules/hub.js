@@ -206,11 +206,13 @@ let hub_main_props = {
 
 			let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
 
-			if (ok_roots.length === 0) {
-				alert("Board sizes > 19 are not supported.");
-			} else if (ok_roots.length !== new_roots.length) {
-				alert("Some games in the collection were not loaded because they have size > 19.");
-				this.add_roots(ok_roots);
+			if (ok_roots.length !== new_roots.length) {
+				if (ok_roots.length === 0) {
+					alert("Board sizes > 19 are not supported.");
+				} else {
+					alert("Some games in the collection were not loaded because they have size > 19.");
+					this.add_roots(ok_roots);
+				}
 			} else {
 				this.add_roots(ok_roots);
 			}
@@ -265,7 +267,11 @@ let hub_main_props = {
 		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
 
 		if (ok_roots.length !== new_roots.length) {
-			loader_errors.push("Board sizes > 19 not supported.");
+			if (ok_roots.length === 0) {
+				loader_errors.push("Board sizes > 19 are not supported.");
+			} else {
+				loader_errors.push("Some games in the collection were not loaded because they have size > 19.");
+			}
 		}
 
 		if (loader_errors.length > 1) {
