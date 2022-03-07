@@ -293,6 +293,10 @@ let hub_main_props = {
 		if (rules === undefined) rules = config.default_rules;
 		if (handicap === undefined) handicap = 0;
 
+		if (width > 19 || height > 19) {
+			throw "Board sizes > 19 are not supported.";
+		}
+
 		let root = new_node();
 
 		root.set("GM", 1);
