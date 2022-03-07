@@ -7,7 +7,7 @@ const stringify = require("./stringify");
 
 exports.xy_to_s = function(x, y) {
 
-	if (x < 0 || x >= 25 || y < 0 || y >= 25) {
+	if (x < 0 || x >= 19 || y < 0 || y >= 19) {
 		return "";
 	}
 

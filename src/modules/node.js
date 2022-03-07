@@ -332,7 +332,7 @@ let node_prototype = {
 			return 19;
 		}
 		let sz = parseInt(sz_prop, 10);
-		if (!Number.isNaN(sz) && sz > 0 && sz <= 25) {
+		if (!Number.isNaN(sz) && sz > 0) {
 			return sz;
 		}
 		return 19;
@@ -353,7 +353,7 @@ let node_prototype = {
 			sz_slice = sz_prop;
 		}
 		let sz = parseInt(sz_slice, 10);
-		if (!Number.isNaN(sz) && sz > 0 && sz <= 25) {
+		if (!Number.isNaN(sz) && sz > 0) {
 			return sz;
 		}
 		return 19;

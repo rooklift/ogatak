@@ -24,10 +24,10 @@ const mode_strings = {
 
 // ------------------------------------------------------------------------------------------------
 
-let mouseenter_handlers = new_2d_array(25, 25, null);
+let mouseenter_handlers = new_2d_array(19, 19, null);
 
-for (let x = 0; x < 25; x++) {				// Create the event handlers for all usable values of x,y...
-	for (let y = 0; y < 25; y++) {			// These will be attached to TD elements, firing on "mouseenter" events.
+for (let x = 0; x < 19; x++) {				// Create the event handlers for all usable values of x,y...
+	for (let y = 0; y < 19; y++) {			// These will be attached to TD elements, firing on "mouseenter" events.
 		let s = xy_to_s(x, y);
 		mouseenter_handlers[x][y] = () => {
 			hub.mouse_entering_point(s);
@@ -57,10 +57,10 @@ function init() {
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
-		table_state: new_2d_array(25, 25, ""),		// "", "b", "w" ... what the TD is displaying.
-		needed_marks: new_2d_array(25, 25, null),	// Objects representing stuff waiting to be drawn to the main canvas.
+		table_state: new_2d_array(19, 19, ""),		// "", "b", "w" ... what the TD is displaying.
+		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 
-		wood_helps: new_2d_array(25, 25, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
+		wood_helps: new_2d_array(19, 19, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
 		wood_helps_are_valid: false,				// Whether ownership canvas was drawn to since last clear. If not, above array is ignored.
 
 		width: null,
@@ -127,8 +127,8 @@ let board_drawer_prototype = {
 			}
 		}
 
-		for (let x = 0; x < 25; x++) {
-			for (let y = 0; y < 25; y++) {
+		for (let x = 0; x < 19; x++) {
+			for (let y = 0; y < 19; y++) {
 				this.table_state[x][y] = "";
 			}
 		}
