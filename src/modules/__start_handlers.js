@@ -28,7 +28,7 @@ document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
-		hub.switch_tab(parseInt(i, 10));
+		hub.switch_tab_by_dom_id("tab_" + i);
 	}
 });
 

@@ -59,7 +59,7 @@ body {
 	font-family: monospace, monospace;
 	height: 100vh;
 	margin: 0;
-	padding: 0 16px 0 16px;
+	padding: 8px 0 8px 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	pointer-events: auto;

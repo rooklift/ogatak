@@ -117,7 +117,13 @@ let hub_main_props = {
 		}
 		let switch_node = tabber.deactivate_node_activate_index(this.node, index);
 		this.set_node(switch_node, {bless: true});
-		tabber.draw_tabs(this.node);
+		// tabber.draw_tabs(this.node);									FIXME deleting?
+		this.update_title();
+	},
+
+	switch_tab_by_dom_id: function(dom_id) {
+		let switch_node = tabber.deactivate_node_activate_dom_id(this.node, dom_id);
+		this.set_node(switch_node, {bless: true});
 		this.update_title();
 	},
 
@@ -137,7 +143,7 @@ let hub_main_props = {
 			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		tabber.draw_tabs(this.node);
+		// tabber.draw_tabs(this.node);									FIXME deleting?
 		this.update_title();
 
 		node_to_destroy.destroy_tree();
