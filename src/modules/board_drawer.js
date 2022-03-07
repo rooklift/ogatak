@@ -79,8 +79,8 @@ let board_drawer_prototype = {
 
 	rebuild: function(width, height) {				// Reset all the things...
 
-		if (!width || !height) {
-			throw "rebuild() needs board sizes";
+		if (!width || !height || width > 19 || height > 19) {
+			throw "rebuild() needs valid board sizes";
 		}
 
 		// Remove all registered "mouseenter" handlers on the old TD elements...
@@ -93,10 +93,6 @@ let board_drawer_prototype = {
 					td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
 				}
 			}
-		}
-
-		if (this.width > 19 || width > 19) {
-			tree_drawer.canvas.width = tree_drawer.canvas.width;		// Lame anti-flicker hack for transitioning to oversized boards. Not important.
 		}
 
 		// Obviously we want to save the width and height, but we also save the state of relevant config
