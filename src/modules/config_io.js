@@ -6,6 +6,7 @@ const electron = require("electron");
 const fs = require("fs");
 const path = require("path");
 
+const {fix_html_colour} = require("./html_colours");
 const {get_href_query_val} = require("./utils");
 const colour_choices = require("./colour_choices");
 
@@ -159,6 +160,16 @@ function apply_fixes() {
 		}
 	} catch (err) {
 		console.log(`wood_colour.json: ${err.toString()}`);
+	}
+
+	for (let [key, defval] of Object.entries(exports.defaults)) {
+		if (typeof defval === "string" && defval.startsWith("#")) {
+			let fixed = fix_html_colour(config[key]);
+			if (fixed !== config[key]) {
+				console.log(`Adjusted config.${key} from "${config[key]}" to "${fixed}"`);
+				config[key] = fixed;
+			}
+		}
 	}
 }
 
