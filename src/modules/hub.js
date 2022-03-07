@@ -75,6 +75,10 @@ let hub_main_props = {
 
 		// Special modes are "handicap" and "file" - they can sometimes replace this.node.
 
+		if (new_roots.length === 0) {
+			return;
+		}
+
 		let switch_index = null;
 
 		for (let [n, root] of new_roots.entries()) {
@@ -196,9 +200,23 @@ let hub_main_props = {
 		}
 
 		try {
+
 			let buf = Buffer.from(s);
-			let roots = this.get_roots_from_buffer(buf, "sgf", "");
-			this.add_roots(roots, "file");
+			let new_roots = this.get_roots_from_buffer(buf, "sgf", "");			// Can throw (or the things it calls can).
+
+			let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
+
+			if (ok_roots.length !== new_roots.length) {
+				if (ok_roots.length === 0) {
+					alert("Board sizes > 19 are not supported.");
+				} else {
+					alert("Some games in the collection were not loaded because they have size > 19.");
+					this.add_roots(ok_roots);
+				}
+			} else {
+				this.add_roots(ok_roots);
+			}
+
 		} catch (err) {
 			console.log("load_sgf_from_string():", err);
 			alert("While loading from string:\n" + err.toString());
@@ -238,11 +256,21 @@ let hub_main_props = {
 				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
 
-				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));
+				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));		// Can throw (or the things it calls can).
 
 			} catch (err) {
 				loader_errors.push(err);
 				continue;
+			}
+		}
+
+		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
+
+		if (ok_roots.length !== new_roots.length) {
+			if (ok_roots.length === 0) {
+				loader_errors.push("Board sizes > 19 are not supported.");
+			} else {
+				loader_errors.push("Some games in the collection were not loaded because they have size > 19.");
 			}
 		}
 
@@ -252,7 +280,7 @@ let hub_main_props = {
 			alert("Load error:\n" + loader_errors[0].toString());
 		}
 
-		this.add_roots(new_roots, "file");
+		this.add_roots(ok_roots, "file");
 	},
 
 	// New game....................................................................................
