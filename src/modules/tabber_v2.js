@@ -14,6 +14,7 @@ function init() {
 		inner_div: document.getElementById("tabdiv_inner"),
 		tabs: [],
 		dom_ids: [],
+		last_drawn_active_node_id: null,
 	});
 
 	let dummy_node = new_node();		// Used for the initial thumbnail then forgotten about.
@@ -50,6 +51,10 @@ let tabber_prototype = {
 
 	draw_active_tab: function(node, outlineflag = true) {
 
+		if (this.last_drawn_active_node_id === node.id) {
+			return;
+		}
+
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 
 		if (index === -1) {
@@ -62,6 +67,7 @@ let tabber_prototype = {
 		}
 
 		this.__update_img(img, node, outlineflag);
+		this.last_drawn_active_node_id = node.id;
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
