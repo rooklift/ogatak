@@ -159,7 +159,6 @@ function every_char_is_hex(s) {					// Assuming lowercase already.
 		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;
 		return false;
 	}
-
 	return true;
 }
 

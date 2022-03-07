@@ -139,10 +139,16 @@ exports.load = () => {
 
 function apply_fixes() {
 
+	// Reset mode every time...
+
 	config.mode = exports.defaults.mode;
+
+	// Someone might edit the numbers in a slightly wrong way...
 
 	config.numbers = config.numbers.split("+").map(z => z.trim()).join(" + ");
 	config.numbers = config.numbers.split(",").map(z => z.trim()).join(" + ");
+
+	// Make the wood_colour var match the wood_colour.json file, if possible...
 
 	try {
 		let j = JSON.parse(fs.readFileSync(path.join(__dirname, "../gfx/wood_colour.json")));
@@ -161,6 +167,8 @@ function apply_fixes() {
 	} catch (err) {
 		console.log(`wood_colour.json: ${err.toString()}`);
 	}
+
+	// Someone might edit HTML colour codes...
 
 	for (let [key, defval] of Object.entries(exports.defaults)) {
 		if (typeof defval === "string" && defval.startsWith("#")) {
