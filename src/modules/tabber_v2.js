@@ -10,7 +10,7 @@ let next_dom_id = 1;					// id for the DOM elements (img elements)
 function init() {
 
 	let ret = Object.assign(Object.create(tabber_prototype), {
-		div: document.getElementById("tabdiv"),
+		div: document.getElementById("tabdiv_inner"),
 		tabs: [],
 		dom_ids: [],
 	});
@@ -44,7 +44,7 @@ let tabber_prototype = {
 		img.title = node.game_title_text();
 
 		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
-		img.style.margin = `16px 16px 16px 16px`;
+		img.style.margin = `0 16px 16px 16px`;
 	},
 
 	draw_active_tab: function(node, deactivating = false) {

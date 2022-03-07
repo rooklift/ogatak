@@ -64,6 +64,9 @@ body {
 	pointer-events: auto;
 }
 
+#tabdiv_inner {
+}
+
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
 #boardinfo {
@@ -131,7 +134,7 @@ body {
 	grid-area: tree;
 	background-color: #111111ff;
 	display: block;
-	margin: 0 0 0 0;
+	margin: 0;
 }
 
 #comments {
