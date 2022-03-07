@@ -60,13 +60,13 @@ let tabber_prototype = {
 		}
 	},
 
-	deactivate_node_activate_index: function(node, new_active_index) {
+	deactivate_node_activate_dom_id: function(node, dom_id) {
 
-		if (typeof node !== "object" || node === null || typeof new_active_index !== "number" || new_active_index < 0 || new_active_index >= this.tabs.length) {
-			throw "deactivate_node_activate_index(): bad argument";
+		if (typeof node !== "object" || node === null) {
+			throw "deactivate_node_activate_dom_id(): bad argument";
 		}
 
-		// First draw the active tab so it's up to date when frozen...
+		// Draw the active tab so it's up to date when frozen...
 
 		this.draw_active_tab(node, true);
 
@@ -74,9 +74,16 @@ let tabber_prototype = {
 
 		let old_active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		if (old_active_index === -1) {
-			throw "deactivate_node_activate_index(): could not find ACTIVE_TAB_MARKER in tabs";
+			throw "deactivate_node_activate_dom_id(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
 		this.tabs[old_active_index] = node;
+
+		// Find what index in our arrays we need to activate...
+
+		let new_active_index = this.dom_ids.indexOf(dom_id);
+		if (new_active_index === -1) {
+			throw "deactivate_node_activate_dom_id(): couldn't find index from dom id";
+		}
 
 		// Activate the provided index...
 
@@ -87,24 +94,16 @@ let tabber_prototype = {
 
 		let img = document.getElementsByClassName(this.dom_ids[new_active_index])[0];
 		if (!img) {
-			throw "deactivate_node_activate_index(): could not find img for newly-active tab";
+			throw "deactivate_node_activate_dom_id(): could not find img for newly-active tab";
 		}
 		img.style.outline = `4px solid ${config.wood_colour}`;
 
 		// Return the node of the new tab...
 
 		if (switch_node.destroyed) {
-			throw "deactivate_node_activate_index(): saw switch_node.destroyed";
+			throw "deactivate_node_activate_dom_id(): saw switch_node.destroyed";
 		}
 		return switch_node;
-	},
-
-	deactivate_node_activate_dom_id: function(node, dom_id) {
-		let index = this.dom_ids.indexOf(dom_id);
-		if (index === -1) {
-			throw "deactivate_node_activate_dom_id(): couldn't find index from dom id";
-		}
-		return this.deactivate_node_activate_index(node, index);
 	},
 
 	create_inactive_tab_at_end: function(node) {
@@ -132,7 +131,7 @@ let tabber_prototype = {
 		
 		this.div.appendChild(img);
 
-		return this.tabs.length - 1;
+		return dom_id;
 	},
 
 	close_active_tab: function() {

@@ -79,7 +79,7 @@ let hub_main_props = {
 			return;
 		}
 
-		let switch_index = null;
+		let switch_tab_dom_id = null;
 
 		for (let [n, root] of new_roots.entries()) {
 
@@ -98,29 +98,19 @@ let hub_main_props = {
 			if (will_replace) {
 				this.set_node(node, {bless: true});
 			} else {
-				switch_index = tabber.create_inactive_tab_at_end(node);
+				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
 			}
 		}
 
 		// Note that the tabber expects to NOT receive the node as an extra tab at app startup.
 
-		if (switch_index === null) {				// All we did was replace this.node
+		if (switch_tab_dom_id === null) {					// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();
-		} else {									// We added tabs to the end
-			this.switch_tab(switch_index);
+		} else {											// We added tabs to the end
+			this.switch_tab_by_dom_id(switch_tab_dom_id);
 			tabber.div.scrollTop = tabber.div.scrollHeight;
 		}
-	},
-
-	switch_tab: function(index) {
-		if (index < 0 || index >= tabber.tabs.length) {
-			return;
-		}
-		let switch_node = tabber.deactivate_node_activate_index(this.node, index);
-		this.set_node(switch_node, {bless: true});
-		// tabber.draw_tabs(this.node);									FIXME deleting?
-		this.update_title();
 	},
 
 	switch_tab_by_dom_id: function(dom_id) {
