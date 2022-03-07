@@ -56,6 +56,12 @@ function load_sgf(buf) {
 		throw "SGF load error: found no game";
 	}
 
+	ret = ret.filter(z => z.width() <= 19 && z.height() <= 19);
+
+	if (ret.length === 0) {
+		throw `SGF load error: found valid data but boardsize > 19.`;
+	}
+
 	for (let root of ret) {
 		apply_basic_props_fix(root);
 		apply_komi_fix(root);
