@@ -41,6 +41,7 @@ function load_sgf(buf) {
 			off += o.readcount;
 		} catch (err) {
 			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset. Only possible for 1st call.
+				console.log(`Converting buf to ${err.charset}`);
 				buf = convert_buf(buf, err.charset);							// The thrower already checked that the charset is valid, so we can call this OK.
 			} else if (ret.length > 0) {
 				break;															// Break the while loop.
