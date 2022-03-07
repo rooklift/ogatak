@@ -47,7 +47,7 @@ let tabber_prototype = {
 		img.style.margin = `0 16px 16px 16px`;
 	},
 
-	draw_active_tab: function(node, deactivating = false) {
+	draw_active_tab: function(node, outlineflag = true) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 
@@ -60,7 +60,7 @@ let tabber_prototype = {
 			throw "draw_active_tab(): could not find img element";
 		}
 
-		this.__update_img(img, node, !deactivating);
+		this.__update_img(img, node, outlineflag);
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
@@ -71,7 +71,7 @@ let tabber_prototype = {
 
 		// Draw the active tab so it's up to date when frozen...
 
-		this.draw_active_tab(node, true);
+		this.draw_active_tab(node, false);
 
 		// Deactivate the node provided...
 
