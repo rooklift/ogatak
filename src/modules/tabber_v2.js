@@ -34,6 +34,19 @@ function init() {
 
 let tabber_prototype = {
 
+	__update_img: function(img, node, outlineflag) {
+
+		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
+
+		img.src = thumb.data;
+		img.width = thumb.width;
+		img.height = thumb.height;
+		img.title = node.game_title_text();
+
+		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
+		img.style.margin = `16px 16px 16px 16px`;
+	},
+
 	draw_active_tab: function(node, deactivating = false) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
@@ -43,21 +56,11 @@ let tabber_prototype = {
 		}
 
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
-
 		if (!img) {
 			throw "draw_active_tab(): could not find img element";
 		}
 
-		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
-
-		img.src = thumb.data;
-		img.width = thumb.width;
-		img.height = thumb.height;
-		img.title = node.game_title_text();
-
-		if (deactivating) {
-			img.style.outline = "none";
-		}
+		this.__update_img(img, node, !deactivating);
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
@@ -119,16 +122,8 @@ let tabber_prototype = {
 
 		let img = new Image();
 		img.className = dom_id;
+		this.__update_img(img, node, false);
 
-		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
-
-		img.src = thumb.data;
-		img.width = thumb.width;
-		img.height = thumb.height;
-		img.title = node.game_title_text();
-		img.style.outline = "none";
-		img.style.margin = `8px 16px 8px 16px`;
-		
 		this.div.appendChild(img);
 
 		return dom_id;
@@ -199,14 +194,8 @@ let tabber_prototype = {
 
 			let img = new Image();
 			img.className = dom_id;
+			this.__update_img(img, node, this.tabs[n] === ACTIVE_TAB_MARKER);
 
-			img.src = thumb.data;
-			img.width = thumb.width;
-			img.height = thumb.height;
-			img.title = node.game_title_text();
-			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
-			img.style.margin = `8px 16px 8px 16px`;
-			
 			this.div.appendChild(img);
 		}
 	},
