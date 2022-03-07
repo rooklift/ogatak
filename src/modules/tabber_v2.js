@@ -173,6 +173,9 @@ let tabber_prototype = {
 
 	tab_node_list: function(active_node) {
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		if (active_index === -1) {
+			throw "tab_node_list(): could not find ACTIVE_TAB_MARKER in tabs";
+		}
 		let ret = Array.from(this.tabs);
 		ret[active_index] = active_node;
 		return ret;
