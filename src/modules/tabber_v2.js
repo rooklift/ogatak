@@ -26,8 +26,8 @@ function init() {
 	// So at this point, we have:      tabs === [ACTIVE_TAB_MARKER]
 	//                              dom_ids === ["tab_1"]
 	//
-	// In the DOM, we have an image of a blank board.
-	// When hub.new_game() gets its initial call, it does NOT send its node to be added to our tabs list.
+	// Note that, although sometimes hub.node is briefly null, the tabber
+	// never has empty arrays, but rather length 1 in that case.
 
 	return ret;
 }

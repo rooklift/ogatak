@@ -81,6 +81,10 @@ let hub_main_props = {
 
 		let switch_tab_dom_id = null;
 
+		// Note that the tabber's arrays are never empty, and when our own node is briefly null
+		// the tabber's length will be 1, so we don't send the tabber the new node to add to its
+		// list, we simply draw it.
+
 		for (let [n, root] of new_roots.entries()) {
 
 			let will_replace = false;
@@ -101,8 +105,6 @@ let hub_main_props = {
 				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
 			}
 		}
-
-		// Note that the tabber expects to NOT receive the node as an extra tab at app startup.
 
 		if (switch_tab_dom_id === null) {					// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
@@ -135,7 +137,6 @@ let hub_main_props = {
 			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		// tabber.draw_tabs(this.node);									FIXME deleting?
 		this.update_title();
 
 		node_to_destroy.destroy_tree();
