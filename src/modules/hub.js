@@ -111,7 +111,7 @@ let hub_main_props = {
 			this.update_title();
 		} else {											// We added tabs to the end
 			this.switch_tab_by_dom_id(switch_tab_dom_id);
-			tabber.div.scrollTop = tabber.div.scrollHeight;
+			tabber.outer_div.scrollTop = tabber.outer_div.scrollHeight;
 		}
 	},
 

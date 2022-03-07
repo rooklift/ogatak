@@ -10,7 +10,8 @@ let next_dom_id = 1;					// id for the DOM elements (img elements)
 function init() {
 
 	let ret = Object.assign(Object.create(tabber_prototype), {
-		div: document.getElementById("tabdiv_inner"),
+		outer_div: document.getElementById("tabdiv"),
+		inner_div: document.getElementById("tabdiv_inner"),
 		tabs: [],
 		dom_ids: [],
 	});
@@ -124,7 +125,7 @@ let tabber_prototype = {
 		img.className = dom_id;
 		this.__update_img(img, node, false);
 
-		this.div.appendChild(img);
+		this.inner_div.appendChild(img);
 
 		return dom_id;
 	},
@@ -182,7 +183,7 @@ let tabber_prototype = {
 			throw "draw_tabs(): requires active_node argument";
 		}
 
-		this.div.innerHTML = "";
+		this.inner_div.innerHTML = "";
 
 		for (let n = 0; n < this.tabs.length; n++) {
 
@@ -196,7 +197,7 @@ let tabber_prototype = {
 			img.className = dom_id;
 			this.__update_img(img, node, this.tabs[n] === ACTIVE_TAB_MARKER);
 
-			this.div.appendChild(img);
+			this.inner_div.appendChild(img);
 		}
 	},
 
