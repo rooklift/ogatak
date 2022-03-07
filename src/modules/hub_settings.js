@@ -110,7 +110,7 @@ module.exports = {
 
 		case "wood_colour":
 			precompute_ownership_colours(value);
-			tabber.draw_tabs(this.node);
+			tabber.draw_everything(this.node);
 			this.draw();
 			break;
 
@@ -137,7 +137,7 @@ module.exports = {
 
 		case "thumbnail_square_size":
 
-			tabber.draw_tabs(this.node);
+			tabber.draw_everything(this.node);
 			break;
 
 		case "graph_type":

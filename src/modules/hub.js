@@ -79,7 +79,11 @@ let hub_main_props = {
 			return;
 		}
 
-		let switch_index = null;
+		let switch_tab_dom_id = null;
+
+		// Note that the tabber's arrays are never empty, and when our own node is briefly null
+		// the tabber's length will be 1, so we don't send the tabber the new node to add to its
+		// list, we simply draw it.
 
 		for (let [n, root] of new_roots.entries()) {
 
@@ -98,26 +102,22 @@ let hub_main_props = {
 			if (will_replace) {
 				this.set_node(node, {bless: true});
 			} else {
-				switch_index = tabber.create_inactive_tab_at_end(node);
+				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
 			}
 		}
 
-		if (switch_index === null) {				// All we did was replace this.node
+		if (switch_tab_dom_id === null) {					// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();
-		} else {									// We added tabs to the end
-			this.switch_tab(switch_index);
+		} else {											// We added tabs to the end
+			this.switch_tab_by_dom_id(switch_tab_dom_id);
 			tabber.div.scrollTop = tabber.div.scrollHeight;
 		}
 	},
 
-	switch_tab: function(index) {
-		if (index < 0 || index >= tabber.tabs.length) {
-			return;
-		}
-		let switch_node = tabber.deactivate_node_activate_index(this.node, index);
+	switch_tab_by_dom_id: function(dom_id) {
+		let switch_node = tabber.deactivate_node_activate_dom_id(this.node, dom_id);
 		this.set_node(switch_node, {bless: true});
-		tabber.draw_tabs(this.node);
 		this.update_title();
 	},
 
@@ -137,7 +137,6 @@ let hub_main_props = {
 			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		tabber.draw_tabs(this.node);
 		this.update_title();
 
 		node_to_destroy.destroy_tree();

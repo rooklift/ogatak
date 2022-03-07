@@ -15,7 +15,7 @@ global.alert = (msg) => {
 };
 
 global.hub = require("./hub");
-global.tabber = require("./tabber");
+global.tabber = require("./tabber_v2");
 global.board_drawer = require("./board_drawer");
 global.grapher = require("./grapher");
 global.tree_drawer = require("./tree_drawer");
@@ -23,7 +23,6 @@ global.comment_drawer = require("./comment_drawer");
 global.fullbox = require("./fullbox");
 
 hub.new_game(19, 19);
-tabber.draw_tabs(hub.node);
 
 require("./__start_handlers");
 require("./__start_spinners");
