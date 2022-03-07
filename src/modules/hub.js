@@ -102,6 +102,8 @@ let hub_main_props = {
 			}
 		}
 
+		// Note that the tabber expects to NOT receive the node as an extra tab at app startup.
+
 		if (switch_index === null) {				// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();

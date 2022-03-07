@@ -13,7 +13,6 @@ function init() {
 		div: document.getElementById("tabdiv"),
 		tabs: [],
 		dom_ids: [],
-		startup: true,
 	});
 
 	let dummy_node = new_node();		// Used for the initial thumbnail then forgotten about.
@@ -23,6 +22,12 @@ function init() {
 
 	let img = document.getElementsByClassName(ret.dom_ids[0])[0];
 	img.style.outline = `4px solid ${config.wood_colour}`;
+
+	// So at this point, we have:      tabs === [ACTIVE_TAB_MARKER]
+	//                              dom_ids === ["tab_1"]
+	//
+	// In the DOM, we have an image of a blank board.
+	// When hub.new_game() gets its initial call, it does NOT send its node to be added to our tabs list.
 
 	return ret;
 }
