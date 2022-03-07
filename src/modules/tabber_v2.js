@@ -44,19 +44,17 @@ let tabber_prototype = {
 		img.width = thumb.width;
 		img.height = thumb.height;
 		img.title = node.game_title_text();
-
-		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 		img.style.margin = `0 16px 16px 16px`;
+		this.__update_outline(img, outlineflag);
+	},
+
+	__update_outline: function(img, outlineflag) {
+		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 	},
 
 	draw_active_tab: function(node, outlineflag = true) {
 
-		if (this.last_drawn_active_node_id === node.id) {
-			return;
-		}
-
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-
 		if (index === -1) {
 			throw "draw_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
 		}
@@ -66,8 +64,12 @@ let tabber_prototype = {
 			throw "draw_active_tab(): could not find img element";
 		}
 
-		this.__update_img(img, node, outlineflag);
-		this.last_drawn_active_node_id = node.id;
+		if (this.last_drawn_active_node_id === node.id) {
+			this.__update_outline(img, outlineflag);
+		} else {
+			this.__update_img(img, node, outlineflag);
+			this.last_drawn_active_node_id = node.id;
+		}
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
