@@ -179,6 +179,7 @@ function startup() {
 function menu_build() {
 
 	let colour_choices_submenu = [];
+	let rectangular_submenu = [];
 
 	const template = [
 		{
@@ -197,7 +198,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "New game",
+					label: "New board",
 					accelerator: "CommandOrControl+N",
 					click: () => {
 						win.webContents.send("call", {
@@ -264,6 +265,10 @@ function menu_build() {
 							}
 						},
 					]
+				},
+				{
+					label: "New rectangular board",
+					submenu: rectangular_submenu,
 				},
 				{
 					type: "separator",
@@ -2327,6 +2332,25 @@ function menu_build() {
 				}
 			});
 		}
+	}
+
+	for (let x = 19; x >= 2; x--) {
+		let subsubmenu = [];
+		for (let y = x; y >= 2; y--) {
+			subsubmenu.push({
+				label: x.toString() + "x" + y.toString(),
+				click: () => {
+					win.webContents.send("call", {
+						fn: "new_game",
+						args: [x, y]
+					});
+				}
+			});
+		}
+		rectangular_submenu.push({
+			label: x.toString(),
+			submenu: subsubmenu,
+		});
 	}
 
 	return electron.Menu.buildFromTemplate(template);
