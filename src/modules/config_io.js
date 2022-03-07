@@ -179,6 +179,16 @@ function apply_fixes() {
 			}
 		}
 	}
+
+	// Someone might write booleans as strings...
+
+	for (let key of Object.keys(config)) {
+		if (config[key] === "false" || config[key] === "true") {
+			let fixed = config[key] === "true";
+			console.log(`Adjusted config.${key} from "${config[key]}" to ${fixed}`);
+			config[key] = fixed;
+		}
+	}
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------
