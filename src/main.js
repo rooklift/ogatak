@@ -211,7 +211,7 @@ function menu_build() {
 					label: "New small board",
 					submenu: [
 						{
-							label: "17x17",
+							label: "17 x 17",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -220,7 +220,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "15x15",
+							label: "15 x 15",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -229,7 +229,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "13x13",
+							label: "13 x 13",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -238,7 +238,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "11x11",
+							label: "11 x 11",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -247,7 +247,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "9x9",
+							label: "9 x 9",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -256,7 +256,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "7x7",
+							label: "7 x 7",
 							click: () => {
 								win.webContents.send("call", {
 									fn: "new_game",
@@ -2338,7 +2338,7 @@ function menu_build() {
 		let subsubmenu = [];
 		for (let y = x; y >= 2; y--) {
 			subsubmenu.push({
-				label: x.toString() + "x" + y.toString(),
+				label: x.toString() + " x " + y.toString(),
 				click: () => {
 					win.webContents.send("call", {
 						fn: "new_game",
