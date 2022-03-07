@@ -56,10 +56,9 @@ body {
 
 #tabdiv {
 	grid-area: tabs;
-	font-family: monospace, monospace;
 	height: 100vh;
 	margin: 0;
-	padding: 8px 0 8px 0;
+	padding: 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	pointer-events: auto;
