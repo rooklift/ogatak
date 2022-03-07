@@ -181,7 +181,34 @@ let tabber_prototype = {
 		return ret;
 	},
 
-	draw_tabs: function() {
+	draw_everything: function(active_node) {
+
+		if (!active_node) {
+			throw "draw_tabs(): requires active_node argument";
+		}
+
+		this.div.innerHTML = "";
+
+		for (let n = 0; n < this.tabs.length; n++) {
+
+			let node = (this.tabs[n] === ACTIVE_TAB_MARKER) ? active_node : this.tabs[n];
+			let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
+
+			let dom_id = `tab_${next_dom_id++}`;
+			this.dom_ids[n] = dom_id;
+
+			let img = new Image();
+			img.className = dom_id;
+
+			img.src = thumb.data;
+			img.width = thumb.width;
+			img.height = thumb.height;
+			img.title = node.game_title_text();
+			img.style.outline = (this.tabs[n] === ACTIVE_TAB_MARKER) ? `4px solid ${config.wood_colour}` : "none";
+			img.style.margin = `8px 16px 8px 16px`;
+			
+			this.div.appendChild(img);
+		}
 	},
 
 };
