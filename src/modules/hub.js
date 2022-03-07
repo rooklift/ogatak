@@ -211,10 +211,10 @@ let hub_main_props = {
 					alert("Board sizes > 19 are not supported.");
 				} else {
 					alert("Some games in the collection were not loaded because they have size > 19.");
-					this.add_roots(ok_roots);
+					this.add_roots(ok_roots, "file");
 				}
 			} else {
-				this.add_roots(ok_roots);
+				this.add_roots(ok_roots, "file");
 			}
 
 		} catch (err) {
