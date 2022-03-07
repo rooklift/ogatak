@@ -218,7 +218,6 @@ let hub_main_props = {
 			}
 
 		} catch (err) {
-			console.log("load_sgf_from_string():", err);
 			alert("While loading from string:\n" + err.toString());
 		}
 	},
