@@ -107,8 +107,6 @@ let tabber_prototype = {
 
 	create_inactive_tab_at_end: function(node) {
 
-		assert(typeof node === "object" && node !== null);
-
 		let dom_id = `tab_${next_dom_id++}`;
 
 		this.tabs.push(node);
