@@ -44,6 +44,8 @@ let tabber_prototype = {
 
 	__update_img: function(img, node, outlineflag) {
 
+		assert(img & typeof node === "object" && node !== null);
+
 		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
 
 		img.src = thumb.data;
@@ -51,21 +53,19 @@ let tabber_prototype = {
 		img.height = thumb.height;
 		img.title = node.game_title_text();
 		img.style.margin = `0 16px 16px 16px`;
-		
+
 		this.__update_outline(img, outlineflag);
 	},
 
 	__update_outline: function(img, outlineflag) {
+		assert(img);
 		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 	},
 
 	draw_active_tab: function(node, outlineflag = true) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		assert(index !== -1);
-
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
-		assert(img);
 
 		if (this.last_drawn_active_node_id === node.id) {
 			this.__update_outline(img, outlineflag);
@@ -102,7 +102,6 @@ let tabber_prototype = {
 		// Set the img border to exist...
 
 		let img = document.getElementsByClassName(this.dom_ids[new_active_index])[0];
-		assert(img);
 		this.__update_outline(img, true);
 
 		// Return the node of the new tab...
@@ -134,11 +133,7 @@ let tabber_prototype = {
 		assert(this.tabs.length > 1);
 
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		assert(active_index !== -1);
-
 		let img = document.getElementsByClassName(this.dom_ids[active_index])[0];
-		assert(img);
-
 		img.remove();
 
 		this.tabs.splice(active_index, 1);
@@ -149,7 +144,6 @@ let tabber_prototype = {
 		}
 
 		img = document.getElementsByClassName(this.dom_ids[active_index])[0];
-		assert(img);
 		this.__update_outline(img, true);
 
 		let node = this.tabs[active_index];
