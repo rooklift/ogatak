@@ -74,8 +74,6 @@ let tabber_prototype = {
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
-		assert(typeof node === "object" && node !== null);
-
 		// Draw the active tab so it's up to date when frozen...
 
 		this.draw_active_tab(node, false);
