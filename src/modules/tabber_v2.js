@@ -23,7 +23,7 @@ function init() {
 	ret.tabs[0] = ACTIVE_TAB_MARKER;
 
 	let img = document.getElementsByClassName(ret.dom_ids[0])[0];
-	img.style.outline = `4px solid ${config.wood_colour}`;
+	ret.__update_outline(img, true);
 
 	// So at this point, we have:      tabs === [ACTIVE_TAB_MARKER]
 	//                              dom_ids === ["tab_1"]
