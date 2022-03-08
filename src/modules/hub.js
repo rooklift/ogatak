@@ -89,7 +89,7 @@ let hub_main_props = {
 
 			let will_replace = false;
 
-			if (!this.node || this.node.is_bare_root()) {		// FIXME - not quite the right test.
+			if (!this.node) {								// FIXME - not quite the right test.
 				will_replace = true;
 			}
 
