@@ -7,20 +7,24 @@ const fs = require("fs");
 
 function save_sgf(node, filepath) {
 	try {
-		fs.writeFileSync(filepath, tree_string(node.get_root()));
+		fs.writeFileSync(filepath, tree_string(node));
 	} catch (err) {
 		alert(err);
 	}
 }
 
 function tree_string(node) {
+	return __tree_string(node.get_root());
+}
+
+function __tree_string(node) {
 	let list = [];
 	list.push("(");
 	while (true) {
 		list.push(node.string());
 		if (node.children.length > 1) {
 			for (let child of node.children) {
-				list.push(tree_string(child));
+				list.push(__tree_string(child));
 			}
 			break;
 		} else if (node.children.length === 1) {
@@ -35,22 +39,17 @@ function tree_string(node) {
 }
 
 function save_sgf_multi(nodes, filepath) {
-	let roots = nodes.map(node => node.get_root());
 	try {
-		fs.writeFileSync(filepath, multigame_string(roots));
+		let list = [];
+		for (let node of nodes) {
+			list.push(tree_string(node));
+		}
+		fs.writeFileSync(filepath, list.join("\n\n"));
 	} catch (err) {
 		alert(err);
 	}
 }
 
-function multigame_string(roots) {
-	let list = [];
-	for (let root of roots) {
-		list.push(tree_string(root));
-	}
-	return list.join("\n\n");
-}
 
 
-
-module.exports = {save_sgf, save_sgf_multi};
+module.exports = {save_sgf, save_sgf_multi, tree_string};
