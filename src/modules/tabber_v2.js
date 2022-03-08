@@ -44,8 +44,6 @@ let tabber_prototype = {
 
 	__update_img: function(img, node, outlineflag) {
 
-		assert(img && typeof node === "object" && node !== null);
-
 		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
 
 		img.src = thumb.data;
@@ -58,7 +56,6 @@ let tabber_prototype = {
 	},
 
 	__update_outline: function(img, outlineflag) {
-		assert(img);
 		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 	},
 
