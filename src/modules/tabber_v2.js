@@ -44,7 +44,7 @@ let tabber_prototype = {
 
 	__update_img: function(img, node, outlineflag) {
 
-		assert(img & typeof node === "object" && node !== null);
+		assert(img && typeof node === "object" && node !== null);
 
 		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
 
