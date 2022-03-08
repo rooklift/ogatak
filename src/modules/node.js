@@ -273,8 +273,7 @@ let node_prototype = {
 
 	apply_board_edit: function(key, point) {
 
-		// Note that at the end of this, this.__board is deleted and
-		// will be rebuilt, possibly changing the active player.
+		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 
 		if (!this.get_board().in_bounds(point)) {
 			return;
@@ -310,13 +309,16 @@ let node_prototype = {
 			if (desired_state === "w") this.add_value("AW", point);
 		}
 
-		this.__board = null;	// We could update __board, but this way lets us see any bugs, and ensures consistency with our normal get_board() result.
+		this.__board = null;						// We could update __board, but this way ensures consistency with our normal get_board() result.
 	},
 
 	toggle_player_to_move: function() {
+
+		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
+
 		if (this.get_board().active === "b") {
 			this.set("PL", "W");
-			this.get_board().active = "w";				// But unlike above, I guess it's simple enough to update this directly.
+			this.get_board().active = "w";			// I guess it's simple enough to update this directly.
 		} else {
 			this.set("PL", "B");
 			this.get_board().active = "b";
