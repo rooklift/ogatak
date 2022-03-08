@@ -57,7 +57,7 @@ let tree_drawer_prototype = {
 		if (this.canvas.width <= config.tree_spacing || this.canvas.height <= config.tree_spacing) {
 			return;
 		}
-		if (central_node.is_bare_root()) {
+		if (!central_node.parent && central_node.children.length === 0) {
 			return;
 		}
 

@@ -71,7 +71,7 @@ let hub_main_props = {
 
 	// Tabs........................................................................................
 
-	add_roots: function(new_roots, mode = "") {
+	add_roots: function(new_roots) {
 
 		// Special modes are "handicap" and "file" - they can sometimes replace this.node.
 
@@ -89,11 +89,7 @@ let hub_main_props = {
 
 			let will_replace = false;
 
-			if (!this.node) {
-				will_replace = true;
-			} else if (mode === "handicap" && this.node.is_bare_root()) {
-				will_replace = true;
-			} else if (mode === "file" && this.node.is_bare_root() && tabber.tabs.length === 1 && n === 0) {
+			if (!this.node || this.node.is_bare_root()) {		// FIXME - not quite the right test.
 				will_replace = true;
 			}
 
@@ -192,7 +188,7 @@ let hub_main_props = {
 		return new_roots;
 	},
 
-	load_sgf_from_string: function(s, add_roots_mode = "file") {
+	load_sgf_from_string: function(s) {
 
 		if (typeof s !== "string") {
 			return;
@@ -210,10 +206,10 @@ let hub_main_props = {
 					alert("Board sizes > 19 are not supported.");
 				} else {
 					alert("Some games in the collection were not loaded because they have size > 19.");
-					this.add_roots(ok_roots, add_roots_mode);
+					this.add_roots(ok_roots);
 				}
 			} else {
-				this.add_roots(ok_roots, add_roots_mode);
+				this.add_roots(ok_roots);
 			}
 
 		} catch (err) {
@@ -278,12 +274,12 @@ let hub_main_props = {
 			alert("Load error:\n" + loader_errors[0].toString());
 		}
 
-		this.add_roots(ok_roots, "file");
+		this.add_roots(ok_roots);
 	},
 
 	duplicate_tree: function() {
 		let s = tree_string(this.node);
-		this.load_sgf_from_string(s, "");
+		this.load_sgf_from_string(s);
 	},
 
 	// New game....................................................................................
@@ -323,11 +319,7 @@ let hub_main_props = {
 		root.set("RU", rules);
 		root.set("KM", komi);
 
-		if (handicap) {
-			this.add_roots([root], "handicap");			// Puts add_roots into a special mode where it can (maybe) replace this.node
-		} else {
-			this.add_roots([root], "");
-		}
+		this.add_roots([root]);
 	},
 
 	place_handicap: function(handicap) {
