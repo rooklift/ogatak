@@ -293,7 +293,7 @@ let hub_main_props = {
 		if (handicap === undefined) handicap = 0;
 
 		if (width > 19 || height > 19) {
-			throw new Error("Board sizes > 19 are not supported.");
+			throw new Error("new_game(): board sizes > 19 are not supported");
 		}
 
 		let root = new_node();
