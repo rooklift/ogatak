@@ -236,13 +236,22 @@ let board_prototype = {
 			return false;
 		}
 
+		let neighbours = this.neighbours(s);
+
 		if (this.ko === s) {
-			return false;
+			let weirdness = false;				// When the active player has been unnaturally flipped, the ko is not really a ko. Detect this...
+			for (let neighbour of neighbours) {
+				if (this.state_at(neighbour) === this.active || this.state_at(neighbour) === "") {		// 2nd condition never occurs afaik.
+					weirdness = true;
+					break;
+				}
+			}
+			if (!weirdness) {
+				return false;
+			}
 		}
 
 		// Move will be legal as long as it's not suicide...
-
-		let neighbours = this.neighbours(s);
 
 		for (let neighbour of neighbours) {
 			if (!this.state_at(neighbour)) {
