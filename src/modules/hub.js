@@ -87,21 +87,27 @@ let hub_main_props = {
 			}
 		}
 
-		// Now add roots to the end of the list...
+		if (new_roots.length === 0) {
 
-		let switch_tab_dom_id = null;
+			// If were were just replacing a node and adding nothing else, draw its tab etc...
 
-		for (let root of new_roots) {
-			let node = config.load_at_end ? root.get_end() : root;
-			switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
-		}
-
-		if (!switch_tab_dom_id) {									// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();
-		} else {													// We added tabs to the end, switch to the last one
+
+		} else {
+
+			// Add the roots to the end, then switch to the last one...
+
+			let switch_tab_dom_id;
+
+			for (let root of new_roots) {
+				let node = config.load_at_end ? root.get_end() : root;
+				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
+			}
+
 			this.switch_tab_by_dom_id(switch_tab_dom_id);
 			tabber.outer_div.scrollTop = tabber.outer_div.scrollHeight;
+
 		}
 	},
 
