@@ -108,7 +108,7 @@ let tabber_prototype = {
 		if (!img) {
 			throw "deactivate_node_activate_dom_id(): could not find img for newly-active tab";
 		}
-		img.style.outline = `4px solid ${config.wood_colour}`;
+		this.__update_outline(img, true);
 
 		// Return the node of the new tab...
 
@@ -167,7 +167,7 @@ let tabber_prototype = {
 		if (!img) {
 			throw "close_active_tab(): could not find img for next tab";
 		}
-		img.style.outline = `4px solid ${config.wood_colour}`;
+		this.__update_outline(img, true);
 
 		let node = this.tabs[active_index];
 		this.tabs[active_index] = ACTIVE_TAB_MARKER;
