@@ -9,7 +9,7 @@ const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
-const {save_sgf, save_sgf_multi} = require("./save_sgf");
+const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 const {set_title} = require("./title");
@@ -192,7 +192,7 @@ let hub_main_props = {
 		return new_roots;
 	},
 
-	load_sgf_from_string: function(s) {
+	load_sgf_from_string: function(s, add_roots_mode = "file") {
 
 		if (typeof s !== "string") {
 			return;
@@ -210,10 +210,10 @@ let hub_main_props = {
 					alert("Board sizes > 19 are not supported.");
 				} else {
 					alert("Some games in the collection were not loaded because they have size > 19.");
-					this.add_roots(ok_roots, "file");
+					this.add_roots(ok_roots, add_roots_mode);
 				}
 			} else {
-				this.add_roots(ok_roots, "file");
+				this.add_roots(ok_roots, add_roots_mode);
 			}
 
 		} catch (err) {
@@ -279,6 +279,11 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots, "file");
+	},
+
+	duplicate_tree: function() {
+		let s = tree_string(this.node);
+		this.load_sgf_from_string(s, "");
 	},
 
 	// New game....................................................................................
