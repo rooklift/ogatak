@@ -48,9 +48,8 @@ function load_sgf(buf) {
 			} else {
 				throw err;
 			}
-		} finally {
-			allow_charset_reset = false;
 		}
+		allow_charset_reset = false;
 	}
 
 	if (ret.length === 0) {
