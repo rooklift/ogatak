@@ -101,7 +101,7 @@ exports.finalise_query = function(o, query_node) {
 exports.full_query_matches_base = function(full, base) {
 
 	if (!full.moves || base.moves) {
-		throw "full_query_matches_base(): bad call";			// Probably wrong-way-round
+		throw new Error("full_query_matches_base(): bad call");			// Probably wrong-way-round
 	}
 
 	for (let key of Object.keys(base)) {

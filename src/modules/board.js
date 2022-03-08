@@ -283,7 +283,7 @@ let board_prototype = {
 		// Play the move (or pass) given... contains no legality checks... can play ko... can play the inactive colour!
 
 		if (colour !== "b" && colour !== "w") {
-			throw "play_move_or_pass() - Invalid colour";
+			throw new Error("play_move_or_pass(): invalid colour");
 		}
 
 		this.ko = null;

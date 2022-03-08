@@ -53,7 +53,7 @@ function load_sgf(buf) {
 	}
 
 	if (ret.length === 0) {
-		throw "SGF load error: found no game";
+		throw new Error("SGF load error: found no game");
 	}
 
 	for (let root of ret) {
@@ -87,7 +87,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				tree_started = true;
 				continue;
 			} else {
-				throw "SGF load error: unexpected byte before (";
+				throw new Error("SGF load error: unexpected byte before (");
 			}
 		}
 
@@ -95,14 +95,14 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 
 			if (c === 92) {								// that is \
 				if (buf.length <= i + 1) {
-					throw "SGF load error: escape character at end of input";
+					throw new Error("SGF load error: escape character at end of input");
 				}
 				value.push(buf[i + 1]);
 				i++;
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
 				if (!node) {
-					throw "SGF load error: value ended by ] but node was nil";
+					throw new Error("SGF load error: value ended by ] but node was nil");
 				}
 				let key_string = key.string();
 				let value_string = value.string();
@@ -133,20 +133,20 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				keycomplete = true;
 				let key_string = key.string();
 				if (key_string === "") {
-					throw `SGF load error: value started with [ but key was ""`;
+					throw new Error(`SGF load error: value started with [ but key was ""`);
 				}
 				if ((key_string === "B" || key_string === "W") && (node.has_key("B") || node.has_key("W"))) {
-					throw `SGF load error: multiple moves in node`;
+					throw new Error(`SGF load error: multiple moves in node`);
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
-					throw "SGF load error: new subtree started but node was nil";
+					throw new Error("SGF load error: new subtree started but node was nil");
 				}
 				i += load_sgf_recursive(buf, i, node, false).readcount - 1;
 				// We subtract 1 as the ( character we have read is also counted by the recurse.
 			} else if (c === 41) {						// that is )
 				if (!root) {
-					throw "SGF load error: subtree ended but local root was nil";
+					throw new Error("SGF load error: subtree ended but local root was nil");
 				}
 				return {root: root, readcount: i + 1 - off};
 			} else if (c === 59) {						// that is ;
@@ -165,12 +165,12 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				}
 				key.push(c);
 			} else {
-				throw "SGF load error: unacceptable byte while expecting key";
+				throw new Error("SGF load error: unacceptable byte while expecting key");
 			}
 		}
 	}
 
-	throw "SGF load error: reached end of input";
+	throw new Error("SGF load error: reached end of input");
 }
 
 function apply_basic_props_fix(root) {

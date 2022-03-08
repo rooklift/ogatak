@@ -45,7 +45,7 @@ function load_gib(buf) {
 		if (fields.length >= 4 && fields[0] === "INI") {
 
 			if (node != root) {
-				throw "GIB load error: got INI after moves were made";
+				throw new Error("GIB load error: got INI after moves were made");
 			}
 
 			let handicap = parseInt(fields[3], 10);
@@ -74,7 +74,7 @@ function load_gib(buf) {
 	}
 
 	if (root.children.length === 0) {
-		throw "GIB load error: got no moves";
+		throw new Error("GIB load error: got no moves");
 	}
 
 	return [root];

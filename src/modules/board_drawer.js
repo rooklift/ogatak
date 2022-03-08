@@ -80,7 +80,7 @@ let board_drawer_prototype = {
 	rebuild: function(width, height) {				// Reset all the things...
 
 		if (!width || !height || width > 19 || height > 19) {
-			throw "rebuild() needs valid board sizes";
+			throw new Error("rebuild(): needs valid board sizes");
 		}
 
 		// Remove all registered "mouseenter" handlers on the old TD elements...
@@ -295,7 +295,7 @@ let board_drawer_prototype = {
 	set_td: function(x, y, foo) {
 
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-		if (!td) throw "set_td(): bad x/y";
+		if (!td) throw new Error("set_td(): bad x/y");
 
 		if (foo === "") {
 			td.style["background-image"] = "";
@@ -304,7 +304,7 @@ let board_drawer_prototype = {
 		} else if (foo === "w") {
 			td.style["background-image"] = white_stone_url;
 		} else {
-			throw "set_td(): bad call";
+			throw new Error("set_td(): bad call");
 		}
 
 		this.table_state[x][y] = foo;
@@ -898,7 +898,7 @@ let board_drawer_prototype = {
 // ------------------------------------------------------------------------------------------------
 
 function mark_colour_from_state(state, dflt) {
-	if (!dflt) throw "mark_colour_from_state(): bad call";
+	if (!dflt) throw new Error("mark_colour_from_state(): bad call");
 	if (state === "b") return "#ffffffff";
 	if (state === "w") return "#000000ff";
 	return dflt;

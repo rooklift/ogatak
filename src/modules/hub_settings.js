@@ -261,7 +261,7 @@ module.exports = {
 
 	reset: function(key) {
 		if (defaults[key] === undefined) {
-			throw "Key not in defaults";
+			throw new Error("reset(): key not in defaults");
 		}
 		this.set(key, defaults[key]);
 		return defaults[key];

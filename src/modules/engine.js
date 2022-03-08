@@ -46,7 +46,7 @@ let engine_prototype = {
 			return;
 		}
 		if (typeof o !== "object" || o === null) {
-			throw "__send() requires an object";
+			throw new Error("__send(): requires an object");
 		}
 		try {
 			let msg = JSON.stringify(o);
@@ -120,7 +120,7 @@ let engine_prototype = {
 	setup: function(filepath, engineconfig, weights) {
 
 		if (this.exe || this.has_quit) {
-			throw "Engine object should not be reused!";
+			throw new Error("setup(): engine object should not be reused");
 		}
 
 		this.filepath     = fs.existsSync(filepath)     ? filepath     : "";
@@ -147,7 +147,7 @@ let engine_prototype = {
 	setup_with_command(command, argslist) {
 
 		if (this.exe || this.has_quit) {
-			throw "Engine object should not be reused!";
+			throw new Error("setup_with_command(): engine object should not be reused");
 		}
 
 		if (!Array.isArray(argslist)) {
@@ -202,7 +202,7 @@ let engine_prototype = {
 			try {
 				o = JSON.parse(line);
 				if (typeof o !== "object" || o === null) {
-					throw "Got Non-object!";
+					throw new Error("scanner: got non-object");
 				}
 			} catch (err) {
 				this.log_and_alert("Received non-JSON:", line);

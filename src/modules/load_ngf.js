@@ -9,7 +9,7 @@ function load_ngf(buf) {
 	let lines = split_buffer(buf);
 
 	if (lines.length < 12) {
-		throw "NGF load error: file too short";
+		throw new Error("NGF load error: file too short");
 	}
 
 	for (let n = 0; n < lines.length; n++) {
@@ -48,7 +48,7 @@ function load_ngf(buf) {
 		handicap = 0;
 	}
 	if (handicap < 0 || handicap > 9) {
-		throw "NGF load error: bad handicap";
+		throw new Error("NGF load error: bad handicap");
 	}
 
 	// ------------------------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ function load_ngf(buf) {
 	}
 
 	if (root.children.length === 0) {
-		throw "NGF load error: got no moves";
+		throw new Error("NGF load error: got no moves");
 	}
 
 	return [root];

@@ -3,7 +3,7 @@
 module.exports = function(board, square_size) {
 
 	if (!board) {
-		throw "thumbnail.js: board must be valid";
+		throw new Error("thumbnail.js: board must be valid");
 	}
 
 	let c = document.createElement("canvas");

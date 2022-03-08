@@ -173,7 +173,7 @@ let hub_main_props = {
 		if (type === "gib") new_roots = load_gib(buf);
 
 		if (new_roots.length === 0) {
-			throw "got a zero length array of roots, this is supposed to be impossible";
+			throw new Error("get_roots_from_buffer(): got a zero length array of roots, this is supposed to be impossible");
 		}
 
 		if (filepath) {
@@ -293,7 +293,7 @@ let hub_main_props = {
 		if (handicap === undefined) handicap = 0;
 
 		if (width > 19 || height > 19) {
-			throw "Board sizes > 19 are not supported.";
+			throw new Error("Board sizes > 19 are not supported.");
 		}
 
 		let root = new_node();
@@ -332,7 +332,7 @@ let hub_main_props = {
 	set_node: function(node, supplied_opts) {
 
 		if (!node || node.destroyed) {
-			throw "set_node() called with invalid node";
+			throw new Error("set_node(): called with invalid node");
 		}
 
 		if (this.node === node) {				// A few things can call set_node() with the same node that's currently

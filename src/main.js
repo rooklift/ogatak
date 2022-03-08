@@ -2434,7 +2434,7 @@ function get_submenu_items(menupath) {
 		ret = ret.find(o => o.label.toLowerCase() === s);
 
 		if (ret === undefined) {
-			throw `get_submenu_items() invalid path: ${menupath}`;
+			throw new Error(`get_submenu_items(): invalid path: ${menupath}`);
 		}
 
 		if (ret.submenu) {

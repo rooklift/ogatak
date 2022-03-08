@@ -297,7 +297,7 @@ let node_prototype = {
 		} else if (key === "AE") {
 			desired_state = "";
 		} else {
-			throw "apply_board_edit() - bad call";
+			throw new Error("apply_board_edit(): bad call");
 		}
 
 		this.unset("AB", point);

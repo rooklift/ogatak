@@ -29,7 +29,7 @@ exports.load = function(n = 0) {
 
 exports.stress = function(moves, cycles, delay, with_engine = true) {
 	if (moves === undefined || cycles === undefined || delay === undefined) {
-		throw "Bad call";
+		throw new Error("stress(): bad call");
 	}
 	hub.halt();
 	hub.go_to_root();
