@@ -7,6 +7,12 @@ const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
 let next_dom_id = 1;					// id for the DOM elements (img elements)
 
+function assert(val) {					// The logic in this file is hairy enough that I want to have assert().
+	if (!val) {
+		throw new Error("Assertion failed.");
+	}
+}
+
 function init() {
 
 	let ret = Object.assign(Object.create(tabber_prototype), {
@@ -55,14 +61,10 @@ let tabber_prototype = {
 	draw_active_tab: function(node, outlineflag = true) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (index === -1) {
-			throw "draw_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
+		assert(index !== -1);
 
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
-		if (!img) {
-			throw "draw_active_tab(): could not find img element";
-		}
+		assert(img);
 
 		if (this.last_drawn_active_node_id === node.id) {
 			this.__update_outline(img, outlineflag);
@@ -74,9 +76,7 @@ let tabber_prototype = {
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
-		if (typeof node !== "object" || node === null) {
-			throw "deactivate_node_activate_dom_id(): bad argument";
-		}
+		assert(typeof node === "object" && node !== null);
 
 		// Draw the active tab so it's up to date when frozen...
 
@@ -85,17 +85,13 @@ let tabber_prototype = {
 		// Deactivate the node provided...
 
 		let old_active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (old_active_index === -1) {
-			throw "deactivate_node_activate_dom_id(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
+		assert(old_active_index !== -1);
 		this.tabs[old_active_index] = node;
 
 		// Find what index in our arrays we need to activate...
 
 		let new_active_index = this.dom_ids.indexOf(dom_id);
-		if (new_active_index === -1) {
-			throw "deactivate_node_activate_dom_id(): couldn't find index from dom id";
-		}
+		assert(new_active_index !== -1);
 
 		// Activate the provided index...
 
@@ -105,24 +101,18 @@ let tabber_prototype = {
 		// Set the img border to exist...
 
 		let img = document.getElementsByClassName(this.dom_ids[new_active_index])[0];
-		if (!img) {
-			throw "deactivate_node_activate_dom_id(): could not find img for newly-active tab";
-		}
+		assert(img);
 		this.__update_outline(img, true);
 
 		// Return the node of the new tab...
 
-		if (switch_node.destroyed) {
-			throw "deactivate_node_activate_dom_id(): saw switch_node.destroyed";
-		}
+		assert(!switch_node.destroyed);
 		return switch_node;
 	},
 
 	create_inactive_tab_at_end: function(node) {
 
-		if (typeof node !== "object" || node === null) {
-			throw "create_inactive_tab_at_end(): bad argument";
-		}
+		assert(typeof node === "object" && node !== null);
 
 		let dom_id = `tab_${next_dom_id++}`;
 
@@ -140,19 +130,13 @@ let tabber_prototype = {
 
 	close_active_tab: function() {
 
-		if (this.tabs.length < 2) {
-			throw "close_active_tab(): cannot be called on the only tab";
-		}
+		assert(this.tabs.length > 1);
 
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "close_active_tab(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
+		assert(active_index !== -1);
 
 		let img = document.getElementsByClassName(this.dom_ids[active_index])[0];
-		if (!img) {
-			throw "close_active_tab(): could not find img for closed tab";
-		}
+		assert(img);
 
 		img.remove();
 
@@ -164,9 +148,7 @@ let tabber_prototype = {
 		}
 
 		img = document.getElementsByClassName(this.dom_ids[active_index])[0];
-		if (!img) {
-			throw "close_active_tab(): could not find img for next tab";
-		}
+		assert(img);
 		this.__update_outline(img, true);
 
 		let node = this.tabs[active_index];
@@ -177,9 +159,7 @@ let tabber_prototype = {
 
 	tab_node_list: function(active_node) {
 		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		if (active_index === -1) {
-			throw "tab_node_list(): could not find ACTIVE_TAB_MARKER in tabs";
-		}
+		assert(active_index !== -1);
 		let ret = Array.from(this.tabs);
 		ret[active_index] = active_node;
 		return ret;
@@ -187,9 +167,7 @@ let tabber_prototype = {
 
 	draw_everything: function(active_node) {
 
-		if (!active_node) {
-			throw "draw_tabs(): requires active_node argument";
-		}
+		assert(active_node);
 
 		this.inner_div.innerHTML = "";
 
