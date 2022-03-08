@@ -36,9 +36,9 @@ function init() {
 		node: null,
 		engine: eng,
 
-		__autoanalysis: false,			// Don't set this directly, because it should be ack'd
-		__autoplay: false,				// Don't set this directly, because it should be ack'd
-		__play_colour: null,			// Don't set this directly, because it should be ack'd
+		__autoanalysis: false,			// Don't set this directly, because main.js needs informed too
+		__autoplay: false,				// Don't set this directly, because main.js needs informed too
+		__play_colour: null,			// Don't set this directly, because main.js needs informed too
 
 		pending_up_down: 0,
 		dropped_inputs: 0,
