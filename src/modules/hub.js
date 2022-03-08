@@ -73,8 +73,6 @@ let hub_main_props = {
 
 	add_roots: function(new_roots) {
 
-		// Special modes are "handicap" and "file" - they can sometimes replace this.node.
-
 		if (new_roots.length === 0) {
 			return;
 		}
@@ -87,11 +85,7 @@ let hub_main_props = {
 
 		for (let [n, root] of new_roots.entries()) {
 
-			let will_replace = false;
-
-			if (!this.node) {								// FIXME - not quite the right test.
-				will_replace = true;
-			}
+			let will_replace = (!this.node || this.node.is_bare_root());
 
 			let node = config.load_at_end ? root.get_end() : root;
 

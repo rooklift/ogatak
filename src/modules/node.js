@@ -640,7 +640,7 @@ let node_prototype = {
 	},
 
 	is_bare_root: function() {
-		return !this.parent && this.children.length === 0 && !this.has_key("AB") && !this.has_key("AW");
+		return !this.parent && this.children.length === 0 && !this.has_key("AB") && !this.has_key("AW") && !this.has_key("B") && !this.has_key("W");
 	},
 
 	detach: function() {
