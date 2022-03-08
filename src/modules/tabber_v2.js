@@ -74,32 +74,20 @@ let tabber_prototype = {
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
-		// Draw the active tab so it's up to date when frozen...
+		this.draw_active_tab(node, false);			// Draw the active tab so it's up to date when frozen.
 
-		this.draw_active_tab(node, false);
+		let old_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		assert(old_index !== -1);
+		this.tabs[old_index] = node;
 
-		// Deactivate the node provided...
+		let new_index = this.dom_ids.indexOf(dom_id);
+		assert(new_index !== -1);
 
-		let old_active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		assert(old_active_index !== -1);
-		this.tabs[old_active_index] = node;
+		let switch_node = this.tabs[new_index];
+		this.tabs[new_index] = ACTIVE_TAB_MARKER;
 
-		// Find what index in our arrays we need to activate...
-
-		let new_active_index = this.dom_ids.indexOf(dom_id);
-		assert(new_active_index !== -1);
-
-		// Activate the provided index...
-
-		let switch_node = this.tabs[new_active_index];
-		this.tabs[new_active_index] = ACTIVE_TAB_MARKER;
-
-		// Set the img border to exist...
-
-		let img = document.getElementsByClassName(this.dom_ids[new_active_index])[0];
+		let img = document.getElementsByClassName(this.dom_ids[new_index])[0];
 		this.__update_outline(img, true);
-
-		// Return the node of the new tab...
 
 		assert(!switch_node.destroyed);
 		return switch_node;
@@ -125,31 +113,31 @@ let tabber_prototype = {
 
 		assert(this.tabs.length > 1);
 
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		let img = document.getElementsByClassName(this.dom_ids[active_index])[0];
+		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 		img.remove();
 
-		this.tabs.splice(active_index, 1);
-		this.dom_ids.splice(active_index, 1);
+		this.tabs.splice(index, 1);
+		this.dom_ids.splice(index, 1);
 
-		if (active_index >= this.tabs.length) {
-			active_index = this.tabs.length - 1;
+		if (index >= this.tabs.length) {
+			index = this.tabs.length - 1;
 		}
 
-		img = document.getElementsByClassName(this.dom_ids[active_index])[0];
+		img = document.getElementsByClassName(this.dom_ids[index])[0];
 		this.__update_outline(img, true);
 
-		let node = this.tabs[active_index];
-		this.tabs[active_index] = ACTIVE_TAB_MARKER;
+		let node = this.tabs[index];
+		this.tabs[index] = ACTIVE_TAB_MARKER;
 
 		return node;
 	},
 
 	tab_node_list: function(active_node) {
-		let active_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		assert(active_index !== -1);
+		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		assert(index !== -1);
 		let ret = Array.from(this.tabs);
-		ret[active_index] = active_node;
+		ret[index] = active_node;
 		return ret;
 	},
 
@@ -174,7 +162,6 @@ let tabber_prototype = {
 			this.inner_div.appendChild(img);
 		}
 	},
-
 };
 
 
