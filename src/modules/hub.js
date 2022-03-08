@@ -77,29 +77,29 @@ let hub_main_props = {
 			return;
 		}
 
-		let switch_tab_dom_id = null;
+		// We might want to replace our current tab with the first new root...
 
-		// Note that the tabber's arrays are never empty, and when our own node is briefly null
-		// the tabber's length will be 1, so we don't send the tabber the new node to add to its
-		// list, we simply draw it.
-
-		for (let [n, root] of new_roots.entries()) {
-
-			let will_replace = (!this.node || this.node.is_bare_root());
-
-			let node = config.load_at_end ? root.get_end() : root;
-
-			if (will_replace) {
+		if (tabber.active_tab_is_last() || new_roots.length === 1) {
+			if (!this.node || (this.node && this.node.is_bare_root())) {
+				let node = config.load_at_end ? new_roots[0].get_end() : new_roots[0];
 				this.set_node(node, {bless: true});
-			} else {
-				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
+				new_roots = new_roots.slice(1);
 			}
 		}
 
-		if (switch_tab_dom_id === null) {					// All we did was replace this.node
+		// Now add roots to the end of the list...
+
+		let switch_tab_dom_id = null;
+
+		for (let root of new_roots) {
+			let node = config.load_at_end ? root.get_end() : root;
+			switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
+		}
+
+		if (!switch_tab_dom_id) {									// All we did was replace this.node
 			tabber.draw_active_tab(this.node);
 			this.update_title();
-		} else {											// We added tabs to the end
+		} else {													// We added tabs to the end, switch to the last one
 			this.switch_tab_by_dom_id(switch_tab_dom_id);
 			tabber.outer_div.scrollTop = tabber.outer_div.scrollHeight;
 		}

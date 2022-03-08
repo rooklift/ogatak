@@ -133,6 +133,10 @@ let tabber_prototype = {
 		return node;
 	},
 
+	active_tab_is_last: function() {
+		return this.tabs.indexOf(ACTIVE_TAB_MARKER) === this.tabs.length - 1;
+	},
+
 	tab_node_list: function(active_node) {
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		assert(index !== -1);
