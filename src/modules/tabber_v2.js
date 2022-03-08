@@ -51,6 +51,7 @@ let tabber_prototype = {
 		img.height = thumb.height;
 		img.title = node.game_title_text();
 		img.style.margin = `0 16px 16px 16px`;
+		
 		this.__update_outline(img, outlineflag);
 	},
 
