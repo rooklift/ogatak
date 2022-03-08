@@ -80,7 +80,7 @@ let hub_main_props = {
 		// We might want to replace our current tab with the first new root...
 
 		if (tabber.active_tab_is_last() || new_roots.length === 1) {
-			if (!this.node || (this.node && this.node.is_bare_root())) {
+			if (!this.node || this.node.is_bare_root()) {
 				let node = config.load_at_end ? new_roots[0].get_end() : new_roots[0];
 				this.set_node(node, {bless: true});
 				new_roots = new_roots.slice(1);
