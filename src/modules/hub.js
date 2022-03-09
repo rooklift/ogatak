@@ -213,7 +213,7 @@ let hub_main_props = {
 			}
 
 		} catch (err) {
-			alert("While loading from string:\n" + err.toString());
+			alert(err.toString());
 		}
 	},
 
@@ -271,7 +271,7 @@ let hub_main_props = {
 		if (loader_errors.length > 1) {
 			alert("Some errors occurred while loading these files.");
 		} else if (loader_errors.length === 1) {
-			alert("Load error:\n" + loader_errors[0].toString());
+			alert(loader_errors[0].toString());
 		}
 
 		this.add_roots(ok_roots);
