@@ -178,9 +178,6 @@ function startup() {
 
 function menu_build() {
 
-	let colour_choices_submenu = [];
-	let rectangular_submenu = [];
-
 	const template = [
 		{
 			label: "File",
@@ -268,7 +265,7 @@ function menu_build() {
 				},
 				{
 					label: "New rectangular board",
-					submenu: rectangular_submenu,
+					submenu: rectangular_submenu(),
 				},
 				{
 					type: "separator",
@@ -1528,7 +1525,7 @@ function menu_build() {
 				},
 				{
 					label: "Colours",
-					submenu: colour_choices_submenu
+					submenu: colour_choices_submenu(),
 				},
 			]
 		},
@@ -2373,11 +2370,18 @@ function menu_build() {
 		}
 	];
 
+	return electron.Menu.buildFromTemplate(template);
+}
+
+function colour_choices_submenu() {
+
+	let ret = [];
+
 	for (let item of colour_choices.items) {
 		if (item.type === "separator") {
-			colour_choices_submenu.push({type: "separator"});
+			ret.push({type: "separator"});
 		} else {
-			colour_choices_submenu.push({
+			ret.push({
 				label: item.label,
 				type: "checkbox",
 				checked: config.top_colour_black === item.opts.top_colour_black &&
@@ -2394,6 +2398,13 @@ function menu_build() {
 		}
 	}
 
+	return ret;
+}
+
+function rectangular_submenu() {
+
+	let ret = [];
+
 	for (let x = 19; x >= 2; x--) {
 		let subsubmenu = [];
 		for (let y = x; y >= 2; y--) {
@@ -2407,13 +2418,13 @@ function menu_build() {
 				}
 			});
 		}
-		rectangular_submenu.push({
+		ret.push({
 			label: x.toString(),
 			submenu: subsubmenu,
 		});
 	}
 
-	return electron.Menu.buildFromTemplate(template);
+	return ret;
 }
 
 // --------------------------------------------------------------------------------------------------------------
