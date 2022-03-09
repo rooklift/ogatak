@@ -236,13 +236,7 @@ function menu_build() {
 					}
 				},
 				{type: "separator"},
-				{
-					label: "Save game",
-					accelerator: "CommandOrControl+S",
-					click: () => {
-						win.webContents.send("call", "save_fast");
-					}
-				},
+				simple_named_caller("Save game", "save_fast", "CommandOrControl+S"),
 				{
 					label: "Save game as...",
 					click: () => {
@@ -406,20 +400,8 @@ function menu_build() {
 					}
 				},
 				{type: "separator"},
-				{
-					label: "Go",
-					accelerator: "CommandOrControl+G",
-					click: () => {
-						win.webContents.send("call", "go");
-					}
-				},
-				{
-					label: "Halt",
-					accelerator: "CommandOrControl+H",
-					click: () => {
-						win.webContents.send("call", "halt");
-					}
-				},
+				simple_named_caller("Go", "go", "CommandOrControl+G"),
+				simple_named_caller("Halt", "halt", "CommandOrControl+H"),
 				{type: "separator"},
 				{
 					label: "Self-play",
@@ -459,42 +441,20 @@ function menu_build() {
 					submenu: checkbox_submenu("analysis_pv_len", [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10]),
 				},
 				{type: "separator"},
-				{
-					label: "Wide root noise",
-					type: "checkbox",
-					checked: config.widerootnoise,
-					click: () => {
-						win.webContents.send("toggle", "widerootnoise");
-					}
-				},
-				{
-					label: "Symmetry pruning",
-					type: "checkbox",
-					checked: config.symmetry_pruning,
-					click: () => {
-						win.webContents.send("toggle", "symmetry_pruning");
-					}
-				},
+				named_toggle("Wide root noise", "widerootnoise"),
+				named_toggle("Symmetry pruning", "symmetry_pruning"),
 				{type: "separator"},
 				{
 					label: "Ownership",
-					submenu: checkbox_submenu("ownership_marks", ["None", "Dead stones", "Whole board"]),
+					submenu: [
+						checkbox("ownership_marks", "None"),
+						checkbox("ownership_marks", "Dead stones", "CommandOrControl+["),
+						checkbox("ownership_marks", "Whole board", "CommandOrControl+]"),
+					]
 				},
-				{
-					label: "...per-move (costly)",
-					type: "checkbox",
-					checked: config.ownership_per_move,
-					click: () => {
-						win.webContents.send("toggle", "ownership_per_move");
-					}
-				},
+				named_toggle("...per-move (costly)", "ownership_per_move"),
 				{type: "separator"},
-				{
-					label: "Clear all analysis",
-					click: () => {
-						win.webContents.send("call", "forget_analysis_tree");
-					}
-				},
+				simple_named_caller("Clear all analysis", "forget_analysis_tree"),
 			]
 		},
 		{
@@ -541,43 +501,11 @@ function menu_build() {
 					]
 				},
 				{type: "separator"},
-				{
-					label: "Candidate moves",
-					type: "checkbox",
-					checked: config.candidate_moves,
-					accelerator: "C",
-					click: () => {
-						win.webContents.send("toggle", "candidate_moves");
-					}
-				},
-				{
-					label: "...with PV mouseover",
-					type: "checkbox",
-					checked: config.mouseover_pv,
-					accelerator: "V",
-					click: () => {
-						win.webContents.send("toggle", "mouseover_pv");
-					}
-				},
-				{
-					label: "...fade by visits",
-					type: "checkbox",
-					checked: config.visit_colours,
-					accelerator: "B",
-					click: () => {
-						win.webContents.send("toggle", "visit_colours");
-					}
-				},
+				named_toggle("Candidate moves", "candidate_moves", "C"),
+				named_toggle("...with PV mouseover", "mouseover_pv", "V"),
+				named_toggle("...fade by visits", "visit_colours", "B"),
 				{type: "separator"},
-				{
-					label: "Next move markers",
-					type: "checkbox",
-					checked: config.next_move_markers,
-					accelerator: "M",
-					click: () => {
-						win.webContents.send("toggle", "next_move_markers");
-					}
-				},
+				named_toggle("Next move markers", "next_move_markers", "M"),
 				{type: "separator"},
 				{
 					label: "Colours",
@@ -588,14 +516,7 @@ function menu_build() {
 		{
 			label: "Sizes",
 			submenu: [
-				{
-					label: "Auto-resize squares",
-					type: "checkbox",
-					checked: config.auto_square_size,
-					click: () => {
-						win.webContents.send("toggle", "auto_square_size");
-					}
-				},
+				named_toggle("Auto-resize squares", "auto_square_size"),
 				{type: "separator"},
 				{
 					label: "Board squares",
@@ -646,12 +567,9 @@ function menu_build() {
 		{
 			label: "Misc",
 			submenu: [
-
 				simple_named_caller("Escape", "escape", "Escape"),
 				{type: "separator"},
-				{
-					role: "toggledevtools"
-				},
+				{role: "toggledevtools"},
 				{
 					label: `Show ${config_io.filename}`,
 					click: () => {
@@ -683,43 +601,11 @@ function menu_build() {
 				},
 				simple_named_caller("Halt", "halt"),
 				{type: "separator"},
-				{
-					label: "Log engine stderr to console",
-					type: "checkbox",
-					checked: config.stderr_to_console,
-					click: () => {
-						win.webContents.send("toggle", "stderr_to_console");
-					}
-				},
-				{
-					label: "Load games at final position",
-					type: "checkbox",
-					checked: config.load_at_end,
-					click: () => {
-						win.webContents.send("toggle", "load_at_end");
-					}
-				},
+				named_toggle("Log engine stderr to console", "stderr_to_console"),
+				named_toggle("Load games at final position", "load_at_end"),
 				{type: "separator"},
-				{
-					label: "Show root properties",
-					accelerator: "CommandOrControl+P",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "display_props",
-							args: [true]
-						});
-					}
-				},
-				{
-					label: "Show node properties",
-					accelerator: "CommandOrControl+Shift+P",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "display_props",
-							args: [false]
-						});
-					}
-				},
+				named_caller("Show root properties", "display_props", true, "CommandOrControl+P"),
+				named_caller("Show node properties", "display_props", false, "CommandOrControl+Shift+P"),
 				{type: "separator"},
 				{
 					label: "Engine report rate",
@@ -788,7 +674,7 @@ function colour_choices_submenu() {
 
 function named_checkbox(label, varname, value, accelerator) {
 	let ret = {
-		label: label,
+		label: label.toString(),
 		type: "checkbox",
 		checked: config[varname] === value,
 		click: () => {
@@ -803,7 +689,7 @@ function named_checkbox(label, varname, value, accelerator) {
 
 function named_caller(label, fn_name, value, accelerator) {		// Assumes 1 single argument to the hub function
 	let ret = {
-		label: label,
+		label: label.toString(),
 		click: () => {
 			win.webContents.send("call", {
 				fn: fn_name,
@@ -819,7 +705,7 @@ function named_caller(label, fn_name, value, accelerator) {		// Assumes 1 single
 
 function simple_named_caller(label, fn_name, accelerator) {		// 0 arguments to the hub function
 	let ret = {
-		label: label,
+		label: label.toString(),
 		click: () => {
 			win.webContents.send("call", fn_name);
 		}
@@ -830,12 +716,27 @@ function simple_named_caller(label, fn_name, accelerator) {		// 0 arguments to t
 	return ret;
 }
 
+function named_toggle(label, varname, accelerator) {
+	let ret = {
+		label: label.toString(),
+		type: "checkbox",
+		checked: !!config[varname],
+		click: () => {
+			win.webContents.send("toggle", varname);
+		}
+	};
+	if (accelerator) {
+		ret.accelerator = accelerator;
+	}
+	return ret;
+}
+
 function checkbox(varname, value, accelerator) {
-	return named_checkbox(value.toString(), varname, value, accelerator);
+	return named_checkbox(value, varname, value, accelerator);
 }
 
 function caller(fn_name, value, accelerator) {
-	return named_caller(value.toString(), fn_name, value, accelerator);
+	return named_caller(value, fn_name, value, accelerator);
 }
 
 function checkbox_submenu(varname, values) {
