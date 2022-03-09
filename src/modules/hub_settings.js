@@ -5,7 +5,7 @@ const {defaults} = require("./config_io");
 const {precompute_ownership_colours} = require("./ownership_colours");
 
 const multichecks = {
-	// visits_threshold not included here.
+	// Some special submenus are not included here, when their values don't match their labels.
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
 	analysis_pv_len:		["Analysis", "PV length (max)"],
 	ownership_marks:		["Analysis", "Ownership"],
