@@ -19,14 +19,6 @@ exports.replace_all = function(s, search, replace) {
 	return s.split(search).join(replace);
 };
 
-exports.opposite_colour = function(s) {
-	if (s === "b") return "w";
-	if (s === "w") return "b";
-	if (s === "B") return "W";
-	if (s === "W") return "B";
-	return "";
-};
-
 exports.event_path_string = function(event, prefix) {
 
 	// Given an event with event.path like ["foo", "bar", "searchmove_e2e4", "whatever"]

@@ -8,7 +8,7 @@
 //
 // The state at each board point is either "" or "b" or "w".
 
-const {opposite_colour, xy_to_s, points_list} = require("./utils");
+const {xy_to_s, points_list} = require("./utils");
 
 function new_board(width, height, state = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
@@ -259,6 +259,11 @@ let board_prototype = {
 			}
 		}
 
+		// Note that the above test is done there rather than inside the loop below
+		// because it's super-cheap and so worth doing in its entirety first.
+
+		let inactive = (this.active === "b") ? "w" : "b";
+
 		for (let neighbour of neighbours) {
 			if (this.state_at(neighbour) === this.active) {
 				let touched = Object.create(null);
@@ -266,7 +271,7 @@ let board_prototype = {
 				if (this.has_liberties_recurse(neighbour, touched)) {
 					return true;				// One of the groups we're joining has a liberty other than s.
 				}
-			} else if (this.state_at(neighbour) === opposite_colour(this.active)) {
+			} else if (this.state_at(neighbour) === inactive) {
 				let touched = Object.create(null);
 				touched[s] = true;
 				if (!this.has_liberties_recurse(neighbour, touched)) {
