@@ -222,13 +222,7 @@ function menu_build() {
 				{
 					type: "separator",
 				},
-				{
-					label: "Close tab",
-					accelerator: "CommandOrControl+W",
-					click: () => {
-						win.webContents.send("call", "close_tab");
-					}
-				},
+				simple_named_caller("Close tab", "close_tab", "CommandOrControl+W"),
 				{
 					type: "separator",
 				},
@@ -375,183 +369,38 @@ function menu_build() {
 				{
 					type: "separator",
 				},
-				{
-					label: "Clear cache",
-					click: () => {
-						win.webContents.send("call", "clear_cache");
-					}
-				},
-				{
-					label: "Restart",
-					click: () => {
-						win.webContents.send("call", "restart_engine");
-					}
-				},
+				simple_named_caller("Clear cache", "clear_cache"),
+				simple_named_caller("Restart", "restart_engine"),
 			]
 		},
 		{
 			label: "Tree",
 			submenu: [
-				{
-					label: "Play best move",
-					accelerator: ",",
-					click: () => {
-						win.webContents.send("call", "play_best");
-					}
-				},
-				{
-					label: "Pass",
-					accelerator: "P",
-					click: () => {
-						win.webContents.send("call", "pass");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Root",
-					accelerator: "Home",		// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", "go_to_root");
-					}
-				},
-				{
-					label: "End",
-					accelerator: "End",			// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", "go_to_end");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Backward",
-					accelerator: "Up",			// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", {
-							fn: "input_up_down",
-							args: [-1]
-						});
-					}
-				},
-				{
-					label: "Forward",
-					accelerator: "Down",		// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", {
-							fn: "input_up_down",
-							args: [1]
-						});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Backward 10",
-					accelerator: "PageUp",		// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", {
-							fn: "input_up_down",
-							args: [-10]
-						});
-					}
-				},
-				{
-					label: "Forward 10",
-					accelerator: "PageDown",	// Likely intercepted by the renderer process, see __start_handlers.js
-					click: () => {
-						win.webContents.send("call", {
-							fn: "input_up_down",
-							args: [10]
-						});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Previous sibling",
-					accelerator: "Left",
-					click: () => {
-						win.webContents.send("call", "prev_sibling");
-					}
-				},
-				{
-					label: "Next sibling",
-					accelerator: "Right",
-					click: () => {
-						win.webContents.send("call", "next_sibling");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Return to main line",
-					accelerator: "CommandOrControl+R",
-					click: () => {
-						win.webContents.send("call", "return_to_main");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Find previous fork",
-					accelerator: "CommandOrControl+D",
-					click: () => {
-						win.webContents.send("call", "previous_fork");
-					}
-				},
-				{
-					label: "Find next fork",
-					accelerator: "CommandOrControl+F",
-					click: () => {
-						win.webContents.send("call", "next_fork");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Promote line",
-					accelerator: "CommandOrControl+K",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "promote",
-							args: [true]
-						});
-					}
-				},
-				{
-					label: "Promote line to main line",
-					accelerator: "CommandOrControl+L",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "promote_to_main_line",
-							args: [true]
-						});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Delete node",
-					accelerator: "CommandOrControl+Backspace",
-					click: () => {
-						win.webContents.send("call", "delete_node");
-					}
-				},
-				{
-					label: "Delete all other lines",
-					click: () => {
-						win.webContents.send("call", "delete_other_lines");
-					}
-				},
+				simple_named_caller("Play best move", "play_best", ","),
+				simple_named_caller("Pass", "pass", "P"),
+				{type: "separator"},
+				simple_named_caller("Root", "go_to_root", "Home"),				// Likely intercepted by the renderer process, see __start_handlers.js
+				simple_named_caller("End", "go_to_end", "End"),					// Likely intercepted by the renderer process, see __start_handlers.js
+				{type: "separator"},
+				named_caller("Backward", "input_up_down", -1, "Up"),			// Likely intercepted by the renderer process, see __start_handlers.js
+				named_caller("Forward", "input_up_down", 1, "Down"),			// Likely intercepted by the renderer process, see __start_handlers.js
+				{type: "separator"},
+				named_caller("Backward 10", "input_up_down", -10, "PageUp"),	// Likely intercepted by the renderer process, see __start_handlers.js
+				named_caller("Forward 10", "input_up_down", 10, "PageDown"),	// Likely intercepted by the renderer process, see __start_handlers.js
+				{type: "separator"},
+				simple_named_caller("Previous sibling", "prev_sibling", "Left"),
+				simple_named_caller("Next sibling", "next_sibling", "Right"),
+				{type: "separator"},
+				simple_named_caller("Return to main line", "return_to_main", "CommandOrControl+R"),
+				{type: "separator"},
+				simple_named_caller("Find previous fork", "previous_fork", "CommandOrControl+D"),
+				simple_named_caller("Find next fork", "next_fork", "CommandOrControl+F"),
+				{type: "separator"},
+				named_caller("Promote line", "promote", true, "CommandOrControl+K"),
+				named_caller("Promote line to main line", "promote_to_main_line", true, "CommandOrControl+L"),
+				{type: "separator"},
+				simple_named_caller("Delete node", "delete_node", "CommandOrControl+Backspace"),
+				simple_named_caller("Delete all other lines", "delete_other_lines")
 			]
 		},
 		{
@@ -958,6 +807,8 @@ function menu_build() {
 	]);
 }
 
+// --------------------------------------------------------------------------------------------------------------
+
 function rectangular_submenu() {
 
 	let ret = [];
@@ -1012,8 +863,6 @@ function colour_choices_submenu() {
 	return ret;
 }
 
-// --------------------------------------------------------------------------------------------------------------
-
 function named_checkbox(label, varname, value, accelerator) {
 	let ret = {
 		label: label,
@@ -1037,6 +886,19 @@ function named_caller(label, fn_name, value, accelerator) {		// Assumes 1 single
 				fn: fn_name,
 				args: [value],
 			});
+		}
+	};
+	if (accelerator) {
+		ret.accelerator = accelerator;
+	}
+	return ret;
+}
+
+function simple_named_caller(label, fn_name, accelerator) {		// 0 arguments to the hub function
+	let ret = {
+		label: label,
+		click: () => {
+			win.webContents.send("call", fn_name);
 		}
 	};
 	if (accelerator) {
