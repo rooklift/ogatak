@@ -444,8 +444,8 @@ let node_prototype = {
 			}
 
 			let pl = node.get("PL");
-			if (pl[0] === "B" || pl[0] === "b" || pl === "1") node.__board.active = "b";
-			if (pl[0] === "W" || pl[0] === "w" || pl === "2") node.__board.active = "w";
+			if (pl && (pl[0] === "B" || pl[0] === "b" || pl === "1")) node.__board.active = "b";
+			if (pl && (pl[0] === "W" || pl[0] === "w" || pl === "2")) node.__board.active = "w";
 
 			let km = parseFloat(node.get("KM"));
 			if (!Number.isNaN(km)) {
