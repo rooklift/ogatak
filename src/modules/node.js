@@ -90,8 +90,6 @@ let node_prototype = {
 		delete this.props[key];
 	},
 
-	// --------------------------------------------------------------------------------------------
-
 	has_key: function(key) {
 		return Array.isArray(this.props[key]);
 	},
@@ -126,8 +124,6 @@ let node_prototype = {
 		return ret;
 	},
 
-	// --------------------------------------------------------------------------------------------
-
 	toggle_shape_at(key, point) {
 
 		this.decompress_points_list("TR");
@@ -147,8 +143,6 @@ let node_prototype = {
 			this.add_value(key, point);
 		}
 	},
-
-	// --------------------------------------------------------------------------------------------
 
 	change_id: function() {
 		if (!this.id) {
@@ -312,6 +306,20 @@ let node_prototype = {
 		this.__board = null;						// We could update __board, but this way ensures consistency with our normal get_board() result.
 	},
 
+	natural_active: function() {
+
+		// Returns "b", "w", or null based on the properties in THIS NODE ALONE, without considering history.
+		// Does nothing special for root (remember that ancient games have W playing first). Ignores the PL tag.
+		
+		if (this.has_key("B") && !this.has_key("W")) return "w";
+		if (!this.has_key("B") && this.has_key("W")) return "b";
+
+		if (this.has_key("AB") && !this.has_key("AW")) return "w";
+		if (!this.has_key("AB") && this.has_key("AW")) return "b";
+
+		return null;		// Of course null is not a valid board.active value, so the caller must check.
+	},
+
 	toggle_player_to_move: function() {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
@@ -399,20 +407,6 @@ let node_prototype = {
 			return this.parent.children[i + 1];
 		}
 		return undefined;
-	},
-
-	natural_active: function() {
-
-		// Returns "b", "w", or null based on the properties in THIS NODE ALONE, without considering history.
-		// Does nothing special for root (remember that ancient games have W playing first). Ignores the PL tag.
-		
-		if (this.has_key("B") && !this.has_key("W")) return "w";
-		if (!this.has_key("B") && this.has_key("W")) return "b";
-
-		if (this.has_key("AB") && !this.has_key("AW")) return "w";
-		if (!this.has_key("AB") && this.has_key("AW")) return "b";
-
-		return null;		// Of course null is not a valid board.active value, so the caller must check.
 	},
 
 	get_board: function() {
@@ -924,6 +918,6 @@ function forget_analysis_recursive(node) {
 	}
 }
 
-// ------------------------------------------------------------------------------------------------
+
 
 module.exports = new_node;
