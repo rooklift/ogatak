@@ -683,7 +683,7 @@ function menu_build() {
 			]
 		},
 		{
-			label: "Tools",
+			label: "Tools",								// Needs special treatment in hub_settings.js, because its values don't match its labels.
 			submenu: [
 				{
 					label: "Normal",
@@ -1268,7 +1268,7 @@ function menu_build() {
 			label: "Display",
 			submenu: [
 				{
-					label: "Visit filter",
+					label: "Visit filter",				// Needs special treatment in hub_settings.js, because its values don't match its labels.
 					submenu: [
 						{
 							label: "All",
