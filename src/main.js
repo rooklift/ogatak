@@ -191,19 +191,8 @@ function menu_build() {
 						});
 					}
 				},
-				{
-					type: "separator",
-				},
-				{
-					label: "New board",
-					accelerator: "CommandOrControl+N",
-					click: () => {
-						win.webContents.send("call", {
-							fn: "new_game",
-							args: [19, 19]
-						});
-					}
-				},
+				{type: "separator"},
+				simple_named_caller("New board", "new_game", "CommandOrControl+N"),
 				{
 					label: "New small board",
 					submenu: caller_submenu("new_game_sizestring", ["17 x 17", "15 x 15", "13 x 13", "11 x 11", "9 x 9", "7 x 7"]),
@@ -212,20 +201,14 @@ function menu_build() {
 					label: "New rectangular board",
 					submenu: rectangular_submenu(),
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Handicap",
 					submenu: caller_submenu("place_handicap", [9, 8, 7, 6, 5, 4, 3, 2]),
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				simple_named_caller("Close tab", "close_tab", "CommandOrControl+W"),
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Open SGF / GIB / NGF...",
 					accelerator: "CommandOrControl+O",
@@ -252,9 +235,7 @@ function menu_build() {
 						});
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Save game",
 					accelerator: "CommandOrControl+S",
@@ -280,9 +261,7 @@ function menu_build() {
 						});
 					},
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Save collection as...",
 					click: () => {
@@ -301,9 +280,7 @@ function menu_build() {
 						});
 					},
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Quit",
 					accelerator: "CommandOrControl+Q",
@@ -350,9 +327,7 @@ function menu_build() {
 						});
 					},
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Launch KataGo via command...",
 					click: () => {
@@ -366,9 +341,7 @@ function menu_build() {
 						);
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				simple_named_caller("Clear cache", "clear_cache"),
 				simple_named_caller("Restart", "restart_engine"),
 			]
@@ -416,6 +389,8 @@ function menu_build() {
 				named_checkbox("Square", "mode", "TR", "6"),
 				named_checkbox("Circle", "mode", "TR", "7"),
 				named_checkbox("Cross", "mode", "TR", "8"),
+				{type: "separator"},
+				simple_named_caller("Toggle active player", "toggle_active_player"),
 			],
 		},
 		{
@@ -430,9 +405,7 @@ function menu_build() {
 						win.webContents.send("call", "toggle_ponder");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Go",
 					accelerator: "CommandOrControl+G",
@@ -447,9 +420,7 @@ function menu_build() {
 						win.webContents.send("call", "halt");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Self-play",
 					type: "checkbox",
@@ -468,16 +439,12 @@ function menu_build() {
 						win.webContents.send("call", "start_autoanalysis");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Autoanalysis visits",
 					submenu: checkbox_submenu("autoanalysis_visits", [10000, 5000, 2500, 1000, 500, 250, 100, 50, 25, 10]),
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Set rules",
 					submenu: caller_submenu("coerce_rules", ["Chinese", "Japanese", "Stone Scoring"]),
@@ -486,16 +453,12 @@ function menu_build() {
 					label: "Set komi",
 					submenu: caller_submenu("coerce_komi", [7.5, 7, 6.5, 6, 5.5, 5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.5, 0]),
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "PV length (max)",
 					submenu: checkbox_submenu("analysis_pv_len", [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10]),
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Wide root noise",
 					type: "checkbox",
@@ -512,9 +475,7 @@ function menu_build() {
 						win.webContents.send("toggle", "symmetry_pruning");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Ownership",
 					submenu: checkbox_submenu("ownership_marks", ["None", "Dead stones", "Whole board"]),
@@ -527,9 +488,7 @@ function menu_build() {
 						win.webContents.send("toggle", "ownership_per_move");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Clear all analysis",
 					click: () => {
@@ -581,9 +540,7 @@ function menu_build() {
 						checkbox("graph_type", "Score", "F10"),
 					]
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Candidate moves",
 					type: "checkbox",
@@ -611,9 +568,7 @@ function menu_build() {
 						win.webContents.send("toggle", "visit_colours");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Next move markers",
 					type: "checkbox",
@@ -623,9 +578,7 @@ function menu_build() {
 						win.webContents.send("toggle", "next_move_markers");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Colours",
 					submenu: colour_choices_submenu()
@@ -643,9 +596,7 @@ function menu_build() {
 						win.webContents.send("toggle", "auto_square_size");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Board squares",
 					submenu: checkbox_submenu("square_size", [72, 68, 64, 60, 56, 52, 48, 44, 40, 38, 36, 34, 32, 30]),
@@ -658,16 +609,12 @@ function menu_build() {
 					label: "Board lines",
 					submenu: checkbox_submenu("board_line_width", [4, 3, 2, 1]),
 				},
-				{
-					type: "separator"
-				},
+				{type: "separator"},
 				{
 					label: "Info font",
 					submenu: checkbox_submenu("info_font_size", [32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12]),
 				},
-				{
-					type: "separator"
-				},
+				{type: "separator"},
 				{
 					label: "Graph width",
 					submenu: checkbox_submenu("graph_width", [512, 480, 448, 416, 384, 352, 320, 288, 256, 224, 192, 160, 128, 96, 64, 0]),
@@ -680,16 +627,12 @@ function menu_build() {
 					label: "Graph minor lines",
 					submenu: checkbox_submenu("minor_graph_linewidth", [4, 3, 2, 1]),
 				},
-				{
-					type: "separator"
-				},
+				{type: "separator"},
 				{
 					label: "Thumbnail squares",
 					submenu: checkbox_submenu("thumbnail_square_size", [8, 6, 4]),
 				},
-				{
-					type: "separator"
-				},
+				{type: "separator"},
 				{
 					label: "Tree spacing",
 					submenu: checkbox_submenu("tree_spacing", [48, 44, 40, 36, 32, 28, 24]),
@@ -703,16 +646,9 @@ function menu_build() {
 		{
 			label: "Misc",
 			submenu: [
-				{
-					label: "Escape",
-					accelerator: "Escape",
-					click: () => {
-						win.webContents.send("call", "escape");
-					}
-				},
-				{
-					type: "separator",
-				},
+
+				simple_named_caller("Escape", "escape", "Escape"),
+				{type: "separator"},
 				{
 					role: "toggledevtools"
 				},
@@ -722,9 +658,7 @@ function menu_build() {
 						electron.shell.showItemInFolder(config_io.filepath);
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Play Black",
 					type: "checkbox",
@@ -747,15 +681,8 @@ function menu_build() {
 						});
 					}
 				},
-				{
-					label: "Halt",
-					click: () => {
-						win.webContents.send("call", "halt");
-					}
-				},
-				{
-					type: "separator",
-				},
+				simple_named_caller("Halt", "halt"),
+				{type: "separator"},
 				{
 					label: "Log engine stderr to console",
 					type: "checkbox",
@@ -772,9 +699,7 @@ function menu_build() {
 						win.webContents.send("toggle", "load_at_end");
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Show root properties",
 					accelerator: "CommandOrControl+P",
@@ -795,9 +720,7 @@ function menu_build() {
 						});
 					}
 				},
-				{
-					type: "separator",
-				},
+				{type: "separator"},
 				{
 					label: "Engine report rate",
 					submenu: checkbox_submenu("report_every", [0.1, 0.2, 0.4]),
