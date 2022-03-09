@@ -315,14 +315,18 @@ let node_prototype = {
 	toggle_player_to_move: function() {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
+		// We go through some rigmarol to not leave PL tags where there is enough info in the node that they're redundant...
 
-		if (this.get_board().active === "b") {
-			this.set("PL", "W");
-			this.get_board().active = "w";			// I guess it's simple enough to update this directly.
+		let natural = this.natural_active();		// Possibly null. But a real value if node has some unambiguous B/W/AB/AW keys.
+
+		let desired = (this.get_board().active === "b") ? "w" : "b";
+
+		if (natural === desired) {
+			this.delete_key("PL");
 		} else {
-			this.set("PL", "B");
-			this.get_board().active = "b";
+			this.set("PL", desired.toUpperCase());
 		}
+		this.get_board().active = desired;			// I guess it's simple enough to update this directly.
 	},
 
 	width: function() {
@@ -395,6 +399,20 @@ let node_prototype = {
 			return this.parent.children[i + 1];
 		}
 		return undefined;
+	},
+
+	natural_active: function() {
+
+		// Returns "b", "w", or null based on the properties in THIS NODE ALONE, without considering history.
+		// Does nothing special for root (remember that ancient games have W playing first). Ignores the PL tag.
+		
+		if (this.has_key("B") && !this.has_key("W")) return "w";
+		if (!this.has_key("B") && this.has_key("W")) return "b";
+
+		if (this.has_key("AB") && !this.has_key("AW")) return "w";
+		if (!this.has_key("AB") && this.has_key("AW")) return "b";
+
+		return null;		// Of course null is not a valid board.active value, so the caller must check.
 	},
 
 	get_board: function() {
