@@ -467,6 +467,9 @@ let node_prototype = {
 			if (pl && (pl[0] === "B" || pl[0] === "b" || pl === "1")) node.__board.active = "b";
 			if (pl && (pl[0] === "W" || pl[0] === "w" || pl === "2")) node.__board.active = "w";
 
+			// In the event that nothing whatsoever in the node determines the board colour, it will just be the same as the board we
+			// copied at the start, which is fine I guess.
+
 			let km = parseFloat(node.get("KM"));
 			if (!Number.isNaN(km)) {
 				node.__board.komi = km;
