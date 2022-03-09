@@ -178,10 +178,7 @@ function startup() {
 
 function menu_build() {
 
-	let colour_choices_submenu = [];
-	let rectangular_submenu = [];
-
-	const template = [
+	return electron.Menu.buildFromTemplate([
 		{
 			label: "File",
 			submenu: [
@@ -209,146 +206,18 @@ function menu_build() {
 				},
 				{
 					label: "New small board",
-					submenu: [
-						{
-							label: "17 x 17",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [17, 17]
-								});
-							}
-						},
-						{
-							label: "15 x 15",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [15, 15]
-								});
-							}
-						},
-						{
-							label: "13 x 13",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [13, 13]
-								});
-							}
-						},
-						{
-							label: "11 x 11",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [11, 11]
-								});
-							}
-						},
-						{
-							label: "9 x 9",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [9, 9]
-								});
-							}
-						},
-						{
-							label: "7 x 7",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "new_game",
-									args: [7, 7]
-								});
-							}
-						},
-					]
+					submenu: caller_submenu("new_game_sizestring", ["17 x 17", "15 x 15", "13 x 13", "11 x 11", "9 x 9", "7 x 7"]),
 				},
 				{
 					label: "New rectangular board",
-					submenu: rectangular_submenu,
+					submenu: rectangular_submenu(),
 				},
 				{
 					type: "separator",
 				},
 				{
 					label: "Handicap",
-					submenu: [
-						{
-							label: "9",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [9]
-								});
-							}
-						},
-						{
-							label: "8",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [8]
-								});
-							}
-						},
-						{
-							label: "7",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [7]
-								});
-							}
-						},
-						{
-							label: "6",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [6]
-								});
-							}
-						},
-						{
-							label: "5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [5]
-								});
-							}
-						},
-						{
-							label: "4",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [4]
-								});
-							}
-						},
-						{
-							label: "3",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [3]
-								});
-							}
-						},
-						{
-							label: "2",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "place_handicap",
-									args: [2]
-								});
-							}
-						},
-					]
+					submenu: caller_submenu("place_handicap", [9, 8, 7, 6, 5, 4, 3, 2]),
 				},
 				{
 					type: "separator",
@@ -686,96 +555,19 @@ function menu_build() {
 			]
 		},
 		{
-			label: "Tools",
+			label: "Tools",								// Being made of named checkboxes, this needs special treatment in hub_settings.js
 			submenu: [
-				{
-					label: "Normal",
-					accelerator: "1",
-					type: "checkbox",
-					checked: !config.mode,
-					click: () => {
-						win.webContents.send("set", {mode: ""});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Add Black",
-					accelerator: "2",
-					type: "checkbox",
-					checked: config.mode === "AB",
-					click: () => {
-						win.webContents.send("set", {mode: "AB"});
-					}
-				},
-				{
-					label: "Add White",
-					accelerator: "3",
-					type: "checkbox",
-					checked: config.mode === "AW",
-					click: () => {
-						win.webContents.send("set", {mode: "AW"});
-					}
-				},
-				{
-					label: "Add Empty",
-					accelerator: "4",
-					type: "checkbox",
-					checked: config.mode === "AE",
-					click: () => {
-						win.webContents.send("set", {mode: "AE"});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Triangle",
-					accelerator: "5",
-					type: "checkbox",
-					checked: config.mode === "TR",
-					click: () => {
-						win.webContents.send("set", {mode: "TR"});
-					}
-				},
-				{
-					label: "Square",
-					accelerator: "6",
-					type: "checkbox",
-					checked: config.mode === "SQ",
-					click: () => {
-						win.webContents.send("set", {mode: "SQ"});
-					}
-				},
-				{
-					label: "Circle",
-					accelerator: "7",
-					type: "checkbox",
-					checked: config.mode === "CR",
-					click: () => {
-						win.webContents.send("set", {mode: "CR"});
-					}
-				},
-				{
-					label: "Cross",
-					accelerator: "8",
-					type: "checkbox",
-					checked: config.mode === "MA",
-					click: () => {
-						win.webContents.send("set", {mode: "MA"});
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Toggle active player",
-					click: () => {
-						win.webContents.send("call", "toggle_active_player");
-					}
-				},
-			]
+				named_checkbox("Normal", "mode", "", "1"),
+				{type: "separator"},
+				named_checkbox("Add Black", "mode", "AB", "2"),
+				named_checkbox("Add White", "mode", "AW", "3"),
+				named_checkbox("Add Empty", "mode", "AE", "4"),
+				{type: "separator"},
+				named_checkbox("Triangle", "mode", "TR", "5"),
+				named_checkbox("Square", "mode", "TR", "6"),
+				named_checkbox("Circle", "mode", "TR", "7"),
+				named_checkbox("Cross", "mode", "TR", "8"),
+			],
 		},
 		{
 			label: "Analysis",
@@ -832,368 +624,25 @@ function menu_build() {
 				},
 				{
 					label: "Autoanalysis visits",
-					submenu: [
-						{
-							label: "10000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 10000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 10000});
-							}
-						},
-						{
-							label: "5000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 5000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 5000});
-							}
-						},
-						{
-							label: "2500",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 2500,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 2500});
-							}
-						},
-						{
-							label: "1000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 1000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 1000});
-							}
-						},
-						{
-							label: "500",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 500,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 500});
-							}
-						},
-						{
-							label: "250",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 250,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 250});
-							}
-						},
-						{
-							label: "100",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 100,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 100});
-							}
-						},
-						{
-							label: "50",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 50,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 50});
-							}
-						},
-						{
-							label: "25",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 25,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 25});
-							}
-						},
-						{
-							label: "10",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 10,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 10});
-							}
-						}
-					]
+					submenu: checkbox_submenu("autoanalysis_visits", [10000, 5000, 2500, 1000, 500, 250, 100, 50, 25, 10]),
 				},
 				{
 					type: "separator",
 				},
 				{
 					label: "Set rules",
-					submenu: [
-						{
-							label: "Chinese",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_rules",
-									args: ["Chinese"]
-								});
-							}
-						},
-						{
-							label: "Japanese",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_rules",
-									args: ["Japanese"]
-								});
-							}
-						},
-						{
-							label: "Stone Scoring",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_rules",
-									args: ["Stone Scoring"]
-								});
-							}
-						},
-					]
+					submenu: caller_submenu("coerce_rules", ["Chinese", "Japanese", "Stone Scoring"]),
 				},
 				{
 					label: "Set komi",
-					submenu: [
-						{
-							label: "7.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7.5]
-								});
-							}
-						},
-						{
-							label: "7",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7]
-								});
-							}
-						},
-						{
-							label: "6.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6.5]
-								});
-							}
-						},
-						{
-							label: "6",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6]
-								});
-							}
-						},
-						{
-							label: "5.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [5.5]
-								});
-							}
-						},
-						{
-							label: "5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [5]
-								});
-							}
-						},
-						{
-							label: "4.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [4.5]
-								});
-							}
-						},
-						{
-							label: "4",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [4]
-								});
-							}
-						},
-						{
-							label: "3.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [3.5]
-								});
-							}
-						},
-						{
-							label: "3",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [3]
-								});
-							}
-						},
-						{
-							label: "2.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [2.5]
-								});
-							}
-						},
-						{
-							label: "2",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [2]
-								});
-							}
-						},
-						{
-							label: "1.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [1.5]
-								});
-							}
-						},
-						{
-							label: "1",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [1]
-								});
-							}
-						},
-						{
-							label: "0.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0.5]
-								});
-							}
-						},
-						{
-							label: "0",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0]
-								});
-							}
-						},
-					]
+					submenu: caller_submenu("coerce_komi", [7.5, 7, 6.5, 6, 5.5, 5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.5, 0]),
 				},
 				{
 					type: "separator",
 				},
 				{
 					label: "PV length (max)",
-					submenu: [
-						{
-							label: "30",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 30,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 30});
-							}
-						},
-						{
-							label: "28",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 28,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 28});
-							}
-						},
-						{
-							label: "26",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 26,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 26});
-							}
-						},
-						{
-							label: "24",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 24,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 24});
-							}
-						},
-						{
-							label: "22",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 22,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 22});
-							}
-						},
-						{
-							label: "20",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 20,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 20});
-							}
-						},
-						{
-							label: "18",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 18,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 18});
-							}
-						},
-						{
-							label: "16",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 16,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 16});
-							}
-						},
-						{
-							label: "14",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 14,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 14});
-							}
-						},
-						{
-							label: "12",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 12,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 12});
-							}
-						},
-						{
-							label: "10",
-							type: "checkbox",
-							checked: config.analysis_pv_len === 10,
-							click: () => {
-								win.webContents.send("set", {analysis_pv_len: 10});
-							}
-						},
-					]
+					submenu: checkbox_submenu("analysis_pv_len", [30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10]),
 				},
 				{
 					type: "separator",
@@ -1219,34 +668,7 @@ function menu_build() {
 				},
 				{
 					label: "Ownership",
-					submenu: [
-						{
-							label: "None",
-							type: "checkbox",
-							checked: config.ownership_marks === "None",
-							click: () => {
-								win.webContents.send("set", {ownership_marks: "None"});
-							}
-						},
-						{
-							label: "Dead stones",
-							type: "checkbox",
-							checked: config.ownership_marks === "Dead stones",
-							accelerator: "CommandOrControl+[",
-							click: () => {
-								win.webContents.send("set", {ownership_marks: "Dead stones"});
-							}
-						},
-						{
-							label: "Whole board",
-							type: "checkbox",
-							checked: config.ownership_marks === "Whole board",
-							accelerator: "CommandOrControl+]",
-							click: () => {
-								win.webContents.send("set", {ownership_marks: "Whole board"});
-							}
-						},
-					]
+					submenu: checkbox_submenu("ownership_marks", ["None", "Dead stones", "Whole board"]),
 				},
 				{
 					label: "...per-move (costly)",
@@ -1271,214 +693,43 @@ function menu_build() {
 			label: "Display",
 			submenu: [
 				{
-					label: "Visit filter",
+					label: "Visit filter",				// Being made of named checkboxes, this needs special treatment in hub_settings.js
 					submenu: [
-						{
-							label: "All",
-							type: "checkbox",
-							checked: config.visits_threshold === 0,
-							accelerator: "A",
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0});
-							}
-						},
-						{
-							type: "separator"
-						},
-						{
-							label: "N > 0.5%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.005,
-							accelerator: "F1",
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.005});
-							}
-						},
-						{
-							label: "N > 1%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.01,
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.01});
-							}
-						},
-						{
-							label: "N > 2%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.02,
-							accelerator: "F2",
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.02});
-							}
-						},
-						{
-							label: "N > 4%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.04,
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.04});
-							}
-						},
-						{
-							label: "N > 6%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.06,
-							accelerator: "F3",
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.06});
-							}
-						},
-						{
-							label: "N > 8%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.08,
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.08});
-							}
-						},
-						{
-							label: "N > 10%",
-							type: "checkbox",
-							checked: config.visits_threshold === 0.1,
-							accelerator: "F4",
-							click: () => {
-								win.webContents.send("set", {visits_threshold: 0.1});
-							}
-						},
+						named_checkbox("All", "visits_threshold", 0, "A"),
+						{type: "separator"},
+						named_checkbox("N > 0.5%", "visits_threshold", 0.005, "F1"),
+						named_checkbox("N > 1%", "visits_threshold", 0.01),
+						named_checkbox("N > 2%", "visits_threshold", 0.02, "F2"),
+						named_checkbox("N > 4%", "visits_threshold", 0.04),
+						named_checkbox("N > 6%", "visits_threshold", 0.06, "F3"),
+						named_checkbox("N > 8%", "visits_threshold", 0.08),
+						named_checkbox("N > 10%", "visits_threshold", 0.1, "F4"),
 					]
 				},
 				{
 					label: "Numbers",
 					submenu: [
-						{
-							label: "LCB + Visits",
-							type: "checkbox",
-							checked: config.numbers === "LCB + Visits",
-							accelerator: "F5",
-							click: () => {
-								win.webContents.send("set", {numbers: "LCB + Visits"});
-							}
-						},
-						{
-							label: "Score + Visits",
-							type: "checkbox",
-							checked: config.numbers === "Score + Visits",
-							accelerator: "F6",
-							click: () => {
-								win.webContents.send("set", {numbers: "Score + Visits"});
-							}
-						},
-						{
-							label: "Delta + Visits",
-							type: "checkbox",
-							checked: config.numbers === "Delta + Visits",
-							accelerator: "F7",
-							click: () => {
-								win.webContents.send("set", {numbers: "Delta + Visits"});
-							}
-						},
-						{
-							type: "separator",
-						},
-						{
-							label: "LCB",
-							type: "checkbox",
-							checked: config.numbers === "LCB",
-							click: () => {
-								win.webContents.send("set", {numbers: "LCB"});
-							}
-						},
-						{
-							label: "Score",
-							type: "checkbox",
-							checked: config.numbers === "Score",
-							click: () => {
-								win.webContents.send("set", {numbers: "Score"});
-							}
-						},
-						{
-							label: "Delta",
-							type: "checkbox",
-							checked: config.numbers === "Delta",
-							click: () => {
-								win.webContents.send("set", {numbers: "Delta"});
-							}
-						},
-						{
-							label: "Visits",
-							type: "checkbox",
-							checked: config.numbers === "Visits",
-							click: () => {
-								win.webContents.send("set", {numbers: "Visits"});
-							}
-						},
-						{
-							label: "Visits (%)",
-							type: "checkbox",
-							checked: config.numbers === "Visits (%)",
-							click: () => {
-								win.webContents.send("set", {numbers: "Visits (%)"});
-							}
-						},
-						{
-							label: "Order",
-							type: "checkbox",
-							checked: config.numbers === "Order",
-							click: () => {
-								win.webContents.send("set", {numbers: "Order"});
-							}
-						},
-						{
-							label: "Policy",
-							type: "checkbox",
-							checked: config.numbers === "Policy",
-							click: () => {
-								win.webContents.send("set", {numbers: "Policy"});
-							}
-						},
-						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.numbers === "Winrate",
-							click: () => {
-								win.webContents.send("set", {numbers: "Winrate"});
-							}
-						},
-						{
-							type: "separator",
-						},
-						{
-							label: "LCB + Visits + Score",
-							type: "checkbox",
-							checked: config.numbers === "LCB + Visits + Score",
-							accelerator: "F8",
-							click: () => {
-								win.webContents.send("set", {numbers: "LCB + Visits + Score"});
-							}
-						},
+						checkbox("numbers", "LCB + Visits", "F5"),
+						checkbox("numbers", "Score + Visits", "F6"),
+						checkbox("numbers", "Delta + Visits", "F7"),
+						{type: "separator"},
+						checkbox("numbers", "LCB"),
+						checkbox("numbers", "Score"),
+						checkbox("numbers", "Delta"),
+						checkbox("numbers", "Visits"),
+						checkbox("numbers", "Visits (%)"),
+						checkbox("numbers", "Order"),
+						checkbox("numbers", "Policy"),
+						checkbox("numbers", "Winrate"),
+						{type: "separator"},
+						checkbox("numbers", "LCB + Visits + Score", "F8"),
 					]
 				},
 				{
 					label: "Graph",
 					submenu: [
-						{
-							label: "Winrate",
-							type: "checkbox",
-							checked: config.graph_type === "Winrate",
-							accelerator: "F9",
-							click: () => {
-								win.webContents.send("set", {graph_type: "Winrate"});
-							}
-						},
-						{
-							label: "Score",
-							type: "checkbox",
-							checked: config.graph_type === "Score",
-							accelerator: "F10",
-							click: () => {
-								win.webContents.send("set", {graph_type: "Score"});
-							}
-						},
+						checkbox("graph_type", "Winrate", "F9"),
+						checkbox("graph_type", "Score", "F10"),
 					]
 				},
 				{
@@ -1528,7 +779,7 @@ function menu_build() {
 				},
 				{
 					label: "Colours",
-					submenu: colour_choices_submenu
+					submenu: colour_choices_submenu()
 				},
 			]
 		},
@@ -1548,697 +799,55 @@ function menu_build() {
 				},
 				{
 					label: "Board squares",
-					submenu: [
-						{
-							label: "72",
-							type: "checkbox",
-							checked: config.square_size === 72,
-							click: () => {
-								win.webContents.send("set", {square_size: 72});
-							}
-						},
-						{
-							label: "68",
-							type: "checkbox",
-							checked: config.square_size === 68,
-							click: () => {
-								win.webContents.send("set", {square_size: 68});
-							}
-						},
-						{
-							label: "64",
-							type: "checkbox",
-							checked: config.square_size === 64,
-							click: () => {
-								win.webContents.send("set", {square_size: 64});
-							}
-						},
-						{
-							label: "60",
-							type: "checkbox",
-							checked: config.square_size === 60,
-							click: () => {
-								win.webContents.send("set", {square_size: 60});
-							}
-						},
-						{
-							label: "56",
-							type: "checkbox",
-							checked: config.square_size === 56,
-							click: () => {
-								win.webContents.send("set", {square_size: 56});
-							}
-						},
-						{
-							label: "52",
-							type: "checkbox",
-							checked: config.square_size === 52,
-							click: () => {
-								win.webContents.send("set", {square_size: 52});
-							}
-						},
-						{
-							label: "48",
-							type: "checkbox",
-							checked: config.square_size === 48,
-							click: () => {
-								win.webContents.send("set", {square_size: 48});
-							}
-						},
-						{
-							label: "44",
-							type: "checkbox",
-							checked: config.square_size === 44,
-							click: () => {
-								win.webContents.send("set", {square_size: 44});
-							}
-						},
-						{
-							label: "40",
-							type: "checkbox",
-							checked: config.square_size === 40,
-							click: () => {
-								win.webContents.send("set", {square_size: 40});
-							}
-						},
-						{
-							label: "38",
-							type: "checkbox",
-							checked: config.square_size === 38,
-							click: () => {
-								win.webContents.send("set", {square_size: 38});
-							}
-						},
-						{
-							label: "36",
-							type: "checkbox",
-							checked: config.square_size === 36,
-							click: () => {
-								win.webContents.send("set", {square_size: 36});
-							}
-						},
-						{
-							label: "34",
-							type: "checkbox",
-							checked: config.square_size === 34,
-							click: () => {
-								win.webContents.send("set", {square_size: 34});
-							}
-						},
-						{
-							label: "32",
-							type: "checkbox",
-							checked: config.square_size === 32,
-							click: () => {
-								win.webContents.send("set", {square_size: 32});
-							}
-						},
-						{
-							label: "30",
-							type: "checkbox",
-							checked: config.square_size === 30,
-							click: () => {
-								win.webContents.send("set", {square_size: 30});
-							}
-						},
-					]
+					submenu: checkbox_submenu("square_size", [72, 68, 64, 60, 56, 52, 48, 44, 40, 38, 36, 34, 32, 30]),
 				},
 				{
 					label: "Board font",
-					submenu: [
-						{
-							label: "32",
-							type: "checkbox",
-							checked: config.board_font_size === 32,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 32});
-							}
-						},
-						{
-							label: "30",
-							type: "checkbox",
-							checked: config.board_font_size === 30,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 30});
-							}
-						},
-						{
-							label: "28",
-							type: "checkbox",
-							checked: config.board_font_size === 28,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 28});
-							}
-						},
-						{
-							label: "26",
-							type: "checkbox",
-							checked: config.board_font_size === 26,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 26});
-							}
-						},
-						{
-							label: "24",
-							type: "checkbox",
-							checked: config.board_font_size === 24,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 24});
-							}
-						},
-						{
-							label: "22",
-							type: "checkbox",
-							checked: config.board_font_size === 22,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 22});
-							}
-						},
-						{
-							label: "20",
-							type: "checkbox",
-							checked: config.board_font_size === 20,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 20});
-							}
-						},
-						{
-							label: "18",
-							type: "checkbox",
-							checked: config.board_font_size === 18,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 18});
-							}
-						},
-						{
-							label: "16",
-							type: "checkbox",
-							checked: config.board_font_size === 16,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 16});
-							}
-						},
-						{
-							label: "14",
-							type: "checkbox",
-							checked: config.board_font_size === 14,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 14});
-							}
-						},
-						{
-							label: "12",
-							type: "checkbox",
-							checked: config.board_font_size === 12,
-							click: () => {
-								win.webContents.send("set", {board_font_size: 12});
-							}
-						},
-					]
+					submenu: checkbox_submenu("board_font_size", [32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12]),
 				},
 				{
 					label: "Board lines",
-					submenu: [
-						{
-							label: "4",
-							type: "checkbox",
-							checked: config.board_line_width === 4,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 4});
-							}
-						},
-						{
-							label: "3",
-							type: "checkbox",
-							checked: config.board_line_width === 3,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 3});
-							}
-						},
-						{
-							label: "2",
-							type: "checkbox",
-							checked: config.board_line_width === 2,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 2});
-							}
-						},
-						{
-							label: "1",
-							type: "checkbox",
-							checked: config.board_line_width === 1,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 1});
-							}
-						},
-					]
+					submenu: checkbox_submenu("board_line_width", [4, 3, 2, 1]),
 				},
 				{
 					type: "separator"
 				},
 				{
 					label: "Info font",
-					submenu: [
-						{
-							label: "32",
-							type: "checkbox",
-							checked: config.info_font_size === 32,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 32});
-							}
-						},
-						{
-							label: "30",
-							type: "checkbox",
-							checked: config.info_font_size === 30,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 30});
-							}
-						},
-						{
-							label: "28",
-							type: "checkbox",
-							checked: config.info_font_size === 28,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 28});
-							}
-						},
-						{
-							label: "26",
-							type: "checkbox",
-							checked: config.info_font_size === 26,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 26});
-							}
-						},
-						{
-							label: "24",
-							type: "checkbox",
-							checked: config.info_font_size === 24,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 24});
-							}
-						},
-						{
-							label: "22",
-							type: "checkbox",
-							checked: config.info_font_size === 22,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 22});
-							}
-						},
-						{
-							label: "20",
-							type: "checkbox",
-							checked: config.info_font_size === 20,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 20});
-							}
-						},
-						{
-							label: "18",
-							type: "checkbox",
-							checked: config.info_font_size === 18,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 18});
-							}
-						},
-						{
-							label: "16",
-							type: "checkbox",
-							checked: config.info_font_size === 16,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 16});
-							}
-						},
-						{
-							label: "14",
-							type: "checkbox",
-							checked: config.info_font_size === 14,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 14});
-							}
-						},
-						{
-							label: "12",
-							type: "checkbox",
-							checked: config.info_font_size === 12,
-							click: () => {
-								win.webContents.send("set", {info_font_size: 12});
-							}
-						},
-					]
+					submenu: checkbox_submenu("info_font_size", [32, 30, 28, 26, 24, 22, 20, 18, 16, 14, 12]),
 				},
 				{
 					type: "separator"
 				},
 				{
 					label: "Graph width",
-					submenu: [
-						{
-							label: "512",
-							type: "checkbox",
-							checked: config.graph_width === 512,
-							click: () => {
-								win.webContents.send("set", {graph_width: 512});
-							}
-						},
-						{
-							label: "480",
-							type: "checkbox",
-							checked: config.graph_width === 480,
-							click: () => {
-								win.webContents.send("set", {graph_width: 480});
-							}
-						},
-						{
-							label: "448",
-							type: "checkbox",
-							checked: config.graph_width === 448,
-							click: () => {
-								win.webContents.send("set", {graph_width: 448});
-							}
-						},
-						{
-							label: "416",
-							type: "checkbox",
-							checked: config.graph_width === 416,
-							click: () => {
-								win.webContents.send("set", {graph_width: 416});
-							}
-						},
-						{
-							label: "384",
-							type: "checkbox",
-							checked: config.graph_width === 384,
-							click: () => {
-								win.webContents.send("set", {graph_width: 384});
-							}
-						},
-						{
-							label: "352",
-							type: "checkbox",
-							checked: config.graph_width === 352,
-							click: () => {
-								win.webContents.send("set", {graph_width: 352});
-							}
-						},
-						{
-							label: "320",
-							type: "checkbox",
-							checked: config.graph_width === 320,
-							click: () => {
-								win.webContents.send("set", {graph_width: 320});
-							}
-						},
-						{
-							label: "288",
-							type: "checkbox",
-							checked: config.graph_width === 288,
-							click: () => {
-								win.webContents.send("set", {graph_width: 288});
-							}
-						},
-						{
-							label: "256",
-							type: "checkbox",
-							checked: config.graph_width === 256,
-							click: () => {
-								win.webContents.send("set", {graph_width: 256});
-							}
-						},
-						{
-							label: "224",
-							type: "checkbox",
-							checked: config.graph_width === 224,
-							click: () => {
-								win.webContents.send("set", {graph_width: 224});
-							}
-						},
-						{
-							label: "192",
-							type: "checkbox",
-							checked: config.graph_width === 192,
-							click: () => {
-								win.webContents.send("set", {graph_width: 192});
-							}
-						},
-						{
-							label: "160",
-							type: "checkbox",
-							checked: config.graph_width === 160,
-							click: () => {
-								win.webContents.send("set", {graph_width: 160});
-							}
-						},
-						{
-							label: "128",
-							type: "checkbox",
-							checked: config.graph_width === 128,
-							click: () => {
-								win.webContents.send("set", {graph_width: 128});
-							}
-						},
-						{
-							label: "96",
-							type: "checkbox",
-							checked: config.graph_width === 96,
-							click: () => {
-								win.webContents.send("set", {graph_width: 96});
-							}
-						},
-						{
-							label: "64",
-							type: "checkbox",
-							checked: config.graph_width === 64,
-							click: () => {
-								win.webContents.send("set", {graph_width: 64});
-							}
-						},
-						{
-							label: "0",
-							type: "checkbox",
-							checked: config.graph_width === 0,
-							click: () => {
-								win.webContents.send("set", {graph_width: 0});
-							}
-						}
-					]
+					submenu: checkbox_submenu("graph_width", [512, 480, 448, 416, 384, 352, 320, 288, 256, 224, 192, 160, 128, 96, 64, 0]),
 				},
 				{
 					label: "Graph major lines",
-					submenu: [
-						{
-							label: "4",
-							type: "checkbox",
-							checked: config.major_graph_linewidth === 4,
-							click: () => {
-								win.webContents.send("set", {major_graph_linewidth: 4});
-							}
-						},
-						{
-							label: "3",
-							type: "checkbox",
-							checked: config.major_graph_linewidth === 3,
-							click: () => {
-								win.webContents.send("set", {major_graph_linewidth: 3});
-							}
-						},
-						{
-							label: "2",
-							type: "checkbox",
-							checked: config.major_graph_linewidth === 2,
-							click: () => {
-								win.webContents.send("set", {major_graph_linewidth: 2});
-							}
-						},
-						{
-							label: "1",
-							type: "checkbox",
-							checked: config.major_graph_linewidth === 1,
-							click: () => {
-								win.webContents.send("set", {major_graph_linewidth: 1});
-							}
-						},
-					]
+					submenu: checkbox_submenu("major_graph_linewidth", [4, 3, 2, 1]),
 				},
 				{
 					label: "Graph minor lines",
-					submenu: [
-						{
-							label: "4",
-							type: "checkbox",
-							checked: config.minor_graph_linewidth === 4,
-							click: () => {
-								win.webContents.send("set", {minor_graph_linewidth: 4});
-							}
-						},
-						{
-							label: "3",
-							type: "checkbox",
-							checked: config.minor_graph_linewidth === 3,
-							click: () => {
-								win.webContents.send("set", {minor_graph_linewidth: 3});
-							}
-						},
-						{
-							label: "2",
-							type: "checkbox",
-							checked: config.minor_graph_linewidth === 2,
-							click: () => {
-								win.webContents.send("set", {minor_graph_linewidth: 2});
-							}
-						},
-						{
-							label: "1",
-							type: "checkbox",
-							checked: config.minor_graph_linewidth === 1,
-							click: () => {
-								win.webContents.send("set", {minor_graph_linewidth: 1});
-							}
-						},
-					]
+					submenu: checkbox_submenu("minor_graph_linewidth", [4, 3, 2, 1]),
 				},
 				{
 					type: "separator"
 				},
 				{
 					label: "Thumbnail squares",
-					submenu: [
-						{
-							label: "8",
-							type: "checkbox",
-							checked: config.thumbnail_square_size === 8,
-							click: () => {
-								win.webContents.send("set", {thumbnail_square_size: 8});
-							}
-						},
-						{
-							label: "6",
-							type: "checkbox",
-							checked: config.thumbnail_square_size === 6,
-							click: () => {
-								win.webContents.send("set", {thumbnail_square_size: 6});
-							}
-						},
-						{
-							label: "4",
-							type: "checkbox",
-							checked: config.thumbnail_square_size === 4,
-							click: () => {
-								win.webContents.send("set", {thumbnail_square_size: 4});
-							}
-						},
-					]
+					submenu: checkbox_submenu("thumbnail_square_size", [8, 6, 4]),
 				},
 				{
 					type: "separator"
 				},
 				{
 					label: "Tree spacing",
-					submenu: [
-						{
-							label: "48",
-							type: "checkbox",
-							checked: config.tree_spacing === 48,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 48});
-							}
-						},
-						{
-							label: "44",
-							type: "checkbox",
-							checked: config.tree_spacing === 44,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 44});
-							}
-						},
-						{
-							label: "40",
-							type: "checkbox",
-							checked: config.tree_spacing === 40,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 40});
-							}
-						},
-						{
-							label: "36",
-							type: "checkbox",
-							checked: config.tree_spacing === 36,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 36});
-							}
-						},
-						{
-							label: "32",
-							type: "checkbox",
-							checked: config.tree_spacing === 32,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 32});
-							}
-						},
-						{
-							label: "28",
-							type: "checkbox",
-							checked: config.tree_spacing === 28,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 28});
-							}
-						},
-						{
-							label: "24",
-							type: "checkbox",
-							checked: config.tree_spacing === 24,
-							click: () => {
-								win.webContents.send("set", {tree_spacing: 24});
-							}
-						},
-					]
+					submenu: checkbox_submenu("tree_spacing", [48, 44, 40, 36, 32, 28, 24]),
 				},
 				{
 					label: "Comment box",
-					submenu: [
-						{
-							label: "512",
-							type: "checkbox",
-							checked: config.comment_height === 512,
-							click: () => {
-								win.webContents.send("set", {comment_height: 512});
-							}
-						},
-						{
-							label: "384",
-							type: "checkbox",
-							checked: config.comment_height === 384,
-							click: () => {
-								win.webContents.send("set", {comment_height: 384});
-							}
-						},
-						{
-							label: "256",
-							type: "checkbox",
-							checked: config.comment_height === 256,
-							click: () => {
-								win.webContents.send("set", {comment_height: 256});
-							}
-						},
-						{
-							label: "128",
-							type: "checkbox",
-							checked: config.comment_height === 128,
-							click: () => {
-								win.webContents.send("set", {comment_height: 128});
-							}
-						},
-						{
-							label: "0",
-							type: "checkbox",
-							checked: config.comment_height === 0,
-							click: () => {
-								win.webContents.send("set", {comment_height: 0});
-							}
-						},
-					]
+					submenu: checkbox_submenu("comment_height", [512, 384, 256, 128, 0]),
 				},
 			]
 		},
@@ -2342,42 +951,48 @@ function menu_build() {
 				},
 				{
 					label: "Engine report rate",
-					submenu: [
-						{
-							label: "0.1",
-							type: "checkbox",
-							checked: config.report_every === 0.1,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.1});
-							}
-						},
-						{
-							label: "0.2",
-							type: "checkbox",
-							checked: config.report_every === 0.2,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.2});
-							}
-						},
-						{
-							label: "0.4",
-							type: "checkbox",
-							checked: config.report_every === 0.4,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.4});
-							}
-						},
-					]
+					submenu: checkbox_submenu("report_every", [0.1, 0.2, 0.4]),
 				},
 			]
 		}
-	];
+	]);
+}
+
+function rectangular_submenu() {
+
+	let ret = [];
+
+	for (let x = 19; x >= 2; x--) {
+		let subsubmenu = [];
+		for (let y = x; y >= 2; y--) {
+			subsubmenu.push({
+				label: x.toString() + " x " + y.toString(),
+				click: () => {
+					win.webContents.send("call", {
+						fn: "new_game",
+						args: [x, y]
+					});
+				}
+			});
+		}
+		ret.push({
+			label: x.toString(),
+			submenu: subsubmenu,
+		});
+	}
+
+	return ret;
+}
+
+function colour_choices_submenu() {
+
+	let ret = [];
 
 	for (let item of colour_choices.items) {
 		if (item.type === "separator") {
-			colour_choices_submenu.push({type: "separator"});
+			ret.push({type: "separator"});
 		} else {
-			colour_choices_submenu.push({
+			ret.push({
 				label: item.label,
 				type: "checkbox",
 				checked: config.top_colour_black === item.opts.top_colour_black &&
@@ -2394,26 +1009,56 @@ function menu_build() {
 		}
 	}
 
-	for (let x = 19; x >= 2; x--) {
-		let subsubmenu = [];
-		for (let y = x; y >= 2; y--) {
-			subsubmenu.push({
-				label: x.toString() + " x " + y.toString(),
-				click: () => {
-					win.webContents.send("call", {
-						fn: "new_game",
-						args: [x, y]
-					});
-				}
+	return ret;
+}
+
+// --------------------------------------------------------------------------------------------------------------
+
+function named_checkbox(label, varname, value, accelerator) {
+	let ret = {
+		label: label,
+		type: "checkbox",
+		checked: config[varname] === value,
+		click: () => {
+			win.webContents.send("set", {[varname]: value});
+		}
+	};
+	if (accelerator) {
+		ret.accelerator = accelerator;
+	}
+	return ret;
+}
+
+function named_caller(label, fn_name, value, accelerator) {		// Assumes 1 single argument to the hub function
+	let ret = {
+		label: label,
+		click: () => {
+			win.webContents.send("call", {
+				fn: fn_name,
+				args: [value],
 			});
 		}
-		rectangular_submenu.push({
-			label: x.toString(),
-			submenu: subsubmenu,
-		});
+	};
+	if (accelerator) {
+		ret.accelerator = accelerator;
 	}
+	return ret;
+}
 
-	return electron.Menu.buildFromTemplate(template);
+function checkbox(varname, value, accelerator) {
+	return named_checkbox(value.toString(), varname, value, accelerator);
+}
+
+function caller(fn_name, value, accelerator) {
+	return named_caller(value.toString(), fn_name, value, accelerator);
+}
+
+function checkbox_submenu(varname, values) {
+	return values.map(val => checkbox(varname, val));
+}
+
+function caller_submenu(fn_name, values) {
+	return values.map(val => caller(fn_name, val));
 }
 
 // --------------------------------------------------------------------------------------------------------------

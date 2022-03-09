@@ -322,6 +322,11 @@ let hub_main_props = {
 		this.add_roots([root]);
 	},
 
+	new_game_sizestring: function(s) {							// So main.js can call us with args like "19 x 19"
+		let vals = s.split("x").map(z => parseInt(z, 10));
+		this.new_game(vals[0], vals[1]);
+	},
+
 	place_handicap: function(handicap) {
 		let board = this.node.get_board();
 		this.new_game(board.width, board.height, board.komi, board.rules, handicap);
