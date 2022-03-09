@@ -887,3 +887,4 @@ function queued_files_spinner() {
 
 	setTimeout(queued_files_spinner, 125);
 }
+
