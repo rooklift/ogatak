@@ -200,8 +200,8 @@ let board_prototype = {
 
 		for (let neighbour of this.neighbours(s)) {
 
-			// Note that, by checking touched at the start, we allow legality checking by
-			// setting the potentially illegal stone as touched without actually playing it.
+			// Note that, by checking touched at the start, we allow legality checking by setting
+			// the potentially suicidal / capturing stone as touched without actually playing it.
 
 			if (touched[neighbour]) {
 				continue;
