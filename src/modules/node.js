@@ -450,15 +450,17 @@ let node_prototype = {
 				node.__board.add_white(s);
 			}
 
+			// If the logic of the next 4 bits changes, may need to change natural_active() also.
+
 			if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
 			if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
 
 			for (let s of node.all_values("B")) {
-				node.__board.play_black(s);				// Will treat s as a pass if it's not a valid move.
+				node.__board.play_black(s);				// Will set __board.active... Will treat s as a pass if it's not a valid move.
 			}
 
 			for (let s of node.all_values("W")) {
-				node.__board.play_white(s);				// Will treat s as a pass if it's not a valid move.
+				node.__board.play_white(s);				// Will set __board.active... Will treat s as a pass if it's not a valid move.
 			}
 
 			let pl = node.get("PL");
