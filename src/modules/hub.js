@@ -907,6 +907,12 @@ let hub_main_props = {
 		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
 			this.node.toggle_shape_at(config.mode, s);
 			this.draw();
+		} else if (config.mode === "LB:A") {
+			this.node.toggle_alpha_at(s);
+			this.draw();
+		} else if (config.mode === "LB:1") {
+			this.node.toggle_number_at(s);
+			this.draw();
 		} else if (["AB", "AW", "AE"].includes(config.mode)) {
 			this.halt();
 			if (this.node.safe_to_edit()) {

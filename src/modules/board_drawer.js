@@ -20,7 +20,9 @@ const {get_ownership_colours} = require("./ownership_colours");
 
 const mode_strings = {
 	"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
-	"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross"};
+	"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross",
+	"LB:A": "Labels (ABC)", "LB:1": "Labels (123)",
+};
 
 // ------------------------------------------------------------------------------------------------
 

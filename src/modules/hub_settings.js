@@ -242,7 +242,9 @@ module.exports = {
 
 		const mode_strings = {
 			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
-			"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross"};
+			"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross",
+			"LB:A": "Labels (ABC)", "LB:1": "Labels (123)", 
+		};
 
 		if (!config.mode) {
 			ipcRenderer.send("set_checks", ["Tools", "Normal"]);

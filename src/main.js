@@ -767,6 +767,27 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Labels (ABC)",
+					accelerator: "9",
+					type: "checkbox",
+					checked: config.mode === "LB:A",
+					click: () => {
+						win.webContents.send("set", {mode: "LB:A"});
+					}
+				},
+				{
+					label: "Labels (123)",
+					accelerator: "0",
+					type: "checkbox",
+					checked: config.mode === "LB:1",
+					click: () => {
+						win.webContents.send("set", {mode: "LB:1"});
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Toggle active player",
 					click: () => {
 						win.webContents.send("call", "toggle_active_player");
