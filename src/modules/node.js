@@ -384,14 +384,15 @@ let node_prototype = {
 
 	natural_active: function() {
 
-		// Returns "b", "w", or null based on the properties in THIS NODE ALONE, without considering history.
-		// Does nothing special for root (remember that ancient games have W playing first). Ignores the PL tag.
+		// Should correspond to the logic in get_board()...
 		
 		if (this.has_key("B") && !this.has_key("W")) return "w";
 		if (!this.has_key("B") && this.has_key("W")) return "b";
 
-		if (this.has_key("AB") && !this.has_key("AW")) return "w";
-		if (!this.has_key("AB") && this.has_key("AW")) return "b";
+		if (!this.parent) {
+			if (this.has_key("AB") && !this.has_key("AW")) return "w";
+			if (!this.has_key("AB") && this.has_key("AW")) return "b";
+		}
 
 		return null;		// Of course null is not a valid board.active value, so the caller must check.
 	},
@@ -519,6 +520,9 @@ let node_prototype = {
 			for (let s of node.all_values("AW")) {
 				node.__board.add_white(s);
 			}
+
+			// Note that any changes to the logic of setting .active should be mirrored in natural_active()
+			// although it's not going to be catastrophic if they aren't (see note at top of file).
 
 			// As of 1.3.1, AB and AW tags only affect .active if they are in the root...
 
