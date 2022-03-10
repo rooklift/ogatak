@@ -52,6 +52,18 @@ function new_node(parent) {
 
 let node_prototype = {
 
+	change_id: function() {
+		if (!this.id) {
+			this.id = `node_${next_node_id++}`;
+		} else {
+			let old_id = this.id;
+			this.id = `node_${next_node_id++}`;
+			if (this.parent && this.parent.__blessed_child_id === old_id) {
+				this.parent.__blessed_child_id = this.id;
+			}
+		}
+	},
+
 	set: function(key, value) {
 		this.props[key] = [stringify(value)];
 	},
@@ -101,6 +113,14 @@ let node_prototype = {
 		return this.props[key].indexOf(stringify(value)) !== -1;
 	},
 
+	has_key_value_starts_with: function(key, value) {
+		if (!this.has_key(key)) {
+			return false;
+		}
+		value = stringify(value);
+		return this.props[key].some(z => z.startsWith(value));
+	},
+
 	get: function(key) {				// On the assumption there is at most 1 value for this key.
 
 		// Always returns a string. Some stuff relies on this now. (We used to return undefined.)
@@ -124,7 +144,7 @@ let node_prototype = {
 		return ret;
 	},
 
-	toggle_shape_at(key, point) {
+	toggle_shape_at: function(key, point) {
 
 		this.decompress_points_list("TR");
 		this.decompress_points_list("MA");
@@ -144,14 +164,70 @@ let node_prototype = {
 		}
 	},
 
-	change_id: function() {
-		if (!this.id) {
-			this.id = `node_${next_node_id++}`;
-		} else {
-			let old_id = this.id;
-			this.id = `node_${next_node_id++}`;
-			if (this.parent && this.parent.__blessed_child_id === old_id) {
-				this.parent.__blessed_child_id = this.id;
+	toggle_alpha_at: function(point) {
+
+		this.decompress_points_list("TR");
+		this.decompress_points_list("MA");
+		this.decompress_points_list("SQ");
+		this.decompress_points_list("CR");
+
+		let exists = this.has_key_value_starts_with("LB", `${point}:`);
+
+		this.unset("TR", point);
+		this.unset("MA", point);
+		this.unset("SQ", point);
+		this.unset("CR", point);
+		this.unset_starts_with("LB", `${point}:`);
+
+		if (!exists) {
+
+			let all_labels = Object.create(null);
+
+			for (let value of this.all_values("LB")) {
+				if (value[2] === ":") {
+					all_labels[value.slice(3)] = true;
+				}
+			}
+
+			for (let ch of "ABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+				if (!all_labels[ch]) {
+					this.add_value("LB", `${point}:${ch}`);
+					break;
+				}
+			}
+		}
+	},
+
+	toggle_number_at: function(point) {
+
+		this.decompress_points_list("TR");
+		this.decompress_points_list("MA");
+		this.decompress_points_list("SQ");
+		this.decompress_points_list("CR");
+
+		let exists = this.has_key_value_starts_with("LB", `${point}:`);
+
+		this.unset("TR", point);
+		this.unset("MA", point);
+		this.unset("SQ", point);
+		this.unset("CR", point);
+		this.unset_starts_with("LB", `${point}:`);
+
+		if (!exists) {
+
+			let all_labels = Object.create(null);
+
+			for (let value of this.all_values("LB")) {
+				if (value[2] === ":") {
+					all_labels[value.slice(3)] = true;
+				}
+			}
+
+			for (let i = 1; i < 100; i++) {
+				if (!all_labels[i.toString()]) {
+					this.add_value("LB", `${point}:${i}`);
+					break;
+				}
 			}
 		}
 	},
