@@ -24,8 +24,6 @@ const mode_strings = {
 	"LB:A": "Labels (ABC)", "LB:1": "Labels (123)",
 };
 
-const analysis_suppressor_modes = ["TR", "SQ", "CR", "MA", "LB:A", "LB:1"];
-
 // ------------------------------------------------------------------------------------------------
 
 let mouseenter_handlers = new_2d_array(19, 19, null);
@@ -355,11 +353,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
-		if (!point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
-			return false;
-		}
-
-		if (analysis_suppressor_modes.includes(config.mode)) {
+		if (config.mode || !point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
 			return false;
 		}
 
@@ -664,7 +658,7 @@ let board_drawer_prototype = {
 
 	plan_analysis_circles: function(node) {
 		
-		if (!config.candidate_moves || analysis_suppressor_modes.includes(config.mode)) {
+		if (config.mode || !config.candidate_moves) {
 			return;
 		}
 

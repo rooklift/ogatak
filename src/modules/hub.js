@@ -915,14 +915,12 @@ let hub_main_props = {
 			this.node.toggle_number_at(s);
 			this.draw();
 		} else if (["AB", "AW", "AE"].includes(config.mode)) {
+			this.halt();
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(config.mode, s);
 				this.node.change_id();									// Prevents tabber caching issues and stale analysis updates.
 				this.draw();
-				if (this.engine.desired) {
-					this.go();
-				}
 			} else {
 				let node = new_node(this.node);
 				node.apply_board_edit(config.mode, s);
