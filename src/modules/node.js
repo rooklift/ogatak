@@ -520,10 +520,12 @@ let node_prototype = {
 				node.__board.add_white(s);
 			}
 
-			// If the logic of the next 4 bits changes, may need to change natural_active() also.
+			// As of 1.3.1, AB and AW tags only affect .active if they are in the root...
 
-			if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
-			if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
+			if (!node.parent) {
+				if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
+				if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
+			}
 
 			for (let s of node.all_values("B")) {
 				node.__board.play_black(s);				// Will set __board.active... Will treat s as a pass if it's not a valid move.
