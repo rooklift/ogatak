@@ -402,7 +402,7 @@ let node_prototype = {
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 		// We go through some rigmarol to not leave PL tags where there is enough info in the node that they're redundant...
 
-		let natural = this.natural_active();		// Possibly null. But a real value if node has some unambiguous B/W/AB/AW keys.
+		let natural = this.natural_active();		// Possibly null if .active can't be determined from this node's props.
 
 		let desired = (this.get_board().active === "b") ? "w" : "b";
 
