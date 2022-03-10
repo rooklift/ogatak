@@ -116,7 +116,9 @@ exports.handicap_stones = function(count, width, height, tygem) {
 
 exports.pad = function(s, width, leftflag) {
 
-	s = stringify(s);
+	if (typeof s !== "string") {	// Necessary test because stringify runs .trim() which can affect the result
+		s = stringify(s);
+	}
 
 	if (s.length >= width) {
 		return s;					// or s.slice(0, width), but that can cause confusion

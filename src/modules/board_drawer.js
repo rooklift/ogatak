@@ -658,7 +658,7 @@ let board_drawer_prototype = {
 
 	plan_analysis_circles: function(node) {
 		
-		if (config.mode || !config.candidate_moves) {
+		if (!config.candidate_moves || ["TR", "SQ", "CR", "MA", "LB:A", "LB:1"].includes(config.mode)) {
 			return;
 		}
 
@@ -813,11 +813,6 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		if (config.mode) {
-			this.draw_edit_mode(node);
-			return;
-		}
-
 		let board = node.get_board();
 
 		let last_move = "";
@@ -837,8 +832,13 @@ let board_drawer_prototype = {
 
 		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
-		s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-		s += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+
+		if (config.mode) {
+			s += `<span class="yellow">Edit mode: ${pad(pad(config.mode, 3, true), 4)} (ESCAPE to exit)</span>`;
+		} else {
+			s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
+			s += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+		}
 
 		s += "<br>";
 
@@ -874,25 +874,6 @@ let board_drawer_prototype = {
 	draw_engine_problem: function() {
 		let s = hub.engine.problem_text();
 		this.infodiv.innerHTML = `<span class="white">${s}<br>Resolve this via the Setup menu.</span>`;
-	},
-
-	draw_edit_mode: function(node) {
-
-		let visits = "";
-
-		if (node.has_valid_analysis()) {
-			let moveinfo = node.analysis.moveInfos[0];
-			visits = `${moveinfo.visits} / ${node.analysis.rootInfo.visits}`;
-		}
-
-		let s = `Edit mode: <span class="white">${mode_strings[config.mode]}</span>`;
-		s += `<br>Press <span class="white">escape</span> to exit...`;
-
-		if (visits) {
-			s += " ".repeat(26) + `Visits: <span class="white">${pad(visits, 15)}</span>`;
-		}
-
-		this.infodiv.innerHTML = s;
 	},
 
 };
