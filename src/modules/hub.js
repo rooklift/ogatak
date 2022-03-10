@@ -567,8 +567,9 @@ let hub_main_props = {
 	},
 
 	forget_analysis_tree: function() {
-		this.node.forget_analysis_tree();
 		this.halt();
+		this.node.forget_analysis_tree();
+		this.node.change_id();									// Prevents update from engine.
 		this.draw();
 	},
 
