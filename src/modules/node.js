@@ -384,14 +384,17 @@ let node_prototype = {
 
 	natural_active: function() {
 
-		// Should correspond to the logic in get_board()...
+		// Should correspond to the logic in get_board(). Except reverse order so the right thing prevails.
 		
-		if (this.has_key("B") && !this.has_key("W")) return "w";
-		if (!this.has_key("B") && this.has_key("W")) return "b";
+		if (this.has_key("W")) return "b";			// Just as in get_board(), this prevails if both B and W tags exist.
+		if (this.has_key("B")) return "w";
 
 		if (!this.parent) {
-			if (this.has_key("AB") && !this.has_key("AW")) return "w";
-			if (!this.has_key("AB") && this.has_key("AW")) return "b";
+			if (this.has_key("AB") && !this.has_key("AW")) {
+				return "w";
+			} else {
+				return "b";
+			}
 		}
 
 		return null;		// Of course null is not a valid board.active value, so the caller must check.
@@ -527,8 +530,11 @@ let node_prototype = {
 			// As of 1.3.1, AB and AW tags only affect .active if they are in the root...
 
 			if (!node.parent) {
-				if (node.has_key("AB") && !node.has_key("AW")) node.__board.active = "w";
-				if (!node.has_key("AB") && node.has_key("AW")) node.__board.active = "b";
+				if (node.has_key("AB") && !node.has_key("AW")) {
+					node.__board.active = "w";
+				} else {
+					node.__board.active = "b";			// This will actually already be so.
+				}
 			}
 
 			for (let s of node.all_values("B")) {
