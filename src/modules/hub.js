@@ -859,6 +859,29 @@ let hub_main_props = {
 		this.coerce_komi(komi);
 	},
 
+	cycle_mode: function(reverse) {
+
+		const values = ["AB", "AW", "AE", "TR", "SQ", "CR", "MA", "LB:A", "LB:1"];
+
+		let current = config.mode;
+
+		let si = values.indexOf(current);
+
+		if (si === -1) {
+			si = 0;
+		} else {
+			si += (reverse ? -1 : 1);
+			if (si >= values.length) {
+				si = 0;
+			}
+			if (si < 0) {
+				si = values.length - 1;
+			}
+		}
+
+		this.set("mode", values[si]);
+	},
+
 	cycle_numbers: function(reverse) {
 
 		const values = [

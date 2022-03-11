@@ -834,7 +834,7 @@ let board_drawer_prototype = {
 		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 
 		if (config.mode) {
-			s += `<span class="yellow">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;
+			s += `<span class="yellow boardinfo_mode">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;
 		} else {
 			s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
 			s += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
