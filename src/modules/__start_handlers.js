@@ -103,7 +103,7 @@ document.getElementById("gridder").addEventListener("mousedown", (event) => {
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
 
-window.addEventListener("keydown", function(event) {
+window.addEventListener("keydown", (event) => {
 	if (event.code === "PageUp") {
 		event.preventDefault();
 		hub.input_up_down(-10);
