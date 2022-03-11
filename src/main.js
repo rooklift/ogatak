@@ -810,7 +810,7 @@ function menu_build() {
 					checked: false,
 					accelerator: "Space",				
 					click: () => {
-						// pass, handled entirely in renderer process, see __start_handlers.js
+						win.webContents.send("call", "toggle_ponder");
 					}
 				},
 				{
