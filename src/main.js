@@ -178,6 +178,12 @@ function startup() {
 
 function menu_build() {
 
+	// Below, every single menu item is slavishly laid out in full...
+	//
+	// It's possible to construct functions that generate menu items, or even entire lists of menu items, given
+	// the necessary parameters. Some experiments with this are in the "menu_remake" branch in the repo. Doing
+	// so saves space in this file but adds some complexity for (imo) no real benefit...
+
 	const template = [
 		{
 			label: "File",
