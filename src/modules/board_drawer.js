@@ -768,11 +768,11 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
-		for (let key of ["B", "W"]) {
+		for (let n = 0; n < node.children.length; n++) {
 
-			let draw_colour = (key === "B") ? "#00000080" : "#ffffffa0";
+			for (let key of ["B", "W"]) {
 
-			for (let n = 0; n < node.children.length; n++) {
+				let draw_colour = (key === "B") ? "#00000080" : "#ffffffa0";
 
 				let moves_played = node.children[n].all_values(key);
 
