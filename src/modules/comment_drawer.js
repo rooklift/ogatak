@@ -22,10 +22,13 @@ let comment_drawer_prototype = {
 			s = node.get("GC");
 		}
 
-		if (!s || config.comment_height <= 0) {
-			this.div.innerHTML = "";
+		if (config.comment_height <= 0) {
+			this.div.blur();
+			this.div.value = "";
+		} else if (!s) {
+			this.div.value = "";
 		} else {
-			this.div.innerHTML = safe_html(s);
+			this.div.value = safe_html(s);
 		}
 	},
 

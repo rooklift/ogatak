@@ -335,6 +335,11 @@ let hub_main_props = {
 			throw new Error("set_node(): called with invalid node");
 		}
 
+		if (this.node) {
+			this.node.set("C", comment_drawer.div.value);
+		}
+		comment_drawer.div.blur();
+
 		if (this.node === node) {				// A few things can call set_node() with the same node that's currently
 			fullbox.hide();						// active, in which case we do nothing important. But we likely want to
 			return false;						// close the fullbox, if it's open.
@@ -773,6 +778,8 @@ let hub_main_props = {
 	},
 
 	escape: function() {
+		this.node.set("C", comment_drawer.div.value);
+		comment_drawer.div.blur();
 		if (fullbox.is_visible) {
 			fullbox.hide();
 		} else {

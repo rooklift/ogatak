@@ -123,8 +123,10 @@ window.addEventListener("keydown", function(event) {
 		event.preventDefault();
 		hub.input_up_down(1);
 	} else if (event.code === "Space") {
-		event.preventDefault();
-		hub.toggle_ponder();
+		if (!comment_drawer.div.matches(":focus")) {
+			event.preventDefault();
+			hub.toggle_ponder();
+		}
 	}
 });
 
