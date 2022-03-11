@@ -385,6 +385,7 @@ let node_prototype = {
 	natural_active: function() {
 
 		// Should correspond to the logic in get_board(). Except reverse order so the right thing prevails.
+		// Ignores PL tags.
 		
 		if (this.has_key("W")) return "b";			// Just as in get_board(), this prevails if both B and W tags exist.
 		if (this.has_key("B")) return "w";
