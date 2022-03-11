@@ -808,9 +808,9 @@ function menu_build() {
 					label: "Go / halt toggle",
 					type: "checkbox",
 					checked: false,
-					accelerator: "Space",				
+					accelerator: "Space",				// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
-						// pass, handled entirely in renderer process, see __start_handlers.js
+						win.webContents.send("call", "toggle_ponder");
 					}
 				},
 				{
