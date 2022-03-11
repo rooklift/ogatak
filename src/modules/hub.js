@@ -919,7 +919,7 @@ let hub_main_props = {
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(config.mode, s);
-				this.node.change_id();							// Prevents stale analysis updates.
+				this.node.change_id();							// Prevents stale analysis updates. Prevents tabber from skipping its draw.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
