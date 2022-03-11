@@ -96,7 +96,9 @@ document.getElementById("fbox").addEventListener("mousedown", (event) => {
 // This is mostly to prevent stray middle-clicks entering "scroll" mode...
 
 document.getElementById("gridder").addEventListener("mousedown", (event) => {
-	event.preventDefault();
+	if (event.which === 2) {
+		event.preventDefault();
+	}
 });
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
