@@ -22,6 +22,11 @@ let queued_files = [];
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 
 // --------------------------------------------------------------------------------------------------------------
+// Utterly absurd workaround allowing us to have Space as an accelerator without interfering with text editing...
+
+let spacebar_time = 0;
+
+// --------------------------------------------------------------------------------------------------------------
 // Make note of argv strings which could be files to open...
 
 if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
@@ -72,11 +77,18 @@ function startup() {
 	});
 
 	win.once("ready-to-show", () => {
+
 		try {
 			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
 		} catch (err) {
 			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
 		}
+
+		win.webContents.on("before-input-event", (event, input) => {
+			if (input.type === "keyDown" && input.code === "Space") {
+				spacebar_time = new Date();
+			}
+		});
 
 		if (config.maxed) {
 			win.maximize();
@@ -801,12 +813,17 @@ function menu_build() {
 			label: "Analysis",
 			submenu: [
 				{
-					label: "Go / halt toggle",
+					label: "Go / halt toggle",		// We do some shenanigans here to show "Space" to the user as a valid accelerator, while
+					accelerator: "Space",			// actually ignoring it - spacebar is handled entirely on the renderer side, because of reasons.
 					type: "checkbox",
 					checked: false,
-					// accelerator: "Space",		// It's troublesome to have this, due to text editing conflict. So handle it entirely renderer-side.
 					click: () => {
-						win.webContents.send("call", "toggle_ponder");
+						let time_since_spacebar = new Date() - spacebar_time;
+						if (time_since_spacebar > 20) {
+							win.webContents.send("call", "toggle_ponder");
+						} else {
+							win.webContents.send("call", "fix_go_halt_menu_item");		// Because this event will have toggled our checkmark.
+						}
 					}
 				},
 				{
