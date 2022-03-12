@@ -67,8 +67,8 @@ exports.defaults = {
 	"major_graph_colour": "#4ba28bff",
 	"major_graph_var_colour": "#4b8ba2ff",
 	"midline_graph_colour": "#222222ff",
-	"graph_width": 224,
-	"comment_height": 0,
+	"graph_width": 192,
+	"comment_box_height": 256,
 
 	"tree_spacing": 24,
 	"tree_off_colour": "#444444ff",
@@ -84,7 +84,7 @@ exports.defaults = {
 	"ownership_per_move": true,
 
 	"logfile": null,
-	"width": 1200,
+	"width": 1333,
 	"height": 780,
 	"maxed": false,
 	"auto_square_size": true,

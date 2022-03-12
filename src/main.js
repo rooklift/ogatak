@@ -2213,41 +2213,41 @@ function menu_build() {
 						{
 							label: "512",
 							type: "checkbox",
-							checked: config.comment_height === 512,
+							checked: config.comment_box_height === 512,
 							click: () => {
-								win.webContents.send("set", {comment_height: 512});
+								win.webContents.send("set", {comment_box_height: 512});
 							}
 						},
 						{
 							label: "384",
 							type: "checkbox",
-							checked: config.comment_height === 384,
+							checked: config.comment_box_height === 384,
 							click: () => {
-								win.webContents.send("set", {comment_height: 384});
+								win.webContents.send("set", {comment_box_height: 384});
 							}
 						},
 						{
 							label: "256",
 							type: "checkbox",
-							checked: config.comment_height === 256,
+							checked: config.comment_box_height === 256,
 							click: () => {
-								win.webContents.send("set", {comment_height: 256});
+								win.webContents.send("set", {comment_box_height: 256});
 							}
 						},
 						{
 							label: "128",
 							type: "checkbox",
-							checked: config.comment_height === 128,
+							checked: config.comment_box_height === 128,
 							click: () => {
-								win.webContents.send("set", {comment_height: 128});
+								win.webContents.send("set", {comment_box_height: 128});
 							}
 						},
 						{
 							label: "0",
 							type: "checkbox",
-							checked: config.comment_height === 0,
+							checked: config.comment_box_height === 0,
 							click: () => {
-								win.webContents.send("set", {comment_height: 0});
+								win.webContents.send("set", {comment_box_height: 0});
 							}
 						},
 					]

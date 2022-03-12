@@ -20,7 +20,7 @@ let comment_drawer_prototype = {
 			s = node.get("GC");
 		}
 
-		if (config.comment_height <= 0) {
+		if (config.comment_box_height <= 0) {
 			this.div.blur();
 			this.div.value = "";
 		} else if (!s) {
