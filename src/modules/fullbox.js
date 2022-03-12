@@ -29,6 +29,7 @@ let fullbox_prototype = {
 			this.outer_div.style["display"] = "block";
 		}
 		this.is_visible = true;
+		comment_drawer.textarea.blur();
 	},
 
 	hide: function() {						// Also the only thing that ever does (this.stderr_mode = false)
