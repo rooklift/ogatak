@@ -804,6 +804,9 @@ let hub_main_props = {
 	},
 
 	commit_comment: function() {
+		if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// commit_comment() shouldn't be called in this state.
+			return;
+		}
 		let s = comment_drawer.div.value.trim();
 		if (s) {
 			this.node.set("C", s);

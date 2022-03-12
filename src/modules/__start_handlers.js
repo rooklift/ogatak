@@ -170,6 +170,9 @@ window.addEventListener("keydown", (event) => {
 });
 
 function insert_into_comments(s) {
+	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// Should be impossible.
+		return;
+	}
 	let i = comment_drawer.div.selectionStart;
 	let j = comment_drawer.div.selectionEnd;
 	comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
