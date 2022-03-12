@@ -160,7 +160,7 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
-	} else if (event.code === "Space") {				// Note that there's some special shennanigans about "Space" in main.js and below.
+	} else if (event.code === "Space") {				// Note that there's some special shenanigans about "Space" in main.js and below.
 		event.preventDefault();							// But in this case, "Space" won't be reaching main.js at all.
 		hub.toggle_ponder();
 	}

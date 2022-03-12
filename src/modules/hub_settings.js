@@ -62,7 +62,7 @@ module.exports = {
 		case "engineconfig":
 		case "weights":
 
-			// Some shennanigans to actually live-update the about box, if it's open...
+			// Some shenanigans to actually live-update the about box, if it's open...
 
 			let possibly_existing_about_box_span_id =
 				key === "engine"       ? "about_box_engine"       :
