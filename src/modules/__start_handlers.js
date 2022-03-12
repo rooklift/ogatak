@@ -17,13 +17,13 @@ document.addEventListener("wheel", (event) => {
 
 	// 2 items can have scrollbars. If they do, the mouse wheel should not be used to scroll the game...
 
-	if (Array.isArray(path) && path.some(item => item.id === "tabdiv")) {
+	if (Array.isArray(path) && path.some(item => item === tabber.outer_div)) {
 		if (tabber.outer_div.scrollHeight > tabber.outer_div.clientHeight) {
 			return;
 		}
 	}
 
-	if (Array.isArray(path) && path.some(item => item.id === "comments")) {
+	if (Array.isArray(path) && path.some(item => item === comment_drawer.div)) {
 		if (comment_drawer.div.scrollHeight > comment_drawer.div.clientHeight) {
 			return;
 		}
@@ -121,7 +121,7 @@ document.getElementById("gridder").addEventListener("mousedown", (event) => {
 	}
 	let path = event.path || (event.composedPath && event.composedPath());
 	if (path) {
-		if (!path.some(item => item.id === "comments")) {
+		if (!path.some(item => item === comment_drawer.div)) {
 			comment_drawer.div.blur();
 		}
 	}
