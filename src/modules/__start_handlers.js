@@ -15,17 +15,13 @@ document.addEventListener("wheel", (event) => {
 
 	let path = event.path || (event.composedPath && event.composedPath());
 
-	// 2 items can have scrollbars. If they do, the mouse wheel should not be used to scroll the game...
-
-	if (Array.isArray(path) && path.some(item => item === tabber.outer_div)) {
-		if (tabber.outer_div.scrollHeight > tabber.outer_div.clientHeight) {
-			return;
-		}
-	}
-
-	if (Array.isArray(path) && path.some(item => item === comment_drawer.textarea)) {
-		if (comment_drawer.textarea.scrollHeight > comment_drawer.textarea.clientHeight) {
-			return;
+	if (Array.isArray(path)) {
+		for (let element of [tabber.outer_div, comment_drawer.textarea]) {		// 2 items can have scrollbars.
+			if (element.scrollHeight > element.clientHeight) {					// If they do, the mouse wheel should not be used to scroll the game.
+				if (path.some(item => item === element)) {						// Only if the mouse is actually over them, though.
+					return;
+				}
+			}
 		}
 	}
 
