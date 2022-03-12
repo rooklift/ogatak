@@ -159,17 +159,18 @@ window.addEventListener("keydown", (event) => {
 
 });
 
-// If Space or Comma are keydown events aimed at the comments box, they can't go any further...
+// If a Space keydown event is aimed at the comments box, it can't go any further...
+//
+// Note that I did think about generalising this so that I could once again have single-key accelerators
+// like A, C, V, B, Comma, etc, but it becomes a bit complicated with control keys, shift keys, etc...
+//
+// Also I have no idea how Kanji (etc) input works, and whether it would conflict.
 
 document.getElementById("comments").addEventListener("keydown", (event) => {
 	if (event.code === "Space") {
 		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
 		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
 		insert_into_comments(" ");
-	} else if (event.code === "Comma" && !event.altKey && !event.ctrlKey && event.key === ",") {		// Final test is best way (?) to check for shift to "<"
-		event.preventDefault();
-		event.stopPropagation();
-		insert_into_comments(",");
 	}
 });
 

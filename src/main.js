@@ -528,7 +528,7 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Play best move",
-					accelerator: ",",
+					accelerator: "CommandOrControl+,",
 					click: () => {
 						win.webContents.send("call", "play_best");
 					}
