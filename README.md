@@ -2,7 +2,7 @@
 
 * Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo) 1.7.0 or higher.
 * Stone and board graphics modified from [Sabaki](https://github.com/SabakiHQ/Sabaki), with thanks.
-* Concept borrowed from [Lizzie](https://github.com/featurecat/lizzie), with influence from [LizGoban](https://github.com/kaorahi/lizgoban), [KaTrain](https://github.com/sanderland/katrain), and [CGoban](https://www.gokgs.com/download.jsp).
+* Concept borrowed from [Lizzie](https://github.com/featurecat/lizzie), with influence from [KaTrain](https://github.com/sanderland/katrain), [CGoban](https://www.gokgs.com/download.jsp), and [LizGoban](https://github.com/kaorahi/lizgoban).
 * Original, independent codebase.
 
 ## Upsides
