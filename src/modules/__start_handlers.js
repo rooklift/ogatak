@@ -173,7 +173,7 @@ comment_drawer.textarea.addEventListener("keydown", (event) => {
 
 	if (event.code === "Space") {
 
-		event.stopPropagation();						// Stops it reaching the handler set on the window, above.
+		event.stopPropagation();						// Stops it reaching the handler set on the window, above (which would trigger toggle).
 
 		// We don't call preventDefault() since we need the browser to actually do the default thing of editing the
 		// textarea. But the event does therefore reach main.js, which has to take special countermeasures to ignore it.
