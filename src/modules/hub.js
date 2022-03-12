@@ -786,7 +786,7 @@ let hub_main_props = {
 	// Misc........................................................................................
 
 	autoset_square_size: function() {
-		let dy = window.innerHeight - document.getElementById("boardcanvas").getBoundingClientRect().top;
+		let dy = window.innerHeight - board_drawer.canvas.getBoundingClientRect().top;
 		let ss = Math.max(10, Math.floor((dy - 8) / 19));
 		if (ss !== config.square_size) {
 			this.set("square_size", ss);

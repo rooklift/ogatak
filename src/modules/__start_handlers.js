@@ -35,7 +35,7 @@ document.addEventListener("wheel", (event) => {
 
 // Clicking a tab should switch tabs...
 
-document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
+tabber.outer_div.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
@@ -45,7 +45,7 @@ document.getElementById("tabdiv").addEventListener("mousedown", (event) => {
 
 // Clicking on the board...
 
-document.getElementById("boardtable").addEventListener("mousedown", (event) => {
+board_drawer.htmltable.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "td_");
 	if (s) {
@@ -55,7 +55,7 @@ document.getElementById("boardtable").addEventListener("mousedown", (event) => {
 
 // Clicking on the boardinfo...
 
-document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
+board_drawer.infodiv.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "boardinfo_");
 	if (s === "rules") {
@@ -73,7 +73,7 @@ document.getElementById("boardinfo").addEventListener("mousedown", (event) => {
 
 // The mouse leaving the board may require a redraw...
 
-document.getElementById("boardtable").addEventListener("mouseleave", (event) => {
+board_drawer.htmltable.addEventListener("mouseleave", (event) => {
 	if (board_drawer.pv) {
 		board_drawer.draw_standard(hub.node);
 	}
@@ -81,7 +81,7 @@ document.getElementById("boardtable").addEventListener("mouseleave", (event) => 
 
 // Clicking on the graph should go to that position in the game...
 
-document.getElementById("graphpositioncanvas").addEventListener("mousedown", (event) => {
+grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let node = grapher.node_from_click(hub.node, event);
 	if (node) {
@@ -91,7 +91,7 @@ document.getElementById("graphpositioncanvas").addEventListener("mousedown", (ev
 
 // Clicking on the tree should go to that position in the game...
 
-document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
+tree_drawer.canvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
@@ -101,14 +101,14 @@ document.getElementById("treecanvas").addEventListener("mousedown", (event) => {
 
 // Clicking on the fullbox should close it...
 
-document.getElementById("fbox").addEventListener("mousedown", (event) => {
+fullbox.outer_div.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	fullbox.hide();
 });
 
 // Comments instantly update the node... thankfully this does not fire when our code itself changes the value...
 
-document.getElementById("comments").addEventListener("input", (event) => {
+comment_drawer.div.addEventListener("input", (event) => {
 	hub.commit_comment();
 });
 
@@ -166,7 +166,7 @@ window.addEventListener("keydown", (event) => {
 //
 // Also I have no idea how Kanji (etc) input works, and whether it would conflict.
 
-document.getElementById("comments").addEventListener("keydown", (event) => {
+comment_drawer.div.addEventListener("keydown", (event) => {
 	if (event.code === "Space") {
 		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
 		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
