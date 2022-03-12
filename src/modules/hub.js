@@ -340,6 +340,8 @@ let hub_main_props = {
 			return false;						// close the fullbox, if it's open.
 		}
 
+		comment_drawer.div.blur();
+
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
 		let opts = {
@@ -773,6 +775,7 @@ let hub_main_props = {
 	},
 
 	escape: function() {
+		comment_drawer.div.blur();
 		if (fullbox.is_visible) {
 			fullbox.hide();
 		} else {
@@ -798,6 +801,15 @@ let hub_main_props = {
 
 	log: function(...args) {
 		console.log(...args);
+	},
+
+	commit_comment: function() {
+		let s = comment_drawer.div.value.trim();
+		if (s) {
+			this.node.set("C", s);
+		} else {
+			this.node.delete_key("C");
+		}
 	},
 
 	// Komi / rules / active are part of the board.................................................
