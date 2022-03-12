@@ -172,7 +172,11 @@ comment_drawer.textarea.addEventListener("keydown", (event) => {
 
 function insert_into_comments(s) {
 
-	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {				// Should be impossible.
+	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {
+		return;
+	}
+
+	if (document.activeElement !== comment_drawer.textarea) {
 		return;
 	}
 
