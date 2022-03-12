@@ -12,6 +12,7 @@
 // All the "browser actions" can be prevented with preventDefault().
 //
 // These two concepts are basically independent of each other.
+// At least, all of this is my possibly-flawed understanding.
 
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
