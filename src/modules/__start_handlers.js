@@ -123,7 +123,7 @@ comment_drawer.textarea.addEventListener("input", (event) => {
 // Prevent stray middle-clicks entering "scroll" mode...
 // Also, any click outside the comments should defocus the comments...
 
-document.getElementById("gridder").addEventListener("mousedown", (event) => {
+window.addEventListener("mousedown", (event) => {
 	if (event.which === 2) {
 		event.preventDefault();
 	}
