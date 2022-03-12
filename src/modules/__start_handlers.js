@@ -128,11 +128,12 @@ document.getElementById("gridder").addEventListener("mousedown", (event) => {
 });
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
-//
-// Also, Space and Comma are nominally accelerators in main.js but actually intercepted here because
-// they have different behaviour if the comments box is in focus...
 
 window.addEventListener("keydown", (event) => {
+
+	// In each of these cases, the preventDefault() is there to prevent the unintended scrolling, but has the unwanted
+	// side-effect of also stopping the menu accelerators from working. So we have to take the right action.
+
 	if (event.code === "PageUp") {
 		event.preventDefault();
 		hub.input_up_down(-10);
@@ -151,30 +152,28 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
-
-	// If the comments box is in focus, Space and Comma cannot do their normal things...
-
 	} else if (event.code === "Space") {
 		event.preventDefault();
-		if (comment_drawer.div.matches(":focus")) {
-			insert_into_comments(" ");
-		} else {
-			hub.toggle_ponder();
-		}
+		hub.toggle_ponder();
+	}
+
+});
+
+// If Space or Comma are keydown events aimed at the comments box, they can't go any further...
+
+document.getElementById("comments").addEventListener("keydown", (event) => {
+	if (event.code === "Space") {
+		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
+		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
+		insert_into_comments(" ");
 	} else if (event.code === "Comma") {
 		event.preventDefault();
-		if (comment_drawer.div.matches(":focus")) {
-			insert_into_comments(",");
-		} else {
-			hub.play_best();
-		}
+		event.stopPropagation();
+		insert_into_comments(",");
 	}
 });
 
 function insert_into_comments(s) {
-
-	// This is a lame hack to allow Space and Comma to be accelerators in most cases but still available when editing comments.
-	// It would be cleaner just to not have them as accelerators at all.
 
 	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// Should be impossible.
 		return;
