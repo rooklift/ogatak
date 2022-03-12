@@ -162,50 +162,21 @@ window.addEventListener("keydown", (event) => {
 		hub.input_up_down(1);
 	} else if (event.code === "Space") {
 		event.preventDefault();
-		hub.toggle_ponder();
+		hub.toggle_ponder();		// This isn't actually specified in a menu accelerator from 1.3.4, since it's awkward given text editing.
 	}
 
 });
 
-// If a Space keydown event is aimed at the comments box, it can't go any further...
+// Space events shouldn't be handled by the above if they're on the comments box...
 //
-// Note that I did think about generalising this so that I could once again have single-key accelerators
-// like A, C, V, B, Comma, etc, but it becomes a bit complicated with control keys, shift keys, etc...
-//
-// Also I have no idea how Kanji (etc) input works, and whether it would conflict.
+// Note that we used to also call preventDefault() here to stop the main.js accelerator from firing, but preventDefault()
+// also stops the space from being entered into the textarea, which required some troublesome workarounds.
 
 comment_drawer.textarea.addEventListener("keydown", (event) => {
 	if (event.code === "Space") {
-		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
-		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
-		insert_into_comments(" ");
+		event.stopPropagation();						// Stops it reaching the handler set on the window, above.
 	}
 });
-
-function insert_into_comments(s) {
-
-	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {
-		return;
-	}
-
-	if (document.activeElement !== comment_drawer.textarea) {
-		return;
-	}
-
-	// "which you can use to programmatically replace text at the cursor while preserving the undo buffer (edit history)
-	// in plain textarea and input elements." -- https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
-
-	if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("insertText")) {
-		document.execCommand("insertText", false, s);
-	} else {
-		let i = comment_drawer.textarea.selectionStart;
-		let j = comment_drawer.textarea.selectionEnd;
-		comment_drawer.textarea.value = comment_drawer.textarea.value.slice(0, i) + s + comment_drawer.textarea.value.slice(j);
-		comment_drawer.textarea.selectionStart = i + 1;
-		comment_drawer.textarea.selectionEnd = i + 1;
-		hub.commit_comment();							// The "input" event handler doesn't work for direct value setting like this.
-	}
-}
 
 // Dragging files onto the window should load them...
 

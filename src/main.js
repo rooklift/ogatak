@@ -804,7 +804,7 @@ function menu_build() {
 					label: "Go / halt toggle",
 					type: "checkbox",
 					checked: false,
-					accelerator: "Space",				// Likely intercepted by the renderer process, see __start_handlers.js
+					// accelerator: "Space",		// It's troublesome to have this, due to text editing conflict. So handle it entirely renderer-side.
 					click: () => {
 						win.webContents.send("call", "toggle_ponder");
 					}
