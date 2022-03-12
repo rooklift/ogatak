@@ -2,7 +2,7 @@
 
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
-		div: document.getElementById("comments"),								// FIXME - not a div any more, change name.
+		textarea: document.getElementById("comments"),
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;
@@ -21,17 +21,17 @@ let comment_drawer_prototype = {
 		}
 
 		if (config.comment_box_height <= 0) {
-			this.div.blur();
-			this.div.value = "";
+			this.textarea.blur();
+			this.textarea.value = "";
 		} else if (!s) {
-			this.div.value = "";
+			this.textarea.value = "";
 		} else {
-			this.div.value = s;			// safe_html(s);			// Not needed for textarea I guess.
+			this.textarea.value = s;			// safe_html(s);			// Not needed for textarea I guess.
 		}
 	},
 
 	set_font_size: function(value) {
-		this.div.style["font-size"] = value.toString() + "px";
+		this.textarea.style["font-size"] = value.toString() + "px";
 	}
 };
 

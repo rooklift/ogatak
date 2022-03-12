@@ -23,8 +23,8 @@ document.addEventListener("wheel", (event) => {
 		}
 	}
 
-	if (Array.isArray(path) && path.some(item => item === comment_drawer.div)) {
-		if (comment_drawer.div.scrollHeight > comment_drawer.div.clientHeight) {
+	if (Array.isArray(path) && path.some(item => item === comment_drawer.textarea)) {
+		if (comment_drawer.textarea.scrollHeight > comment_drawer.textarea.clientHeight) {
 			return;
 		}
 	}
@@ -108,7 +108,7 @@ fullbox.outer_div.addEventListener("mousedown", (event) => {
 
 // Comments instantly update the node... thankfully this does not fire when our code itself changes the value...
 
-comment_drawer.div.addEventListener("input", (event) => {
+comment_drawer.textarea.addEventListener("input", (event) => {
 	hub.commit_comment();
 });
 
@@ -121,8 +121,8 @@ document.getElementById("gridder").addEventListener("mousedown", (event) => {
 	}
 	let path = event.path || (event.composedPath && event.composedPath());
 	if (path) {
-		if (!path.some(item => item === comment_drawer.div)) {
-			comment_drawer.div.blur();
+		if (!path.some(item => item === comment_drawer.textarea)) {
+			comment_drawer.textarea.blur();
 		}
 	}
 });
@@ -166,7 +166,7 @@ window.addEventListener("keydown", (event) => {
 //
 // Also I have no idea how Kanji (etc) input works, and whether it would conflict.
 
-comment_drawer.div.addEventListener("keydown", (event) => {
+comment_drawer.textarea.addEventListener("keydown", (event) => {
 	if (event.code === "Space") {
 		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
 		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
@@ -186,11 +186,11 @@ function insert_into_comments(s) {
 	if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("insertText")) {
 		document.execCommand("insertText", false, s);
 	} else {
-		let i = comment_drawer.div.selectionStart;
-		let j = comment_drawer.div.selectionEnd;
-		comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
-		comment_drawer.div.selectionStart = i + 1;
-		comment_drawer.div.selectionEnd = i + 1;
+		let i = comment_drawer.textarea.selectionStart;
+		let j = comment_drawer.textarea.selectionEnd;
+		comment_drawer.textarea.value = comment_drawer.textarea.value.slice(0, i) + s + comment_drawer.textarea.value.slice(j);
+		comment_drawer.textarea.selectionStart = i + 1;
+		comment_drawer.textarea.selectionEnd = i + 1;
 		hub.commit_comment();							// The "input" event handler doesn't work for direct value setting like this.
 	}
 }

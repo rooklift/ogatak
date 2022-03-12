@@ -340,7 +340,7 @@ let hub_main_props = {
 			return false;						// close the fullbox, if it's open.
 		}
 
-		comment_drawer.div.blur();
+		comment_drawer.textarea.blur();
 
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
@@ -775,7 +775,7 @@ let hub_main_props = {
 	},
 
 	escape: function() {
-		comment_drawer.div.blur();
+		comment_drawer.textarea.blur();
 		if (fullbox.is_visible) {
 			fullbox.hide();
 		} else {
@@ -807,7 +807,7 @@ let hub_main_props = {
 		if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// commit_comment() shouldn't be called in this state.
 			return;
 		}
-		let s = comment_drawer.div.value.trim();
+		let s = comment_drawer.textarea.value.trim();
 		if (s) {
 			this.node.set("C", s);
 		} else {
