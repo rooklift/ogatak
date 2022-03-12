@@ -812,6 +812,14 @@ let hub_main_props = {
 		}
 	},
 
+	fix_go_halt_menu_item: function() {
+		if (this.engine.desired) {
+			ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
+		} else {
+			ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+		}
+	},
+
 	// Komi / rules / active are part of the board.................................................
 
 	coerce_rules: function(value) {
