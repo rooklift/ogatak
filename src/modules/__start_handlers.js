@@ -152,6 +152,8 @@ window.addEventListener("keydown", (event) => {
 		event.preventDefault();
 		hub.input_up_down(1);
 
+	// If the comments box is in focus, Space and Comma cannot do their normal things...
+
 	} else if (event.code === "Space") {
 		event.preventDefault();
 		if (comment_drawer.div.matches(":focus")) {
@@ -170,15 +172,28 @@ window.addEventListener("keydown", (event) => {
 });
 
 function insert_into_comments(s) {
+
+	// This is a lame hack to allow Space and Comma to be accelerators in most cases but still available when editing comments.
+	// It would be cleaner just to not have them as accelerators at all.
+
 	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// Should be impossible.
 		return;
 	}
-	let i = comment_drawer.div.selectionStart;
-	let j = comment_drawer.div.selectionEnd;
-	comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
-	comment_drawer.div.selectionStart = i + 1;
-	comment_drawer.div.selectionEnd = i + 1;
-	hub.commit_comment();								// Our "input" event handler only handles user-made changes.
+
+	// "which you can use to programmatically replace text at the cursor while preserving the undo buffer (edit history)
+	// in plain textarea and input elements." -- https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
+
+	if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("insertText")) {
+		document.execCommand("insertText", false, s);
+		console.log("yes");
+	} else {
+		let i = comment_drawer.div.selectionStart;
+		let j = comment_drawer.div.selectionEnd;
+		comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
+		comment_drawer.div.selectionStart = i + 1;
+		comment_drawer.div.selectionEnd = i + 1;
+		hub.commit_comment();							// The "input" event handler doesn't work for direct value setting like this.
+	}
 }
 
 // Dragging files onto the window should load them...
