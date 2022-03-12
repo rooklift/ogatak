@@ -166,7 +166,7 @@ document.getElementById("comments").addEventListener("keydown", (event) => {
 		event.preventDefault();					// Stops it reaching main.js and triggering accelerator.
 		event.stopPropagation();				// Stops it reaching the handler set on the window, above.
 		insert_into_comments(" ");
-	} else if (event.code === "Comma") {
+	} else if (event.code === "Comma" && !event.altKey && !event.ctrlKey && event.key === ",") {		// Final test is best way (?) to check for shift to "<"
 		event.preventDefault();
 		event.stopPropagation();
 		insert_into_comments(",");
@@ -175,7 +175,7 @@ document.getElementById("comments").addEventListener("keydown", (event) => {
 
 function insert_into_comments(s) {
 
-	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {		// Should be impossible.
+	if (typeof config.comment_box_height !== "number" || config.comment_box_height <= 0) {				// Should be impossible.
 		return;
 	}
 
@@ -184,7 +184,6 @@ function insert_into_comments(s) {
 
 	if (document.execCommand && document.queryCommandSupported && document.queryCommandSupported("insertText")) {
 		document.execCommand("insertText", false, s);
-		console.log("yes");
 	} else {
 		let i = comment_drawer.div.selectionStart;
 		let j = comment_drawer.div.selectionEnd;
