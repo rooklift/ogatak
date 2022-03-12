@@ -9,7 +9,7 @@
 // The bubbling process can be prevented with stopPropagation().
 //
 // Some events cause the browser to do something. In Electron, this includes activating menu accelerators.
-// All the "browser actions" be prevented with preventDefault().
+// All the "browser actions" can be prevented with preventDefault().
 //
 // These two concepts are basically independent of each other.
 
