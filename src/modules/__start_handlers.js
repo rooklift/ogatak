@@ -8,13 +8,27 @@ const {event_path_class_string} = require("./utils");
 // Wheel should scroll the current game...
 
 document.addEventListener("wheel", (event) => {
+
 	if (!event.deltaY) {
 		return;
 	}
+
 	let path = event.path || (event.composedPath && event.composedPath());
-	if (Array.isArray(path) && path.some(item => item.id === "tabdiv" || item.id === "comments")) {		// Can have a scrollbar.
-		return;
+
+	// 2 items can have scrollbars. If they do, the mouse wheel should not be used to scroll the game...
+
+	if (Array.isArray(path) && path.some(item => item.id === "tabdiv")) {
+		if (tabber.outer_div.scrollHeight > tabber.outer_div.clientHeight) {
+			return;
+		}
 	}
+
+	if (Array.isArray(path) && path.some(item => item.id === "comments")) {
+		if (comment_drawer.div.scrollHeight > comment_drawer.div.clientHeight) {
+			return;
+		}
+	}
+
 	if (event.deltaY < 0) hub.input_up_down(-1);
 	if (event.deltaY > 0) hub.input_up_down(1);
 });
@@ -114,6 +128,9 @@ document.getElementById("gridder").addEventListener("mousedown", (event) => {
 });
 
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
+//
+// Also, Space and Comma are nominally accelerators in main.js but actually intercepted here because
+// they have different behaviour if the comments box is in focus...
 
 window.addEventListener("keydown", (event) => {
 	if (event.code === "PageUp") {
@@ -134,13 +151,20 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
+
 	} else if (event.code === "Space") {
 		event.preventDefault();
 		if (comment_drawer.div.matches(":focus")) {
 			insert_into_comments(" ");
-			hub.commit_comment();					// Our "input" event handler only handles user-made changes.
 		} else {
 			hub.toggle_ponder();
+		}
+	} else if (event.code === "Comma") {
+		event.preventDefault();
+		if (comment_drawer.div.matches(":focus")) {
+			insert_into_comments(",");
+		} else {
+			hub.play_best();
 		}
 	}
 });
@@ -151,6 +175,7 @@ function insert_into_comments(s) {
 	comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
 	comment_drawer.div.selectionStart = i + 1;
 	comment_drawer.div.selectionEnd = i + 1;
+	hub.commit_comment();								// Our "input" event handler only handles user-made changes.
 }
 
 // Dragging files onto the window should load them...
