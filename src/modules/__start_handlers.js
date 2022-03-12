@@ -1,6 +1,17 @@
 "use strict";
 
-// Note: some "mouseenter" handlers are also created by the board drawer.
+// Note 1: some "mouseenter" handlers are also created by the board drawer.
+//
+// Note 2: about on event propagation:
+//
+// Events start at the innermost (deepest nested) element possible and bubble up to their containers.
+// Each element in this process can potentially react, if it has a relevant EventListener.
+// The bubbling process can be prevented with stopPropagation().
+//
+// Some events cause the browser to do something. In Electron, this includes activating menu accelerators.
+// All the "browser actions" be prevented with preventDefault().
+//
+// These two concepts are basically independent of each other.
 
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
