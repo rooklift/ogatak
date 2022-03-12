@@ -160,21 +160,25 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
-	} else if (event.code === "Space") {
-		event.preventDefault();
-		hub.toggle_ponder();		// This isn't actually specified in a menu accelerator from 1.3.4, since it's awkward given text editing.
+	} else if (event.code === "Space") {				// Note that there's some special shennanigans about "Space" in main.js and below.
+		event.preventDefault();							// But in this case, "Space" won't be reaching main.js at all.
+		hub.toggle_ponder();
 	}
 
 });
 
 // Space events shouldn't be handled by the above if they're on the comments box...
-//
-// Note that we used to also call preventDefault() here to stop the main.js accelerator from firing, but preventDefault()
-// also stops the space from being entered into the textarea, which required some troublesome workarounds.
 
 comment_drawer.textarea.addEventListener("keydown", (event) => {
+
 	if (event.code === "Space") {
+
 		event.stopPropagation();						// Stops it reaching the handler set on the window, above.
+
+		// We don't call preventDefault() since we need the browser to actually do the default thing of editing the
+		// textarea. But the event does therefore reach main.js, which has to take special countermeasures to ignore it.
+		// (We could also just delete the accelerator from main.js, but then it will not show "Space" to the user.)
+
 	}
 });
 
