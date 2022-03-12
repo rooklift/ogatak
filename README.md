@@ -16,7 +16,7 @@
 ## Downsides
 
 * KataGo not included, setup takes at least a minute's effort.
-* Not really a full SGF editor (cannot write comments or edit player names yet).
+* Not quite a full SGF editor (cannot edit game properties such as player names yet).
 * Electron-based app, everyone hates these (they're big).
 
 ## Performance tips
