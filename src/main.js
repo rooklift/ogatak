@@ -528,14 +528,13 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Play best move",
-					accelerator: ",",
+					accelerator: "CommandOrControl+,",
 					click: () => {
 						win.webContents.send("call", "play_best");
 					}
 				},
 				{
 					label: "Pass",
-					accelerator: "P",
 					click: () => {
 						win.webContents.send("call", "pass");
 					}
@@ -693,9 +692,9 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Normal",
-					accelerator: "1",
 					type: "checkbox",
 					checked: !config.mode,
+					accelerator: "CommandOrControl+1",
 					click: () => {
 						win.webContents.send("set", {mode: ""});
 					}
@@ -705,27 +704,27 @@ function menu_build() {
 				},
 				{
 					label: "Add Black",
-					accelerator: "2",
 					type: "checkbox",
 					checked: config.mode === "AB",
+					accelerator: "CommandOrControl+2",
 					click: () => {
 						win.webContents.send("set", {mode: "AB"});
 					}
 				},
 				{
 					label: "Add White",
-					accelerator: "3",
 					type: "checkbox",
 					checked: config.mode === "AW",
+					accelerator: "CommandOrControl+3",
 					click: () => {
 						win.webContents.send("set", {mode: "AW"});
 					}
 				},
 				{
 					label: "Add Empty",
-					accelerator: "4",
 					type: "checkbox",
 					checked: config.mode === "AE",
+					accelerator: "CommandOrControl+4",
 					click: () => {
 						win.webContents.send("set", {mode: "AE"});
 					}
@@ -735,7 +734,6 @@ function menu_build() {
 				},
 				{
 					label: "Triangle",
-					accelerator: "5",
 					type: "checkbox",
 					checked: config.mode === "TR",
 					click: () => {
@@ -744,7 +742,6 @@ function menu_build() {
 				},
 				{
 					label: "Square",
-					accelerator: "6",
 					type: "checkbox",
 					checked: config.mode === "SQ",
 					click: () => {
@@ -753,7 +750,6 @@ function menu_build() {
 				},
 				{
 					label: "Circle",
-					accelerator: "7",
 					type: "checkbox",
 					checked: config.mode === "CR",
 					click: () => {
@@ -762,7 +758,6 @@ function menu_build() {
 				},
 				{
 					label: "Cross",
-					accelerator: "8",
 					type: "checkbox",
 					checked: config.mode === "MA",
 					click: () => {
@@ -774,7 +769,6 @@ function menu_build() {
 				},
 				{
 					label: "Labels (ABC)",
-					accelerator: "9",
 					type: "checkbox",
 					checked: config.mode === "LB:A",
 					click: () => {
@@ -783,7 +777,6 @@ function menu_build() {
 				},
 				{
 					label: "Labels (123)",
-					accelerator: "0",
 					type: "checkbox",
 					checked: config.mode === "LB:1",
 					click: () => {
@@ -1301,7 +1294,6 @@ function menu_build() {
 							label: "All",
 							type: "checkbox",
 							checked: config.visits_threshold === 0,
-							accelerator: "A",
 							click: () => {
 								win.webContents.send("set", {visits_threshold: 0});
 							}
@@ -1512,7 +1504,6 @@ function menu_build() {
 					label: "Candidate moves",
 					type: "checkbox",
 					checked: config.candidate_moves,
-					accelerator: "C",
 					click: () => {
 						win.webContents.send("toggle", "candidate_moves");
 					}
@@ -1521,7 +1512,6 @@ function menu_build() {
 					label: "...with PV mouseover",
 					type: "checkbox",
 					checked: config.mouseover_pv,
-					accelerator: "V",
 					click: () => {
 						win.webContents.send("toggle", "mouseover_pv");
 					}
@@ -1530,7 +1520,6 @@ function menu_build() {
 					label: "...fade by visits",
 					type: "checkbox",
 					checked: config.visit_colours,
-					accelerator: "B",
 					click: () => {
 						win.webContents.send("toggle", "visit_colours");
 					}
@@ -1542,7 +1531,6 @@ function menu_build() {
 					label: "Next move markers",
 					type: "checkbox",
 					checked: config.next_move_markers,
-					accelerator: "M",
 					click: () => {
 						win.webContents.send("toggle", "next_move_markers");
 					}

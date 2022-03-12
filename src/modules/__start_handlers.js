@@ -8,18 +8,15 @@ const {event_path_class_string} = require("./utils");
 // Wheel should scroll the current game...
 
 document.addEventListener("wheel", (event) => {
+	if (!event.deltaY) {
+		return;
+	}
 	let path = event.path || (event.composedPath && event.composedPath());
-	if (path) {
-		for (let item of path) {
-			if (item.id === "tabdiv" || item.id === "comments") {		// Can have a scrollbar.
-				return;
-			}
-		}
+	if (Array.isArray(path) && path.some(item => item.id === "tabdiv" || item.id === "comments")) {		// Can have a scrollbar.
+		return;
 	}
-	if (event.deltaY) {
-		if (event.deltaY < 0) hub.input_up_down(-1);
-		if (event.deltaY > 0) hub.input_up_down(1);
-	}
+	if (event.deltaY < 0) hub.input_up_down(-1);
+	if (event.deltaY > 0) hub.input_up_down(1);
 });
 
 // Clicking a tab should switch tabs...
@@ -95,11 +92,24 @@ document.getElementById("fbox").addEventListener("mousedown", (event) => {
 	fullbox.hide();
 });
 
+// Comments instantly update the node... thankfully this does not fire when our code itself changes the value...
+
+document.getElementById("comments").addEventListener("input", (event) => {
+	hub.commit_comment();
+});
+
 // Prevent stray middle-clicks entering "scroll" mode...
+// Also, any click outside the comments should defocus the comments...
 
 document.getElementById("gridder").addEventListener("mousedown", (event) => {
 	if (event.which === 2) {
 		event.preventDefault();
+	}
+	let path = event.path || (event.composedPath && event.composedPath());
+	if (path) {
+		if (!path.some(item => item.id === "comments")) {
+			comment_drawer.div.blur();
+		}
 	}
 });
 
@@ -126,9 +136,22 @@ window.addEventListener("keydown", (event) => {
 		hub.input_up_down(1);
 	} else if (event.code === "Space") {
 		event.preventDefault();
-		hub.toggle_ponder();
+		if (comment_drawer.div.matches(":focus")) {
+			insert_into_comments(" ");
+			hub.commit_comment();					// Our "input" event handler only handles user-made changes.
+		} else {
+			hub.toggle_ponder();
+		}
 	}
 });
+
+function insert_into_comments(s) {
+	let i = comment_drawer.div.selectionStart;
+	let j = comment_drawer.div.selectionEnd;
+	comment_drawer.div.value = comment_drawer.div.value.slice(0, i) + s + comment_drawer.div.value.slice(j);
+	comment_drawer.div.selectionStart = i + 1;
+	comment_drawer.div.selectionEnd = i + 1;
+}
 
 // Dragging files onto the window should load them...
 

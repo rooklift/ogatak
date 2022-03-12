@@ -1,10 +1,8 @@
 "use strict";
 
-const {safe_html} = require("./utils");
-
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
-		div: document.getElementById("comments")
+		div: document.getElementById("comments"),								// FIXME - not a div any more, change name.
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;
@@ -22,10 +20,13 @@ let comment_drawer_prototype = {
 			s = node.get("GC");
 		}
 
-		if (!s || config.comment_height <= 0) {
-			this.div.innerHTML = "";
+		if (config.comment_height <= 0) {
+			this.div.blur();
+			this.div.value = "";
+		} else if (!s) {
+			this.div.value = "";
 		} else {
-			this.div.innerHTML = safe_html(s);
+			this.div.value = s;			// safe_html(s);			// Not needed for textarea I guess.
 		}
 	},
 

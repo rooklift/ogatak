@@ -18,12 +18,6 @@ const background = require("./background");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 const {get_ownership_colours} = require("./ownership_colours");
 
-const mode_strings = {
-	"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
-	"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross",
-	"LB:A": "Labels (ABC)", "LB:1": "Labels (123)",
-};
-
 // ------------------------------------------------------------------------------------------------
 
 let mouseenter_handlers = new_2d_array(19, 19, null);

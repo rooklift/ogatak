@@ -284,3 +284,12 @@ exports.safe_html = function(s) {
 	s = exports.replace_all(s,  `"`  ,  `&quot;`  );
 	return s;
 };
+
+exports.undo_safe_html = function(s) {
+	s = exports.replace_all(s,  `&quot;`  ,  `"`  );
+	s = exports.replace_all(s,  `&apos;`  ,  `'`  );
+	s = exports.replace_all(s,  `&gt;`    ,  `>`  );
+	s = exports.replace_all(s,  `&lt;`    ,  `<`  );
+	s = exports.replace_all(s,  `&amp;`   ,  `&`  );		// So I guess do this last.
+	return s;
+};
