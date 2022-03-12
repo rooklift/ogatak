@@ -655,7 +655,7 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("call", {
 							fn: "promote",
-							args: [true]
+							args: [false]
 						});
 					}
 				},
@@ -665,7 +665,7 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("call", {
 							fn: "promote_to_main_line",
-							args: [true]
+							args: [false]
 						});
 					}
 				},
@@ -680,9 +680,12 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Delete all other lines",
+					label: "Delete all previous forks",
 					click: () => {
-						win.webContents.send("call", "delete_other_lines");
+						win.webContents.send("call", {
+							fn: "delete_other_lines",
+							args: [false],
+						});
 					}
 				},
 			]

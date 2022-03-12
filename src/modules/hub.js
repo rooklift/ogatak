@@ -554,9 +554,9 @@ let hub_main_props = {
 		}
 	},
 
-	delete_other_lines: function() {
+	delete_other_lines: function(include_descendants) {
 
-		let node = this.node.get_end();
+		let node = include_descendants ? this.node.get_end() : this.node;
 
 		while (node.parent) {
 			node.detach_siblings();
