@@ -578,18 +578,16 @@ let node_prototype = {
 	force_move: function(s) {						// Note: not to be used for passing.
 
 		let board = this.get_board();
-		let propkey = board.active.toUpperCase();
+		let key = board.active.toUpperCase();
 
 		for (let child of this.children) {
-			if (child.has_key(propkey)) {
-				if (child.get(propkey) === s) {
-					return child;
-				}
+			if (child.has_key_value(key, s)) {
+				return child;
 			}
 		}
 
 		let node = new_node(this);
-		node.set(propkey, s);
+		node.set(key, s);
 
 		return node;
 	},
@@ -597,18 +595,18 @@ let node_prototype = {
 	pass: function() {
 
 		let board = this.get_board();
-		let propkey = board.active.toUpperCase();
+		let key = board.active.toUpperCase();
 
 		for (let child of this.children) {
-			if (child.has_key(propkey)) {
-				if (!board.in_bounds(child.get(propkey))) {
+			if (child.has_key(key)) {
+				if (!board.in_bounds(child.get(key))) {
 					return child;
 				}
 			}
 		}
 
 		let node = new_node(this);
-		node.set(propkey, "");
+		node.set(key, "");
 
 		return node;
 	},
