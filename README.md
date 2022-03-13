@@ -1,6 +1,6 @@
 ![Screenshot](https://user-images.githubusercontent.com/16438795/156058144-1bad6a82-3850-44fb-821f-34e56a1a1f21.png)
 
-* Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo) 1.7.0 or higher.
+* Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo). See [Releases](https://github.com/rooklift/ogatak/releases) for the latest version.
 * Stone and board graphics modified from [Sabaki](https://github.com/SabakiHQ/Sabaki), with thanks.
 * Concept borrowed from [Lizzie](https://github.com/featurecat/lizzie), with influence from [KaTrain](https://github.com/sanderland/katrain), [CGoban](https://www.gokgs.com/download.jsp), and [LizGoban](https://github.com/kaorahi/lizgoban).
 * Original, independent codebase.
