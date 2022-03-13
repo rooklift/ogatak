@@ -23,9 +23,9 @@ let comment_drawer_prototype = {
 		if (config.comment_box_height <= 0) {		// It's still present, just offscreen, because comment_box_height actually just adjusts the tree height.
 			this.textarea.blur();
 			this.textarea.value = "";
-		} else if (!s) {
-			this.textarea.value = "";
+			this.textarea.readOnly = true;			// Maybe paranoia, but it should never be edited by the user in this condition.
 		} else {
+			this.textarea.readOnly = false;
 			this.textarea.value = s;				// safe_html(s);			// Not needed for textarea I guess.
 		}
 	},
