@@ -160,8 +160,20 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "ArrowDown") {
 		event.preventDefault();
 		hub.input_up_down(1);
-	} else if (event.code === "Space") {				// Note that there's some special shenanigans about "Space" in main.js and below.
-		event.preventDefault();							// But in this case, "Space" won't be reaching main.js at all.
+
+	// Our motivation for having "Space" here is twofold - it DOES cause undesired scrolling, but also:
+	//
+	// 1. We want "Space" to be shown as an accelerator in the menu, so it's there in main.js.
+	// 2. But when the spacebar is pressed in the comment_drawer, we can't call preventDefault().
+	// 3. So the accelerator will trigger in main.js, which we don't want.
+	// 4. Through some chicanery, main.js can distinguish between menu-clicks and accelerator-keypresses, and ignore the latter.
+	// 5. But there's no way (?) for it to know whether the accelerator was caused by a keypress in the comments or elsewhere.
+	// 6. So main.js just has to ignore all spacebar keypresses.
+	// 7. Which means we have to handle them entirely on the renderer side, i.e. calling toggle_ponder().
+	// 8. So even if there was no scrolling issue, this would still be needed.
+
+	} else if (event.code === "Space") {
+		event.preventDefault();
 		hub.toggle_ponder();
 	}
 
@@ -170,16 +182,9 @@ window.addEventListener("keydown", (event) => {
 // Space events shouldn't be handled by the above if they're on the comments box...
 
 comment_drawer.textarea.addEventListener("keydown", (event) => {
-
 	if (event.code === "Space") {
-
-		event.stopPropagation();						// Stops it reaching the handler set on the window, above (which would trigger toggle).
-
-		// We don't call preventDefault() since we need the browser to actually do the default thing of editing the
-		// textarea. But the event does therefore reach main.js, which has to take special countermeasures to ignore it.
-		// (We could also just delete the accelerator from main.js, but then it will not show "Space" to the user.)
-
-	}
+		event.stopPropagation();						// Stops it reaching the handler set on the window, above, which would call toggle_ponder().
+	}													// We don't call preventDefault() since that prevents the edit the textarea.
 });
 
 // Dragging files onto the window should load them...
