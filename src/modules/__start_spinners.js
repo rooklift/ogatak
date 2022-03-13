@@ -90,14 +90,8 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 })();
 
 // ------------------------------------------------------------------------------------------------
-// This next bit requires both a spinner and an event handler. It manages dragging on the grapher,
-// while limiting updates to 25 per second...
-
-grapher.positioncanvas.addEventListener("mousemove", (event) => {
-	if (event.buttons) {
-		grapher.pending_mousemove_y = event.offsetY;
-	}
-});
+// Mousemove events (with button down) on the grapher have been setup to store a pending y value
+// there, so that we can actually react at a slower pace...
 
 (function graph_mousemove_spinner() {
 	if (typeof grapher.pending_mousemove_y === "number") {
