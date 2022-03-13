@@ -184,7 +184,7 @@ function apply_komi_fix(root) {
 	let km = parseFloat(root.get("KM"));
 
 	if (Number.isNaN(km)) {
-		root.set("KM", 0);
+		root.delete_key("KM");
 		return;
 	}
 
