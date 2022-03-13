@@ -161,6 +161,12 @@ window.addEventListener("keydown", (event) => {
 		event.preventDefault();
 		hub.input_up_down(1);
 
+	// Tab is annoying, especially if the comments box is "hidden" -- which at the time of writing really means that the tree
+	// is big enough that the comments are pushed offscreen. They are still there for tab to go to.
+
+	} else if (event.code === "Tab") {
+		event.preventDefault();
+
 	// Our motivation for having "Space" here is twofold - it DOES cause undesired scrolling, but also:
 	//
 	// 1. We want "Space" to be shown as an accelerator in the menu, so it's there in main.js.
