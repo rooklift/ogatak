@@ -181,14 +181,22 @@ function apply_basic_props_fix(root) {
 
 function apply_komi_fix(root) {
 
-	// Fix up komi if it is in Chinese counting format like 3.25, 3.75, etc.
-	// No need to create it if it's not present, 0 will be inferred.
+	let km = parseFloat(root.get("KM"));
 
-	let km = parseFloat(root.get("KM")) || 0;
+	if (Number.isNaN(km)) {
+		root.set("KM", 0);
+		return;
+	}
+
+	if (km > 150) {			// Fox, especially.
+		km /= 100;
+	}
 
 	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
-		root.set("KM", km * 2);
+		km *= 2;
 	}
+
+	root.set("KM", km);
 }
 
 function apply_pl_fix(root) {
