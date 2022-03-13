@@ -299,12 +299,16 @@ let grapher_prototype = {
 
 	node_from_click: function(node, event) {
 
-		if (!event || this.too_small_to_draw()) {
+		if (!event) {
 			return null;
 		}
 
-		let mousey = event.offsetY;
-		if (typeof mousey !== "number") {
+		return this.node_from_click_y(node, event.offsetY);
+	},	
+
+	node_from_click_y: function(node, mousey) {
+
+		if (typeof mousey !== "number" || this.too_small_to_draw()) {
 			return null;
 		}
 
@@ -320,6 +324,7 @@ let grapher_prototype = {
 
 		return node_list[click_depth];
 	},
+
 };
 
 

@@ -80,3 +80,24 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 	setTimeout(bad_ownership_spinner, 190);
 })();
 
+// This next bit requires both a spinner and an event handler. It manages dragging on the grapher,
+// while limiting updates to 25 per second...
+
+let pending_grapher_mousemove_y = null;
+
+grapher.positioncanvas.addEventListener("mousemove", (event) => {
+	if (event.buttons) {
+		pending_grapher_mousemove_y = event.offsetY;
+	}
+});
+
+(function graph_mousemove_spinner() {
+	if (pending_grapher_mousemove_y !== null) {
+		let node = grapher.node_from_click_y(hub.node, pending_grapher_mousemove_y);
+		if (node) {
+			hub.set_node(node, {bless: false});
+		}
+		pending_grapher_mousemove_y = null;
+	}
+	setTimeout(graph_mousemove_spinner, 40);
+})();

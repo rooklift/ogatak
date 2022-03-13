@@ -88,6 +88,7 @@ board_drawer.htmltable.addEventListener("mouseleave", (event) => {
 });
 
 // Clicking on the graph should go to that position in the game...
+// Note that an additional listener is in __start_spinners.js.
 
 grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
