@@ -814,9 +814,9 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Go / halt toggle",		// We do some shenanigans here to show "Space" to the user as a valid accelerator, while
-					accelerator: "Space",			// actually ignoring it - spacebar is handled entirely on the renderer side, because of reasons.
-					type: "checkbox",
-					checked: false,
+					accelerator: "Space",			// actually ignoring it - spacebar is handled entirely on the renderer side, because of
+					type: "checkbox",				// reasons. Thus, somewhere above we declared a handler for "before-input-event" events
+					checked: false,					// which we use to track when the last spacebar press happened, BEFORE this sees it.
 					click: () => {
 						let time_since_spacebar = new Date() - spacebar_time;
 						if (time_since_spacebar > 20) {
