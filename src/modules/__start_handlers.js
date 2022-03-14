@@ -19,7 +19,7 @@ const {event_path_class_string} = require("./utils");
 
 // Wheel should scroll the current game...
 
-document.addEventListener("wheel", (event) => {
+window.addEventListener("wheel", (event) => {
 
 	if (!event.deltaY) {
 		return;
