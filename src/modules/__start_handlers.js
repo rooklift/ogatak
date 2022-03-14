@@ -101,11 +101,15 @@ grapher.positioncanvas.addEventListener("mousedown", (event) => {
 grapher.positioncanvas.addEventListener("mousemove", (event) => {
 	if (grapher.dragging) {
 		if (event.buttons) {
-			grapher.pending_mousemove_y = event.offsetY;					// See the related spinner.
+			grapher.pending_mousemove_y = event.offsetY;					// See the related spinner that actually changes the position.
 		} else {
 			grapher.dragging = false;
 		}
 	}
+});
+
+window.addEventListener("mouseup", (event) => {
+	grapher.dragging = false;
 });
 
 // Clicking on the tree should go to that position in the game...
