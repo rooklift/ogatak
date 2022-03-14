@@ -95,7 +95,7 @@ grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	if (node) {
 		hub.set_node(node, {bless: false});
 	}
-	grapher.dragging = true;												// Allow the dragging of the positon to happen.
+	grapher.dragging = true;												// Allow the dragging of the position to happen.
 });
 
 grapher.positioncanvas.addEventListener("mousemove", (event) => {
