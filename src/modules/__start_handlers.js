@@ -87,7 +87,7 @@ board_drawer.htmltable.addEventListener("mouseleave", (event) => {
 	}
 });
 
-// Clicking on the graph should go to that position in the game...
+// Clicking on the graph should go to that position in the game... and dragging should also work...
 
 grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
@@ -95,11 +95,16 @@ grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	if (node) {
 		hub.set_node(node, {bless: false});
 	}
+	grapher.dragging = true;												// Allow the dragging of the positon to happen.
 });
 
 grapher.positioncanvas.addEventListener("mousemove", (event) => {
-	if (event.buttons) {
-		grapher.pending_mousemove_y = event.offsetY;					// See the related spinner.
+	if (grapher.dragging) {
+		if (event.buttons) {
+			grapher.pending_mousemove_y = event.offsetY;					// See the related spinner.
+		} else {
+			grapher.dragging = false;
+		}
 	}
 });
 
