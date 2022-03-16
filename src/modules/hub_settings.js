@@ -6,6 +6,7 @@ const {precompute_ownership_colours} = require("./ownership_colours");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
+	report_every:			["Setup", "Engine report rate"],
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
 	analysis_pv_len:		["Analysis", "PV length (max)"],
 	ownership_marks:		["Analysis", "Ownership"],
@@ -21,7 +22,6 @@ const multichecks = {
 	thumbnail_square_size:	["Sizes", "Thumbnail squares"],
 	tree_spacing:			["Sizes", "Tree spacing"],
 	comment_box_height: 	["Sizes", "Comment box"],
-	report_every:			["Misc", "Engine report rate"],
 };
 
 const togglechecks = {

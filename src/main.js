@@ -533,6 +533,38 @@ function menu_build() {
 						win.webContents.send("call", "restart_engine");
 					}
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Engine report rate",
+					submenu: [
+						{
+							label: "0.1",
+							type: "checkbox",
+							checked: config.report_every === 0.1,
+							click: () => {
+								win.webContents.send("set", {report_every: 0.1});
+							}
+						},
+						{
+							label: "0.2",
+							type: "checkbox",
+							checked: config.report_every === 0.2,
+							click: () => {
+								win.webContents.send("set", {report_every: 0.2});
+							}
+						},
+						{
+							label: "0.4",
+							type: "checkbox",
+							checked: config.report_every === 0.4,
+							click: () => {
+								win.webContents.send("set", {report_every: 0.4});
+							}
+						},
+					]
+				},
 			]
 		},
 		{
@@ -811,6 +843,16 @@ function menu_build() {
 					label: "Toggle active player",
 					click: () => {
 						win.webContents.send("call", "toggle_active_player");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Game info editor",
+					accelerator: "CommandOrControl+I",
+					click: () => {
+						win.webContents.send("call", "display_root_editor");
 					}
 				},
 			]
@@ -2356,16 +2398,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Game info editor",
-					accelerator: "CommandOrControl+I",
-					click: () => {
-						win.webContents.send("call", "display_root_editor");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Show root properties",
 					click: () => {
 						win.webContents.send("call", {
@@ -2382,38 +2414,6 @@ function menu_build() {
 							args: [false]
 						});
 					}
-				},
-				{
-					type: "separator",
-				},
-				{
-					label: "Engine report rate",
-					submenu: [
-						{
-							label: "0.1",
-							type: "checkbox",
-							checked: config.report_every === 0.1,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.1});
-							}
-						},
-						{
-							label: "0.2",
-							type: "checkbox",
-							checked: config.report_every === 0.2,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.2});
-							}
-						},
-						{
-							label: "0.4",
-							type: "checkbox",
-							checked: config.report_every === 0.4,
-							click: () => {
-								win.webContents.send("set", {report_every: 0.4});
-							}
-						},
-					]
 				},
 			]
 		}
