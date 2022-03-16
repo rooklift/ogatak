@@ -945,11 +945,15 @@ let hub_main_props = {
 
 	// Mouse.......................................................................................
 
-	click: function(s) {
+	click: function(s, event) {
 		if (!config.mode) {
 			this.try_move(s);
 		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
-			this.node.toggle_shape_at(config.mode, s);
+			if (event.shiftKey || event.ctrlKey) {
+				this.node.toggle_shape_at_group(config.mode, s);
+			} else {
+				this.node.toggle_shape_at(config.mode, s);
+			}
 			this.draw();
 		} else if (config.mode === "LB:A") {
 			this.node.toggle_alpha_at(s);
