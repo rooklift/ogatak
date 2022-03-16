@@ -206,16 +206,21 @@ body {
 
 input {
 	margin: 1em 1em 0 1em;
-	background-color: #1f1f1fff;
+	background-color: #181818ff;
 	border: none;
 	caret-color: white;
 	color: #ffffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
-	outline: none;
 	width: 40em;
 	pointer-events: auto;
 	user-select: auto;
+}
+
+input:focus {
+	border: none;
+	background-color: #1f1f1fff;
+	outline: none;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
