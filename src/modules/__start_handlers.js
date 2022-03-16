@@ -2,7 +2,9 @@
 
 // Note 1: some "mouseenter" handlers are also created by the board drawer.
 //
-// Note 2: about event propagation:
+// Note 2: some "input" handlers are also created by the root editor.
+//
+// Note 3: about event propagation:
 //
 // Events start at the innermost (deepest nested) element possible and bubble up to their containers.
 // Each element in this process can potentially react, if it has a relevant EventListener.
