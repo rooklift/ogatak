@@ -461,19 +461,27 @@ let hub_main_props = {
 	},
 
 	backward: function(n) {
-		this.set_node(this.node.backward_helper(n), {bless: false});
+		if (this.node.parent) {
+			this.set_node(this.node.backward_helper(n), {bless: false});
+		}
 	},
 
 	forward: function(n) {
-		this.set_node(this.node.forward_helper(n), {bless: false});
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.forward_helper(n), {bless: false});
+		}
 	},
 
 	go_to_root: function() {
-		this.set_node(this.node.get_root(), {bless: false});
+		if (this.node.parent) {
+			this.set_node(this.node.get_root(), {bless: false});
+		}
 	},
 
 	go_to_end: function() {
-		this.set_node(this.node.get_end(), {bless: false});
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.get_end(), {bless: false});
+		}
 	},
 
 	prev_sibling: function() {
