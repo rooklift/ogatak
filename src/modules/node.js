@@ -144,20 +144,28 @@ let node_prototype = {
 		return ret;
 	},
 
-	toggle_shape_at: function(key, point) {
-
+	decompress_marks: function() {
 		this.decompress_points_list("TR");
 		this.decompress_points_list("MA");
 		this.decompress_points_list("SQ");
 		this.decompress_points_list("CR");
+	},
 
-		let exists = this.has_key_value(key, point);
-
+	unset_marks_at: function(point) {
 		this.unset("TR", point);
 		this.unset("MA", point);
 		this.unset("SQ", point);
 		this.unset("CR", point);
 		this.unset_starts_with("LB", `${point}:`);
+	},
+
+	toggle_shape_at: function(key, point) {
+
+		this.decompress_marks();
+
+		let exists = this.has_key_value(key, point);
+
+		this.unset_marks_at(point);
 
 		if (!exists) {
 			this.add_value(key, point);
@@ -174,20 +182,13 @@ let node_prototype = {
 
 		} else {
 
-			this.decompress_points_list("TR");
-			this.decompress_points_list("MA");
-			this.decompress_points_list("SQ");
-			this.decompress_points_list("CR");
+			this.decompress_marks();
 
 			let exists = this.has_key_value(key, point);
 
 			for (let s of group) {
 
-				this.unset("TR", s);
-				this.unset("MA", s);
-				this.unset("SQ", s);
-				this.unset("CR", s);
-				this.unset_starts_with("LB", `${s}:`);
+				this.unset_marks_at(s);
 
 				if (!exists) {
 					this.add_value(key, s);
@@ -198,18 +199,11 @@ let node_prototype = {
 
 	toggle_alpha_at: function(point) {
 
-		this.decompress_points_list("TR");
-		this.decompress_points_list("MA");
-		this.decompress_points_list("SQ");
-		this.decompress_points_list("CR");
+		this.decompress_marks();
 
 		let exists = this.has_key_value_starts_with("LB", `${point}:`);
 
-		this.unset("TR", point);
-		this.unset("MA", point);
-		this.unset("SQ", point);
-		this.unset("CR", point);
-		this.unset_starts_with("LB", `${point}:`);
+		this.unset_marks_at(point);
 
 		if (!exists) {
 
@@ -232,18 +226,11 @@ let node_prototype = {
 
 	toggle_number_at: function(point) {
 
-		this.decompress_points_list("TR");
-		this.decompress_points_list("MA");
-		this.decompress_points_list("SQ");
-		this.decompress_points_list("CR");
+		this.decompress_marks();
 
 		let exists = this.has_key_value_starts_with("LB", `${point}:`);
 
-		this.unset("TR", point);
-		this.unset("MA", point);
-		this.unset("SQ", point);
-		this.unset("CR", point);
-		this.unset_starts_with("LB", `${point}:`);
+		this.unset_marks_at(point);
 
 		if (!exists) {
 
