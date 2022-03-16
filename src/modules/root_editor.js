@@ -47,9 +47,7 @@ let root_editor_prototype = {
 	},
 
 	show: function() {
-		if (!this.is_visible) {
-			this.outer_div.style["display"] = "block";
-		}
+		this.outer_div.style["display"] = "block";
 		this.is_visible = true;
 		comment_drawer.textarea.blur();
 		fullbox.hide();
@@ -59,9 +57,7 @@ let root_editor_prototype = {
 		for (let form of Object.values(this.forms)) {
 			form.blur();
 		}
-		if (this.is_visible) {
-			this.outer_div.style["display"] = "none";
-		}
+		this.outer_div.style["display"] = "none";
 		this.is_visible = false;
 	},
 
