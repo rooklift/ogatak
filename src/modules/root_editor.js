@@ -1,6 +1,14 @@
 "use strict";
 
-const supported_keys = ["PB", "PW"];
+const {pad} = require("./utils");
+
+const supported_keys = {
+	"PB": "Black",
+	"PW": "White",
+	"EV": "Event",
+	"DT": "Date",
+	"RE": "Result"
+};
 
 function init() {
 
@@ -13,10 +21,15 @@ function init() {
 
 	ret.set_font_size(config.info_font_size);
 
-	for (let key of supported_keys) {
+	for (let [key, label] of Object.entries(supported_keys)) {
+		ret.inner_div.innerHTML += `${pad(key, 6, true)}: <input type="text" id="rootprops_${key}" value="">\n`;
+	}
 
+	// This bit needs to be a separate loop from the above, because the += above means the elements are recreated
+	// a bunch of times. Meh...
+
+	for (let key of Object.keys(supported_keys)) {
 		ret.forms[key] = document.getElementById("rootprops_" + key);
-
 		ret.forms[key].addEventListener("input", (event) => {
 			hub.commit_root_edit(key);
 		});
@@ -28,7 +41,7 @@ function init() {
 let root_editor_prototype = {
 
 	set_font_size: function(value) {
-		this.inner_div.style["font-size"] = value.toString() + "px";			// FIXME - doesn't work for the forms?
+		this.inner_div.style["font-size"] = value.toString() + "px";
 	},
 
 	show: function() {
@@ -51,7 +64,7 @@ let root_editor_prototype = {
 	},
 
 	update_from_root: function(root) {
-		for (let key of supported_keys) {
+		for (let key of Object.keys(supported_keys)) {
 			if (root.has_key(key)) {
 				this.forms[key].value = root.get(key);
 			} else {
