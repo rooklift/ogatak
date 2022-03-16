@@ -12,6 +12,7 @@
 		"fullbox": true,
 		"grapher": true,
 		"hub": true,
+		"root_editor": true,
 		"tabber": true,
 		"tree_drawer": true
 	}
