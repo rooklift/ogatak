@@ -47,8 +47,12 @@ let root_editor_prototype = {
 	},
 
 	show: function() {
+
 		this.outer_div.style["display"] = "block";
 		this.is_visible = true;
+
+		hub.halt();
+		
 		comment_drawer.textarea.blur();
 		fullbox.hide();
 	},

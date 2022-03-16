@@ -785,12 +785,10 @@ let hub_main_props = {
 	// Fullbox and similar.........................................................................
 
 	about: function(name, version) {
-		this.halt();
 		fullbox.about(name, version);
 	},
 
 	display_props: function(rootflag) {
-		this.halt();
 		fullbox.display_node_props(rootflag ? this.node.get_root() : this.node);
 	},
 
@@ -806,7 +804,6 @@ let hub_main_props = {
 	},
 
 	display_root_editor: function() {
-		this.halt();
 		root_editor.show();
 	},
 

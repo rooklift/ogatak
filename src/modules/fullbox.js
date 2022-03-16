@@ -25,8 +25,12 @@ let fullbox_prototype = {
 	},
 
 	show: function() {
+
 		this.outer_div.style["display"] = "block";
 		this.is_visible = true;
+
+		hub.halt();
+		
 		comment_drawer.textarea.blur();
 		root_editor.hide();
 	},
