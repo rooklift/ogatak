@@ -6,6 +6,7 @@ const supported_keys = {
 	"PB": "Black",
 	"PW": "White",
 	"EV": "Event",
+	"RO": "Round",
 	"PC": "Place",
 	"DT": "Date",
 	"RE": "Result"
