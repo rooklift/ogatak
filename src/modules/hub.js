@@ -946,7 +946,6 @@ let hub_main_props = {
 	// Mouse.......................................................................................
 
 	click: function(s, event) {
-		console.log(event);
 		if (!config.mode) {
 			this.try_move(s);
 		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
