@@ -792,6 +792,10 @@ let hub_main_props = {
 		fullbox.display_node_props(rootflag ? this.node.get_root() : this.node);
 	},
 
+	display_root_editor: function() {
+		root_editor.show();
+	},
+
 	escape: function() {
 		comment_drawer.textarea.blur();
 		if (fullbox.is_visible) {
@@ -801,10 +805,6 @@ let hub_main_props = {
 		} else {
 			this.set("mode", "");
 		}
-	},
-
-	display_root_editor: function() {
-		root_editor.show();
 	},
 
 	// Misc........................................................................................
