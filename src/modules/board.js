@@ -188,7 +188,6 @@ let board_prototype = {
 		}
 
 		let touched = Object.create(null);
-		touched[s] = true;
 
 		this.group_at_recurse(s, touched);
 
@@ -197,9 +196,9 @@ let board_prototype = {
 	},
 
 	group_at_recurse: function(s, touched) {
+		touched[s] = true;
 		for (let neighbour of this.neighbours(s)) {
 			if (!touched[neighbour] && this.state_at(neighbour) === this.state_at(s)) {
-				touched[neighbour] = true;
 				this.group_at_recurse(neighbour, touched);
 			}
 		}
