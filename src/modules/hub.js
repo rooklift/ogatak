@@ -345,9 +345,7 @@ let hub_main_props = {
 			throw new Error("set_node(): called with invalid node");
 		}
 
-		if (this.node === node) {				// A few things can call set_node() with the same node that's currently
-			fullbox.hide();						// active, in which case we do nothing important. But we likely want to
-			root_editor.hide();					// close the overlays, if they're open.
+		if (this.node === node) {
 			return false;
 		}
 
