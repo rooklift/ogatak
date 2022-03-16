@@ -170,11 +170,10 @@ let node_prototype = {
 
 		if (group.length === 0) {
 			this.toggle_shape_at(key, point);
-			return;
-		}
-
-		for (let s of group) {
-			this.toggle_shape_at(key, s);
+		} else {
+			for (let s of group) {
+				this.toggle_shape_at(key, s);
+			}
 		}
 	},
 
