@@ -195,13 +195,26 @@ body {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	z-index: 6;
+	z-index: 7;
 }
 
 #rootprops_content {
 	overflow: hidden;
 	padding: 2em;
 	white-space: pre;
+}
+
+input {
+	margin: 1em 1em 0 1em;
+	background-color: #1f1f1fff;
+	border: none;
+	caret-color: white;
+	color: #6cccee;
+	font-family: monospace, monospace;
+	font-size: 100%;
+	outline: none;
+	pointer-events: auto;
+	user-select: auto;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */

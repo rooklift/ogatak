@@ -2356,6 +2356,15 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Game info editor",
+					click: () => {
+						win.webContents.send("call", "display_root_editor");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Show root properties",
 					accelerator: "CommandOrControl+P",
 					click: () => {
