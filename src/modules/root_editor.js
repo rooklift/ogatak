@@ -22,7 +22,7 @@ function init() {
 	ret.set_font_size(config.info_font_size);
 
 	for (let [key, label] of Object.entries(supported_keys)) {
-		ret.inner_div.innerHTML += `${pad(key, 6, true)}: <input type="text" id="rootprops_${key}" value="">\n`;
+		ret.inner_div.innerHTML += `${pad(label, 6, true)}: <input type="text" id="rootprops_${key}" value="">\n`;
 	}
 
 	// This bit needs to be a separate loop from the above, because the += above means the elements are recreated
