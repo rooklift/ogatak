@@ -2357,6 +2357,7 @@ function menu_build() {
 				},
 				{
 					label: "Game info editor",
+					accelerator: "CommandOrControl+I",
 					click: () => {
 						win.webContents.send("call", "display_root_editor");
 					}
