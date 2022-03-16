@@ -127,8 +127,9 @@ let hub_main_props = {
 
 	close_tab: function() {
 
-		if (fullbox.is_visible) {		// If the fullbox is open, close it instead...
+		if (fullbox.is_visible || root_editor.is_visible()) {		// Close it instead...
 			fullbox.hide();
+			root_editor.hide();
 			return;
 		}
 
@@ -346,7 +347,8 @@ let hub_main_props = {
 
 		if (this.node === node) {				// A few things can call set_node() with the same node that's currently
 			fullbox.hide();						// active, in which case we do nothing important. But we likely want to
-			return false;						// close the fullbox, if it's open.
+			root_editor.hide();					// close the overlays, if they're open.
+			return false;
 		}
 
 		comment_drawer.textarea.blur();
@@ -647,6 +649,7 @@ let hub_main_props = {
 
 	go: function() {
 		fullbox.hide();
+		root_editor.hide();
 		this.engine.analyse(this.node);
 	},
 
