@@ -1,6 +1,6 @@
 "use strict";
 
-// Note that tree_drawer is also responsible for closing the fullbox when the tree changes...
+// Note that tree_drawer is also responsible for closing the fullbox / root_editor when the tree changes...
 //
 //  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
 //
@@ -45,6 +45,7 @@ let tree_drawer_prototype = {
 
 		if (this.must_draw) {
 			fullbox.hide();
+			root_editor.hide();
 		}
 
 		this.must_draw = false;

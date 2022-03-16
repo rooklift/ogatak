@@ -25,17 +25,14 @@ let fullbox_prototype = {
 	},
 
 	show: function() {
-		if (!this.is_visible) {
-			this.outer_div.style["display"] = "block";
-		}
+		this.outer_div.style["display"] = "block";
 		this.is_visible = true;
 		comment_drawer.textarea.blur();
+		root_editor.hide();
 	},
 
 	hide: function() {						// Also the only thing that ever does (this.stderr_mode = false)
-		if (this.is_visible) {
-			this.outer_div.style["display"] = "none";
-		}
+		this.outer_div.style["display"] = "none";
 		this.is_visible = false;
 		this.stderr_mode = false;
 	},

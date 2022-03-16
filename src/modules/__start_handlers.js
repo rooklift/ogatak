@@ -200,12 +200,18 @@ window.addEventListener("keydown", (event) => {
 
 });
 
-// Space events shouldn't be handled by the above if they're on the comments box...
+// Space events shouldn't be handled by the above if they're on the comments box, or the root editor...
 
 comment_drawer.textarea.addEventListener("keydown", (event) => {
 	if (event.code === "Space") {
 		event.stopPropagation();						// Stops it reaching the handler set on the window, above, which would call toggle_ponder().
 	}													// We don't call preventDefault() since that prevents the edit the textarea.
+});
+
+root_editor.inner_div.addEventListener("keydown", (event) => {
+	if (event.code === "Space") {
+		event.stopPropagation();
+	}
 });
 
 // Dragging files onto the window should load them...

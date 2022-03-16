@@ -92,6 +92,7 @@ module.exports = {
 			board_drawer.set_infodiv_font_size(value);
 			comment_drawer.set_font_size(value);
 			fullbox.set_font_size(value);
+			root_editor.set_font_size(value);
 
 			// Changing the infodiv font will affect the space left for the board, thus...
 

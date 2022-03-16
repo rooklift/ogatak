@@ -2356,8 +2356,17 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Game info editor",
+					accelerator: "CommandOrControl+I",
+					click: () => {
+						win.webContents.send("call", "display_root_editor");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: "Show root properties",
-					accelerator: "CommandOrControl+P",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
@@ -2367,7 +2376,6 @@ function menu_build() {
 				},
 				{
 					label: "Show node properties",
-					accelerator: "CommandOrControl+Shift+P",
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
