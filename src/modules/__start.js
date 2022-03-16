@@ -21,6 +21,7 @@ global.grapher = require("./grapher");
 global.tree_drawer = require("./tree_drawer");
 global.comment_drawer = require("./comment_drawer");
 global.fullbox = require("./fullbox");
+global.root_editor = require("./root_editor");
 
 hub.new_game(19, 19);
 
