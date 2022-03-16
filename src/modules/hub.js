@@ -349,8 +349,6 @@ let hub_main_props = {
 			return false;
 		}
 
-		comment_drawer.textarea.blur();
-
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
 		let opts = {
@@ -399,6 +397,7 @@ let hub_main_props = {
 
 		tree_drawer.must_draw = true;
 		comment_drawer.draw(this.node);
+		comment_drawer.textarea.blur();
 
 		return true;
 	},
