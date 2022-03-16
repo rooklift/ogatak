@@ -144,7 +144,7 @@ let node_prototype = {
 		return ret;
 	},
 
-	decompress_marks: function() {
+	decompress_shapes: function() {
 		this.decompress_points_list("TR");
 		this.decompress_points_list("MA");
 		this.decompress_points_list("SQ");
@@ -161,7 +161,7 @@ let node_prototype = {
 
 	toggle_shape_at: function(key, point) {
 
-		this.decompress_marks();
+		this.decompress_shapes();
 
 		let exists = this.has_key_value(key, point);
 
@@ -182,7 +182,7 @@ let node_prototype = {
 
 		} else {
 
-			this.decompress_marks();
+			this.decompress_shapes();
 
 			let exists = this.has_key_value(key, point);
 
@@ -199,7 +199,7 @@ let node_prototype = {
 
 	toggle_alpha_at: function(point) {
 
-		this.decompress_marks();
+		this.decompress_shapes();
 
 		let exists = this.has_key_value_starts_with("LB", `${point}:`);
 
@@ -226,7 +226,7 @@ let node_prototype = {
 
 	toggle_number_at: function(point) {
 
-		this.decompress_marks();
+		this.decompress_shapes();
 
 		let exists = this.has_key_value_starts_with("LB", `${point}:`);
 
