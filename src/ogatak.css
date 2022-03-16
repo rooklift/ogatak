@@ -209,10 +209,11 @@ input {
 	background-color: #1f1f1fff;
 	border: none;
 	caret-color: white;
-	color: #6cccee;
+	color: #ffffffff;
 	font-family: monospace, monospace;
 	font-size: 100%;
 	outline: none;
+	width: 40em;
 	pointer-events: auto;
 	user-select: auto;
 }
