@@ -20,7 +20,7 @@ let comment_drawer_prototype = {
 			s = node.get("GC");
 		}
 
-		if (config.comment_box_height <= 0) {		// It's still present, just offscreen, because comment_box_height actually just adjusts the tree height.
+		if (config.comment_box_height <= 0) {
 			this.textarea.blur();
 			this.textarea.value = "";
 			this.textarea.style.display = "none";
