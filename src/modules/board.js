@@ -156,34 +156,22 @@ let board_prototype = {
 
 		// Destroys the group and returns the number of stones removed.
 
+		let group = this.group_at(s);
 		let colour = this.state_at(s);
 
-		if (!colour) {
-			return 0;
+		for (let point of group) {
+			this.set_at(point, "");
 		}
 
-		this.set_at(s, "");
+		if (colour === "b") this.caps_by_w += group.length;
+		if (colour === "w") this.caps_by_b += group.length;
 
-		if (colour === "b") {
-			this.caps_by_w++;
-		} else {
-			this.caps_by_b++;
-		}
-
-		let caps = 1;
-
-		for (let neighbour of this.neighbours(s)) {
-			if (this.state_at(neighbour) === colour) {
-				caps += this.destroy_group(neighbour);
-			}
-		}
-
-		return caps;
+		return group.length;
 	},
 
 	group_at: function(s) {
 
-		if (this.state_at(s) === "") {
+		if (!this.state_at(s)) {
 			return [];
 		}
 
@@ -192,13 +180,16 @@ let board_prototype = {
 		this.group_at_recurse(s, touched);
 
 		return Object.keys(touched);
-
 	},
 
 	group_at_recurse: function(s, touched) {
+
 		touched[s] = true;
+
+		let colour = this.state_at(s);
+		
 		for (let neighbour of this.neighbours(s)) {
-			if (!touched[neighbour] && this.state_at(neighbour) === this.state_at(s)) {
+			if (!touched[neighbour] && this.state_at(neighbour) === colour) {
 				this.group_at_recurse(neighbour, touched);
 			}
 		}
