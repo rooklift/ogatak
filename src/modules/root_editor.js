@@ -28,7 +28,7 @@ function init() {
 let root_editor_prototype = {
 
 	set_font_size: function(value) {
-		this.inner_div.style["font-size"] = value.toString() + "px";
+		this.inner_div.style["font-size"] = value.toString() + "px";			// FIXME - doesn't work for the forms?
 	},
 
 	show: function() {

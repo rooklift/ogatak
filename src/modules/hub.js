@@ -60,6 +60,8 @@ let hub_main_props = {
 		board_drawer.draw_standard(this.node);
 	},
 
+	// Root changed................................................................................
+
 	update_title: function() {
 		let title_text = this.node.game_title_text();
 		if (title_text) {
@@ -769,7 +771,7 @@ let hub_main_props = {
 		this.draw();
 	},
 
-	// Fullbox.....................................................................................
+	// Fullbox and similar.........................................................................
 
 	about: function(name, version) {
 		this.halt();
@@ -790,6 +792,11 @@ let hub_main_props = {
 		} else {
 			this.set("mode", "");
 		}
+	},
+
+	display_root_editor: function() {
+		this.halt();
+		root_editor.show();
 	},
 
 	// Misc........................................................................................
@@ -822,7 +829,7 @@ let hub_main_props = {
 	},
 
 	commit_root_edit: function(key) {
-		let root = this.node.get_root();
+		let root = this.node.get_root();	// Kind of inefficient to do this every keystroke, but meh...
 		let value = root_editor.forms[key].value.trim();
 		if (value) {
 			root.set(key, value);
