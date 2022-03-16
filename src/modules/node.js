@@ -169,10 +169,29 @@ let node_prototype = {
 		let group = this.get_board().group_at(point);
 
 		if (group.length === 0) {
+
 			this.toggle_shape_at(key, point);
+
 		} else {
+
+			this.decompress_points_list("TR");
+			this.decompress_points_list("MA");
+			this.decompress_points_list("SQ");
+			this.decompress_points_list("CR");
+
+			let exists = this.has_key_value(key, point);
+
 			for (let s of group) {
-				this.toggle_shape_at(key, s);
+
+				this.unset("TR", s);
+				this.unset("MA", s);
+				this.unset("SQ", s);
+				this.unset("CR", s);
+				this.unset_starts_with("LB", `${s}:`);
+
+				if (!exists) {
+					this.add_value(key, s);
+				}
 			}
 		}
 	},
