@@ -127,7 +127,7 @@ let hub_main_props = {
 
 	close_tab: function() {
 
-		if (fullbox.is_visible || root_editor.is_visible()) {		// Close it instead...
+		if (fullbox.is_visible || root_editor.is_visible) {			// Close it instead...
 			fullbox.hide();
 			root_editor.hide();
 			return;
