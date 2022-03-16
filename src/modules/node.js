@@ -164,6 +164,20 @@ let node_prototype = {
 		}
 	},
 
+	toggle_shape_at_group: function(key, point) {
+
+		let group = this.get_board().group_at(point);
+
+		if (group.length === 0) {
+			this.toggle_shape_at(key, point);
+			return;
+		}
+
+		for (let s of group) {
+			this.toggle_shape_at(key, s);
+		}
+	},
+
 	toggle_alpha_at: function(point) {
 
 		this.decompress_points_list("TR");

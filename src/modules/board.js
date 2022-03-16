@@ -181,6 +181,30 @@ let board_prototype = {
 		return caps;
 	},
 
+	group_at: function(s) {
+
+		if (this.state_at(s) === "") {
+			return [];
+		}
+
+		let touched = Object.create(null);
+		touched[s] = true;
+
+		this.group_at_recurse(s, touched);
+
+		return Object.keys(touched);
+
+	},
+
+	group_at_recurse: function(s, touched) {
+		for (let neighbour of this.neighbours(s)) {
+			if (!touched[neighbour] && this.state_at(neighbour) === this.state_at(s)) {
+				touched[neighbour] = true;
+				this.group_at_recurse(neighbour, touched);
+			}
+		}
+	},
+
 	has_liberties: function(s) {
 
 		if (!this.state_at(s)) {

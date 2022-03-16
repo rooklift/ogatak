@@ -57,7 +57,7 @@ board_drawer.htmltable.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "td_");
 	if (s) {
-		hub.click(s);
+		hub.click(s, event);
 	}
 });
 
