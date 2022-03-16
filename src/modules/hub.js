@@ -950,7 +950,7 @@ let hub_main_props = {
 		if (!config.mode) {
 			this.try_move(s);
 		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
-			if (event.shiftKey) {
+			if (event.shiftKey || event.ctrlKey) {
 				this.node.toggle_shape_at_group(config.mode, s);
 			} else {
 				this.node.toggle_shape_at(config.mode, s);
