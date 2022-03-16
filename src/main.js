@@ -751,6 +751,7 @@ function menu_build() {
 					label: "Triangle",
 					type: "checkbox",
 					checked: config.mode === "TR",
+					accelerator: "CommandOrControl+5",
 					click: () => {
 						win.webContents.send("set", {mode: "TR"});
 					}
@@ -759,6 +760,7 @@ function menu_build() {
 					label: "Square",
 					type: "checkbox",
 					checked: config.mode === "SQ",
+					accelerator: "CommandOrControl+6",
 					click: () => {
 						win.webContents.send("set", {mode: "SQ"});
 					}
@@ -767,6 +769,7 @@ function menu_build() {
 					label: "Circle",
 					type: "checkbox",
 					checked: config.mode === "CR",
+					accelerator: "CommandOrControl+7",
 					click: () => {
 						win.webContents.send("set", {mode: "CR"});
 					}
@@ -775,6 +778,7 @@ function menu_build() {
 					label: "Cross",
 					type: "checkbox",
 					checked: config.mode === "MA",
+					accelerator: "CommandOrControl+8",
 					click: () => {
 						win.webContents.send("set", {mode: "MA"});
 					}
@@ -786,6 +790,7 @@ function menu_build() {
 					label: "Labels (ABC)",
 					type: "checkbox",
 					checked: config.mode === "LB:A",
+					accelerator: "CommandOrControl+9",
 					click: () => {
 						win.webContents.send("set", {mode: "LB:A"});
 					}
@@ -794,6 +799,7 @@ function menu_build() {
 					label: "Labels (123)",
 					type: "checkbox",
 					checked: config.mode === "LB:1",
+					accelerator: "CommandOrControl+0",
 					click: () => {
 						win.webContents.send("set", {mode: "LB:1"});
 					}
