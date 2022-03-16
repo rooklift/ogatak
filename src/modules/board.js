@@ -187,9 +187,14 @@ let board_prototype = {
 		touched[s] = true;
 
 		let colour = this.state_at(s);
-		
+
 		for (let neighbour of this.neighbours(s)) {
-			if (!touched[neighbour] && this.state_at(neighbour) === colour) {
+
+			if (touched[neighbour]) {
+				continue;
+			}
+
+			if (this.state_at(neighbour) === colour) {
 				this.group_at_recurse(neighbour, touched);
 			}
 		}
