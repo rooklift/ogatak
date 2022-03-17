@@ -2,9 +2,7 @@
 
 // Note 1: some "mouseenter" handlers are also created by the board drawer.
 //
-// Note 2: some "input" handlers are also created by the root editor.
-//
-// Note 3: about event propagation:
+// Note 2: about event propagation:
 //
 // Events start at the innermost (deepest nested) element possible and bubble up to their containers.
 // Each element in this process can potentially react, if it has a relevant EventListener.
@@ -131,11 +129,18 @@ fullbox.outer_div.addEventListener("mousedown", (event) => {
 	fullbox.hide();
 });
 
-// Comments instantly update the node... thankfully this does not fire when our code itself changes the value...
+// Comments instantly update the node, and root props instantly update the root.
+// Thankfully these do not fire when our code itself changes the values...
 
 comment_drawer.textarea.addEventListener("input", (event) => {
 	hub.commit_comment();
 });
+
+for (let [key, form] of Object.entries(root_editor.forms)) {
+	form.addEventListener("input", (event) => {
+		hub.commit_root_edit(key);
+	});
+}
 
 // Prevent stray middle-clicks entering "scroll" mode...
 // Also, any click outside the comments should defocus the comments...

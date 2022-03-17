@@ -30,15 +30,13 @@ function init() {
 		ret.inner_div.innerHTML += `<span class="yellow">${pad(label, 10, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
 	}
 
-	// This bit needs to be a separate loop from the above, because the += above means the elements are recreated
-	// a bunch of times. Meh...
+	// This bit needs to be a separate loop from the above, because the += above means the elements are recreated a bunch of times. Meh...
 
 	for (let key of Object.keys(supported_keys)) {
 		ret.forms[key] = document.getElementById("rootprops_" + key);
-		ret.forms[key].addEventListener("input", (event) => {
-			hub.commit_root_edit(key);
-		});
 	}
+
+	// Event listeners to update the root node on changes are set up in __start_handlers.js.
 
 	return ret;
 }
