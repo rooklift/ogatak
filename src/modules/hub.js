@@ -835,7 +835,7 @@ let hub_main_props = {
 	},
 
 	commit_root_edit: function(key) {
-		let root = this.node.get_root();	// Kind of inefficient to do this every keystroke, but meh...
+		let root = this.node.get_root();	// Kind of inefficient to do this every keystroke, but meh.
 		let value = root_editor.forms[key].value.trim();
 		if (value) {
 			root.set(key, value);
@@ -843,7 +843,7 @@ let hub_main_props = {
 			root.delete_key(key);
 		}
 		this.update_title();
-		tabber.fix_active_title(this.node);
+		tabber.fix_active_title(this.node);	// Likewise inefficient.
 	},
 
 	fix_go_halt_menu_item: function() {
