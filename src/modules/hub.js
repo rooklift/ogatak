@@ -821,7 +821,7 @@ let hub_main_props = {
 	},
 
 	commit_root_edit: function(key) {
-		let root = this.node.get_root();	// Kind of inefficient to do this every keystroke, but meh.
+		let root = this.node.get_root();
 		let value = root_editor.forms[key].value.trim();
 		if (value) {
 			root.set(key, value);
