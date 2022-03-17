@@ -32,9 +32,11 @@ function new_node(parent) {
 
 	if (parent) {
 		parent.children.push(node);
-		node.graph_depth_knower = parent.graph_depth_knower;		// 1 object every node points to, a bit lame
+		node.__root = parent.__root;
+		node.graph_depth_knower = parent.graph_depth_knower;		// FIXME - only needed in root
 		node.depth = parent.depth + 1;
 	} else {
+		node.__root = node;
 		node.graph_depth_knower = {val: 60};
 		node.depth = 0;
 		node.filepath = "";											// Gets adjusted from outside
@@ -289,11 +291,7 @@ let node_prototype = {
 	},
 
 	get_root: function() {
-		let node = this;
-		while (node.parent) {
-			node = node.parent;
-		}
-		return node;
+		return this.__root;
 	},
 
 	get_end: function() {
