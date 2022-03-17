@@ -8,7 +8,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 
 (function active_tab_draw_spinner() {
 	tabber.draw_active_tab(hub.node);
-	setTimeout(active_tab_draw_spinner, 200);
+	setTimeout(active_tab_draw_spinner, 211);
 })();
 
 // ------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		hub.backward(n * -1);
 	}
 
-	setTimeout(up_down_spinner, 10);
+	setTimeout(up_down_spinner, 11);
 })();
 
 // ------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 
-	setTimeout(window_resize_spinner, 125);
+	setTimeout(window_resize_spinner, 127);
 })();
 
 // ------------------------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 
-	setTimeout(bad_ownership_spinner, 190);
+	setTimeout(bad_ownership_spinner, 191);
 })();
 
 // ------------------------------------------------------------------------------------------------
@@ -101,5 +101,5 @@ const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
 		}
 	}
 	grapher.pending_mousemove_y = null;
-	setTimeout(graph_mousemove_spinner, 40);
+	setTimeout(graph_mousemove_spinner, 41);
 })();
