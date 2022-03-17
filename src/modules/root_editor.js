@@ -59,7 +59,6 @@ let root_editor_prototype = {
 
 	hide: function() {
 		if (this.is_visible) {
-			tabber.fix_active_title(hub.node);
 			for (let form of Object.values(this.forms)) {
 				form.blur();
 			}

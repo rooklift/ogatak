@@ -843,6 +843,7 @@ let hub_main_props = {
 			root.delete_key(key);
 		}
 		this.update_title();
+		tabber.fix_active_title(this.node);
 	},
 
 	fix_go_halt_menu_item: function() {

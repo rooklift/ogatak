@@ -81,7 +81,6 @@ let tabber_prototype = {
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
 		this.draw_active_tab(node, false);			// Draw the active tab so it's up to date when frozen.
-		this.fix_active_title(node);				// There's some chance this is out of date (i.e. if the editor was open).
 
 		let old_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		assert(old_index !== -1);
