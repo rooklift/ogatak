@@ -60,12 +60,6 @@ let hub_main_props = {
 		board_drawer.draw_standard(this.node);
 	},
 
-	// Root changed................................................................................
-
-	update_root_editor: function() {
-		root_editor.update_from_root(this.node.get_root());
-	},
-
 	// Tabs........................................................................................
 
 	add_roots: function(new_roots) {
@@ -87,9 +81,9 @@ let hub_main_props = {
 		if (new_roots.length === 0) {
 
 			// If were were just replacing a node and adding nothing else, draw its tab etc...
+			// FIXME - test if the draw call is needed
 
 			tabber.draw_active_tab(this.node);
-			this.update_root_editor();
 
 		} else {
 
@@ -111,7 +105,6 @@ let hub_main_props = {
 	switch_tab_by_dom_id: function(dom_id) {
 		let switch_node = tabber.deactivate_node_activate_dom_id(this.node, dom_id);
 		this.set_node(switch_node, {bless: true});
-		this.update_root_editor();
 	},
 
 	close_tab: function() {
@@ -131,7 +124,6 @@ let hub_main_props = {
 			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		this.update_root_editor();
 
 		node_to_destroy.destroy_tree();
 	},
@@ -344,6 +336,10 @@ let hub_main_props = {
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);		// I think this is Crockford's way of doing arguments to methods.
+
+		if (!this.node || this.node.get_root() !== node.get_root()) {
+			root_editor.update_from_root(node.get_root());
+		}
 
 		let previous_line_end = (this.node && !this.node.destroyed) ? this.node.get_end() : null;
 
