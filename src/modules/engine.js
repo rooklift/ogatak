@@ -134,7 +134,7 @@ let engine_prototype = {
 		try {
 			this.exe = child_process.spawn(
 				this.filepath,
-				["analysis", "-config", this.engineconfig, "-model", this.weights],
+				["analysis", "-config", this.engineconfig, "-model", this.weights, "-quit-without-waiting"],
 				{cwd: path.dirname(this.filepath)}
 			);
 		} catch (err) {
@@ -298,7 +298,12 @@ let engine_prototype = {
 	shutdown: function() {								// Note: Don't reuse the engine object.
 		this.has_quit = true;
 		if (this.exe) {
-			this.exe.kill();
+			try {
+				this.exe.stdin.end();
+				this.exe.kill();
+			} catch (err) {
+				console.log(err);
+			}
 		}
 		this.exe = null;
 		this.running = null;
