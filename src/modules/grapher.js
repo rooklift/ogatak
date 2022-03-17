@@ -153,7 +153,7 @@ let grapher_prototype = {
 		ctx.lineWidth = linewidth;
 		ctx.strokeStyle = colour;
 
-		let graph_depth = node.graph_depth_knower.val;
+		let graph_depth = node.get_root().graph_depth;
 
 		// Draw solid portions.....................................................................
 
@@ -259,7 +259,7 @@ let grapher_prototype = {
 			return;
 		}
 
-		let graph_depth = node.graph_depth_knower.val;
+		let graph_depth = node.get_root().graph_depth;
 
 		// Position marker...
 
@@ -320,7 +320,7 @@ let grapher_prototype = {
 
 		let node_list = node.get_end().history();
 
-		let click_depth = Math.round(node.graph_depth_knower.val * mousey / this.drawable_height);
+		let click_depth = Math.round(node.get_root().graph_depth * mousey / this.drawable_height);
 
 		if (click_depth < 0) click_depth = 0;
 		if (click_depth >= node_list.length) click_depth = node_list.length - 1;

@@ -30,22 +30,25 @@ function new_node(parent) {
 	node.__board = null;
 	node.__blessed_child_id = null;				// Usually don't inspect this directly, rather call get_blessed_child()
 
-	if (parent) {
+	if (!parent) {								// This is a new root...
+
+		node.__root = node;
+		node.graph_depth = 60;
+		node.depth = 0;
+		node.filepath = "";						// Gets adjusted from outside
+		node.save_ok = false;					// Gets adjusted from outside
+
+	} else {
+
 		parent.children.push(node);
 		node.__root = parent.__root;
-		node.graph_depth_knower = parent.graph_depth_knower;		// FIXME - only needed in root
 		node.depth = parent.depth + 1;
-	} else {
-		node.__root = node;
-		node.graph_depth_knower = {val: 60};
-		node.depth = 0;
-		node.filepath = "";											// Gets adjusted from outside
-		node.save_ok = false;										// Gets adjusted from outside
-	}
 
-	if (node.depth > node.graph_depth_knower.val) {
-		node.graph_depth_knower.val = node.depth;
-	}
+		if (node.depth > node.__root.graph_depth) {
+			node.__root.graph_depth = node.depth;
+		}
+
+	}	
 
 	return node;
 }
