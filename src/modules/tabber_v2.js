@@ -39,6 +39,10 @@ let tabber_prototype = {
 
 	draw_active_tab: function(node, outlineflag = true) {
 
+		// Either draw the active tab's thumbnail, or (if possible) just draw the outline.
+		// Set the active tab's thumbnail mouseover text.
+		// Set the window title.
+
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 
@@ -49,15 +53,18 @@ let tabber_prototype = {
 			this.last_drawn_active_node_id = node.id;
 		}
 
-		// Because the root properties could have been edited., we always do these...
-
-		update_title(node);
-		img.title = node.game_title_text();			// That is, the thumbnail mouseover text.
+		img.title = node.game_title_text();			// That is, the thumbnail mouseover text. We do these things
+		update_title(node);							// because the root properties might have been edited.
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
-		this.draw_active_tab(node, false);			// Draw the active tab so it's up to date when frozen.
+		// Side effects:
+		// - Draw the active tab's thumbnail so it's up to date when frozen.
+		// - Draw the outline of the newly chosen tab.
+		// - Set the window title.
+
+		this.draw_active_tab(node, false);
 
 		let old_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		assert(old_index !== -1);
@@ -79,6 +86,9 @@ let tabber_prototype = {
 
 	create_inactive_tab_at_end: function(node) {
 
+		// Side effects:
+		// - Draw a new image at the bottom of the tab div.
+
 		let dom_id = `tab_${next_dom_id++}`;
 		this.tabs.push(node);
 		this.dom_ids.push(dom_id);
@@ -93,6 +103,10 @@ let tabber_prototype = {
 	},
 
 	close_active_tab: function() {
+
+		// Side effects:
+		// - Draw the outline of the newly chosen tab.
+		// - Set the window title.
 
 		assert(this.tabs.length > 1);
 
@@ -131,6 +145,8 @@ let tabber_prototype = {
 	},
 
 	draw_everything: function(active_node) {
+
+		// This is almost never called.
 
 		assert(active_node);
 
