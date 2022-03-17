@@ -30,7 +30,7 @@ function init() {
 	ret.tabs[0] = ACTIVE_TAB_MARKER;
 
 	let img = document.getElementsByClassName(ret.dom_ids[0])[0];
-	ret.__update_outline(img, true);
+	ret.__update_img_outline(img, true);
 
 	// So at this point, we have:      tabs === [ACTIVE_TAB_MARKER]
 	//                              dom_ids === ["tab_1"]
@@ -53,10 +53,10 @@ let tabber_prototype = {
 		img.title = node.game_title_text();
 		img.style.margin = `0 16px 16px 16px`;
 
-		this.__update_outline(img, outlineflag);
+		this.__update_img_outline(img, outlineflag);
 	},
 
-	__update_outline: function(img, outlineflag) {
+	__update_img_outline: function(img, outlineflag) {
 		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 	},
 
@@ -70,7 +70,7 @@ let tabber_prototype = {
 		}
 	},
 
-	__fix_active_mouseover(node) {
+	__update_active_mouseover(node) {
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 		img.title = node.game_title_text();
@@ -82,14 +82,16 @@ let tabber_prototype = {
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 
 		if (this.last_drawn_active_node_id === node.id) {
-			this.__update_outline(img, outlineflag);
+			this.__update_img_outline(img, outlineflag);
 		} else {
 			this.__update_img(img, node, outlineflag);
 			this.last_drawn_active_node_id = node.id;
 		}
 
+		// Because the root properties could have been edited., we always do these...
+
 		this.__update_title(node);
-		this.__fix_active_mouseover(node);
+		this.__update_active_mouseover(node);
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
@@ -107,7 +109,7 @@ let tabber_prototype = {
 		this.tabs[new_index] = ACTIVE_TAB_MARKER;
 
 		let img = document.getElementsByClassName(this.dom_ids[new_index])[0];
-		this.__update_outline(img, true);
+		this.__update_img_outline(img, true);
 
 		this.__update_title(switch_node);
 
@@ -147,7 +149,7 @@ let tabber_prototype = {
 		}
 
 		img = document.getElementsByClassName(this.dom_ids[index])[0];
-		this.__update_outline(img, true);
+		this.__update_img_outline(img, true);
 
 		let node = this.tabs[index];
 		this.tabs[index] = ACTIVE_TAB_MARKER;
