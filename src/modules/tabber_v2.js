@@ -69,7 +69,7 @@ let tabber_prototype = {
 		// - Draw the outline of the newly chosen tab.
 		// - Set the window title.
 
-		this.draw_active_tab(node, false);
+		this.draw_active_tab(node, true);
 
 		let old_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		assert(old_index !== -1);
