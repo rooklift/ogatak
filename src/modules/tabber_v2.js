@@ -37,7 +37,7 @@ function init() {
 
 let tabber_prototype = {
 
-	draw_active_tab: function(node, outlineflag = true) {
+	draw_active_tab: function(node, deactivating = false) {
 
 		// Either draw the active tab's thumbnail, or (if possible) just draw the outline.
 		// Set the active tab's thumbnail mouseover text.
@@ -47,14 +47,19 @@ let tabber_prototype = {
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 
 		if (this.last_drawn_active_node_id === node.id) {
-			update_img_outline(img, outlineflag);
+			update_img_outline(img, !deactivating);
 		} else {
-			update_img(img, node, outlineflag);
+			update_img(img, node, !deactivating);
 			this.last_drawn_active_node_id = node.id;
 		}
 
-		img.title = node.game_title_text();			// That is, the thumbnail mouseover text. We do these things
-		update_title(node);							// because the root properties might have been edited.
+		// We do the next 2 things in case the root properties were edited...
+
+		img.title = node.game_title_text();			// That is, the thumbnail mouseover text.
+
+		if (!deactivating) {
+			update_title(node);
+		}
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
