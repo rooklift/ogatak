@@ -80,8 +80,8 @@ let hub_main_props = {
 
 		if (new_roots.length === 0) {
 
-			// If were were just replacing a node and adding nothing else, draw its tab etc...
-			// FIXME - test if the draw call is needed
+			// We have replaced this.node, but not added any new tabs.
+			// Redraw the thumbnail instantly. Not essential, but for that snappy feel...
 
 			tabber.draw_active_tab(this.node);
 
