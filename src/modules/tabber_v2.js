@@ -2,7 +2,7 @@
 
 const new_node = require("./node");
 const thumbnail = require("./thumbnail");
-const {get_title, set_title} = require("./title");
+const {set_title} = require("./title");
 
 const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
@@ -199,9 +199,7 @@ function update_title(node) {
 	if (!desired) {
 		desired = "Ogatak";
 	}
-	if (get_title() !== desired) {
-		set_title(desired);
-	}
+	set_title(desired);
 }
 
 // ------------------------------------------------------------------------------------------------
