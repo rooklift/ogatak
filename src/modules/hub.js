@@ -337,7 +337,7 @@ let hub_main_props = {
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);		// I think this is Crockford's way of doing arguments to methods.
 
-		// If we're now showing a different tree, need to update our root editor...
+		// If we're going to be showing a different tree, need to update our root editor...
 
 		if (!this.node || this.node.get_root() !== node.get_root()) {
 			root_editor.update_from_root(node.get_root());
