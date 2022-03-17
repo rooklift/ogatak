@@ -8,12 +8,6 @@ const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
 let next_dom_id = 1;					// id for the DOM elements (img elements)
 
-function assert(val) {					// The logic in this file is hairy enough that I want to have assert().
-	if (!val) {
-		throw new Error("Assertion failed.");
-	}
-}
-
 function init() {
 
 	let ret = Object.assign(Object.create(tabber_prototype), {
@@ -30,7 +24,7 @@ function init() {
 	ret.tabs[0] = ACTIVE_TAB_MARKER;
 
 	let img = document.getElementsByClassName(ret.dom_ids[0])[0];
-	ret.__update_img_outline(img, true);
+	update_img_outline(img, true);
 
 	// So at this point, we have:      tabs === [ACTIVE_TAB_MARKER]
 	//                              dom_ids === ["tab_1"]
@@ -43,48 +37,21 @@ function init() {
 
 let tabber_prototype = {
 
-	__update_img: function(img, node, outlineflag) {
-
-		let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
-
-		img.src = thumb.data;
-		img.width = thumb.width;
-		img.height = thumb.height;
-		img.title = node.game_title_text();
-		img.style.margin = `0 16px 16px 16px`;
-
-		this.__update_img_outline(img, outlineflag);
-	},
-
-	__update_img_outline: function(img, outlineflag) {
-		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
-	},
-
-	__update_title: function(node) {
-		let desired = node.game_title_text();
-		if (!desired) {
-			desired = "Ogatak";
-		}
-		if (get_title() !== desired) {
-			set_title(desired);
-		}
-	},
-
 	draw_active_tab: function(node, outlineflag = true) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		let img = document.getElementsByClassName(this.dom_ids[index])[0];
 
 		if (this.last_drawn_active_node_id === node.id) {
-			this.__update_img_outline(img, outlineflag);
+			update_img_outline(img, outlineflag);
 		} else {
-			this.__update_img(img, node, outlineflag);
+			update_img(img, node, outlineflag);
 			this.last_drawn_active_node_id = node.id;
 		}
 
 		// Because the root properties could have been edited., we always do these...
 
-		this.__update_title(node);
+		update_title(node);
 		img.title = node.game_title_text();			// That is, the thumbnail mouseover text.
 	},
 
@@ -103,9 +70,9 @@ let tabber_prototype = {
 		this.tabs[new_index] = ACTIVE_TAB_MARKER;
 
 		let img = document.getElementsByClassName(this.dom_ids[new_index])[0];
-		this.__update_img_outline(img, true);
+		update_img_outline(img, true);
 
-		this.__update_title(switch_node);
+		update_title(switch_node);
 
 		assert(!switch_node.destroyed);
 		return switch_node;
@@ -120,7 +87,7 @@ let tabber_prototype = {
 
 		let img = new Image();
 		img.className = dom_id;
-		this.__update_img(img, node, false);
+		update_img(img, node, false);
 
 		this.inner_div.appendChild(img);
 
@@ -143,12 +110,12 @@ let tabber_prototype = {
 		}
 
 		img = document.getElementsByClassName(this.dom_ids[index])[0];
-		this.__update_img_outline(img, true);
+		update_img_outline(img, true);
 
 		let node = this.tabs[index];
 		this.tabs[index] = ACTIVE_TAB_MARKER;
 
-		this.__update_title(node);
+		update_title(node);
 
 		return node;
 	},
@@ -181,12 +148,49 @@ let tabber_prototype = {
 
 			let img = new Image();
 			img.className = dom_id;
-			this.__update_img(img, node, this.tabs[n] === ACTIVE_TAB_MARKER);
+			update_img(img, node, this.tabs[n] === ACTIVE_TAB_MARKER);
 
 			this.inner_div.appendChild(img);
 		}
 	},
 };
+
+// ------------------------------------------------------------------------------------------------
+
+function update_img(img, node, outlineflag) {
+
+	let thumb = thumbnail(node.get_board(), config.thumbnail_square_size);
+
+	img.src = thumb.data;
+	img.width = thumb.width;
+	img.height = thumb.height;
+	img.title = node.game_title_text();
+	img.style.margin = `0 16px 16px 16px`;
+
+	update_img_outline(img, outlineflag);
+}
+
+function update_img_outline(img, outlineflag) {
+	img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
+}
+
+function update_title(node) {
+	let desired = node.game_title_text();
+	if (!desired) {
+		desired = "Ogatak";
+	}
+	if (get_title() !== desired) {
+		set_title(desired);
+	}
+}
+
+// ------------------------------------------------------------------------------------------------
+
+function assert(val) {		// The logic in this file is hairy enough that I want to have assert().
+	if (!val) {
+		throw new Error("Assertion failed.");
+	}
+}
 
 
 
