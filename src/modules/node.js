@@ -962,6 +962,7 @@ function destroy_tree_recursive(node) {
 		node.analysis = null;
 		node.__board = null;
 		node.destroyed = true;
+		node.__root = null;
 
 		if (children.length > 1) {
 			for (let child of children) {
