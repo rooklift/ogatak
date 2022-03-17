@@ -337,17 +337,25 @@ let hub_main_props = {
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);		// I think this is Crockford's way of doing arguments to methods.
 
+		// If we're now showing a different tree, need to update our root editor...
+
 		if (!this.node || this.node.get_root() !== node.get_root()) {
 			root_editor.update_from_root(node.get_root());
 		}
 
+		// See whether the line end has changed, to decide if the graph needs a full redraw...
+
 		let previous_line_end = (this.node && !this.node.destroyed) ? this.node.get_end() : null;
+
+		// Set and maybe bless the node...
 
 		this.node = node;
 
 		if (opts.bless) {						// Do this after previous_line_end has been noted.
 			this.node.bless();
 		}
+
+		// Figure out whether we want the engine to be running...
 
 		let want_to_go = this.engine.desired ? true : false;
 
@@ -369,6 +377,8 @@ let hub_main_props = {
 		} else {
 			this.engine.halt();					// Don't use this.halt() which adjusts auto-stuff.
 		}
+
+		// Draw things...
 
 		this.draw();							// Done after adjusting the engine, since draw() looks at what the engine is doing.
 
