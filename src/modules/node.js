@@ -776,7 +776,6 @@ let node_prototype = {
 
 		parent.children = parent.children.filter(child => child !== this);
 
-		this.parent = null;
 		destroy_tree_recursive(this);
 	},
 
@@ -787,7 +786,6 @@ let node_prototype = {
 
 		for (let sibling of parent.children) {
 			if (sibling !== this) {
-				sibling.parent = null;
 				destroy_tree_recursive(sibling);
 			}
 		}
@@ -798,7 +796,6 @@ let node_prototype = {
 	detach_children: function() {
 
 		for (let child of this.children) {
-			child.parent = null;
 			destroy_tree_recursive(child);
 		}
 
