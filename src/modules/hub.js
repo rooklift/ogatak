@@ -339,7 +339,7 @@ let hub_main_props = {
 
 		// If we're going to be showing a different tree, need to update our root editor...
 
-		if (!this.node || this.node.get_root() !== node.get_root()) {
+		if (!this.node || this.node.destroyed || this.node.get_root() !== node.get_root()) {
 			root_editor.update_from_root(node.get_root());
 		}
 
