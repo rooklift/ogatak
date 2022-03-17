@@ -41,7 +41,7 @@ function new_node(parent) {
 	} else {
 
 		parent.children.push(node);
-		node.__root = parent.__root;
+		node.__root = parent.__root;			// Usually don't access this directly, call get_root() so that bugs will show up if it's not valid.
 		node.depth = parent.depth + 1;
 
 		if (node.depth > node.__root.graph_depth) {
