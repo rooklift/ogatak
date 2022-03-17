@@ -2,6 +2,7 @@
 
 const new_node = require("./node");
 const thumbnail = require("./thumbnail");
+const {get_title, set_title} = require("./title");
 
 const ACTIVE_TAB_MARKER = "***";		// Some arbitrary thing.
 
@@ -59,6 +60,22 @@ let tabber_prototype = {
 		img.style.outline = outlineflag ? `4px solid ${config.wood_colour}` : "none";
 	},
 
+	__update_title: function(node) {
+		let desired = node.game_title_text();
+		if (!desired) {
+			desired = "Ogatak";
+		}
+		if (get_title() !== desired) {
+			set_title(desired);
+		}
+	},
+
+	__fix_active_mouseover(node) {
+		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		let img = document.getElementsByClassName(this.dom_ids[index])[0];
+		img.title = node.game_title_text();
+	},
+
 	draw_active_tab: function(node, outlineflag = true) {
 
 		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
@@ -70,17 +87,15 @@ let tabber_prototype = {
 			this.__update_img(img, node, outlineflag);
 			this.last_drawn_active_node_id = node.id;
 		}
-	},
 
-	fix_active_title(node) {
-		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
-		let img = document.getElementsByClassName(this.dom_ids[index])[0];
-		img.title = node.game_title_text();
+		this.__update_title(node);
+		this.__fix_active_mouseover(node);
 	},
 
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
 		this.draw_active_tab(node, false);			// Draw the active tab so it's up to date when frozen.
+		this.__fix_active_mouseover(node);			// There's some chance this is out of date.
 
 		let old_index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
 		assert(old_index !== -1);
@@ -94,6 +109,8 @@ let tabber_prototype = {
 
 		let img = document.getElementsByClassName(this.dom_ids[new_index])[0];
 		this.__update_outline(img, true);
+
+		this.__update_title(switch_node);
 
 		assert(!switch_node.destroyed);
 		return switch_node;
@@ -135,6 +152,8 @@ let tabber_prototype = {
 
 		let node = this.tabs[index];
 		this.tabs[index] = ACTIVE_TAB_MARKER;
+
+		this.__update_title(node);
 
 		return node;
 	},

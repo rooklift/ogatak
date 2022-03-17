@@ -12,7 +12,7 @@ const load_sgf = require("./load_sgf");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
-const {set_title} = require("./title");
+
 const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
@@ -62,15 +62,6 @@ let hub_main_props = {
 
 	// Root changed................................................................................
 
-	update_title: function() {
-		let title_text = this.node.game_title_text();
-		if (title_text) {
-			set_title(title_text);
-		} else {
-			set_title("Ogatak");
-		}
-	},
-
 	update_root_editor: function() {
 		root_editor.update_from_root(this.node.get_root());
 	},
@@ -98,7 +89,6 @@ let hub_main_props = {
 			// If were were just replacing a node and adding nothing else, draw its tab etc...
 
 			tabber.draw_active_tab(this.node);
-			this.update_title();
 			this.update_root_editor();
 
 		} else {
@@ -121,7 +111,6 @@ let hub_main_props = {
 	switch_tab_by_dom_id: function(dom_id) {
 		let switch_node = tabber.deactivate_node_activate_dom_id(this.node, dom_id);
 		this.set_node(switch_node, {bless: true});
-		this.update_title();
 		this.update_root_editor();
 	},
 
@@ -142,7 +131,6 @@ let hub_main_props = {
 			let node = tabber.close_active_tab();
 			this.set_node(node, {bless: true});
 		}
-		this.update_title();
 		this.update_root_editor();
 
 		node_to_destroy.destroy_tree();
@@ -155,8 +143,6 @@ let hub_main_props = {
 		let root = this.node.get_root();
 		root.filepath = filepath;
 		root.save_ok = true;
-		this.update_title();
-		tabber.fix_active_title(this.node);						// The textbox that pops up when mouseovering a thumbnail; may have gained a filename.
 	},
 
 	save_fast: function() {
@@ -842,8 +828,6 @@ let hub_main_props = {
 		} else {
 			root.delete_key(key);
 		}
-		this.update_title();
-		tabber.fix_active_title(this.node);	// Likewise inefficient.
 	},
 
 	fix_go_halt_menu_item: function() {
