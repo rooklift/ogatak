@@ -71,7 +71,6 @@ let tabber_prototype = {
 
 		let img = document.getElementsByClassName(this.dom_ids[new_index])[0];
 		update_img_outline(img, true);
-
 		update_title(switch_node);
 
 		assert(!switch_node.destroyed);
@@ -81,7 +80,6 @@ let tabber_prototype = {
 	create_inactive_tab_at_end: function(node) {
 
 		let dom_id = `tab_${next_dom_id++}`;
-
 		this.tabs.push(node);
 		this.dom_ids.push(dom_id);
 
