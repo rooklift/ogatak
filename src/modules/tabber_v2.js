@@ -72,6 +72,12 @@ let tabber_prototype = {
 		}
 	},
 
+	fix_active_title(node) {
+		let index = this.tabs.indexOf(ACTIVE_TAB_MARKER);
+		let img = document.getElementsByClassName(this.dom_ids[index])[0];
+		img.title = node.game_title_text();
+	},
+
 	deactivate_node_activate_dom_id: function(node, dom_id) {
 
 		this.draw_active_tab(node, false);			// Draw the active tab so it's up to date when frozen.

@@ -156,6 +156,7 @@ let hub_main_props = {
 		root.filepath = filepath;
 		root.save_ok = true;
 		this.update_title();
+		tabber.fix_active_title(this.node);						// The textbox that pops up when mouseovering a thumbnail; may have gained a filename.
 	},
 
 	save_fast: function() {

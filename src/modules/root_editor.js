@@ -48,22 +48,24 @@ let root_editor_prototype = {
 	},
 
 	show: function() {
-
-		this.outer_div.style["display"] = "block";
-		this.is_visible = true;
-
-		hub.halt();
-		
-		comment_drawer.textarea.blur();
-		fullbox.hide();
+		if (!this.is_visible) {
+			this.outer_div.style["display"] = "block";
+			this.is_visible = true;
+			hub.halt();
+			comment_drawer.textarea.blur();
+			fullbox.hide();
+		}
 	},
 
 	hide: function() {
-		for (let form of Object.values(this.forms)) {
-			form.blur();
+		if (this.is_visible) {
+			tabber.fix_active_title(hub.node);
+			for (let form of Object.values(this.forms)) {
+				form.blur();
+			}
+			this.outer_div.style["display"] = "none";
+			this.is_visible = false;
 		}
-		this.outer_div.style["display"] = "none";
-		this.is_visible = false;
 	},
 
 	update_from_root: function(root) {

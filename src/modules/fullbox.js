@@ -25,20 +25,21 @@ let fullbox_prototype = {
 	},
 
 	show: function() {
-
-		this.outer_div.style["display"] = "block";
-		this.is_visible = true;
-
-		hub.halt();
-		
-		comment_drawer.textarea.blur();
-		root_editor.hide();
+		if (!this.is_visible) {
+			this.outer_div.style["display"] = "block";
+			this.is_visible = true;
+			hub.halt();
+			comment_drawer.textarea.blur();
+			root_editor.hide();
+		}
 	},
 
 	hide: function() {						// Also the only thing that ever does (this.stderr_mode = false)
-		this.outer_div.style["display"] = "none";
-		this.is_visible = false;
-		this.stderr_mode = false;
+		if (this.is_visible) {
+			this.outer_div.style["display"] = "none";
+			this.is_visible = false;
+			this.stderr_mode = false;
+		}
 	},
 
 	set: function(s) {						// No sanitizing, beware!
