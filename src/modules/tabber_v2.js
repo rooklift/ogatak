@@ -105,6 +105,7 @@ let tabber_prototype = {
 	close_active_tab: function() {
 
 		// Side effects:
+		// - Remove the active tab's img.
 		// - Draw the outline of the newly chosen tab.
 		// - Set the window title.
 
