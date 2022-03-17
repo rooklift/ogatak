@@ -291,6 +291,9 @@ let node_prototype = {
 	},
 
 	get_root: function() {
+		if (!this.__root) {
+			throw new Error("get_root(): root not available");
+		}
 		return this.__root;
 	},
 
