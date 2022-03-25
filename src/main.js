@@ -22,9 +22,10 @@ let queued_files = [];
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 
 // --------------------------------------------------------------------------------------------------------------
-// Utterly absurd workaround allowing us to have Space as an accelerator without interfering with text editing...
+// Utterly absurd workaround allowing us to have these as a accelerators without interfering with text editing...
 
 let spacebar_time = 0;
+let comma_time = 0;
 
 // --------------------------------------------------------------------------------------------------------------
 // Make note of argv strings which could be files to open...
@@ -84,18 +85,22 @@ function startup() {
 			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
 		}
 
-		win.webContents.on("before-input-event", (event, input) => {
-			if (input.type === "keyDown" && input.code === "Space") {
-				spacebar_time = new Date();
-			}
-		});
-
 		if (config.maxed) {
 			win.maximize();
 		}
 
 		win.show();
 		win.focus();
+	});
+
+	win.webContents.on("before-input-event", (event, input) => {
+		if (input.type === "keyDown") {
+			if (input.code === "Space") {
+				spacebar_time = new Date();
+			} else if (input.code === "Comma") {
+				comma_time = new Date();
+			}
+		}
 	});
 
 	win.on("maximize", (event) => {
@@ -572,9 +577,12 @@ function menu_build() {
 			submenu: [
 				{
 					label: "Play best move",
-					accelerator: "CommandOrControl+,",
+					accelerator: ",",			// See notes on "Space" accelerator shenanigans, below.
 					click: () => {
-						win.webContents.send("call", "play_best");
+						let time_since_comma = new Date() - comma_time;
+						if (time_since_comma > 20) {
+							win.webContents.send("call", "play_best");
+						}
 					}
 				},
 				{

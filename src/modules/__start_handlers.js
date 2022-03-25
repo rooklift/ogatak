@@ -203,20 +203,26 @@ window.addEventListener("keydown", (event) => {
 	} else if (event.code === "Space") {
 		event.preventDefault();
 		hub.toggle_ponder();
+
+	// Comma is handled here on the renderer side for similar reasons.
+
+	} else if (event.code === "Comma") {
+		event.preventDefault();
+		hub.play_best();
 	}
 
 });
 
-// Space events shouldn't be handled by the above if they're on the comments box, or the root editor...
+// Space / Comma events shouldn't be handled by the above if they're on the comments box, or the root editor...
 
 comment_drawer.textarea.addEventListener("keydown", (event) => {
-	if (event.code === "Space") {
-		event.stopPropagation();						// Stops it reaching the handler set on the window, above, which would call toggle_ponder().
+	if (event.code === "Space" || event.code === "Comma") {
+		event.stopPropagation();						// Stops it reaching the handler on window, above, which would call hub.something().
 	}													// We don't call preventDefault() since that prevents the edit the textarea.
 });
 
 root_editor.inner_div.addEventListener("keydown", (event) => {
-	if (event.code === "Space") {
+	if (event.code === "Space" || event.code === "Comma") {
 		event.stopPropagation();
 	}
 });
