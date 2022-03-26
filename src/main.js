@@ -580,7 +580,7 @@ function menu_build() {
 					accelerator: ",",			// See notes on "Space" accelerator shenanigans, below.
 					click: () => {
 						let time_since_comma = new Date() - comma_time;
-						if (time_since_comma > 20) {
+						if (time_since_comma > 200) {
 							win.webContents.send("call", "play_best");
 						}
 					}
@@ -875,7 +875,7 @@ function menu_build() {
 					checked: false,					// which we use to track when the last spacebar press happened, BEFORE this sees it.
 					click: () => {
 						let time_since_spacebar = new Date() - spacebar_time;
-						if (time_since_spacebar > 20) {
+						if (time_since_spacebar > 200) {
 							win.webContents.send("call", "toggle_ponder");
 						} else {
 							win.webContents.send("call", "fix_go_halt_menu_item");		// Because this event will have toggled our checkmark.
