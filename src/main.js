@@ -22,7 +22,7 @@ let queued_files = [];
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 
 // --------------------------------------------------------------------------------------------------------------
-// Utterly absurd workaround allowing us to have these as a accelerators without interfering with text editing...
+// Contrived workaround allowing us to have these as accelerators without interfering with text editing...
 
 let spacebar_time = 0;
 let comma_time = 0;
