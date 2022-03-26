@@ -26,11 +26,13 @@ function init() {
 
 	ret.set_font_size(config.info_font_size);
 
+	let s = "";
 	for (let [key, label] of Object.entries(supported_keys)) {
-		ret.inner_div.innerHTML += `<span class="yellow">${pad(label, 10, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
+		s += `<span class="yellow">${pad(label, 10, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
 	}
+	ret.inner_div.innerHTML = s;
 
-	// This bit needs to be a separate loop from the above, because the += above means the elements are recreated a bunch of times. Meh...
+	// Now that the elements actually exist, we can do this...
 
 	for (let key of Object.keys(supported_keys)) {
 		ret.forms[key] = document.getElementById("rootprops_" + key);
