@@ -27,7 +27,7 @@ exports.base_query = function(query_node, engine) {
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
 		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
-			reportAnalysisWinratesAs: "SIDETOMOVE",
+			reportAnalysisWinratesAs: "BLACK",
 			wideRootNoise: (config.widerootnoise) ? 0.05 : 0,
 			rootSymmetryPruning: (config.symmetry_pruning) ? true : false,
 		}

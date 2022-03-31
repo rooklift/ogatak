@@ -73,11 +73,6 @@ let grapher_prototype = {
 				let score = h_node.analysis.moveInfos[0].scoreLead;
 				let winrate = h_node.analysis.moveInfos[0].winrate;
 
-				if (h_node.get_board().active === "w") {
-					score = -score;
-					winrate = 1 - winrate;
-				}
-
 				if ( score > abs_score_max) abs_score_max =  score;
 				if (-score > abs_score_max) abs_score_max = -score;
 

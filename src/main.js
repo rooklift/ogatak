@@ -1292,6 +1292,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: "Black POV always",
+					type: "checkbox",
+					checked: config.black_pov,
+					click: () => {
+						win.webContents.send("toggle", "black_pov");
+					}
+				},
+				{
 					label: "Wide root noise",
 					type: "checkbox",
 					checked: config.widerootnoise,

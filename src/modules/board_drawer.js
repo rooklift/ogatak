@@ -318,8 +318,8 @@ let board_drawer_prototype = {
 
 			// If possible, use this node's analysis.
 
-			this.plan_death_marks(node.get_board(), node.analysis.ownership, node.get_board().active);
-			this.draw_ownership_canvas(node.analysis.ownership, node.get_board().active);
+			this.plan_death_marks(node.get_board(), node.analysis.ownership);
+			this.draw_ownership_canvas(node.analysis.ownership);
 
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
@@ -327,8 +327,8 @@ let board_drawer_prototype = {
 
 			let analysis_node = node.anc_dec_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
-				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership, analysis_node.get_board().active);
-				this.draw_ownership_canvas(analysis_node.analysis.ownership, analysis_node.get_board().active);
+				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership);
+				this.draw_ownership_canvas(analysis_node.analysis.ownership);
 			}
 
 		}
@@ -384,11 +384,11 @@ let board_drawer_prototype = {
 		this.draw_board(finalboard);
 
 		if (config.ownership_per_move && info.ownership) {
-			this.plan_death_marks(finalboard, info.ownership, startboard.active);
-			this.draw_ownership_canvas(info.ownership, startboard.active);
+			this.plan_death_marks(finalboard, info.ownership);
+			this.draw_ownership_canvas(info.ownership);
 		} else if (node.analysis.ownership) {
-			this.plan_death_marks(finalboard, node.analysis.ownership, startboard.active);
-			this.draw_ownership_canvas(node.analysis.ownership, startboard.active);
+			this.plan_death_marks(finalboard, node.analysis.ownership);
+			this.draw_ownership_canvas(node.analysis.ownership);
 		}
 
 		this.plan_pv_labels(points);
@@ -536,7 +536,7 @@ let board_drawer_prototype = {
 		this.wood_helps_are_valid = false;
 	},
 
-	draw_ownership_canvas: function(ownership, ownership_perspective) {
+	draw_ownership_canvas: function(ownership) {
 
 		if (config.ownership_marks !== "Whole board" || !ownership) {
 			return;
@@ -548,10 +548,6 @@ let board_drawer_prototype = {
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				let own = ownership[x + (y * this.width)];
-				if (ownership_perspective === "w") {
-					own = -own;								// In this function we consider ownership from Black's POV.
-				}
-
 				let precomps = get_ownership_colours(own);
 				this.fsquare(x, y, 1, precomps[0], true);
 				this.wood_helps[x][y] = precomps[1];
@@ -564,7 +560,7 @@ let board_drawer_prototype = {
 	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
 	// can be at each spot in the needed_marks array. We could also use a map of point --> object.
 
-	plan_death_marks: function(board, ownership, ownership_perspective) {
+	plan_death_marks: function(board, ownership) {
 
 		if (config.ownership_marks === "None" || !ownership) {
 			return;
@@ -581,9 +577,7 @@ let board_drawer_prototype = {
 				}
 
 				let own = ownership[x + (y * board.width)];
-				if (ownership_perspective === "w") {
-					own = -own;								// In this function we consider ownership from Black's POV.
-				}
+
 				if (own > 0 && state === "w") {
 					this.needed_marks[x][y] = {type: "death"};
 				} else if (own < 0 && state === "b") {
@@ -660,6 +654,7 @@ let board_drawer_prototype = {
 		let board = node.get_board();
 		let number_types = config.numbers.split(" + ");
 		let got_bad_analysis_text = false;
+		let needs_flip = !config.black_pov && board.active === "w";		// Whether values like LCB, score etc need flipped to show from White POV.
 
 		for (let info of filtered_infos) {
 
@@ -694,7 +689,7 @@ let board_drawer_prototype = {
 				}
 
 				for (let t of number_types) {
-					let z = string_from_info(info, node, t);
+					let z = string_from_info(info, node, t, needs_flip);
 					if (z === "?") {
 						got_bad_analysis_text = true;
 					}
@@ -849,7 +844,7 @@ let board_drawer_prototype = {
 			visits = `${moveinfo.visits} / ${node.analysis.rootInfo.visits}`;
 
 			let lead = moveinfo.scoreLead;
-			let leader = ((lead >= 0 && board.active === "b") || (lead < 0 && board.active === "w")) ? "B" : "W";
+			let leader = lead >= 0 ? "B" : "W";
 			if (lead < 0) lead *= -1;
 			score = `${leader}+${lead.toFixed(1)}`;
 		}
@@ -881,7 +876,7 @@ function mark_colour_from_state(state, dflt) {
 	return dflt;
 }
 
-function string_from_info(info, node, type) {
+function string_from_info(info, node, type, flip) {
 
 	let val;			// It seems using let inside a switch is dubious.
 	let text;
@@ -890,15 +885,38 @@ function string_from_info(info, node, type) {
 	switch (type) {
 
 		case "Winrate":
-			return Math.floor(Math.max(0, info.winrate * 100)).toString();
+			val = Math.round(info.winrate * 100);
+			if (flip) {
+				val = 100 - val;
+			}
+			if (val > 99) {
+				val = 99;
+			}
+			if (val < 0) {
+				val = 0;
+			}
+			return val.toString();
 		case "LCB":
-			return Math.floor(Math.max(0, info.lcb * 100)).toString();
+			val = Math.round(info.lcb * 100);
+			if (flip) {
+				val = 100 - val;
+			}
+			if (val > 99) {
+				val = 99;
+			}
+			if (val < 0) {
+				val = 0;
+			}
+			return val.toString();
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
 			return Math.floor(info.prior * 100).toString();
 		case "Score":
 			val = info.scoreLead;
+			if (flip) {
+				val = -val;
+			}
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
 			if (absl < 10) {
@@ -911,6 +929,9 @@ function string_from_info(info, node, type) {
 			return text;
 		case "Delta":
 			val = info.scoreLead - node.analysis.moveInfos[0].scoreLead;
+			if (flip) {
+				val = -val;
+			}
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
 			if (absl < 10) {
