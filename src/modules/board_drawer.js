@@ -885,17 +885,29 @@ function string_from_info(info, node, type, flip) {
 	switch (type) {
 
 		case "Winrate":
-			val = Math.max(0, info.winrate * 100);
+			val = Math.round(info.winrate * 100);
+			if (val > 100) {
+				val = 100;
+			}
+			if (val < 0) {
+				val = 0;
+			}
 			if (flip) {
 				val = 100 - val;
 			}
-			return Math.floor(val).toString();
+			return val.toString();
 		case "LCB":
-			val = Math.max(0, info.lcb * 100);
+			val = Math.round(info.lcb * 100);
+			if (val > 100) {
+				val = 100;
+			}
+			if (val < 0) {
+				val = 0;
+			}
 			if (flip) {
 				val = 100 - val;
 			}
-			return Math.floor(val).toString();
+			return val.toString();
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
