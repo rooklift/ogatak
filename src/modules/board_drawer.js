@@ -886,26 +886,26 @@ function string_from_info(info, node, type, flip) {
 
 		case "Winrate":
 			val = Math.round(info.winrate * 100);
-			if (val > 100) {
-				val = 100;
+			if (flip) {
+				val = 100 - val;
+			}
+			if (val > 99) {
+				val = 99;
 			}
 			if (val < 0) {
 				val = 0;
-			}
-			if (flip) {
-				val = 100 - val;
 			}
 			return val.toString();
 		case "LCB":
 			val = Math.round(info.lcb * 100);
-			if (val > 100) {
-				val = 100;
+			if (flip) {
+				val = 100 - val;
+			}
+			if (val > 99) {
+				val = 99;
 			}
 			if (val < 0) {
 				val = 0;
-			}
-			if (flip) {
-				val = 100 - val;
 			}
 			return val.toString();
 		case "Visits (%)":
