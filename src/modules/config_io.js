@@ -75,6 +75,8 @@ exports.defaults = {
 	"tree_main_colour": "#909090ff",
 	"central_node_colour": "#d0ad75ff",
 
+	"side_to_move": true,
+
 	"analysis_pv_len": 16,
 	"widerootnoise": true,
 	"symmetry_pruning": true,

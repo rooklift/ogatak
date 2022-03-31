@@ -654,6 +654,7 @@ let board_drawer_prototype = {
 		let board = node.get_board();
 		let number_types = config.numbers.split(" + ");
 		let got_bad_analysis_text = false;
+		let needs_flip = config.side_to_move && board.active === "w";	// Whether values like LCB, score etc need flipped to show from White POV.
 
 		for (let info of filtered_infos) {
 
@@ -688,7 +689,7 @@ let board_drawer_prototype = {
 				}
 
 				for (let t of number_types) {
-					let z = string_from_info(info, node, t);
+					let z = string_from_info(info, node, t, needs_flip);
 					if (z === "?") {
 						got_bad_analysis_text = true;
 					}
@@ -875,7 +876,7 @@ function mark_colour_from_state(state, dflt) {
 	return dflt;
 }
 
-function string_from_info(info, node, type) {
+function string_from_info(info, node, type, flip) {
 
 	let val;			// It seems using let inside a switch is dubious.
 	let text;
@@ -884,15 +885,26 @@ function string_from_info(info, node, type) {
 	switch (type) {
 
 		case "Winrate":
-			return Math.floor(Math.max(0, info.winrate * 100)).toString();
+			val = Math.max(0, info.winrate * 100);
+			if (flip) {
+				val = 100 - val;
+			}
+			return Math.floor(val).toString();
 		case "LCB":
-			return Math.floor(Math.max(0, info.lcb * 100)).toString();
+			val = Math.max(0, info.lcb * 100);
+			if (flip) {
+				val = 100 - val;
+			}
+			return Math.floor(val).toString();
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
 			return Math.floor(info.prior * 100).toString();
 		case "Score":
 			val = info.scoreLead;
+			if (flip) {
+				val = -val;
+			}
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
 			if (absl < 10) {
@@ -905,6 +917,9 @@ function string_from_info(info, node, type) {
 			return text;
 		case "Delta":
 			val = info.scoreLead - node.analysis.moveInfos[0].scoreLead;
+			if (flip) {
+				val = -val;
+			}
 			text = val < 0 ? "-" : "+";
 			absl = Math.abs(val);
 			if (absl < 10) {
