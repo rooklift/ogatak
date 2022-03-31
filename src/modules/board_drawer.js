@@ -654,7 +654,7 @@ let board_drawer_prototype = {
 		let board = node.get_board();
 		let number_types = config.numbers.split(" + ");
 		let got_bad_analysis_text = false;
-		let needs_flip = config.side_to_move && board.active === "w";	// Whether values like LCB, score etc need flipped to show from White POV.
+		let needs_flip = !config.black_pov && board.active === "w";		// Whether values like LCB, score etc need flipped to show from White POV.
 
 		for (let info of filtered_infos) {
 

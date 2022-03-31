@@ -132,7 +132,7 @@ module.exports = {
 		case "mouseover_pv":
 		case "next_move_markers":
 		case "visit_colours":
-		case "side_to_move":
+		case "black_pov":
 
 			this.draw();
 			break;
