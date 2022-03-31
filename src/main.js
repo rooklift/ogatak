@@ -1292,7 +1292,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Values from Black POV",
+					label: "Black POV always",
 					type: "checkbox",
 					checked: config.black_pov,
 					click: () => {
