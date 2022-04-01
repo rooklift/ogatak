@@ -787,11 +787,13 @@ let hub_main_props = {
 	},
 
 	escape: function() {
+
 		comment_drawer.textarea.blur();
-		if (fullbox.is_visible || root_editor.is_visible) {
-			fullbox.hide();
-			root_editor.hide();
-		} else {
+		
+		fullbox.hide();
+		root_editor.hide();
+
+		if (config.mode !== "") {
 			this.set("mode", "");
 		}
 	},
