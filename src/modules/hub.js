@@ -788,9 +788,8 @@ let hub_main_props = {
 
 	escape: function() {
 		comment_drawer.textarea.blur();
-		if (fullbox.is_visible) {
+		if (fullbox.is_visible || root_editor.is_visible) {
 			fullbox.hide();
-		} else if (root_editor.is_visible) {
 			root_editor.hide();
 		} else {
 			this.set("mode", "");
