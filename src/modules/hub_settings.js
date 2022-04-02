@@ -199,7 +199,7 @@ module.exports = {
 
 		// Fix any multi-check menu items..........................................................
 
-		if (key in multichecks) {
+		if (multichecks.hasOwnProperty(key)) {
 			ipcRenderer.send("set_checks", multichecks[key].concat([value]));
 		}
 
@@ -217,7 +217,7 @@ module.exports = {
 
 		// Fix any toggle menu items...............................................................
 
-		if (key in togglechecks) {
+		if (togglechecks.hasOwnProperty(key)) {
 			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
 		}
 
