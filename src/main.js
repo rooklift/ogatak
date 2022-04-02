@@ -4,7 +4,6 @@
 
 const electron = require("electron");
 const path = require("path");
-const url = require("url");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
