@@ -920,6 +920,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Backward analysis",
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "start_backanalysis");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
