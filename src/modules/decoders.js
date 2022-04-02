@@ -7,7 +7,7 @@ const util = require("util");
 
 module.exports = {
 
-	decoders: {},
+	decoders: Object.create(null),
 
 	get_decoder: function(encoding) {
 
