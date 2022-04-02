@@ -103,19 +103,19 @@ function startup() {
 	});
 
 	win.on("maximize", (event) => {
-		two_process_set("maxed", true);
+		win.webContents.send("set", {maxed: true});
 	});
 
-	win.on("unmaximize", (event) => {				// Note that these are not received when a maximized window is minimized.
-		two_process_set("maxed", false);			// I think they are only received when a maximized window becomes normal.
-	});												// So our .maxed var tracks what we are trying to be, when shown at all.
+	win.on("unmaximize", (event) => {					// Note that these are not received when a maximized window is minimized.
+		win.webContents.send("set", {maxed: false});	// I think they are only received when a maximized window becomes normal.
+	});													// So our .maxed var tracks what we are trying to be, when shown at all.
 
 	// Note: even though there is an event called "restore", if we call win.restore() for a minimized window
 	// which wants to go back to being maximized, it generates a "maximize" event, not a "restore" event.
 
-	win.once("close", (event) => {					// Note the once...
-		event.preventDefault();						// We prevent the close one time only,
-		win.webContents.send("call", "quit");		// to let renderer's "quit" method run once. It then sends "terminate" back.
+	win.once("close", (event) => {						// Note the once...
+		event.preventDefault();							// We prevent the close one time only,
+		win.webContents.send("call", "quit");			// to let renderer's "quit" method run once. It then sends "terminate" back.
 	});
 
 	electron.ipcMain.on("terminate", () => {
