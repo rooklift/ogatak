@@ -2362,6 +2362,14 @@ function menu_build() {
 					role: "toggledevtools"
 				},
 				{
+					label: "Log engine stderr to console",
+					type: "checkbox",
+					checked: config.stderr_to_console,
+					click: () => {
+						win.webContents.send("toggle", "stderr_to_console");
+					}
+				},
+				{
 					label: `Show ${config_io.filename}`,
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
@@ -2402,19 +2410,19 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Log engine stderr to console",
-					type: "checkbox",
-					checked: config.stderr_to_console,
-					click: () => {
-						win.webContents.send("toggle", "stderr_to_console");
-					}
-				},
-				{
 					label: "Load games at final position",
 					type: "checkbox",
 					checked: config.load_at_end,
 					click: () => {
 						win.webContents.send("toggle", "load_at_end");
+					}
+				},
+				{
+					label: "Guess rules from komi on load",
+					type: "checkbox",
+					checked: config.guess_ruleset,
+					click: () => {
+						win.webContents.send("toggle", "guess_ruleset");
 					}
 				},
 				{
