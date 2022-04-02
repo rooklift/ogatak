@@ -6,8 +6,6 @@
 
 const {node_id_from_search_id, get_href_query_val} = require("./utils");
 
-const zoomfactor = parseFloat(get_href_query_val("zoomfactor"));
-
 // ------------------------------------------------------------------------------------------------
 
 (function active_tab_draw_spinner() {
