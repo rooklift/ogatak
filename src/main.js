@@ -2359,26 +2359,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					role: "toggledevtools"
-				},
-				{
-					label: "Log engine stderr to console",
-					type: "checkbox",
-					checked: config.stderr_to_console,
-					click: () => {
-						win.webContents.send("toggle", "stderr_to_console");
-					}
-				},
-				{
-					label: `Show ${config_io.filename}`,
-					click: () => {
-						electron.shell.showItemInFolder(config_io.filepath);
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: "Play Black",
 					type: "checkbox",
 					checked: false,
@@ -2445,6 +2425,26 @@ function menu_build() {
 							args: [false]
 						});
 					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Log engine stderr to console",
+					type: "checkbox",
+					checked: config.stderr_to_console,
+					click: () => {
+						win.webContents.send("toggle", "stderr_to_console");
+					}
+				},
+				{
+					label: `Show ${config_io.filename}`,
+					click: () => {
+						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+				{
+					role: "toggledevtools"
 				},
 			]
 		}

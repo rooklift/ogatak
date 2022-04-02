@@ -34,9 +34,9 @@ const togglechecks = {
 	visit_colours:			["Display", "...fade by visits"],
 	next_move_markers:		["Display", "Next move markers"],
 	auto_square_size:		["Sizes", "Auto-resize squares"],
-	stderr_to_console:		["Misc", "Log engine stderr to console"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
+	stderr_to_console:		["Misc", "Log engine stderr to console"],
 };
 
 // The following lines just ask main process to check the menupath exists,
