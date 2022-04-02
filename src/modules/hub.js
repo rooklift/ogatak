@@ -682,9 +682,9 @@ let hub_main_props = {
 		this.set_autoplay(false);
 		this.set_play_colour(null);
 		if (this.engine.desired) {
-			this.halt();					// Responsible for setting the menu check...
+			this.halt();
 		} else {
-			this.go();						// ...as is this.
+			this.go();
 		}
 	},
 
