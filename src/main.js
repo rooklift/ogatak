@@ -2526,18 +2526,13 @@ function set_checks(menupath) {
 		return;
 	}
 
-	// Since I don't know precisely how the menu works behind the scenes, give a little time for the original
-	// click to go through first. This is probably some irrational magical thinking.
-
-	setTimeout(() => {
-		let items = get_submenu_items(menupath.slice(0, -1));
-		let desired = stringify(menupath[menupath.length - 1]).toLowerCase();
-		for (let n = 0; n < items.length; n++) {
-			if (items[n].checked !== undefined) {
-				items[n].checked = items[n].label.toLowerCase() === desired;
-			}
+	let items = get_submenu_items(menupath.slice(0, -1));
+	let desired = stringify(menupath[menupath.length - 1]).toLowerCase();
+	for (let n = 0; n < items.length; n++) {
+		if (items[n].checked !== undefined) {
+			items[n].checked = items[n].label.toLowerCase() === desired;
 		}
-	}, 50);
+	}
 }
 
 function set_one_check(desired_state, menupath) {
