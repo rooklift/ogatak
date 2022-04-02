@@ -70,8 +70,11 @@ let engine_prototype = {
 		// Otherwise, sends the desired query to the engine, and sets this.running.
 
 		if (!this.exe) {
+			ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
 			return;
 		}
+
+		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		let query = base_query(node, this);
 
@@ -83,7 +86,6 @@ let engine_prototype = {
 
 		finalise_query(query, node);
 		this.desired = query;
-		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
 		if (this.running) {
 			this.__send({
@@ -101,6 +103,8 @@ let engine_prototype = {
 
 		// Clears this.desired, and sends a stop message if required.
 
+		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+
 		if (!this.exe) {
 			return;
 		}
@@ -114,7 +118,6 @@ let engine_prototype = {
 		}
 
 		this.desired = null;
-		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
 	},
 
 	setup: function(filepath, engineconfig, weights) {
