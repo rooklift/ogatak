@@ -1354,6 +1354,15 @@ function menu_build() {
 								win.webContents.send("set", {ownership_marks: "Whole board"});
 							}
 						},
+						{
+							label: "Whole board (alt)",
+							type: "checkbox",
+							checked: config.ownership_marks === "Whole board (alt)",
+							accelerator: "CommandOrControl+Shift+]",
+							click: () => {
+								win.webContents.send("set", {ownership_marks: "Whole board (alt)"});
+							}
+						},
 					]
 				},
 				{

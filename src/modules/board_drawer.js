@@ -318,19 +318,16 @@ let board_drawer_prototype = {
 
 			// If possible, use this node's analysis.
 
-			this.plan_death_marks(node.get_board(), node.analysis.ownership);
-			this.draw_ownership_canvas(node.analysis.ownership);
+			this.handle_ownership(node.get_board(), node.analysis.ownership);
 
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
-			// But to avoid flicker, we can use some nearby node's analysis.
+			// But to avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
 
 			let analysis_node = node.anc_dec_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
-				this.plan_death_marks(node.get_board(), analysis_node.analysis.ownership);
-				this.draw_ownership_canvas(analysis_node.analysis.ownership);
+				this.handle_ownership(node.get_board(), analysis_node.analysis.ownership);
 			}
-
 		}
 
 		this.plan_ko_marker(node);
@@ -384,11 +381,9 @@ let board_drawer_prototype = {
 		this.draw_board(finalboard);
 
 		if (config.ownership_per_move && info.ownership) {
-			this.plan_death_marks(finalboard, info.ownership);
-			this.draw_ownership_canvas(info.ownership);
+			this.handle_ownership(finalboard, info.ownership);
 		} else if (node.analysis.ownership) {
-			this.plan_death_marks(finalboard, node.analysis.ownership);
-			this.draw_ownership_canvas(node.analysis.ownership);
+			this.handle_ownership(finalboard, node.analysis.ownership);
 		}
 
 		this.plan_pv_labels(points);
@@ -402,6 +397,13 @@ let board_drawer_prototype = {
 
 	// --------------------------------------------------------------------------------------------
 	// Not to be called directly from the hub, these are mid-level helpers...
+
+	clear_canvases: function() {
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
+		this.has_drawn_ownership = false;
+		this.wood_helps_are_valid = false;
+	},
 
 	draw_board: function(board) {
 
@@ -478,6 +480,12 @@ let board_drawer_prototype = {
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
+			case "own_alt":
+
+				this.has_ownership_marks = true;
+				this.fsquare(x, y, 1/3, o.colour);
+				break;
+
 			case "previous":
 
 				this.fcircle(x, y, 0.4, config.previous_marker);
@@ -529,16 +537,17 @@ let board_drawer_prototype = {
 
 	},
 
-	clear_canvases: function() {
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
-		this.has_drawn_ownership = false;
-		this.wood_helps_are_valid = false;
+	// --------------------------------------------------------------------------------------------
+
+	handle_ownership: function(board, ownership) {
+		this.draw_ownership_canvas(ownership);					// Each function is responsible
+		this.plan_ownership_marks(board, ownership);			// for knowing whether to act,
+		this.plan_death_marks(board, ownership);				// just like other planners.
 	},
 
 	draw_ownership_canvas: function(ownership) {
 
-		if (config.ownership_marks !== "Whole board" || !ownership) {
+		if (config.ownership_marks !== "Whole board") {
 			return;
 		}
 
@@ -560,9 +569,33 @@ let board_drawer_prototype = {
 	// helps avoid conflicts: i.e. 2 things won't be drawn at the same place, since only 1 thing
 	// can be at each spot in the needed_marks array. We could also use a map of point --> object.
 
+	plan_ownership_marks: function(board, ownership) {
+
+		if (config.ownership_marks !== "Whole board (alt)") {
+			return;
+		}
+
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
+
+				let state = board.state[x][y];
+
+				let own = ownership[x + (y * board.width)];
+
+				if (own > 0 && state !== "b") {
+					let alphahex = float_to_hex_ff(own);
+					this.needed_marks[x][y] = {type: "own_alt", colour: "#000000" + alphahex};
+				} else if (own < 0 && state !== "w") {
+					let alphahex = float_to_hex_ff(-own);
+					this.needed_marks[x][y] = {type: "own_alt", colour: "#ffffff" + alphahex};
+				}
+			}
+		}
+	},
+
 	plan_death_marks: function(board, ownership) {
 
-		if (config.ownership_marks === "None" || !ownership) {
+		if (config.ownership_marks !== "Whole board" && config.ownership_marks !== "Dead stones") {
 			return;
 		}
 

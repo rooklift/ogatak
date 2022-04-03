@@ -11,7 +11,7 @@ exports.base_query = function(query_node, engine) {
 
 	let board = query_node.get_board();
 
-	let want_ownership = (config.ownership_marks === "Dead stones" || config.ownership_marks === "Whole board");
+	let want_ownership = (typeof config.ownership_marks === "string" && config.ownership_marks !== "None");		// Lame stringly typed var...
 
 	let o = {
 
