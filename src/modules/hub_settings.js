@@ -36,7 +36,6 @@ const togglechecks = {
 	auto_square_size:		["Sizes", "Auto-resize squares"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
-	stderr_to_console:		["Misc", "Log engine stderr to console"],
 };
 
 // The following lines just ask main process to check the menupath exists,
@@ -94,6 +93,7 @@ module.exports = {
 			board_drawer.set_infodiv_font_size(value);
 			comment_drawer.set_font_size(value);
 			fullbox.set_font_size(value);
+			stderrbox.set_font_size(value);
 			root_editor.set_font_size(value);
 
 			// Changing the infodiv font will affect the space left for the board, thus...

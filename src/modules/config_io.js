@@ -90,7 +90,6 @@ exports.defaults = {
 	"height": 780,
 	"maxed": false,
 	"auto_square_size": true,
-	"stderr_to_console": true,
 	"load_at_end": true,
 	"guess_ruleset": false,
 	"autoanalysis_visits": 500,

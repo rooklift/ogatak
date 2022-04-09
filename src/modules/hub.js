@@ -110,7 +110,7 @@ let hub_main_props = {
 
 	close_tab: function() {
 
-		if (fullbox.is_visible || root_editor.is_visible) {			// Close it instead...
+		if (fullbox.is_visible || root_editor.is_visible || stderrbox.is_visible) {		// Close it instead...
 			this.disable_specials_except();
 			return;
 		}
@@ -776,6 +776,7 @@ let hub_main_props = {
 			this.engine.shutdown();
 			this.engine = new_engine();
 		}
+		stderrbox.reset();
 		this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
 		this.draw();
 	},
@@ -786,6 +787,7 @@ let hub_main_props = {
 			this.engine.shutdown();
 			this.engine = new_engine();
 		}
+		stderrbox.reset();
 		if (config.arbitrary_command) {
 			this.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
 		} else {
@@ -808,6 +810,10 @@ let hub_main_props = {
 		root_editor.show();
 	},
 
+	display_stderr: function() {
+		stderrbox.show();
+	},
+
 	escape: function() {
 		this.disable_specials_except();
 		if (config.mode !== "") {
@@ -818,6 +824,7 @@ let hub_main_props = {
 	disable_specials_except: function(...args) {
 		if (!args.includes("comment_drawer")) comment_drawer.textarea.blur();
 		if (!args.includes("fullbox")) fullbox.hide();
+		if (!args.includes("stderrbox")) stderrbox.hide();
 		if (!args.includes("root_editor")) root_editor.hide();
 	},
 

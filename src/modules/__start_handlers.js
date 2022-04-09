@@ -122,11 +122,16 @@ tree_drawer.canvas.addEventListener("mousedown", (event) => {
 	}
 });
 
-// Clicking on the fullbox should close it...
+// Clicking on the fullbox or stderrbox should close it...
 
 fullbox.outer_div.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	fullbox.hide();
+});
+
+stderrbox.outer_div.addEventListener("mousedown", (event) => {
+	event.preventDefault();
+	stderrbox.hide();
 });
 
 // Comments instantly update the node, and root props instantly update the root.

@@ -8,7 +8,6 @@ function init() {
 		outer_div: document.getElementById("fbox"),
 		inner_div: document.getElementById("fbox_content"),
 		is_visible: false,
-		stderr_mode: false,
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;
@@ -33,40 +32,16 @@ let fullbox_prototype = {
 		}
 	},
 
-	hide: function() {						// Also the only thing that ever does (this.stderr_mode = false)
+	hide: function() {
 		if (this.is_visible) {
 			this.outer_div.style["display"] = "none";
 			this.is_visible = false;
-			this.stderr_mode = false;
 		}
 	},
 
 	set: function(s) {						// No sanitizing, beware!
-		if (!this.stderr_mode) {
-			this.inner_div.innerHTML = s;
-			this.show();
-		}
-	},
-
-	// --------------------------------------------------------------------------------------------
-
-	enter_stderr_mode: function() {
-		this.stderr_mode = true;
-		this.inner_div.innerHTML = "";
+		this.inner_div.innerHTML = s;
 		this.show();
-	},
-
-	exit_stderr_mode: function() {
-		if (this.stderr_mode) {
-			this.hide();
-		}
-	},
-
-	accept_stderr: function(s) {
-		if (this.stderr_mode) {
-			this.inner_div.innerHTML += safe_html(s) + "<br>";
-			this.outer_div.scrollTop = this.outer_div.scrollHeight;
-		}
 	},
 
 	// --------------------------------------------------------------------------------------------

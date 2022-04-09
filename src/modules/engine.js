@@ -29,6 +29,7 @@ function new_engine() {
 	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
 
 	eng.has_quit = false;
+	eng.tuning_in_progress = false;
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
@@ -254,18 +255,18 @@ let engine_prototype = {
 
 			log("! " + line);
 
-			if (config.stderr_to_console) {
-				console.log("! " + line);
-			}
+			stderrbox.receive(line);
 
 			if (line.includes("Beginning GPU tuning")) {
-				fullbox.enter_stderr_mode();
+				this.tuning_in_progress = true;
+				stderrbox.show();
 			}
-			if (fullbox.stderr_mode) {
-				fullbox.accept_stderr(line);
-			}
+
 			if (line.includes("ready to begin handling requests")) {
-				fullbox.exit_stderr_mode();
+				if (this.tuning_in_progress) {
+					this.tuning_in_progress = false;
+					stderrbox.hide();
+				}
 			}
 
 		});

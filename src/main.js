@@ -2436,15 +2436,13 @@ function menu_build() {
 					}
 				},
 				{
-					type: "separator",
+					label: "Show engine stderr",
+					click: () => {
+						win.webContents.send("call", "display_stderr");
+					}
 				},
 				{
-					label: "Log engine stderr to console",
-					type: "checkbox",
-					checked: config.stderr_to_console,
-					click: () => {
-						win.webContents.send("toggle", "stderr_to_console");
-					}
+					type: "separator",
 				},
 				{
 					label: `Show ${config_io.filename}`,
