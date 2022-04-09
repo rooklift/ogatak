@@ -1,6 +1,6 @@
 "use strict";
 
-// Note that tree_drawer is also responsible for closing the fullbox / root_editor when the tree changes...
+// Note that tree_drawer is also responsible for closing special panes when the tree changes...
 //
 //  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
 //
