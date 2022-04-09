@@ -54,8 +54,7 @@ let root_editor_prototype = {
 			this.outer_div.style["display"] = "block";
 			this.is_visible = true;
 			hub.halt();
-			comment_drawer.textarea.blur();
-			fullbox.hide();
+			hub.disable_specials_except("root_editor");
 		}
 	},
 

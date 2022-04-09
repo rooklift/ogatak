@@ -44,8 +44,7 @@ let tree_drawer_prototype = {
 		// We're going to do some sort of draw, maybe just clearing the canvas...
 
 		if (this.must_draw) {
-			fullbox.hide();
-			root_editor.hide();
+			hub.disable_specials_except("comment_drawer");
 		}
 
 		this.must_draw = false;

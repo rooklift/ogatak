@@ -111,8 +111,7 @@ let hub_main_props = {
 	close_tab: function() {
 
 		if (fullbox.is_visible || root_editor.is_visible) {			// Close it instead...
-			fullbox.hide();
-			root_editor.hide();
+			this.disable_specials_except();
 			return;
 		}
 
@@ -663,8 +662,7 @@ let hub_main_props = {
 	},
 
 	go: function() {
-		fullbox.hide();
-		root_editor.hide();
+		this.disable_specials_except("comment_drawer");
 		this.engine.analyse(this.node);
 	},
 
@@ -811,15 +809,16 @@ let hub_main_props = {
 	},
 
 	escape: function() {
-
-		comment_drawer.textarea.blur();
-		
-		fullbox.hide();
-		root_editor.hide();
-
+		this.disable_specials_except();
 		if (config.mode !== "") {
 			this.set("mode", "");
 		}
+	},
+
+	disable_specials_except: function(...args) {
+		if (!args.includes("comment_drawer")) comment_drawer.textarea.blur();
+		if (!args.includes("fullbox")) fullbox.hide();
+		if (!args.includes("root_editor")) root_editor.hide();
 	},
 
 	// Misc........................................................................................

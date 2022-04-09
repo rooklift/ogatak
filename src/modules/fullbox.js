@@ -29,8 +29,7 @@ let fullbox_prototype = {
 			this.outer_div.style["display"] = "block";
 			this.is_visible = true;
 			hub.halt();
-			comment_drawer.textarea.blur();
-			root_editor.hide();
+			hub.disable_specials_except("fullbox");
 		}
 	},
 
