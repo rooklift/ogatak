@@ -28,7 +28,7 @@ exports.base_query = function(query_node, engine) {
 
 		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
 			reportAnalysisWinratesAs: "BLACK",
-			wideRootNoise: (config.widerootnoise) ? 0.05 : 0,
+			wideRootNoise: (config.widerootnoise) ? 0.04 : 0,
 			rootSymmetryPruning: (config.symmetry_pruning) ? true : false,
 		}
 	};
