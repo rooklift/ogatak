@@ -13,6 +13,7 @@
 		"grapher": true,
 		"hub": true,
 		"root_editor": true,
+		"stderrbox": true,
 		"tabber": true,
 		"tree_drawer": true
 	}

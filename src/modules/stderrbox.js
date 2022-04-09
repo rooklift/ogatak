@@ -44,7 +44,7 @@ let stderrbox_prototype = {
 			this.outer_div.scrollTop = this.outer_div.scrollHeight;
 		}
 	},
-}
+};
 
 
 
