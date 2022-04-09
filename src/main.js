@@ -2436,18 +2436,18 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Show engine stderr",
-					click: () => {
-						win.webContents.send("call", "display_stderr");
-					}
-				},
-				{
 					type: "separator",
 				},
 				{
 					label: `Show ${config_io.filename}`,
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
+					}
+				},
+				{
+					label: "Show engine stderr",
+					click: () => {
+						win.webContents.send("call", "display_stderr");
 					}
 				},
 				{
