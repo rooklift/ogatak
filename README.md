@@ -26,7 +26,7 @@
 
 ## About the analysis config file
 
-* KataGo requires an analysis config file, so setting up Ogatak requires choosing one. Such a file is provided with KataGo as `analysis_example.cfg`. You might find that changing some settings leads to better (or worse) performance. Some have found [these settings](https://github.com/sanderland/katrain/blob/master/katrain/KataGo/analysis_config.cfg) chosen by the KaTrain author to be a bit faster.
+* KataGo requires an analysis config file, so setting up Ogatak requires choosing one. Such a file is provided with KataGo as `analysis_example.cfg`. You might find that changing some settings therein leads to better (or worse) performance. Some have found [these settings](https://github.com/sanderland/katrain/blob/master/katrain/KataGo/analysis_config.cfg) chosen by the KaTrain author to be a bit faster.
 
 ## Talk to me
 
