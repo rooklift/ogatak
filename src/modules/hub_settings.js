@@ -82,9 +82,9 @@ module.exports = {
 			if (config.arbitrary_command) {
 				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
 			} else if (debug_missing_handlers) {
-				// Skip messing with the engine, this flag indicates the call was for debugging reasons.
+				// Do nothing, the call was for debugging reasons.
 			} else {
-				this.maybe_start_engine();
+				this.start_engine();			// Won't do anything unless all 3 settings are valid.
 			}
 			break;
 

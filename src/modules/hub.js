@@ -770,18 +770,7 @@ let hub_main_props = {
 		});
 	},
 
-	maybe_start_engine: function() {	// This gets called only by hub_settings.js, and never if config.arbitrary_command exists.
-		if (this.engine.exe || this.engine.has_quit) {
-			this.halt();
-			this.engine.shutdown();
-			this.engine = new_engine();
-		}
-		stderrbox.reset();
-		this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
-		this.draw();
-	},
-
-	restart_engine: function() {
+	start_engine: function() {
 		if (this.engine.exe || this.engine.has_quit) {
 			this.halt();
 			this.engine.shutdown();
@@ -791,7 +780,7 @@ let hub_main_props = {
 		if (config.arbitrary_command) {
 			this.engine.setup_with_command(config.arbitrary_command, config.arbitrary_argslist);
 		} else {
-			this.engine.setup(config.engine, config.engineconfig, config.weights);
+			this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
 		}
 		this.draw();
 	},

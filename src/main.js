@@ -534,7 +534,7 @@ function menu_build() {
 				{
 					label: "Restart",
 					click: () => {
-						win.webContents.send("call", "restart_engine");
+						win.webContents.send("call", "start_engine");
 					}
 				},
 				{
