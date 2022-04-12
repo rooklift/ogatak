@@ -25,10 +25,10 @@ const multichecks = {
 };
 
 const togglechecks = {
-	black_pov:				["Analysis", "Black POV always"],
 	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
 	ownership_per_move:		["Analysis", "...per-move (costly)"],
+	black_pov:				["Display", "Black POV always"],
 	candidate_moves:		["Display", "Candidate moves"],
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...fade by visits"],
