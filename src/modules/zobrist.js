@@ -1,5 +1,8 @@
 "use strict";
 
+// The point of all this is to enable us to generate a value to match thisHash from
+// KataGo's analysis, to verify that the position being analysed is the one we expect.
+
 const b_stones = [		// the trailing n here means BigInt
 	0x8fa2c21bfd03e0c9fa250f737d510629n, 0xcfd791f81ff190c1e30410c4bbadec18n, 0xad7c6f592d006868ae4cc22f2cb57a8en,
 	0x652a8474e6ef5600171c293ac6798d4cn, 0xf3a824bb5130a56383780858186e498dn, 0x28860c320f75dbfd14987e373b0e2dd4n,
@@ -248,12 +251,12 @@ const w_stones = [
 	0x62d8701fde583d54c32ca25c71776901n,
 ];
 
+const b_to_play = 0x47e1ebdae69a5ded3ff8db1fa4e91845n;		// Actually this is probably a combination of width=19, height=19, player=B
+const w_to_play = 0x1e0a00c7f4e33a30c3ed6785bcfcdb40n;		// Likewise, but for player=W
+
 if (b_stones.length !== 361 || w_stones.length !== 361) {
 	throw new Error("Bad Zobrist array.");
 }
-
-const b_to_play = 0x47e1ebdae69a5ded3ff8db1fa4e91845n;		// Actually this is probably a combination of width=19, height=19, player=B
-const w_to_play = 0x1e0a00c7f4e33a30c3ed6785bcfcdb40n;		// Likewise, but for player=W
 
 module.exports = function(board) {
 
