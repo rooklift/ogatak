@@ -864,6 +864,10 @@ let hub_main_props = {
 		}
 	},
 
+	reset_sanity_warnings: function() {
+		this.node.reset_sanity_warnings();
+	},
+
 	// Komi / rules / active are part of the board.................................................
 
 	coerce_rules: function(value) {

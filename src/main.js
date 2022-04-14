@@ -2458,6 +2458,12 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Reset sanity warnings",
+					click: () => {
+						win.webContents.send("call", "reset_sanity_warnings");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
