@@ -847,11 +847,13 @@ let node_prototype = {
 		if (!have_alerted_zobrist_mismatch) {
 			if (config.zobrist_checks && o.rootInfo.thisHash) {
 				let z = zobrist(this.get_board());
-				if (z) {		// z will be null if we can't get the hash...
+				if (z) {									// z will be null if we can't get the hash...
 					if (z !== o.rootInfo.thisHash) {
 						alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
 								"This test exists for development purposes and you can disable it in the menu.");
 						have_alerted_zobrist_mismatch = true;
+						// Only known failure to match hashes is if the node is a descendant of a ko
+						// position but with AB / AW / AE edits only, such that board.ko never got reset. 
 					}
 				}
 			}
