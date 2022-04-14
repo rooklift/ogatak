@@ -10,7 +10,7 @@
 
 const {xy_to_s, points_list} = require("./utils");
 
-function new_board(width, height, state = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
+function new_board(width, height, state = null, ko = null, ko_ban_player = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -18,6 +18,7 @@ function new_board(width, height, state = null, ko = null, komi = 0, rules = "Un
 	ret.height = height;
 	ret.state = [];
 	ret.ko = ko;
+	ret.ko_ban_player = ko_ban_player;		// This exists because the active player can be flipped manually, in which case ko won't apply.
 	ret.komi = komi;
 	ret.rules = rules;
 	ret.active = active;
@@ -41,7 +42,7 @@ function new_board(width, height, state = null, ko = null, komi = 0, rules = "Un
 let board_prototype = {
 
 	copy: function() {
-		return new_board(this.width, this.height, this.state, this.ko, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
+		return new_board(this.width, this.height, this.state, this.ko, this.ko_ban_player, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
 	in_bounds: function(s) {
@@ -257,17 +258,8 @@ let board_prototype = {
 
 		let neighbours = this.neighbours(s);
 
-		if (this.ko === s) {
-			let weirdness = false;				// When the active player has been unnaturally flipped, the ko is not really a ko. Detect this...
-			for (let neighbour of neighbours) {
-				if (this.state_at(neighbour) === this.active || this.state_at(neighbour) === "") {		// 2nd condition never occurs afaik.
-					weirdness = true;
-					break;
-				}
-			}
-			if (!weirdness) {
-				return false;
-			}
+		if (this.ko === s && this.ko_ban_player === this.active) {
+			return false;
 		}
 
 		// Move will be legal as long as it's not suicide...
@@ -311,7 +303,8 @@ let board_prototype = {
 		}
 
 		this.ko = null;
-		this.active = colour === "b" ? "w" : "b";
+		this.ko_ban_player = null;
+		this.active = (colour === "b") ? "w" : "b";
 
 		if (!this.in_bounds(s)) {				// Treat as a pass.
 			return;
@@ -338,6 +331,7 @@ let board_prototype = {
 		if (caps === 1) {
 			if (this.one_liberty_singleton(s)) {
 				this.ko = this.empty_neighbour(s);
+				this.ko_ban_player = this.active;
 			}
 		}
 	},

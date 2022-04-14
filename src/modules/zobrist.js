@@ -273,6 +273,9 @@ module.exports = function(board) {
 		}
 	}
 
+	// Note: in the event we later add proper ko handling, we need to remember to check not only .ko
+	// but also .ko_ban_player (in case the active player has been unnaturally flipped).
+
 	if (board.active === "b") hash ^= b_to_play;
 	if (board.active === "w") hash ^= w_to_play;
 
