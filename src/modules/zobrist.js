@@ -378,7 +378,7 @@ const ko_locs = [
 const b_to_play = 0x47e1ebdae69a5ded3ff8db1fa4e91845n;		// Actually this is probably a combination of width=19, height=19, player=B
 const w_to_play = 0x1e0a00c7f4e33a30c3ed6785bcfcdb40n;		// Likewise, but for player=W
 
-if (b_stones.length !== 361 || w_stones.length !== 361) {
+if (b_stones.length !== 361 || w_stones.length !== 361 || ko_locs.length !== 361) {
 	throw new Error("Bad Zobrist array.");
 }
 
