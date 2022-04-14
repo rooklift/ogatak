@@ -652,7 +652,7 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
-		if (board.ko) {
+		if (board.ko && board.ko_ban_player === board.active) {
 			let x = board.ko.charCodeAt(0) - 97;
 			let y = board.ko.charCodeAt(1) - 97;
 			this.needed_marks[x][y] = {type: "ko"};
