@@ -16,5 +16,8 @@
 		"stderrbox": true,
 		"tabber": true,
 		"tree_drawer": true
+	},
+	"unstable": {
+		"bigint": true
 	}
 }
