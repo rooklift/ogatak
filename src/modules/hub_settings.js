@@ -36,6 +36,7 @@ const togglechecks = {
 	auto_square_size:		["Sizes", "Auto-resize squares"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
+	zobrist_checks:			["Misc", "Zobrist sanity checking"],
 };
 
 // The following lines just ask main process to check the menupath exists,

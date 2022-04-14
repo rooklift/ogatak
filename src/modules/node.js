@@ -12,9 +12,11 @@ const path = require("path");
 const new_board = require("./board");
 const stringify = require("./stringify");
 const {replace_all, valid_analysis_object, points_list} = require("./utils");
+const zobrist = require("./zobrist");
 
 let next_node_id = 1;
 let have_alerted_active_mismatch = false;
+let have_alerted_zobrist_mismatch = false;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -843,13 +845,24 @@ let node_prototype = {
 		// Save a KataGo analysis object into the node for display.
 		// No validation... caller should run valid_analysis_object(o) first!
 
-		if (o.rootInfo.currentPlayer && o.rootInfo.currentPlayer.toLowerCase() !== this.get_board().active) {
-			if (!have_alerted_active_mismatch) {
+		if (!have_alerted_active_mismatch) {
+			if (o.rootInfo.currentPlayer && o.rootInfo.currentPlayer.toLowerCase() !== this.get_board().active) {
 				alert(	"There was a mismatch between the expected colour of KataGo's analysis, and the actual colour. " +
 						"This is supposed to be impossible and the author of Ogatak would like to know how you made this happen.");
 				have_alerted_active_mismatch = true;
+			}
+		}
 
-				// It really should be impossible, because anything that changes .active will change the node.id
+		if (!have_alerted_zobrist_mismatch) {
+			if (config.zobrist_checks && o.rootInfo.thisHash) {
+				let z = zobrist(this.get_board());
+				if (z) {		// z will be null if we can't get the hash...
+					if (z !== o.rootInfo.thisHash) {
+						alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
+								"This test exists for development purposes and you can disable it in the menu.");
+						have_alerted_zobrist_mismatch = true;
+					}
+				}
 			}
 		}
 

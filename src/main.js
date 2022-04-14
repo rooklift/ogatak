@@ -2454,6 +2454,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Zobrist sanity checking",
+					type: "checkbox",
+					checked: config.zobrist_checks,
+					click: () => {
+						win.webContents.send("toggle", "zobrist_checks");
+					}
+				},
+				{
 					role: "toggledevtools"
 				},
 			]
