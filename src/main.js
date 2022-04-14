@@ -2417,9 +2417,11 @@ function menu_build() {
 						win.webContents.send("toggle", "guess_ruleset");
 					}
 				},
-				{
-					type: "separator",
-				},
+			]
+		},
+		{
+			label: "Dev",
+			submenu: [
 				{
 					label: "Show root properties",
 					click: () => {
@@ -2439,19 +2441,13 @@ function menu_build() {
 					}
 				},
 				{
-					type: "separator",
-				},
-				{
-					label: `Show ${config_io.filename}`,
-					click: () => {
-						electron.shell.showItemInFolder(config_io.filepath);
-					}
-				},
-				{
 					label: "Show engine stderr",
 					click: () => {
 						win.webContents.send("call", "display_stderr");
 					}
+				},
+				{
+					type: "separator",
 				},
 				{
 					label: "Zobrist sanity checking",
@@ -2459,6 +2455,15 @@ function menu_build() {
 					checked: config.zobrist_checks,
 					click: () => {
 						win.webContents.send("toggle", "zobrist_checks");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: `Show ${config_io.filename}`,
+					click: () => {
+						electron.shell.showItemInFolder(config_io.filepath);
 					}
 				},
 				{
