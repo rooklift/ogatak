@@ -78,11 +78,11 @@ exports.finalise_query = function(o, query_node) {
 
 			if (node.has_key("B")) {
 				let s = node.get("B");
-				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
+				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
 			}
 			if (node.has_key("W")) {
 				let s = node.get("W");
-				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds;
+				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
 			}
 
 		}
@@ -101,11 +101,11 @@ exports.finalise_query = function(o, query_node) {
 exports.full_query_matches_base = function(full, base) {
 
 	if (!full.moves || base.moves) {
-		throw new Error("full_query_matches_base(): bad call");			// Probably wrong-way-round
+		throw new Error("full_query_matches_base(): bad call");			// Probably wrong-way-round.
 	}
 
 	for (let key of Object.keys(base)) {
-		if (key === "overrideSettings" || key === "id") {
+		if (key === "overrideSettings" || key === "id") {				// Both of these are handled specially, below.
 			continue;
 		}
 		if (base[key] !== full[key]) {
