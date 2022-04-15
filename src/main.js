@@ -180,9 +180,9 @@ function startup() {
 	// Actually load the page last, I guess, so the event handlers above are already set up.
 	// Send some possibly useful info as a query.
 
-	let query = {};
-	query.user_data_path = electron.app.getPath("userData");
-	query.zoomfactor = desired_zoomfactor;
+	let query = {
+		user_data_path: electron.app.getPath("userData")
+	};
 
 	win.loadFile(
 		path.join(__dirname, "ogatak.html"),

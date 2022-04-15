@@ -4,7 +4,7 @@
 // I'm sure there's some technical term somewhere. The rather arbitrary timings are just to
 // make accidental sync-ups less common, which could conceivably cause lag when they occur.
 
-const {node_id_from_search_id, get_href_query_val} = require("./utils");
+const {node_id_from_search_id} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
