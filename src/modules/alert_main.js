@@ -14,8 +14,11 @@ if (Number.isNaN(major_version)) {
 
 let alerts_open = 0;
 
-module.exports = function(win, msg) {
+module.exports = function(...args) {							// Can be called as  (msg)  or as  (win, msg)
 
+	let win = (args.length < 2) ? undefined : args[0];
+	let msg = (args.length < 2) ? args[0]   : args[1];
+	
 	if (alerts_open >= 3) {
 		console.log(msg);
 		return;
@@ -23,18 +26,33 @@ module.exports = function(win, msg) {
 
 	alerts_open++;
 
-	if (major_version <= 5) {		// Old API. Providing a callback makes the window not block the process.
-									// Best keep this compatibility with v5 so that we can alert the user to use v6!
+	if (major_version <= 5) {
 
-		electron.dialog.showMessageBox(win, {message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {
-			alerts_open--;
-		});
+		// Old API. Providing a callback makes the window not block the process...
+		// This is all rather untested.
 
-	} else {						// New promise-based API. Despite what older (pre-v12) docs say, I don't think this ever blocks.
+		if (win) {
+			electron.dialog.showMessageBox(win, {message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {
+				alerts_open--;
+			});
+		} else {
+			electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}, () => {
+				alerts_open--;
+			});
+		}
 
-		electron.dialog.showMessageBox(win, {message: stringify(msg), title: "Alert", buttons: ["OK"]}).then(() => {
-			alerts_open--;
-		});
+	} else {
 
+		// New promise-based API. Shouldn't block the process...
+
+		if (win) {
+			electron.dialog.showMessageBox(win, {message: stringify(msg), title: "Alert", buttons: ["OK"]}).then(() => {
+				alerts_open--;
+			});
+		} else {
+			electron.dialog.showMessageBox({message: stringify(msg), title: "Alert", buttons: ["OK"]}).then(() => {
+				alerts_open--;
+			});
+		}
 	}
 };
