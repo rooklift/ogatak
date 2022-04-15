@@ -571,11 +571,27 @@ function menu_build() {
 							}
 						},
 						{
+							label: "0.15",
+							type: "checkbox",
+							checked: config.report_every === 0.15,
+							click: () => {
+								win.webContents.send("set", {report_every: 0.15});
+							}
+						},
+						{
 							label: "0.2",
 							type: "checkbox",
 							checked: config.report_every === 0.2,
 							click: () => {
 								win.webContents.send("set", {report_every: 0.2});
+							}
+						},
+						{
+							label: "0.3",
+							type: "checkbox",
+							checked: config.report_every === 0.3,
+							click: () => {
+								win.webContents.send("set", {report_every: 0.3});
 							}
 						},
 						{
