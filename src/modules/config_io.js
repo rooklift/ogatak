@@ -87,6 +87,7 @@ exports.defaults = {
 
 	"zobrist_checks": false,
 
+	"disable_hw_accel": false,
 	"logfile": null,
 	"width": 1333,
 	"height": 780,

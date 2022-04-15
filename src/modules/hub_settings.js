@@ -36,6 +36,7 @@ const togglechecks = {
 	auto_square_size:		["Sizes", "Auto-resize squares"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
+	disable_hw_accel:		["Misc", "Disable hardware acceleration for GUI"],
 	zobrist_checks:			["Dev", "Zobrist sanity checking"],
 };
 
@@ -188,6 +189,13 @@ module.exports = {
 				this.go();
 			}
 			this.draw();
+			break;
+
+		case "disable_hw_accel":
+
+			if (!debug_missing_handlers) {
+				alert("This will not take effect until you restart the GUI.");
+			}
 			break;
 
 		default:

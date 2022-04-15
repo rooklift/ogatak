@@ -3,15 +3,29 @@
 // Remember that prestart.js is run before this.
 
 const electron = require("electron");
+const config_io = require("./modules/config_io");					// Creates global.config
+config_io.load();													// Populates global.config
+
+// --------------------------------------------------------------------------------------------------------------
+
+let actually_disabled_hw_accel = false;
+
+if (config.disable_hw_accel) {
+	try {
+		electron.app.disableHardwareAcceleration();
+		actually_disabled_hw_accel = true;
+		console.log("Hardware acceleration for Ogatak (GUI, not engine) disabled by config setting.");
+	} catch (err) {
+		console.log("Failed to disable hardware acceleration.");
+	}
+}
+
+// --------------------------------------------------------------------------------------------------------------
+
 const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
-
-// --------------------------------------------------------------------------------------------------------------
-
-const config_io = require("./modules/config_io");					// Creates global.config
-config_io.load();													// Populates global.config
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -128,6 +142,12 @@ function startup() {
 
 	electron.ipcMain.once("renderer_ready", () => {
 		queued_files_spinner();
+		if (actually_disabled_hw_accel) {
+			win.webContents.send("call", {
+				fn: "log",
+				args: ["Hardware acceleration is disabled."],
+			});
+		}
 	});
 
 	electron.ipcMain.on("alert", (event, msg) => {
@@ -2414,6 +2434,17 @@ function menu_build() {
 					checked: config.guess_ruleset,
 					click: () => {
 						win.webContents.send("toggle", "guess_ruleset");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: "Disable hardware acceleration for GUI",
+					type: "checkbox",
+					checked: config.disable_hw_accel,
+					click: () => {
+						win.webContents.send("toggle", "disable_hw_accel");
 					}
 				},
 			]
