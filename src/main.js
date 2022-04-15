@@ -131,7 +131,7 @@ function startup() {
 	});
 
 	electron.ipcMain.on("alert", (event, msg) => {
-		alert(msg);
+		alert(win, msg);
 	});
 
 	electron.ipcMain.on("set_title", (event, msg) => {
@@ -512,8 +512,7 @@ function menu_build() {
 				{
 					label: "Launch KataGo via command...",
 					click: () => {
-						alert(
-							"This can be done by editing config.json (which you can find via the Misc menu).\n\n" +
+						alert(win, "This can be done by editing config.json (which you can find via the Misc menu).\n\n" +
 
 							"Close Ogatak before editing, then edit \"arbitrary_command\" and \"arbitrary_argslist\" " +
 							"(which must be given as an array of strings) inside that file.\n\n" +
@@ -2602,7 +2601,7 @@ function verify_menupath(menupath) {
 	try {
 		get_submenu_items(menupath);
 	} catch (err) {
-		alert(`Failed to verify menupath: ${stringify(menupath)}`);
+		alert(win, `Failed to verify menupath: ${stringify(menupath)}`);
 	}
 }
 
