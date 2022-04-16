@@ -294,12 +294,16 @@ let board_prototype = {
 		return false;
 	},
 
-	play_move_or_pass: function(s, colour) {
+	play: function(s, colour) {					// If colour is not specified, uses this.active.
 
 		// Play the move (or pass) given... contains no legality checks... can play ko... can play the inactive colour!
 
+		if (colour === undefined) {
+			colour = this.active;
+		}
+
 		if (colour !== "b" && colour !== "w") {
-			throw new Error("play_move_or_pass(): invalid colour");
+			throw new Error("play(): invalid colour");
 		}
 
 		this.ko = null;
@@ -333,22 +337,6 @@ let board_prototype = {
 				this.ko = this.empty_neighbour(s);
 				this.ko_ban_player = this.active;
 			}
-		}
-	},
-
-	play_black: function(s) {
-		this.play_move_or_pass(s, "b");
-	},
-
-	play_white: function(s) {
-		this.play_move_or_pass(s, "w");
-	},
-
-	play: function(s) {
-		if (this.active === "b") {
-			this.play_move_or_pass(s, "b");
-		} else if (this.active === "w") {
-			this.play_move_or_pass(s, "w");
 		}
 	},
 

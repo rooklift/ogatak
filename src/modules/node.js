@@ -408,10 +408,9 @@ let node_prototype = {
 
 	natural_active: function() {
 
-		// Should correspond to the logic in get_board(). Except reverse order so the right thing prevails.
-		// Ignores PL tags.
+		// Returns who the active player should be (ignoring PL tags), or null if it can't be determined from this node alone.
 		
-		if (this.has_key("W")) return "b";			// Just as in get_board(), this prevails if both B and W tags exist.
+		if (this.has_key("W")) return "b";			// This prevails if both B and W tags exist.
 		if (this.has_key("B")) return "w";
 
 		if (!this.parent) {
@@ -422,7 +421,7 @@ let node_prototype = {
 			}
 		}
 
-		return null;		// Of course null is not a valid board.active value, so the caller must check.
+		return null;								// Caller needs to check for this return value.
 	},
 
 	toggle_player_to_move: function() {
@@ -430,7 +429,7 @@ let node_prototype = {
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 		// We go through some rigmarol to not leave PL tags where there is enough info in the node that they're redundant...
 
-		let natural = this.natural_active();		// Possibly null if .active can't be determined from this node's props.
+		let natural = this.natural_active();		// Possibly null.
 
 		let desired = (this.get_board().active === "b") ? "w" : "b";
 
@@ -549,33 +548,28 @@ let node_prototype = {
 				node.__board.add_white(s);
 			}
 
-			// Note that any changes to the logic of setting .active should be mirrored in natural_active()
-			// although it's not going to be catastrophic if they aren't (see note at top of file).
-
-			// As of 1.3.1, AB and AW tags only affect .active if they are in the root...
-
-			if (!node.parent) {
-				if (node.has_key("AB") && !node.has_key("AW")) {
-					node.__board.active = "w";
-				} else {
-					node.__board.active = "b";			// This will actually already be so.
-				}
-			}
-
 			for (let s of node.all_values("B")) {
-				node.__board.play_black(s);				// Will set __board.active... Will treat s as a pass if it's not a valid move.
-			}
+				node.__board.play(s, "b");						// Will set __board.active... (which is irrelevant since we set it below).
+			}													// Will treat s as a pass if it's not a valid move.
 
 			for (let s of node.all_values("W")) {
-				node.__board.play_white(s);				// Will set __board.active... Will treat s as a pass if it's not a valid move.
+				node.__board.play(s, "w");						// As above.
 			}
 
 			let pl = node.get("PL");
-			if (pl && (pl[0] === "B" || pl[0] === "b" || pl === "1")) node.__board.active = "b";
-			if (pl && (pl[0] === "W" || pl[0] === "w" || pl === "2")) node.__board.active = "w";
 
-			// In the event that nothing whatsoever in the node determines the board colour, it will just be the same as the board we
-			// copied at the start, which is fine I guess.
+			if (pl && (pl[0] === "B" || pl[0] === "b" || pl === "1")) {
+				node.__board.active = "b";
+			} else if (pl && (pl[0] === "W" || pl[0] === "w" || pl === "2")) {
+				node.__board.active = "w";
+			} else {
+				let natural = node.natural_active();			// Possibly null.
+				if (natural) {
+					node.__board.active = natural;
+				} else {
+					// Just leave it the same as its parent node.
+				}
+			}
 
 			let km = parseFloat(node.get("KM"));
 			if (!Number.isNaN(km)) {
