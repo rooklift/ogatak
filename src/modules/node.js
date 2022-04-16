@@ -875,7 +875,7 @@ let node_prototype = {
 		this.set("OGSC", val);
 	},
 
-	reset_sanity_warnings: function() {								// Note this is a module var, not actually part of the node.
+	reset_mismatch_warnings: function() {								// Note this is a module var, not actually part of the node.
 		have_alerted_zobrist_mismatch = false;
 	},
 

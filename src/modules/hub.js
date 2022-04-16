@@ -864,8 +864,8 @@ let hub_main_props = {
 		}
 	},
 
-	reset_sanity_warnings: function() {
-		this.node.reset_sanity_warnings();
+	reset_mismatch_warnings: function() {
+		this.node.reset_mismatch_warnings();
 	},
 
 	// Komi / rules / active are part of the board.................................................

@@ -2496,7 +2496,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Zobrist sanity checking",
+					label: "Zobrist mismatch checks",
 					type: "checkbox",
 					checked: config.zobrist_checks,
 					click: () => {
@@ -2504,9 +2504,9 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Reset sanity warnings",
+					label: "Reset mismatch warnings",
 					click: () => {
-						win.webContents.send("call", "reset_sanity_warnings");
+						win.webContents.send("call", "reset_mismatch_warnings");
 					}
 				},
 				{

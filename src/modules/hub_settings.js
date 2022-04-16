@@ -37,7 +37,7 @@ const togglechecks = {
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
 	disable_hw_accel:		["Misc", "Disable hardware acceleration for GUI"],
-	zobrist_checks:			["Dev", "Zobrist sanity checking"],
+	zobrist_checks:			["Dev", "Zobrist mismatch checks"],
 };
 
 // The following lines just ask main process to check the menupath exists,
