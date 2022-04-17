@@ -544,11 +544,27 @@ let node_prototype = {
 
 		for (let node of nodes_without_boards) {
 
+			// Create or copy the board...
+
 			if (!node.parent) {
 				node.__board = new_board(node.width(), node.height());
 			} else {
 				node.__board = node.parent.__board.copy();
 			}
+
+			// Set komi and rules (strictly these are only valid in root nodes, but meh)...
+
+			let km = parseFloat(node.get("KM"));
+			if (!Number.isNaN(km)) {
+				node.__board.komi = km;
+			}
+
+			let ru = node.get("RU");
+			if (ru) {
+				node.__board.rules = ru;
+			}
+
+			// Adjust the board from the node's board-changing properties...
 
 			for (let s of node.all_values("AE")) {
 				node.__board.add_empty(s);						// Clears any ko.
@@ -570,18 +586,9 @@ let node_prototype = {
 				node.__board.play(s, "w");						// As above.
 			}
 
-			// Set the active player if possible (these things return null if they can't)...
+			// Set the active player if possible (these calls return null if they can't)...
+
 			node.__board.active = node.interpret_pl() || node.natural_active() || node.__board.active;
-
-			let km = parseFloat(node.get("KM"));
-			if (!Number.isNaN(km)) {
-				node.__board.komi = km;
-			}
-
-			let ru = node.get("RU");
-			if (ru) {
-				node.__board.rules = ru;
-			}
 		}
 
 		return this.__board;
