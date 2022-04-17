@@ -536,30 +536,21 @@ let node_prototype = {
 				node.__board = node.parent.__board.copy();
 			}
 
-			if (node.__board.ko) {								// Preserve inherited ko prohibition iff the node has no board-changing properties.
-				for (let key of ["AE", "AB", "AW"]) {			// No need to test for "B" or "W", the resulting call to play() fixes the ko square.
-					if (node.has_key(key)) {
-						node.__board.clear_ko();
-						break;
-					}
-				}
-			}
-
 			for (let s of node.all_values("AE")) {
-				node.__board.add_empty(s);
+				node.__board.add_empty(s);						// Clears any ko.
 			}
 
 			for (let s of node.all_values("AB")) {
-				node.__board.add_black(s);
+				node.__board.add_black(s);						// As above.
 			}
 
 			for (let s of node.all_values("AW")) {
-				node.__board.add_white(s);
+				node.__board.add_white(s);						// As above.
 			}
 
 			for (let s of node.all_values("B")) {				// board.play() will treat s as a pass if it's not a valid move.
-				node.__board.play(s, "b");						// It sets .active (irrelevant since we set it below).
-			}													// It sets .ko and .ko_ban_player.
+				node.__board.play(s, "b");						// It sets .active but that's irrelevant since we set it below.
+			}													// It clears or sets .ko and .ko_ban_player.
 
 			for (let s of node.all_values("W")) {
 				node.__board.play(s, "w");						// As above.

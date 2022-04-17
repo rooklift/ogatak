@@ -349,6 +349,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "");
 		}
+		this.clear_ko();
 	},
 
 	add_black: function(s) {
@@ -356,6 +357,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "b");
 		}
+		this.clear_ko();
 	},
 
 	add_white: function(s) {
@@ -363,6 +365,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "w");
 		}
+		this.clear_ko();
 	},
 
 	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
