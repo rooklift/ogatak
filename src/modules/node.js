@@ -406,6 +406,20 @@ let node_prototype = {
 		this.__board = null;						// We could update __board, but this way ensures consistency with our normal get_board() result.
 	},
 
+	interpret_pl: function(s) {
+
+		// Returns who the active player should be, based on the node's PL tag, or null if it cannot.
+
+		let pl = this.get("PL");
+
+		if (pl) {
+			if (pl[0] === "B" || pl[0] === "b" || pl === "1") return "b";
+			if (pl[0] === "W" || pl[0] === "w" || pl === "2") return "w";
+		}
+
+		return null;								// Caller needs to check for this return value.
+	},
+
 	natural_active: function() {
 
 		// Returns who the active player should be (ignoring PL tags), or null if it can't be determined from this node alone.
@@ -556,20 +570,8 @@ let node_prototype = {
 				node.__board.play(s, "w");						// As above.
 			}
 
-			let pl = node.get("PL");
-
-			if (pl && (pl[0] === "B" || pl[0] === "b" || pl === "1")) {
-				node.__board.active = "b";
-			} else if (pl && (pl[0] === "W" || pl[0] === "w" || pl === "2")) {
-				node.__board.active = "w";
-			} else {
-				let natural = node.natural_active();			// Possibly null.
-				if (natural) {
-					node.__board.active = natural;
-				} else {
-					// Just leave it the same as its parent node.
-				}
-			}
+			// Set the active player if possible (these things return null if they can't)...
+			node.__board.active = node.interpret_pl() || node.natural_active() || node.__board.active;
 
 			let km = parseFloat(node.get("KM"));
 			if (!Number.isNaN(km)) {
