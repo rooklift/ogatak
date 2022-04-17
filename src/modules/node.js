@@ -536,6 +536,15 @@ let node_prototype = {
 				node.__board = node.parent.__board.copy();
 			}
 
+			if (node.__board.ko) {								// Preserve inherited ko prohibition iff the node has no board-changing properties.
+				for (let key of ["AE", "AB", "AW"]) {			// No need to test for "B" or "W", the resulting call to play() fixes the ko square.
+					if (node.has_key(key)) {
+						node.__board.clear_ko();
+						break;
+					}
+				}
+			}
+
 			for (let s of node.all_values("AE")) {
 				node.__board.add_empty(s);
 			}
@@ -840,17 +849,12 @@ let node_prototype = {
 
 		if (!have_alerted_zobrist_mismatch) {
 			if (config.zobrist_checks && o.rootInfo.thisHash) {
-				if (this.get_board().ko && !this.has_key("B") && !this.has_key("W")) {
-					// Only known failure to match hashes is if the node is a descendant of a ko position, and the ko
-					// prohibition still exists, but the move that created the ko prohibition is not in the node. Skip.
-				} else {
-					let z = zobrist(this.get_board());
-					if (z) {									// z will be null if we can't get the hash...
-						if (z !== o.rootInfo.thisHash) {
-							alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
-									"This test exists for development purposes and you can disable it in the menu.");
-							have_alerted_zobrist_mismatch = true;
-						}
+				let z = zobrist(this.get_board());
+				if (z) {									// z will be null if we can't get the hash...
+					if (z !== o.rootInfo.thisHash) {
+						alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
+								"This test exists for development purposes and you can disable it in the menu.");
+						have_alerted_zobrist_mismatch = true;
 					}
 				}
 			}
