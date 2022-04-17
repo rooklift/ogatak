@@ -45,6 +45,11 @@ let board_prototype = {
 		return new_board(this.width, this.height, this.state, this.ko, this.ko_ban_player, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
+	clear_ko: function() {
+		this.ko = null;
+		this.ko_ban_player = null;
+	},
+
 	in_bounds: function(s) {
 
 		// Returns true / false if the point is on the board.
@@ -306,8 +311,7 @@ let board_prototype = {
 			throw new Error("play(): invalid colour");
 		}
 
-		this.ko = null;
-		this.ko_ban_player = null;
+		this.clear_ko();
 		this.active = (colour === "b") ? "w" : "b";
 
 		if (!this.in_bounds(s)) {				// Treat as a pass.
