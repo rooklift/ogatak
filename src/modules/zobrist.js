@@ -411,8 +411,8 @@ module.exports = function(board) {
 
 	let s = hash.toString(16);
 
-	while (s.length < 32) {
-		s = "0" + s;
+	if (s.length < 32) {
+		s = "0".repeat(32 - s.length) + s; 
 	}
 
 	return s.toUpperCase();
