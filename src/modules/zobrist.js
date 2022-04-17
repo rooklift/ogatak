@@ -384,7 +384,7 @@ if (b_stones.length !== 361 || w_stones.length !== 361 || ko_locs.length !== 361
 
 module.exports = function(board) {
 
-	if (board.width !== 19 || board.height !== 19) {
+	if (board.width !== 19 || board.height !== 19) {		// We don't have the size keys, so can't generate these hashes.
 		return null;
 	}
 
