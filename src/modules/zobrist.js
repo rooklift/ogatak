@@ -2,6 +2,7 @@
 
 // The point of all this is to enable us to generate a value to match thisHash from
 // KataGo's analysis, to verify that the position being analysed is the one we expect.
+// It will be unless we have bugs... I've never seen an unexpected mismatch.
 
 const black_stones = [		// the trailing n here means BigInt
 	0xe1949aaead6a4b79689e1e4704caba32n, 0xb2ad9c5293abf11f1f48689c8329489an, 0x4fa1e904b97a36e4597d1316ce1f8b0cn, 
