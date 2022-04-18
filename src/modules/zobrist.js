@@ -470,8 +470,8 @@ module.exports = function(board) {
 	if (board.active === "w") hash ^= w_to_play;
 
 	if (board.ko && board.ko_ban_player === board.active) {
-		let ko_x = board.ko.charCodeAt(0) - 97;
-		let ko_y = board.ko.charCodeAt(1) - 97;
+		let x = board.ko.charCodeAt(0) - 97;
+		let y = board.ko.charCodeAt(1) - 97;
 		hash ^= ko_locs[(y + 1) * (board.width + 1) + x + 1];
 	}
 
