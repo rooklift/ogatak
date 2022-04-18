@@ -844,17 +844,15 @@ let node_prototype = {
 	receive_analysis: function(o) {
 
 		// Save a KataGo analysis object into the node for display.
-		// No validation... caller should run valid_analysis_object(o) first!
+		// No real validation... caller should run valid_analysis_object(o) first!
 
 		if (!have_alerted_zobrist_mismatch) {
 			if (config.zobrist_checks && o.rootInfo.thisHash) {
 				let z = this.get_board().zobrist_string();
-				if (z) {											// z will be "" if we can't get the hash...
-					if (z !== o.rootInfo.thisHash) {
-						alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
-								"This test exists for development purposes and you can disable it in the menu.");
-						have_alerted_zobrist_mismatch = true;
-					}
+				if (z !== o.rootInfo.thisHash) {
+					alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
+							"This test exists for development purposes and you can disable it in the menu.");
+					have_alerted_zobrist_mismatch = true;
 				}
 			}
 		}
