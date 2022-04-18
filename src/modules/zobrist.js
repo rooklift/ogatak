@@ -436,10 +436,9 @@ const ko_locs = [
 ];
 
 // The arrays above all have 421 members due to padding around the edges.
-
-if (black_stones.length !== 421 || white_stones.length !== 421 || ko_locs.length !== 421) {
-	throw new Error("Bad Zobrist array.");
-}
+// The correct index for (x, y) is given at Location::getLoc():
+//
+//     x + 1 + ((y + 1) * (width + 1))
 
 const widths = [
 	0xcc5d3fa62967f5b32f19ecfaf50f40a8n,
@@ -487,12 +486,18 @@ const heights = [
 	0x05913f0dd10874cae93d68ca497b5a08n,
 ];
 
-if (widths.length !== 20 || heights.length !== 20) {
+const black = 0x8a2a2a2ff24dbb6dc535f97fd0cc7e76n;
+const white = 0xd3c1c132e034dcb0392045e5c8d9bd73n;
+
+// ------------------------------------------------------------------------------------------------
+
+if (black_stones.length !== 421 || white_stones.length !== 421 || ko_locs.length !== 421) {
 	throw new Error("Bad Zobrist array.");
 }
 
-const black = 0x8a2a2a2ff24dbb6dc535f97fd0cc7e76n;
-const white = 0xd3c1c132e034dcb0392045e5c8d9bd73n;
+if (widths.length !== 20 || heights.length !== 20) {
+	throw new Error("Bad Zobrist array.");
+}
 
 // ------------------------------------------------------------------------------------------------
 
