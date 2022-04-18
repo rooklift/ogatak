@@ -105,17 +105,17 @@ let board_prototype = {
 			// If we're overwriting a stone, xor out the old thing...
 
 			if (this.state[x][y] === "b") {
-				this.stone_zobrist ^= zobrist.b_stones[i];
+				this.stone_zobrist ^= zobrist.black_stones[i];
 			} else if (this.state[x][y] === "w") {
-				this.stone_zobrist ^= zobrist.w_stones[i];
+				this.stone_zobrist ^= zobrist.white_stones[i];
 			}
 
 			// If we're adding a stone, xor in the new thing...
 
 			if (colour === "b") {
-				this.stone_zobrist ^= zobrist.b_stones[i];
+				this.stone_zobrist ^= zobrist.black_stones[i];
 			} else if (colour === "w") {
-				this.stone_zobrist ^= zobrist.w_stones[i];
+				this.stone_zobrist ^= zobrist.white_stones[i];
 			}
 		}
 

@@ -3,7 +3,7 @@
 // The point of all this is to enable us to generate a value to match thisHash from
 // KataGo's analysis, to verify that the position being analysed is the one we expect.
 
-const b_stones = [		// the trailing n here means BigInt
+const black_stones = [		// the trailing n here means BigInt
 	0xe1949aaead6a4b79689e1e4704caba32n, 0xb2ad9c5293abf11f1f48689c8329489an, 0x4fa1e904b97a36e4597d1316ce1f8b0cn, 
 	0x4c1d5be8a3f02e87d2844e129a1d81e7n, 0x4ab8efecee0366b2f4adb2aae28111a2n, 0xfe2d977aa57b6c8f0da24b78a94897cdn, 
 	0x6f9d5e1ff0a1c4cfb0fda7a6f053215dn, 0x4354eca3e15a10ec66bb14f0b44e070fn, 0x9a51a1e4b90c0b373a22e913874e62e7n, 
@@ -147,7 +147,7 @@ const b_stones = [		// the trailing n here means BigInt
 	0x5b599ddb5ae76cbea0b4b2d55682a1cbn,
 ];
 
-const w_stones = [
+const white_stones = [
 	0x416c9819a1c17e7f1b9b2fca1fae96a8n, 0xb50196ab9d8d2260138041999375e5c3n, 0xdefccdacbe953a8fe9eb7b01610539dfn, 
 	0x6b320cdf0cdb96a6d69799788ee26935n, 0xe73354ef17498d1ba003c24d2af2909bn, 0x516632925a08d9691dde816bc037f55bn, 
 	0x9f15ea2770c542a453df82cf2ff47347n, 0xa33d1fdbd8757fb836a422df23548ff2n, 0xe674cf57fcd57fe03a4f15b73a235238n, 
@@ -435,7 +435,7 @@ const ko_locs = [
 	0xba91bba7bfb754f8c01a681a57426668n,
 ];
 
-if (b_stones.length !== 421 || w_stones.length !== 421 || ko_locs.length !== 421) {
+if (black_stones.length !== 421 || white_stones.length !== 421 || ko_locs.length !== 421) {
 	throw new Error("Bad Zobrist array.");
 }
 
@@ -451,4 +451,4 @@ function supported_size(width, height) {
 
 
 
-module.exports = {b_stones, w_stones, ko_locs, b_19x19, w_19x19, supported_size};
+module.exports = {black_stones, white_stones, ko_locs, b_19x19, w_19x19, supported_size};
