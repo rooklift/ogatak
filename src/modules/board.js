@@ -48,9 +48,10 @@ function new_board(
 
 let board_prototype = {
 
-	copy: function() { return new_board(
-		this.width, this.height, this.state, this.pos_hash, this.ko, this.ko_ban_player, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w
-	)},
+	copy: function() {
+		return new_board(this.width, this.height, this.state, this.pos_hash, this.ko, this.ko_ban_player,
+			this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
+	},
 
 	clear_ko: function() {
 		this.ko = null;
