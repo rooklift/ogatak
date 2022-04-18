@@ -387,6 +387,7 @@ module.exports = function(board) {
 	// To be honest, recalculating this every time it's needed is a little silly, but it's easily fast enough.
 	// Really the board structure should keep a zobrist of its stones (just stones, for simplicity) and XOR in
 	// its sizes, active player, and ko when needed. Todo in the future, if I ever get all the values I need.
+	// Things will also depend on how padding works for different sizes. For now, we can only hash for 19x19.
 
 	if (board.width !== 19 || board.height !== 19) {		// We don't have the size keys, so can't generate these hashes.
 		return null;
