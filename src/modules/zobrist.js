@@ -435,51 +435,20 @@ const ko_locs = [
 	0xba91bba7bfb754f8c01a681a57426668n,
 ];
 
-// The arrays above all have 421 members due to padding around the edges.
-
-const b_to_play = 0x47e1ebdae69a5ded3ff8db1fa4e91845n;		// Actually this is a combination of width=19, height=19, player=B
-const w_to_play = 0x1e0a00c7f4e33a30c3ed6785bcfcdb40n;		// Likewise, but for player=W
-
 if (b_stones.length !== 421 || w_stones.length !== 421 || ko_locs.length !== 421) {
 	throw new Error("Bad Zobrist array.");
 }
 
-module.exports = function(board) {
+// The arrays above all have 421 members due to padding around the edges.
 
-	// To be honest, recalculating this every time it's needed is a little silly, but it's easily fast enough.
-	// Really the board structure should keep a zobrist of its stones (just stones, for simplicity) and XOR in
-	// its sizes, active player, and ko when needed, but there's a fair amount of bug potential.
+const b_19x19 = 0x47e1ebdae69a5ded3ff8db1fa4e91845n;
+const w_19x19 = 0x1e0a00c7f4e33a30c3ed6785bcfcdb40n;
 
-	if (board.width !== 19 || board.height !== 19) {
-		return null;
-	}
+function supported_size(width, height) {
+	return width === 19 && height === 19;
+}
 
-	let hash = 0n;
 
-	for (let x = 0; x < 19; x++) {
-		for (let y = 0; y < 19; y++) {
-			if (board.state[x][y] === "b") {
-				hash ^= b_stones[(y + 1) * (board.width + 1) + x + 1];		// For this formula see Location::getLoc() in KataGo's code.
-			} else if (board.state[x][y] === "w") {
-				hash ^= w_stones[(y + 1) * (board.width + 1) + x + 1];
-			}
-		}
-	}
 
-	if (board.active === "b") hash ^= b_to_play;
-	if (board.active === "w") hash ^= w_to_play;
 
-	if (board.ko && board.ko_ban_player === board.active) {
-		let x = board.ko.charCodeAt(0) - 97;
-		let y = board.ko.charCodeAt(1) - 97;
-		hash ^= ko_locs[(y + 1) * (board.width + 1) + x + 1];
-	}
-
-	let s = hash.toString(16);
-
-	if (s.length < 32) {
-		s = "0".repeat(32 - s.length) + s; 
-	}
-
-	return s.toUpperCase();
-};
+module.exports = {b_stones, w_stones, ko_locs, b_19x19, w_19x19, supported_size};

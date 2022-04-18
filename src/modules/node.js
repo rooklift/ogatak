@@ -12,7 +12,6 @@ const path = require("path");
 const new_board = require("./board");
 const stringify = require("./stringify");
 const {replace_all, valid_analysis_object, points_list} = require("./utils");
-const zobrist = require("./zobrist");
 
 let next_node_id = 1;
 let have_alerted_zobrist_mismatch = false;
@@ -849,8 +848,8 @@ let node_prototype = {
 
 		if (!have_alerted_zobrist_mismatch) {
 			if (config.zobrist_checks && o.rootInfo.thisHash) {
-				let z = zobrist(this.get_board());
-				if (z) {									// z will be null if we can't get the hash...
+				let z = this.get_board().zobrist_string();
+				if (z) {											// z will be "" if we can't get the hash...
 					if (z !== o.rootInfo.thisHash) {
 						alert(	"The Zobrist hash of the board position did not match that reported by KataGo. " +
 								"This test exists for development purposes and you can disable it in the menu.");
@@ -873,7 +872,7 @@ let node_prototype = {
 		this.set("OGSC", val);
 	},
 
-	reset_mismatch_warnings: function() {								// Note this is a module var, not actually part of the node.
+	reset_mismatch_warnings: function() {							// Note this is a module var, not actually part of the node.
 		have_alerted_zobrist_mismatch = false;
 	},
 

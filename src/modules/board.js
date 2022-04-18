@@ -9,14 +9,17 @@
 // The state at each board point is either "" or "b" or "w".
 
 const {xy_to_s, points_list} = require("./utils");
+const zobrist = require("./zobrist");
 
-function new_board(width, height, state = null, ko = null, ko_ban_player = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
+function new_board(
+	width, height, state = null, stone_zobrist = null, ko = null, ko_ban_player = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
 	ret.width = width;
 	ret.height = height;
 	ret.state = [];
+	ret.stone_zobrist = stone_zobrist;		// This is either null or a 16-byte zobrist hash value for the stones only.
 	ret.ko = ko;
 	ret.ko_ban_player = ko_ban_player;		// This exists because the active player can be flipped manually, in which case ko won't apply.
 	ret.komi = komi;
@@ -36,14 +39,18 @@ function new_board(width, height, state = null, ko = null, ko_ban_player = null,
 		}
 	}
 
+	if (state === null && zobrist.supported_size(width, height)) {
+		ret.stone_zobrist = 0n;
+	}
+
 	return ret;
 }
 
 let board_prototype = {
 
-	copy: function() {
-		return new_board(this.width, this.height, this.state, this.ko, this.ko_ban_player, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
-	},
+	copy: function() { return new_board(
+		this.width, this.height, this.state, this.stone_zobrist, this.ko, this.ko_ban_player, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w
+	)},
 
 	clear_ko: function() {
 		this.ko = null;
@@ -82,6 +89,7 @@ let board_prototype = {
 	set_at: function(s, colour) {
 
 		// Converts the point to [x][y] and sets the state there, colour should be "" or "b" or "w".
+		// Adjusts the zobrist if we have one. So nothing else should ever set .state.
 
 		if (!this.in_bounds(s)) {
 			return;
@@ -90,7 +98,57 @@ let board_prototype = {
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
 
+		if (this.stone_zobrist !== null) {			// It's null if the size is not supported.
+
+			let i = (y + 1) * (this.width + 1) + x + 1;
+
+			// If we're overwriting a stone, xor out the old thing...
+
+			if (this.state[x][y] === "b") {
+				this.stone_zobrist ^= zobrist.b_stones[i];
+			} else if (this.state[x][y] === "w") {
+				this.stone_zobrist ^= zobrist.w_stones[i];
+			}
+
+			// If we're adding a stone, xor in the new thing...
+
+			if (colour === "b") {
+				this.stone_zobrist ^= zobrist.b_stones[i];
+			} else if (colour === "w") {
+				this.stone_zobrist ^= zobrist.w_stones[i];
+			}
+		}
+
 		this.state[x][y] = colour;
+	},
+
+	zobrist_string: function() {
+
+		if (this.stone_zobrist === null) {
+			return "";
+		}
+
+		let hash = this.stone_zobrist;
+
+		if (this.ko && this.ko_ban_player === this.active) {
+			let x = this.ko.charCodeAt(0) - 97;
+			let y = this.ko.charCodeAt(1) - 97;
+			hash ^= zobrist.ko_locs[(y + 1) * (this.width + 1) + x + 1];
+		}
+
+		if (this.active === "b") {
+			hash ^= zobrist.b_19x19;				// FIXME if we ever support other sizes.
+		} else {
+			hash ^= zobrist.w_19x19;
+		}
+
+		let s = hash.toString(16);
+
+		if (s.length < 32) {
+			s = "0".repeat(32 - s.length) + s; 
+		}
+
+		return s.toUpperCase();
 	},
 
 	one_liberty_singleton: function(s) {
