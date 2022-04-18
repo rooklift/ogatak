@@ -19,9 +19,9 @@ function new_board(
 	ret.width = width;
 	ret.height = height;
 	ret.state = [];
-	ret.pos_hash = pos_hash;				// This is either null or a 16-byte zobrist hash value for the stones only.
+	ret.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
 	ret.ko = ko;
-	ret.ko_ban_player = ko_ban_player;		// This exists because the active player can be flipped manually, in which case ko won't apply.
+	ret.ko_ban_player = ko_ban_player;		// This exists because the active player can be flipped manually, in which case ko won't apply
 	ret.komi = komi;
 	ret.rules = rules;
 	ret.active = active;
