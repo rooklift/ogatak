@@ -579,7 +579,7 @@ let node_prototype = {
 
 			for (let s of node.all_values("B")) {				// board.play() will treat s as a pass if it's not a valid move.
 				node.__board.play(s, "b");						// It sets .active but that's irrelevant since we set it below.
-			}													// It clears or sets .ko and .ko_ban_player.
+			}													// It clears or sets the ko.
 
 			for (let s of node.all_values("W")) {
 				node.__board.play(s, "w");						// As above.

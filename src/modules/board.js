@@ -12,7 +12,7 @@ const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
 function new_board(
-	width, height, state = null, pos_hash = null, ko = null, ko_ban_player = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
+	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -20,8 +20,7 @@ function new_board(
 	ret.height = height;
 	ret.state = [];
 	ret.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
-	ret.ko = ko;
-	ret.ko_ban_player = ko_ban_player;		// This exists because the active player can be flipped manually, in which case ko won't apply
+	ret.ko = ko;							// Note that ko might not be valid, call has_valid_ko() to check
 	ret.komi = komi;
 	ret.rules = rules;
 	ret.active = active;
@@ -49,13 +48,20 @@ function new_board(
 let board_prototype = {
 
 	copy: function() {
-		return new_board(this.width, this.height, this.state, this.pos_hash, this.ko, this.ko_ban_player,
-			this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
+		return new_board(this.width, this.height, this.state, this.pos_hash, this.ko, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
 	},
 
-	clear_ko: function() {
-		this.ko = null;
-		this.ko_ban_player = null;
+	has_valid_ko: function() {
+		if (!this.ko) {
+			return false;
+		}
+		// If the active player has been unnaturally flipped, this test will detect it...
+		for (let neighbour of this.neighbours(this.ko)) {
+			if (this.state_at(neighbour) === this.active || this.state_at(neighbour) === "") {		// 2nd condition can't happen
+				return false;
+			}
+		}
+		return true;
 	},
 
 	in_bounds: function(s) {
@@ -131,7 +137,7 @@ let board_prototype = {
 
 		let hash = this.pos_hash;
 
-		if (this.ko && this.ko_ban_player === this.active) {
+		if (this.has_valid_ko()) {
 			let x = this.ko.charCodeAt(0) - 97;
 			let y = this.ko.charCodeAt(1) - 97;
 			hash ^= zobrist.ko_locs[(y + 1) * (this.width + 1) + x + 1];
@@ -322,7 +328,7 @@ let board_prototype = {
 
 		let neighbours = this.neighbours(s);
 
-		if (this.ko === s && this.ko_ban_player === this.active) {
+		if (this.ko === s && this.has_valid_ko()) {
 			return false;
 		}
 
@@ -370,7 +376,7 @@ let board_prototype = {
 			throw new Error("play(): invalid colour");
 		}
 
-		this.clear_ko();
+		this.ko = null;
 		this.active = (colour === "b") ? "w" : "b";
 
 		if (!this.in_bounds(s)) {				// Treat as a pass.
@@ -398,7 +404,6 @@ let board_prototype = {
 		if (caps === 1) {
 			if (this.one_liberty_singleton(s)) {
 				this.ko = this.empty_neighbour(s);
-				this.ko_ban_player = this.active;
 			}
 		}
 	},
@@ -408,7 +413,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "");
 		}
-		this.clear_ko();
+		this.ko = null;
 	},
 
 	add_black: function(s) {
@@ -416,7 +421,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "b");
 		}
-		this.clear_ko();
+		this.ko = null;
 	},
 
 	add_white: function(s) {
@@ -424,7 +429,7 @@ let board_prototype = {
 		for (let p of plist) {
 			this.set_at(p, "w");
 		}
-		this.clear_ko();
+		this.ko = null;
 	},
 
 	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
