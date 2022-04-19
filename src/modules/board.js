@@ -328,7 +328,7 @@ let board_prototype = {
 
 		let neighbours = this.neighbours(s);
 
-		if (this.ko === s && this.has_valid_ko()) {
+		if (this.ko === s && this.has_valid_ko()) {		// 2nd test is needed since .ko can be invalid if active player was flipped.
 			return false;
 		}
 
