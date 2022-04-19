@@ -55,9 +55,9 @@ let board_prototype = {
 		if (!this.ko) {
 			return false;
 		}
-		// If the active player has been unnaturally flipped, this test will detect it...
-		for (let neighbour of this.neighbours(this.ko)) {
-			if (this.state_at(neighbour) === this.active || this.state_at(neighbour) === "") {		// 2nd condition can't happen
+		let inactive = (this.active === "b") ? "w" : "b";
+		for (let neighbour of this.neighbours(this.ko)) {				// If the active player has been unnaturally
+			if (this.state_at(neighbour) !== inactive) {				// flipped, this test will detect it...
 				return false;
 			}
 		}
