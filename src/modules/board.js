@@ -129,32 +129,29 @@ let board_prototype = {
 		this.state[x][y] = colour;
 	},
 
-	zobrist_string: function() {
-
-		if (this.pos_hash === null) {
-			return "";
-		}
-
+	zobrist: function() {
 		let hash = this.pos_hash;
-
+		if (hash === null) {
+			return null;
+		}
 		if (this.has_valid_ko()) {
 			let x = this.ko.charCodeAt(0) - 97;
 			let y = this.ko.charCodeAt(1) - 97;
 			hash ^= zobrist.ko_locs[(y + 1) * (this.width + 1) + x + 1];
 		}
+		hash ^= (this.active === "b") ? zobrist.black : zobrist.white;
+		return hash;
+	},
 
-		if (this.active === "b") {
-			hash ^= zobrist.black;
-		} else {
-			hash ^= zobrist.white;
+	zobrist_string: function() {
+		let hash = this.zobrist();
+		if (hash === null) {
+			return "";
 		}
-
 		let s = hash.toString(16);
-
 		if (s.length < 32) {
 			s = "0".repeat(32 - s.length) + s; 
 		}
-
 		return s.toUpperCase();
 	},
 
