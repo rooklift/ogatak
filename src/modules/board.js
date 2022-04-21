@@ -137,7 +137,8 @@ let board_prototype = {
 		if (this.has_valid_ko()) {
 			let x = this.ko.charCodeAt(0) - 97;
 			let y = this.ko.charCodeAt(1) - 97;
-			hash ^= zobrist.ko_locs[(y + 1) * (this.width + 1) + x + 1];
+			let i = (y + 1) * (this.width + 1) + x + 1;
+			hash ^= zobrist.ko_locs[i];
 		}
 		hash ^= (this.active === "b") ? zobrist.black : zobrist.white;
 		return hash;
