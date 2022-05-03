@@ -1642,6 +1642,7 @@ function menu_build() {
 					label: "Candidate moves",
 					type: "checkbox",
 					checked: config.candidate_moves,
+					accelerator: "CommandOrControl+M",
 					click: () => {
 						win.webContents.send("toggle", "candidate_moves");
 					}
