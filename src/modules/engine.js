@@ -53,10 +53,8 @@ let engine_prototype = {
 			let msg = JSON.stringify(o);
 			this.exe.stdin.write(msg);
 			this.exe.stdin.write("\n");
-			if (o.moves) {
-				log(`--> (Request ${o.id}, ${o.moves.length} moves)`);
-			} else {
-				log("--> " + msg);
+			if (config.logfile) {									// This test is just to save effort; the logging function checks this also.
+				this.log_sent_object(o);
 			}
 		} catch (err) {
 			this.log_and_alert("While sending to engine:", err.toString());
@@ -208,11 +206,13 @@ let engine_prototype = {
 				if (typeof o !== "object" || o === null) {
 					throw new Error("scanner: got non-object");
 				}
+				if (config.logfile) {								// This test is just to save effort; the logging function checks this also.
+					this.log_received_object(o);
+				}
 			} catch (err) {
 				this.log_and_alert("Received non-JSON:", line);
 				return;
 			}
-			this.log_received_object(o, line);
 			if (o.error) {
 				alert("Engine said:\n" + stringify(o));
 			}
@@ -272,18 +272,34 @@ let engine_prototype = {
 		});
 	},
 
-	log_received_object: function(o, line) {			// args are the object and the line that generated it
-		if (o.rootInfo) {
-			if (o.isDuringSearch) {
-				log(`< [Update for ${o.id}, ${o.rootInfo.visits} visits]`);
+	log_received_object: function(o) {
+
+		let redacted = {};
+
+		for (let [key, value] of Object.entries(o)) {
+			if (key !== "moveInfos" && key !== "ownership") {
+				redacted[key] = value;								// Note this is a shallow copy, so we must not do anything destructive to it.
 			} else {
-				log(`< [FINAL update for ${o.id}, ${o.rootInfo.visits} visits]`);
+				redacted[key] = ["redacted"];
 			}
-		} else if (o.noResults) {
-			log(`< [NO RESULTS update for ${o.id}]`);
-		} else {
-			log("< " + line);
 		}
+
+		log("< " + JSON.stringify(redacted));
+	},
+
+	log_sent_object: function(o) {
+
+		let redacted = {};
+
+		for (let [key, value] of Object.entries(o)) {
+			if (key !== "moves") {
+				redacted[key] = value;								// Note this is a shallow copy, so we must not do anything destructive to it.
+			} else {
+				redacted[key] = ["redacted"];
+			}
+		}
+
+		log("\n--> " + JSON.stringify(redacted) + "\n");
 	},
 
 	log_and_alert: function(...args) {
@@ -299,7 +315,7 @@ let engine_prototype = {
 		return `Engine (${path.basename(this.filepath)}) not running`;
 	},
 
-	shutdown: function() {								// Note: Don't reuse the engine object.
+	shutdown: function() {											// Note: Don't reuse the engine object.
 		this.has_quit = true;
 		if (this.exe) {
 			try {
