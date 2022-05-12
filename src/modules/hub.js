@@ -9,6 +9,7 @@ const new_node = require("./node");
 const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
+const load_ugi = require("./load_ugi");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
@@ -160,6 +161,7 @@ let hub_main_props = {
 		if (type === "sgf") new_roots = load_sgf(buf);
 		if (type === "ngf") new_roots = load_ngf(buf);
 		if (type === "gib") new_roots = load_gib(buf);
+		if (type === "ugi") new_roots = load_ugi(buf);
 
 		if (new_roots.length === 0) {
 			throw new Error("get_roots_from_buffer(): got a zero length array of roots, this is supposed to be impossible");
@@ -238,6 +240,8 @@ let hub_main_props = {
 				let type = "sgf";
 				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
 				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
+				if (filepath.toLowerCase().endsWith(".ugi")) type = "ugi";
+				if (filepath.toLowerCase().endsWith(".ugf")) type = "ugi";							// .ugf is the same as .ugi I think.
 
 				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));		// Can throw (or the things it calls can).
 
