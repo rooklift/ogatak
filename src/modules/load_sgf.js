@@ -4,7 +4,7 @@
 //
 // The parser assumes UTF-8. However, if it encounters a CA property on its very first call,
 // it will throw a specific error and then we decode the **entire file** from that charset and
-// turn it into UTF-8, then start again.
+// encode it into UTF-8, then start again.
 //
 // This will likely fail if there is a multigame file with differing charsets, but that's weird.
 
