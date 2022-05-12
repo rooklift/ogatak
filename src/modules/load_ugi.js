@@ -118,8 +118,6 @@ function load_ugi(buf) {
 				throw new Error("Data line was too short");
 			}
 
-			let turn_string_char0 = slist[2].charAt(0);			// If this is "0" we are in add-handicap-stones part.
-
 			let x_char = slist[0].charAt(0);
 			let y_char = slist[0].charAt(1);
 			let colour = slist[1].charAt(0);
@@ -132,6 +130,8 @@ function load_ugi(buf) {
 				throw new Error("Bad colour in data line");
 			}
 
+			let turn_string_char0 = slist[2].charAt(0);					// If this is "0" we are in add-handicap-stones part.
+
 			let x;
 			let y;
 
@@ -143,9 +143,9 @@ function load_ugi(buf) {
 				y = y_char.charCodeAt(0) - 65;
 			}
 
-			let s;												// The sgf coordinate
+			let s;														// The sgf coordinate
 
-			if (x >= boardsize || x < 0 || y >= boardsize || y < 0) {    // Likely a pass, "YA" is often used as a pass
+			if (x >= boardsize || x < 0 || y >= boardsize || y < 0) {	// Likely a pass, "YA" is often used as a pass
 				s = "";
 			} else {
 				s = xy_to_s(x, y);
