@@ -2,9 +2,10 @@
 
 // Charset notes:
 //
-// The parser assumes UTF-8. However, if it encounters a CA property on its very first call,
-// it will throw a specific error and then we decode the **entire file** from that charset and
-// encode it into UTF-8, then start again.
+// The parser works on a Buffer of bytes and assumes that values -- i.e. things between [ and ] -- are
+// encoded with UTF-8. However, if it encounters a CA property on its very first call, it will throw a
+// specific error and then we decode the **entire file** from that charset and encode it into UTF-8,
+// then start again.
 //
 // This will likely fail if there is a multigame file with differing charsets, but that's weird.
 
