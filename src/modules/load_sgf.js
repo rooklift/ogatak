@@ -8,6 +8,10 @@
 // then start again.
 //
 // This will likely fail if there is a multigame file with differing charsets, but that's weird.
+//
+// Note that we can't "simply" decode values with the correct decoder, because the file encoding
+// could affect *where the values end* because of ] bytes in multibyte characters in some charsets.
+// Thus we do need to decode the file and encode it back to UTF-8 (which is safe from such issues).
 
 const decoders = require("./decoders");
 const new_node = require("./node");
