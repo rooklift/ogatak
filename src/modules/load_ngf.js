@@ -13,7 +13,7 @@ function load_ngf(buf) {
 	}
 
 	for (let n = 0; n < lines.length; n++) {
-		lines[n] = lines[n].toString().trim();		// Buffer toString() does a UTF-8 conversion by default, I believe.
+		lines[n] = lines[n].toString().trim();		// By default, Buffer toString() decodes as if the buffer is UTF-8 (which it maybe isn't, meh).
 	}
 
 	// ------------------------------------------------------------------------------------------------

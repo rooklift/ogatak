@@ -20,7 +20,7 @@ function load_gib(buf) {
 
 	for (let line of lines) {
 
-		line = line.toString().trim();				// Buffer toString() does a UTF-8 conversion by default, I believe.
+		line = line.toString().trim();				// By default, Buffer toString() decodes as if the buffer is UTF-8 (which it maybe isn't, meh).
 
 		// Game info...
 
