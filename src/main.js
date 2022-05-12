@@ -403,7 +403,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Open SGF / GIB / NGF...",
+					label: "Open...",
 					accelerator: "CommandOrControl+O",
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.sgf_folder, properties: ["multiSelections"]})
