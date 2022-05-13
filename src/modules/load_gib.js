@@ -14,9 +14,7 @@ function load_gib(buf) {
 	root.set("GM", 1);
 	root.set("FF", 4);
 	root.set("CA", "UTF-8");
-	root.set("SZ", 19);								// Is this always so?
 	root.set("RU", "Korean");
-	root.set("KM", 0);								// Can get adjusted in a moment.
 
 	for (let line of lines) {
 
