@@ -294,14 +294,13 @@ exports.undo_safe_html = function(s) {
 	return s;
 };
 
-exports.do_load_alerts = function(successes, size_rejections, errors) {
+exports.do_load_alerts = function(size_rejections, errors) {
 
-	// successes is the number of files that were OK
 	// size_rejections is the number of files rejected due to boardsize
 	// errors is an array (possibly empty) of errors or error strings
 
 	let size_msg = "";
-	
+
 	if (size_rejections > 0) {
 		size_msg = `Rejected ${size_rejections} ${size_rejections === 1 ? "game" : "games"}, because sizes > 19 are not supported.`;
 	}

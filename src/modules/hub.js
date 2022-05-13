@@ -262,7 +262,7 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots);
-		do_load_alerts(ok_roots.length, new_roots.length - ok_roots.length, errors);
+		do_load_alerts(new_roots.length - ok_roots.length, errors);
 	},
 
 	duplicate_tree: function() {
