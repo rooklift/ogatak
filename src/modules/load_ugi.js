@@ -88,11 +88,19 @@ function load_ugi(buf) {
 
 			} else if (upper.startsWith("PLAYERB=")) {
 
-				root.set("PB", line.slice(8));
+				let name = line.slice(8);
+				if (name.includes(",")) {
+					name = name.split(",")[0];
+				}
+				root.set("PB", name);
 
 			} else if (upper.startsWith("PLAYERW=")) {
 
-				root.set("PW", line.slice(8));
+				let name = line.slice(8);
+				if (name.includes(",")) {
+					name = name.split(",")[0];
+				}
+				root.set("PW", name);
 
 			} else if (upper.startsWith("PLACE=")) {
 
