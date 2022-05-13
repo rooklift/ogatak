@@ -23,7 +23,6 @@ function load_ugi(buf) {
 	let boardsize = 19;
 	let section = null;
 	let coordinate_type = null;							// Might be set to "IGS" in which case the meaning changes apparently.
-
 	let AB_required = 0;
 
 	for (let line of lines) {
