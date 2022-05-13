@@ -1,5 +1,7 @@
 "use strict";
 
+// https://homepages.cwi.nl/~aeb/go/misc/ugf.html has some useful info.
+
 const decoders = require("./decoders");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
