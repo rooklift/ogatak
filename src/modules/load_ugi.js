@@ -121,34 +121,34 @@ function load_ugi(buf) {
 				throw new Error("Data line was too short");
 			}
 
-			let x_char = slist[0].charAt(0);
-			let y_char = slist[0].charAt(1);
-			let colour = slist[1].charAt(0);
+			let xy_string = slist[0];
 
-			if (x_char === "" || y_char === "") {
+			if (xy_string.length !== 2) {
 				throw new Error("Bad coordinate in data line");
 			}
+
+			let colour = slist[1][0];									// Conceivably could be undefined.
 
 			if (colour !== "B" && colour !== "W") {
 				throw new Error("Bad colour in data line");
 			}
 
-			let turn_string_char0 = slist[2].charAt(0);					// If this is "0" we are in add-handicap-stones part.
+			let turn_string_char0 = slist[2][0];						// Conceivably could be undefined.
 
 			let x;
 			let y;
 
 			if (coordinate_type === "IGS") {
-				x = x_char.charCodeAt(0) - 65;
-				y = (boardsize - (y_char.charCodeAt(0) - 64));
+				x = xy_string.charCodeAt(0) - 65;
+				y = (boardsize - (xy_string.charCodeAt(1) - 64));
 			} else {
-				x = x_char.charCodeAt(0) - 65;
-				y = y_char.charCodeAt(0) - 65;
+				x = xy_string.charCodeAt(0) - 65;
+				y = xy_string.charCodeAt(1) - 65;
 			}
 
 			let s;														// The sgf coordinate
 
-			if (x >= boardsize || x < 0 || y >= boardsize || y < 0) {	// Likely a pass, "YA" is often used as a pass
+			if (x < 0 || x >= boardsize || y < 0 || y >= boardsize) {	// Likely a pass, "YA" is often used as a pass
 				s = "";
 			} else {
 				s = xy_to_s(x, y);
