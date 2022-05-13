@@ -181,38 +181,6 @@ let hub_main_props = {
 		return new_roots;
 	},
 
-	finish_load(new_roots, errors) {
-
-		if (!Array.isArray(errors)) {
-			errors = [];
-		} else {
-			errors = Array.from(errors);			// Just for theoretical correctness, don't modify the original array.
-		}
-
-		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-
-		if (ok_roots.length !== new_roots.length) {
-			errors.push("Board sizes > 19 are not supported.");
-		}
-
-		if (config.guess_ruleset) {
-			for (let root of ok_roots) {
-				if (!root.has_key("RU")) {
-					if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
-					if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
-				}
-			}
-		}
-
-		this.add_roots(ok_roots);
-
-		if (errors.length > 1) {
-			alert("Multiple errors were encountered.");
-		} else if (errors.length === 1) {
-			alert(errors[0].toString());
-		}
-	},
-
 	load_sgf_from_string: function(s) {
 
 		if (typeof s !== "string") {
@@ -276,6 +244,38 @@ let hub_main_props = {
 		}
 
 		this.finish_load(new_roots, errors);
+	},
+
+	finish_load(new_roots, errors) {
+
+		if (!Array.isArray(errors)) {
+			errors = [];
+		} else {
+			errors = Array.from(errors);			// Just for theoretical correctness, don't modify the original array.
+		}
+
+		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
+
+		if (ok_roots.length !== new_roots.length) {
+			errors.push("Board sizes > 19 are not supported.");
+		}
+
+		if (config.guess_ruleset) {
+			for (let root of ok_roots) {
+				if (!root.has_key("RU")) {
+					if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
+					if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
+				}
+			}
+		}
+
+		this.add_roots(ok_roots);
+
+		if (errors.length > 1) {
+			alert("Multiple errors were encountered.");
+		} else if (errors.length === 1) {
+			alert(errors[0].toString());
+		}
 	},
 
 	duplicate_tree: function() {
