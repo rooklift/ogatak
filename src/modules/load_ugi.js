@@ -117,6 +117,10 @@ function load_ugi(buf) {
 
 				root.set("RE", "W+");
 
+			} else if (upper.startsWith("RULE=JPN")) {			// Don't know what the other abbreviations are.
+
+				root.set("RU", "Japanese");
+
 			}
 
 		} else if (section === "[DATA]") {
