@@ -253,7 +253,6 @@ let hub_main_props = {
 		}
 
 		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-		let size_rejections = new_roots.length - ok_roots.length;
 
 		if (config.guess_ruleset) {
 			for (let root of ok_roots) {
@@ -265,8 +264,7 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots);
-		
-		do_load_alerts(ok_roots.length, size_rejections, errors)
+		do_load_alerts(ok_roots.length, new_roots.length - ok_roots.length, errors);
 	},
 
 	duplicate_tree: function() {
