@@ -129,7 +129,7 @@ let hub_main_props = {
 		node_to_destroy.destroy_tree();
 	},
 
-	// Saving and loading .........................................................................
+	// Saving......................................................................................
 
 	save: function(filepath) {
 		save_sgf(this.node, filepath);
@@ -151,6 +151,8 @@ let hub_main_props = {
 		let nodes = tabber.tab_node_list(this.node);
 		save_sgf_multi(nodes, filepath);
 	},
+
+	// Loading.....................................................................................
 
 	get_roots_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
 
@@ -179,36 +181,58 @@ let hub_main_props = {
 		return new_roots;
 	},
 
+	finish_load(new_roots, errors) {
+
+		if (!Array.isArray(errors)) {
+			errors = [];
+		} else {
+			errors = Array.from(errors);			// Just for theoretical correctness, don't modify the original array.
+		}
+
+		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
+
+		if (ok_roots.length !== new_roots.length) {
+			errors.push("Board sizes > 19 are not supported.");
+		}
+
+		if (config.guess_ruleset) {
+			for (let root of ok_roots) {
+				if (!root.has_key("RU")) {
+					if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
+					if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
+				}
+			}
+		}
+
+		this.add_roots(ok_roots);
+
+		if (errors.length > 1) {
+			alert("Multiple errors were encountered.");
+		} else if (errors.length === 1) {
+			alert(errors[0].toString());
+		}
+	},
+
 	load_sgf_from_string: function(s) {
 
 		if (typeof s !== "string") {
 			return;
 		}
 
-		try {
+		let new_roots = [];
+		let errors = [];
 
+		try {
 			let buf = Buffer.from(s);
 			let new_roots = this.get_roots_from_buffer(buf, "sgf", "");			// Can throw (or the things it calls can).
-
-			let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-
-			if (ok_roots.length !== new_roots.length) {
-				if (ok_roots.length === 0) {
-					alert("Board sizes > 19 are not supported.");
-				} else {
-					alert("Some games in the collection were not loaded because they have size > 19.");
-					this.add_roots(ok_roots);
-				}
-			} else {
-				this.add_roots(ok_roots);
-			}
-
 		} catch (err) {
-			alert(err.toString());
+			errors.push(err);
 		}
+
+		this.finish_load(new_roots, errors);
 	},
 
-	load_multifile: function(...args) {		// Tolerates whatever combination of arrays and strings are sent...
+	load_multifile: function(...args) {			// Tolerates whatever combination of arrays and strings are sent...
 
 		let arr = args.flat(Infinity);
 
@@ -217,7 +241,7 @@ let hub_main_props = {
 		}
 
 		let new_roots = [];
-		let loader_errors = [];
+		let errors = [];
 
 		for (let n = 0; n < arr.length; n++) {
 
@@ -246,28 +270,12 @@ let hub_main_props = {
 				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));		// Can throw (or the things it calls can).
 
 			} catch (err) {
-				loader_errors.push(err);
+				errors.push(err);
 				continue;
 			}
 		}
 
-		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-
-		if (ok_roots.length !== new_roots.length) {
-			if (ok_roots.length === 0) {
-				loader_errors.push("Board sizes > 19 are not supported.");
-			} else {
-				loader_errors.push("Some games in the collection were not loaded because they have size > 19.");
-			}
-		}
-
-		if (loader_errors.length > 1) {
-			alert("Some errors occurred while loading these files.");
-		} else if (loader_errors.length === 1) {
-			alert(loader_errors[0].toString());
-		}
-
-		this.add_roots(ok_roots);
+		this.finish_load(new_roots, errors);
 	},
 
 	duplicate_tree: function() {
