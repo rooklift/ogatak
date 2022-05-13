@@ -301,24 +301,20 @@ exports.do_load_alerts = function(successes, size_rejections, errors) {
 	// errors is an array (possibly empty) of errors or error strings
 
 	let size_msg = "";
-
+	
 	if (size_rejections > 0) {
-		if (successes > 0) {
-			size_msg = `Rejected ${size_rejections} ${size_rejections === 1 ? "game" : "games"}, because sizes > 19 are not supported.`;
-		} else {
-			size_msg = "Sizes > 19 are not supported.";
-		}
+		size_msg = `Rejected ${size_rejections} ${size_rejections === 1 ? "game" : "games"}, because sizes > 19 are not supported.`;
 	}
 
 	if (errors.length > 1) {
 		if (size_msg) {
-			alert(`${size_msg} Also, multiple other errors were encountered.`);
+			alert(`${size_msg} Also, ${errors.length} other games were rejected due to errors.`);
 		} else {
-			alert("Multiple errors were encountered.");
+			alert(`${errors.length} games were rejected due to errors.`);
 		}
 	} else if (errors.length === 1) {
 		if (size_msg) {
-			alert(`${size_msg} Also, another error was encountered: ${errors[0].toString()}`);
+			alert(`${size_msg} Also, 1 other game was rejected because: ${errors[0].toString()}`);
 		} else {
 			alert(errors[0].toString());
 		}
