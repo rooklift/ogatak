@@ -12,6 +12,7 @@
 * Has most normal Lizzie-ish features.
 * Fully-functional SGF editor.
 * Correctly handles many SGF files that trouble other GUIs, especially handicaps and mid-game board edits.
+* Can load NGF, GIB, and UGI files (albeit imperfectly).
 * No dependencies except Electron, quite easy to run from source, doesn't pull in a zillion npm modules.
 
 ## Downsides
