@@ -315,7 +315,7 @@ exports.do_load_alerts = function(size_rejections, errors) {
 		if (size_msg) {
 			alert(`${size_msg} Also, 1 other game was rejected because: ${errors[0].toString()}`);
 		} else {
-			alert(errors[0].toString());
+			alert(`Rejected 1 game because: ${errors[0].toString()}`);
 		}
 	} else if (size_msg) {
 		alert(size_msg);
