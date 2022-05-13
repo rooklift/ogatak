@@ -14,7 +14,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
-const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions} = require("./utils");
+const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, do_load_alerts} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -250,15 +250,10 @@ let hub_main_props = {
 
 		if (!Array.isArray(errors)) {
 			errors = [];
-		} else {
-			errors = Array.from(errors);			// Just for theoretical correctness, don't modify the original array.
 		}
 
 		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-
-		if (ok_roots.length !== new_roots.length) {
-			errors.push("Board sizes > 19 are not supported.");
-		}
+		let size_rejections = new_roots.length - ok_roots.length;
 
 		if (config.guess_ruleset) {
 			for (let root of ok_roots) {
@@ -270,12 +265,8 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots);
-
-		if (errors.length > 1) {
-			alert("Multiple errors were encountered.");
-		} else if (errors.length === 1) {
-			alert(errors[0].toString());
-		}
+		
+		do_load_alerts(ok_roots.length, size_rejections, errors)
 	},
 
 	duplicate_tree: function() {
