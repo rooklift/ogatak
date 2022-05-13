@@ -65,7 +65,6 @@ function load_sgf(buf) {
 		apply_basic_props_fix(root);
 		apply_komi_fix(root);
 		apply_pl_fix(root);
-		apply_ruleset_guess(root);		// Should be done after the komi fix.
 	}
 
 	return ret;
@@ -219,16 +218,6 @@ function apply_pl_fix(root) {
 	if (node.has_key("W") && !node.has_key("B")) {
 		root.set("PL", "W");
 	}
-}
-
-function apply_ruleset_guess(root) {
-
-	if (!config.guess_ruleset || root.has_key("RU")) {
-		return;
-	}
-
-	if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
-	if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
 }
 
 function is_utf8_alias(s) {
