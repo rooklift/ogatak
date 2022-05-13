@@ -192,9 +192,9 @@ let hub_main_props = {
 
 		try {
 			let buf = Buffer.from(s);
-			let new_roots = this.get_roots_from_buffer(buf, "sgf", "");			// Can throw (or the things it calls can).
+			new_roots = this.get_roots_from_buffer(buf, "sgf", "");			// Can throw (or the things it calls can).
 		} catch (err) {
-			errors.push(err);
+			errors = [err];
 		}
 
 		this.finish_load(new_roots, errors);
