@@ -132,7 +132,7 @@ function load_ugi(buf) {
 				throw new Error("Bad colour in data line");
 			}
 
-			let turn_string_char0 = slist[2][0];						// Conceivably could be undefined.
+			let turn_string_char0 = slist[2][0];						// Conceivably could be undefined. Not sure why I look at char0 rather than whole string?
 
 			let x;
 			let y;
