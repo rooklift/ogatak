@@ -10,6 +10,7 @@ const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
+const {apply_komi_fix, apply_pl_fix, apply_ruleset_guess} = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
@@ -254,13 +255,10 @@ let hub_main_props = {
 
 		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
 
-		if (config.guess_ruleset) {
-			for (let root of ok_roots) {
-				if (!root.has_key("RU")) {
-					if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
-					if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
-				}
-			}
+		for (let root of ok_roots) {
+			apply_komi_fix(root);
+			apply_pl_fix(root);
+			if (config.guess_ruleset) apply_ruleset_guess(root);		// AFTER the komi fix, above.
 		}
 
 		this.add_roots(ok_roots);

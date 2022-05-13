@@ -62,9 +62,9 @@ function load_sgf(buf) {
 	}
 
 	for (let root of ret) {
-		apply_basic_props_fix(root);
-		apply_komi_fix(root);
-		apply_pl_fix(root);
+		root.set("GM", 1);
+		root.set("FF", 4);
+		root.set("CA", "UTF-8");
 	}
 
 	return ret;
@@ -176,48 +176,6 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 	}
 
 	throw new Error("SGF load error: reached end of input");
-}
-
-function apply_basic_props_fix(root) {
-	root.set("GM", 1);
-	root.set("FF", 4);
-	root.set("CA", "UTF-8");
-}
-
-function apply_komi_fix(root) {
-
-	let km = parseFloat(root.get("KM"));
-
-	if (Number.isNaN(km)) {
-		root.delete_key("KM");
-		return;
-	}
-
-	if (km > 150) {			// Fox, especially.
-		km /= 100;
-	}
-
-	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
-		km *= 2;
-	}
-
-	root.set("KM", km);
-}
-
-function apply_pl_fix(root) {
-
-	// In some ancient games, white plays first.
-	// Add a PL property to the root if so.
-
-	if (root.has_key("PL") || root.has_key("B") || root.has_key("W") || root.children.length === 0) {
-		return;
-	}
-
-	let node = root.children[0];
-
-	if (node.has_key("W") && !node.has_key("B")) {
-		root.set("PL", "W");
-	}
 }
 
 function is_utf8_alias(s) {
