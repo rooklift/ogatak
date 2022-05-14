@@ -53,16 +53,11 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 	}
 }
 
-// If we get a second-instance event, add more files to open...
+// If we get a second-instance event later, add more files to open...
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
 	queued_files = queued_files.concat(commandLine.slice(1));
 });
-
-// "This event is guaranteed to be emitted after the ready event of app gets emitted."
-// So we might think we can put this inside the whenReady().then() below, however it's
-// conceivable that "ready" already happened before we call whenReady(), in which case
-// setting up the handler for "second-instance" would then be too late...
 
 // --------------------------------------------------------------------------------------------------------------
 
