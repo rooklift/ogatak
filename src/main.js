@@ -29,16 +29,12 @@ const stringify = require("./modules/stringify");
 
 // --------------------------------------------------------------------------------------------------------------
 
+let win;						// Need to keep global references to every window we make. (Is that still true?)
 let menu = menu_build();
 let menu_is_set = false;
 let queued_files = [];
-let win;						// Need to keep global references to every window we make. (Is that still true?)
-
-// --------------------------------------------------------------------------------------------------------------
-// Contrived workaround allowing us to have these as accelerators without interfering with text editing...
-
-let spacebar_time = 0;
-let comma_time = 0;
+let spacebar_time = 0;			// Contrived workaround allowing us to have these as
+let comma_time = 0;				// accelerators without interfering with text editing
 
 // --------------------------------------------------------------------------------------------------------------
 // Make note of argv strings which could be files to open...
