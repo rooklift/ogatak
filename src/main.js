@@ -53,7 +53,7 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 	}
 }
 
-// If we get a second-instance event later, add more files to open...
+// We may get second-instance events at any time, add more files to open -- handled by queued_files_spinner()
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
 	queued_files = queued_files.concat(commandLine.slice(1));
