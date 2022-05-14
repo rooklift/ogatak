@@ -60,11 +60,13 @@ electron.app.on("second-instance", (event, commandLine, workingDirectory, additi
 });
 
 // "This event is guaranteed to be emitted after the ready event of app gets emitted."
-// So it would likely be ok to create the above handler below, inside the whenReady...
+// So we might think we can put this inside the whenReady().then() below, however it's
+// conceivable that "ready" already happened before we call whenReady(), in which case
+// setting up the handler for "second-instance" would then be too late...
 
 // --------------------------------------------------------------------------------------------------------------
 
-electron.app.whenReady().then(() => {
+electron.app.whenReady().then(() => {		// If "ready" event already happened, whenReady() fulfills immediately.
 
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
