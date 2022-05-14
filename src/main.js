@@ -40,13 +40,9 @@ let comma_time = 0;				// accelerators without interfering with text editing
 // Make note of argv strings which could be files to open...
 
 if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
-	if (process.argv.length > 2) {
-		queued_files = queued_files.concat(process.argv.slice(2));
-	}
+	queued_files = process.argv.slice(2);									// Possibly an empty slice
 } else {
-	if (process.argv.length > 1) {
-		queued_files = queued_files.concat(process.argv.slice(1));
-	}
+	queued_files = process.argv.slice(1);									// Possibly an empty slice
 }
 
 // We may get second-instance events at any time, add more files to open -- handled by queued_files_spinner()
@@ -57,7 +53,7 @@ electron.app.on("second-instance", (event, commandLine, workingDirectory, additi
 
 // --------------------------------------------------------------------------------------------------------------
 
-electron.app.whenReady().then(() => {		// If "ready" event already happened, whenReady() fulfills immediately.
+electron.app.whenReady().then(() => {					// If "ready" event already happened, whenReady() fulfills immediately.
 
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
@@ -73,7 +69,7 @@ electron.app.whenReady().then(() => {		// If "ready" event already happened, whe
 			contextIsolation: false,
 			nodeIntegration: true,
 			spellcheck: false,
-			zoomFactor: desired_zoomfactor			// Unreliable? See https://github.com/electron/electron/issues/10572
+			zoomFactor: desired_zoomfactor				// Unreliable? See https://github.com/electron/electron/issues/10572
 		}
 	});
 
