@@ -72,8 +72,7 @@ function load_ugi(buf) {
 
 			} else if (upper.startsWith("SIZE=")) {
 
-				const size_string = line.slice(5);
-
+				let size_string = line.slice(5);
 				let tmp = parseInt(size_string, 10);
 
 				if (!Number.isNaN(tmp) && tmp > 0 && tmp <= 19) {
