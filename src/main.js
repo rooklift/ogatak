@@ -60,17 +60,11 @@ electron.app.on("second-instance", (event, commandLine, workingDirectory, additi
 });
 
 // "This event is guaranteed to be emitted after the ready event of app gets emitted."
-// So it would likely be ok to create the above handler in our startup() function.
+// So it would likely be ok to create the above handler below, inside the whenReady...
 
 // --------------------------------------------------------------------------------------------------------------
 
 electron.app.whenReady().then(() => {
-	startup();
-});
-
-// --------------------------------------------------------------------------------------------------------------
-
-function startup() {
 
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
@@ -208,7 +202,7 @@ function startup() {
 		path.join(__dirname, "ogatak.html"),
 		{query: query}
 	);
-}
+});
 
 // --------------------------------------------------------------------------------------------------------------
 
