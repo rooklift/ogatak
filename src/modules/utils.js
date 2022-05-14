@@ -312,10 +312,14 @@ exports.do_load_alerts = function(size_rejections, errors) {
 			alert(`${errors.length} games were rejected due to errors.`);
 		}
 	} else if (errors.length === 1) {
+		let error_msg = errors[0].toString();		// errors[0] could be an Error or a string. (Is that true? Meh...)
+		if (error_msg.startsWith("Error: ")) {		// If it's an Error, it's toString() will generate "Error: Whatever"
+			error_msg = error_msg.slice(7);			// so we should slice it like so.
+		}
 		if (size_msg) {
-			alert(`${size_msg} Also, 1 other game was rejected because: ${errors[0].toString()}`);
+			alert(`${size_msg} Also, 1 other game was rejected because: ${error_msg}`);
 		} else {
-			alert(`Rejected 1 game because: ${errors[0].toString()}`);
+			alert(`Rejected 1 game because: ${error_msg}`);
 		}
 	} else if (size_msg) {
 		alert(size_msg);
