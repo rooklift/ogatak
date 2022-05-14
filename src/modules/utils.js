@@ -313,7 +313,7 @@ exports.do_load_alerts = function(size_rejections, errors) {
 		}
 	} else if (errors.length === 1) {
 		let error_msg = errors[0].toString();		// errors[0] could be an Error or a string. (Is that true? Meh...)
-		if (error_msg.startsWith("Error: ")) {		// If it's an Error, it's toString() will generate "Error: Whatever"
+		if (error_msg.startsWith("Error: ")) {		// If it's an Error, its toString() will generate "Error: Whatever"
 			error_msg = error_msg.slice(7);			// so we should slice it like so.
 		}
 		if (size_msg) {
