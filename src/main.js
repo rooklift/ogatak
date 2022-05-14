@@ -45,7 +45,7 @@ if (path.basename(process.argv[0]).toLowerCase().includes("electron")) {
 	queued_files = process.argv.slice(1);									// Possibly an empty slice
 }
 
-// We may get second-instance events at any time, add more files to open -- handled by queued_files_spinner()
+// We may get second-instance events at any time, which may add more files to open -- handled by queued_files_spinner()
 
 electron.app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
 	queued_files = queued_files.concat(commandLine.slice(1));
