@@ -51,9 +51,11 @@ const {node_id_from_search_id} = require("./utils");
 })();
 
 // ------------------------------------------------------------------------------------------------
-// Poll the window size; adjust our settings if needed. Does nothing if main.js has told us we are
-// maxed (by setting config.maxed). There is a race condition here -- the spinner might run after
-// the maximize but before hub has told us about it -- but meh.
+// Poll the window size; adjust our settings if needed.
+//
+// Since we are trying to store our non-maxed size, this does nothing if main.js has told us we are
+// maxed (by setting config.maxed). Therefore, when we DO max the window, something else has to
+// call autoset_square_size(), which is done in hub_settings.js.
 
 (function window_resize_spinner() {
 
