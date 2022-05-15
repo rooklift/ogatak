@@ -75,7 +75,7 @@ function load_ugi(buf) {
 				let size_string = line.slice(5);
 				let tmp = parseInt(size_string, 10);
 
-				if (!Number.isNaN(tmp) && tmp > 0 && tmp <= 19) {
+				if (!Number.isNaN(tmp) && tmp > 0) {
 					boardsize = tmp;
 					root.set("SZ", boardsize);
 				}
