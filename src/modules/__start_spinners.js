@@ -51,28 +51,20 @@ const {node_id_from_search_id} = require("./utils");
 })();
 
 // ------------------------------------------------------------------------------------------------
-// Poll the window size; adjust our settings if needed.
-//
-// Since we are trying to store our non-maxed size, this does nothing if main.js has told us we are
-// maxed (by setting config.maxed). Therefore, when we DO max the window, something else has to
-// call autoset_square_size(), which is done in hub_settings.js.
 
 (function window_resize_spinner() {
 
 	if (!config.maxed) {
-
 		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
-
 			config.width = window.innerWidth;
 			config.height = window.innerHeight;
-
-			if (config.auto_square_size) {
-				hub.autoset_square_size();
-			}
 		}
 	}
 
+	hub.redraw_if_desired_square_size_mismatch();
+
 	setTimeout(window_resize_spinner, 127);
+
 })();
 
 // ------------------------------------------------------------------------------------------------

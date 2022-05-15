@@ -47,6 +47,8 @@ function init() {
 		htmltable:     document.getElementById("boardtable"),
 		canvas:        document.getElementById("boardcanvas"),
 		infodiv:       document.getElementById("boardinfo"),
+		info1span:     document.getElementById("info1"),
+		info2span:     document.getElementById("info2"),
 
 		ctx: document.getElementById("boardcanvas").getContext("2d"),
 		ownerctx: document.getElementById("ownershipcanvas").getContext("2d"),
@@ -59,11 +61,12 @@ function init() {
 		wood_helps: new_2d_array(19, 19, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
 		wood_helps_are_valid: false,				// Whether ownership canvas was drawn to since last clear. If not, above array is ignored.
 
-		width: null,
-		height: null,								
-		square_size: null,							// We need to store width and height... the other things are mostly stored so
-		board_line_width: null,						// we can detect when they don't match config and a rebuild() call is needed.
-		grid_colour: null,
+		width: null,								// We need to store width, height, and square_size
+		height: null,
+		square_size: null,
+		
+		board_line_width: null,						// This other stuff is stored so we can detect when they 
+		grid_colour: null,							// don't match config and a rebuild() call is needed.
 
 	});
 
@@ -91,16 +94,17 @@ let board_drawer_prototype = {
 			}
 		}
 
-		// Obviously we want to save the width and height, but we also save the state of relevant config
-		// vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
+		// Obviously we want to save the width / height / square_size... but we also save the state of relevant
+		// config vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
 
 		this.width = width;
 		this.height = height;
-		this.square_size = config.square_size;
+		this.square_size = this.desired_square_size(width, height);
+
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
-		let png = background(this.width, this.height, config.square_size, config.board_line_width, config.grid_colour);
+		let png = background(this.width, this.height, this.square_size, config.board_line_width, config.grid_colour);
 		this.htmltable.style["background-image"] = `url("${png}")`;
 
 		this.htmltable.innerHTML = "";
@@ -112,8 +116,8 @@ let board_drawer_prototype = {
 				let td = document.createElement("td");
 				let s = xy_to_s(x, y);
 				td.className = "td_" + s;
-				td.width = config.square_size;
-				td.height = config.square_size;
+				td.width = this.square_size;
+				td.height = this.square_size;
 				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);	// Add "mouseenter" handler to the TD element.
 				tr.appendChild(td);
 			}
@@ -129,28 +133,33 @@ let board_drawer_prototype = {
 		this.wood_helps_are_valid = false;
 		this.pv = null;
 
-		this.backgrounddiv.style.width = (this.width * config.square_size).toString() + "px";
-		this.backgrounddiv.style.height = (this.height * config.square_size).toString() + "px";
+		this.backgrounddiv.style.width = (this.width * this.square_size).toString() + "px";
+		this.backgrounddiv.style.height = (this.height * this.square_size).toString() + "px";
 
-		this.htmltable.style.width = (this.width * config.square_size).toString() + "px";
-		this.htmltable.style.height = (this.height * config.square_size).toString() + "px";
+		this.htmltable.style.width = (this.width * this.square_size).toString() + "px";
+		this.htmltable.style.height = (this.height * this.square_size).toString() + "px";
 
-		this.canvas.width = Math.max(19, this.width) * config.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
-		this.canvas.height = Math.max(19, this.height) * config.square_size;	// makes other elements like the graph stay put when the board is smaller.
+		this.canvas.width = Math.max(this.width, this.height, 19) * this.square_size;
+		this.canvas.height = Math.max(this.width, this.height, 19) * this.square_size;
 
 		this.ownercanvas.width = this.canvas.width;
 		this.ownercanvas.height = this.canvas.height;
 	},
 
-	rebuild_if_needed(board) {
+	rebuild_if_needed: function(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== config.square_size ||
+			this.square_size !== this.desired_square_size(board.width, board.height) ||
 			this.board_line_width !== config.board_line_width ||
 			this.grid_colour !== config.grid_colour
 		) {
 			this.rebuild(board.width, board.height);
 		}
+	},
+
+	desired_square_size: function(width, height) {
+		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
+		return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
 	},
 
 	set_infodiv_font_size: function(value) {
@@ -164,70 +173,70 @@ let board_drawer_prototype = {
 	fcircle: function(x, y, fraction, colour) {
 		let ctx = this.ctx;
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
 		ctx.beginPath();
-		ctx.arc(gx, gy, fraction * config.square_size / 2, 0, 2 * Math.PI);
+		ctx.arc(gx, gy, fraction * this.square_size / 2, 0, 2 * Math.PI);
 		ctx.fill();
 	},
 
 	circle: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
-		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
 		ctx.beginPath();
-		ctx.arc(gx, gy, (fraction * config.square_size / 2) - (line_fraction * config.square_size / 2), 0, 2 * Math.PI);
+		ctx.arc(gx, gy, (fraction * this.square_size / 2) - (line_fraction * this.square_size / 2), 0, 2 * Math.PI);
 		ctx.stroke();
 	},
 
 	fsquare: function(x, y, fraction, colour, ownership_canvas_flag) {
 		let ctx = !ownership_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
-		let gy = y * config.square_size + (config.square_size / 2) - (config.square_size * fraction / 2);
-		ctx.fillRect(gx, gy, config.square_size * fraction, config.square_size * fraction);
+		let gx = x * this.square_size + (this.square_size / 2) - (this.square_size * fraction / 2);
+		let gy = y * this.square_size + (this.square_size / 2) - (this.square_size * fraction / 2);
+		ctx.fillRect(gx, gy, this.square_size * fraction, this.square_size * fraction);
 	},
 
 	square: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
-		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
 		ctx.beginPath();
-		ctx.moveTo(gx - (fraction * config.square_size / 2), gy - (fraction * config.square_size / 2));
-		ctx.lineTo(gx + (fraction * config.square_size / 2), gy - (fraction * config.square_size / 2));
-		ctx.lineTo(gx + (fraction * config.square_size / 2), gy + (fraction * config.square_size / 2));
-		ctx.lineTo(gx - (fraction * config.square_size / 2), gy + (fraction * config.square_size / 2));
+		ctx.moveTo(gx - (fraction * this.square_size / 2), gy - (fraction * this.square_size / 2));
+		ctx.lineTo(gx + (fraction * this.square_size / 2), gy - (fraction * this.square_size / 2));
+		ctx.lineTo(gx + (fraction * this.square_size / 2), gy + (fraction * this.square_size / 2));
+		ctx.lineTo(gx - (fraction * this.square_size / 2), gy + (fraction * this.square_size / 2));
 		ctx.closePath();
 		ctx.stroke();
 	},
 
 	cross: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
-		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
 		ctx.beginPath();
-		ctx.moveTo(gx - (config.square_size * fraction / 2), gy - (config.square_size * fraction / 2));
-		ctx.lineTo(gx + (config.square_size * fraction / 2), gy + (config.square_size * fraction / 2));
+		ctx.moveTo(gx - (this.square_size * fraction / 2), gy - (this.square_size * fraction / 2));
+		ctx.lineTo(gx + (this.square_size * fraction / 2), gy + (this.square_size * fraction / 2));
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.moveTo(gx - (config.square_size * fraction / 2), gy + (config.square_size * fraction / 2));
-		ctx.lineTo(gx + (config.square_size * fraction / 2), gy - (config.square_size * fraction / 2));
+		ctx.moveTo(gx - (this.square_size * fraction / 2), gy + (this.square_size * fraction / 2));
+		ctx.lineTo(gx + (this.square_size * fraction / 2), gy - (this.square_size * fraction / 2));
 		ctx.stroke();
 	},
 
 	triangle: function(x, y, line_fraction, fraction, colour) {
 		let ctx = this.ctx;
-		ctx.lineWidth = line_fraction * config.square_size;
+		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
-		let unit = config.square_size * fraction / 2;
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
+		let unit = this.square_size * fraction / 2;
 		ctx.beginPath();
 		ctx.moveTo(gx, 1 + gy - unit);
 		ctx.lineTo(gx + unit * 0.866, 1 + gy + unit / 2);
@@ -242,8 +251,8 @@ let board_drawer_prototype = {
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 2);
 		ctx.fillText(msg, gx, gy + 1);
 	},
 
@@ -253,10 +262,10 @@ let board_drawer_prototype = {
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
-		let gy = y * config.square_size + (config.square_size / 3) - 0.5;
+		let gx = x * this.square_size + (this.square_size / 2);
+		let gy = y * this.square_size + (this.square_size / 3) - 0.5;
 		ctx.fillText(msg, gx, gy + 1);
-		gy = y * config.square_size + (config.square_size * 2 / 3) + 0.5;
+		gy = y * this.square_size + (this.square_size * 2 / 3) + 0.5;
 		ctx.fillText(msg2, gx, gy + 1);
 	},
 
@@ -266,14 +275,14 @@ let board_drawer_prototype = {
 		ctx.textBaseline = "middle";
 		ctx.font = `${config.board_font_size}px Arial`;
 		ctx.fillStyle = colour;
-		let gx = x * config.square_size + (config.square_size / 2);
+		let gx = x * this.square_size + (this.square_size / 2);
 		let gy;
 		
-		gy = y * config.square_size + (config.square_size * 0.22);
+		gy = y * this.square_size + (this.square_size * 0.22);
 		ctx.fillText(msg, gx, gy + 1);
-		gy = y * config.square_size + (config.square_size * 0.5);
+		gy = y * this.square_size + (this.square_size * 0.5);
 		ctx.fillText(msg2, gx, gy + 1);
-		gy = y * config.square_size + (config.square_size * 0.78);
+		gy = y * this.square_size + (this.square_size * 0.78);
 		ctx.fillText(msg3, gx, gy + 1);
 	},
 
@@ -848,21 +857,20 @@ let board_drawer_prototype = {
 			numbers_string = config.numbers.split(" + ").join(", ");
 		}
 
-		let s = "";
+		let s1 = "";
+		let s2 = "";
 
 		// Note the boardinfo_ prefix is used in __start_handlers.js
 
-		s += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
-		s += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
+		s1 += `<span class="boardinfo_rules">Rules: <span class="white">${pad(board.rules, 16)}</span></span>`;
+		s1 += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
 
 		if (config.mode) {
-			s += `<span class="yellow boardinfo_mode">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;
+			s1 += `<span class="yellow boardinfo_mode">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;
 		} else {
-			s += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-			s += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+			s1 += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
+			s1 += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
 		}
-
-		s += "<br>";
 
 		let move = "";
 		let score = "";
@@ -885,17 +893,19 @@ let board_drawer_prototype = {
 		let bw_string = (board.active === "b") ? `[<span class="white">B</span>|W]` : `[B|<span class="white">W</span>]`;
 		let capstring = `${board.caps_by_b} | ${board.caps_by_w}`;
 
-		s += `<span class="boardinfo_active">${bw_string}</span> +caps: <span class="white">${pad(capstring, 9)}</span>`;
-		s += `Score: <span class="white">${pad(score, 8)}</span>`;
-		s += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
-		s += `Visits: <span class="white">${pad(visits, 15)}</span>`;
+		s2 += `<span class="boardinfo_active">${bw_string}</span> +caps: <span class="white">${pad(capstring, 9)}</span>`;
+		s2 += `Score: <span class="white">${pad(score, 8)}</span>`;
+		s2 += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
+		s2 += `Visits: <span class="white">${pad(visits, 15)}</span>`;
 
-		this.infodiv.innerHTML = s;
+		this.info1span.innerHTML = s1;
+		this.info2span.innerHTML = s2;
 	},
 
 	draw_engine_problem: function() {
 		let s = hub.engine.problem_text();
-		this.infodiv.innerHTML = `<span class="white">${s}<br>Resolve this via the Setup menu.</span>`;
+		this.info1span.innerHTML = `<span class="white">${s}</span>`;
+		this.info2span.innerHTML = `<span class="white">Resolve this via the Setup menu.</span>`;
 	},
 
 };

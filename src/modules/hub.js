@@ -818,11 +818,10 @@ let hub_main_props = {
 
 	// Misc........................................................................................
 
-	autoset_square_size: function() {
-		let dy = window.innerHeight - board_drawer.canvas.getBoundingClientRect().top;
-		let ss = Math.max(10, Math.floor((dy - 8) / 19));
-		if (ss !== config.square_size) {
-			this.set("square_size", ss);
+	redraw_if_desired_square_size_mismatch: function() {
+		let desired = board_drawer.desired_square_size(this.node.get_board().width, this.node.get_board().height);
+		if (board_drawer.square_size !== desired) {
+			this.draw();
 		}
 	},
 
