@@ -61,11 +61,12 @@ function init() {
 		wood_helps: new_2d_array(19, 19, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
 		wood_helps_are_valid: false,				// Whether ownership canvas was drawn to since last clear. If not, above array is ignored.
 
-		width: null,
-		height: null,								
+		width: null,								// We need to store width, height, and square_size
+		height: null,
 		square_size: null,
-		board_line_width: null,
-		grid_colour: null,
+		
+		board_line_width: null,						// This other stuff is stored so we can detect when they 
+		grid_colour: null,							// don't match config and a rebuild() call is needed.
 
 	});
 
