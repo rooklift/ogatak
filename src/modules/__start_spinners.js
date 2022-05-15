@@ -51,11 +51,20 @@ const {node_id_from_search_id} = require("./utils");
 })();
 
 // ------------------------------------------------------------------------------------------------
-// TODO - 
 
 (function window_resize_spinner() {
+
+	if (!config.maxed) {
+		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
+			config.width = window.innerWidth;
+			config.height = window.innerHeight;
+		}
+	}
+
 	hub.redraw_if_desired_square_size_mismatch();
+
 	setTimeout(window_resize_spinner, 127);
+
 })();
 
 // ------------------------------------------------------------------------------------------------
