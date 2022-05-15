@@ -98,10 +98,7 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
-
-		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
-
-		this.square_size = Math.max(10, Math.floor((dy - 8) / Math.max(width, height)));
+		this.square_size = desired_square_size(this.canvas, width, height);
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
@@ -140,8 +137,8 @@ let board_drawer_prototype = {
 		this.htmltable.style.width = (this.width * this.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * this.square_size).toString() + "px";
 
-		this.canvas.width = Math.max(19, this.width) * this.square_size;		// We force the canvas to be at least big enough for a 19x19 board, this
-		this.canvas.height = Math.max(19, this.height) * this.square_size;	// makes other elements like the graph stay put when the board is smaller.
+		this.canvas.width = Math.max(this.width, this.height, 19) * this.square_size;
+		this.canvas.height = Math.max(this.width, this.height, 19) * this.square_size;
 
 		this.ownercanvas.width = this.canvas.width;
 		this.ownercanvas.height = this.canvas.height;
@@ -150,7 +147,7 @@ let board_drawer_prototype = {
 	rebuild_if_needed(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== this.square_size ||							// FIXME / TODO
+			this.square_size !== desired_square_size(this.canvas, board.width, board.height) ||
 			this.board_line_width !== config.board_line_width ||
 			this.grid_colour !== config.grid_colour
 		) {
@@ -907,6 +904,11 @@ let board_drawer_prototype = {
 };
 
 // ------------------------------------------------------------------------------------------------
+
+function desired_square_size(canvas, width, height) {
+	let dy = window.innerHeight - canvas.getBoundingClientRect().top;
+	return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
+}
 
 function mark_colour_from_state(state, dflt) {
 	if (!dflt) throw new Error("mark_colour_from_state(): bad call");
