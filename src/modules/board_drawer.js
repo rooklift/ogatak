@@ -93,12 +93,13 @@ let board_drawer_prototype = {
 			}
 		}
 
-		// Obviously we want to save the width and height, but we also save the state of relevant config
-		// vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
+		// Obviously we want to save the width / height / square_size... but we also save the state of relevant
+		// config vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
 
 		this.width = width;
 		this.height = height;
 		this.square_size = this.desired_square_size(width, height);
+
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
