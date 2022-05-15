@@ -63,7 +63,7 @@ board_drawer.htmltable.addEventListener("mousedown", (event) => {
 
 // Clicking on the boardinfo...
 
-board_drawer.info1span.addEventListener("mousedown", (event) => {
+board_drawer.infodiv.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	let s = event_path_class_string(event, "boardinfo_");
 	if (s === "rules") {
@@ -74,13 +74,7 @@ board_drawer.info1span.addEventListener("mousedown", (event) => {
 		hub.cycle_numbers(event.which !== 1);
 	} else if (s === "mode") {
 		hub.cycle_mode(event.which !== 1);
-	}
-});
-
-board_drawer.info2span.addEventListener("mousedown", (event) => {
-	event.preventDefault();
-	let s = event_path_class_string(event, "boardinfo_");
-	if (s === "active") {
+	} else if (s === "active") {
 		hub.toggle_active_player();
 	}
 });
