@@ -63,8 +63,8 @@ function init() {
 
 		width: null,
 		height: null,								
-		square_size: null,							// We need to store width and height... the other things are mostly stored so
-		board_line_width: null,						// we can detect when they don't match config and a rebuild() call is needed.
+		square_size: null,
+		board_line_width: null,
 		grid_colour: null,
 
 	});
