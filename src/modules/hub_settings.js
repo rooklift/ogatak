@@ -98,12 +98,7 @@ module.exports = {
 
 			// Changing the infodiv font will affect the space left for the board, thus...
 
-			this.autoset_square_size();
-			break;
-
-		case "maxed":							// This is a rather special setting.
-
-			this.autoset_square_size();
+			this.redraw_if_desired_square_size_mismatch();
 			break;
 
 		case "wood_colour":

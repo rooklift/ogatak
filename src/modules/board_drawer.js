@@ -98,7 +98,7 @@ let board_drawer_prototype = {
 
 		this.width = width;
 		this.height = height;
-		this.square_size = desired_square_size(this.canvas, width, height);
+		this.square_size = this.desired_square_size(width, height);
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
@@ -144,15 +144,20 @@ let board_drawer_prototype = {
 		this.ownercanvas.height = this.canvas.height;
 	},
 
-	rebuild_if_needed(board) {
+	rebuild_if_needed: function(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== desired_square_size(this.canvas, board.width, board.height) ||
+			this.square_size !== this.desired_square_size(board.width, board.height) ||
 			this.board_line_width !== config.board_line_width ||
 			this.grid_colour !== config.grid_colour
 		) {
 			this.rebuild(board.width, board.height);
 		}
+	},
+
+	desired_square_size: function(width, height) {
+		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
+		return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
 	},
 
 	set_infodiv_font_size: function(value) {
@@ -904,11 +909,6 @@ let board_drawer_prototype = {
 };
 
 // ------------------------------------------------------------------------------------------------
-
-function desired_square_size(canvas, width, height) {
-	let dy = window.innerHeight - canvas.getBoundingClientRect().top;
-	return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
-}
 
 function mark_colour_from_state(state, dflt) {
 	if (!dflt) throw new Error("mark_colour_from_state(): bad call");

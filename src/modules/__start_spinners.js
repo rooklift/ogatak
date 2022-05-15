@@ -54,7 +54,7 @@ const {node_id_from_search_id} = require("./utils");
 // TODO - 
 
 (function window_resize_spinner() {
-	hub.autoset_square_size();
+	hub.redraw_if_desired_square_size_mismatch();
 	setTimeout(window_resize_spinner, 127);
 })();
 

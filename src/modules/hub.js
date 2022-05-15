@@ -818,10 +818,11 @@ let hub_main_props = {
 
 	// Misc........................................................................................
 
-	autoset_square_size: function() {
-
-		// TODO - replace this with a function that calls draw if needed.
-
+	redraw_if_desired_square_size_mismatch: function() {
+		let desired = board_drawer.desired_square_size(this.node.get_board().width, this.node.get_board().height);
+		if (board_drawer.square_size !== desired) {
+			this.draw();
+		}
 	},
 
 	quit: function() {
