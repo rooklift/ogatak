@@ -83,7 +83,7 @@ exports.defaults = {
 	"ownership_marks": "Dead stones",			// Lame stringly typed
 	"ownership_per_move": true,
 
-	"zobrist_checks": false,
+	"zobrist_checks": true,
 
 	"disable_hw_accel": false,
 	"logfile": null,
