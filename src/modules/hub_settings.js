@@ -12,7 +12,6 @@ const multichecks = {
 	ownership_marks:		["Analysis", "Ownership"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
-	square_size:			["Sizes", "Board squares"],
 	board_font_size:		["Sizes", "Board font"],
 	board_line_width:		["Sizes", "Board lines"],
 	info_font_size:			["Sizes", "Info font"],
@@ -33,7 +32,6 @@ const togglechecks = {
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...fade by visits"],
 	next_move_markers:		["Display", "Next move markers"],
-	auto_square_size:		["Sizes", "Auto-resize squares"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
 	disable_hw_accel:		["Misc", "Disable hardware acceleration for GUI"],
@@ -100,17 +98,12 @@ module.exports = {
 
 			// Changing the infodiv font will affect the space left for the board, thus...
 
-			if (config.auto_square_size) {
-				this.autoset_square_size();
-			}
+			this.autoset_square_size();
 			break;
 
-		case "auto_square_size":
 		case "maxed":							// This is a rather special setting.
 
-			if (config.auto_square_size) {
-				this.autoset_square_size();
-			}
+			this.autoset_square_size();
 			break;
 
 		case "wood_colour":
@@ -120,7 +113,6 @@ module.exports = {
 			break;
 
 		case "mode":
-		case "square_size":
 		case "board_font_size":
 		case "board_line_width":
 		case "grid_colour":

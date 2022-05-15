@@ -40,8 +40,6 @@ exports.defaults = {
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
 
-	"square_size": 36,
-
 	"info_font_size": 16,
 
 	"board_font_size": 14,
@@ -92,7 +90,6 @@ exports.defaults = {
 	"width": 1333,
 	"height": 780,
 	"maxed": false,
-	"auto_square_size": true,
 	"load_at_end": true,
 	"guess_ruleset": false,
 	"autoanalysis_visits": 500,
