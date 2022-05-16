@@ -98,6 +98,11 @@ module.exports = {
 			// Changing the infodiv font will affect the space left for the board, thus...
 
 			this.redraw_if_desired_square_size_mismatch();
+
+			// It can also push the comment box offscreen...
+
+			comment_drawer.textarea.blur();
+
 			break;
 
 		case "wood_colour":
