@@ -150,6 +150,14 @@ window.addEventListener("mousedown", (event) => {
 	}
 });
 
+// Resizing the window can push the comment box offscreen, so it needs blurred...
+
+window.addEventListener("resize", () => {
+	if (document.activeElement === comment_drawer.textarea) {
+		comment_drawer.textarea.blur();
+	}
+});
+
 // Various keys have been observed to move scrollbars when we don't want them to, so intercept them...
 
 window.addEventListener("keydown", (event) => {
