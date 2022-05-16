@@ -54,6 +54,9 @@ const {node_id_from_search_id} = require("./utils");
 
 (function window_resize_spinner() {
 
+	// There is likely a race here, as we might notice the window has changed size before the hub
+	// has received a notification from main.js to change the value of "maxed" ... meh.
+
 	if (!config.maxed) {
 		if (config.width !== window.innerWidth || config.height !== window.innerHeight) {
 			config.width = window.innerWidth;
