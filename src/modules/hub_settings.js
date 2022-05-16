@@ -144,9 +144,14 @@ module.exports = {
 		case "major_graph_colour":
 		case "major_graph_var_colour":
 		case "midline_graph_colour":
+
+			grapher.draw_graph(this.node);
+			break;
+
 		case "graph_width":
 
 			grapher.draw_graph(this.node);
+			comment_drawer.textarea.blur();				// In case it's been pushed offscreen.
 			break;
 
 		case "tree_spacing":
