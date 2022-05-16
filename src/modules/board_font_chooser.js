@@ -63,7 +63,6 @@ function precompute_font_sizes(text) {
 		let wants_bigger = Math.floor(test_text_width / 0.59); 			// The first square_size that will be assigned a bigger font_size.
 		for (let i = ret.length; i < wants_bigger; i++) {				// So any missing values before that should be set to f.
 			ret.push(f);
-			console.log(i, f, wants_bigger, test_text_width);
 		}
 	}
 
