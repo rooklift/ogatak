@@ -280,7 +280,7 @@ let board_drawer_prototype = {
 		let gy;
 		
 		gy = y * this.square_size + (this.square_size * 0.22);
-		ctx.fillText(msg, gx, gy + 1);
+		ctx.fillText(msg, gx, gy);
 		gy = y * this.square_size + (this.square_size * 0.5);
 		ctx.fillText(msg2, gx, gy + 1);
 		gy = y * this.square_size + (this.square_size * 0.78);
