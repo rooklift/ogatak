@@ -15,6 +15,7 @@
 //  - Flicker introduced by death marks when stepping forward.
 
 const background = require("./background");
+const board_font_chooser = require("./board_font_chooser");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 const {get_ownership_colours} = require("./ownership_colours");
 
@@ -249,7 +250,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.font = board_font_chooser.get_big(this.square_size);
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy = y * this.square_size + (this.square_size / 2);
@@ -260,7 +261,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.font = board_font_chooser.get_big(this.square_size);
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy = y * this.square_size + (this.square_size / 3) - 0.5;
@@ -273,7 +274,7 @@ let board_drawer_prototype = {
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = `${config.board_font_size}px Arial`;
+		ctx.font = board_font_chooser.get_small(this.square_size);
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy;

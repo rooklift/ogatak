@@ -12,7 +12,6 @@ const multichecks = {
 	ownership_marks:		["Analysis", "Ownership"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
-	board_font_size:		["Sizes", "Board font"],
 	board_line_width:		["Sizes", "Board lines"],
 	info_font_size:			["Sizes", "Info font"],
 	graph_width:			["Sizes", "Graph width"],
@@ -108,7 +107,6 @@ module.exports = {
 			break;
 
 		case "mode":
-		case "board_font_size":
 		case "board_line_width":
 		case "grid_colour":
 		case "top_colour_black":
