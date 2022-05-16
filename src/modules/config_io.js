@@ -41,6 +41,7 @@ exports.defaults = {
 	"grid_colour": "#000000ff",
 
 	"info_font_size": 16,
+	"board_font_override": null,
 
 	"top_colour_black": colour_choices.blue,
 	"top_colour_white": colour_choices.blue,

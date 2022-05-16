@@ -107,6 +107,7 @@ module.exports = {
 			break;
 
 		case "mode":
+		case "board_font_override":
 		case "board_line_width":
 		case "grid_colour":
 		case "top_colour_black":

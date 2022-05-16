@@ -9,20 +9,41 @@ module.exports = {
 	font_size_lookups_small: precompute_font_sizes("1111"),
 
 	get_big(square_size) {
-		if (square_size < 0) square_size = 0;
-		if (square_size >= this.font_size_lookups_big.length) square_size = this.font_size_lookups_big.length - 1;
+		if (typeof config.board_font_override === "string" && config.board_font_override !== "") {
+			return config.board_font_override;
+		}
+		if (square_size < 0) {
+			square_size = 0;
+		}
+		if (square_size >= this.font_size_lookups_big.length) {
+			square_size = this.font_size_lookups_big.length - 1;
+		}
 		return this.font_size_lookups_big[square_size].toString() + "px Arial";
 	},
 
 	get_medium(square_size) {
-		if (square_size < 0) square_size = 0;
-		if (square_size >= this.font_size_lookups_medium.length) square_size = this.font_size_lookups_medium.length - 1;
+		if (typeof config.board_font_override === "string" && config.board_font_override !== "") {
+			return config.board_font_override;
+		}
+		if (square_size < 0) {
+			square_size = 0;
+		}
+		if (square_size >= this.font_size_lookups_medium.length) {
+			square_size = this.font_size_lookups_medium.length - 1;
+		}
 		return this.font_size_lookups_medium[square_size].toString() + "px Arial";
 	},
 
 	get_small(square_size) {
-		if (square_size < 0) square_size = 0;
-		if (square_size >= this.font_size_lookups_small.length) square_size = this.font_size_lookups_small.length - 1;
+		if (typeof config.board_font_override === "string" && config.board_font_override !== "") {
+			return config.board_font_override;
+		}
+		if (square_size < 0) {
+			square_size = 0;
+		}
+		if (square_size >= this.font_size_lookups_small.length) {
+			square_size = this.font_size_lookups_small.length - 1;
+		}
 		return this.font_size_lookups_small[square_size].toString() + "px Arial";
 	},
 };
