@@ -4,27 +4,32 @@
 
 module.exports = {
 
-	font_size_lookups_big: precompute_font_sizes("999"),
+	font_size_lookups_big: precompute_font_sizes("111"),
+	font_size_lookups_medium: precompute_font_sizes("999"),
 	font_size_lookups_small: precompute_font_sizes("1999"),
-
-	get_small(square_size) {
-		if (square_size < 0) square_size = 0;
-		if (square_size >= this.font_size_lookups_small.length) square_size = this.font_size_lookups_small.length - 1;
-		return this.font_size_lookups_small[square_size].toString() + "px Arial";
-	},
 
 	get_big(square_size) {
 		if (square_size < 0) square_size = 0;
 		if (square_size >= this.font_size_lookups_big.length) square_size = this.font_size_lookups_big.length - 1;
 		return this.font_size_lookups_big[square_size].toString() + "px Arial";
 	},
+
+	get_medium(square_size) {
+		if (square_size < 0) square_size = 0;
+		if (square_size >= this.font_size_lookups_medium.length) square_size = this.font_size_lookups_medium.length - 1;
+		return this.font_size_lookups_medium[square_size].toString() + "px Arial";
+	},
+
+	get_small(square_size) {
+		if (square_size < 0) square_size = 0;
+		if (square_size >= this.font_size_lookups_small.length) square_size = this.font_size_lookups_small.length - 1;
+		return this.font_size_lookups_small[square_size].toString() + "px Arial";
+	},
 };
 
 function precompute_font_sizes(text) {
 
 	let c = document.createElement("canvas");
-	c.width = 256;
-	c.height = 256;
 	let ctx = c.getContext("2d");
 
 	let widths = [0];

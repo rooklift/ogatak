@@ -254,14 +254,14 @@ let board_drawer_prototype = {
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy = y * this.square_size + (this.square_size / 2);
-		ctx.fillText(msg, gx, gy + 1);
+		ctx.fillText(msg, gx, gy + 2);
 	},
 
 	text_two: function(x, y, msg, msg2, colour) {
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
-		ctx.font = board_font_chooser.get_big(this.square_size);
+		ctx.font = board_font_chooser.get_medium(this.square_size);
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy = y * this.square_size + (this.square_size / 3) - 0.5;
