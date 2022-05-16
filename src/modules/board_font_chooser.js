@@ -6,7 +6,7 @@ module.exports = {
 
 	font_size_lookups_big: precompute_font_sizes("111"),
 	font_size_lookups_medium: precompute_font_sizes("999"),
-	font_size_lookups_small: precompute_font_sizes("1999"),
+	font_size_lookups_small: precompute_font_sizes("1111"),
 
 	get_big(square_size) {
 		if (square_size < 0) square_size = 0;
@@ -29,29 +29,20 @@ module.exports = {
 
 function precompute_font_sizes(text) {
 
+	// Return value will be an array giving lookups for   square_size --> font_size
+
 	let c = document.createElement("canvas");
 	let ctx = c.getContext("2d");
 
-	let widths = [0];
-
-	for (let f = 1; f < 128; f++) {
-		ctx.font = `${f}px Arial`;
-		widths.push(ctx.measureText(text).width);
-	}
-
-	let choose_font_size = (ss) => {
-		for (let f = 0; f < widths.length; f++) {
-			if (widths[f] > ss * 0.61) {
-				return f;
-			}
-		}
-		return widths.length;
-	}
-
 	let ret = [];
 
-	for (let ss = 0; ss < 512; ss++) {
-		ret.push(choose_font_size(ss));
+	for (let f = 0; f < 128; f++) {
+		ctx.font = `${f}px Arial`;
+		let test_text_width = ctx.measureText(text).width;
+		let smallest_unable = Math.floor(test_text_width / 0.59); 			// The smallest square_size that cannot handle this font size.
+		for (let i = ret.length; i < smallest_unable; i++) {
+			ret.push(f);
+		}
 	}
 
 	return ret;
