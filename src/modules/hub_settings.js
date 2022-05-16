@@ -83,7 +83,7 @@ module.exports = {
 			} else if (debug_missing_handlers) {
 				// Do nothing, the call was for debugging reasons.
 			} else {
-				this.start_engine();			// Won't do anything unless all 3 settings are valid.
+				this.start_engine();				// Won't do anything unless all 3 settings are valid.
 			}
 			break;
 
@@ -135,6 +135,7 @@ module.exports = {
 		case "thumbnail_square_size":
 
 			tabber.draw_everything(this.node);
+			comment_drawer.textarea.blur();			// In case it's been pushed offscreen.
 			break;
 
 		case "graph_type":
@@ -151,7 +152,7 @@ module.exports = {
 		case "graph_width":
 
 			grapher.draw_graph(this.node);
-			comment_drawer.textarea.blur();				// In case it's been pushed offscreen.
+			comment_drawer.textarea.blur();			// In case it's been pushed offscreen.
 			break;
 
 		case "tree_spacing":
