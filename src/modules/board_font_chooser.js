@@ -60,9 +60,10 @@ function precompute_font_sizes(text) {
 	for (let f = 0; f < 128; f++) {
 		ctx.font = `${f}px Arial`;
 		let test_text_width = ctx.measureText(text).width;
-		let smallest_unable = Math.floor(test_text_width / 0.59); 			// The smallest square_size that cannot handle this font size.
-		for (let i = ret.length; i < smallest_unable; i++) {
+		let wants_bigger = Math.floor(test_text_width / 0.59); 			// The first square_size that will be assigned a bigger font_size.
+		for (let i = ret.length; i < wants_bigger; i++) {				// So any missing values before that should be set to f.
 			ret.push(f);
+			console.log(i, f, wants_bigger, test_text_width);
 		}
 	}
 
