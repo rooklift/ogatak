@@ -16,6 +16,7 @@ function new_query(query_node, engine) {
 	let o = {
 
 		id: `${query_node.id}:${next_query_id++}`,
+		
 		rules: (board.rules === "Unknown") ? config.default_rules : board.rules,
 		komi: board.komi,
 		boardXSize: board.width,
