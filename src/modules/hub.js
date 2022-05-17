@@ -586,7 +586,7 @@ let hub_main_props = {
 	forget_analysis_tree: function() {
 		this.halt();
 		this.node.forget_analysis_tree();
-		this.node.change_id();									// Prevents update from engine.
+		this.node.change_id();									// Prevents the old query from updating the node.
 		this.draw();
 	},
 
@@ -887,7 +887,7 @@ let hub_main_props = {
 	toggle_active_player: function() {
 		this.node.forget_analysis();
 		this.node.toggle_player_to_move();	// May add or remove a PL tag in the current node.
-		this.node.change_id();				// Prevents engine.js thinking the old query is still valid. Prevents the old query from updating the node.
+		this.node.change_id();				// Prevents the old query from updating the node.
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -1012,7 +1012,7 @@ let hub_main_props = {
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
 				this.node.apply_board_edit(config.mode, s);
-				this.node.change_id();							// Prevents stale analysis updates. Prevents tabber from skipping its draw.
+				this.node.change_id();							// Prevents the old query from updating the node. Prevents tabber from skipping its draw.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
