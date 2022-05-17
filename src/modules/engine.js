@@ -9,7 +9,7 @@ const {ipcRenderer} = require("electron");
 const log = require("./log");
 const stringify = require("./stringify");
 const {parse_version, compare_versions} = require("./utils");
-const {base_query, finalise_query, full_query_matches_base} = require("./query");
+const {new_query, compare_queries} = require("./query");
 
 const bad_versions = [			// Versions of KataGo which are somehow broken.
 	[1, 9, 0],
@@ -75,15 +75,14 @@ let engine_prototype = {
 
 		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
 
-		let query = base_query(node, this);
+		let query = new_query(node, this);
 
 		if (this.desired) {											// We could skip this test honestly.
-			if (full_query_matches_base(this.desired, query)) {
+			if (compare_queries(this.desired, query)) {
 				return;												// Everything matches; the search desired is already set as such.
 			}
 		}
 
-		finalise_query(query, node);
 		this.desired = query;
 
 		if (this.running) {

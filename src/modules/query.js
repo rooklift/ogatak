@@ -4,7 +4,7 @@ const {node_id_from_search_id, compare_versions} = require("./utils");
 
 let next_query_id = 1;
 
-exports.base_query = function(query_node, engine) {
+function new_query(query_node, engine) {
 
 	// A base query without the expensive things.
 	// Every key that's used at all should be in 100% of the queries, even for default values.
@@ -40,11 +40,7 @@ exports.base_query = function(query_node, engine) {
 		delete o.overrideSettings.rootSymmetryPruning;			// Introduced in 1.9.0 but that's a crashy version anyway, so the 1.9.1 check is fine.
 	}
 
-	return o;
-};
-
-exports.finalise_query = function(o, query_node) {
-
+	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
 
 	let setup = [];
@@ -96,32 +92,66 @@ exports.finalise_query = function(o, query_node) {
 	if (moves.length === 0) {
 		o.initialPlayer = query_node.get_board().active.toUpperCase();
 	}
-};
 
-exports.full_query_matches_base = function(full, base) {
+	return o;
+}
 
-	if (!full.moves || base.moves) {
-		throw new Error("full_query_matches_base(): bad call");			// Probably wrong-way-round.
-	}
 
-	for (let key of Object.keys(base)) {
-		if (key === "overrideSettings" || key === "id") {				// Both of these are handled specially, below.
+function compare_queries(a, b) {
+
+	for (let key of Object.keys(a)) {
+
+		if (["id", "overrideSettings", "initialStones", "moves"].includes(key)) {
 			continue;
 		}
-		if (base[key] !== full[key]) {
+
+		if (a[key] !== b[key]) {
 			return false;
 		}
 	}
 
-	if (node_id_from_search_id(full.id) !== node_id_from_search_id(base.id)) {
+	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
 		return false;
 	}
 
-	for (let key of Object.keys(base.overrideSettings)) {
-		if (base.overrideSettings[key] !== full.overrideSettings[key]) {
+	for (let key of Object.keys(a.overrideSettings)) {
+		if (a.overrideSettings[key] !== b.overrideSettings[key]) {
+			return false;
+		}
+	}
+
+	if (!compare_moves_arrays(a.initialStones, b.initialStones)) {
+		return false;
+	}
+
+	if (!compare_moves_arrays(a.moves, b.moves)) {
+		return false;
+	}
+
+	return true;
+}
+
+
+function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well.
+
+	if (arr1.length !== arr2.length) {
+		return false;
+	}
+
+	for (let i = 0; i < arr1.length; i++) {
+
+		if (arr1[i][0] !== arr2[i][0]) {
+			return false;
+		}
+
+		if (arr1[i][1] !== arr2[i][1]) {
 			return false;
 		}
 	}
 
 	return true;
-};
+}
+
+
+
+module.exports = {new_query, compare_queries};
