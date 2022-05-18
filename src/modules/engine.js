@@ -256,7 +256,7 @@ let engine_prototype = {
 
 			stderrbox.receive(line);
 
-			if (line.includes("Beginning GPU tuning")) {
+			if (line.includes("Beginning GPU tuning") || line.includes("Creating new timing cache")) {
 				this.tuning_in_progress = true;
 				stderrbox.show();
 			}
