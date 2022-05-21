@@ -6,7 +6,6 @@ let next_query_id = 1;
 
 function new_query(query_node, engine) {
 
-	// A base query without the expensive things.
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
 	let board = query_node.get_board();
