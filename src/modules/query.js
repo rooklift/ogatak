@@ -140,12 +140,7 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 	}
 
 	for (let i = 0; i < arr1.length; i++) {
-
-		if (arr1[i][0] !== arr2[i][0]) {
-			return false;
-		}
-
-		if (arr1[i][1] !== arr2[i][1]) {
+		if (arr1[i][0] !== arr2[i][0] || arr1[i][1] !== arr2[i][1]) {
 			return false;
 		}
 	}
