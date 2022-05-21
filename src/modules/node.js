@@ -859,13 +859,13 @@ let node_prototype = {
 
 		this.analysis = o;
 
-		let winrate = this.analysis.moveInfos[0].winrate * 100;		// SBKV is 0..100
+		let winrate = this.analysis.rootInfo.winrate * 100;		// SBKV is 0..100
 		if (winrate < 0) winrate = 0;
 		if (winrate > 100) winrate = 100;
 		let val = (winrate).toFixed(1);
 		this.set("SBKV", val);
 
-		let score = this.analysis.moveInfos[0].scoreLead;
+		let score = this.analysis.rootInfo.scoreLead;
 		val = score.toFixed(1);
 		this.set("OGSC", val);
 	},

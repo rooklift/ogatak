@@ -879,13 +879,13 @@ let board_drawer_prototype = {
 
 		if (node.has_valid_analysis()) {
 
-			let moveinfo = override_moveinfo || node.analysis.moveInfos[0];
+			move = override_moveinfo ? override_moveinfo.move : node.analysis.moveInfos[0].move;
+			visits = `${override_moveinfo ? override_moveinfo.visits : node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
 
-			move = moveinfo.move;
+			// If there is no specific move being mouseover'd, we now (1.5.3) draw the score from
+			// the rootInfo (previously we drew the score from the top move i.e. moveInfos[0]...
 
-			visits = `${moveinfo.visits} / ${node.analysis.rootInfo.visits}`;
-
-			let lead = moveinfo.scoreLead;
+			let lead = override_moveinfo ? override_moveinfo.scoreLead : node.analysis.rootInfo.scoreLead;
 			let leader = lead >= 0 ? "B" : "W";
 			if (lead < 0) lead *= -1;
 			score = `${leader}+${lead.toFixed(1)}`;

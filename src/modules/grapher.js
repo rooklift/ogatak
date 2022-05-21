@@ -70,8 +70,8 @@ let grapher_prototype = {
 
 			if (h_node.has_valid_analysis()) {
 
-				let score = h_node.analysis.moveInfos[0].scoreLead;
-				let winrate = h_node.analysis.moveInfos[0].winrate;
+				let score = h_node.analysis.rootInfo.scoreLead;
+				let winrate = h_node.analysis.rootInfo.winrate;
 
 				if ( score > abs_score_max) abs_score_max =  score;
 				if (-score > abs_score_max) abs_score_max = -score;
