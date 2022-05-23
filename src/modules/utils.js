@@ -294,7 +294,7 @@ exports.undo_safe_html = function(s) {
 	return s;
 };
 
-exports.do_load_alerts = function(size_rejections, errors) {
+exports.display_load_alert = function(size_rejections, errors) {
 
 	// size_rejections is the number of files rejected due to boardsize
 	// errors is an array (possibly empty) of errors or error strings

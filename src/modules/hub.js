@@ -15,7 +15,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
-const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, do_load_alerts} = require("./utils");
+const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -262,7 +262,7 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots);
-		do_load_alerts(new_roots.length - ok_roots.length, errors);
+		display_load_alert(new_roots.length - ok_roots.length, errors);
 	},
 
 	duplicate_tree: function() {
