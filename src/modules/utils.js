@@ -327,10 +327,10 @@ exports.do_load_alerts = function(size_rejections, errors) {
 };
 
 exports.every_char_is_hex = function(s) {
-	s = s.toLowerCase();
 	for (let n = 0; n < s.length; n++) {
-		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <= 57) continue;
-		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;
+		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <=  57) continue;			// 0-9
+		if (s.charCodeAt(n) >= 65 && s.charCodeAt(n) <=  70) continue;			// A-F
+		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;			// a-f
 		return false;
 	}
 	return true;
