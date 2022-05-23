@@ -33,4 +33,4 @@ if (config_io.error()) {
 	fullbox.warn_bad_config();
 }
 
-ipcRenderer.send("renderer_ready", null);
+ipcRenderer.send("renderer_ready", null);		// Probably emitted at the same time as ready-to-show
