@@ -32,6 +32,8 @@ const stringify = require("./modules/stringify");
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 let menu = menu_build();
 let menu_is_set = false;
+let renderer_ready = false;
+let ready_to_show = false;
 let queued_files = [];
 let spacebar_time = 0;			// Contrived workaround allowing us to have these as
 let comma_time = 0;				// accelerators without interfering with text editing
@@ -74,19 +76,10 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	});
 
 	win.once("ready-to-show", () => {
-
-		try {
-			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
-		} catch (err) {
-			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
+		ready_to_show = true;
+		if (renderer_ready) {
+			finish_startup(desired_zoomfactor);
 		}
-
-		if (config.maxed) {
-			win.maximize();
-		}
-
-		win.show();
-		win.focus();
 	});
 
 	win.webContents.on("before-input-event", (event, input) => {
@@ -124,12 +117,9 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	});
 
 	electron.ipcMain.once("renderer_ready", () => {
-		queued_files_spinner();
-		if (actually_disabled_hw_accel) {
-			win.webContents.send("call", {
-				fn: "log",
-				args: ["Hardware acceleration is disabled."],
-			});
+		renderer_ready = true;
+		if (ready_to_show) {
+			finish_startup(desired_zoomfactor);
 		}
 	});
 
@@ -192,6 +182,62 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 		{query: query}
 	);
 });
+
+// --------------------------------------------------------------------------------------------------------------
+
+function finish_startup(desired_zoomfactor) {
+
+	try {
+		win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
+	} catch (err) {
+		win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
+	}
+
+	if (config.maxed) {
+		win.maximize();
+	}
+
+	win.show();
+	win.focus();
+
+	if (actually_disabled_hw_accel) {
+		win.webContents.send("call", {
+			fn: "log",
+			args: ["Hardware acceleration is disabled."],
+		});
+	}
+
+	queued_files_spinner();
+}
+
+function queued_files_spinner() {
+
+	// The reason we do this is so that, when the user opens a bunch of files at once, they are batched up
+	// into a group instead of being sent one by one, which would cause a bunch of redraws. In practice,
+	// the startup process of all the second-instance apps seems to be slow enough this isn't too helpful.
+
+	if (queued_files.length > 0) {
+
+		// We need to focus asap before the file actually loads, because the load might generate
+		// an error alert, which must happen after the focus() so the alert is on top.
+
+		if (win.isMinimized()) {
+			win.restore();			// Works regardless of whether the window was previously normal or maximized.
+		}
+		// win.show();				// Not sure this does anything, might even be causing bugs, see Electron #26277
+		win.focus();
+
+		win.webContents.send("call", {
+			fn: "load_multifile",
+			args: [queued_files]
+		});
+
+		queued_files = [];
+
+	}
+
+	setTimeout(queued_files_spinner, 125);
+}
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -2448,35 +2494,4 @@ function two_process_set(key, value) {
 	let msg = {};
 	msg[key] = value;					// not msg = {key: value} which makes the key "key"
 	win.webContents.send("set", msg);
-}
-
-// --------------------------------------------------------------------------------------------------------------
-
-function queued_files_spinner() {
-
-	// The reason we do this is so that, when the user opens a bunch of files at once, they are batched up
-	// into a group instead of being sent one by one, which would cause a bunch of redraws. In practice,
-	// the startup process of all the second-instance apps seems to be slow enough this isn't too helpful.
-
-	if (queued_files.length > 0) {
-
-		// We need to focus asap before the file actually loads, because the load might generate
-		// an error alert, which must happen after the focus() so the alert is on top.
-
-		if (win.isMinimized()) {
-			win.restore();			// Works regardless of whether the window was previously normal or maximized.
-		}
-		// win.show();				// Not sure this does anything, might even be causing bugs, see Electron #26277
-		win.focus();
-
-		win.webContents.send("call", {
-			fn: "load_multifile",
-			args: [queued_files]
-		});
-
-		queued_files = [];
-
-	}
-
-	setTimeout(queued_files_spinner, 125);
 }
