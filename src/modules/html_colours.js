@@ -1,6 +1,7 @@
 "use strict";
 
 const stringify = require("./stringify");
+const {every_char_is_hex} = require("./utils");
 
 const colour_map = {
     "aliceblue":            "#f0f8ffff",
@@ -152,15 +153,6 @@ const colour_map = {
     "yellow":               "#ffff00ff",
     "yellowgreen":          "#9acd32ff"
 };
-
-function every_char_is_hex(s) {					// Assuming lowercase already.
-	for (let n = 0; n < s.length; n++) {
-		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <= 57) continue;
-		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;
-		return false;
-	}
-	return true;
-}
 
 exports.fix_html_colour = function(s) {
 

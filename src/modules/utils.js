@@ -325,3 +325,13 @@ exports.do_load_alerts = function(size_rejections, errors) {
 		alert(size_msg);
 	}
 };
+
+exports.every_char_is_hex = function(s) {
+	s = s.toLowerCase();
+	for (let n = 0; n < s.length; n++) {
+		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <= 57) continue;
+		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;
+		return false;
+	}
+	return true;
+};
