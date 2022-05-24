@@ -27,12 +27,10 @@ window.addEventListener("wheel", (event) => {
 
 	let path = event.composedPath();
 
-	if (Array.isArray(path)) {
-		for (let element of [tabber.outer_div, comment_drawer.textarea]) {		// 2 items can have scrollbars.
-			if (element.scrollHeight > element.clientHeight) {					// If they do, the mouse wheel should not be used to scroll the game.
-				if (path.some(item => item === element)) {						// Only if the mouse is actually over them, though.
-					return;
-				}
+	for (let element of [tabber.outer_div, comment_drawer.textarea]) {		// 2 items can have scrollbars.
+		if (element.scrollHeight > element.clientHeight) {					// If they do, the mouse wheel should not be used to scroll the game.
+			if (path.some(item => item === element)) {						// Only if the mouse is actually over them, though.
+				return;
 			}
 		}
 	}
@@ -143,10 +141,8 @@ window.addEventListener("mousedown", (event) => {
 		event.preventDefault();
 	}
 	let path = event.composedPath();
-	if (path) {
-		if (!path.some(item => item === comment_drawer.textarea)) {
-			comment_drawer.textarea.blur();
-		}
+	if (!path.some(item => item === comment_drawer.textarea)) {
+		comment_drawer.textarea.blur();
 	}
 });
 

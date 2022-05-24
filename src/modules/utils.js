@@ -30,12 +30,10 @@ exports.event_path_string = function(event, prefix) {
 
 	let path = event.composedPath();
 
-	if (path) {
-		for (let item of path) {
-			if (typeof item.id === "string") {
-				if (item.id.startsWith(prefix)) {
-					return item.id.slice(prefix.length);
-				}
+	for (let item of path) {
+		if (typeof item.id === "string") {
+			if (item.id.startsWith(prefix)) {
+				return item.id.slice(prefix.length);
 			}
 		}
 	}
@@ -53,14 +51,12 @@ exports.event_path_class_string = function(event, prefix) {
 
 	let path = event.composedPath();
 
-	if (path) {
-		for (let item of path) {
-			if (typeof item.className === "string" && item.className !== "") {
-				let classes = item.className.split(" ");
-				for (let cl of classes) {
-					if (cl.startsWith(prefix)) {
-						return cl.slice(prefix.length);
-					}
+	for (let item of path) {
+		if (typeof item.className === "string" && item.className !== "") {
+			let classes = item.className.split(" ");
+			for (let cl of classes) {
+				if (cl.startsWith(prefix)) {
+					return cl.slice(prefix.length);
 				}
 			}
 		}
