@@ -25,7 +25,7 @@ window.addEventListener("wheel", (event) => {
 		return;
 	}
 
-	let path = event.path || (event.composedPath && event.composedPath());
+	let path = event.composedPath();
 
 	if (Array.isArray(path)) {
 		for (let element of [tabber.outer_div, comment_drawer.textarea]) {		// 2 items can have scrollbars.
@@ -142,7 +142,7 @@ window.addEventListener("mousedown", (event) => {
 	if (event.which === 2) {
 		event.preventDefault();
 	}
-	let path = event.path || (event.composedPath && event.composedPath());
+	let path = event.composedPath();
 	if (path) {
 		if (!path.some(item => item === comment_drawer.textarea)) {
 			comment_drawer.textarea.blur();

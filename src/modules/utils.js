@@ -28,7 +28,7 @@ exports.event_path_string = function(event, prefix) {
 		return null;
 	}
 
-	let path = event.path || (event.composedPath && event.composedPath());
+	let path = event.composedPath();
 
 	if (path) {
 		for (let item of path) {
@@ -51,7 +51,7 @@ exports.event_path_class_string = function(event, prefix) {
 		return null;
 	}
 
-	let path = event.path || (event.composedPath && event.composedPath());
+	let path = event.composedPath();
 
 	if (path) {
 		for (let item of path) {
