@@ -1,7 +1,0 @@
-{
-	"TEXT_1": "In the event you change the wood image, you should ideally change the value here to match its average colour",
-	"TEXT_2": "You could maybe get the average colour of the image using https://matkl.github.io/average-color/",
-	"TEXT_3": "Do not use a shorthand HTML code such as 'red', but rather a full hex code including alpha...",
-	
-	"value": "#d0ad75ff"
-}
