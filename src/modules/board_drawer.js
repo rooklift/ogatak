@@ -75,7 +75,7 @@ function init() {
 
 let board_drawer_prototype = {
 
-	rebuild: function(width, height) {				// Reset all the things...
+	rebuild: function(width, height) {				// Reset all the things... (FIXME? Only remake the table itself if its logical sizes are wrong?)
 
 		if (!width || !height || width > 19 || height > 19) {
 			throw new Error("rebuild(): needs valid board sizes");
