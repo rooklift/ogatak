@@ -346,7 +346,7 @@ let board_drawer_prototype = {
 		this.table_state[x][y] = foo;
 	},
 
-	wood: function(x, y) {
+	wood: function(x, y) {		// Clears the TD so the wood is visible...
 
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 		if (!td) throw new Error("set_td(): bad x/y");
