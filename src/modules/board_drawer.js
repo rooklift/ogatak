@@ -2,8 +2,7 @@
 
 // Overview:
 //  - Single-purpose div:   wood texture
-//  - Table background:     grid lines
-//  - Table TD elements:    nothing / black stone / white stone
+//  - Table TD elements:    nothing / grid / black stone / white stone
 //  - Canvas:               everything else
 //
 // To avoid conflicts when using the canvas:
@@ -14,10 +13,8 @@
 //  - Next-move-markers can coincide with various stuff.
 //  - Flicker introduced by death marks when stepping forward.
 
-const background = require("./background");
 const board_font_chooser = require("./board_font_chooser");
 const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
-const {get_ownership_colours} = require("./ownership_colours");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -58,9 +55,6 @@ function init() {
 		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
 		table_state: new_2d_array(19, 19, ""),		// "", "b", "w" ... what the TD is displaying.
 		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
-
-		wood_helps: new_2d_array(19, 19, null),		// What colour wood() draws. Updated when ownership drawn. Not updated otherwise.
-		wood_helps_are_valid: false,				// Whether ownership canvas was drawn to since last clear. If not, above array is ignored.
 
 		width: null,								// We need to store width, height, and square_size
 		height: null,
@@ -105,9 +99,6 @@ let board_drawer_prototype = {
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
-		let png = background(this.width, this.height, this.square_size, config.board_line_width, config.grid_colour);
-		this.htmltable.style["background-image"] = `url("${png}")`;
-
 		this.htmltable.innerHTML = "";
 
 		for (let y = 0; y < this.height; y++) {
@@ -131,7 +122,6 @@ let board_drawer_prototype = {
 		}
 
 		this.has_drawn_ownership = false;
-		this.wood_helps_are_valid = false;
 		this.pv = null;
 
 		this.backgrounddiv.style.width = (this.width * this.square_size).toString() + "px";
@@ -287,14 +277,6 @@ let board_drawer_prototype = {
 		ctx.fillText(msg3, gx, gy + 1);
 	},
 
-	wood: function(x, y) {
-		if (this.wood_helps_are_valid) {
-			this.fcircle(x, y, 1, this.wood_helps[x][y]);
-		} else {
-			this.fcircle(x, y, 1, config.wood_colour);
-		}
-	},
-
 	// --------------------------------------------------------------------------------------------
 	// Low-level table TD method...
 
@@ -412,7 +394,6 @@ let board_drawer_prototype = {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
 		this.has_drawn_ownership = false;
-		this.wood_helps_are_valid = false;
 	},
 
 	draw_board: function(board) {
@@ -459,7 +440,7 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				this.wood(x, y);
+				// this.wood(x, y);									// FIXME
 
 				if (o.fill) {
 					this.fcircle(x, y, 1, o.fill);
@@ -504,7 +485,7 @@ let board_drawer_prototype = {
 			case "pv":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.wood(x, y);
+					// this.wood(x, y);																// FIXME
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
 				break;
@@ -512,7 +493,7 @@ let board_drawer_prototype = {
 			case "label":
 
 				if (tstate !== "b" && tstate !== "w") {
-					this.wood(x, y);
+					// this.wood(x, y);																// FIXME
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
 				break;
@@ -562,14 +543,15 @@ let board_drawer_prototype = {
 		}
 
 		this.has_drawn_ownership = true;
-		this.wood_helps_are_valid = true;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; y++) {
 				let own = ownership[x + (y * this.width)];
-				let precomps = get_ownership_colours(own);
-				this.fsquare(x, y, 1, precomps[0], true);
-				this.wood_helps[x][y] = precomps[1];
+				if (own > 0) {
+					this.fsquare(x, y, 1, "#000000" + float_to_hex_ff(own / 2), true);
+				} else if (own < 0) {
+					this.fsquare(x, y, 1, "#ffffff" + float_to_hex_ff(-own / 2), true);
+				}
 			}
 		}
 	},

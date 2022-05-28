@@ -150,26 +150,6 @@ function apply_fixes() {
 	config.numbers = config.numbers.split("+").map(z => z.trim()).join(" + ");
 	config.numbers = config.numbers.split(",").map(z => z.trim()).join(" + ");
 
-	// Make the wood_colour var match the wood_colour.json file, if possible...
-
-	try {
-		let j = JSON.parse(fs.readFileSync(path.join(__dirname, "../gfx/wood_colour.json")));
-		if (typeof j === "object" && j !== null && typeof j.value === "string") {
-			if (j.value.startsWith("#") && j.value.length === 9) {
-				if (config.wood_colour !== j.value) {
-					config.wood_colour = j.value;
-					console.log("Adjusted config.wood_colour to match wood_colour.json");
-				}
-			} else {
-				console.log(`wood_colour.json: bad colour string`);
-			}
-		} else {
-			console.log(`wood_colour.json: bad object`);
-		}
-	} catch (err) {
-		console.log(`wood_colour.json: ${err.toString()}`);
-	}
-
 	// Someone might edit HTML colour codes...
 
 	for (let [key, defval] of Object.entries(exports.defaults)) {
