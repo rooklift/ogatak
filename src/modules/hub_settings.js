@@ -106,7 +106,6 @@ module.exports = {
 
 		case "wood_colour":
 			tabber.draw_everything(this.node);
-			this.draw();
 			break;
 
 		case "mode":
