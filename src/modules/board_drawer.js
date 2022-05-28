@@ -14,7 +14,8 @@
 //  - Flicker introduced by death marks when stepping forward.
 
 const board_font_chooser = require("./board_font_chooser");
-const {moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
+const gridlines = require("./gridlines");
+const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -33,8 +34,6 @@ for (let x = 0; x < 19; x++) {				// Create the event handlers for all usable va
 
 const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
 const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
-
-const grid = new Image(); grid.src = "./gfx/grid_temp.png"; const grid_url = `url("${grid.src}")`;
 
 // ------------------------------------------------------------------------------------------------
 
@@ -57,6 +56,9 @@ function init() {
 		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
 		table_state: new_2d_array(19, 19, ""),		// "", "b", "w", "?" ... what TD contains ("" for grid, "?" for nothing at all).
 		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
+		hoshi_points: new_2d_array(19, 19, false),	// Lookup table for whether x,y is hoshi, this is a bit lazy.
+
+		gridlines: null,
 
 		width: null,								// We need to store width, height, and square_size
 		height: null,
@@ -91,15 +93,24 @@ let board_drawer_prototype = {
 			}
 		}
 
+		// We may or may not need to remake the gridlines...
+
+		let desired_square_size = this.desired_square_size(width, height);
+
+		if (this.square_size !== desired_square_size || this.board_line_width !== config.board_line_width || this.grid_colour !== config.grid_colour) {
+			this.gridlines = gridlines(desired_square_size, config.board_line_width, config.grid_colour);
+		}
+
 		// Obviously we want to save the width / height / square_size... but we also save the state of relevant
 		// config vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
 
 		this.width = width;
 		this.height = height;
-		this.square_size = this.desired_square_size(width, height);
-
+		this.square_size = desired_square_size;
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
+
+		// Make the new table...
 
 		this.htmltable.innerHTML = "";
 
@@ -120,8 +131,17 @@ let board_drawer_prototype = {
 		for (let x = 0; x < 19; x++) {
 			for (let y = 0; y < 19; y++) {
 				this.table_state[x][y] = "?";
+				this.hoshi_points[x][y] = false;
 			}
 		}
+
+		for (let s of handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false)) {
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+			this.hoshi_points[x][y] = true;
+		}
+
+		//
 
 		this.has_drawn_ownership = false;
 		this.pv = null;
@@ -288,7 +308,33 @@ let board_drawer_prototype = {
 		if (!td) throw new Error("set_td(): bad x/y");
 
 		if (foo === "") {
-			td.style["background-image"] = grid_url;
+			if (this.hoshi_points[x][y]) {
+				td.style["background-image"] = `url("${this.gridlines.hoshi}")`;
+			} else if (x === 0) {
+				if (y === 0) {
+					td.style["background-image"] = `url("${this.gridlines.topleft}")`;
+				} else if (y === this.height - 1) {
+					td.style["background-image"] = `url("${this.gridlines.bottomleft}")`;
+				} else {
+					td.style["background-image"] = `url("${this.gridlines.left}")`;
+				}
+			} else if (x === this.width - 1) {
+				if (y === 0) {
+					td.style["background-image"] = `url("${this.gridlines.topright}")`;
+				} else if (y === this.height - 1) {
+					td.style["background-image"] = `url("${this.gridlines.bottomright}")`;
+				} else {
+					td.style["background-image"] = `url("${this.gridlines.right}")`;
+				}
+			} else {
+				if (y === 0) {
+					td.style["background-image"] = `url("${this.gridlines.top}")`;
+				} else if (y === this.height - 1) {
+					td.style["background-image"] = `url("${this.gridlines.bottom}")`;
+				} else {
+					td.style["background-image"] = `url("${this.gridlines.mid}")`;
+				}
+			}
 		} else if (foo === "b") {
 			td.style["background-image"] = black_stone_url;
 		} else if (foo === "w") {
