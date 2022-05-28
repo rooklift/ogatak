@@ -34,6 +34,8 @@ for (let x = 0; x < 19; x++) {				// Create the event handlers for all usable va
 const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
 const white_stone = new Image();	white_stone.src = "./gfx/white_stone.png";		const white_stone_url = `url("${white_stone.src}")`;
 
+const grid = new Image(); grid.src = "./gfx/grid_temp.png"; const grid_url = `url("${grid.src}")`;
+
 // ------------------------------------------------------------------------------------------------
 
 function init() {
@@ -53,7 +55,7 @@ function init() {
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
-		table_state: new_2d_array(19, 19, ""),		// "", "b", "w" ... what the TD is displaying.
+		table_state: new_2d_array(19, 19, ""),		// "", "b", "w", "?" ... what TD contains ("" for grid, "?" for nothing at all).
 		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 
 		width: null,								// We need to store width, height, and square_size
@@ -117,7 +119,7 @@ let board_drawer_prototype = {
 
 		for (let x = 0; x < 19; x++) {
 			for (let y = 0; y < 19; y++) {
-				this.table_state[x][y] = "";
+				this.table_state[x][y] = "?";
 			}
 		}
 
@@ -278,7 +280,7 @@ let board_drawer_prototype = {
 	},
 
 	// --------------------------------------------------------------------------------------------
-	// Low-level table TD method...
+	// Low-level table TD methods...
 
 	set_td: function(x, y, foo) {
 
@@ -286,7 +288,7 @@ let board_drawer_prototype = {
 		if (!td) throw new Error("set_td(): bad x/y");
 
 		if (foo === "") {
-			td.style["background-image"] = "";
+			td.style["background-image"] = grid_url;
 		} else if (foo === "b") {
 			td.style["background-image"] = black_stone_url;
 		} else if (foo === "w") {
@@ -296,6 +298,15 @@ let board_drawer_prototype = {
 		}
 
 		this.table_state[x][y] = foo;
+	},
+
+	wood: function(x, y) {
+
+		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+		if (!td) throw new Error("set_td(): bad x/y");
+
+		td.style["background-image"] = "";
+		this.table_state[x][y] = "?";
 	},
 
 	// --------------------------------------------------------------------------------------------
@@ -440,7 +451,7 @@ let board_drawer_prototype = {
 
 			case "analysis":
 
-				// this.wood(x, y);									// FIXME
+				this.wood(x, y);
 
 				if (o.fill) {
 					this.fcircle(x, y, 1, o.fill);
@@ -485,7 +496,7 @@ let board_drawer_prototype = {
 			case "pv":
 
 				if (tstate !== "b" && tstate !== "w") {
-					// this.wood(x, y);																// FIXME
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#ff0000ff"));
 				break;
@@ -493,7 +504,7 @@ let board_drawer_prototype = {
 			case "label":
 
 				if (tstate !== "b" && tstate !== "w") {
-					// this.wood(x, y);																// FIXME
+					this.wood(x, y);
 				}
 				this.text(x, y, o.text, mark_colour_from_state(tstate, "#000000ff"));
 				break;
