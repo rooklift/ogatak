@@ -105,16 +105,17 @@ let board_drawer_prototype = {
 
 		if (width !== this.width || height !== this.height) {
 
-		for (let x = 0; x < 19; x++) {
-			for (let y = 0; y < 19; y++) {
-				this.hoshi_points[x][y] = false;
+			for (let x = 0; x < 19; x++) {
+				for (let y = 0; y < 19; y++) {
+					this.hoshi_points[x][y] = false;
+				}
 			}
-		}
 
-		for (let s of handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false)) {
-			let x = s.charCodeAt(0) - 97;
-			let y = s.charCodeAt(1) - 97;
-			this.hoshi_points[x][y] = true;
+			for (let s of handicap_stones(Math.min(width, height) > 13 ? 9 : 5, width, height, false)) {
+				let x = s.charCodeAt(0) - 97;
+				let y = s.charCodeAt(1) - 97;
+				this.hoshi_points[x][y] = true;
+			}
 		}
 
 		// Obviously we want to save the width / height / square_size... but we also save the state of relevant
