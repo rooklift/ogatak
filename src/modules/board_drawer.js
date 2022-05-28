@@ -632,11 +632,9 @@ let board_drawer_prototype = {
 				let own = ownership[x + (y * board.width)];
 
 				if (own > 0 && state !== "b") {
-					let alphahex = float_to_hex_ff(own);
-					this.needed_marks[x][y] = {type: "own_alt", colour: "#000000" + alphahex};
+					this.needed_marks[x][y] = {type: "own_alt", colour: "#000000" + float_to_hex_ff(own)};
 				} else if (own < 0 && state !== "w") {
-					let alphahex = float_to_hex_ff(-own);
-					this.needed_marks[x][y] = {type: "own_alt", colour: "#ffffff" + alphahex};
+					this.needed_marks[x][y] = {type: "own_alt", colour: "#ffffff" + float_to_hex_ff(-own)};
 				}
 			}
 		}
