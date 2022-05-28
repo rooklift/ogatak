@@ -361,7 +361,7 @@ let board_drawer_prototype = {
 		let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
 		if (!td) throw new Error("set_td(): bad x/y");
 
-		td.style["background-image"] = "";
+		td.style["background-image"] = "none";
 		this.table_state[x][y] = "?";
 	},
 
