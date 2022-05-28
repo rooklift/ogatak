@@ -2,7 +2,6 @@
 
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
-const {precompute_ownership_colours} = require("./ownership_colours");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
@@ -106,7 +105,6 @@ module.exports = {
 			break;
 
 		case "wood_colour":
-			precompute_ownership_colours(value);
 			tabber.draw_everything(this.node);
 			this.draw();
 			break;
