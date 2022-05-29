@@ -65,7 +65,7 @@ module.exports = function(square_size, board_line_width, grid_colour) {
 	ret.hoshi = get_image_url(1, 1, ss);
 
 	return ret;
-}
+};
 
 function get_image_url(x, y, square_size) {
 
