@@ -540,7 +540,7 @@ let board_drawer_prototype = {
 
 			case "own_alt":
 
-				this.has_ownership_marks = true;
+				this.has_drawn_ownership = true;
 				this.fsquare(x, y, 1/3, o.colour);
 				break;
 
