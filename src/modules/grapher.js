@@ -1,5 +1,8 @@
 "use strict";
 
+// The grapher is called frequently (at 5 Hz) and always does a full draw.
+// It is also sometimes called immediately when a change is made, in order to feel snappier.
+
 function init() {
 
 	return Object.assign(Object.create(grapher_prototype), {
