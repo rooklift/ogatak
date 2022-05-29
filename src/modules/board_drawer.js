@@ -75,7 +75,9 @@ function init() {
 
 let board_drawer_prototype = {
 
-	rebuild: function(width, height) {				// Reset or rebuild various things...
+	rebuild: function(width, height) {
+
+		// Reset or rebuild various things... REMEMBER though that this isn't even called unless certain conditions are met.
 
 		if (!width || !height || width > 19 || height > 19) {
 			throw new Error("rebuild(): needs valid board sizes");
@@ -108,7 +110,7 @@ let board_drawer_prototype = {
 
 		// We may or may not need to remake the table...
 
-		if (this.width !== width || this.height !== height || !this.has_handlers) {
+		if (this.width !== width || this.height !== height) {
 
 			// Full rebuild. First we detach event handlers in the table...
 			// This might be rather unnecessary, they should get GC'd anyway.
