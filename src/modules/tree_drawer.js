@@ -1,11 +1,15 @@
 "use strict";
 
-// Note that tree_drawer is also responsible for closing special panes when the tree changes...
+// Notes:
 //
-//  - This helps avoid flicker that would be caused by the tree updating just after the fullbox closed.
+// - The tree_drawer is called very frequently (at 60 Hz), but usually can skip its draw.
+// - Most draws are due to the flags  must_draw  or  weak_draw  getting set from outside.
+// - But it can automatically detect when a draw is required due to a window size change.
 //
-//  - Since the tree changing is the condition upon which I want fullbox to auto-close, I guess it makes
-//    some sense to do it here in the tree_drawer code, which is (hopefully) always called on a tree change.
+// Note that the tree_drawer is also responsible for closing special panes when the tree changes. This helps
+// avoid flicker that would be caused by the tree updating just after the panes closed. Since the tree changing
+// is the condition upon which I want panes to auto-close, I guess it makes some sense to do it here in the
+// tree_drawer code, which is (hopefully) always called on a tree change.
 
 function init() {
 
