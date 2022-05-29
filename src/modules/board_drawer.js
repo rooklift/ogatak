@@ -58,12 +58,12 @@ function init() {
 		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 		hoshi_points: new_2d_array(19, 19, false),	// Lookup table for whether x,y is hoshi, this is a bit lazy.
 
+		has_handlers: false,
 		gridlines: null,
 
 		width: null,								// We need to store width, height, and square_size
 		height: null,
 		square_size: null,
-		
 		board_line_width: null,						// This other stuff is stored so we can detect when they 
 		grid_colour: null,							// don't match config and a rebuild() call is needed.
 
@@ -81,21 +81,9 @@ let board_drawer_prototype = {
 			throw new Error("rebuild(): needs valid board sizes");
 		}
 
-		// Remove all registered "mouseenter" handlers on the old TD elements...
-		// This might be rather unnecessary, they should get GC'd anyway.
-
-		if (this.width && this.height) {
-			for (let x = 0; x < this.width; x++) {
-				for (let y = 0; y < this.height; y++) {
-					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-					td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
-				}
-			}
-		}
-
-		// We may or may not need to remake the gridlines...
-
 		let desired_square_size = this.desired_square_size(width, height);
+
+		// We may or may not need to remake the gridline PNG images that we draw...
 
 		if (this.square_size !== desired_square_size || this.board_line_width !== config.board_line_width || this.grid_colour !== config.grid_colour) {
 			this.gridlines = gridlines(desired_square_size, config.board_line_width, config.grid_colour);
@@ -103,7 +91,7 @@ let board_drawer_prototype = {
 
 		// We may or may not need to remake the hoshi array...
 
-		if (width !== this.width || height !== this.height) {
+		if (this.width !== width || this.height !== height) {
 
 			for (let x = 0; x < 19; x++) {
 				for (let y = 0; y < 19; y++) {
@@ -118,6 +106,64 @@ let board_drawer_prototype = {
 			}
 		}
 
+		// We may or may not need to remake the table...
+
+		if (this.width !== width || this.height !== height || !this.has_handlers) {
+
+			// Full rebuild. First we detach event handlers in the table...
+			// This might be rather unnecessary, they should get GC'd anyway.
+
+			if (this.has_handlers) {
+				for (let x = 0; x < this.width; x++) {				// Note: use this.width & this.height here; iterating over what was, not what will be.
+					for (let y = 0; y < this.height; y++) {
+						let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+						td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
+					}
+				}
+			}
+
+			// Now remake...
+
+			this.htmltable.innerHTML = "";
+
+			for (let y = 0; y < height; y++) {
+				let tr = document.createElement("tr");
+				this.htmltable.appendChild(tr);
+				for (let x = 0; x < width; x++) {
+					let td = document.createElement("td");
+					let s = xy_to_s(x, y);
+					td.className = "td_" + s;
+					td.width = desired_square_size;
+					td.height = desired_square_size;
+					td.addEventListener("mouseenter", mouseenter_handlers[x][y]);		// Add "mouseenter" handler to the TD element.
+					tr.appendChild(td);
+				}
+			}
+
+			this.has_handlers = true;
+
+		} else if (this.square_size !== desired_square_size) {
+
+			// Just set the TDs' width and height... while it might be possible not to ever set these,
+			// doing so may help the compositor or whatnot prevent flicker when changing size...
+
+			for (let x = 0; x < width; x++) {
+				for (let y = 0; y < height; y++) {
+					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
+					td.width = desired_square_size;
+					td.height = desired_square_size;
+				}
+			}
+		}
+
+		// Mark every TD as requiring redrawing...
+
+		for (let x = 0; x < 19; x++) {
+			for (let y = 0; y < 19; y++) {
+				this.table_state[x][y] = "?";
+			}
+		}
+
 		// Obviously we want to save the width / height / square_size... but we also save the state of relevant
 		// config vars at the time of the rebuild, so we can detect if a new rebuild is needed later...
 
@@ -127,34 +173,12 @@ let board_drawer_prototype = {
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
 
-		// Make the new table...
-
-		this.htmltable.innerHTML = "";
-
-		for (let y = 0; y < this.height; y++) {
-			let tr = document.createElement("tr");
-			this.htmltable.appendChild(tr);
-			for (let x = 0; x < this.width; x++) {
-				let td = document.createElement("td");
-				let s = xy_to_s(x, y);
-				td.className = "td_" + s;
-				td.width = this.square_size;
-				td.height = this.square_size;
-				td.addEventListener("mouseenter", mouseenter_handlers[x][y]);	// Add "mouseenter" handler to the TD element.
-				tr.appendChild(td);
-			}
-		}
-
-		for (let x = 0; x < 19; x++) {
-			for (let y = 0; y < 19; y++) {
-				this.table_state[x][y] = "?";
-			}
-		}
-
-		//
+		// Misc logic...
 
 		this.has_drawn_ownership = false;
 		this.pv = null;
+
+		// Set sizes of the big elements...
 
 		this.backgrounddiv.style.width = (this.width * this.square_size).toString() + "px";
 		this.backgrounddiv.style.height = (this.height * this.square_size).toString() + "px";
