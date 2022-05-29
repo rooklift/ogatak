@@ -83,7 +83,7 @@ body {
 #boardbg {
 	grid-area: board;
 	background-color: #d0ad75ff;		/* Matching the board. */
-	background-image: url("./gfx/subdued_board.png");
+	background-image: url("./gfx/board.png");
 	margin: 16px 0 0 16px;
 	z-index: 1;
 }
