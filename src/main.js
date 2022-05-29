@@ -1670,41 +1670,12 @@ function menu_build() {
 			label: "Sizes",
 			submenu: [
 				{
-					label: "Board lines",
-					submenu: [
-						{
-							label: "4",
-							type: "checkbox",
-							checked: config.board_line_width === 4,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 4});
-							}
-						},
-						{
-							label: "3",
-							type: "checkbox",
-							checked: config.board_line_width === 3,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 3});
-							}
-						},
-						{
-							label: "2",
-							type: "checkbox",
-							checked: config.board_line_width === 2,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 2});
-							}
-						},
-						{
-							label: "1",
-							type: "checkbox",
-							checked: config.board_line_width === 1,
-							click: () => {
-								win.webContents.send("set", {board_line_width: 1});
-							}
-						},
-					]
+					label: "Embiggen small boards",
+					type: "checkbox",
+					checked: config.embiggen_small_boards,
+					click: () => {
+						win.webContents.send("toggle", "embiggen_small_boards");
+					}
 				},
 				{
 					type: "separator"
@@ -2016,6 +1987,43 @@ function menu_build() {
 					type: "separator"
 				},
 				{
+					label: "Board lines",
+					submenu: [
+						{
+							label: "4",
+							type: "checkbox",
+							checked: config.board_line_width === 4,
+							click: () => {
+								win.webContents.send("set", {board_line_width: 4});
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.board_line_width === 3,
+							click: () => {
+								win.webContents.send("set", {board_line_width: 3});
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.board_line_width === 2,
+							click: () => {
+								win.webContents.send("set", {board_line_width: 2});
+							}
+						},
+						{
+							label: "1",
+							type: "checkbox",
+							checked: config.board_line_width === 1,
+							click: () => {
+								win.webContents.send("set", {board_line_width: 1});
+							}
+						},
+					]
+				},
+				{
 					label: "Thumbnail squares",
 					submenu: [
 						{
@@ -2043,9 +2051,6 @@ function menu_build() {
 							}
 						},
 					]
-				},
-				{
-					type: "separator"
 				},
 				{
 					label: "Tree spacing",
@@ -2107,6 +2112,9 @@ function menu_build() {
 							}
 						},
 					]
+				},
+				{
+					type: "separator"
 				},
 				{
 					label: "Comment box",

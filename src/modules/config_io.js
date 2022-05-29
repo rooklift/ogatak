@@ -40,6 +40,8 @@ exports.defaults = {
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
 
+	"embiggen_small_boards": false,
+
 	"info_font_size": 16,
 	"board_font_override": null,
 

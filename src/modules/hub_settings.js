@@ -30,6 +30,7 @@ const togglechecks = {
 	mouseover_pv:			["Display", "...with PV mouseover"],
 	visit_colours:			["Display", "...fade by visits"],
 	next_move_markers:		["Display", "Next move markers"],
+	embiggen_small_boards:	["Sizes", "Embiggen small boards"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
 	disable_hw_accel:		["Misc", "Disable hardware acceleration for GUI"],
@@ -126,6 +127,12 @@ module.exports = {
 		case "visit_colours":
 		case "black_pov":
 
+			this.draw();
+			break;
+
+		case "embiggen_small_boards":
+
+			board_drawer.width = null;				// Force it to rebuild.
 			this.draw();
 			break;
 

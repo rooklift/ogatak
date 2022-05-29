@@ -188,8 +188,13 @@ let board_drawer_prototype = {
 		this.htmltable.style.width = (this.width * this.square_size).toString() + "px";
 		this.htmltable.style.height = (this.height * this.square_size).toString() + "px";
 
-		this.canvas.width = Math.max(this.width, this.height, 19) * this.square_size;
-		this.canvas.height = Math.max(this.width, this.height, 19) * this.square_size;
+		if (config.embiggen_small_boards) {
+			this.canvas.width = Math.max(this.width, this.height) * this.square_size;
+			this.canvas.height = Math.max(this.width, this.height) * this.square_size;
+		} else {
+			this.canvas.width = Math.max(this.width, this.height, 19) * this.square_size;
+			this.canvas.height = Math.max(this.width, this.height, 19) * this.square_size;
+		}
 
 		this.ownercanvas.width = this.canvas.width;
 		this.ownercanvas.height = this.canvas.height;
@@ -208,7 +213,11 @@ let board_drawer_prototype = {
 
 	desired_square_size: function(width, height) {
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
-		return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
+		if (config.embiggen_small_boards) {
+			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height)));
+		} else {
+			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
+		}
 	},
 
 	set_infodiv_font_size: function(value) {
