@@ -10,13 +10,12 @@ config_io.load();													// Populates global.config
 
 let actually_disabled_hw_accel = false;
 
-if (config.disable_hw_accel) {
+if (!config.enable_hw_accel) {
 	try {
 		electron.app.disableHardwareAcceleration();
 		actually_disabled_hw_accel = true;
-		console.log("Hardware acceleration for Ogatak (GUI, not engine) disabled by config setting.");
 	} catch (err) {
-		console.log("Failed to disable hardware acceleration.");
+		// pass
 	}
 }
 
@@ -124,13 +123,27 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	});
 
 	electron.ipcMain.once("renderer_ready", () => {
+
 		queued_files_spinner();
-		if (actually_disabled_hw_accel) {
-			win.webContents.send("call", {
-				fn: "log",
-				args: ["Hardware acceleration is disabled."],
-			});
+
+		// console.log (in renderer) the status of hardware acceleration...
+
+		let hw_msg = "";
+
+		if (config.enable_hw_accel) {
+			hw_msg = "Hardware acceleration is enabled. On some systems this may degrade KataGo performance.";
+		} else {
+			if (actually_disabled_hw_accel) {
+				hw_msg = "Hardware acceleration is disabled.";
+			} else {
+				hw_msg = "Failed to disable hardware acceleration.";
+			}
 		}
+
+		win.webContents.send("call", {
+			fn: "log",
+			args: [hw_msg],
+		});
 	});
 
 	electron.ipcMain.on("alert", (event, msg) => {
@@ -2227,11 +2240,11 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Disable hardware acceleration for GUI",
+					label: "Enable hardware acceleration for GUI",
 					type: "checkbox",
-					checked: config.disable_hw_accel,
+					checked: config.enable_hw_accel,
 					click: () => {
-						win.webContents.send("toggle", "disable_hw_accel");
+						win.webContents.send("toggle", "enable_hw_accel");
 					}
 				},
 			]

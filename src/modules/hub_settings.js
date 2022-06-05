@@ -33,7 +33,7 @@ const togglechecks = {
 	embiggen_small_boards:	["Sizes", "Embiggen small boards"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
-	disable_hw_accel:		["Misc", "Disable hardware acceleration for GUI"],
+	enable_hw_accel:		["Misc", "Enable hardware acceleration for GUI"],
 	zobrist_checks:			["Dev", "Zobrist mismatch checks"],
 };
 
@@ -193,10 +193,12 @@ module.exports = {
 			this.draw();
 			break;
 
-		case "disable_hw_accel":
+		case "enable_hw_accel":
 
 			if (!debug_missing_handlers) {
-				alert("This will not take effect until you restart the GUI.");
+				let msg = "This will not take effect until you restart Ogatak.";
+				if (value) msg += " Note that on some systems this setting may degrade performance, by making KataGo and Ogatak fight over the GPU.";
+				alert(msg);
 			}
 			break;
 
