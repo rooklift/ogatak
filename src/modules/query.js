@@ -54,9 +54,10 @@ function new_query(query_node, engine) {
 
 			// This node will serve as the setup position.
 			// Note that stones from any B or W properties will be included in the setup.
+			// Note that in territory rules, we need to adjust komi to account for captures (info which is lost when sending a setup position).
 
 			o.initialStones = node.get_board().setup_list();
-			if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {				// This is not really exhaustive.
+			if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
 				o.komi -= node.get_board().caps_balance();
 			}
 
@@ -70,7 +71,7 @@ function new_query(query_node, engine) {
 			if (o.moves.length === 0) {
 				if ((node.has_key("B") && query_node.get_board().active === "b") || (node.has_key("W") && query_node.get_board().active === "w")) {
 					o.initialStones = query_node.get_board().setup_list();
-					if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {		// This is not really exhaustive.
+					if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
 						o.komi -= query_node.get_board().caps_balance();
 					}
 					break;
