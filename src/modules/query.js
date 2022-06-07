@@ -43,8 +43,8 @@ function new_query(query_node, engine) {
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
 
-	let setup = [];
-	let moves = [];
+	o.initialStones = [];
+	o.moves = [];
 
 	for (let node of query_node.history_reversed()) {
 
@@ -55,7 +55,11 @@ function new_query(query_node, engine) {
 			// This node will serve as the setup position.
 			// Note that stones from any B or W properties will be included in the setup.
 
-			setup = node.get_board().setup_list();
+			o.initialStones = node.get_board().setup_list();
+			if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {				// This is not really exhaustive.
+				o.komi -= node.get_board().caps_balance();
+			}
+
 			break;
 
 		} else if (nodemovecount === 1) {
@@ -63,9 +67,12 @@ function new_query(query_node, engine) {
 			// The final move (i.e. the first one we see) will determine what colour KataGo plays but if
 			// query_node.get_board().active is the unnatural player instead, we will need to use a setup.
 
-			if (moves.length === 0) {
+			if (o.moves.length === 0) {
 				if ((node.has_key("B") && query_node.get_board().active === "b") || (node.has_key("W") && query_node.get_board().active === "w")) {
-					setup = query_node.get_board().setup_list();
+					o.initialStones = query_node.get_board().setup_list();
+					if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {		// This is not really exhaustive.
+						o.komi -= query_node.get_board().caps_balance();
+					}
 					break;
 				}
 			}
@@ -74,22 +81,19 @@ function new_query(query_node, engine) {
 
 			if (node.has_key("B")) {
 				let s = node.get("B");
-				moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
+				o.moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
 			}
 			if (node.has_key("W")) {
 				let s = node.get("W");
-				moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
+				o.moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
 			}
 
 		}
 	}
 
-	moves.reverse();
+	o.moves.reverse();
 
-	o.initialStones = setup;
-	o.moves = moves;
-
-	if (moves.length === 0) {
+	if (o.moves.length === 0) {
 		o.initialPlayer = query_node.get_board().active.toUpperCase();
 	}
 
