@@ -129,6 +129,10 @@ let board_prototype = {
 		this.state[x][y] = colour;
 	},
 
+	caps_balance: function() {
+		return this.caps_by_b - this.caps_by_w;
+	},
+
 	zobrist: function() {
 		let hash = this.pos_hash;
 		if (hash === null) {
