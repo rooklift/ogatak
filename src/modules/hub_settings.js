@@ -50,7 +50,7 @@ for (let menupath of Object.values(togglechecks)) {
 
 module.exports = {
 
-	set: function(key, value, debug_missing_handlers = false) {
+	set: function(key, value) {
 
 		config[key] = value;
 
@@ -80,8 +80,6 @@ module.exports = {
 
 			if (config.arbitrary_command) {
 				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
-			} else if (debug_missing_handlers) {
-				// Do nothing, the call was for debugging reasons.
 			} else {
 				this.start_engine();				// Won't do anything unless all 3 settings are valid.
 			}
@@ -195,18 +193,9 @@ module.exports = {
 
 		case "enable_hw_accel":
 
-			if (!debug_missing_handlers) {
-				let msg = "This will not take effect until you restart Ogatak.";
-				if (value) msg += " Note that on some systems this setting may degrade performance, by making KataGo and Ogatak fight over the GPU.";
-				alert(msg);
-			}
-			break;
-
-		default:
-
-			if (debug_missing_handlers) {
-				console.log(`${key}`);
-			}
+			let msg = "This will not take effect until you restart Ogatak.";
+			if (value) msg += " Note that on some systems this setting may degrade performance, by making KataGo and Ogatak fight over the GPU.";
+			alert(msg);
 			break;
 
 		}
@@ -284,12 +273,6 @@ module.exports = {
 		}
 		this.set(key, defaults[key]);
 		return defaults[key];
-	},
-
-	list_keys_without_handlers: function() {		// For debugging.
-		for (let key of Object.keys(config)) {
-			this.set(key, config[key], true);		// Note this sets the key to its current value, possibly triggering side effects.
-		}
 	},
 
 };
