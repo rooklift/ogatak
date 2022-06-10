@@ -55,6 +55,7 @@ module.exports = {
 
 	set: function(key, value) {
 
+		let old_value = config[key];
 		config[key] = value;
 
 		// Any followup actions....................................................................
