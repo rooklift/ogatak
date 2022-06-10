@@ -1,5 +1,8 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
+
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 
@@ -62,21 +65,33 @@ module.exports = {
 		case "engineconfig":
 		case "weights":
 
-			// Some shenanigans to actually live-update the about box, if it's open...
+			if (key === "engine" && typeof value === "string") {
 
-			let possibly_existing_about_box_span_id =
-				key === "engine"       ? "about_box_engine"       :
-				key === "engineconfig" ? "about_box_engineconfig" :
-				key === "weights"      ? "about_box_weights"      :
-				null;
+				if (value.includes("bs29")) {
+					alert("The path specified contains \"bs29\" suggesting this is the slower version of KataGo " +
+						"compiled for large board sizes. Consider acquiring the normal version.");
+				}
 
-			let about_box_span = document.getElementById(possibly_existing_about_box_span_id);
+				// Autodetect analysis_example.cfg if the "engineconfig" setting isn't already set...
 
-			if (about_box_span) {
-				about_box_span.innerHTML = value;
+				if (!config["engineconfig"]) {
+					let expected_analysis_cfg = path.join(path.dirname(value), "analysis_example.cfg");
+					if (fs.existsSync(expected_analysis_cfg)) {
+						config["engineconfig"] = expected_analysis_cfg;
+					}
+				}
 			}
 
-			// Now start the engine, maybe...
+			if (key === "engineconfig" && typeof value === "string") {
+
+				if (["default_gtp.cfg", "contribute_example.cfg", "match_example.cfg"].includes(path.basename(value))) {
+
+					alert("The filename specified appears to be the wrong type of config file. You should use analysis_example.cfg instead.");
+					
+					config[key] = old_value;		// Refuse to accept this.
+					break;
+				}
+			}
 
 			if (config.arbitrary_command) {
 				alert("An arbitrary engine command exists in the config, so this setting will not be used.");
@@ -200,10 +215,14 @@ module.exports = {
 
 		}
 
-		// Fix any multi-check menu items..........................................................
+		// Various fixes to menu items and suchlike................................................
 
 		if (multichecks.hasOwnProperty(key)) {
 			ipcRenderer.send("set_checks", multichecks[key].concat([value]));
+		}
+
+		if (togglechecks.hasOwnProperty(key)) {
+			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
 		}
 
 		if (key === "visits_threshold") {
@@ -218,15 +237,23 @@ module.exports = {
 			this.fix_tools_menu();
 		}
 
-		// Fix any toggle menu items...............................................................
-
-		if (togglechecks.hasOwnProperty(key)) {
-			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
+		if (key === "engine" || key === "engineconfig" || key === "weights") {
+			this.fix_about_box();
 		}
 
 	},
 
 	// --------------------------------------------------------------------------------------------
+
+	fix_about_box: function() {
+		let element;
+		element = document.getElementById("about_box_engine");
+		if (element) element.innerHTML = config.engine || "(unset)";
+		element = document.getElementById("about_box_engineconfig");
+		if (element) element.innerHTML = config.engineconfig || "(unset)";
+		element = document.getElementById("about_box_weights");
+		if (element) element.innerHTML = config.weights || "(unset)";
+	},
 
 	fix_colours_menu: function() {
 		ipcRenderer.send("fix_colour_checks", {
