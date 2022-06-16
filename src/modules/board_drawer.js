@@ -802,12 +802,16 @@ let board_drawer_prototype = {
 
 				if (info.order === 0) {
 					let colour = (board.active === "b") ? config.top_colour_black : config.top_colour_white;
-					if (!colour.endsWith("00") || colour.length !== 9) {
+					if (colour.length === 9 && colour.endsWith("00")) {
+						// the colour is transparent, just leave o.fill as null
+					} else {
 						o.fill = colour;
 					}
 				} else {
 					let colour = (board.active === "b") ? config.off_colour_black : config.off_colour_white;
-					if (!colour.endsWith("00") || colour.length !== 9) {
+					if (colour.length === 9 && colour.endsWith("00")) {
+						// the colour is transparent, just leave o.fill as null rather than proceeding with the alpha adjustment
+					} else {
 						let opacity_hex = (config.visit_colours) ? float_to_hex_ff(info.visits / filtered_infos[0].visits) : "ff";
 						o.fill = colour.slice(0, 7) + opacity_hex;
 					}
