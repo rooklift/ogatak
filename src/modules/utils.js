@@ -331,3 +331,18 @@ exports.every_char_is_hex = function(s) {
 	}
 	return true;
 };
+
+exports.is_valid_rgb_or_rgba_colour = function(s) {
+
+	if (!s.startsWith("#") || (s.length !== 7 && s.length !== 9)) {
+		return false;
+	}
+
+	for (let n = 1; n < s.length; n++) {
+		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <=  57) continue;			// 0-9
+		if (s.charCodeAt(n) >= 65 && s.charCodeAt(n) <=  70) continue;			// A-F
+		if (s.charCodeAt(n) >= 97 && s.charCodeAt(n) <= 102) continue;			// a-f
+		return false;
+	}
+	return true;
+};
