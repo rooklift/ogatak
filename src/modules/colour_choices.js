@@ -1,7 +1,7 @@
 "use strict";
 
-// Note that the "off_colour" alpha values are ignored unless they are "00"
-// Note that the "off_colour" strings must be given in #rrggbbaa format (no shorthand like "red")
+// Strings should be given in #rrggbbaa format (no shorthand like "red").
+// Note that transparent colours (with alpha 00) are treated specially by the drawing code (and never get their alpha adjusted).
 
 exports.red = "#ff7777ff";
 exports.blue = "#77ddddff";
