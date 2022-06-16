@@ -15,7 +15,9 @@
 
 const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
-const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, xy_to_s, float_to_hex_ff, points_list} = require("./utils");
+
+const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array,
+	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -792,41 +794,43 @@ let board_drawer_prototype = {
 			let x = s.charCodeAt(0) - 97;
 			let y = s.charCodeAt(1) - 97;
 
-			if (x >= 0 && x < board.width && y >= 0 && y < board.height) {
-
-				let o = {
-					type: "analysis",
-					text: [],
-					fill: null,
-				};
-
-				if (info.order === 0) {
-					let colour = (board.active === "b") ? config.top_colour_black : config.top_colour_white;
-					if (colour.length === 9 && colour.endsWith("00")) {
-						// the colour is transparent, just leave o.fill as null
-					} else {
-						o.fill = colour;
-					}
-				} else {
-					let colour = (board.active === "b") ? config.off_colour_black : config.off_colour_white;
-					if (colour.length === 9 && colour.endsWith("00")) {
-						// the colour is transparent, just leave o.fill as null rather than proceeding with the alpha adjustment
-					} else {
-						let opacity_hex = (config.visit_colours) ? float_to_hex_ff(info.visits / filtered_infos[0].visits) : "ff";
-						o.fill = colour.slice(0, 7) + opacity_hex;
-					}
-				}
-
-				for (let t of number_types) {
-					let z = string_from_info(info, node, t, needs_flip);
-					if (z === "?") {
-						got_bad_analysis_text = true;
-					}
-					o.text.push(z);
-				}
-
-				this.needed_marks[x][y] = o;
+			if (x < 0 || x >= board.width || y < 0 || y >= board.height) {
+				continue;
 			}
+
+			let o = {
+				type: "analysis",
+				text: [],
+				fill: null,
+			};
+
+			let colour;
+
+			if (info.order === 0) {
+				colour = (board.active === "b") ? config.top_colour_black : config.top_colour_white;
+			} else {
+				colour = (board.active === "b") ? config.off_colour_black : config.off_colour_white;
+			}
+
+			if (!is_valid_rgb_or_rgba_colour(colour)) {
+				o.fill = colour;
+			} else if (colour.length === 9 && colour.endsWith("00")) {
+				o.fill = null;		// the colour is transparent, as a special case we never do alpha adjustment for these, or even draw them
+			} else if (info.order === 0 || !config.visit_colours) {
+				o.fill = colour;
+			} else {
+				o.fill = colour.slice(0, 7) + float_to_hex_ff(info.visits / filtered_infos[0].visits);
+			}
+
+			for (let t of number_types) {
+				let z = string_from_info(info, node, t, needs_flip);
+				if (z === "?") {
+					got_bad_analysis_text = true;
+				}
+				o.text.push(z);
+			}
+
+			this.needed_marks[x][y] = o;
 		}
 
 		if (got_bad_analysis_text) {
