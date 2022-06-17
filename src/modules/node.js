@@ -378,12 +378,9 @@ let node_prototype = {
 
 		this.forget_analysis();
 
-		this.delete_key("AB");
-		this.delete_key("AW");
-		this.delete_key("B");
-		this.delete_key("W");
-		this.delete_key("HA");
-		this.delete_key("PL");
+		for (let key of ["AB", "AW", "B", "W", "HA", "PL"]) {
+			this.delete_key(key);
+		}
 
 		let points = handicap_stones(handicap, this.width(), this.height(), false);
 		for (let point of points) {
