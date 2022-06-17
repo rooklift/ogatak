@@ -376,8 +376,6 @@ let node_prototype = {
 			throw new Error("apply_handicap(): invalid node to apply handicap to");
 		}
 
-		this.forget_analysis();
-
 		for (let key of ["AB", "AW", "B", "W", "HA", "PL"]) {
 			this.delete_key(key);
 		}
