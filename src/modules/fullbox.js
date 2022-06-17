@@ -85,11 +85,7 @@ let fullbox_prototype = {
 		let max_key_length = Math.max(...(Object.keys(props).map(k => k.length)));		// -Infinity if there are no keys
 		let lines = [];
 		for (let key of Object.keys(props)) {
-			let vals = props[key].map(val => {
-				val = safe_html(val);
-				if (key === "PB" || key === "PW" || key === "RE") val = `<span class="blue">${val}</span>`;
-				return val;
-			});
+			let vals = props[key].map(val => ["PB", "PW", "RE"].includes(key) ? `<span class="blue">${safe_html(val)}</span>` : safe_html(val));
 			lines.push(`<span class="blue">${pad(safe_html(key), max_key_length, true)}:</span> [${vals.join("][")}]`);
 		}
 		this.set(lines.join("<br>"));
