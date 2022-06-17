@@ -15,7 +15,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
-const {handicap_stones, node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
+const {node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -296,13 +296,7 @@ let hub_main_props = {
 			root.set("SZ", `${width}:${height}`);
 		}
 
-		let points = handicap_stones(handicap, width, height, false);
-		for (let point of points) {
-			root.add_value("AB", point);
-		}
-		if (points.length > 1) {
-			root.set("HA", points.length);
-		}
+		root.apply_handicap(handicap);
 
 		root.set("RU", rules);
 		root.set("KM", komi);
@@ -311,8 +305,24 @@ let hub_main_props = {
 	},
 
 	place_handicap: function(handicap) {
+
 		let board = this.node.get_board();
-		this.new_game(board.width, board.height, board.komi, board.rules, handicap);
+
+		// Use current game if possible... we used to not do this but it had the problem that someone
+		// could edit the game info and then place the handicap stones, which would either replace
+		// the node (losing the info) or make a new tab, neither of which is desired...
+
+		if (this.node.is_bare_root()) {				// Defined in node.js as no parent, no children, no AB, AW, B, W keys.
+			this.node.forget_analysis();
+			this.node.apply_handicap(handicap);
+			this.node.change_id();					// Prevents the old query from updating the node.
+			if (this.engine.desired) {
+				this.go();
+			}
+			this.draw();
+		} else {
+			this.new_game(board.width, board.height, board.komi, board.rules, handicap);
+		}
 	},
 
 	// Tree........................................................................................

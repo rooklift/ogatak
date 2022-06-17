@@ -11,7 +11,7 @@ const path = require("path");
 
 const new_board = require("./board");
 const stringify = require("./stringify");
-const {replace_all, valid_analysis_object, points_list} = require("./utils");
+const {replace_all, valid_analysis_object, handicap_stones, points_list} = require("./utils");
 
 let next_node_id = 1;
 let have_alerted_zobrist_mismatch = false;
@@ -362,6 +362,38 @@ let node_prototype = {
 		for (let point of Object.keys(points)) {
 			this.add_value(key, point);
 		}
+	},
+
+	apply_handicap: function(handicap) {
+
+		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
+
+		if (!handicap || handicap < 2) {
+			return;
+		}
+
+		if (this.parent || this.children.length > 0) {
+			throw new Error("apply_handicap(): invalid node to apply handicap to");
+		}
+
+		this.forget_analysis();
+
+		this.delete_key("AB");
+		this.delete_key("AW");
+		this.delete_key("B");
+		this.delete_key("W");
+		this.delete_key("HA");
+		this.delete_key("PL");
+
+		let points = handicap_stones(handicap, this.width(), this.height(), false);
+		for (let point of points) {
+			this.add_value("AB", point);
+		}
+		if (points.length > 1) {
+			this.set("HA", points.length);
+		}
+
+		this.__board = null;
 	},
 
 	apply_board_edit: function(key, point) {
