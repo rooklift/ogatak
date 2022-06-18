@@ -979,6 +979,16 @@ let board_drawer_prototype = {
 			let leader = lead >= 0 ? "B" : "W";
 			if (lead < 0) lead *= -1;
 			score = `${leader}+${lead.toFixed(1)}`;
+
+		} else if (node.has_key("OGSC")) {
+
+			let lead = parseFloat(node.get("OGSC"));
+			if (!Number.isNaN(lead)) {
+				let leader = lead >= 0 ? "B" : "W";
+				if (lead < 0) lead *= -1;
+				score = `${leader}+${lead.toFixed(1)}`;
+			}
+
 		}
 
 		let bw_string = (board.active === "b") ? `[<span class="white">B</span>|W]` : `[B|<span class="white">W</span>]`;
