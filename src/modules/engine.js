@@ -77,7 +77,7 @@ let engine_prototype = {
 
 		let query = new_query(node, this);
 
-		if (this.desired) {											// We could skip this test honestly.
+		if (this.desired) {
 			if (compare_queries(this.desired, query)) {
 				return;												// Everything matches; the search desired is already set as such.
 			}
