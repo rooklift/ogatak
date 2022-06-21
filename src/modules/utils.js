@@ -346,3 +346,14 @@ exports.is_valid_rgb_or_rgba_colour = function(s) {
 	}
 	return true;
 };
+
+exports.colour_curve = function(n) {			// Helper for the fade-by-visits feature.
+
+	if (n <= 0) return 0;
+	if (n >= 1) return 1;
+
+	let d = 1 - n;
+	let dsq = d * d;
+
+	return 1 - dsq;
+};

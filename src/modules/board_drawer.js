@@ -17,7 +17,7 @@ const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
 
 const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array,
-	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour} = require("./utils");
+	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -819,7 +819,7 @@ let board_drawer_prototype = {
 			} else if (info.order === 0 || !config.visit_colours) {
 				o.fill = colour;
 			} else {
-				o.fill = colour.slice(0, 7) + float_to_hex_ff(info.visits / filtered_infos[0].visits);
+				o.fill = colour.slice(0, 7) + float_to_hex_ff(colour_curve(info.visits / filtered_infos[0].visits));
 			}
 
 			for (let t of number_types) {
