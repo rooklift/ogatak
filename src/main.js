@@ -1332,9 +1332,9 @@ function menu_build() {
 				{
 					label: "Wide root noise",
 					type: "checkbox",
-					checked: config.wide_root_noise,
+					checked: config.widerootnoise,
 					click: () => {
-						win.webContents.send("toggle", "wide_root_noise");
+						win.webContents.send("toggle", "widerootnoise");
 					}
 				},
 				{

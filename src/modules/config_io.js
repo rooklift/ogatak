@@ -78,8 +78,7 @@ exports.defaults = {
 	"black_pov": false,
 
 	"analysis_pv_len": 16,
-	"wide_root_noise": false,
-	"have_warned_wide_root_noise": false,
+	"widerootnoise": true,
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 

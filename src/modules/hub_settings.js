@@ -25,7 +25,7 @@ const multichecks = {
 };
 
 const togglechecks = {
-	wide_root_noise:		["Analysis", "Wide root noise"],
+	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
 	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	black_pov:				["Display", "Black POV always"],
@@ -69,10 +69,8 @@ module.exports = {
 			if (key === "engine" && typeof value === "string") {
 
 				if (value.includes("bs29")) {
-					alert(
-						"The path specified contains \"bs29\" suggesting this is the slower version of KataGo " +
-						"compiled for large board sizes. Consider acquiring the normal version."
-					);
+					alert("The path specified contains \"bs29\" suggesting this is the slower version of KataGo " +
+						"compiled for large board sizes. Consider acquiring the normal version.");
 				}
 
 				// Autodetect analysis_example.cfg if the "engineconfig" setting isn't already set...
@@ -191,23 +189,9 @@ module.exports = {
 			break;
 
 		case "analysis_pv_len":
+		case "widerootnoise":
 		case "symmetry_pruning":
 		case "report_every":
-
-			if (this.engine.desired) {
-				this.go();
-			}
-			break;
-
-		case "wide_root_noise":
-
-			if (!config.have_warned_wide_root_noise) {
-				alert(
-					"Warning: this can drastically reduce perceived performance, depending on how exactly you use the GUI. " +
-					"The details are too complicated to explain here."
-				);
-				config.have_warned_wide_root_noise = true;
-			}
 
 			if (this.engine.desired) {
 				this.go();
