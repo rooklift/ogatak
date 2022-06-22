@@ -78,7 +78,7 @@ exports.defaults = {
 	"black_pov": false,
 
 	"analysis_pv_len": 16,
-	"widerootnoise": true,
+	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 

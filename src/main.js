@@ -1331,11 +1331,56 @@ function menu_build() {
 				},
 				{
 					label: "Wide root noise",
-					type: "checkbox",
-					checked: config.widerootnoise,
-					click: () => {
-						win.webContents.send("toggle", "widerootnoise");
-					}
+					submenu: [
+						{
+							label: "0.05",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0.05,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0.05});
+							}
+						},
+						{
+							label: "0.04",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0.04,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0.04});
+							}
+						},
+						{
+							label: "0.03",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0.03,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0.03});
+							}
+						},
+						{
+							label: "0.02",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0.02,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0.02});
+							}
+						},
+						{
+							label: "0.01",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0.01,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0.01});
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.wide_root_noise === 0,
+							click: () => {
+								win.webContents.send("set", {wide_root_noise: 0});
+							}
+						},
+					]
 				},
 				{
 					label: "Symmetry pruning",

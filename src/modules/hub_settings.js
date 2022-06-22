@@ -11,6 +11,7 @@ const multichecks = {
 	report_every:			["Setup", "Engine report rate"],
 	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
 	analysis_pv_len:		["Analysis", "PV length (max)"],
+	wide_root_noise:		["Analysis", "Wide root noise"],
 	ownership_marks:		["Analysis", "Ownership"],
 	numbers:				["Display", "Numbers"],
 	graph_type:				["Display", "Graph"],
@@ -25,7 +26,6 @@ const multichecks = {
 };
 
 const togglechecks = {
-	widerootnoise:			["Analysis", "Wide root noise"],
 	symmetry_pruning:		["Analysis", "Symmetry pruning"],
 	ownership_per_move:		["Analysis", "...per-move (costly)"],
 	black_pov:				["Display", "Black POV always"],
@@ -189,7 +189,7 @@ module.exports = {
 			break;
 
 		case "analysis_pv_len":
-		case "widerootnoise":
+		case "wide_root_noise":
 		case "symmetry_pruning":
 		case "report_every":
 
