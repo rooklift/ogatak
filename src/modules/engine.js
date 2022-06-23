@@ -176,6 +176,11 @@ let engine_prototype = {
 			this.shutdown();
 		});
 
+		this.exe.once("exit", (code, signal) => {
+			this.log_and_alert("The engine appears to have quit.");
+			this.shutdown();
+		});
+
 		this.exe.stdin.once("error", (err) => {
 			this.log_and_alert("Got exe.stdin error:", err.toString());
 			this.shutdown();
