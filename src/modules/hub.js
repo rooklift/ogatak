@@ -604,6 +604,11 @@ let hub_main_props = {
 
 	receive_object: function(o) {
 
+		if (o.action === "query_version") {				// Clear the "engine is starting" message.
+			this.draw();
+			return;
+		}
+
 		if (!valid_analysis_object(o)) {
 			return;
 		}

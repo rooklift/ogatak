@@ -16,7 +16,7 @@
 const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
 
-const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array,
+const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, compare_versions,
 	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
@@ -935,6 +935,11 @@ let board_drawer_prototype = {
 			return;
 		}
 
+		if (compare_versions(hub.engine.version, [99, 99, 99]) === 0) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
+			this.draw_engine_starting();
+			return;
+		}
+
 		let board = node.get_board();
 
 		let last_move = "";
@@ -1007,6 +1012,11 @@ let board_drawer_prototype = {
 		let s = hub.engine.problem_text();
 		this.info1span.innerHTML = `<span class="white">${s}</span>`;
 		this.info2span.innerHTML = `<span class="white">Resolve this via the Setup menu.</span>`;
+	},
+
+	draw_engine_starting: function() {
+		this.info1span.innerHTML = `<span class="white">Awaiting response from engine. If needed, please</span>`;
+		this.info2span.innerHTML = `<span class="white">select <span class="yellow">Dev --> Show engine stderr</span> for more info.</span>`;
 	},
 
 };
