@@ -69,6 +69,8 @@ function init() {
 		board_line_width: null,						// This other stuff is stored so we can detect when they 
 		grid_colour: null,							// don't match config and a rebuild() call is needed.
 
+		infodiv_displaying_stats: false,			// Becomes true when normal (i.e. non-error) stuff is shown.
+
 	});
 
 	ret.set_infodiv_font_size(config.info_font_size);
@@ -1006,17 +1008,20 @@ let board_drawer_prototype = {
 
 		this.info1span.innerHTML = s1;
 		this.info2span.innerHTML = s2;
+		this.infodiv_displaying_stats = true;
 	},
 
 	draw_engine_problem: function() {
 		let s = hub.engine.problem_text();
 		this.info1span.innerHTML = `<span class="white">${s}</span>`;
 		this.info2span.innerHTML = `<span class="white">Resolve this via the Setup menu.</span>`;
+		this.infodiv_displaying_stats = false;
 	},
 
 	draw_engine_starting: function() {
 		this.info1span.innerHTML = `<span class="white">Awaiting response from engine. If needed, please</span>`;
 		this.info2span.innerHTML = `<span class="white">select <span class="yellow">Dev --> Show engine stderr</span> for more info.</span>`;
+		this.infodiv_displaying_stats = false;
 	},
 
 };

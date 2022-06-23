@@ -102,3 +102,15 @@ const {node_id_from_search_id} = require("./utils");
 	grapher.pending_mousemove_y = null;
 	setTimeout(graph_mousemove_spinner, 41);
 })();
+
+// ------------------------------------------------------------------------------------------------
+
+(function engine_failure_spinner() {
+	if (board_drawer.infodiv_displaying_stats) {
+		if (!hub.engine.exe || hub.engine.has_quit) {
+			hub.draw();
+			console.log("engine_failure_spinner() fired!");
+		}
+	}
+	setTimeout(engine_failure_spinner, 1234);
+})();
