@@ -177,8 +177,10 @@ let engine_prototype = {
 		});
 
 		this.exe.once("exit", (code, signal) => {
-			this.log_and_alert("The engine appears to have quit.");
-			this.shutdown();
+			if (!this.has_quit) {											// Only act if this is unexpected.
+				this.log_and_alert("The engine appears to have quit.");
+				this.shutdown();
+			}
 		});
 
 		this.exe.stdin.once("error", (err) => {
