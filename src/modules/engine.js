@@ -322,7 +322,8 @@ let engine_prototype = {
 	},
 
 	shutdown: function() {											// Note: Don't reuse the engine object.
-		this.has_quit = true;
+
+		this.has_quit = true;										// Do this first so we know to ignore the "exit" event generated next...
 		if (this.exe) {
 			try {
 				this.exe.stdin.end();
