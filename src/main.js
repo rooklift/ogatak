@@ -617,6 +617,7 @@ function menu_build() {
 				},
 				{
 					label: "Pass",
+					accelerator: "CommandOrControl+P",
 					click: () => {
 						win.webContents.send("call", "pass");
 					}
