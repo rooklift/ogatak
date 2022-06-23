@@ -308,10 +308,10 @@ let engine_prototype = {
 
 	problem_text: function() {
 		if (this.exe) return "";
-		if (!this.filepath) return "Engine not set";
-		if (!this.engineconfig) return "Engine config not set";
-		if (!this.weights) return "Weights not set";
-		return `Engine (${path.basename(this.filepath)}) not running`;
+		if (!this.filepath) return "Engine not set.";
+		if (!this.engineconfig) return "Engine config not set.";
+		if (!this.weights) return "Weights not set.";
+		return `Engine (${path.basename(this.filepath)}) not running.`;
 	},
 
 	shutdown: function() {											// Note: Don't reuse the engine object.
