@@ -104,6 +104,8 @@ const {node_id_from_search_id} = require("./utils");
 })();
 
 // ------------------------------------------------------------------------------------------------
+// In the event that the engine just quits / crashes it will generate an "exit" event which will
+// cause hub.engine to enter its terminal state, but we need to do a draw to display the fact...
 
 (function engine_failure_spinner() {
 	if (board_drawer.infodiv_displaying_stats) {
