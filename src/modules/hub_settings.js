@@ -303,4 +303,12 @@ module.exports = {
 		return defaults[key];
 	},
 
+	differences: function() {
+		for (let key of Object.keys(defaults)) {
+			if (defaults[key] !== config[key]) {
+				console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
+			}
+		}
+	},
+
 };
