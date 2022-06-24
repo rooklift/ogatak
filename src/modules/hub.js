@@ -559,7 +559,7 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
-		grapher.draw_graph(this.node);							// In case we became the main line, in which case colours need updated.
+		grapher.draw_graph(this.node);					// In case we became the main line, in which case colours need updated.
 		tree_drawer.must_draw = true;
 	},
 
@@ -568,10 +568,10 @@ let hub_main_props = {
 			let parent = this.node.parent;
 			this.node.detach();
 			this.set_node(parent, {bless: false});
-		} else {												// There are good reasons why the root node can't be replaced.
+		} else {										// There are good reasons why the root node can't be replaced.
 			if (this.node.children.length > 0) {
 				this.node.detach_children();
-				this.draw();									// Clear the next move markers.
+				this.draw();							// Clear the next move markers.
 				grapher.draw_graph(this.node);
 				tree_drawer.must_draw = true;
 			}
@@ -588,7 +588,7 @@ let hub_main_props = {
 			node = node.parent;
 		}
 
-		this.draw();											// I guess, because next move markers may need cleared.
+		this.draw();									// I guess, because next move markers may need cleared.
 		grapher.draw_graph(this.node);
 		tree_drawer.must_draw = true;
 	},
@@ -596,7 +596,7 @@ let hub_main_props = {
 	forget_analysis_tree: function() {
 		this.halt();
 		this.node.forget_analysis_tree();
-		this.node.change_id();									// Prevents the old query from updating the node.
+		this.node.change_id();							// Prevents the old query from updating the node.
 		this.draw();
 	},
 
@@ -604,9 +604,9 @@ let hub_main_props = {
 
 	receive_object: function(o) {
 
-		if (o.action === "query_version") {				// Clear the "engine is starting" message.
-			this.draw();
-			return;
+		if (o.action === "query_version") {				// The board_drawer displays a startup message until the
+			this.draw();								// query_version message arrives, so we should now draw()
+			return;										// to remove it.
 		}
 
 		if (!valid_analysis_object(o)) {
