@@ -44,6 +44,7 @@ exports.apply_depth_1_ab_fix = function(root) {
 
 	// For Fox, which places handicap stones at depth 1 rather than in the root.
 	// Add a PL property at depth 1 (since node.natural_active() ignores AB outside of root).
+	// Note this isn't quite the same as the above since we only care if there's an AB tag in node1.
 
 	if (root.children.length === 0 || root.children[0].children.length === 0) {
 		return;
