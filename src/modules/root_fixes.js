@@ -2,40 +2,32 @@
 
 exports.apply_komi_fix = function(root) {
 
-	// We only fix the komi if it's actually given.
-
 	let km = parseFloat(root.get("KM"));
 	if (Number.isNaN(km)) {
 		root.delete_key("KM");
-		return;
+		return;									// Just bail out if we weren't given a valid KM.
 	}
 
-	// Also need the HA value:
+	let ha = parseInt(root.get("HA"), 10);		// Might be NaN, we don't care.
 
-	let ha = parseInt(root.get("HA"), 10);
-	if (Number.isNaN(ha)) {
-		ha = 0;
-	}
+	// Specific Fox fixes for the strangely common case where it specifies KM[0] and HA[0]
+	// but there really was a komi...
 
-	// Specific Fox fixes:
-
-	if (root.all_values("AP").includes("foxwq")) {
-		if (ha === 0 && km === 0) {
-			if (["chinese", "cn"].includes(root.get("RU").toLowerCase())) {
-				km = 7.5;
-			} else {
-				km = 6.5;
-			}
+	if (root.all_values("AP").includes("foxwq") && km === 0 && ha === 0) {
+		if (["chinese", "cn"].includes(root.get("RU").toLowerCase())) {
+			km = 7.5;
+		} else {
+			km = 6.5;
 		}
 	}
 
-	// Some sources seem to multiply komi by 100:
+	// Some sources seem to multiply komi by 100...
 
 	if (km > 150) {
 		km /= 100;
 	}
 
-	// Some files give komi in Chinese format e.g. 3.75:
+	// Some files give komi in Chinese format e.g. 3.75...
 
 	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
 		km *= 2;
