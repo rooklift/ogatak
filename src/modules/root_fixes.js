@@ -38,7 +38,7 @@ exports.apply_pl_fix = function(root) {
 	}
 };
 
-exports.apply_depth_1_pl_fix = function(root) {
+exports.apply_depth_1_ab_fix = function(root) {
 
 	// For Fox, which places handicap stones at depth 1 rather than in the root.
 	// Add a PL property at depth 1 (since node.natural_active() ignores AB outside of root).
