@@ -27,9 +27,7 @@ exports.apply_pl_fix = function(root) {
 
 	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("PL") && root.children.length > 0) {
 
-		// Don't do this when there's a single-colour setup (i.e. handicap) as it isn't needed...
-
-		if ((root.has_key("AB") && root.has_key("AW")) || (!root.has_key("AB") && !root.has_key("AW"))) {
+		if (root.has_key("AB") === root.has_key("AW")) {		// This is only needed when there are no setup stones, or both colours...
 
 			let node = root.children[0];
 
