@@ -2,16 +2,40 @@
 
 exports.apply_komi_fix = function(root) {
 
-	let km = parseFloat(root.get("KM"));
+	// We only fix the komi if it's actually given.
 
+	let km = parseFloat(root.get("KM"));
 	if (Number.isNaN(km)) {
 		root.delete_key("KM");
 		return;
 	}
 
-	if (km > 150) {			// Fox, especially.
+	// Also need the HA value:
+
+	let ha = parseInt(root.get("HA"), 10);
+	if (Number.isNaN(ha)) {
+		ha = 0;
+	}
+
+	// Specific Fox fixes:
+
+	if (root.all_values("AP").includes("foxwq")) {
+		if (ha === 0 && km === 0) {
+			if (["chinese", "cn"].includes(root.get("RU").toLowerCase())) {
+				km = 7.5;
+			} else {
+				km = 6.5;
+			}
+		}
+	}
+
+	// Some sources seem to multiply komi by 100:
+
+	if (km > 150) {
 		km /= 100;
 	}
+
+	// Some files give komi in Chinese format e.g. 3.75:
 
 	if (km - Math.floor(km) === 0.75 || km - Math.floor(km) === 0.25) {
 		km *= 2;
@@ -42,7 +66,7 @@ exports.apply_pl_fix = function(root) {
 
 exports.apply_depth_1_ab_fix = function(root) {
 
-	// For Fox, which places handicap stones at depth 1 rather than in the root.
+	// Some sources (e.g. Fox) might place handicap stones at depth 1 rather than in the root.
 	// Add a PL property at depth 1 (since node.natural_active() ignores AB outside of root).
 	// Note this isn't quite the same as the above since we only care if there's an AB tag in node1.
 
