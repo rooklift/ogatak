@@ -1,5 +1,14 @@
 "use strict";
 
+// There are some issues around generating a query when the history has mid-game board edits. We handle these
+// by specifying an "initial" position (generated from the latest edit node), but this has the following issues:
+//
+// 1. KataGo has no way to know how many prisoners there were in this "initial" position, which means it will
+// miscount the score under Japanese rules. We deal with this by manually adjusting komi.
+//
+// 2. KataGo has no way to know how many handicap stones there were at the start, which means it will miscount
+// the score under Chinese rules. We don't deal with this at all.
+
 const {node_id_from_search_id, compare_versions} = require("./utils");
 
 let next_query_id = 1;
