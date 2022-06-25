@@ -259,7 +259,9 @@ let hub_main_props = {
 			apply_komi_fix(root);
 			apply_pl_fix(root);
 			apply_depth_1_ab_fix(root);
-			if (config.guess_ruleset) apply_ruleset_guess(root);		// AFTER the komi fix, above.
+			if (config.guess_ruleset) {
+				apply_ruleset_guess(root);		// AFTER the komi fix, above.
+			}
 		}
 
 		this.add_roots(ok_roots);
