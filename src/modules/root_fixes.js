@@ -11,7 +11,8 @@ exports.apply_komi_fix = function(root) {
 	let ha = parseInt(root.get("HA"), 10);		// Might be NaN, we don't care.
 
 	// Specific Fox fixes for the strangely common case where it specifies KM[0] and HA[0]
-	// but there really was a komi...
+	// but there really was a komi... I believe Fox specifies HA[1] if there's genuinely
+	// no komi, so the following is "safe" I think...
 
 	if (root.all_values("AP").includes("foxwq") && km === 0 && ha === 0) {
 		if (["chinese", "cn"].includes(root.get("RU").toLowerCase())) {
