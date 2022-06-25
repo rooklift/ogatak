@@ -25,13 +25,15 @@ exports.apply_pl_fix = function(root) {
 	// In some ancient games, white plays first.
 	// Add a PL property to the root if so.
 
-	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("PL") && root.children.length > 0) {
+	if (root.children.length === 0) {
+		return;
+	}
 
-		if (root.has_key("AB") === root.has_key("AW")) {		// This is only needed when there are no setup stones, or both colours...
+	let node1 = root.children[0];
 
-			let node = root.children[0];
-
-			if (node.has_key("W") && !node.has_key("B")) {
+	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("PL")) {
+		if (root.has_key("AB") === root.has_key("AW")) {						// Only needed if there are no setup stones, or setup of both colours.
+			if (node1.has_key("W") && !node1.has_key("B")) {
 				root.set("PL", "W");
 			}
 		}
@@ -43,17 +45,12 @@ exports.apply_depth_1_ab_fix = function(root) {
 	// For Fox, which places handicap stones at depth 1 rather than in the root.
 	// Add a PL property at depth 1 (since node.natural_active() ignores AB outside of root).
 
-	if (root.children.length === 0) {
+	if (root.children.length === 0 || root.children[0].children.length === 0) {
 		return;
 	}
 
 	let node1 = root.children[0];
-
-	if (node1.children.length === 0) {
-		return;
-	}
-
-	let node2 = node1.children[0];
+	let node2 = root.children[0].children[0];		// or node1.children[0]
 
 	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("AB") && !root.has_key("AW")) {
 		if (node1.has_key("AB") && !node1.has_key("AW") && !node1.has_key("B") && !node1.has_key("W") && !node1.has_key("PL")) {
