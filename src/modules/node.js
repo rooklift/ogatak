@@ -364,7 +364,7 @@ let node_prototype = {
 		}
 	},
 
-	apply_handicap: function(handicap) {
+	apply_handicap: function(handicap, tygem) {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 
@@ -380,7 +380,7 @@ let node_prototype = {
 			this.delete_key(key);
 		}
 
-		let points = handicap_stones(handicap, this.width(), this.height(), false);
+		let points = handicap_stones(handicap, this.width(), this.height(), tygem);
 		for (let point of points) {
 			this.add_value("AB", point);
 		}

@@ -2283,6 +2283,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: "Prefer Tygem handicap-3 layout",
+					type: "checkbox",
+					checked: config.tygem_3,
+					click: () => {
+						win.webContents.send("toggle", "tygem_3");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

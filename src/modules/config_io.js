@@ -89,9 +89,12 @@ exports.defaults = {
 
 	"enable_hw_accel": false,
 	"logfile": null,
+
 	"width": 1333,
 	"height": 780,
 	"maxed": false,
+
+	"tygem_3": false,
 	"load_at_end": true,
 	"guess_ruleset": false,
 	"autoanalysis_visits": 500,

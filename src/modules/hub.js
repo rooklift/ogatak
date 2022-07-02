@@ -299,7 +299,7 @@ let hub_main_props = {
 			root.set("SZ", `${width}:${height}`);
 		}
 
-		root.apply_handicap(handicap);
+		root.apply_handicap(handicap, config.tygem_3);
 
 		root.set("RU", rules);
 		root.set("KM", komi);
@@ -317,7 +317,7 @@ let hub_main_props = {
 
 		if (this.node.is_bare_root()) {				// Defined in node.js as no parent, no children, no AB, AW, B, W keys.
 			this.node.forget_analysis();
-			this.node.apply_handicap(handicap);
+			this.node.apply_handicap(handicap, config.tygem_3);
 			this.node.change_id();					// Prevents the old query from updating the node.
 			if (this.engine.desired) {
 				this.go();

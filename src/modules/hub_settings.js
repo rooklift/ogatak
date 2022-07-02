@@ -36,6 +36,7 @@ const togglechecks = {
 	embiggen_small_boards:	["Sizes", "Embiggen small boards"],
 	load_at_end:			["Misc", "Load games at final position"],
 	guess_ruleset:			["Misc", "Guess rules from komi on load"],
+	tygem_3:				["Misc", "Prefer Tygem handicap-3 layout"],
 	enable_hw_accel:		["Misc", "Enable hardware acceleration for GUI"],
 	zobrist_checks:			["Dev", "Zobrist mismatch checks"],
 };
