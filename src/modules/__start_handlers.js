@@ -198,8 +198,8 @@ window.addEventListener("keydown", (event) => {
 	// 8. So even if there was no scrolling issue, this would still be needed.
 
 	} else if (event.code === "Space") {
-		event.preventDefault();
-		hub.toggle_ponder();
+		event.preventDefault();							// As noted, this can't be done if the space was for the comment_drawer, so the handler
+		hub.toggle_ponder();							// below calls stopPropagation() to prevent it reaching this window-based handler.
 
 	// Comma is handled here on the renderer side for similar reasons.
 
