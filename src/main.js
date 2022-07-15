@@ -31,6 +31,8 @@ const stringify = require("./modules/stringify");
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 let menu = menu_build();
 let menu_is_set = false;
+let have_sent_quit = false;
+let have_received_terminate = false;
 let queued_files = [];
 let spacebar_time = 0;			// Contrived workaround allowing us to have these as
 let comma_time = 0;				// accelerators without interfering with text editing
@@ -109,12 +111,18 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	// Note: even though there is an event called "restore", if we call win.restore() for a minimized window
 	// which wants to go back to being maximized, it generates a "maximize" event, not a "restore" event.
 
-	win.once("close", (event) => {						// Note the once...
-		event.preventDefault();							// We prevent the close one time only,
-		win.webContents.send("call", "quit");			// to let renderer's "quit" method run once. It then sends "terminate" back.
+	win.on("close", (event) => {						// We used to use .once() but I suppose there's a race condition if two events happen rapidly.
+		if (!have_received_terminate) {
+			event.preventDefault();						// Only a "terminate" message from the Renderer can close the app. See below.
+			if (!have_sent_quit) {
+				win.webContents.send("call", "quit");	// Renderer's "quit" method runs. It then sends "terminate" back.
+				have_sent_quit = true;
+			}
+		}
 	});
 
 	electron.ipcMain.on("terminate", () => {
+		have_received_terminate = true;					// Needed so the "close" handler (see above) knows to allow it.
 		win.close();
 	});
 
