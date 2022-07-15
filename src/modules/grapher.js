@@ -147,6 +147,10 @@ let grapher_prototype = {
 
 		// Assumes vals are normalised to 0..1 range
 
+		if (linewidth <= 0) {
+			return;
+		}
+
 		let ctx = this.ctx;
 		ctx.lineWidth = linewidth;
 		ctx.strokeStyle = colour;
@@ -229,7 +233,7 @@ let grapher_prototype = {
 
 		let ctx = this.ctx;
 
-		ctx.lineWidth = config.minor_graph_linewidth;
+		ctx.lineWidth = (config.minor_graph_linewidth > 0) ? config.minor_graph_linewidth : 1;
 		ctx.strokeStyle = config.midline_graph_colour;
 
 		ctx.beginPath();

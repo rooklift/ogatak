@@ -2048,6 +2048,14 @@ function menu_build() {
 								win.webContents.send("set", {minor_graph_linewidth: 1});
 							}
 						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.minor_graph_linewidth === 0,
+							click: () => {
+								win.webContents.send("set", {minor_graph_linewidth: 0});
+							}
+						},
 					]
 				},
 				{
