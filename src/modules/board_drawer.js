@@ -729,16 +729,12 @@ let board_drawer_prototype = {
 
 				if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
 
-					let o = this.needed_marks[x][y];
+					// let already_exists = (this.needed_marks[x][y] && this.needed_marks[x][y].type === "pv") ? true : false;		// Could use for stuff.
 
-					if (o && o.type === "pv") {			// This is 2nd (or later) time this point is played on the PV.
-						// o.text = "+";				// Bit of an aesthetic choice.
-					} else {
-						this.needed_marks[x][y] = {
-							type: "pv",
-							text: (n + 1).toString(),
-						};
-					}
+					this.needed_marks[x][y] = {
+						type: "pv",
+						text: (n + 1).toString(),
+					};
 				}
 			}
 		}
