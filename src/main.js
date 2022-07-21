@@ -1701,6 +1701,7 @@ function menu_build() {
 					label: "...with PV mouseover",
 					type: "checkbox",
 					checked: config.mouseover_pv,
+					accelerator: "CommandOrControl+Shift+M",
 					click: () => {
 						win.webContents.send("toggle", "mouseover_pv");
 					}
