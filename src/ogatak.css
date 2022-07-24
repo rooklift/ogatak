@@ -141,6 +141,7 @@ body {
 	border: none;
 	grid-area: comments;
 	color: #ffffffff;
+	cursor: auto;
 	background-color: #181818ff;
 	font-family: monospace, monospace;
 	margin: 0;
