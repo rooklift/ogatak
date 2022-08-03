@@ -2485,7 +2485,7 @@ function get_submenu_items(menupath) {
 		ret = ret.find(o => o.label.toLowerCase() === s);
 
 		if (ret === undefined) {
-			throw new Error(`get_submenu_items(): invalid path: ${menupath}`);
+			return undefined;
 		}
 
 		if (ret.submenu) {
@@ -2503,10 +2503,13 @@ function set_checks(menupath) {
 	}
 
 	let items = get_submenu_items(menupath.slice(0, -1));
-	let desired = stringify(menupath[menupath.length - 1]).toLowerCase();
-	for (let n = 0; n < items.length; n++) {
-		if (items[n].checked !== undefined) {
-			items[n].checked = items[n].label.toLowerCase() === desired;
+
+	if (Array.isArray(items)) {
+		let desired = stringify(menupath[menupath.length - 1]).toLowerCase();
+		for (let n = 0; n < items.length; n++) {
+			if (items[n].checked !== undefined) {
+				items[n].checked = items[n].label.toLowerCase() === desired;
+			}
 		}
 	}
 }
@@ -2519,7 +2522,7 @@ function set_one_check(desired_state, menupath) {
 
 	let item = get_submenu_items(menupath);
 
-	if (item.checked !== undefined) {
+	if (item && item.checked !== undefined) {
 		item.checked = desired_state ? true : false;
 	}
 }
@@ -2530,9 +2533,9 @@ function verify_menupath(menupath) {
 		return;
 	}
 
-	try {
-		get_submenu_items(menupath);
-	} catch (err) {
+	let result = get_submenu_items(menupath);
+	
+	if (!result) {
 		alert(win, `Failed to verify menupath: ${stringify(menupath)}`);
 	}
 }
