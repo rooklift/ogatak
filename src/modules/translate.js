@@ -119,7 +119,6 @@ translations["English"] = {
 		MENU_ESCAPE: "Escape",
 		MENU_PLAY_BLACK: "Play Black",
 		MENU_PLAY_WHITE: "Play White",
-		MENU_HALT: "Halt",
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: "Load games at final position",
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: "Guess rules from komi on load",
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Prefer Tygem handicap-3 layout",
@@ -134,6 +133,7 @@ translations["English"] = {
 		MENU_RESET_MISMATCH_WARNINGS: "Reset mismatch warnings",
 		MENU_SHOW_CONFIG_FILE: "Show config file",
 		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
+
 }
 
 function translate(key) {
