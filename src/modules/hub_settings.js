@@ -5,40 +5,41 @@ const path = require("path");
 
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
+const translate = require("./translate");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
-	report_every:			["Setup", "Engine report rate"],
-	autoanalysis_visits:	["Analysis", "Autoanalysis visits"],
-	analysis_pv_len:		["Analysis", "PV length (max)"],
-	wide_root_noise:		["Analysis", "Wide root noise"],
-	ownership_marks:		["Analysis", "Ownership"],
-	numbers:				["Display", "Numbers"],
-	graph_type:				["Display", "Graph"],
-	board_line_width:		["Sizes", "Board lines"],
-	info_font_size:			["Sizes", "Info font"],
-	graph_width:			["Sizes", "Graph width"],
-	major_graph_linewidth:	["Sizes", "Graph major lines"],
-	minor_graph_linewidth:	["Sizes", "Graph minor lines"],
-	thumbnail_square_size:	["Sizes", "Thumbnail squares"],
-	tree_spacing:			["Sizes", "Tree spacing"],
-	comment_box_height: 	["Sizes", "Comment box"],
+	report_every:			[translate("MENU_SETUP"), translate("MENU_ENGINE_REPORT_RATE")],
+	autoanalysis_visits:	[translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS_VISITS")],
+	analysis_pv_len:		[translate("MENU_ANALYSIS"), translate("MENU_PV_LENGTH_MAX")],
+	wide_root_noise:		[translate("MENU_ANALYSIS"), translate("MENU_WIDE_ROOT_NOISE")],
+	ownership_marks:		[translate("MENU_ANALYSIS"), translate("MENU_OWNERSHIP")],
+	numbers:				[translate("MENU_DISPLAY"), translate("MENU_NUMBERS")],
+	graph_type:				[translate("MENU_DISPLAY"), translate("MENU_GRAPH")],
+	board_line_width:		[translate("MENU_SIZES"), translate("MENU_BOARD_LINES")],
+	info_font_size:			[translate("MENU_SIZES"), translate("MENU_INFO_FONT")],
+	graph_width:			[translate("MENU_SIZES"), translate("MENU_GRAPH_WIDTH")],
+	major_graph_linewidth:	[translate("MENU_SIZES"), translate("MENU_GRAPH_MAJOR_LINES")],
+	minor_graph_linewidth:	[translate("MENU_SIZES"), translate("MENU_GRAPH_MINOR_LINES")],
+	thumbnail_square_size:	[translate("MENU_SIZES"), translate("MENU_THUMBNAIL_SQUARES")],
+	tree_spacing:			[translate("MENU_SIZES"), translate("MENU_TREE_SPACING")],
+	comment_box_height: 	[translate("MENU_SIZES"), translate("MENU_COMMENT_BOX")],
 };
 
 const togglechecks = {
-	symmetry_pruning:		["Analysis", "Symmetry pruning"],
-	ownership_per_move:		["Analysis", "...per-move (costly)"],
-	black_pov:				["Display", "Black POV always"],
-	candidate_moves:		["Display", "Candidate moves"],
-	mouseover_pv:			["Display", "...with PV mouseover"],
-	visit_colours:			["Display", "...fade by visits"],
-	next_move_markers:		["Display", "Next move markers"],
-	embiggen_small_boards:	["Sizes", "Embiggen small boards"],
-	load_at_end:			["Misc", "Load games at final position"],
-	guess_ruleset:			["Misc", "Guess rules from komi on load"],
-	tygem_3:				["Misc", "Prefer Tygem handicap-3 layout"],
-	enable_hw_accel:		["Misc", "Enable hardware acceleration for GUI"],
-	zobrist_checks:			["Dev", "Zobrist mismatch checks"],
+	symmetry_pruning:		[translate("MENU_ANALYSIS"), translate("MENU_SYMMETRY_PRUNING")],
+	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
+	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
+	candidate_moves:		[translate("MENU_DISPLAY"), translate("MENU_CANDIDATE_MOVES")],
+	mouseover_pv:			[translate("MENU_DISPLAY"), translate("MENU_WITH_PV_MOUSEOVER")],
+	visit_colours:			[translate("MENU_DISPLAY"), translate("MENU_FADE_BY_VISITS")],
+	next_move_markers:		[translate("MENU_DISPLAY"), translate("MENU_NEXT_MOVE_MARKERS")],
+	embiggen_small_boards:	[translate("MENU_SIZES"), translate("MENU_EMBIGGEN_SMALL_BOARDS")],
+	load_at_end:			[translate("MENU_MISC"), translate("MENU_LOAD_GAMES_AT_FINAL_POSITION")],
+	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
+	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
+	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],
+	zobrist_checks:			[translate("MENU_DEV"), translate("MENU_ZOBRIST_MISMATCH_CHECKS")],
 };
 
 // The following lines just ask main process to check the menupath exists,
@@ -51,6 +52,24 @@ for (let menupath of Object.values(multichecks)) {
 for (let menupath of Object.values(togglechecks)) {
 	ipcRenderer.send("verify_menupath", menupath);
 }
+
+// Like everything else that's translated, the mode strings should only be translated at startup...
+
+const mode_strings = {
+	"AB": translate("MENU_ADD_BLACK"),
+	"AW": translate("MENU_ADD_WHITE"),
+	"AE": translate("MENU_ADD_EMPTY"),
+	"TR": translate("MENU_TRIANGLE"),
+	"SQ": translate("MENU_SQUARE"),
+	"CR": translate("MENU_CIRCLE"),
+	"MA": translate("MENU_CROSS"),
+	"LB:A": translate("MENU_LABELS_ABC"),
+	"LB:1": translate("MENU_LABELS_123"), 
+};
+
+const normal_mode_string = translate("MENU_NORMAL");
+
+
 
 module.exports = {
 
@@ -274,17 +293,10 @@ module.exports = {
 	},
 
 	fix_tools_menu: function() {
-
-		const mode_strings = {
-			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
-			"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross",
-			"LB:A": "Labels (ABC)", "LB:1": "Labels (123)", 
-		};
-
 		if (!config.mode) {
-			ipcRenderer.send("set_checks", ["Tools", "Normal"]);
+			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), normal_mode_string]);
 		} else {
-			ipcRenderer.send("set_checks", ["Tools", mode_strings[config.mode]]);
+			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), mode_strings[config.mode]]);
 		}
 	},
 

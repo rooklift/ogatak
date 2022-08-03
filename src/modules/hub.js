@@ -15,6 +15,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
+const translate = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
@@ -706,29 +707,29 @@ let hub_main_props = {
 	set_autoanalysis: function(val) {
 		val = val ? true : false;
 		this.__autoanalysis = val;
-		ipcRenderer.send(val ? "set_check_true" : "set_check_false", ["Analysis", "Autoanalysis"]);
+		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS")]);
 		return val;
 	},
 
 	set_backanalysis: function(val) {
 		val = val ? true : false;
 		this.__backanalysis = val;
-		ipcRenderer.send(val ? "set_check_true" : "set_check_false", ["Analysis", "Backward analysis"]);
+		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_BACKWARD_ANALYSIS")]);
 		return val;
 	},
 
 	set_autoplay: function(val) {
 		val = val ? true : false;
 		this.__autoplay = val;
-		ipcRenderer.send(val ? "set_check_true" : "set_check_false", ["Analysis", "Self-play"]);
+		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")]);
 		return val;
 	},
 
 	set_play_colour: function(val) {
 		val = (val === "b" || val === "w") ? val : null;
 		this.__play_colour = val;
-		ipcRenderer.send(val === "b" ? "set_check_true" : "set_check_false", ["Misc", "Play Black"]);
-		ipcRenderer.send(val === "w" ? "set_check_true" : "set_check_false", ["Misc", "Play White"]);
+		ipcRenderer.send(val === "b" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_PLAY_BLACK")]);
+		ipcRenderer.send(val === "w" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_PLAY_WHITE")]);
 		return val;
 	},
 
@@ -874,9 +875,9 @@ let hub_main_props = {
 
 	fix_go_halt_menu_item: function() {
 		if (this.engine.desired) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
+			ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		}
 	},
 

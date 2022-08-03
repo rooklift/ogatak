@@ -8,6 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const stringify = require("./stringify");
+const translate = require("./translate");
 const {parse_version, compare_versions} = require("./utils");
 const {new_query, compare_queries} = require("./query");
 
@@ -69,11 +70,11 @@ let engine_prototype = {
 		// Otherwise, sends the desired query to the engine, and sets this.running.
 
 		if (!this.exe) {
-			ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 			return;
 		}
 
-		ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
+		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
 		let query = new_query(node, this);
 
@@ -101,7 +102,7 @@ let engine_prototype = {
 
 		// Clears this.desired, and sends a stop message if required.
 
-		ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
 		if (!this.exe) {
 			return;
@@ -237,7 +238,7 @@ let engine_prototype = {
 				if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
 					if (this.desired === this.running) {
 						this.desired = null;
-						ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+						ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 					}
 					this.running = null;
 					if (this.desired) {
