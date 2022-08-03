@@ -25,6 +25,7 @@ const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
+const translate = require("./modules/translate");
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -225,11 +226,14 @@ function menu_build() {
 	// so saves space in this file but adds some complexity for (imo) no real benefit...
 
 	const template = [
+
+		// File menu...............................................................................
+
 		{
-			label: "File",
+			label: translate("MENU_FILE"),
 			submenu: [
 				{
-					label: "About",
+					label: translate("MENU_ABOUT"),
 					click: () => {
 						win.webContents.send("call", {
 							fn: "about",
@@ -241,7 +245,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "New board",
+					label: translate("MENU_NEW_BOARD"),
 					accelerator: "CommandOrControl+N",
 					click: () => {
 						win.webContents.send("call", {
@@ -251,7 +255,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "New small board",
+					label: translate("MENU_NEW_SMALL_BOARD"),
 					submenu: [
 						{
 							label: "17 x 17",
@@ -310,14 +314,14 @@ function menu_build() {
 					]
 				},
 				{
-					label: "New rectangular board",
+					label: translate("MENU_NEW_RECTANGULAR_BOARD"),
 					submenu: rectangular_submenu(),
 				},
 				{
 					type: "separator",
 				},
 				{
-					label: "Handicap",
+					label: translate("MENU_HANDICAP"),
 					submenu: [
 						{
 							label: "9",
@@ -397,7 +401,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Close tab",
+					label: translate("MENU_CLOSE_TAB"),
 					accelerator: "CommandOrControl+W",
 					click: () => {
 						win.webContents.send("call", "close_tab");
@@ -407,7 +411,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Open...",
+					label: translate("MENU_OPEN"),
 					accelerator: "CommandOrControl+O",
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.sgf_folder, properties: ["multiSelections"]})
@@ -423,7 +427,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Paste SGF",
+					label: translate("MENU_PASTE_SGF"),
 					accelerator: "CommandOrControl+Shift+V",
 					click: () => {
 						win.webContents.send("call", {
@@ -436,14 +440,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Save game",
+					label: translate("MENU_SAVE_GAME"),
 					accelerator: "CommandOrControl+S",
 					click: () => {
 						win.webContents.send("call", "save_fast");
 					}
 				},
 				{
-					label: "Save game as...",
+					label: translate("MENU_SAVE_GAME_AS"),
 					click: () => {
 						electron.dialog.showSaveDialog(win, {
 							defaultPath: config.sgf_folder,
@@ -464,7 +468,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Save collection as...",
+					label: translate("MENU_SAVE_COLLECTION_AS"),
 					click: () => {
 						electron.dialog.showSaveDialog(win, {
 							defaultPath: config.sgf_folder,
@@ -485,17 +489,20 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Quit",
+					label: translate("MENU_QUIT"),
 					accelerator: "CommandOrControl+Q",
 					role: "quit"
 				},
 			]
 		},
+
+		// Setup menu..............................................................................
+
 		{
-			label: "Setup",
+			label: translate("MENU_SETUP"),
 			submenu: [
 				{
-					label: "Locate KataGo...",
+					label: translate("MENU_LOCATE_KATAGO"),
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.katago_folder})
 						.then(o => {
@@ -507,7 +514,7 @@ function menu_build() {
 					},
 				},
 				{
-					label: "Locate KataGo analysis config...",
+					label: translate("MENU_LOCATE_KATAGO_ANALYSIS_CONFIG"),
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.kataconfig_folder})
 						.then(o => {
@@ -519,7 +526,7 @@ function menu_build() {
 					},
 				},
 				{
-					label: "Choose weights...",
+					label: translate("MENU_CHOOSE_WEIGHTS"),
 					click: () => {
 						electron.dialog.showOpenDialog(win, {defaultPath: config.weights_folder})
 						.then(o => {
@@ -534,7 +541,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Launch KataGo via command...",
+					label: translate("MENU_LAUNCH_KATAGO_VIA_COMMAND"),
 					click: () => {
 						alert(win, "This can be done by editing config.json (which you can find via the Misc menu).\n\n" +
 
@@ -549,13 +556,13 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Clear cache",
+					label: translate("MENU_CLEAR_CACHE"),
 					click: () => {
 						win.webContents.send("call", "clear_cache");
 					}
 				},
 				{
-					label: "Restart",
+					label: translate("MENU_RESTART"),
 					click: () => {
 						win.webContents.send("call", "start_engine");
 					}
@@ -564,7 +571,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Engine report rate",
+					label: translate("MENU_ENGINE_REPORT_RATE"),
 					submenu: [
 						{
 							label: "0.1",
@@ -610,11 +617,14 @@ function menu_build() {
 				},
 			]
 		},
+
+		// Tree menu...............................................................................
+
 		{
-			label: "Tree",
+			label: translate("MENU_TREE"),
 			submenu: [
 				{
-					label: "Play best move",
+					label: translate("MENU_PLAY_BEST_MOVE"),
 					accelerator: ",",			// See notes on "Space" accelerator shenanigans, below.
 					click: () => {
 						let time_since_comma = new Date() - comma_time;
@@ -624,7 +634,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Pass",
+					label: translate("MENU_PASS"),
 					accelerator: "CommandOrControl+P",
 					click: () => {
 						win.webContents.send("call", "pass");
@@ -634,14 +644,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Root",
+					label: translate("MENU_ROOT"),
 					accelerator: "Home",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "go_to_root");
 					}
 				},
 				{
-					label: "End",
+					label: translate("MENU_END"),
 					accelerator: "End",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", "go_to_end");
@@ -651,7 +661,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Backward",
+					label: translate("MENU_BACKWARD"),
 					accelerator: "Up",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", {
@@ -661,7 +671,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Forward",
+					label: translate("MENU_FORWARD"),
 					accelerator: "Down",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", {
@@ -674,7 +684,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Backward 10",
+					label: translate("MENU_BACKWARD_10"),
 					accelerator: "PageUp",		// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", {
@@ -684,7 +694,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Forward 10",
+					label: translate("MENU_FORWARD_10"),
 					accelerator: "PageDown",	// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
 						win.webContents.send("call", {
@@ -697,14 +707,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Previous sibling",
+					label: translate("MENU_PREVIOUS_SIBLING"),
 					accelerator: "Left",
 					click: () => {
 						win.webContents.send("call", "prev_sibling");
 					}
 				},
 				{
-					label: "Next sibling",
+					label: translate("MENU_NEXT_SIBLING"),
 					accelerator: "Right",
 					click: () => {
 						win.webContents.send("call", "next_sibling");
@@ -714,7 +724,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Return to main line",
+					label: translate("MENU_RETURN_TO_MAIN_LINE"),
 					accelerator: "CommandOrControl+R",
 					click: () => {
 						win.webContents.send("call", "return_to_main");
@@ -724,14 +734,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Find previous fork",
+					label: translate("MENU_FIND_PREVIOUS_FORK"),
 					accelerator: "CommandOrControl+D",
 					click: () => {
 						win.webContents.send("call", "previous_fork");
 					}
 				},
 				{
-					label: "Find next fork",
+					label: translate("MENU_FIND_NEXT_FORK"),
 					accelerator: "CommandOrControl+F",
 					click: () => {
 						win.webContents.send("call", "next_fork");
@@ -741,7 +751,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Promote line",
+					label: translate("MENU_PROMOTE_LINE"),
 					accelerator: "CommandOrControl+K",
 					click: () => {
 						win.webContents.send("call", {
@@ -751,7 +761,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Promote line to main line",
+					label: translate("MENU_PROMOTE_LINE_TO_MAIN_LINE"),
 					accelerator: "CommandOrControl+L",
 					click: () => {
 						win.webContents.send("call", {
@@ -764,14 +774,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Delete node",
+					label: translate("MENU_DELETE_NODE"),
 					accelerator: "CommandOrControl+Backspace",
 					click: () => {
 						win.webContents.send("call", "delete_node");
 					}
 				},
 				{
-					label: "Delete all previous forks",
+					label: translate("MENU_DELETE_ALL_PREVIOUS_FORKS"),
 					click: () => {
 						win.webContents.send("call", {
 							fn: "delete_other_lines",
@@ -781,11 +791,14 @@ function menu_build() {
 				},
 			]
 		},
+
+		// Tools menu..............................................................................
+
 		{
-			label: "Tools",								// Needs special treatment in hub_settings.js, because its values don't match its labels.
+			label: translate("MENU_TOOLS"),								// Needs special treatment in hub_settings.js, because its values don't match its labels.
 			submenu: [
 				{
-					label: "Normal",
+					label: translate("MENU_NORMAL"),
 					type: "checkbox",
 					checked: !config.mode,
 					accelerator: "CommandOrControl+1",
@@ -797,7 +810,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Add Black",
+					label: translate("MENU_ADD_BLACK"),
 					type: "checkbox",
 					checked: config.mode === "AB",
 					accelerator: "CommandOrControl+2",
@@ -806,7 +819,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Add White",
+					label: translate("MENU_ADD_WHITE"),
 					type: "checkbox",
 					checked: config.mode === "AW",
 					accelerator: "CommandOrControl+3",
@@ -815,7 +828,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Add Empty",
+					label: translate("MENU_ADD_EMPTY"),
 					type: "checkbox",
 					checked: config.mode === "AE",
 					accelerator: "CommandOrControl+4",
@@ -827,7 +840,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Triangle",
+					label: translate("MENU_TRIANGLE"),
 					type: "checkbox",
 					checked: config.mode === "TR",
 					accelerator: "CommandOrControl+5",
@@ -836,7 +849,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Square",
+					label: translate("MENU_SQUARE"),
 					type: "checkbox",
 					checked: config.mode === "SQ",
 					accelerator: "CommandOrControl+6",
@@ -845,7 +858,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Circle",
+					label: translate("MENU_CIRCLE"),
 					type: "checkbox",
 					checked: config.mode === "CR",
 					accelerator: "CommandOrControl+7",
@@ -854,7 +867,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Cross",
+					label: translate("MENU_CROSS"),
 					type: "checkbox",
 					checked: config.mode === "MA",
 					accelerator: "CommandOrControl+8",
@@ -866,7 +879,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Labels (ABC)",
+					label: translate("MENU_LABELS_ABC"),
 					type: "checkbox",
 					checked: config.mode === "LB:A",
 					accelerator: "CommandOrControl+9",
@@ -875,7 +888,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Labels (123)",
+					label: translate("MENU_LABELS_123"),
 					type: "checkbox",
 					checked: config.mode === "LB:1",
 					accelerator: "CommandOrControl+0",
@@ -887,7 +900,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Toggle active player",
+					label: translate("MENU_TOGGLE_ACTIVE_PLAYER"),
 					click: () => {
 						win.webContents.send("call", "toggle_active_player");
 					}
@@ -896,7 +909,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Game info editor",
+					label: translate("MENU_GAME_INFO_EDITOR"),
 					accelerator: "CommandOrControl+I",
 					click: () => {
 						win.webContents.send("call", "display_root_editor");
@@ -904,14 +917,17 @@ function menu_build() {
 				},
 			]
 		},
+
+		// Analysis menu...........................................................................
+
 		{
-			label: "Analysis",
+			label: translate("MENU_ANALYSIS"),
 			submenu: [
 				{
-					label: "Go / halt toggle",		// We do some shenanigans here to show "Space" to the user as a valid accelerator, while
-					accelerator: "Space",			// actually ignoring it - spacebar is handled entirely on the renderer side, because of
-					type: "checkbox",				// reasons. Thus, somewhere above we declared a handler for "before-input-event" events
-					checked: false,					// which we use to track when the last spacebar press happened, BEFORE this sees it.
+					label: translate("MENU_GO_HALT_TOGGLE"),	// We do some shenanigans here to show "Space" to the user as a valid accelerator, while
+					accelerator: "Space",						// actually ignoring it - spacebar is handled entirely on the renderer side, because of
+					type: "checkbox",							// reasons. Thus, somewhere above we declared a handler for "before-input-event" events
+					checked: false,								// which we use to track when the last spacebar press happened, BEFORE this sees it.
 					click: () => {
 						let time_since_spacebar = new Date() - spacebar_time;
 						if (time_since_spacebar > 200) {
@@ -925,14 +941,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Go",
+					label: translate("MENU_GO"),
 					accelerator: "CommandOrControl+G",
 					click: () => {
 						win.webContents.send("call", "go");
 					}
 				},
 				{
-					label: "Halt",
+					label: translate("MENU_HALT"),
 					accelerator: "CommandOrControl+H",
 					click: () => {
 						win.webContents.send("call", "halt");
@@ -942,7 +958,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Self-play",
+					label: translate("MENU_SELF_PLAY"),
 					type: "checkbox",
 					checked: false,
 					accelerator: "F11",
@@ -951,7 +967,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Autoanalysis",
+					label: translate("MENU_AUTOANALYSIS"),
 					accelerator: "F12",
 					type: "checkbox",
 					checked: false,
@@ -960,7 +976,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Backward analysis",
+					label: translate("MENU_BACKWARD_ANALYSIS"),
 					type: "checkbox",
 					checked: false,
 					click: () => {
@@ -971,7 +987,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Autoanalysis visits",
+					label: translate("MENU_AUTOANALYSIS_VISITS"),
 					submenu: [
 						{
 							label: "10000",
@@ -1059,7 +1075,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Set rules",
+					label: translate("MENU_SET_RULES"),
 					submenu: [
 						{
 							label: "Chinese",
@@ -1091,7 +1107,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Set komi",
+					label: translate("MENU_SET_KOMI"),
 					submenu: [
 						{
 							label: "7.5",
@@ -1243,7 +1259,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "PV length (max)",
+					label: translate("MENU_PV_LENGTH_MAX"),
 					submenu: [
 						{
 							label: "30",
@@ -1339,7 +1355,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Wide root noise",
+					label: translate("MENU_WIDE_ROOT_NOISE"),
 					submenu: [
 						{
 							label: "0.05",
@@ -1392,7 +1408,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Symmetry pruning",
+					label: translate("MENU_SYMMETRY_PRUNING"),
 					type: "checkbox",
 					checked: config.symmetry_pruning,
 					click: () => {
@@ -1403,7 +1419,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Ownership",
+					label: translate("MENU_OWNERSHIP"),
 					submenu: [
 						{
 							label: "None",
@@ -1443,7 +1459,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "...per-move (costly)",
+					label: translate("MENU_PER_MOVE"),
 					type: "checkbox",
 					checked: config.ownership_per_move,
 					click: () => {
@@ -1454,18 +1470,21 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Clear all analysis",
+					label: translate("MENU_CLEAR_ALL_ANALYSIS"),
 					click: () => {
 						win.webContents.send("call", "forget_analysis_tree");
 					}
 				},
 			]
 		},
+
+		// Display menu............................................................................
+
 		{
-			label: "Display",
+			label: translate("MENU_DISPLAY"),
 			submenu: [
 				{
-					label: "Visit filter",				// Needs special treatment in hub_settings.js, because its values don't match its labels.
+					label: translate("MENU_VISIT_FILTER"),	// Needs special treatment in hub_settings.js, because its values don't match its labels.
 					submenu: [
 						{
 							label: "All",
@@ -1541,7 +1560,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Numbers",
+					label: translate("MENU_NUMBERS"),
 					submenu: [
 						{
 							label: "LCB + Visits",
@@ -1652,7 +1671,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Graph",
+					label: translate("MENU_GRAPH"),
 					submenu: [
 						{
 							label: "Winrate",
@@ -1678,7 +1697,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Black POV always",
+					label: translate("MENU_BLACK_POV_ALWAYS"),
 					type: "checkbox",
 					checked: config.black_pov,
 					click: () => {
@@ -1689,7 +1708,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Candidate moves",
+					label: translate("MENU_CANDIDATE_MOVES"),
 					type: "checkbox",
 					checked: config.candidate_moves,
 					accelerator: "CommandOrControl+M",
@@ -1698,7 +1717,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "...with PV mouseover",
+					label: translate("MENU_WITH_PV_MOUSEOVER"),
 					type: "checkbox",
 					checked: config.mouseover_pv,
 					accelerator: "CommandOrControl+Shift+M",
@@ -1707,7 +1726,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "...fade by visits",
+					label: translate("MENU_FADE_BY_VISITS"),
 					type: "checkbox",
 					checked: config.visit_colours,
 					click: () => {
@@ -1718,7 +1737,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Next move markers",
+					label: translate("MENU_NEXT_MOVE_MARKERS"),
 					type: "checkbox",
 					checked: config.next_move_markers,
 					click: () => {
@@ -1729,16 +1748,19 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Colours",
+					label: translate("MENU_COLOURS"),
 					submenu: colour_choices_submenu(),
 				},
 			]
 		},
+
+		// Sizes menu..............................................................................
+
 		{
-			label: "Sizes",
+			label: translate("MENU_SIZES"),
 			submenu: [
 				{
-					label: "Embiggen small boards",
+					label: translate("MENU_EMBIGGEN_SMALL_BOARDS"),
 					type: "checkbox",
 					checked: config.embiggen_small_boards,
 					click: () => {
@@ -1749,7 +1771,7 @@ function menu_build() {
 					type: "separator"
 				},
 				{
-					label: "Info font",
+					label: translate("MENU_INFO_FONT"),
 					submenu: [
 						{
 							label: "32",
@@ -1845,7 +1867,7 @@ function menu_build() {
 					type: "separator"
 				},
 				{
-					label: "Graph width",
+					label: translate("MENU_GRAPH_WIDTH"),
 					submenu: [
 						{
 							label: "512",
@@ -1978,7 +2000,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Graph major lines",
+					label: translate("MENU_GRAPH_MAJOR_LINES"),
 					submenu: [
 						{
 							label: "4",
@@ -2015,7 +2037,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Graph minor lines",
+					label: translate("MENU_GRAPH_MINOR_LINES"),
 					submenu: [
 						{
 							label: "4",
@@ -2063,7 +2085,7 @@ function menu_build() {
 					type: "separator"
 				},
 				{
-					label: "Board lines",
+					label: translate("MENU_BOARD_LINES"),
 					submenu: [
 						{
 							label: "4",
@@ -2100,7 +2122,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Thumbnail squares",
+					label: translate("MENU_THUMBNAIL_SQUARES"),
 					submenu: [
 						{
 							label: "8",
@@ -2129,7 +2151,7 @@ function menu_build() {
 					]
 				},
 				{
-					label: "Tree spacing",
+					label: translate("MENU_TREE_SPACING"),
 					submenu: [
 						{
 							label: "48",
@@ -2193,7 +2215,7 @@ function menu_build() {
 					type: "separator"
 				},
 				{
-					label: "Comment box",
+					label: translate("MENU_COMMENT_BOX"),
 					submenu: [
 						{
 							label: "512",
@@ -2239,11 +2261,14 @@ function menu_build() {
 				},
 			]
 		},
+
+		// Misc menu...............................................................................
+
 		{
-			label: "Misc",
+			label: translate("MENU_MISC"),
 			submenu: [
 				{
-					label: "Escape",
+					label: translate("MENU_ESCAPE"),
 					accelerator: "Escape",
 					click: () => {
 						win.webContents.send("call", "escape");
@@ -2253,7 +2278,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Play Black",
+					label: translate("MENU_PLAY_BLACK"),
 					type: "checkbox",
 					checked: false,
 					click: () => {
@@ -2264,7 +2289,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Play White",
+					label: translate("MENU_PLAY_WHITE"),
 					type: "checkbox",
 					checked: false,
 					click: () => {
@@ -2275,7 +2300,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Halt",
+					label: translate("MENU_HALT"),
 					click: () => {
 						win.webContents.send("call", "halt");
 					}
@@ -2284,7 +2309,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Load games at final position",
+					label: translate("MENU_LOAD_GAMES_AT_FINAL_POSITION"),
 					type: "checkbox",
 					checked: config.load_at_end,
 					click: () => {
@@ -2292,7 +2317,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Guess rules from komi on load",
+					label: translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD"),
 					type: "checkbox",
 					checked: config.guess_ruleset,
 					click: () => {
@@ -2300,7 +2325,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Prefer Tygem handicap-3 layout",
+					label: translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT"),
 					type: "checkbox",
 					checked: config.tygem_3,
 					click: () => {
@@ -2311,7 +2336,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Enable hardware acceleration for GUI",
+					label: translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI"),
 					type: "checkbox",
 					checked: config.enable_hw_accel,
 					click: () => {
@@ -2320,11 +2345,14 @@ function menu_build() {
 				},
 			]
 		},
+
+		// Dev menu................................................................................
+
 		{
-			label: "Dev",
+			label: translate("MENU_DEV"),
 			submenu: [
 				{
-					label: "Show root properties",
+					label: translate("MENU_SHOW_ROOT_PROPERTIES"),
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
@@ -2333,7 +2361,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Show node properties",
+					label: translate("MENU_SHOW_NODE_PROPERTIES"),
 					click: () => {
 						win.webContents.send("call", {
 							fn: "display_props",
@@ -2342,7 +2370,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Show engine stderr",
+					label: translate("MENU_SHOW_ENGINE_STDERR"),
 					click: () => {
 						win.webContents.send("call", "display_stderr");
 					}
@@ -2351,7 +2379,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: "Zobrist mismatch checks",
+					label: translate("MENU_ZOBRIST_MISMATCH_CHECKS"),
 					type: "checkbox",
 					checked: config.zobrist_checks,
 					click: () => {
@@ -2359,7 +2387,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: "Reset mismatch warnings",
+					label: translate("MENU_RESET_MISMATCH_WARNINGS"),
 					click: () => {
 						win.webContents.send("call", "reset_mismatch_warnings");
 					}
@@ -2368,12 +2396,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: `Show ${config_io.filename}`,
+					label: translate("MENU_SHOW_CONFIG_FILE"),
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
 					}
 				},
 				{
+					label: translate("MENU_TOGGLE_DEV_TOOLS"),
+					accelerator: "CommandOrControl+Shift+I",
 					role: "toggledevtools"
 				},
 			]
