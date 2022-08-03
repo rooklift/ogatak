@@ -136,7 +136,7 @@ translations["English"] = {
 
 	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
 
-}
+};
 
 translations["中文"] = {
 
@@ -145,6 +145,8 @@ translations["中文"] = {
 	ALERT_RESTART_REQUIRED: "請重新啟動應用程序",
 
 }
+
+
 
 function translate(key, force_language = null) {
 
