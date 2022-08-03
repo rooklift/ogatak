@@ -148,7 +148,7 @@ translations["简体中文"] = {
 		MENU_NEW_BOARD: "新对局",
 		MENU_NEW_SMALL_BOARD: "New small board",
 		MENU_NEW_RECTANGULAR_BOARD: "New rectangular board",
-		MENU_HANDICAP: "Handicap",
+		MENU_HANDICAP: "让子",
 		MENU_CLOSE_TAB: "Close tab",
 		MENU_OPEN: "打开",
 		MENU_PASTE_SGF: "粘住 (SGF)",
