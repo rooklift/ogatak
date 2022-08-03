@@ -138,11 +138,18 @@ translations["English"] = {
 
 };
 
-translations["中文"] = {
+translations["简体中文"] = {
 
-	MENU_NEW_BOARD: "新板",
+	MENU_FILE: "文件",
 
-	ALERT_RESTART_REQUIRED: "請重新啟動應用程序",
+		MENU_NEW_BOARD: "新对局",
+		MENU_OPEN: "打开",
+		MENU_PASTE_SGF: "粘住 (SGF)",
+		MENU_SAVE_GAME: "保存",
+		MENU_SAVE_GAME_AS: "另存为",
+		MENU_QUIT: "退出",
+
+	ALERT_RESTART_REQUIRED: "请重新启动应用程序",
 
 }
 

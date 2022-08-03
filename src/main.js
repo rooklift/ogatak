@@ -2412,7 +2412,7 @@ function menu_build() {
 		// Language menu...........................................................................
 
 		{
-			label: "改變語言",
+			label: "改变语言",		// Remember to change this in hub_settings.js if it changes...
 			submenu: [
 				{
 					label: "English",
@@ -2423,11 +2423,11 @@ function menu_build() {
 					},
 				},
 				{
-					label: "中文",
+					label: "简体中文",
 					type: "checkbox",
-					checked: config.language === "中文",
+					checked: config.language === "简体中文",
 					click: () => {
-						win.webContents.send("set", {language: "中文"});
+						win.webContents.send("set", {language: "简体中文"});
 					},
 				}
 			]
