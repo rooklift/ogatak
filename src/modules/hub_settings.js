@@ -24,6 +24,7 @@ const multichecks = {
 	thumbnail_square_size:	[translate("MENU_SIZES"), translate("MENU_THUMBNAIL_SQUARES")],
 	tree_spacing:			[translate("MENU_SIZES"), translate("MENU_TREE_SPACING")],
 	comment_box_height: 	[translate("MENU_SIZES"), translate("MENU_COMMENT_BOX")],
+	language:				["改變語言"],
 };
 
 const togglechecks = {
@@ -232,6 +233,12 @@ module.exports = {
 			let msg = "This will not take effect until you restart Ogatak.";
 			if (value) msg += " Note that on some systems this setting may degrade performance, by making KataGo and Ogatak fight over the GPU.";
 			alert(msg);
+			break;
+
+		case "language":
+
+			let s = translate("ALERT_RESTART_REQUIRED", value);
+			alert(s);
 			break;
 
 		}

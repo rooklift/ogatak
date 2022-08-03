@@ -31,6 +31,8 @@ exports.defaults = {
 	"arbitrary_command": "",					// Must be edited by the user in config.json
 	"arbitrary_argslist": [],					// Likewise.
 
+	"language": "English",
+
 	"engine": "",
 	"engineconfig": "",
 	"weights": "",

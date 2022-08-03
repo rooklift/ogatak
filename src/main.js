@@ -2407,7 +2407,31 @@ function menu_build() {
 					role: "toggledevtools"
 				},
 			]
-		}
+		},
+
+		// Language menu...........................................................................
+
+		{
+			label: "改變語言",
+			submenu: [
+				{
+					label: "English",
+					type: "checkbox",
+					checked: config.language === "English",
+					click: () => {
+						win.webContents.send("set", {language: "English"});
+					},
+				},
+				{
+					label: "中文",
+					type: "checkbox",
+					checked: config.language === "中文",
+					click: () => {
+						win.webContents.send("set", {language: "中文"});
+					},
+				}
+			]
+		},
 	];
 
 	return electron.Menu.buildFromTemplate(template);

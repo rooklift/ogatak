@@ -2,10 +2,10 @@
 
 let translations = Object.create(null);
 
-let language = config.language;
+let startup_language = config.language;
 
-// Note that language is locked at startup so that in-flight calls to translate() return consistent results even if the
-// user switches config.language at some point. (Thus, the user will need to restart to see any change.)
+// Note that we usually use the language which was in config.json at startup so that in-flight calls to translate() return consistent
+// results even if the user switches config.language at some point. (Thus, the user will need to restart to see any change.)
 
 translations["English"] = {
 
@@ -134,18 +134,26 @@ translations["English"] = {
 		MENU_SHOW_CONFIG_FILE: "Show config file",
 		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
 
+	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
+
 }
 
-function translate(key) {
+translations["中文"] = {
 
-	let dict = translations[language];
+	MENU_NEW_BOARD: "新板",
 
-	if (!dict) {
-		dict = translations["English"];
-	}
+	ALERT_RESTART_REQUIRED: "請重新啟動應用程序",
 
-	if (dict[key]) {
-		return dict[key];
+}
+
+function translate(key, force_language = null) {
+
+	let language = force_language || startup_language;
+
+	if (translations[language] && translations[language][key]) {
+		return translations[language][key];
+	} else if (translations["English"] && translations["English"][key]) {
+		return translations["English"][key];
 	} else {
 		return key;
 	}
