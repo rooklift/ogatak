@@ -167,7 +167,7 @@ translations["简体中文"] = {
 		MENU_RESTART: "Restart",
 		MENU_ENGINE_REPORT_RATE: "Engine report rate",
 
-	MENU_TREE: "Tree",
+	MENU_TREE: "导航",			// "Navigate"
 
 		MENU_PLAY_BEST_MOVE: "Play best move",
 		MENU_PASS: "停一手",
@@ -199,7 +199,7 @@ translations["简体中文"] = {
 		MENU_CROSS: "叉",
 		MENU_LABELS_ABC: "Labels (ABC)",
 		MENU_LABELS_123: "Labels (123)",
-		MENU_TOGGLE_ACTIVE_PLAYER: "Toggle active player",
+		MENU_TOGGLE_ACTIVE_PLAYER: "切换玩家（黑/白）",
 		MENU_GAME_INFO_EDITOR: "Game info editor",
 
 	MENU_ANALYSIS: "Analysis",
