@@ -20,15 +20,20 @@
 * KataGo not included, setup takes at least a minute's effort.
 * Electron-based app, everyone hates these (they're big).
 
+## Setup
+
+* Download and unpack Ogatak, KataGo, and a KataGo weights file.
+* In Ogatak, select the menu item `Setup` `-->` `Locate KataGo...` (and locate katago.exe)
+* In Ogatak, select the menu item `Setup` `-->` `Choose weights...` (and locate the weights file) 
+
 ## Performance tips
 
-* The setting to request per-move ownership info from KataGo (see Analysis menu) is rather demanding and you should turn it off if you experience any lag.
-* Alternatively, consider changing the engine report rate (see Setup menu) from the default 0.1 (which is the most intense) to something else.
-* Due to a complex interaction between KataGo's algorithm and KataGo's cache, the `wide root noise` setting can cause a drastic reduction in perceived performance if you use the GUI in a certain way, especially if you commonly click through the top move. It may also affect whole-file analysis speeds.
+* The setting to request per-move ownership info from KataGo (see `Analysis` menu) is rather demanding and you should turn it off if you experience any lag.
+* Alternatively, consider changing the engine report rate (see `Setup` menu) from the default 0.1 (which is the most intense) to something else.
 
 ## About the analysis config file
 
-* KataGo requires an analysis config file, so setting up Ogatak requires choosing one. Such a file is provided with KataGo as `analysis_example.cfg`. You might find that changing some settings therein leads to better (or worse) performance. Some have found [these settings](https://github.com/sanderland/katrain/blob/master/katrain/KataGo/analysis_config.cfg) chosen by the KaTrain author to be a bit faster.
+* KataGo requires an analysis config file. Such a file is provided with KataGo as `analysis_example.cfg`, and Ogatak will use this if it's present, unless you explicitly specify a different file. You might find that changing some settings therein leads to better (or worse) performance. Some have found [these settings](https://github.com/sanderland/katrain/blob/master/katrain/KataGo/analysis_config.cfg) chosen by the KaTrain author to be a bit faster.
 
 ## Talk to me
 
