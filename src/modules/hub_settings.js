@@ -53,6 +53,24 @@ for (let menupath of Object.values(togglechecks)) {
 	ipcRenderer.send("verify_menupath", menupath);
 }
 
+// Like everything else that's translated, the mode strings should only be translated at startup...
+
+const mode_strings = {
+	"AB": translate("MENU_ADD_BLACK"),
+	"AW": translate("MENU_ADD_WHITE"),
+	"AE": translate("MENU_ADD_EMPTY"),
+	"TR": translate("MENU_TRIANGLE"),
+	"SQ": translate("MENU_SQUARE"),
+	"CR": translate("MENU_CIRCLE"),
+	"MA": translate("MENU_CROSS"),
+	"LB:A": translate("MENU_LABELS_ABC"),
+	"LB:1": translate("MENU_LABELS_123"), 
+};
+
+const normal_mode_string = translate("MENU_NORMAL");
+
+
+
 module.exports = {
 
 	set: function(key, value) {
@@ -275,17 +293,10 @@ module.exports = {
 	},
 
 	fix_tools_menu: function() {
-
-		const mode_strings = {
-			"AB": "Add Black", "AW": "Add White", "AE": "Add Empty",
-			"TR": "Triangle", "SQ": "Square", "CR": "Circle", "MA": "Cross",
-			"LB:A": "Labels (ABC)", "LB:1": "Labels (123)", 
-		};
-
 		if (!config.mode) {
-			ipcRenderer.send("set_checks", ["Tools", "Normal"]);
+			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), normal_mode_string]);
 		} else {
-			ipcRenderer.send("set_checks", ["Tools", mode_strings[config.mode]]);
+			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), mode_strings[config.mode]]);
 		}
 	},
 
