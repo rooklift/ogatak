@@ -15,6 +15,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
+const translate = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
@@ -874,9 +875,9 @@ let hub_main_props = {
 
 	fix_go_halt_menu_item: function() {
 		if (this.engine.desired) {
-			ipcRenderer.send("set_check_true", ["Analysis", "Go / halt toggle"]);
+			ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		} else {
-			ipcRenderer.send("set_check_false", ["Analysis", "Go / halt toggle"]);
+			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		}
 	},
 
