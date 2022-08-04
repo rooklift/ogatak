@@ -37,7 +37,7 @@
 
 ## Translations
 
-* At the moment, it is possible to translate most of the menu items and some of the GUI text. See `/modules/translate.js` for instructions.
+* At the moment, it is possible to translate most of the menu items and some of the GUI text. See `src/modules/translate.js` for instructions.
 * Thanks to the following translators: ParmuzinAlexander.
 
 ## Talk to me
