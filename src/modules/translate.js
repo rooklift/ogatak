@@ -320,7 +320,7 @@ translations["русский"] = {
 	GUI_WEIGHTS_NOT_SET: "Файл сети не установлен.",
 
 	GUI_AWAITING_RESPONSE_1: "Ожидание ответа от программы. При необходимости выберите",
-	GUI_AWAITING_RESPONSE_2: "пункт меню для получения дополнительной информации.",
+	GUI_AWAITING_RESPONSE_2: "пункт меню.",
 
 	INFO_BLACK: "Игрок чёрными",
 	INFO_BLACK_RANK: "Ранг чёрных",
