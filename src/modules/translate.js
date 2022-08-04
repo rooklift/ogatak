@@ -151,7 +151,7 @@ translations["简体中文"] = {
 		MENU_HANDICAP: "让子",
 		MENU_CLOSE_TAB: "Close tab",
 		MENU_OPEN: "打开",
-		MENU_PASTE_SGF: "粘住 (SGF)",
+		MENU_PASTE_SGF: "粘贴 (SGF)",
 		MENU_SAVE_GAME: "保存",
 		MENU_SAVE_GAME_AS: "另存为",
 		MENU_SAVE_COLLECTION_AS: "Save collection as...",
