@@ -113,12 +113,23 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	// which wants to go back to being maximized, it generates a "maximize" event, not a "restore" event.
 
 	win.on("close", (event) => {						// We used to use .once() but I suppose there's a race condition if two events happen rapidly.
+
 		if (!have_received_terminate) {
-			event.preventDefault();						// Only a "terminate" message from the Renderer can close the app. See below.
+
+			event.preventDefault();						// Only a "terminate" message from the Renderer should close the app.
+
 			if (!have_sent_quit) {
 				win.webContents.send("call", "quit");	// Renderer's "quit" method runs. It then sends "terminate" back.
 				have_sent_quit = true;
 			}
+
+			// Create a setTimeout that will make the app close without the renderer's help if it takes too long (due to a crash)...
+
+			setTimeout(() => {
+				console.log("Renderer seems unresponsive, quitting anyway.");
+				have_received_terminate = true;
+				win.close();
+			}, 3000);
 		}
 	});
 
