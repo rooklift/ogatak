@@ -1089,7 +1089,7 @@ function menu_build() {
 					label: translate("MENU_SET_RULES"),
 					submenu: [
 						{
-							label: "Chinese",
+							label: translate("MENU_CHINESE"),
 							click: () => {
 								win.webContents.send("call", {
 									fn: "coerce_rules",
@@ -1098,7 +1098,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Japanese",
+							label: translate("MENU_JAPANESE"),
 							click: () => {
 								win.webContents.send("call", {
 									fn: "coerce_rules",
@@ -1107,7 +1107,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Stone Scoring",
+							label: translate("MENU_STONE_SCORING"),
 							click: () => {
 								win.webContents.send("call", {
 									fn: "coerce_rules",
