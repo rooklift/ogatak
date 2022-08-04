@@ -181,7 +181,7 @@ function apply_fixes() {
 
 	// Fix some stuff that used to be stored stringly-typed...
 
-	if (typeof(config.ownership_marks) !== "number") {
+	if (typeof config.ownership_marks !== "number") {
 		if (config.ownership_marks === "None") {
 			config.ownership_marks = 0;
 		} else if (config.ownership_marks === "Dead stones") {
@@ -195,7 +195,7 @@ function apply_fixes() {
 		}
 	}
 
-	if (typeof(config.graph_type !== "number")) {
+	if (typeof config.graph_type !== "number") {
 		if (config.graph_type === "Winrate") {
 			config.graph_type = 1;
 		} else if (config.graph_type === "Score") {
