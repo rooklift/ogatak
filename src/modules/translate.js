@@ -171,4 +171,16 @@ function translate(key, force_language = null) {
 
 
 
+// Validate dictionaries... (every key should be in the English version)
+
+for (let language of Object.keys(translations)) {
+	for (let key of Object.keys(translations[language])) {
+		if (!translations["English"].hasOwnProperty(key)) {
+			throw `Bad key (${key}) in language dictionary ${language}`;
+		}
+	}
+}
+
+
+
 module.exports = translate;
