@@ -187,6 +187,165 @@ translations["English"] = {
 
 };
 
+translations["русский"] = {
+
+	MENU_FILE: "Файл",
+
+		MENU_ABOUT: "О программе",
+		MENU_NEW_BOARD: "Новая доска",
+		MENU_NEW_SMALL_BOARD: "Новая маленькая доска",
+		MENU_NEW_RECTANGULAR_BOARD: "Новая прямоугольная доска",
+		MENU_HANDICAP: "Фора",
+		MENU_CLOSE_TAB: "Закрыть вкладку",
+		MENU_OPEN: "Открыть...",
+		MENU_PASTE_SGF: "Вставить SGF",
+		MENU_SAVE_GAME: "Сохранить игру",
+		MENU_SAVE_GAME_AS: "Сохранить игру как...",
+		MENU_SAVE_COLLECTION_AS: "Сохранить коллекцию как...",
+		MENU_QUIT: "Выход",
+
+	MENU_SETUP: "Установка",
+
+		MENU_LOCATE_KATAGO: "Исполняемый файл KataGo...",
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: "Файл настроек анализа...",
+		MENU_CHOOSE_WEIGHTS: "Файл сети...",
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: "Запуск KataGo с помощью команды...",
+		MENU_CLEAR_CACHE: "Очистить кэш",
+		MENU_RESTART: "Перезапуск",
+		MENU_ENGINE_REPORT_RATE: "Частота отчетов",
+
+	MENU_TREE: "Дерево игры",
+
+		MENU_PLAY_BEST_MOVE: "Сделать лучший ход",
+		MENU_PASS: "Пас",
+		MENU_ROOT: "Начальная позиция",
+		MENU_END: "Конечная позиция",
+		MENU_BACKWARD: "Назад",
+		MENU_FORWARD: "Вперёд",
+		MENU_BACKWARD_10: "Назад на 10 ходов",
+		MENU_FORWARD_10: "Вперёд на 10 ходов",
+		MENU_PREVIOUS_SIBLING: "Предыдущая ветвь",
+		MENU_NEXT_SIBLING: "Следующая ветвь",
+		MENU_RETURN_TO_MAIN_LINE: "К главной ветви",
+		MENU_FIND_PREVIOUS_FORK: "Предыдущая развилка",
+		MENU_FIND_NEXT_FORK: "Следующая развилка",
+		MENU_PROMOTE_LINE: "Повысить ветвь",
+		MENU_PROMOTE_LINE_TO_MAIN_LINE: "Сделать главной ветвью",
+		MENU_DELETE_NODE: "Удалить ход",
+		MENU_DELETE_ALL_PREVIOUS_FORKS: "Удалить другие ветви",
+
+	MENU_TOOLS: "Инструменты",
+
+		MENU_NORMAL: "Обычный",
+		MENU_ADD_BLACK: "Чёрный камень",
+		MENU_ADD_WHITE: "Белый камень",
+		MENU_ADD_EMPTY: "Стереть камень",
+		MENU_TRIANGLE: "Треугольник",
+		MENU_SQUARE: "Квадрат",
+		MENU_CIRCLE: "Круг",
+		MENU_CROSS: "Крестик",
+		MENU_LABELS_ABC: "Буква",
+		MENU_LABELS_123: "Цифра",
+		MENU_TOGGLE_ACTIVE_PLAYER: "Смена игрока",
+		MENU_GAME_INFO_EDITOR: "Редактировать информацию об игре",
+
+	MENU_ANALYSIS: "Анализ",
+
+		MENU_GO_HALT_TOGGLE: "Запустить / остановить", 
+		MENU_GO: "Запустить",
+		MENU_HALT: "Остановить",
+		MENU_SELF_PLAY: "Игра сам с собой",
+		MENU_AUTOANALYSIS: "Автоматический анализ",
+		MENU_BACKWARD_ANALYSIS: "Автоматический анализ назад",
+		MENU_AUTOANALYSIS_VISITS: "Глубина автоматического анализа",
+		MENU_SET_RULES: "Правила",
+			MENU_CHINESE: "Китайские",
+			MENU_JAPANESE: "Японские",
+			MENU_STONE_SCORING: "Древние китайские",
+		MENU_SET_KOMI: "Коми",
+		MENU_PV_LENGTH_MAX: "Количество предлагаемых ходов",
+		MENU_WIDE_ROOT_NOISE: "Широкий корневой шум",
+		MENU_SYMMETRY_PRUNING: "Симметричность",
+		MENU_OWNERSHIP: "Влияние",
+		MENU_PER_MOVE: "...каждый ход",
+		MENU_CLEAR_ALL_ANALYSIS: "Очистить анализ",
+
+	MENU_DISPLAY: "Вид",
+
+		MENU_VISIT_FILTER: "Фильтр предлагаемых ходов",
+			MENU_ALL: "Всё",
+		MENU_NUMBERS: "Числа",
+		MENU_GRAPH: "График",
+		MENU_BLACK_POV_ALWAYS: "Всегда за чёрных",
+		MENU_CANDIDATE_MOVES: "Предложение хода",
+		MENU_WITH_PV_MOUSEOVER: "...ветвь при наведении курсора",
+		MENU_FADE_BY_VISITS: "...цвет от глубины анализа",
+		MENU_NEXT_MOVE_MARKERS: "Показывать следующий ход",
+		MENU_COLOURS: "Цвета",
+
+	MENU_SIZES: "Размер",
+
+		MENU_EMBIGGEN_SMALL_BOARDS: "Растянуть маленькие доски",
+		MENU_INFO_FONT: "Шрифт информации",
+		MENU_GRAPH_WIDTH: "Ширина графика",
+		MENU_GRAPH_MAJOR_LINES: "Основная линия графика",
+		MENU_GRAPH_MINOR_LINES: "Дополнительная линия графика",
+		MENU_BOARD_LINES: "Линии на доске",
+		MENU_THUMBNAIL_SQUARES: "Миниатюры",
+		MENU_TREE_SPACING: "Дерево игры",
+		MENU_COMMENT_BOX: "Комментарии",
+
+	MENU_MISC: "Разное",
+
+		MENU_ESCAPE: "Уйти",
+		MENU_PLAY_BLACK: "Играть за чёрных",
+		MENU_PLAY_WHITE: "Играть за белых",
+		MENU_LOAD_GAMES_AT_FINAL_POSITION: "Конечная позиция после загрузки файла",
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: "Угадывать правила по коми",
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Расположение трёх камней форы как на Tygem",
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Включить аппаратное ускорение для графического интерфейса",
+
+	MENU_DEV: "Разработка",
+
+		MENU_SHOW_ROOT_PROPERTIES: "Свойства файла",
+		MENU_SHOW_NODE_PROPERTIES: "Свойства хода",
+		MENU_SHOW_ENGINE_STDERR: "Журнал программы",
+		MENU_ZOBRIST_MISMATCH_CHECKS: "Zobrist проверка несоответствий",
+		MENU_RESET_MISMATCH_WARNINGS: "Сброс предупреждений о несоответствии",
+		MENU_SHOW_CONFIG_FILE: "Показать файл настроек",
+		MENU_TOGGLE_DEV_TOOLS: "Инструменты разработки",
+
+	GUI_ENGINE_NOT_SET: "Исполняемый файл KataGo не установлен.",
+	GUI_ENGINE_CONFIG_NOT_SET: "Файл настроек анализа не установлен.",
+	GUI_WEIGHTS_NOT_SET: "Файл сети не установлен.",
+
+	GUI_AWAITING_RESPONSE_1: "Ожидание ответа от программы. При необходимости выберите",
+	GUI_AWAITING_RESPONSE_2: "пункт меню для получения дополнительной информации.",
+
+	INFO_BLACK: "Игрок чёрными",
+	INFO_BLACK_RANK: "Ранг чёрных",
+	INFO_WHITE: "Игрок белыми",
+	INFO_WHITE_RANK: "Ранг белых",
+	INFO_EVENT: "Турнир",
+	INFO_ROUND: "Тур",
+	INFO_GAME_NAME: "Название",
+	INFO_PLACE: "Место",
+	INFO_DATE: "Дата",
+	INFO_RESULT: "Результат",
+
+	ALERT_RESTART_REQUIRED: "Теперь требуется перезапуск графического интерфейса.",
+
+	ABOUT_FILE_LOCATIONS: "Расположение KataGo, настроек анализа и файла сети:",
+	ABOUT_CONFIG_LOCATION: "Расположение файла настроек Ogatak:",
+	ABOUT_RAM_USAGE: "Использование оперативной памяти (Мбайт):",
+
+	BAD_CONFIG_1: "Не удалось проанализировать файл настроек.",
+	BAD_CONFIG_2: "Он не будет сохранен до тех пор, пока вы не исправите это.",
+	BAD_CONFIG_3: "Это означает, что ваши настройки не будут сохранены.",
+	BAD_CONFIG_4: "Вы должны это исправить.",
+	BAD_CONFIG_5: "Вы также можете просто удалить файл.",
+
+};
 
 
 function translate(key, force_language = null) {
