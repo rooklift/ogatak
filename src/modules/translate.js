@@ -5,7 +5,7 @@ let startup_language = config.language;
 
 // Note to anyone who wants to add a translation:
 //
-// Create an object in this file that follows the format of the English version.
+// Create an object in this file that follows the format of the English object.
 // Do NOT edit the capital letters part, only the strings on the right hand side.
 // Then send me a pull request.
 //
@@ -15,6 +15,11 @@ let startup_language = config.language;
 //			MENU_FILE: "文件",
 //			// etc etc
 //		}
+//
+// Note that it is OK for some keys to be missing (English will be used for those).
+//
+// You can test things by setting the "language" setting in Ogatak's config.json file
+// to be the language you are creating.
 
 translations["English"] = {
 
@@ -148,9 +153,20 @@ translations["English"] = {
 	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
 	GUI_WEIGHTS_NOT_SET: "Weights not set.",
 
-	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select",
+	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
 	GUI_AWAITING_RESPONSE_2: "Dev --> Show engine stderr",
 	GUI_AWAITING_RESPONSE_3: "menu item for more info.",
+
+	INFO_BLACK: "Black",
+	INFO_BLACK_RANK: "BR",
+	INFO_WHITE: "White",
+	INFO_WHITE_RANK: "WR",
+	INFO_EVENT: "Event",
+	INFO_ROUND: "Round",
+	INFO_GAME_NAME: "Name",
+	INFO_PLACE: "Place",
+	INFO_DATE: "Date",
+	INFO_RESULT: "Result",
 
 	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
 

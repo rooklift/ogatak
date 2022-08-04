@@ -1,19 +1,28 @@
 "use strict";
 
 const {pad} = require("./utils");
+const translate = require("./translate");
 
 const supported_keys = {
-	"PB": "Black",
-	"BR": "BR",
-	"PW": "White",
-	"WR": "WR",
-	"EV": "Event",
-	"RO": "Round",
-	"GN": "Name",
-	"PC": "Place",
-	"DT": "Date",
-	"RE": "Result"
+	"PB": translate("INFO_BLACK"),
+	"BR": translate("INFO_BLACK_RANK"),
+	"PW": translate("INFO_WHITE"),
+	"WR": translate("INFO_WHITE_RANK"),
+	"EV": translate("INFO_EVENT"),
+	"RO": translate("INFO_ROUND"),
+	"GN": translate("INFO_GAME_NAME"),
+	"PC": translate("INFO_PLACE"),
+	"DT": translate("INFO_DATE"),
+	"RE": translate("INFO_RESULT"),
 };
+
+let padding_value = 10;
+
+for (let value of Object.values(supported_keys)) {
+	if (value.length > padding_value) {
+		padding_value = value.length;
+	}
+}
 
 function init() {
 
@@ -28,7 +37,7 @@ function init() {
 
 	let s = "";
 	for (let [key, label] of Object.entries(supported_keys)) {
-		s += `<span class="yellow">${pad(label, 10, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
+		s += `<span class="yellow">${pad(label, padding_value, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
 	}
 	ret.inner_div.innerHTML = s;
 
