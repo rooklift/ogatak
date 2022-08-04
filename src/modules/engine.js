@@ -316,9 +316,9 @@ let engine_prototype = {
 
 	problem_text: function() {
 		if (this.exe) return "";
-		if (!this.filepath) return "Engine not set.";
-		if (!this.engineconfig) return "Engine config not set.";
-		if (!this.weights) return "Weights not set.";
+		if (!this.filepath) return translate("GUI_ENGINE_NOT_SET");
+		if (!this.engineconfig) return translate("GUI_ENGINE_CONFIG_NOT_SET");
+		if (!this.weights) return translate("GUI_WEIGHTS_NOT_SET");
 		return `Engine (${path.basename(this.filepath)}) not running.`;
 	},
 

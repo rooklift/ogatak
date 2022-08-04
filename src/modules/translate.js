@@ -144,6 +144,14 @@ translations["English"] = {
 		MENU_SHOW_CONFIG_FILE: "Show config file",
 		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
 
+	GUI_ENGINE_NOT_SET: "Engine not set.",
+	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
+	GUI_WEIGHTS_NOT_SET: "Weights not set.",
+
+	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select",
+	GUI_AWAITING_RESPONSE_2: "Dev --> Show engine stderr",
+	GUI_AWAITING_RESPONSE_3: "menu item for more info.",
+
 	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
 
 };

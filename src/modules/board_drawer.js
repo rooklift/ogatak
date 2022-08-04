@@ -15,6 +15,7 @@
 
 const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
+const translate = require("./translate");
 
 const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, compare_versions,
 	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve} = require("./utils");
@@ -1015,8 +1016,11 @@ let board_drawer_prototype = {
 	},
 
 	draw_engine_starting: function() {
-		this.info1span.innerHTML = `<span class="white">Awaiting response from engine. If needed, please</span>`;
-		this.info2span.innerHTML = `<span class="white">select <span class="yellow">Dev --> Show engine stderr</span> for more info.</span>`;
+
+		this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
+		this.info2span.innerHTML = `<span class="yellow">${translate("GUI_AWAITING_RESPONSE_2")}</span>`
+		+ ` <span class="white">${translate("GUI_AWAITING_RESPONSE_3")}</span>`;
+
 		this.infodiv_displaying_stats = false;
 	},
 
