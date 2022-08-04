@@ -150,7 +150,7 @@ translations["简体中文"] = {
 		MENU_NEW_SMALL_BOARD: "New small board",
 		MENU_NEW_RECTANGULAR_BOARD: "New rectangular board",
 		MENU_HANDICAP: "让子",
-		MENU_CLOSE_TAB: "Close tab",
+		MENU_CLOSE_TAB: "关闭标签",
 		MENU_OPEN: "打开",
 		MENU_PASTE_SGF: "粘贴 (SGF)",
 		MENU_SAVE_GAME: "保存",
