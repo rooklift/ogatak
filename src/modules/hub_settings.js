@@ -24,6 +24,7 @@ const multichecks = {
 	thumbnail_square_size:	[translate("MENU_SIZES"), translate("MENU_THUMBNAIL_SQUARES")],
 	tree_spacing:			[translate("MENU_SIZES"), translate("MENU_TREE_SPACING")],
 	comment_box_height: 	[translate("MENU_SIZES"), translate("MENU_COMMENT_BOX")],
+	language:				["Language"],
 };
 
 const togglechecks = {

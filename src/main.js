@@ -2422,8 +2422,6 @@ function menu_build() {
 
 		// Language menu...........................................................................
 
-		/*
-
 		{
 			label: "Language",
 			submenu: [
@@ -2435,10 +2433,16 @@ function menu_build() {
 						win.webContents.send("set", {language: "English"});
 					},
 				},
+				{
+					label: "русский",
+					type: "checkbox",
+					checked: config.language === "русский",
+					click: () => {
+						win.webContents.send("set", {language: "русский"});
+					},
+				},
 			]
 		},
-
-		*/
 
 	];
 
