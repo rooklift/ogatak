@@ -93,6 +93,7 @@ translations["English"] = {
 	MENU_DISPLAY: "Display",
 
 		MENU_VISIT_FILTER: "Visit filter",
+			MENU_ALL: "All",
 		MENU_NUMBERS: "Numbers",
 		MENU_GRAPH: "Graph",
 		MENU_BLACK_POV_ALWAYS: "Black POV always",
@@ -157,7 +158,7 @@ translations["简体中文"] = {
 		MENU_SAVE_COLLECTION_AS: "Save collection as...",
 		MENU_QUIT: "退出",
 
-	MENU_SETUP: "Setup",
+	MENU_SETUP: "设置",
 
 		MENU_LOCATE_KATAGO: "Locate KataGo...",
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: "Locate KataGo analysis config...",
@@ -187,7 +188,7 @@ translations["简体中文"] = {
 		MENU_DELETE_NODE: "删除节点",
 		MENU_DELETE_ALL_PREVIOUS_FORKS: "删除此外的所有变化",
 
-	MENU_TOOLS: "Tools",
+	MENU_TOOLS: "工具",
 
 		MENU_NORMAL: "Normal",
 		MENU_ADD_BLACK: "Add Black",
@@ -202,7 +203,7 @@ translations["简体中文"] = {
 		MENU_TOGGLE_ACTIVE_PLAYER: "切换玩家（黑/白）",
 		MENU_GAME_INFO_EDITOR: "Game info editor",
 
-	MENU_ANALYSIS: "Analysis",
+	MENU_ANALYSIS: "分析",
 
 		MENU_GO_HALT_TOGGLE: "Go / halt toggle", 
 		MENU_GO: "Go",
@@ -223,9 +224,10 @@ translations["简体中文"] = {
 		MENU_PER_MOVE: "...per-move (costly)",
 		MENU_CLEAR_ALL_ANALYSIS: "Clear all analysis",
 
-	MENU_DISPLAY: "Display",
+	MENU_DISPLAY: "视觉的",
 
 		MENU_VISIT_FILTER: "Visit filter",
+			MENU_ALL: "全部",
 		MENU_NUMBERS: "Numbers",
 		MENU_GRAPH: "Graph",
 		MENU_BLACK_POV_ALWAYS: "Black POV always",
@@ -235,7 +237,7 @@ translations["简体中文"] = {
 		MENU_NEXT_MOVE_MARKERS: "Next move markers",
 		MENU_COLOURS: "Colours",
 
-	MENU_SIZES: "Sizes",
+	MENU_SIZES: "尺寸",
 
 		MENU_EMBIGGEN_SMALL_BOARDS: "Embiggen small boards",
 		MENU_INFO_FONT: "Info font",
@@ -247,7 +249,7 @@ translations["简体中文"] = {
 		MENU_TREE_SPACING: "Tree spacing",
 		MENU_COMMENT_BOX: "Comment box",
 
-	MENU_MISC: "Misc",
+	MENU_MISC: "杂项",
 
 		MENU_ESCAPE: "Escape",
 		MENU_PLAY_BLACK: "Play Black",
@@ -257,7 +259,7 @@ translations["简体中文"] = {
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Prefer Tygem handicap-3 layout",
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Enable hardware acceleration for GUI",
 
-	MENU_DEV: "Dev",
+	MENU_DEV: "开发",
 
 		MENU_SHOW_ROOT_PROPERTIES: "Show root properties",
 		MENU_SHOW_NODE_PROPERTIES: "Show node properties",

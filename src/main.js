@@ -1487,7 +1487,7 @@ function menu_build() {
 					label: translate("MENU_VISIT_FILTER"),	// Needs special treatment in hub_settings.js, because its values don't match its labels.
 					submenu: [
 						{
-							label: "All",
+							label: translate("MENU_ALL"),
 							type: "checkbox",
 							checked: config.visits_threshold === 0,
 							click: () => {
@@ -2577,11 +2577,11 @@ function fix_colour_checks(msg) {
 			}
 		}
 		if (ok) {
-			set_checks(["Display", "Colours", item.label]);
+			set_checks([translate("MENU_DISPLAY"), translate("MENU_COLOURS"), item.label]);
 			return;
 		}
 	}
-	set_checks(["Display", "Colours", "?"]);
+	set_checks([translate("MENU_DISPLAY"), translate("MENU_COLOURS"), "?"]);
 }
 
 // --------------------------------------------------------------------------------------------------------------

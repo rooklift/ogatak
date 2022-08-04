@@ -294,9 +294,9 @@ module.exports = {
 
 	fix_visit_filter_menu: function() {
 		let label = "?";
-		if (config.visits_threshold === 0) label = "All";
+		if (config.visits_threshold === 0) label = translate("MENU_ALL");
 		if (config.visits_threshold > 0) label = `N > ${config.visits_threshold * 100}%`;
-		ipcRenderer.send("set_checks", ["Display", "Visit filter", label]);
+		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_VISIT_FILTER"), label]);
 	},
 
 	fix_tools_menu: function() {
