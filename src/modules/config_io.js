@@ -62,7 +62,7 @@ exports.defaults = {
 
 	"thumbnail_square_size": 4,
 
-	"graph_type": "Winrate",					// Lame stringly typed
+	"graph_type": 1,							// 1: Winrate   2: Score
 	"minor_graph_linewidth": 1,
 	"major_graph_linewidth": 2,
 	"minor_graph_colour": "#444444ff",
@@ -179,10 +179,30 @@ function apply_fixes() {
 		}
 	}
 
-	// We used to store this as a string...
+	// Fix some stuff that used to be stored stringly-typed...
 
 	if (typeof(config.ownership_marks) !== "number") {
-		config.ownership_marks = exports.defaults.ownership_marks;
+		if (config.ownership_marks === "None") {
+			config.ownership_marks = 0;
+		} else if (config.ownership_marks === "Dead stones") {
+			config.ownership_marks = 1;
+		} else if (config.ownership_marks === "Whole board") {
+			config.ownership_marks = 2;
+		} else if (config.ownership_marks === "whole board (alt)") {
+			config.ownership_marks = 3;
+		} else {
+			config.ownership_marks = exports.defaults.ownership_marks;
+		}
+	}
+
+	if (typeof(config.graph_type !== "number")) {
+		if (config.graph_type === "Winrate") {
+			config.graph_type = 1;
+		} else if (config.graph_type === "Score") {
+			config.graph_type = 2;
+		} else {
+			config.graph_type = exports.defaults.graph_type;
+		}
 	}
 }
 

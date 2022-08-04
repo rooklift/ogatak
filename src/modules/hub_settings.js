@@ -14,7 +14,6 @@ const multichecks = {
 	analysis_pv_len:		[translate("MENU_ANALYSIS"), translate("MENU_PV_LENGTH_MAX")],
 	wide_root_noise:		[translate("MENU_ANALYSIS"), translate("MENU_WIDE_ROOT_NOISE")],
 	numbers:				[translate("MENU_DISPLAY"), translate("MENU_NUMBERS")],
-	graph_type:				[translate("MENU_DISPLAY"), translate("MENU_GRAPH")],
 	board_line_width:		[translate("MENU_SIZES"), translate("MENU_BOARD_LINES")],
 	info_font_size:			[translate("MENU_SIZES"), translate("MENU_INFO_FONT")],
 	graph_width:			[translate("MENU_SIZES"), translate("MENU_GRAPH_WIDTH")],
@@ -237,6 +236,10 @@ module.exports = {
 			this.fix_ownership_menu();
 		}
 
+		if (key === "graph_type") {
+			this.fix_graph_type_menu();
+		}
+
 		if (key === "top_colour_black" || key === "top_colour_white" || key === "off_colour_black" || key === "off_colour_white") {
 			this.fix_colours_menu();
 		}
@@ -273,17 +276,23 @@ module.exports = {
 	},
 
 	fix_ownership_menu: function() {
-
 		let label_strings = {
 			0: translate("MENU_NO_OWNERSHIP"),
 			1: translate("MENU_DEAD_STONES"),
 			2: translate("MENU_WHOLE_BOARD"),
 			3: translate("MENU_WHOLE_BOARD_ALT"),
 		};
-
 		let label = label_strings[config.ownership_marks];
-
 		ipcRenderer.send("set_checks", [translate("MENU_ANALYSIS"), translate("MENU_OWNERSHIP"), label]);
+	},
+
+	fix_graph_type_menu: function() {
+		let label_strings = {
+			1: translate("MENU_GRAPH_WINRATE"),
+			2: translate("MENU_GRAPH_SCORE"),
+		};
+		let label = label_strings[config.graph_type];
+		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_GRAPH"), label]);
 	},
 
 	fix_visit_filter_menu: function() {

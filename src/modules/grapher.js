@@ -131,10 +131,10 @@ let grapher_prototype = {
 
 		this.__draw_midline();
 
-		if (config.graph_type === "Score") {
+		if (config.graph_type === 2) {
 			this.__draw_tracker(node, winrates, config.minor_graph_linewidth, config.minor_graph_colour);
 			this.__draw_tracker(node, scores, config.major_graph_linewidth, major_colour);
-		} else if (config.graph_type === "Winrate") {
+		} else if (config.graph_type === 1) {
 			this.__draw_tracker(node, scores, config.minor_graph_linewidth, config.minor_graph_colour);
 			this.__draw_tracker(node, winrates, config.major_graph_linewidth, major_colour);
 		}

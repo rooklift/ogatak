@@ -1687,19 +1687,19 @@ function menu_build() {
 						{
 							label: "Winrate",
 							type: "checkbox",
-							checked: config.graph_type === "Winrate",
+							checked: config.graph_type === 1,
 							accelerator: "F9",
 							click: () => {
-								win.webContents.send("set", {graph_type: "Winrate"});
+								win.webContents.send("set", {graph_type: 1});
 							}
 						},
 						{
 							label: "Score",
 							type: "checkbox",
-							checked: config.graph_type === "Score",
+							checked: config.graph_type === 2,
 							accelerator: "F10",
 							click: () => {
-								win.webContents.send("set", {graph_type: "Score"});
+								win.webContents.send("set", {graph_type: 2});
 							}
 						},
 					]
