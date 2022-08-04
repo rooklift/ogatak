@@ -2409,10 +2409,11 @@ function menu_build() {
 			]
 		},
 
+		/*
 		// Language menu...........................................................................
 
 		{
-			label: "切换语言",		// Remember to change this in hub_settings.js if it changes...
+			label: "Language",			// Remember to add this to hub_settings.js...
 			submenu: [
 				{
 					label: "English",
@@ -2432,6 +2433,9 @@ function menu_build() {
 				}
 			]
 		},
+
+		*/
+
 	];
 
 	return electron.Menu.buildFromTemplate(template);
