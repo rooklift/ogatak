@@ -35,6 +35,10 @@
 
 * KataGo requires an analysis config file. Such a file is provided with KataGo as `analysis_example.cfg`, and Ogatak will use this if it's present, unless you explicitly specify a different file. You might find that changing some settings therein leads to better (or worse) performance. Some have found [these settings](https://github.com/sanderland/katrain/blob/master/katrain/KataGo/analysis_config.cfg) chosen by the KaTrain author to be a bit faster.
 
+## Translations
+
+At the moment, it is possible to translate most of the menu items and some of the GUI text. See `/modules/translate.js` for instructions. Thanks to the following translators: ParmuzinAlexander.
+
 ## Talk to me
 
 * I can often be found on the [Computer Go Discord](https://discord.com/invite/5vacH5F).
