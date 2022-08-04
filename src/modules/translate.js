@@ -93,9 +93,9 @@ translations["English"] = {
 		MENU_BACKWARD_ANALYSIS: "Backward analysis",
 		MENU_AUTOANALYSIS_VISITS: "Autoanalysis visits",
 		MENU_SET_RULES: "Set rules",
-		MENU_CHINESE: "Chinese",
-		MENU_JAPANESE: "Japanese",
-		MENU_STONE_SCORING: "Stone Scoring",
+			MENU_CHINESE: "Chinese",
+			MENU_JAPANESE: "Japanese",
+			MENU_STONE_SCORING: "Stone Scoring",
 		MENU_SET_KOMI: "Set komi",
 		MENU_PV_LENGTH_MAX: "PV length (max)",
 		MENU_WIDE_ROOT_NOISE: "Wide root noise",
@@ -149,14 +149,17 @@ translations["English"] = {
 		MENU_SHOW_CONFIG_FILE: "Show config file",
 		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
 
+	// Items that show on first run, when KataGo (etc) have not been located...
 	GUI_ENGINE_NOT_SET: "Engine not set.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
 	GUI_WEIGHTS_NOT_SET: "Weights not set.",
 
+	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
 	GUI_AWAITING_RESPONSE_2: "Dev --> Show engine stderr",
 	GUI_AWAITING_RESPONSE_3: "menu item for more info.",
 
+	// Info editor strings...
 	INFO_BLACK: "Black",
 	INFO_BLACK_RANK: "BR",
 	INFO_WHITE: "White",
@@ -168,7 +171,13 @@ translations["English"] = {
 	INFO_DATE: "Date",
 	INFO_RESULT: "Result",
 
+	// Alerts...
 	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
+
+	// About box...
+	ABOUT_FILE_LOCATIONS: "Engine, engine config, and weights are at:",
+	ABOUT_CONFIG_LOCATION: "Ogatak config file is at:",
+	ABOUT_RAM_USAGE: "RAM usage (MB) (engine not included):",
 
 };
 
