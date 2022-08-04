@@ -15,7 +15,7 @@
 
 const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
-const translate = require("./translate");
+const {translate} = require("./translate");
 
 const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, compare_versions,
 	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve} = require("./utils");

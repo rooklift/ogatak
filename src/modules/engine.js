@@ -8,7 +8,7 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const stringify = require("./stringify");
-const translate = require("./translate");
+const {translate} = require("./translate");
 const {parse_version, compare_versions} = require("./utils");
 const {new_query, compare_queries} = require("./query");
 

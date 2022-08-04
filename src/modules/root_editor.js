@@ -1,7 +1,7 @@
 "use strict";
 
 const {pad} = require("./utils");
-const translate = require("./translate");
+const {translate} = require("./translate");
 
 const supported_keys = {
 	"PB": translate("INFO_BLACK"),

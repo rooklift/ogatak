@@ -2,7 +2,7 @@
 
 const config_io = require("./config_io");
 const {safe_html, pad} = require("./utils");
-const translate = require("./translate");
+const {translate} = require("./translate");
 
 function init() {
 	let ret = Object.assign(Object.create(fullbox_prototype), {

@@ -391,4 +391,4 @@ if (global.process && global.process.type === "renderer") {
 */
 
 
-module.exports = translate;
+module.exports = {translate};

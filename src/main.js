@@ -25,7 +25,7 @@ const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
-const translate = require("./modules/translate");
+const {translate} = require("./modules/translate");
 
 // --------------------------------------------------------------------------------------------------------------
 

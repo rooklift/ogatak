@@ -15,7 +15,7 @@ const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 
 const config_io = require("./config_io");
 
-const translate = require("./translate");
+const {translate} = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
