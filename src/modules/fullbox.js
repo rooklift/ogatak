@@ -72,12 +72,12 @@ let fullbox_prototype = {
 
 	warn_bad_config: function() {
 		this.set(
-			`<span class="blue">${config_io.filename}</span> could not be parsed.\n\n` +
-			`It will not be saved to until you fix this.\n` +
-			`This means your settings will not be saved.\n\n` +
-			`You should fix this.\n` +
-			`You can also just delete the file.\n\n` +
-			`Error: <span class="yellow">${config_io.error()}</span>`
+			`<span class="blue">${config_io.filename}</span> -- ` + translate("BAD_CONFIG_1") + `\n\n` +
+			translate("BAD_CONFIG_2") + `\n` +
+			translate("BAD_CONFIG_3") + `\n\n` +
+			translate("BAD_CONFIG_4") + `\n` +
+			translate("BAD_CONFIG_5") + `\n\n` +
+			`<span class="yellow">${config_io.error()}</span>`
 		);
 	},
 

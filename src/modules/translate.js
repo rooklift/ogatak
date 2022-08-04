@@ -179,6 +179,13 @@ translations["English"] = {
 	ABOUT_CONFIG_LOCATION: "Ogatak config file is at:",
 	ABOUT_RAM_USAGE: "RAM usage (MB) (engine not included):",
 
+	// Message that shows if config.json cannot be parsed...
+	BAD_CONFIG_1: "config file could not be parsed.",
+	BAD_CONFIG_2: "It will not be saved to until you fix this.",
+	BAD_CONFIG_3: "This means your settings will not be saved.",
+	BAD_CONFIG_4: "You should fix this.",
+	BAD_CONFIG_5: "You can also just delete the file.",
+
 };
 
 
