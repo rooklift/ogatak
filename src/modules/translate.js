@@ -156,8 +156,7 @@ translations["English"] = {
 
 	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
-	GUI_AWAITING_RESPONSE_2: "Dev --> Show engine stderr",
-	GUI_AWAITING_RESPONSE_3: "menu item for more info.",
+	GUI_AWAITING_RESPONSE_2: "menu item for more info.",
 
 	// Info editor strings...
 	INFO_BLACK: "Black",
