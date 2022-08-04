@@ -211,12 +211,6 @@ module.exports = {
 			break;
 
 		case "enable_hw_accel":
-
-			let msg = "This will not take effect until you restart Ogatak.";
-			if (value) msg += " Note that on some systems this setting may degrade performance, by making KataGo and Ogatak fight over the GPU.";
-			alert(msg);
-			break;
-
 		case "language":
 
 			if (old_value !== value) {
