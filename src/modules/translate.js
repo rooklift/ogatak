@@ -367,7 +367,25 @@ function translate(key, force_language = null) {
 
 }
 
+function all_strings(language) {
+	let arr = [];
+	for (let value of Object.values(translations[language])) {
+		arr.push(value);
+	}
+	return arr.join("\n");
+}
 
+function missing_keys(language) {
+	let arr = [];
+	for (let key of Object.keys(translations["English"])) {
+		for (let language of Object.keys(translations)) {
+			if (!translations[language].hasOwnProperty(key)) {
+				arr.push(key);
+			}
+		}
+	}
+	return arr.join("\n");
+}
 
 // Validate dictionaries... (every key should be in the English version)
 
@@ -379,16 +397,6 @@ for (let language of Object.keys(translations)) {
 	}
 }
 
-// Some code to print all translations from a dictionary...
-/*
-if (global.process && global.process.type === "renderer") {
-	let arr = [];
-	for (let value of Object.values(translations["English"])) {
-		arr.push(value);
-	}
-	console.log(arr.join("\n"));
-}
-*/
 
 
-module.exports = {translate};
+module.exports = {translate, all_strings, missing_keys};
