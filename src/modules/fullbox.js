@@ -2,6 +2,7 @@
 
 const config_io = require("./config_io");
 const {safe_html, pad} = require("./utils");
+const translate = require("./translate");
 
 function init() {
 	let ret = Object.assign(Object.create(fullbox_prototype), {
@@ -58,13 +59,13 @@ let fullbox_prototype = {
 
 		this.set(
 			`<span class="green">${name} ${version}</span> running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
-			`Engine, engine config, and weights are at:\n\n` +
+			translate("ABOUT_FILE_LOCATIONS") + `\n\n` +
 			`    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n` +
 			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n` +
 			`    <span class="yellow" id="about_box_weights">${config.weights || "(unset)"}</span>\n\n` +
-			`${name} config file is at:\n\n` +
+			translate("ABOUT_CONFIG_LOCATION") + `\n\n` +
 			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
-			`RAM usage (MB) (engine not included):\n\n` + 
+			translate("ABOUT_RAM_USAGE") + `\n\n` + 
 			`${ram_strings.join("\n")}`
 		);
 	},
