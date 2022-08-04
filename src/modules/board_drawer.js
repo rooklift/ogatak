@@ -1018,8 +1018,8 @@ let board_drawer_prototype = {
 	draw_engine_starting: function() {
 
 		this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
-		this.info2span.innerHTML = `<span class="yellow">${translate("MENU_DEV")} --> ${translate("MENU_SHOW_ENGINE_STDERR")}</span>`
-		+ ` <span class="white">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
+		this.info2span.innerHTML = `<span class="yellow">${translate("MENU_DEV")} --> ${translate("MENU_SHOW_ENGINE_STDERR")}</span> ` +
+		`<span class="white">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
 
 		this.infodiv_displaying_stats = false;
 	},
