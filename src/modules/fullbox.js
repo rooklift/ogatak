@@ -58,7 +58,8 @@ let fullbox_prototype = {
 		}
 
 		this.set(
-			`<span class="green">${name} ${version}</span> running in <span class="blue">Electron ${process.versions.electron}</span>\n\n` +
+			`<span class="green">${name} ${version}</span>\n` + 
+			`<span class="green">Electron ${process.versions.electron}</span>\n\n` +
 			translate("ABOUT_FILE_LOCATIONS") + `\n\n` +
 			`    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n` +
 			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n` +
