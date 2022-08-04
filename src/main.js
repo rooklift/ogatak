@@ -1685,7 +1685,7 @@ function menu_build() {
 					label: translate("MENU_GRAPH"),
 					submenu: [
 						{
-							label: "Winrate",
+							label: translate("MENU_GRAPH_WINRATE"),
 							type: "checkbox",
 							checked: config.graph_type === 1,
 							accelerator: "F9",
@@ -1694,7 +1694,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Score",
+							label: translate("MENU_GRAPH_SCORE"),
 							type: "checkbox",
 							checked: config.graph_type === 2,
 							accelerator: "F10",
