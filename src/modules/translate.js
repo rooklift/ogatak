@@ -379,6 +379,16 @@ for (let language of Object.keys(translations)) {
 	}
 }
 
+// Some code to print all translations from a dictionary...
+/*
+if (global.process && global.process.type === "renderer") {
+	let arr = [];
+	for (let value of Object.values(translations["English"])) {
+		arr.push(value);
+	}
+	console.log(arr.join("\n"));
+}
+*/
 
 
 module.exports = translate;
