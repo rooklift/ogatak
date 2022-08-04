@@ -101,6 +101,10 @@ translations["English"] = {
 		MENU_WIDE_ROOT_NOISE: "Wide root noise",
 		MENU_SYMMETRY_PRUNING: "Symmetry pruning",
 		MENU_OWNERSHIP: "Ownership",
+			MENU_NO_OWNERSHIP: "None",
+			MENU_DEAD_STONES: "Dead stones",
+			MENU_WHOLE_BOARD: "Whole board",
+			MENU_WHOLE_BOARD_ALT: "Whole board (alt)",
 		MENU_PER_MOVE: "...per-move (costly)",
 		MENU_CLEAR_ALL_ANALYSIS: "Clear all analysis",
 

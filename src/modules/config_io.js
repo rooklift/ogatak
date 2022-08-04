@@ -84,7 +84,7 @@ exports.defaults = {
 	"symmetry_pruning": true,
 	"report_every": 0.1,
 
-	"ownership_marks": "Dead stones",			// Lame stringly typed
+	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
 	"ownership_per_move": true,
 
 	"zobrist_checks": true,
@@ -177,6 +177,12 @@ function apply_fixes() {
 			console.log(`Adjusted config.${key} from "${config[key]}" to ${fixed}`);
 			config[key] = fixed;
 		}
+	}
+
+	// We used to store this as a string...
+
+	if (typeof(config.ownership_marks) !== "number") {
+		config.ownership_marks = exports.defaults.ownership_marks;
 	}
 }
 

@@ -645,7 +645,7 @@ let board_drawer_prototype = {
 
 	draw_ownership_canvas: function(ownership) {
 
-		if (config.ownership_marks !== "Whole board") {
+		if (config.ownership_marks !== 2) {						// i.e. return if it's not "whole board"
 			return;
 		}
 
@@ -670,7 +670,7 @@ let board_drawer_prototype = {
 
 	plan_ownership_marks: function(board, ownership) {
 
-		if (config.ownership_marks !== "Whole board (alt)") {
+		if (config.ownership_marks !== 3) {										// i.e. return if it's not "whole board (alt)"
 			return;
 		}
 
@@ -692,7 +692,7 @@ let board_drawer_prototype = {
 
 	plan_death_marks: function(board, ownership) {
 
-		if (config.ownership_marks !== "Whole board" && config.ownership_marks !== "Dead stones") {
+		if (config.ownership_marks !== 2 && config.ownership_marks !== 1) {		// i.e. return if it's not "whole board" or "dead stones".
 			return;
 		}
 

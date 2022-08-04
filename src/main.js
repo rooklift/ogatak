@@ -1433,38 +1433,38 @@ function menu_build() {
 					label: translate("MENU_OWNERSHIP"),
 					submenu: [
 						{
-							label: "None",
+							label: translate("MENU_NO_OWNERSHIP"),
 							type: "checkbox",
-							checked: config.ownership_marks === "None",
+							checked: config.ownership_marks === 0,
 							click: () => {
-								win.webContents.send("set", {ownership_marks: "None"});
+								win.webContents.send("set", {ownership_marks: 0});
 							}
 						},
 						{
-							label: "Dead stones",
+							label: translate("MENU_DEAD_STONES"),
 							type: "checkbox",
-							checked: config.ownership_marks === "Dead stones",
+							checked: config.ownership_marks === 1,
 							accelerator: "CommandOrControl+[",
 							click: () => {
-								win.webContents.send("set", {ownership_marks: "Dead stones"});
+								win.webContents.send("set", {ownership_marks: 1});
 							}
 						},
 						{
-							label: "Whole board",
+							label: translate("MENU_WHOLE_BOARD"),
 							type: "checkbox",
-							checked: config.ownership_marks === "Whole board",
+							checked: config.ownership_marks === 2,
 							accelerator: "CommandOrControl+]",
 							click: () => {
-								win.webContents.send("set", {ownership_marks: "Whole board"});
+								win.webContents.send("set", {ownership_marks: 2});
 							}
 						},
 						{
-							label: "Whole board (alt)",
+							label: translate("MENU_WHOLE_BOARD_ALT"),
 							type: "checkbox",
-							checked: config.ownership_marks === "Whole board (alt)",
+							checked: config.ownership_marks === 3,
 							accelerator: "CommandOrControl+Shift+]",
 							click: () => {
-								win.webContents.send("set", {ownership_marks: "Whole board (alt)"});
+								win.webContents.send("set", {ownership_marks: 3});
 							}
 						},
 					]
