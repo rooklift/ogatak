@@ -379,10 +379,13 @@ function translate(key, force_language = null) {
 
 }
 
-function all_strings(language) {
+function all_strings(language, with_english) {
 	let arr = [];
-	for (let value of Object.values(translations[language])) {
+	for (let [key, value] of Object.entries(translations[language])) {
 		arr.push(value);
+		if (with_english) {
+			arr[arr.length - 1] += " (" + translations["English"][key] + ")";
+		}
 	}
 	return arr.join("\n");
 }
