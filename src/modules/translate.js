@@ -317,15 +317,15 @@ translations["Français"] = {
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Préférez le placement handicap-3 de Tygem",
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Accélération matérielle pour l'application",
 
-	MENU_DEV: "Dev",
+	MENU_DEV: "Développeur",
 
-		MENU_SHOW_ROOT_PROPERTIES: "Show root properties",
-		MENU_SHOW_NODE_PROPERTIES: "Show node properties",
-		MENU_SHOW_ENGINE_STDERR: "Show engine stderr",
-		MENU_ZOBRIST_MISMATCH_CHECKS: "Zobrist mismatch checks",
-		MENU_RESET_MISMATCH_WARNINGS: "Reset mismatch warnings",
-		MENU_SHOW_CONFIG_FILE: "Show config file",
-		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
+		MENU_SHOW_ROOT_PROPERTIES: "Afficher les propriétés racine",
+		MENU_SHOW_NODE_PROPERTIES: "Afficher les propriétés du noeud",
+		MENU_SHOW_ENGINE_STDERR: "Afficher le moteur stderr",
+		MENU_ZOBRIST_MISMATCH_CHECKS: "Zobrist test de non-concordance",
+		MENU_RESET_MISMATCH_WARNINGS: "Réinitialiser les avertissements de non-concordance",
+		MENU_SHOW_CONFIG_FILE: "Afficher le fichier de configuration",
+		MENU_TOGGLE_DEV_TOOLS: "Outils de développement",
 
 	GUI_ENGINE_NOT_SET: "Vous devez localiser le moteur.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Vous devez localiser analysis.cfg.",
