@@ -156,6 +156,7 @@ translations["English"] = {
 	GUI_ENGINE_NOT_SET: "Engine not set.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
 	GUI_WEIGHTS_NOT_SET: "Weights not set.",
+	GUI_RESOLVE_THIS: "Resolve this via:", 
 
 	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
@@ -182,6 +183,175 @@ translations["English"] = {
 	ABOUT_RAM_USAGE: "RAM usage (MB) (engine not included):",
 
 	// Message that shows if config.json cannot be parsed...
+	BAD_CONFIG_1: "config file could not be parsed.",
+	BAD_CONFIG_2: "It will not be saved to until you fix this.",
+	BAD_CONFIG_3: "This means your settings will not be saved.",
+	BAD_CONFIG_4: "You should fix this.",
+	BAD_CONFIG_5: "You can also just delete the file.",
+
+};
+
+// ------------------------------------------------------------------------------------------------
+
+translations["Français"] = {
+
+	MENU_FILE: "Fichier",
+
+		MENU_ABOUT: "À propos",
+		MENU_NEW_BOARD: "Nouveau",
+		MENU_NEW_SMALL_BOARD: "Nouveau - petit",
+		MENU_NEW_RECTANGULAR_BOARD: "Nouveau - rectangulaire",
+		MENU_HANDICAP: "Handicap",
+		MENU_CLOSE_TAB: "Fermer l'onglet",
+		MENU_OPEN: "Ouvrir...",
+		MENU_PASTE_SGF: "Coller du presse-papiers",
+		MENU_SAVE_GAME: "Enregistrer",
+		MENU_SAVE_GAME_AS: "Enregistrer sous...",
+		MENU_SAVE_COLLECTION_AS: "Enregistrer la collection sous...",
+		MENU_QUIT: "Arrêter",
+
+	MENU_SETUP: "Moteur",		// "Engine"
+
+		MENU_LOCATE_KATAGO: "Localiser KataGo...",
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: "Localiser KataGo analysis.cfg...",
+		MENU_CHOOSE_WEIGHTS: "Localiser les poids...",
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: "Launch KataGo via command...",
+		MENU_CLEAR_CACHE: "Vider le cache",
+		MENU_RESTART: "Redémarrage",
+		MENU_ENGINE_REPORT_RATE: "Engine report rate",
+
+	MENU_TREE: "Navigation",
+
+		MENU_PLAY_BEST_MOVE: "Jouer le meilleur coup",
+		MENU_PASS: "Passer",
+		MENU_ROOT: "Aller à la position initiale",
+		MENU_END: "Aller à la position finale",
+		MENU_BACKWARD: "Reculer",
+		MENU_FORWARD: "Avancer",
+		MENU_BACKWARD_10: "Reculer 10",
+		MENU_FORWARD_10: "Avancer 10",
+		MENU_PREVIOUS_SIBLING: "Frère à gauche",
+		MENU_NEXT_SIBLING: "Frère à droite",
+		MENU_RETURN_TO_MAIN_LINE: "Aller à la variation principale",
+		MENU_FIND_PREVIOUS_FORK: "Aller à la branche précédente",
+		MENU_FIND_NEXT_FORK: "Aller à la branche suivante",
+		MENU_PROMOTE_LINE: "Promouvoir la variation",
+		MENU_PROMOTE_LINE_TO_MAIN_LINE: "Rendre la variation principale",
+		MENU_DELETE_NODE: "Supprimer le noeud",
+		MENU_DELETE_ALL_PREVIOUS_FORKS: "Supprimer toutes les branches précédentes",
+
+	MENU_TOOLS: "Outils",
+
+		MENU_NORMAL: "Ordinaire",
+		MENU_ADD_BLACK: "Pierre noire",
+		MENU_ADD_WHITE: "Pierre blanche",
+		MENU_ADD_EMPTY: "Supprimer la pierre",
+		MENU_TRIANGLE: "Triangle",
+		MENU_SQUARE: "Carré",
+		MENU_CIRCLE: "Cercle",
+		MENU_CROSS: "Croix",
+		MENU_LABELS_ABC: "Lettre (ABC)",
+		MENU_LABELS_123: "Chiffre (123)",
+		MENU_TOGGLE_ACTIVE_PLAYER: "Changer de joueur",
+		MENU_GAME_INFO_EDITOR: "Propriétés du jeu",
+
+	MENU_ANALYSIS: "Analyse",
+
+		MENU_GO_HALT_TOGGLE: "Commencer / Halte", 
+		MENU_GO: "Commencer",
+		MENU_HALT: "Halte",
+		MENU_SELF_PLAY: "Self-play",
+		MENU_AUTOANALYSIS: "Analyse automatique",
+		MENU_BACKWARD_ANALYSIS: "Analyse automatique (vers l'arrière)",
+		MENU_AUTOANALYSIS_VISITS: "Visites",
+		MENU_SET_RULES: "Règles",
+			MENU_CHINESE: "Chinoises",
+			MENU_JAPANESE: "Japonaises",
+			MENU_STONE_SCORING: "Comptage des pierres",
+		MENU_SET_KOMI: "Komi",
+		MENU_PV_LENGTH_MAX: "PV length (max)",
+		MENU_WIDE_ROOT_NOISE: "Wide root noise",
+		MENU_SYMMETRY_PRUNING: "Symmetry pruning",
+		MENU_OWNERSHIP: "Ownership",
+			MENU_NO_OWNERSHIP: "None",
+			MENU_DEAD_STONES: "Dead stones",
+			MENU_WHOLE_BOARD: "Whole board",
+			MENU_WHOLE_BOARD_ALT: "Whole board (alt)",
+		MENU_PER_MOVE: "...per-move (costly)",
+		MENU_CLEAR_ALL_ANALYSIS: "Clear all analysis",
+
+	MENU_DISPLAY: "Display",
+
+		MENU_VISIT_FILTER: "Visit filter",
+			MENU_ALL: "All",
+		MENU_NUMBERS: "Numbers",
+		MENU_GRAPH: "Graph",
+			MENU_GRAPH_WINRATE: "Winrate",
+			MENU_GRAPH_SCORE: "Score",
+		MENU_BLACK_POV_ALWAYS: "Black POV always",
+		MENU_CANDIDATE_MOVES: "Candidate moves",
+		MENU_WITH_PV_MOUSEOVER: "...with PV mouseover",
+		MENU_FADE_BY_VISITS: "...fade by visits",
+		MENU_NEXT_MOVE_MARKERS: "Next move markers",
+		MENU_COLOURS: "Colours",
+
+	MENU_SIZES: "Sizes",
+
+		MENU_EMBIGGEN_SMALL_BOARDS: "Embiggen small boards",
+		MENU_INFO_FONT: "Info font",
+		MENU_GRAPH_WIDTH: "Graph width",
+		MENU_GRAPH_MAJOR_LINES: "Graph major lines",
+		MENU_GRAPH_MINOR_LINES: "Graph minor lines",
+		MENU_BOARD_LINES: "Board lines",
+		MENU_THUMBNAIL_SQUARES: "Thumbnail squares",
+		MENU_TREE_SPACING: "Tree spacing",
+		MENU_COMMENT_BOX: "Comment box",
+
+	MENU_MISC: "Misc",
+
+		MENU_ESCAPE: "Escape",
+		MENU_PLAY_BLACK: "Play Black",
+		MENU_PLAY_WHITE: "Play White",
+		MENU_LOAD_GAMES_AT_FINAL_POSITION: "Load games at final position",
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: "Guess rules from komi on load",
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Prefer Tygem handicap-3 layout",
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Enable hardware acceleration for GUI",
+
+	MENU_DEV: "Dev",
+
+		MENU_SHOW_ROOT_PROPERTIES: "Show root properties",
+		MENU_SHOW_NODE_PROPERTIES: "Show node properties",
+		MENU_SHOW_ENGINE_STDERR: "Show engine stderr",
+		MENU_ZOBRIST_MISMATCH_CHECKS: "Zobrist mismatch checks",
+		MENU_RESET_MISMATCH_WARNINGS: "Reset mismatch warnings",
+		MENU_SHOW_CONFIG_FILE: "Show config file",
+		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
+
+	GUI_ENGINE_NOT_SET: "Engine not set.",
+	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
+	GUI_WEIGHTS_NOT_SET: "Weights not set.",
+	GUI_RESOLVE_THIS: "Resolve this via:",
+
+	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
+	GUI_AWAITING_RESPONSE_2: "menu item for more info.",
+
+	INFO_BLACK: "Black",
+	INFO_BLACK_RANK: "BR",
+	INFO_WHITE: "White",
+	INFO_WHITE_RANK: "WR",
+	INFO_EVENT: "Event",
+	INFO_ROUND: "Round",
+	INFO_GAME_NAME: "Name",
+	INFO_PLACE: "Place",
+	INFO_DATE: "Date",
+	INFO_RESULT: "Result",
+
+	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
+
+	ABOUT_FILE_LOCATIONS: "Engine, engine config, and weights are at:",
+	ABOUT_CONFIG_LOCATION: "Ogatak config file is at:",
+	ABOUT_RAM_USAGE: "RAM usage (MB) (engine not included):",
+
 	BAD_CONFIG_1: "config file could not be parsed.",
 	BAD_CONFIG_2: "It will not be saved to until you fix this.",
 	BAD_CONFIG_3: "This means your settings will not be saved.",
@@ -329,6 +499,7 @@ translations["русский"] = {
 	GUI_ENGINE_NOT_SET: "Исполняемый файл KataGo не установлен.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Файл настроек анализа не установлен.",
 	GUI_WEIGHTS_NOT_SET: "Файл сети не установлен.",
+	GUI_RESOLVE_THIS: "Решите это через:",
 
 	GUI_AWAITING_RESPONSE_1: "Ожидание ответа от программы. При необходимости выберите",
 	GUI_AWAITING_RESPONSE_2: "пункт меню.",
