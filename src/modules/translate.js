@@ -282,7 +282,7 @@ translations["Français"] = {
 
 	MENU_DISPLAY: "Visualiser",
 
-		MENU_VISIT_FILTER: "Filtre de visite",
+		MENU_VISIT_FILTER: "Filtrer par visites",
 			MENU_ALL: "Toute",
 		MENU_NUMBERS: "Nombres",
 		MENU_GRAPH: "Graphique",
