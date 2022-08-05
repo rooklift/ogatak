@@ -156,7 +156,7 @@ translations["English"] = {
 	GUI_ENGINE_NOT_SET: "Engine not set.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
 	GUI_WEIGHTS_NOT_SET: "Weights not set.",
-	GUI_RESOLVE_THIS: "Resolve this via:", 
+	GUI_RESOLVE_THIS: "Resolve this via the Setup menu.", 
 
 	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
@@ -330,7 +330,7 @@ translations["Français"] = {
 	GUI_ENGINE_NOT_SET: "Vous devez localiser le moteur.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Vous devez localiser analysis.cfg.",
 	GUI_WEIGHTS_NOT_SET: "Vous devez localiser les poids.",
-	GUI_RESOLVE_THIS: "Pour résoudre ce problème, sélectionnez:",
+	GUI_RESOLVE_THIS: "Résoudre ce problème en utilisant le menu.",
 
 	GUI_AWAITING_RESPONSE_1: "En attente de réponse du moteur. Si nécessaire, sélectionnez",
 	GUI_AWAITING_RESPONSE_2: "élément de menu pour info.",
@@ -489,7 +489,7 @@ translations["русский"] = {
 	GUI_ENGINE_NOT_SET: "Исполняемый файл KataGo не установлен.",
 	GUI_ENGINE_CONFIG_NOT_SET: "Файл настроек анализа не установлен.",
 	GUI_WEIGHTS_NOT_SET: "Файл сети не установлен.",
-	GUI_RESOLVE_THIS: "Решите это через:",
+	GUI_RESOLVE_THIS: "Решите это с помощью меню.",
 
 	GUI_AWAITING_RESPONSE_1: "Ожидание ответа от программы. При необходимости выберите",
 	GUI_AWAITING_RESPONSE_2: "пункт меню.",
