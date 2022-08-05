@@ -208,7 +208,7 @@ translations["Français"] = {
 		MENU_SAVE_GAME: "Enregistrer",
 		MENU_SAVE_GAME_AS: "Enregistrer sous...",
 		MENU_SAVE_COLLECTION_AS: "Enregistrer la collection sous...",
-		MENU_QUIT: "Arrêter",
+		MENU_QUIT: "Quitter",
 
 	MENU_SETUP: "Moteur",		// "Engine" (what's a good word for "setup?)
 
@@ -245,7 +245,7 @@ translations["Français"] = {
 		MENU_NORMAL: "Ordinaire",
 		MENU_ADD_BLACK: "Pierre noire",
 		MENU_ADD_WHITE: "Pierre blanche",
-		MENU_ADD_EMPTY: "Supprimer la pierre",
+		MENU_ADD_EMPTY: "Effaceur de pierres",
 		MENU_TRIANGLE: "Triangle",
 		MENU_SQUARE: "Carré",
 		MENU_CIRCLE: "Cercle",
@@ -260,10 +260,10 @@ translations["Français"] = {
 		MENU_GO_HALT_TOGGLE: "Commencer / Halte", 
 		MENU_GO: "Commencer",
 		MENU_HALT: "Halte",
-		MENU_SELF_PLAY: "Self-play",
+		MENU_SELF_PLAY: "Auto-jeu",
 		MENU_AUTOANALYSIS: "Analyse automatique",
 		MENU_BACKWARD_ANALYSIS: "Analyse automatique (vers l'arrière)",
-		MENU_AUTOANALYSIS_VISITS: "Visites",
+		MENU_AUTOANALYSIS_VISITS: "Visites pour analyse automatique",
 		MENU_SET_RULES: "Règles",
 			MENU_CHINESE: "Chinoises",
 			MENU_JAPANESE: "Japonaises",
@@ -271,8 +271,8 @@ translations["Français"] = {
 		MENU_SET_KOMI: "Komi",
 		MENU_PV_LENGTH_MAX: "Longueur PV (max)",
 		MENU_WIDE_ROOT_NOISE: "Wide root noise",
-		MENU_SYMMETRY_PRUNING: "Symmetry pruning",
-		MENU_OWNERSHIP: "La possession",
+		MENU_SYMMETRY_PRUNING: "Taille de symétrie",
+		MENU_OWNERSHIP: "Possession",
 			MENU_NO_OWNERSHIP: "Pas montré",
 			MENU_DEAD_STONES: "Pierres mortes",
 			MENU_WHOLE_BOARD: "Goban entier",
@@ -295,27 +295,27 @@ translations["Français"] = {
 		MENU_NEXT_MOVE_MARKERS: "Coups suivants",
 		MENU_COLOURS: "Couleurs",
 
-	MENU_SIZES: "Sizes",
+	MENU_SIZES: "Grandeur",
 
-		MENU_EMBIGGEN_SMALL_BOARDS: "Embiggen small boards",
-		MENU_INFO_FONT: "Info font",
-		MENU_GRAPH_WIDTH: "Graph width",
-		MENU_GRAPH_MAJOR_LINES: "Graph major lines",
-		MENU_GRAPH_MINOR_LINES: "Graph minor lines",
-		MENU_BOARD_LINES: "Board lines",
-		MENU_THUMBNAIL_SQUARES: "Thumbnail squares",
-		MENU_TREE_SPACING: "Tree spacing",
-		MENU_COMMENT_BOX: "Comment box",
+		MENU_EMBIGGEN_SMALL_BOARDS: "Agrandir les petits gobans",
+		MENU_INFO_FONT: "Info",
+		MENU_GRAPH_WIDTH: "Graphique - largeur",
+		MENU_GRAPH_MAJOR_LINES: "Graphique - lignes principales",
+		MENU_GRAPH_MINOR_LINES: "Graphique - lignes mineures",
+		MENU_BOARD_LINES: "Lignes sur le goban",
+		MENU_THUMBNAIL_SQUARES: "Vignettes",
+		MENU_TREE_SPACING: "Arbre de jeu",
+		MENU_COMMENT_BOX: "Boîte de commentaires",
 
-	MENU_MISC: "Misc",
+	MENU_MISC: "Autre",
 
-		MENU_ESCAPE: "Escape",
-		MENU_PLAY_BLACK: "Play Black",
-		MENU_PLAY_WHITE: "Play White",
+		MENU_ESCAPE: "Échapper",
+		MENU_PLAY_BLACK: "Jouer en tant que noir",
+		MENU_PLAY_WHITE: "Jouer en tant que blanc",
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: "Load games at final position",
-		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: "Guess rules from komi on load",
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Prefer Tygem handicap-3 layout",
-		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Enable hardware acceleration for GUI",
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: "Utilisez komi pour deviner les règles",
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: "Préférez le placement handicap-3 de Tygem",
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: "Accélération matérielle pour l'application",
 
 	MENU_DEV: "Dev",
 
@@ -327,36 +327,26 @@ translations["Français"] = {
 		MENU_SHOW_CONFIG_FILE: "Show config file",
 		MENU_TOGGLE_DEV_TOOLS: "Toggle dev tools",
 
-	GUI_ENGINE_NOT_SET: "Engine not set.",
-	GUI_ENGINE_CONFIG_NOT_SET: "Engine config not set.",
-	GUI_WEIGHTS_NOT_SET: "Weights not set.",
-	GUI_RESOLVE_THIS: "Resolve this via:",
+	GUI_ENGINE_NOT_SET: "Vous devez localiser le moteur.",
+	GUI_ENGINE_CONFIG_NOT_SET: "Vous devez localiser analysis.cfg.",
+	GUI_WEIGHTS_NOT_SET: "Vous devez localiser les poids.",
+	GUI_RESOLVE_THIS: "Pour résoudre ce problème, sélectionnez:",
 
-	GUI_AWAITING_RESPONSE_1: "Awaiting response from engine. If needed, select the",
-	GUI_AWAITING_RESPONSE_2: "menu item for more info.",
+	GUI_AWAITING_RESPONSE_1: "En attente de réponse du moteur. Si nécessaire, sélectionnez",
+	GUI_AWAITING_RESPONSE_2: "élément de menu pour info.",
 
-	INFO_BLACK: "Black",
-	INFO_BLACK_RANK: "BR",
-	INFO_WHITE: "White",
-	INFO_WHITE_RANK: "WR",
-	INFO_EVENT: "Event",
-	INFO_ROUND: "Round",
-	INFO_GAME_NAME: "Name",
-	INFO_PLACE: "Place",
+	INFO_BLACK: "Joueur Noir",
+	INFO_BLACK_RANK: "Classement de Noir",
+	INFO_WHITE: "Joueur Blanc",
+	INFO_WHITE_RANK: "Classement de Blanc",
+	INFO_EVENT: "Événement",
+	INFO_ROUND: "Tour",
+	INFO_GAME_NAME: "Nom",
+	INFO_PLACE: "Lieu",
 	INFO_DATE: "Date",
-	INFO_RESULT: "Result",
+	INFO_RESULT: "Résultat",
 
-	ALERT_RESTART_REQUIRED: "A restart of the GUI is now required.",
-
-	ABOUT_FILE_LOCATIONS: "Engine, engine config, and weights are at:",
-	ABOUT_CONFIG_LOCATION: "Ogatak config file is at:",
-	ABOUT_RAM_USAGE: "RAM usage (MB) (engine not included):",
-
-	BAD_CONFIG_1: "config file could not be parsed.",
-	BAD_CONFIG_2: "It will not be saved to until you fix this.",
-	BAD_CONFIG_3: "This means your settings will not be saved.",
-	BAD_CONFIG_4: "You should fix this.",
-	BAD_CONFIG_5: "You can also just delete the file.",
+	ALERT_RESTART_REQUIRED: "Veuillez redémarrer l'application.",
 
 };
 
@@ -575,6 +565,22 @@ function missing_keys(language) {
 	return arr.join("\n");
 }
 
+function count_all_missing() {
+	let ret = {};
+	for (let key of Object.keys(translations["English"])) {
+		for (let language of Object.keys(translations)) {
+			if (!translations[language].hasOwnProperty(key)) {
+				if (ret[language]) {
+					ret[language] += 1;
+				} else {
+					ret[language] = 1;
+				}
+			}
+		}
+	}
+	return ret;
+}
+
 // Validate dictionaries... (every key should be in the English version)
 
 for (let language of Object.keys(translations)) {
@@ -591,4 +597,4 @@ let all_languages = Object.keys(translations);
 
 
 
-module.exports = {translate, all_strings, missing_keys, all_languages};
+module.exports = {translate, all_strings, missing_keys, count_all_missing, all_languages};
