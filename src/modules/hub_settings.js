@@ -323,9 +323,8 @@ module.exports = {
 		};
 
 		let number_types = config.numbers.split(" + ");
-		let menu_label = number_types.map(s => label_strings[s]).join(" + ");
-
-		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_NUMBERS"), menu_label]);
+		let label = number_types.map(s => label_strings[s]).join(" + ");
+		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_NUMBERS"), label]);
 	},
 
 	fix_visit_filter_menu: function() {
@@ -337,7 +336,7 @@ module.exports = {
 
 	fix_tools_menu: function() {
 
-		let mode_strings = {
+		let label_strings = {
 			"AB": translate("MENU_ADD_BLACK"),
 			"AW": translate("MENU_ADD_WHITE"),
 			"AE": translate("MENU_ADD_EMPTY"),
@@ -352,7 +351,8 @@ module.exports = {
 		if (!config.mode) {
 			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), translate("MENU_NORMAL")]);
 		} else {
-			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), mode_strings[config.mode]]);
+			let label = label_strings[config.mode];
+			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), label]);
 		}
 	},
 
