@@ -193,6 +193,8 @@ translations["English"] = {
 
 };
 
+// ------------------------------------------------------------------------------------------------
+
 translations["русский"] = {
 
 	MENU_FILE: "Файл",
@@ -359,6 +361,9 @@ translations["русский"] = {
 
 };
 
+// ------------------------------------------------------------------------------------------------
+//                              No edits below this point please.
+// ------------------------------------------------------------------------------------------------
 
 function translate(key, force_language = null) {
 
@@ -412,6 +417,10 @@ for (let language of Object.keys(translations)) {
 	}
 }
 
+// Also export a list of all languages. I believe this is guaranteed to be insertion order:
+
+let all_languages = Object.keys(translations);
 
 
-module.exports = {translate, all_strings, missing_keys};
+
+module.exports = {translate, all_strings, missing_keys, all_languages};

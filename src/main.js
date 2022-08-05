@@ -25,7 +25,7 @@ const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
-const {translate} = require("./modules/translate");
+const {translate, all_languages} = require("./modules/translate");
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -2424,26 +2424,8 @@ function menu_build() {
 
 		{
 			label: "Language",
-			submenu: [
-				{
-					label: "English",
-					type: "checkbox",
-					checked: config.language === "English",
-					click: () => {
-						win.webContents.send("set", {language: "English"});
-					},
-				},
-				{
-					label: "русский",
-					type: "checkbox",
-					checked: config.language === "русский",
-					click: () => {
-						win.webContents.send("set", {language: "русский"});
-					},
-				},
-			]
+			submenu: language_choices_submenu(),
 		},
-
 	];
 
 	return electron.Menu.buildFromTemplate(template);
@@ -2472,6 +2454,24 @@ function colour_choices_submenu() {
 				}
 			});
 		}
+	}
+
+	return ret;
+}
+
+function language_choices_submenu() {
+
+	let ret = [];
+
+	for (let language of all_languages) {
+		ret.push({
+			label: language,
+			type: "checkbox",
+			checked: config.language === language,
+			click: () => {
+				win.webContents.send("set", {language: language});
+			}
+		});
 	}
 
 	return ret;
