@@ -1011,7 +1011,7 @@ let board_drawer_prototype = {
 	draw_engine_problem: function() {
 		let s = hub.engine.problem_text();
 		this.info1span.innerHTML = `<span class="white">${s}</span>`;
-		this.info2span.innerHTML = `<span class="white">Resolve this via the Setup menu.</span>`;
+		this.info2span.innerHTML = `<span class="white">${translate("GUI_RESOLVE_THIS")}</span> <span class="yellow">${translate("MENU_SETUP")}</span>`;
 		this.infodiv_displaying_stats = false;
 	},
 
