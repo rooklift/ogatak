@@ -13,7 +13,6 @@ const multichecks = {
 	autoanalysis_visits:	[translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS_VISITS")],
 	analysis_pv_len:		[translate("MENU_ANALYSIS"), translate("MENU_PV_LENGTH_MAX")],
 	wide_root_noise:		[translate("MENU_ANALYSIS"), translate("MENU_WIDE_ROOT_NOISE")],
-	numbers:				[translate("MENU_DISPLAY"), translate("MENU_NUMBERS")],
 	board_line_width:		[translate("MENU_SIZES"), translate("MENU_BOARD_LINES")],
 	info_font_size:			[translate("MENU_SIZES"), translate("MENU_INFO_FONT")],
 	graph_width:			[translate("MENU_SIZES"), translate("MENU_GRAPH_WIDTH")],
@@ -246,6 +245,10 @@ module.exports = {
 			this.fix_graph_type_menu();
 		}
 
+		if (key === "numbers") {
+			this.fix_numbers_menu();
+		}
+
 		if (key === "top_colour_black" || key === "top_colour_white" || key === "off_colour_black" || key === "off_colour_white") {
 			this.fix_colours_menu();
 		}
@@ -299,6 +302,30 @@ module.exports = {
 		};
 		let label = label_strings[config.graph_type];
 		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_GRAPH"), label]);
+	},
+
+	fix_numbers_menu: function() {
+
+		// Our config value is always a string with multiple items separated by " + "
+		// Admittedly this is pretty silly.
+		//
+		// Our menu will follow the same general format but possibly translated:
+
+		let label_strings = {
+			"LCB":			translate("MENU_NUM_LCB"),
+			"Score":		translate("MENU_NUM_SCORE"),
+			"Delta":		translate("MENU_NUM_DELTA"),
+			"Visits":		translate("MENU_NUM_VISITS"),
+			"Visits (%)":	translate("MENU_NUM_VISITS_PC"),
+			"Order":		translate("MENU_NUM_ORDER"),
+			"Policy":		translate("MENU_NUM_POLICY"),
+			"Winrate":		translate("MENU_NUM_WINRATE"),
+		};
+
+		let number_types = config.numbers.split(" + ");
+		let menu_label = number_types.map(s => label_strings[s]).join(" + ");
+
+		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_NUMBERS"), menu_label]);
 	},
 
 	fix_visit_filter_menu: function() {

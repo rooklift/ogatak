@@ -1574,7 +1574,7 @@ function menu_build() {
 					label: translate("MENU_NUMBERS"),
 					submenu: [
 						{
-							label: "LCB + Visits",
+							label: `${translate("MENU_NUM_LCB")} + ${translate("MENU_NUM_VISITS")}`,
 							type: "checkbox",
 							checked: config.numbers === "LCB + Visits",
 							accelerator: "F5",
@@ -1583,7 +1583,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Score + Visits",
+							label: `${translate("MENU_NUM_SCORE")} + ${translate("MENU_NUM_VISITS")}`,
 							type: "checkbox",
 							checked: config.numbers === "Score + Visits",
 							accelerator: "F6",
@@ -1592,7 +1592,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Delta + Visits",
+							label: `${translate("MENU_NUM_DELTA")} + ${translate("MENU_NUM_VISITS")}`,
 							type: "checkbox",
 							checked: config.numbers === "Delta + Visits",
 							accelerator: "F7",
@@ -1604,7 +1604,7 @@ function menu_build() {
 							type: "separator",
 						},
 						{
-							label: "LCB",
+							label: translate("MENU_NUM_LCB"),
 							type: "checkbox",
 							checked: config.numbers === "LCB",
 							click: () => {
@@ -1612,7 +1612,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Score",
+							label: translate("MENU_NUM_SCORE"),
 							type: "checkbox",
 							checked: config.numbers === "Score",
 							click: () => {
@@ -1620,7 +1620,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Delta",
+							label: translate("MENU_NUM_DELTA"),
 							type: "checkbox",
 							checked: config.numbers === "Delta",
 							click: () => {
@@ -1628,7 +1628,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Visits",
+							label: translate("MENU_NUM_VISITS"),
 							type: "checkbox",
 							checked: config.numbers === "Visits",
 							click: () => {
@@ -1636,7 +1636,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Visits (%)",
+							label: translate("MENU_NUM_VISITS_PC"),
 							type: "checkbox",
 							checked: config.numbers === "Visits (%)",
 							click: () => {
@@ -1644,7 +1644,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Order",
+							label: translate("MENU_NUM_ORDER"),
 							type: "checkbox",
 							checked: config.numbers === "Order",
 							click: () => {
@@ -1652,7 +1652,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Policy",
+							label: translate("MENU_NUM_POLICY"),
 							type: "checkbox",
 							checked: config.numbers === "Policy",
 							click: () => {
@@ -1660,7 +1660,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "Winrate",
+							label: translate("MENU_NUM_WINRATE"),
 							type: "checkbox",
 							checked: config.numbers === "Winrate",
 							click: () => {
@@ -1671,7 +1671,7 @@ function menu_build() {
 							type: "separator",
 						},
 						{
-							label: "LCB + Visits + Score",
+							label: `${translate("MENU_NUM_LCB")} + ${translate("MENU_NUM_VISITS")} + ${translate("MENU_NUM_SCORE")}`,
 							type: "checkbox",
 							checked: config.numbers === "LCB + Visits + Score",
 							accelerator: "F8",
