@@ -210,15 +210,15 @@ translations["Français"] = {
 		MENU_SAVE_COLLECTION_AS: "Enregistrer la collection sous...",
 		MENU_QUIT: "Arrêter",
 
-	MENU_SETUP: "Moteur",		// "Engine"
+	MENU_SETUP: "Moteur",		// "Engine" (what's a good word for "setup?)
 
 		MENU_LOCATE_KATAGO: "Localiser KataGo...",
-		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: "Localiser KataGo analysis.cfg...",
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: "Localiser analysis.cfg...",
 		MENU_CHOOSE_WEIGHTS: "Localiser les poids...",
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: "Launch KataGo via command...",
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: "Lancer KataGo avec la commande...",
 		MENU_CLEAR_CACHE: "Vider le cache",
 		MENU_RESTART: "Redémarrage",
-		MENU_ENGINE_REPORT_RATE: "Engine report rate",
+		MENU_ENGINE_REPORT_RATE: "Taux de rapport",
 
 	MENU_TREE: "Navigation",
 
@@ -253,7 +253,7 @@ translations["Français"] = {
 		MENU_LABELS_ABC: "Lettre (ABC)",
 		MENU_LABELS_123: "Chiffre (123)",
 		MENU_TOGGLE_ACTIVE_PLAYER: "Changer de joueur",
-		MENU_GAME_INFO_EDITOR: "Propriétés du jeu",
+		MENU_GAME_INFO_EDITOR: "Propriétés de la partie",
 
 	MENU_ANALYSIS: "Analyse",
 
@@ -272,20 +272,20 @@ translations["Français"] = {
 		MENU_PV_LENGTH_MAX: "PV length (max)",
 		MENU_WIDE_ROOT_NOISE: "Wide root noise",
 		MENU_SYMMETRY_PRUNING: "Symmetry pruning",
-		MENU_OWNERSHIP: "Ownership",
-			MENU_NO_OWNERSHIP: "None",
-			MENU_DEAD_STONES: "Dead stones",
-			MENU_WHOLE_BOARD: "Whole board",
-			MENU_WHOLE_BOARD_ALT: "Whole board (alt)",
-		MENU_PER_MOVE: "...per-move (costly)",
-		MENU_CLEAR_ALL_ANALYSIS: "Clear all analysis",
+		MENU_OWNERSHIP: "La possession",
+			MENU_NO_OWNERSHIP: "Pas montré",
+			MENU_DEAD_STONES: "Pierres mortes",
+			MENU_WHOLE_BOARD: "Goban entier",
+			MENU_WHOLE_BOARD_ALT: "Goban entier (autre)",
+		MENU_PER_MOVE: "...pour chaque coup",
+		MENU_CLEAR_ALL_ANALYSIS: "Supprimer toutes les analyses",
 
-	MENU_DISPLAY: "Display",
+	MENU_DISPLAY: "Visualiser",
 
-		MENU_VISIT_FILTER: "Visit filter",
-			MENU_ALL: "All",
-		MENU_NUMBERS: "Numbers",
-		MENU_GRAPH: "Graph",
+		MENU_VISIT_FILTER: "Filtre de visite",
+			MENU_ALL: "Toute",
+		MENU_NUMBERS: "Nombres",
+		MENU_GRAPH: "Graphique",
 			MENU_GRAPH_WINRATE: "Winrate",
 			MENU_GRAPH_SCORE: "Score",
 		MENU_BLACK_POV_ALWAYS: "Black POV always",
