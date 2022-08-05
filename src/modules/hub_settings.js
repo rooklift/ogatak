@@ -333,15 +333,16 @@ module.exports = {
 		for (let key of Object.keys(o)) {
 			config[key] = o[key];
 		}
-		this.draw();								// Currently this is enough.
+		this.draw();													// Currently this is enough.
 		this.fix_colours_menu();
 	},
 
 	reset: function(key) {
+
 		if (defaults[key] === undefined) {
 			throw new Error("reset(): key not in defaults");
 		}
-		this.set(key, defaults[key]);
+		this.set(key, JSON.parse(JSON.stringify(defaults[key])));		// Lame way to ensure new object.
 		return defaults[key];
 	},
 
