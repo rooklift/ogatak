@@ -3,23 +3,20 @@
 let translations = Object.create(null);
 let startup_language = config.language;
 
-// Note to anyone who wants to add a translation:
+// ------------------------------------------------------------------------------------------------
 //
-// Create an object in this file that follows the format of the English object.
-// Do NOT edit the capital letters part, only the strings on the right hand side.
-// Then send me a pull request.
+//		Note to anyone who wants to add a translation:
 //
-// For example, if you were creating a Simplified Chinese translation, you would make:
+//		Simply create a new object in this file that follows the format below.
+//		Do NOT edit the capital letters part, only the strings on the right hand side.
 //
-//		translations["简体中文"] = {
-//			MENU_FILE: "文件",
-//			// etc etc
-//		}
+//		Then send me a GitHub pull request.
+//		Or for small changes, just open an issue.
+//		Or if GitHub is too hard, talk to me on Discord.
 //
-// Note that it is OK for some keys to be missing (English will be used for those).
+//		Note that it is OK for some keys to be missing (English will be used for those).
 //
-// You can test things by setting the "language" setting in Ogatak's config.json file
-// to be the language you are creating.
+// ------------------------------------------------------------------------------------------------
 
 translations["English"] = {
 
