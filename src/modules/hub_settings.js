@@ -209,6 +209,12 @@ module.exports = {
 			break;
 
 		case "enable_hw_accel":
+
+			if (old_value !== value) {
+				alert(translate("ALERT_RESTART_REQUIRED"));
+			}
+			break;
+
 		case "language":
 
 			if (old_value !== value) {
