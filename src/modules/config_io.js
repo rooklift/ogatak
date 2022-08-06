@@ -182,28 +182,20 @@ function apply_fixes() {
 
 	// Fix some stuff that used to be stored stringly-typed...
 
-	if (typeof config.ownership_marks !== "number") {
-		if (config.ownership_marks === "None") {
-			config.ownership_marks = 0;
-		} else if (config.ownership_marks === "Dead stones") {
-			config.ownership_marks = 1;
-		} else if (config.ownership_marks === "Whole board") {
-			config.ownership_marks = 2;
-		} else if (config.ownership_marks === "Whole board (alt)") {
-			config.ownership_marks = 3;
-		} else {
-			config.ownership_marks = exports.defaults.ownership_marks;
-		}
+	if (config.ownership_marks === "None") config.ownership_marks = 0;
+	if (config.ownership_marks === "Dead stones") config.ownership_marks = 1;
+	if (config.ownership_marks === "Whole board") config.ownership_marks = 2;
+	if (config.ownership_marks === "Whole board (alt)") config.ownership_marks = 3;
+
+	if (typeof config.ownership_marks !== "number") {					// It was some other string? (Check *after* the above)
+		config.ownership_marks = exports.defaults.ownership_marks;
 	}
 
-	if (typeof config.graph_type !== "number") {
-		if (config.graph_type === "Winrate") {
-			config.graph_type = 1;
-		} else if (config.graph_type === "Score") {
-			config.graph_type = 2;
-		} else {
-			config.graph_type = exports.defaults.graph_type;
-		}
+	if (config.graph_type === "Winrate") config.graph_type = 1;
+	if (config.graph_type === "Score") config.graph_type = 2;
+
+	if (typeof config.graph_type !== "number") {						// It was some other string? (Check *after* the above)
+		config.graph_type = exports.defaults.graph_type;
 	}
 }
 
