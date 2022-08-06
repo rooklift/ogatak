@@ -189,7 +189,7 @@ function apply_fixes() {
 			config.ownership_marks = 1;
 		} else if (config.ownership_marks === "Whole board") {
 			config.ownership_marks = 2;
-		} else if (config.ownership_marks === "whole board (alt)") {
+		} else if (config.ownership_marks === "Whole board (alt)") {
 			config.ownership_marks = 3;
 		} else {
 			config.ownership_marks = exports.defaults.ownership_marks;
