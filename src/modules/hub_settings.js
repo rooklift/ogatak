@@ -323,7 +323,7 @@ module.exports = {
 		};
 
 		let number_types = config.numbers.split(" + ");
-		let label = number_types.map(s => label_strings[s]).join(" + ");
+		let label = number_types.map(s => label_strings[s] || s).join(" + ");
 		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_NUMBERS"), label]);
 	},
 
