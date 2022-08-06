@@ -318,7 +318,6 @@ let grapher_prototype = {
 		}
 
 		mousey -= this.draw_y_offset;
-		if (mousey < 0) mousey = 0;
 
 		let node_list = node.get_end().history();
 
