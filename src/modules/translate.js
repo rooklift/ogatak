@@ -278,7 +278,7 @@ translations["Français"] = {
 			MENU_STONE_SCORING: "Comptage des pierres",
 		MENU_SET_KOMI: "Komi",
 		MENU_PV_LENGTH_MAX: "Longueur PV (max)",
-		MENU_WIDE_ROOT_NOISE: "Bruit de racine",
+		MENU_WIDE_ROOT_NOISE: "Bruit uniforme à la racine",
 		MENU_SYMMETRY_PRUNING: "Taille de symétrie",
 		MENU_OWNERSHIP: "Possession",
 			MENU_NO_OWNERSHIP: "Pas montré",
