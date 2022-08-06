@@ -96,15 +96,20 @@ grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	grapher.dragging = true;												// Allow the dragging of the position to happen.
 });
 
-grapher.positioncanvas.addEventListener("mousemove", (event) => {
-	if (grapher.dragging) {
-		if (event.buttons) {
-			grapher.pending_mousemove_y = event.offsetY;					// See the related spinner that actually changes the position.
-		} else {
-			grapher.dragging = false;
+for (let s of ["mousemove", "mouseleave"]) {
+
+	grapher.positioncanvas.addEventListener(s, (event) => {
+		if (!grapher.dragging) {
+			return;
 		}
-	}
-});
+		if (!event.buttons) {
+			grapher.dragging = false;
+			return;
+		}
+		grapher.pending_mousemove_y = event.offsetY;						// See the related spinner that actually changes the position.
+	});
+
+}
 
 window.addEventListener("mouseup", (event) => {
 	grapher.dragging = false;
