@@ -218,7 +218,7 @@ translations[`Français`] = {
 		MENU_SAVE_COLLECTION_AS: `Enregistrer la collection sous...`,
 		MENU_QUIT: `Quitter`,
 
-	MENU_SETUP: `Moteur`,		// `Engine` (what's a good word for `setup?)
+	MENU_SETUP: `Moteur`,		// "Engine" (what's a good word for "setup"?)
 
 		MENU_LOCATE_KATAGO: `Localiser KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Localiser analysis.cfg...`,
