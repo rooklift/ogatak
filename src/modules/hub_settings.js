@@ -233,8 +233,12 @@ module.exports = {
 			ipcRenderer.send(value ? "set_check_true" : "set_check_false", togglechecks[key]);
 		}
 
-		if (key === "visits_threshold") {
-			this.fix_visit_filter_menu();
+		if (key === "engine" || key === "engineconfig" || key === "weights") {
+			this.fix_about_box();
+		}
+
+		if (key === "top_colour_black" || key === "top_colour_white" || key === "off_colour_black" || key === "off_colour_white") {
+			this.fix_colours_menu();
 		}
 
 		if (key === "ownership_marks") {
@@ -249,16 +253,12 @@ module.exports = {
 			this.fix_numbers_menu();
 		}
 
-		if (key === "top_colour_black" || key === "top_colour_white" || key === "off_colour_black" || key === "off_colour_white") {
-			this.fix_colours_menu();
-		}
-
 		if (key === "mode") {
 			this.fix_tools_menu();
 		}
 
-		if (key === "engine" || key === "engineconfig" || key === "weights") {
-			this.fix_about_box();
+		if (key === "visits_threshold") {
+			this.fix_visit_filter_menu();
 		}
 
 	},
@@ -327,14 +327,10 @@ module.exports = {
 		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_NUMBERS"), label]);
 	},
 
-	fix_visit_filter_menu: function() {
-		let label = "?";
-		if (config.visits_threshold === 0) label = translate("MENU_ALL");
-		if (config.visits_threshold > 0) label = `N > ${config.visits_threshold * 100}%`;
-		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_VISIT_FILTER"), label]);
-	},
-
 	fix_tools_menu: function() {
+
+		// Our config value is always one of these strings, or some falsey thing
+		// (in practice "" but let's assume it could be whatever)...
 
 		let label_strings = {
 			"AB": translate("MENU_ADD_BLACK"),
@@ -356,6 +352,15 @@ module.exports = {
 		}
 	},
 
+	fix_visit_filter_menu: function() {
+		let label = "?";
+		if (config.visits_threshold === 0) label = translate("MENU_ALL");
+		if (config.visits_threshold > 0) label = `N > ${config.visits_threshold * 100}%`;
+		ipcRenderer.send("set_checks", [translate("MENU_DISPLAY"), translate("MENU_VISIT_FILTER"), label]);
+	},
+
+	// --------------------------------------------------------------------------------------------
+
 	apply_colour_settings: function(o) {
 		for (let key of Object.keys(o)) {
 			config[key] = o[key];
@@ -363,6 +368,8 @@ module.exports = {
 		this.draw();													// Currently this is enough.
 		this.fix_colours_menu();
 	},
+
+	// --------------------------------------------------------------------------------------------
 
 	reset: function(key) {
 
