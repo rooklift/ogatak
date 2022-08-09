@@ -543,6 +543,187 @@ translations[`русский`] = {
 
 };
 
+translations[`中文（台灣）`] = {
+
+	MENU_FILE: `檔案`,
+
+		MENU_ABOUT: `關於`,
+		MENU_NEW_BOARD: `新開棋局`,
+		MENU_NEW_SMALL_BOARD: `新開矩形棋局`,
+		MENU_NEW_RECTANGULAR_BOARD: `新開小盤面棋局`,
+		MENU_HANDICAP: `讓子數`,
+		MENU_CLOSE_TAB: `關閉標籤`,
+		MENU_OPEN: `打開...`,
+		MENU_PASTE_SGF: `貼上 SGF`,
+		MENU_SAVE_GAME: `保存遊戲`,
+		MENU_SAVE_GAME_AS: `保存遊戲至...`,
+		MENU_SAVE_COLLECTION_AS: `保存遊戲集至...`,
+		MENU_QUIT: `結束`,
+
+	MENU_SETUP: `設定`,
+
+		MENU_LOCATE_KATAGO: `定位 KataGo...`,
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `定位 KataGo 設定檔...`,
+		MENU_CHOOSE_WEIGHTS: `定位權重...`,
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: `通過指令加載 KataGo...`,
+		MENU_CLEAR_CACHE: `清除 KataGo 快取`,
+		MENU_RESTART: `重新啟動 KataGo`,
+		MENU_ENGINE_REPORT_RATE: `引擎回報時間間隔（秒）`,
+
+	MENU_TREE: `遊戲樹`,
+
+		MENU_PLAY_BEST_MOVE: `產生最佳著手`,
+		MENU_PASS: `虛手`,
+		MENU_ROOT: `跳到起始位置`,
+		MENU_END: `跳到結束位置`,
+		MENU_BACKWARD: `倒退一手`,
+		MENU_FORWARD: `前進一手`,
+		MENU_BACKWARD_10: `倒退十手`,
+		MENU_FORWARD_10: `前進十手`,
+		MENU_PREVIOUS_SIBLING: `跳到左節點`,
+		MENU_NEXT_SIBLING: `跳到右節點`,
+		MENU_RETURN_TO_MAIN_LINE: `退回主分支`,
+		MENU_FIND_PREVIOUS_FORK: `跳到前個分支點`,
+		MENU_FIND_NEXT_FORK: `跳到下個分支點`,
+		MENU_PROMOTE_LINE: `晉升分支`,
+		MENU_PROMOTE_LINE_TO_MAIN_LINE: `晉升分支至主分支`,
+		MENU_DELETE_NODE: `刪除節點`,
+		MENU_DELETE_ALL_PREVIOUS_FORKS: `刪除節點之前的分支`,
+
+	MENU_TOOLS: `工具箱`,
+
+		MENU_NORMAL: `普通模式`,
+		MENU_ADD_BLACK: `添加黑棋`,
+		MENU_ADD_WHITE: `添加白棋`,
+		MENU_ADD_EMPTY: `移除棋子`,
+		MENU_TRIANGLE: `三角形`,
+		MENU_SQUARE: `正方形`,
+		MENU_CIRCLE: `圓形`,
+		MENU_CROSS: `叉號`,
+		MENU_LABELS_ABC: `標記英文`,
+		MENU_LABELS_123: `標記數字`,
+		MENU_TOGGLE_ACTIVE_PLAYER: `切換當前玩家顏色`,
+		MENU_GAME_INFO_EDITOR: `編輯遊戲資訊`,
+
+	MENU_ANALYSIS: `分析`,
+
+		MENU_GO_HALT_TOGGLE: `執行 / 暫停`, 
+		MENU_GO: `執行`,
+		MENU_HALT: `暫停`,
+		MENU_SELF_PLAY: `自我對戰`,
+		MENU_AUTOANALYSIS: `自動分析`,
+		MENU_BACKWARD_ANALYSIS: `背景分析`,
+		MENU_AUTOANALYSIS_VISITS: `自動分析的訪問次數`,
+		MENU_SET_RULES: `規則`,
+			MENU_CHINESE: `中國`,
+			MENU_JAPANESE: `日本`,
+			MENU_STONE_SCORING: `Stone Scoring`,
+		MENU_SET_KOMI: `貼目`,
+		MENU_PV_LENGTH_MAX: `主變化最大顯示深度`,
+		MENU_WIDE_ROOT_NOISE: `根節點探索係數（wide root noise）`,
+		MENU_SYMMETRY_PRUNING: `對稱剪枝`,
+		MENU_OWNERSHIP: `形勢判斷`,
+			MENU_NO_OWNERSHIP: `無`,
+			MENU_DEAD_STONES: `死棋`,
+			MENU_WHOLE_BOARD: `整個盤面`,
+			MENU_WHOLE_BOARD_ALT: `整個盤盤面（alt）`,
+		MENU_PER_MOVE: `...per-move (costly)`,
+		MENU_CLEAR_ALL_ANALYSIS: `清除分析資訊`,
+
+	MENU_DISPLAY: `顯示畫面`,
+
+		MENU_VISIT_FILTER: `訪問數值過濾器`,
+			MENU_ALL: `不使用`,
+		MENU_NUMBERS: `數值`,
+			MENU_NUM_LCB: `LCB`,
+			MENU_NUM_SCORE: `領先目數`,
+			MENU_NUM_DELTA: `後選手目差`,
+			MENU_NUM_VISITS: `訪問數`,
+			MENU_NUM_VISITS_PC: `訪問數 (%)`,
+			MENU_NUM_ORDER: `優先級`,
+			MENU_NUM_POLICY: `次一手機率`,
+			MENU_NUM_WINRATE: `勝率`,
+		MENU_GRAPH: `分析圖`,
+			MENU_GRAPH_WINRATE: `勝率`,
+			MENU_GRAPH_SCORE: `領先目數`,
+		MENU_BLACK_POV_ALWAYS: `總是顯示黑棋觀點`,
+		MENU_CANDIDATE_MOVES: `顯示後選手`,
+		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
+		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
+		MENU_NEXT_MOVE_MARKERS: `顯示下一手`,
+		MENU_COLOURS: `顏色配置`,
+
+	MENU_SIZES: `尺寸大小`,
+
+		MENU_EMBIGGEN_SMALL_BOARDS: `拉伸較小棋盤`,
+		MENU_INFO_FONT: `訊息字體`,
+		MENU_GRAPH_WIDTH: `分析圖寬度`,
+		MENU_GRAPH_MAJOR_LINES: `分析圖主線條`,
+		MENU_GRAPH_MINOR_LINES: `分析圖輔助線條`,
+		MENU_BOARD_LINES: `棋盤線條`,
+		MENU_THUMBNAIL_SQUARES: `棋盤縮圖`,
+		MENU_TREE_SPACING: `遊戲樹`,
+		MENU_COMMENT_BOX: `評論區塊`,
+
+	MENU_MISC: `雜項`,
+
+		MENU_ESCAPE: `Escape`,
+		MENU_PLAY_BLACK: `引擎執黑`,
+		MENU_PLAY_WHITE: `引擎執白`,
+		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `圖形界面使用硬體加速`,
+
+	MENU_DEV: `開發人員選項`,
+
+		MENU_SHOW_ROOT_PROPERTIES: `顯示 SGF 根節點屬性`,
+		MENU_SHOW_NODE_PROPERTIES: `顯示當前 SGF 節點屬性`,
+		MENU_SHOW_ENGINE_STDERR: `顯示引擎標準錯誤輸出`,
+		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch checks`,
+		MENU_RESET_MISMATCH_WARNINGS: `Reset mismatch warnings`,
+		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
+		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
+
+	// Items that show on first run, when KataGo (etc) have not been located...
+	GUI_ENGINE_NOT_SET: `引擎尚未設定完成`,
+	GUI_ENGINE_CONFIG_NOT_SET: `設定檔尚未設定完成`,
+	GUI_WEIGHTS_NOT_SET: `權重尚未設定完成`,
+	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`, 
+
+	// Message that shows at startup while KataGo loads...
+	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請選擇`,
+	GUI_AWAITING_RESPONSE_2: `請按開發人員選項內  <span class="yellow">Dev --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
+
+	// Info editor strings...
+	INFO_BLACK: `黑方名稱`,
+	INFO_BLACK_RANK: `黑方等級`,
+	INFO_WHITE: `白方名稱`,
+	INFO_WHITE_RANK: `白方等級`,
+	INFO_EVENT: `事件`,
+	INFO_ROUND: `輪`,
+	INFO_GAME_NAME: `遊戲名稱`,
+	INFO_PLACE: `地點`,
+	INFO_DATE: `時間`,
+	INFO_RESULT: `結果`,
+
+	// Alerts...
+	ALERT_RESTART_REQUIRED: `需要關閉並重新起請動程式`,
+
+	// About box...
+	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於:`,
+	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於:`,
+	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎):`,
+
+	// Message that shows if config.json cannot be parsed...
+	BAD_CONFIG_1: `設定檔不能被解析`,
+	BAD_CONFIG_2: `直到你修復問題前都不會被保存`,
+	BAD_CONFIG_3: `你的設定不會被保存`,
+	BAD_CONFIG_4: `你應該修復此問題`,
+	BAD_CONFIG_5: `你可以刪除此檔案`,
+
+};
+
 // ------------------------------------------------------------------------------------------------
 //                              No edits below this point please.
 // ------------------------------------------------------------------------------------------------
