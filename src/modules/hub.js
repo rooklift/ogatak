@@ -402,7 +402,7 @@ let hub_main_props = {
 			grapher.draw_position(this.node);
 		}
 
-		tree_drawer.must_draw = true;			// For reasons, this actually is responsible for closing special panes (fullbox etc).
+		tree_drawer.must_draw = true;			// For reasons, this actually is responsible for calling disable_specials_except() to close special panes.
 		comment_drawer.draw(this.node);
 		comment_drawer.textarea.blur();
 
