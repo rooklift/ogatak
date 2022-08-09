@@ -610,7 +610,7 @@ function count_all_missing() {
 for (let language of Object.keys(translations)) {
 	for (let key of Object.keys(translations[language])) {
 		if (!translations["English"].hasOwnProperty(key)) {
-			throw `Bad key (${key}) in language dictionary ${language}`;
+			throw new Error(`Bad key (${key}) in language dictionary ${language}`);
 		}
 	}
 }
