@@ -728,8 +728,8 @@ let hub_main_props = {
 	set_play_colour: function(val) {
 		val = (val === "b" || val === "w") ? val : null;
 		this.__play_colour = val;
-		ipcRenderer.send(val === "b" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_PLAY_BLACK")]);
-		ipcRenderer.send(val === "w" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_PLAY_WHITE")]);
+		ipcRenderer.send(val === "b" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_BLACK")]);
+		ipcRenderer.send(val === "w" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_WHITE")]);
 		return val;
 	},
 

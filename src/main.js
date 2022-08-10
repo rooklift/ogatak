@@ -2289,7 +2289,7 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: translate("MENU_PLAY_BLACK"),
+					label: translate("MENU_ENGINE_PLAYS_BLACK"),
 					type: "checkbox",
 					checked: false,
 					click: () => {
@@ -2300,7 +2300,7 @@ function menu_build() {
 					}
 				},
 				{
-					label: translate("MENU_PLAY_WHITE"),
+					label: translate("MENU_ENGINE_PLAYS_WHITE"),
 					type: "checkbox",
 					checked: false,
 					click: () => {

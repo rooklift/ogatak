@@ -145,8 +145,8 @@ translations[`English`] = {
 	MENU_MISC: `Misc`,
 
 		MENU_ESCAPE: `Escape`,
-		MENU_PLAY_BLACK: `Play Black`,
-		MENU_PLAY_WHITE: `Play White`,
+		MENU_ENGINE_PLAYS_BLACK: `Engine plays Black`,
+		MENU_ENGINE_PLAYS_WHITE: `Engine plays White`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,
@@ -331,8 +331,8 @@ translations[`Français`] = {
 	MENU_MISC: `Autre`,
 
 		MENU_ESCAPE: `Échapper`,
-		MENU_PLAY_BLACK: `Jouer en tant que noir`,
-		MENU_PLAY_WHITE: `Jouer en tant que blanc`,
+		MENU_ENGINE_PLAYS_BLACK: `Jouer en tant que noir`,
+		MENU_ENGINE_PLAYS_WHITE: `Jouer en tant que blanc`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Ouvrir le fichier à la position finale`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
@@ -500,8 +500,8 @@ translations[`русский`] = {
 	MENU_MISC: `Разное`,
 
 		MENU_ESCAPE: `Уйти`,
-		MENU_PLAY_BLACK: `Играть за чёрных`,
-		MENU_PLAY_WHITE: `Играть за белых`,
+		MENU_ENGINE_PLAYS_BLACK: `Играть за чёрных`,
+		MENU_ENGINE_PLAYS_WHITE: `Играть за белых`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Конечная позиция после загрузки файла`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Угадывать правила по коми`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Расположение трёх камней форы как на Tygem`,
@@ -677,8 +677,8 @@ translations[`中文（台灣）`] = {
 	MENU_MISC: `其它`,
 
 		MENU_ESCAPE: `退回主畫面`,
-		MENU_PLAY_BLACK: `引擎執黑`,
-		MENU_PLAY_WHITE: `引擎執白`,
+		MENU_ENGINE_PLAYS_BLACK: `引擎執黑`,
+		MENU_ENGINE_PLAYS_WHITE: `引擎執白`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以 Tygem 風格佈置讓三子棋`,
