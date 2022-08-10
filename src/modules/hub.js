@@ -1065,7 +1065,7 @@ let hub_main_props = {
 
 		if (config.mouseover_delay <= 0) {
 
-			if (!board_drawer.draw_pv(this.node, s)) {					// Draw PV if possible. But if not...
+			if (!board_drawer.draw_pv(this.node, s)) {					// Draw PV if possible / permitted. But if not...
 				if (board_drawer.pv) {									// ...yet PV *has* been drawn, it was from a while ago,
 					board_drawer.draw_standard(this.node);				// so clear it.
 				}
