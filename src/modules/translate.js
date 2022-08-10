@@ -20,6 +20,8 @@ let startup_language = config.language;
 
 translations[`English`] = {
 
+	TRANSLATION_BY: "",		// Name of the translator, for credits. Leave blank for no credit.
+
 	MENU_FILE: `File`,
 
 		MENU_ABOUT: `About`,
@@ -203,6 +205,8 @@ translations[`English`] = {
 
 translations[`Français`] = {
 
+	TRANSLATION_BY: "",
+
 	MENU_FILE: `Fichier`,
 
 		MENU_ABOUT: `À propos`,
@@ -369,6 +373,8 @@ translations[`Français`] = {
 // ------------------------------------------------------------------------------------------------
 
 translations[`русский`] = {
+
+	TRANSLATION_BY: `ParmuzinAlexander`,
 
 	MENU_FILE: `Файл`,
 
@@ -544,6 +550,8 @@ translations[`русский`] = {
 };
 
 translations[`中文（台灣）`] = {
+
+	TRANSLATION_BY: `CGLemon`,
 
 	MENU_FILE: `檔案`,
 
@@ -747,6 +755,16 @@ function translate(key, force_language = null) {
 
 }
 
+function all_translators() {
+	let set = Object.create(null);
+	for (let dict of Object.values(translations)) {
+		if (dict["TRANSLATION_BY"]) {
+			set[dict["TRANSLATION_BY"]] = true;
+		}
+	}
+	return Object.keys(set);
+}
+
 function all_strings(language, with_english) {
 	let arr = [];
 	for (let [key, value] of Object.entries(translations[language])) {
@@ -755,7 +773,7 @@ function all_strings(language, with_english) {
 			arr[arr.length - 1] += " (" + translations["English"][key] + ")";
 		}
 	}
-	return arr.join("\n");
+	return arr;
 }
 
 function missing_keys(language) {
@@ -767,7 +785,7 @@ function missing_keys(language) {
 			}
 		}
 	}
-	return arr.join("\n");
+	return arr;
 }
 
 function count_all_missing() {
@@ -802,4 +820,4 @@ let all_languages = Object.keys(translations);
 
 
 
-module.exports = {translate, all_strings, missing_keys, count_all_missing, all_languages};
+module.exports = {translate, all_translators, all_strings, missing_keys, count_all_missing, all_languages};
