@@ -47,7 +47,8 @@ function init() {
 		pending_up_down: 0,
 		dropped_inputs: 0,
 
-		pending_pv_point: null,
+		mouseover_time: 0,
+		pending_mouseover_fn_id: null,
 
 	});
 }
@@ -58,7 +59,7 @@ let hub_main_props = {
 
 	draw: function() {
 		let s = this.mouse_point();
-		if (s) {
+		if (s && performance.now() - this.mouseover_time > 500) {
 			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
@@ -1064,12 +1065,15 @@ let hub_main_props = {
 			board_drawer.draw_standard(this.node);
 		}
 
-		this.pending_pv_point = s;
+		this.mouseover_time = performance.now();
 
-		setTimeout(() => {
-			if (this.pending_pv_point === s) {
+		if (this.pending_mouseover_fn_id) {
+			clearTimeout(this.pending_mouseover_fn_id);
+		}
+
+		this.pending_mouseover_fn_id = setTimeout(() => {
+			if (this.mouse_point() === s && !board_drawer.pv) {
 				board_drawer.draw_pv(this.node, s);
-				this.pending_pv_point = null;
 			}
 		}, 500);
 	},
