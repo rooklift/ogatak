@@ -551,7 +551,7 @@ translations[`русский`] = {
 
 };
 
-translations[`中文（台灣）`] = {
+translations[`繁體中文`] = {
 
 	TRANSLATION_BY: `CGLemon`,
 
