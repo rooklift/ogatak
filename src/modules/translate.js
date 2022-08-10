@@ -600,8 +600,8 @@ translations[`中文（台灣）`] = {
 		MENU_SQUARE: `正方形`,
 		MENU_CIRCLE: `圓形`,
 		MENU_CROSS: `叉號`,
-		MENU_LABELS_ABC: `標記英文`,
-		MENU_LABELS_123: `標記數字`,
+		MENU_LABELS_ABC: `標記英文（abc）`,
+		MENU_LABELS_123: `標記數字（123）`,
 		MENU_TOGGLE_ACTIVE_PLAYER: `切換當前玩家顏色`,
 		MENU_GAME_INFO_EDITOR: `編輯遊戲資訊`,
 
@@ -617,7 +617,7 @@ translations[`中文（台灣）`] = {
 		MENU_SET_RULES: `規則`,
 			MENU_CHINESE: `中國`,
 			MENU_JAPANESE: `日本`,
-			MENU_STONE_SCORING: `Stone Scoring`,
+			MENU_STONE_SCORING: `還頭棋`,
 		MENU_SET_KOMI: `貼目`,
 		MENU_PV_LENGTH_MAX: `主變化最大顯示深度`,
 		MENU_WIDE_ROOT_NOISE: `根節點探索係數（wide root noise）`,
@@ -626,13 +626,13 @@ translations[`中文（台灣）`] = {
 			MENU_NO_OWNERSHIP: `無`,
 			MENU_DEAD_STONES: `死棋`,
 			MENU_WHOLE_BOARD: `整個盤面`,
-			MENU_WHOLE_BOARD_ALT: `整個盤盤面（alt）`,
-		MENU_PER_MOVE: `...per-move (costly)`,
+			MENU_WHOLE_BOARD_ALT: `整個盤面（alt）`,
+		MENU_PER_MOVE: `根據後選手更新形勢判斷`,
 		MENU_CLEAR_ALL_ANALYSIS: `清除分析資訊`,
 
 	MENU_DISPLAY: `顯示畫面`,
 
-		MENU_VISIT_FILTER: `訪問數值過濾器`,
+		MENU_VISIT_FILTER: `訪問數過濾器`,
 			MENU_ALL: `不使用`,
 		MENU_NUMBERS: `數值`,
 			MENU_NUM_LCB: `LCB`,
@@ -650,7 +650,7 @@ translations[`中文（台灣）`] = {
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
 		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
 		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
-		MENU_NEXT_MOVE_MARKERS: `顯示下一手`,
+		MENU_NEXT_MOVE_MARKERS: `標示下一手`,
 		MENU_COLOURS: `顏色配置`,
 
 	MENU_SIZES: `尺寸大小`,
@@ -665,14 +665,14 @@ translations[`中文（台灣）`] = {
 		MENU_TREE_SPACING: `遊戲樹`,
 		MENU_COMMENT_BOX: `評論區塊`,
 
-	MENU_MISC: `雜項`,
+	MENU_MISC: `其它`,
 
-		MENU_ESCAPE: `Escape`,
+		MENU_ESCAPE: `退回主畫面`,
 		MENU_PLAY_BLACK: `引擎執黑`,
 		MENU_PLAY_WHITE: `引擎執白`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以 Tygem 風格佈置讓三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `圖形界面使用硬體加速`,
 
 	MENU_DEV: `開發人員選項`,
@@ -680,8 +680,8 @@ translations[`中文（台灣）`] = {
 		MENU_SHOW_ROOT_PROPERTIES: `顯示 SGF 根節點屬性`,
 		MENU_SHOW_NODE_PROPERTIES: `顯示當前 SGF 節點屬性`,
 		MENU_SHOW_ENGINE_STDERR: `顯示引擎標準錯誤輸出`,
-		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch checks`,
-		MENU_RESET_MISMATCH_WARNINGS: `Reset mismatch warnings`,
+		MENU_ZOBRIST_MISMATCH_CHECKS: `檢查 Zobrist 哈希值是否和 KataGo 一致`,
+		MENU_RESET_MISMATCH_WARNINGS: `重置檢查警告`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
@@ -692,8 +692,8 @@ translations[`中文（台灣）`] = {
 	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`, 
 
 	// Message that shows at startup while KataGo loads...
-	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請選擇`,
-	GUI_AWAITING_RESPONSE_2: `請按開發人員選項內  <span class="yellow">Dev --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
+	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請按`,
+	GUI_AWAITING_RESPONSE_2: `開發人員選項內  <span class="yellow">Dev --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
 
 	// Info editor strings...
 	INFO_BLACK: `黑方名稱`,
@@ -701,14 +701,14 @@ translations[`中文（台灣）`] = {
 	INFO_WHITE: `白方名稱`,
 	INFO_WHITE_RANK: `白方等級`,
 	INFO_EVENT: `事件`,
-	INFO_ROUND: `輪`,
+	INFO_ROUND: `回合`,
 	INFO_GAME_NAME: `遊戲名稱`,
 	INFO_PLACE: `地點`,
 	INFO_DATE: `時間`,
 	INFO_RESULT: `結果`,
 
 	// Alerts...
-	ALERT_RESTART_REQUIRED: `需要關閉並重新起請動程式`,
+	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
 
 	// About box...
 	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於:`,
@@ -716,11 +716,11 @@ translations[`中文（台灣）`] = {
 	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎):`,
 
 	// Message that shows if config.json cannot be parsed...
-	BAD_CONFIG_1: `設定檔不能被解析`,
+	BAD_CONFIG_1: `config.json 不能被解析`,
 	BAD_CONFIG_2: `直到你修復問題前都不會被保存`,
-	BAD_CONFIG_3: `你的設定不會被保存`,
+	BAD_CONFIG_3: `這表示當前的設定值不會被保存`,
 	BAD_CONFIG_4: `你應該修復此問題`,
-	BAD_CONFIG_5: `你可以刪除此檔案`,
+	BAD_CONFIG_5: `或是直接刪除此檔案`,
 
 };
 
