@@ -47,6 +47,8 @@ function init() {
 		pending_up_down: 0,
 		dropped_inputs: 0,
 
+		pending_pv_point: null,
+
 	});
 }
 
@@ -1058,18 +1060,18 @@ let hub_main_props = {
 
 	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
 
-		// This returns true if a PV was drawn for the point s...
-
-		if (board_drawer.draw_pv(this.node, s)) {
-			return;
-		}
-
-		// We did not draw a PV, so if the last draw that actually happened was a PV, it
-		// was for some other point, and we need to do a standard draw to hide it...
-
 		if (board_drawer.pv) {
 			board_drawer.draw_standard(this.node);
 		}
+
+		this.pending_pv_point = s;
+
+		setTimeout(() => {
+			if (this.pending_pv_point === s) {
+				board_drawer.draw_pv(this.node, s);
+				this.pending_pv_point = null;
+			}
+		}, 500);
 	},
 
 	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
