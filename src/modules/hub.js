@@ -1083,7 +1083,7 @@ let hub_main_props = {
 
 			this.pending_mouseover_fn_id = setTimeout(() => {
 				if (this.mouse_point() === s && !board_drawer.pv) {
-					board_drawer.draw_pv(this.node, s);
+					board_drawer.draw_pv(this.node, s);					// Might fail / refuse. We don't care.
 				}
 			}, config.mouseover_delay * 1000);
 		}
