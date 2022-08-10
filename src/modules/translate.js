@@ -558,8 +558,8 @@ translations[`中文（台灣）`] = {
 
 		MENU_ABOUT: `關於`,
 		MENU_NEW_BOARD: `新開棋局`,
-		MENU_NEW_SMALL_BOARD: `新開矩形棋局`,
-		MENU_NEW_RECTANGULAR_BOARD: `新開小盤面棋局`,
+		MENU_NEW_SMALL_BOARD: `新開小盤面棋局`,
+		MENU_NEW_RECTANGULAR_BOARD: `新開矩形棋局`,
 		MENU_HANDICAP: `讓子數`,
 		MENU_CLOSE_TAB: `關閉標籤`,
 		MENU_OPEN: `打開...`,
@@ -620,8 +620,8 @@ translations[`中文（台灣）`] = {
 		MENU_GO: `執行`,
 		MENU_HALT: `暫停`,
 		MENU_SELF_PLAY: `自我對戰`,
-		MENU_AUTOANALYSIS: `自動分析`,
-		MENU_BACKWARD_ANALYSIS: `背景分析`,
+		MENU_AUTOANALYSIS: `向前自動分析`,
+		MENU_BACKWARD_ANALYSIS: `向後自動分析`,
 		MENU_AUTOANALYSIS_VISITS: `自動分析的訪問次數`,
 		MENU_SET_RULES: `規則`,
 			MENU_CHINESE: `中國`,
@@ -629,13 +629,13 @@ translations[`中文（台灣）`] = {
 			MENU_STONE_SCORING: `還頭棋`,
 		MENU_SET_KOMI: `貼目`,
 		MENU_PV_LENGTH_MAX: `主變化最大顯示深度`,
-		MENU_WIDE_ROOT_NOISE: `根節點探索係數 (wide root noise)`,
+		MENU_WIDE_ROOT_NOISE: `根節點廣化噪音`,
 		MENU_SYMMETRY_PRUNING: `對稱剪枝`,
 		MENU_OWNERSHIP: `形勢判斷`,
-			MENU_NO_OWNERSHIP: `無`,
+			MENU_NO_OWNERSHIP: `不顯示`,
 			MENU_DEAD_STONES: `死棋`,
-			MENU_WHOLE_BOARD: `整個盤面`,
-			MENU_WHOLE_BOARD_ALT: `整個盤面 (alt)`,
+			MENU_WHOLE_BOARD: `勢力範圍`,
+			MENU_WHOLE_BOARD_ALT: `勢力範圍 (alt)`,
 		MENU_PER_MOVE: `根據後選手更新形勢判斷`,
 		MENU_CLEAR_ALL_ANALYSIS: `清除分析資訊`,
 
@@ -695,14 +695,14 @@ translations[`中文（台灣）`] = {
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
 	// Items that show on first run, when KataGo (etc) have not been located...
-	GUI_ENGINE_NOT_SET: `引擎尚未設定完成`,
-	GUI_ENGINE_CONFIG_NOT_SET: `設定檔尚未設定完成`,
-	GUI_WEIGHTS_NOT_SET: `權重尚未設定完成`,
+	GUI_ENGINE_NOT_SET: `引擎位置尚未設定完成`,
+	GUI_ENGINE_CONFIG_NOT_SET: `設定檔位置尚未設定完成`,
+	GUI_WEIGHTS_NOT_SET: `權重位置尚未設定完成`,
 	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`, 
 
 	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請按`,
-	GUI_AWAITING_RESPONSE_2: `開發人員選項內  <span class="yellow">Dev --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
+	GUI_AWAITING_RESPONSE_2: `<span class="yellow">開發人員選項 --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
 
 	// Info editor strings...
 	INFO_BLACK: `黑方名稱`,
