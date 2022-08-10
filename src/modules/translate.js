@@ -782,10 +782,8 @@ function all_strings(language, with_english) {
 function missing_keys(language) {
 	let arr = [];
 	for (let key of Object.keys(translations["English"])) {
-		for (let language of Object.keys(translations)) {
-			if (!translations[language].hasOwnProperty(key)) {
-				arr.push(key);
-			}
+		if (!translations[language].hasOwnProperty(key)) {
+			arr.push(key);
 		}
 	}
 	return arr;
