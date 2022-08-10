@@ -13,6 +13,7 @@ const multichecks = {
 	autoanalysis_visits:	[translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS_VISITS")],
 	analysis_pv_len:		[translate("MENU_ANALYSIS"), translate("MENU_PV_LENGTH_MAX")],
 	wide_root_noise:		[translate("MENU_ANALYSIS"), translate("MENU_WIDE_ROOT_NOISE")],
+	mouseover_delay:		[translate("MENU_DISPLAY"), translate("MENU_MOUSEOVER_DELAY")],
 	board_line_width:		[translate("MENU_SIZES"), translate("MENU_BOARD_LINES")],
 	info_font_size:			[translate("MENU_SIZES"), translate("MENU_INFO_FONT")],
 	graph_width:			[translate("MENU_SIZES"), translate("MENU_GRAPH_WIDTH")],
