@@ -661,6 +661,7 @@ translations[`繁體中文`] = {
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
 		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
 		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
+		MENU_MOUSEOVER_DELAY: `主變化懸停延遲`,
 		MENU_NEXT_MOVE_MARKERS: `標示下一手`,
 		MENU_COLOURS: `顏色配置`,
 
