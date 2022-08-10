@@ -59,7 +59,7 @@ let hub_main_props = {
 
 	draw: function() {
 		let s = this.mouse_point();
-		if (s && (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay)) {
+		if (s && (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay * 1000)) {
 			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
@@ -1085,7 +1085,7 @@ let hub_main_props = {
 				if (this.mouse_point() === s && !board_drawer.pv) {
 					board_drawer.draw_pv(this.node, s);
 				}
-			}, config.mouseover_delay);
+			}, config.mouseover_delay * 1000);
 		}
 	},
 
