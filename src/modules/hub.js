@@ -59,7 +59,7 @@ let hub_main_props = {
 
 	draw: function() {
 		let s = this.mouse_point();
-		if (s && performance.now() - this.mouseover_time > 500) {
+		if (s && performance.now() - this.mouseover_time > config.mouseover_delay) {
 			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
@@ -1061,21 +1061,32 @@ let hub_main_props = {
 
 	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
 
-		if (board_drawer.pv) {
-			board_drawer.draw_standard(this.node);
-		}
-
 		this.mouseover_time = performance.now();
 
-		if (this.pending_mouseover_fn_id) {
-			clearTimeout(this.pending_mouseover_fn_id);
-		}
+		if (config.mouseover_delay <= 0) {
 
-		this.pending_mouseover_fn_id = setTimeout(() => {
-			if (this.mouse_point() === s && !board_drawer.pv) {
-				board_drawer.draw_pv(this.node, s);
+			if (!board_drawer.draw_pv(this.node, s)) {					// Draw PV if possible. But if not...
+				if (board_drawer.pv) {									// ...if PV *has* been drawn, it was from a while ago,
+					board_drawer.draw_standard(this.node);				// so clear it.
+				}
 			}
-		}, 500);
+
+		} else {
+
+			if (board_drawer.pv) {
+				board_drawer.draw_standard(this.node);
+			}
+
+			if (this.pending_mouseover_fn_id) {
+				clearTimeout(this.pending_mouseover_fn_id);
+			}
+
+			this.pending_mouseover_fn_id = setTimeout(() => {
+				if (this.mouse_point() === s && !board_drawer.pv) {
+					board_drawer.draw_pv(this.node, s);
+				}
+			}, config.mouseover_delay);
+		}
 	},
 
 	// Moving up / down the tree might create a pileup of events (maybe?) so we buffer them........
