@@ -7,8 +7,10 @@ const fs = require("fs");
 const path = require("path");
 
 const {fix_html_colour} = require("./html_colours");
+const translations = require("./translations");
 const {get_href_query_val} = require("./utils");
 const colour_choices = require("./colour_choices");
+
 
 exports.filename = "config.json";
 
@@ -123,15 +125,29 @@ exports.error = () => {
 
 exports.load = () => {
 
+	let raw_read = null;
+
 	try {
 		if (fs.existsSync(exports.filepath)) {
-			Object.assign(config, JSON.parse(fs.readFileSync(exports.filepath, "UTF-8")));
+			raw_read = fs.readFileSync(exports.filepath, "UTF-8");
+			Object.assign(config, JSON.parse(raw_read));
 		}
 		errortext = "";
 	} catch (err) {
 		console.log(`While loading ${exports.filename}:`);
 		console.log(err.toString());
 		errortext = err.toString();
+
+		// We will try to extract any language setting so a good error message can be displayed...
+
+		if (typeof raw_read === "string") {
+			for (let language of Object.keys(translations)) {
+				if (raw_read.includes(language)) {
+					config.language = language;
+					break;
+				}
+			}
+		}
 	}
 
 	// Copy default values for any missing keys into the config...

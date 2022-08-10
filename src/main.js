@@ -25,7 +25,8 @@ const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
 const stringify = require("./modules/stringify");
-const {translate, all_languages} = require("./modules/translate");
+const {translate} = require("./modules/translate");
+const translations = require("./modules/translations");
 
 // --------------------------------------------------------------------------------------------------------------
 
@@ -2508,7 +2509,7 @@ function language_choices_submenu() {
 
 	let ret = [];
 
-	for (let language of all_languages) {
+	for (let language of Object.keys(translations)) {
 		ret.push({
 			label: language,
 			type: "checkbox",
