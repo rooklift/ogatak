@@ -140,7 +140,7 @@ exports.load = () => {
 
 		// We will try to extract any language setting so a good error message can be displayed...
 
-		if (typeof raw_read === "string") {
+		if (typeof raw_read === "string" && raw_read.length < 10000) {
 			for (let language of Object.keys(translations)) {
 				if (raw_read.includes(language)) {
 					config.language = language;
