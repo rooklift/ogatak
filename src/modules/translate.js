@@ -191,6 +191,7 @@ translations[`English`] = {
 	ABOUT_FILE_LOCATIONS: `Engine, engine config, and weights are at:`,
 	ABOUT_CONFIG_LOCATION: `Ogatak config file is at:`,
 	ABOUT_RAM_USAGE: `RAM usage (MB) (engine not included):`,
+	ABOUT_THANKS_TRANSLATORS: `Thanks to the translators:`,
 
 	// Message that shows if config.json cannot be parsed...
 	BAD_CONFIG_1: `config file could not be parsed.`,

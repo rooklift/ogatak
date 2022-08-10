@@ -2,7 +2,7 @@
 
 const config_io = require("./config_io");
 const {safe_html, pad} = require("./utils");
-const {translate} = require("./translate");
+const {translate, all_translators} = require("./translate");
 
 function init() {
 	let ret = Object.assign(Object.create(fullbox_prototype), {
@@ -57,9 +57,10 @@ let fullbox_prototype = {
 			ram_strings.push(`${type} : ${mb_rounded}`);
 		}
 
+		let translator_list = all_translators().map(s => `<span class="green">${s}</span>`);
+
 		this.set(
-			`<span class="green">${name} ${version}</span>\n` + 
-			`<span class="green">Electron ${process.versions.electron}</span>\n\n` +
+			`<span class="green">${name} ${version} --> Electron ${process.versions.electron}</span>\n\n` +
 			translate("ABOUT_FILE_LOCATIONS") + `\n\n` +
 			`    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n` +
 			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n` +
@@ -67,7 +68,9 @@ let fullbox_prototype = {
 			translate("ABOUT_CONFIG_LOCATION") + `\n\n` +
 			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
 			translate("ABOUT_RAM_USAGE") + `\n\n` + 
-			`${ram_strings.join("\n")}`
+			`${ram_strings.join("\n")}` + `\n\n` +
+			translate("ABOUT_THANKS_TRANSLATORS") + `\n\n` +
+			`    ` + translator_list.join("\n    ")
 		);
 	},
 
