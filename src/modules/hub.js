@@ -59,7 +59,7 @@ let hub_main_props = {
 
 	draw: function() {
 		let s = this.mouse_point();
-		if (s && performance.now() - this.mouseover_time > config.mouseover_delay) {
+		if (s && (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay)) {
 			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
