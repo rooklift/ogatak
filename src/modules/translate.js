@@ -69,6 +69,10 @@ function count_all_missing() {
 	return ret;
 }
 
+function all_languages() {
+	return Object.keys(translations);
+}
+
 // Validate dictionaries... (every key should be in the English version)
 
 for (let language of Object.keys(translations)) {
@@ -81,4 +85,4 @@ for (let language of Object.keys(translations)) {
 
 
 
-module.exports = {translate, all_translators, all_strings, missing_keys, count_all_missing};
+module.exports = {translate, all_translators, all_strings, missing_keys, count_all_missing, all_languages};
