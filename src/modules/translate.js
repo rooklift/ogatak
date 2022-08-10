@@ -314,6 +314,7 @@ translations[`Français`] = {
 		MENU_CANDIDATE_MOVES: `Coups recommandés`,
 		MENU_WITH_PV_MOUSEOVER: `...avec le survol de la souris`,
 		MENU_FADE_BY_VISITS: `...avec décoloration`,
+		MENU_MOUSEOVER_DELAY: `Délai de survol de la souris`,
 		MENU_NEXT_MOVE_MARKERS: `Coups suivants`,
 		MENU_COLOURS: `Couleurs`,
 
