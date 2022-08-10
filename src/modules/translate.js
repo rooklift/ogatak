@@ -127,6 +127,7 @@ translations[`English`] = {
 		MENU_CANDIDATE_MOVES: `Candidate moves`,
 		MENU_WITH_PV_MOUSEOVER: `...with PV mouseover`,
 		MENU_FADE_BY_VISITS: `...fade by visits`,
+		MENU_MOUSEOVER_DELAY: `Wait before showing PV`,
 		MENU_NEXT_MOVE_MARKERS: `Next move markers`,
 		MENU_COLOURS: `Colours`,
 

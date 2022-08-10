@@ -47,6 +47,9 @@ function init() {
 		pending_up_down: 0,
 		dropped_inputs: 0,
 
+		mouseover_time: 0,
+		pending_mouseover_fn_id: null,
+
 	});
 }
 
@@ -56,7 +59,7 @@ let hub_main_props = {
 
 	draw: function() {
 		let s = this.mouse_point();
-		if (s) {
+		if (s && (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay * 1000)) {
 			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
 				return;
 			}
@@ -1058,17 +1061,31 @@ let hub_main_props = {
 
 	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
 
-		// This returns true if a PV was drawn for the point s...
+		this.mouseover_time = performance.now();
 
-		if (board_drawer.draw_pv(this.node, s)) {
-			return;
-		}
+		if (config.mouseover_delay <= 0) {
 
-		// We did not draw a PV, so if the last draw that actually happened was a PV, it
-		// was for some other point, and we need to do a standard draw to hide it...
+			if (!board_drawer.draw_pv(this.node, s)) {					// Draw PV if possible / permitted. But if not...
+				if (board_drawer.pv) {									// ...yet PV *has* been drawn, it was from a while ago,
+					board_drawer.draw_standard(this.node);				// so clear it.
+				}
+			}
 
-		if (board_drawer.pv) {
-			board_drawer.draw_standard(this.node);
+		} else {
+
+			if (board_drawer.pv) {
+				board_drawer.draw_standard(this.node);
+			}
+
+			if (this.pending_mouseover_fn_id) {
+				clearTimeout(this.pending_mouseover_fn_id);
+			}
+
+			this.pending_mouseover_fn_id = setTimeout(() => {
+				if (this.mouse_point() === s && !board_drawer.pv) {
+					board_drawer.draw_pv(this.node, s);					// Might fail / refuse. We don't care.
+				}
+			}, config.mouseover_delay * 1000);
 		}
 	},
 

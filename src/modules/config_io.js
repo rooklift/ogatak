@@ -58,6 +58,7 @@ exports.defaults = {
 	"numbers": "LCB + Visits",					// Lame stringly typed
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
+	"mouseover_delay": 0,
 	"next_move_markers": true,
 	"visit_colours": true,
 

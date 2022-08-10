@@ -1745,6 +1745,51 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_MOUSEOVER_DELAY"),
+					submenu: [
+						{
+							label: "0.8",
+							type: "checkbox",
+							checked: config.mouseover_delay === 0.8,
+							click: () => {
+								win.webContents.send("set", {mouseover_delay: 0.8});
+							}
+						},
+						{
+							label: "0.6",
+							type: "checkbox",
+							checked: config.mouseover_delay === 0.6,
+							click: () => {
+								win.webContents.send("set", {mouseover_delay: 0.6});
+							}
+						},
+						{
+							label: "0.4",
+							type: "checkbox",
+							checked: config.mouseover_delay === 0.4,
+							click: () => {
+								win.webContents.send("set", {mouseover_delay: 0.4});
+							}
+						},
+						{
+							label: "0.2",
+							type: "checkbox",
+							checked: config.mouseover_delay === 0.2,
+							click: () => {
+								win.webContents.send("set", {mouseover_delay: 0.2});
+							}
+						},
+						{
+							label: "0",
+							type: "checkbox",
+							checked: config.mouseover_delay === 0,
+							click: () => {
+								win.webContents.send("set", {mouseover_delay: 0});
+							}
+						},
+					]
+				},
+				{
 					type: "separator",
 				},
 				{
