@@ -1,6 +1,6 @@
 "use strict";
 
-const startup_language = config.language;				// Means this file can't be included until config is read.
+const startup_language = config.language;
 const translations = require("./translations");
 
 function translate(key, force_language = null) {
