@@ -43,26 +43,13 @@ function all_strings(language, with_english) {
 	return arr;
 }
 
-function missing_keys(language) {
-	let arr = [];
-	for (let key of Object.keys(translations["English"])) {
-		if (!translations[language].hasOwnProperty(key)) {
-			arr.push(key);
-		}
-	}
-	return arr;
-}
-
-function count_all_missing() {
+function missing_keys() {
 	let ret = {};
-	for (let key of Object.keys(translations["English"])) {
-		for (let language of Object.keys(translations)) {
+	for (let language of Object.keys(translations)) {
+		ret[language] = [];
+		for (let key of Object.keys(translations["English"])) {
 			if (!translations[language].hasOwnProperty(key)) {
-				if (ret[language]) {
-					ret[language] += 1;
-				} else {
-					ret[language] = 1;
-				}
+				ret[language].push(key);
 			}
 		}
 	}
@@ -85,4 +72,4 @@ for (let language of Object.keys(translations)) {
 
 
 
-module.exports = {translate, all_translators, all_strings, missing_keys, count_all_missing, all_languages};
+module.exports = {translate, all_translators, all_strings, missing_keys, all_languages};
