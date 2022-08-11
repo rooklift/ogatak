@@ -58,13 +58,19 @@ let hub_main_props = {
 	// Draw........................................................................................
 
 	draw: function() {
+
 		let s = this.mouse_point();
-		if (s && (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay * 1000)) {
-			if (board_drawer.draw_pv(this.node, s)) {				// true iff this actually happened.
-				return;
+		let did_draw_pv = false;
+
+		if (s) {
+			if (config.mouseover_delay <= 0 || performance.now() - this.mouseover_time >= config.mouseover_delay * 1000) {
+				did_draw_pv = board_drawer.draw_pv(this.node, s);
 			}
 		}
-		board_drawer.draw_standard(this.node);
+
+		if (!did_draw_pv) {
+			board_drawer.draw_standard(this.node);
+		}
 	},
 
 	// Tabs........................................................................................
@@ -1065,19 +1071,25 @@ let hub_main_props = {
 
 		if (config.mouseover_delay <= 0) {
 
-			if (!board_drawer.draw_pv(this.node, s)) {					// Draw PV if possible / permitted. But if not...
-				if (board_drawer.pv) {									// ...yet PV *has* been drawn, it was from a while ago,
-					board_drawer.draw_standard(this.node);				// so clear it.
-				}
+			// No delay set, so instantly draw the PV if possible.
+			// Otherwise draw standard if needed to clear an old PV being shown.
+
+			let did_draw_pv = board_drawer.draw_pv(this.node, s);
+
+			if (board_drawer.pv && !did_draw_pv) {						// We didn't draw a PV yet one is being displayed, meaning it's old.
+				board_drawer.draw_standard(this.node);
 			}
 
 		} else {
+
+			// Draw standard if needed to clear an old PV being shown.
+			// Create a setTimeout() to draw a new PV in a moment.
 
 			if (board_drawer.pv) {
 				board_drawer.draw_standard(this.node);
 			}
 
-			if (this.pending_mouseover_fn_id) {
+			if (this.pending_mouseover_fn_id) {							// Cancel any such timeout already pending.
 				clearTimeout(this.pending_mouseover_fn_id);
 			}
 
