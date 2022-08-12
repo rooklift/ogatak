@@ -483,6 +483,7 @@ translations[`русский`] = {
 		MENU_CANDIDATE_MOVES: `Предложение хода`,
 		MENU_WITH_PV_MOUSEOVER: `...ветвь при наведении курсора`,
 		MENU_FADE_BY_VISITS: `...цвет по количеству посещений`,
+		MENU_MOUSEOVER_DELAY: `Задержка при наведении курсора`,
 		MENU_NEXT_MOVE_MARKERS: `Показывать следующий ход`,
 		MENU_COLOURS: `Цвета`,
 
@@ -500,7 +501,7 @@ translations[`русский`] = {
 
 	MENU_MISC: `Разное`,
 
-		MENU_ESCAPE: `Уйти`,
+		MENU_ESCAPE: `Вернуться к игре`,
 		MENU_ENGINE_PLAYS_BLACK: `Играть за чёрных`,
 		MENU_ENGINE_PLAYS_WHITE: `Играть за белых`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Конечная позиция после загрузки файла`,
