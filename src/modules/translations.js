@@ -144,7 +144,7 @@ translations[`English`] = {
 
 	MENU_MISC: `Misc`,
 
-		MENU_ESCAPE: `Escape`,
+		MENU_ESCAPE: `Escape (to main screen)`,
 		MENU_ENGINE_PLAYS_BLACK: `Engine plays Black`,
 		MENU_ENGINE_PLAYS_WHITE: `Engine plays White`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
