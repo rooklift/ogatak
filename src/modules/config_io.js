@@ -57,10 +57,10 @@ exports.defaults = {
 	"wood_colour": "#d0ad75ff",					// Average of our board image, as claimed by matkl.github.io/average-color
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,
-	"numbers": "LCB + Visits",					// Lame stringly typed
+	"numbers": "LCB + Visits + Score",			// Lame stringly typed
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
-	"mouseover_delay": 0,
+	"mouseover_delay": 0.4,
 	"next_move_markers": true,
 	"visit_colours": true,
 
@@ -85,10 +85,10 @@ exports.defaults = {
 
 	"analysis_pv_len": 16,
 	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
-	"symmetry_pruning": true,
+	"symmetry_pruning": false,
 	"report_every": 0.1,
 
-	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
+	"ownership_marks": 0,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
 	"ownership_per_move": true,
 
 	"zobrist_checks": true,
@@ -101,7 +101,7 @@ exports.defaults = {
 	"maxed": false,
 
 	"tygem_3": false,
-	"load_at_end": true,
+	"load_at_end": false,
 	"guess_ruleset": false,
 	"autoanalysis_visits": 500,
 	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "Unknown".
