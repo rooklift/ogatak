@@ -483,7 +483,7 @@ translations[`русский`] = {
 		MENU_CANDIDATE_MOVES: `Предложение хода`,
 		MENU_WITH_PV_MOUSEOVER: `...ветвь при наведении курсора`,
 		MENU_FADE_BY_VISITS: `...цвет по количеству посещений`,
-		MENU_MOUSEOVER_DELAY: `Задержка предлагаемых ходов`,
+		MENU_MOUSEOVER_DELAY: `Задержка при наведении курсора`,
 		MENU_NEXT_MOVE_MARKERS: `Показывать следующий ход`,
 		MENU_COLOURS: `Цвета`,
 
