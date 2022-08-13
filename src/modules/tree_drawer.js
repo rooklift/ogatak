@@ -148,6 +148,10 @@ let tree_drawer_prototype = {
 					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
 					ctx.lineWidth = 2;
 					ctx.stroke();
+					if (node.has_key("C")) {
+						ctx.fillStyle = ctx.strokeStyle;
+						ctx.fill();
+					}
 				} else {
 					ctx.beginPath();
 					ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy - (config.tree_spacing / 4));
@@ -158,6 +162,10 @@ let tree_drawer_prototype = {
 					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
 					ctx.lineWidth = 2;
 					ctx.stroke();
+					if (node.has_key("C")) {
+						ctx.fillStyle = ctx.strokeStyle;
+						ctx.fill();
+					}
 				}
 
 				if (node.parent) {
