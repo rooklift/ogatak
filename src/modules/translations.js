@@ -33,7 +33,7 @@ translations[`English`] = {
 		MENU_PASTE_SGF: `Paste SGF`,
 		MENU_SAVE_GAME: `Save game`,
 		MENU_SAVE_GAME_AS: `Save game as...`,
-		MENU_SAVE_COLLECTION_AS: `Save collection as...`,
+		MENU_SAVE_COLLECTION_AS: `Save collection as...`,		// Every game in the tabs saved into 1 file.
 		MENU_QUIT: `Quit`,
 
 	MENU_SETUP: `Setup`,
@@ -48,7 +48,7 @@ translations[`English`] = {
 
 	MENU_TREE: `Tree`,
 
-		MENU_PLAY_BEST_MOVE: `Play best move`,
+		MENU_PLAY_BEST_MOVE: `Play best move`,					// Only works if some analysis already exists for the position.
 		MENU_PASS: `Pass`,
 		MENU_ROOT: `Root`,
 		MENU_END: `End`,
@@ -88,22 +88,22 @@ translations[`English`] = {
 		MENU_HALT: `Halt`,
 		MENU_SELF_PLAY: `Self-play`,
 		MENU_AUTOANALYSIS: `Autoanalysis`,
-		MENU_BACKWARD_ANALYSIS: `Backward analysis`,
+		MENU_BACKWARD_ANALYSIS: `Backward analysis`,			// Looks at a position then goes to the previous position, repeatedly.
 		MENU_AUTOANALYSIS_VISITS: `Autoanalysis visits`,
 		MENU_SET_RULES: `Set rules`,
 			MENU_CHINESE: `Chinese`,
 			MENU_JAPANESE: `Japanese`,
-			MENU_STONE_SCORING: `Stone Scoring`,
+			MENU_STONE_SCORING: `Stone Scoring`,				// Get as many stones on the board as possible. Like area rules + group tax.
 		MENU_SET_KOMI: `Set komi`,
 		MENU_PV_LENGTH_MAX: `PV length (max)`,
 		MENU_WIDE_ROOT_NOISE: `Wide root noise`,
 		MENU_SYMMETRY_PRUNING: `Symmetry pruning`,
 		MENU_OWNERSHIP: `Ownership`,
 			MENU_NO_OWNERSHIP: `None`,
-			MENU_DEAD_STONES: `Dead stones`,
+			MENU_DEAD_STONES: `Dead stones`,					// Stones where the predicted owner is the other colour.
 			MENU_WHOLE_BOARD: `Whole board`,
 			MENU_WHOLE_BOARD_ALT: `Whole board (alt)`,
-		MENU_PER_MOVE: `...per-move (costly)`,
+		MENU_PER_MOVE: `...per-move (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
 		MENU_CLEAR_ALL_ANALYSIS: `Clear all analysis`,
 
 	MENU_DISPLAY: `Display`,
@@ -148,8 +148,8 @@ translations[`English`] = {
 		MENU_ENGINE_PLAYS_BLACK: `Engine plays Black`,
 		MENU_ENGINE_PLAYS_WHITE: `Engine plays White`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
-		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Enable hardware acceleration for GUI`,
 
 	MENU_DEV: `Dev`,
@@ -157,8 +157,8 @@ translations[`English`] = {
 		MENU_SHOW_ROOT_PROPERTIES: `Show root properties`,
 		MENU_SHOW_NODE_PROPERTIES: `Show node properties`,
 		MENU_SHOW_ENGINE_STDERR: `Show engine stderr`,
-		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch checks`,
-		MENU_RESET_MISMATCH_WARNINGS: `Reset mismatch warnings`,
+		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch checks`,							// Technical dev thing barely worth worrying about.
+		MENU_RESET_MISMATCH_WARNINGS: `Reset mismatch warnings`,							// Connected to the above.
 		MENU_SHOW_CONFIG_FILE: `Show config file`,
 		MENU_TOGGLE_DEV_TOOLS: `Toggle dev tools`,
 
@@ -168,7 +168,7 @@ translations[`English`] = {
 	GUI_WEIGHTS_NOT_SET: `Weights not set.`,
 	GUI_RESOLVE_THIS: `Resolve this via the <span class="yellow">"Setup"</span> menu.`, 
 
-	// Message that shows at startup while KataGo loads...
+	// Message (split across 2 lines) that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: `Awaiting response from engine. If needed, select the`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">Dev --> Show engine stderr</span> menu item for more info.`,
 
@@ -193,7 +193,7 @@ translations[`English`] = {
 	ABOUT_RAM_USAGE: `RAM usage (MB) (engine not included):`,
 	ABOUT_THANKS_TRANSLATORS: `Thanks to the translators:`,
 
-	// Message that shows if config.json cannot be parsed...
+	// A single message (split across 5 lines) that shows if config.json cannot be parsed...
 	BAD_CONFIG_1: `config file could not be parsed.`,
 	BAD_CONFIG_2: `It will not be saved to until you fix this.`,
 	BAD_CONFIG_3: `This means your settings will not be saved.`,
@@ -697,17 +697,14 @@ translations[`繁體中文`] = {
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
-	// Items that show on first run, when KataGo (etc) have not been located...
 	GUI_ENGINE_NOT_SET: `引擎位置尚未設定完成`,
 	GUI_ENGINE_CONFIG_NOT_SET: `設定檔位置尚未設定完成`,
 	GUI_WEIGHTS_NOT_SET: `權重位置尚未設定完成`,
 	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`, 
 
-	// Message that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請按`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">開發人員選項 --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
 
-	// Info editor strings...
 	INFO_BLACK: `黑方名稱`,
 	INFO_BLACK_RANK: `黑方等級`,
 	INFO_WHITE: `白方名稱`,
@@ -719,15 +716,12 @@ translations[`繁體中文`] = {
 	INFO_DATE: `時間`,
 	INFO_RESULT: `結果`,
 
-	// Alerts...
 	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
 
-	// About box...
 	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於:`,
 	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於:`,
 	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎):`,
 
-	// Message that shows if config.json cannot be parsed...
 	BAD_CONFIG_1: `config.json 不能被解析`,
 	BAD_CONFIG_2: `直到你修復問題前都不會被保存`,
 	BAD_CONFIG_3: `這表示當前的設定值不會被保存`,
