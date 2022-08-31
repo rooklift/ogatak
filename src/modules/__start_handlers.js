@@ -190,6 +190,7 @@ window.addEventListener("keydown", (event) => {
 
 	} else if (event.code === "Tab") {
 		event.preventDefault();
+		root_editor.handle_tab_key();					// The only place where we really miss the tab key.
 
 	// Our motivation for having "Space" here is twofold - it DOES cause undesired scrolling, but also:
 	//

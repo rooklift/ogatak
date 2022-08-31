@@ -87,6 +87,28 @@ let root_editor_prototype = {
 		}
 	},
 
+	handle_tab_key: function() {
+
+		// The tab key gets a preventDefault() but we will miss it here,
+		// so the handler calls this method...
+
+		if (!this.is_visible) {
+			return;
+		}
+
+		let active_element = document.activeElement;
+		let forms = Object.values(this.forms);
+
+		for (let n = 0; n < forms.length - 1; n++) {		// The - 1 is correct. Don't test final form.
+			if (active_element === forms[n]) {
+				forms[n + 1].focus();
+				return;
+			}
+		}
+
+		forms[0].focus();
+	},
+
 };
 
 
