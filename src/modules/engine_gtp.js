@@ -6,6 +6,10 @@
 //
 // When it comes to actually sending and receiving, we will convert
 // to and from the object / string formats.
+//
+// We should also:
+// - Store what commands are available
+// - Store the current boardsize and komi
 
 function new_engine() {
 	// TODO
