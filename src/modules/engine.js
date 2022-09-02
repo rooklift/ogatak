@@ -22,6 +22,7 @@ function new_engine() {
 
 	eng.exe = null;
 	eng.filepath = "";
+	eng.engineconfig = "";
 	eng.weights = "";
 
 	eng.version = [99, 99, 99];	// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
