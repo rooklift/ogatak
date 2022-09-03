@@ -934,7 +934,7 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		if (compare_versions(hub.engine.version, [99, 99, 99]) === 0) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
+		if (!hub.engine.received_version) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
 			this.draw_engine_starting();
 			return;
 		}
