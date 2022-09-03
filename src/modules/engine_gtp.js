@@ -1,17 +1,15 @@
+/*
+
 "use strict";
 
 // http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html
 //
-// My initial plan is to have our GTP engine object have the same API
-// as the normal one, including storing .running and .desired queries
-// in the normal object format.
+// The idea is to have our GTP engine object have the same API as the
+// normal one, including storing .running and .desired queries in the
+// normal object format.
 //
-// When it comes to actually sending and receiving, we will convert to
-// and from the object / string formats.
-//
-// We should also:
-// - Store what commands are available
-// - Store the current boardsize and komi
+// When it comes to actually sending and receiving, we will convert
+// between the object and the string formats.
 //
 // We also cannot record all stderr, since Leela sends a lot of it.
 
@@ -443,3 +441,5 @@ let gtp_engine_prototype = {
 
 
 module.exports = new_gtp_engine;
+
+*/

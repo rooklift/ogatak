@@ -552,21 +552,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: translate("MENU_LAUNCH_GTP_ENGINE"),
-					click: () => {
-						alert(win, "This can be done by editing config.json (which you can find via the Misc menu).\n\n" +
-
-							"Close Ogatak before editing, then edit \"gtp_command\" and \"gtp_argslist\" " +
-							"(which must be given as an array of strings) inside that file.\n\n" +
-
-							"This is rather experimental, unsupported, and not recommended."
-						);
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: translate("MENU_CLEAR_CACHE"),
 					click: () => {
 						win.webContents.send("call", "clear_cache");

@@ -4,7 +4,6 @@ const fs = require("fs");
 const {ipcRenderer} = require("electron");
 
 const new_engine = require("./engine");
-const new_gtp_engine = require("./engine_gtp");
 const new_node = require("./node");
 
 const load_gib = require("./load_gib");
@@ -27,15 +26,8 @@ function init() {
 	Object.assign(hub_prototype, hub_main_props);
 	Object.assign(hub_prototype, require("./hub_settings"));
 
-	let eng;
-
-	if (config.gtp_command) {
-		eng = new_gtp_engine();
-		eng.setup_with_command(config.gtp_command, config.gtp_argslist);
-	} else {
-		eng = new_engine();
-		eng.setup(config.engine, config.engineconfig, config.weights);
-	}
+	let eng = new_engine();
+	eng.setup(config.engine, config.engineconfig, config.weights);
 
 	return Object.assign(Object.create(hub_prototype), {
 
@@ -812,11 +804,7 @@ let hub_main_props = {
 			this.engine = new_engine();
 		}
 		stderrbox.reset();
-		if (config.gtp_command) {
-			this.engine.setup_with_command(config.gtp_command, config.gtp_argslist);
-		} else {
-			this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
-		}
+		this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
 		this.draw();
 	},
 

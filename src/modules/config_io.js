@@ -31,9 +31,6 @@ exports.defaults = {
 	// Also remember that none of these should be undefined (won't work with JSON.stringify).
 	// --------------------------------------------------------------------------------------
 
-	"gtp_command": "",					// Must be edited by the user in config.json
-	"gtp_argslist": [],					// Likewise.
-
 	"language": "English",
 
 	"engine": "",
