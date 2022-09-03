@@ -980,9 +980,12 @@ let board_drawer_prototype = {
 			// the rootInfo (previously we drew the score from the top move i.e. moveInfos[0]...
 
 			let lead = override_moveinfo ? override_moveinfo.scoreLead : node.analysis.rootInfo.scoreLead;
-			let leader = lead >= 0 ? "B" : "W";
-			if (lead < 0) lead *= -1;
-			score = `${leader}+${lead.toFixed(1)}`;
+
+			if (typeof lead === "number") {
+				let leader = lead >= 0 ? "B" : "W";
+				if (lead < 0) lead *= -1;
+				score = `${leader}+${lead.toFixed(1)}`;
+			}
 
 		} else if (node.has_key("OGSC")) {
 
@@ -1072,6 +1075,9 @@ function string_from_info(info, node, type, flip) {
 			return Math.floor(info.prior * 100).toString();
 		case "Score":
 			val = info.scoreLead;
+			if (typeof val !== "number") {
+				return "??";						// Don't return "?" which is special...
+			}
 			if (flip) {
 				val = -val;
 			}
@@ -1086,6 +1092,9 @@ function string_from_info(info, node, type, flip) {
 			}
 			return text;
 		case "Delta":
+			if (typeof info.scoreLead !== "number" || typeof node.analysis.moveInfos[0].scoreLead !== "number") {
+				return "??";						// Don't return "?" which is special...
+			}
 			val = info.scoreLead - node.analysis.moveInfos[0].scoreLead;
 			if (flip) {
 				val = -val;

@@ -311,7 +311,6 @@ let gtp_engine_prototype = {
 				id: this.running.id,
 				moveInfos: [],
 				rootInfo: {
-					scoreLead: 0,		// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
 					visits: 0,
 					winrate: 0.5,
 				},
@@ -329,7 +328,6 @@ let gtp_engine_prototype = {
 
 				let info = {			// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
 					pv: [],
-					scoreLead: 0,
 				};
 
 				let state = null;

@@ -893,8 +893,11 @@ let node_prototype = {
 		this.set("SBKV", val);
 
 		let score = this.analysis.rootInfo.scoreLead;
-		val = score.toFixed(1);
-		this.set("OGSC", val);
+
+		if (typeof score === "number") {
+			val = score.toFixed(1);
+			this.set("OGSC", val);
+		}
 	},
 
 	reset_mismatch_warnings: function() {							// Note this is a module var, not actually part of the node.
