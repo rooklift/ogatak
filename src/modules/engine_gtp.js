@@ -17,7 +17,6 @@ const path = require("path");
 const readline = require("readline");
 
 const log = require("./log");
-const stringify = require("./stringify");
 
 function new_gtp_engine() {
 
@@ -29,13 +28,15 @@ function new_gtp_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
+	eng.version = [99, 99, 99];					// Just because some code expected us to have this. Not updated.
+	eng.known_commands = [];
+
 	eng.running = null;
 	eng.desired = null;
 
 	eng.has_quit = false;
-	// eng.tuning_in_progress = false;
 
-	eng.id_query_map = Object.create(null);		// gtp id --> query string
+	eng.id_query_map = Object.create(null);		// gtp id --> query string		// only for some special queries
 	eng.id_node_map = Object.create(null);		// gtp id --> node id
 
 	eng.next_gtp_id = 1;
@@ -69,7 +70,9 @@ let gtp_engine_prototype = {
 				this.log_sent_string(full);
 			}
 
-			this.id_query_map[gtp_id] = s;
+			if (s === "list_commands") {						// FIXME / TODO
+				this.id_query_map[gtp_id] = s;
+			}
 
 			if (node_id) {
 				this.id_node_map[gtp_id] = node_id;
@@ -147,12 +150,37 @@ let gtp_engine_prototype = {
 			this.handle_stderr(line);
 		});
 
+		this.__send("list_commands");
+
 	},
 
 	handle_stdout: function(line) {
 
 		if (config.logfile) {
 			this.log_received_string(line);
+		}
+
+		if (line === "") {
+			return;															// FIXME: Should we set current_incoming_gtp_id to null?
+		}
+
+		if (line.startsWith("=")) {
+
+			this.current_incoming_gtp_id = parseInt(line.slice(1), 10);		// Relying on ParseInt not caring about gibberish after the number.
+
+			let space_index = line.indexOf(" ");
+			if (space_index !== -1) {
+				line = line.slice(space_index + 1);
+			}
+
+		}
+
+		let command = this.id_query_map[this.current_incoming_gtp_id];
+
+		if (command) {
+			if (command === "list_commands") {
+				this.known_commands.push(line);
+			}
 		}
 
 		// TODO
@@ -212,8 +240,6 @@ let gtp_engine_prototype = {
 
 
 };
-
-
 
 
 
