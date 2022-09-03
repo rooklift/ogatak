@@ -27,27 +27,23 @@ const {node_id_from_search_id} = require("./utils");
 function new_gtp_engine() {
 
 	let eng = Object.create(gtp_engine_prototype);
-	eng.is_gtp = true;
 
+	eng.is_gtp = true;
+	eng.has_quit = false;
 	eng.exe = null;
 
 	eng.received_version = false;					// Indicates when the engine has really started responding.
 	eng.known_commands = [];
 
 	eng.running = null;
+	eng.running_gtp_id = null;						// Which GTP id corresponds to the running analysis.
 	eng.desired = null;
 
-	eng.width = null;
-	eng.height = null;
-
-	eng.has_quit = false;
-
-	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only for some special queries.
-	eng.pending_queries = Object.create(null);		// gtp id --> query id			// For analysis queries. Note query_id is like "node_123:456"
-
-	eng.next_gtp_id = 1;
+	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only stored for some special queries where we care about the reply.
 	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
 
+	eng.next_gtp_id = 1;
+	
 	return eng;
 
 }
@@ -122,9 +118,7 @@ let gtp_engine_prototype = {
 			colour = "B";
 		}
 
-		let gtp_id = this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
-
-		this.pending_queries[gtp_id] = o.id;
+		return this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
 
 	},
 
@@ -150,7 +144,7 @@ let gtp_engine_prototype = {
 		if (this.running) {
 			this.__send("version");
 		} else {
-			this.__send_query(this.desired);
+			this.running_gtp_id = this.__send_query(this.desired);
 			this.running = this.desired;
 		}
 	},
@@ -237,17 +231,18 @@ let gtp_engine_prototype = {
 
 		if (line === "") {
 
-			let query_id = this.pending_queries[this.current_incoming_gtp_id];		// Maybe we were receiving analysis for some query. Start a new one?
-
-			if (query_id && query_id === this.running.id) {
+			if (this.running_gtp_id && this.running_gtp_id === this.current_incoming_gtp_id) {
 
 				if (this.desired === this.running) {
 					this.desired = null;
 					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 				}
+
+				this.running_gtp_id = null;
 				this.running = null;
+
 				if (this.desired) {
-					this.__send_query(this.desired);
+					this.running_gtp_id = this.__send_query(this.desired);
 					this.running = this.desired;
 				}
 
@@ -278,12 +273,6 @@ let gtp_engine_prototype = {
 						delete this.pending_commands[i];
 					}
 				}
-				for (let key of Object.keys(this.pending_queries)) {
-					let i = parseInt(key, 10);
-					if (i < id) {
-						delete this.pending_queries[i];
-					}
-				}
 
 				let space_index = line.indexOf(" ");
 				if (space_index !== -1) {
@@ -307,14 +296,12 @@ let gtp_engine_prototype = {
 			}
 		}
 
-		let query_id = this.pending_queries[this.current_incoming_gtp_id];		// Something like "node_123:456"
-
-		if (query_id) {
+		if (this.running_gtp_id && this.running_gtp_id === this.current_incoming_gtp_id) {
 
 			// TODO / in-progress
 
 			let o = {
-				id: query_id,
+				id: this.running.id,
 				moveInfos: [],
 				rootInfo: {
 					scoreLead: 0,		// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
@@ -389,6 +376,9 @@ let gtp_engine_prototype = {
 			}
 
 			if (o.moveInfos.length > 0) {
+
+				o.rootInfo.winrate = o.moveInfos[0].winrate;
+
 				hub.receive_object(o);
 			}
 			
@@ -428,6 +418,7 @@ let gtp_engine_prototype = {
 		}
 		this.exe = null;
 		this.running = null;
+		this.running_gtp_id = null;
 		this.desired = null;
 	},
 
