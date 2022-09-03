@@ -107,13 +107,13 @@ let gtp_engine_prototype = {
 
 		if (o.moves.length > 0) {
 			let last_colour = o.moves[o.moves.length - 1][0];
-			if (last_colour === "W" || last_colour === "w") {
+			if (last_colour === "W") {
 				colour = "B";
 			} else {
 				colour = "W";
 			}
 		} else if (o.initialPlayer) {
-			colour = o.initialPlayer;
+			colour = o.initialPlayer;		// This will be uppercase.
 		} else {
 			colour = "B";
 		}
@@ -352,6 +352,9 @@ let gtp_engine_prototype = {
 					}
 					if (state === "winrate") {
 						info.winrate = parseInt(token, 10) / 10000;
+						if (this.running_info.colour === "W") {
+							info.winrate = 1 - info.winrate;
+						}
 						state = null;
 					}
 					if (state === "prior") {
