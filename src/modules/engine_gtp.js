@@ -36,7 +36,7 @@ function new_gtp_engine() {
 	eng.known_commands = [];
 
 	eng.running = null;
-	eng.running_gtp_id = null;						// Which GTP id corresponds to the running analysis.
+	eng.running_info = null;						// Some extra info about the running analysis.
 	eng.desired = null;
 
 	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only stored for some special queries where we care about the reply.
@@ -50,7 +50,7 @@ function new_gtp_engine() {
 
 let gtp_engine_prototype = {
 
-	__send: function(s) {		// Returns the GTP id number which was sent
+	__send: function(s) {					// Returns the GTP id number which was sent
 
 		if (!this.exe) {
 			return null;
@@ -85,7 +85,7 @@ let gtp_engine_prototype = {
 
 	},
 
-	__send_query: function(o) {
+	__send_query: function(o) {				// Returns object with some info about what is running.
 
 		// FIXME / TODO - sizes, komi
 
@@ -118,7 +118,10 @@ let gtp_engine_prototype = {
 			colour = "B";
 		}
 
-		return this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
+		return {
+			colour: colour,
+			gtp_id: this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`),
+		];
 
 	},
 
@@ -144,7 +147,7 @@ let gtp_engine_prototype = {
 		if (this.running) {
 			this.__send("version");
 		} else {
-			this.running_gtp_id = this.__send_query(this.desired);
+			this.running_info = this.__send_query(this.desired);
 			this.running = this.desired;
 		}
 	},
@@ -231,18 +234,18 @@ let gtp_engine_prototype = {
 
 		if (line === "") {			// The reply has finished. If it was analysis, we need to take some actions...
 
-			if (this.running_gtp_id && this.running_gtp_id === this.current_incoming_gtp_id) {
+			if (this.running_info && this.running_info.gtp_id === this.current_incoming_gtp_id) {
 
 				if (this.desired === this.running) {
 					this.desired = null;
 					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 				}
 
-				this.running_gtp_id = null;
+				this.running_info = null;
 				this.running = null;
 
 				if (this.desired) {
-					this.running_gtp_id = this.__send_query(this.desired);
+					this.running_info = this.__send_query(this.desired);
 					this.running = this.desired;
 				}
 
@@ -296,7 +299,7 @@ let gtp_engine_prototype = {
 			}
 		}
 
-		if (this.running_gtp_id && this.running_gtp_id === this.current_incoming_gtp_id) {
+		if (this.running_info && this.running_info.gtp_id === this.current_incoming_gtp_id) {
 
 			// TODO / in-progress
 
@@ -376,9 +379,7 @@ let gtp_engine_prototype = {
 			}
 
 			if (o.moveInfos.length > 0) {
-
 				o.rootInfo.winrate = o.moveInfos[0].winrate;
-
 				hub.receive_object(o);
 			}
 			
@@ -418,7 +419,7 @@ let gtp_engine_prototype = {
 		}
 		this.exe = null;
 		this.running = null;
-		this.running_gtp_id = null;
+		this.running_info = null;
 		this.desired = null;
 	},
 
