@@ -897,6 +897,8 @@ let node_prototype = {
 		if (typeof score === "number") {							// It will only fail to be if we use GTP engines in future.
 			val = score.toFixed(1);
 			this.set("OGSC", val);
+		} else {
+			this.delete_key("OGSC");
 		}
 	},
 
