@@ -92,9 +92,13 @@ let gtp_engine_prototype = {
 
 	__send_query: function(o) {
 
-		// FIXME / TODO - setup, sizes, komi
+		// FIXME / TODO - sizes, komi
 
 		this.__send("clear_board");
+
+		for (let move of o.initialStones) {
+			this.__send(`play ${move[0]} ${move[1]}`);
+		}
 
 		for (let move of o.moves) {
 			this.__send(`play ${move[0]} ${move[1]}`);
