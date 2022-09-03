@@ -382,7 +382,9 @@ let gtp_engine_prototype = {
 					}
 				}
 
-				o.moveInfos.push(info);
+				if (info.pv.length > 0) {
+					o.moveInfos.push(info);
+				}
 
 			}
 
