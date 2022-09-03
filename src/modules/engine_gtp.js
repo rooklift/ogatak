@@ -15,6 +15,7 @@ const child_process = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const readline = require("readline");
+const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const {translate} = require("./translate");
@@ -36,13 +37,16 @@ function new_gtp_engine() {
 	eng.running = null;
 	eng.desired = null;
 
+	eng.width = null;
+	eng.height = null;
+
 	eng.has_quit = false;
 
-	eng.pending_commands = Object.create(null);		// gtp id --> query string		// only for some special queries
-	eng.pending_nodes = Object.create(null);		// gtp id --> node id			// for analysis queries
+	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only for some special queries.
+	eng.pending_nodes = Object.create(null);		// gtp id --> node id			// For analysis queries.
 
 	eng.next_gtp_id = 1;
-	eng.current_incoming_gtp_id = null;
+	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
 
 	return eng;
 
@@ -82,7 +86,11 @@ let gtp_engine_prototype = {
 	},
 
 	__send_query: function(o) {
+
 		// TODO
+
+
+
 	},
 
 	analyse: function(node) {
@@ -192,6 +200,10 @@ let gtp_engine_prototype = {
 
 		if (line === "") {
 			return;														// FIXME: Should we set current_incoming_gtp_id to null?
+		}
+
+		if (line.startsWith("?")) {
+			this.current_incoming_gtp_id = null;						// FIXME: Report errors?
 		}
 
 		if (line.startsWith("=")) {
