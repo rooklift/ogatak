@@ -30,7 +30,7 @@ function new_gtp_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.version = [99, 99, 99];						// Just because some code expected us to have this. Not updated.
+	eng.received_version = false;					// Indicates when the engine has really started responding.
 	eng.known_commands = [];
 
 	eng.running = null;
@@ -72,7 +72,7 @@ let gtp_engine_prototype = {
 				this.log_sent_string(full);
 			}
 
-			if (s === "list_commands") {						// FIXME / TODO
+			if (["version", "list_commands"].includes(s)) {
 				this.pending_commands[gtp_id] = s;
 			}
 
@@ -113,7 +113,7 @@ let gtp_engine_prototype = {
 	},
 
 	halt: function() {
-		this.__send("version");
+		this.__send("protocol_version");
 	},
 
 	setup_with_command: function(command, argslist) {
@@ -180,6 +180,7 @@ let gtp_engine_prototype = {
 		});
 
 		this.__send("list_commands");
+		this.__send("version");
 
 	},
 
@@ -190,18 +191,18 @@ let gtp_engine_prototype = {
 		}
 
 		if (line === "") {
-			return;															// FIXME: Should we set current_incoming_gtp_id to null?
+			return;														// FIXME: Should we set current_incoming_gtp_id to null?
 		}
 
 		if (line.startsWith("=")) {
 
-			let id = parseInt(line.slice(1), 10);		// Relying on ParseInt not caring about gibberish after the number.
+			let id = parseInt(line.slice(1), 10);						// Relying on ParseInt not caring about gibberish after the number.
 
 			if (!Number.isNaN(id)) {
 
 				this.current_incoming_gtp_id = id;
 
-				// Clear older and obsolete stuff in our maps...
+				// Clear older and obsolete stuff in our "pending" maps...
 
 				for (let key of Object.keys(this.pending_commands)) {
 					let i = parseInt(key, 10);
@@ -229,6 +230,10 @@ let gtp_engine_prototype = {
 		if (command) {
 			if (command === "list_commands") {
 				this.known_commands.push(line);
+			}
+			if (command === "version") {
+				this.received_version = true;
+				hub.receive_object({action: "query_version"});			// The hub expects to receive this, to trigger a draw().
 			}
 		}
 

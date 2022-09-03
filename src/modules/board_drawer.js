@@ -934,11 +934,9 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		if (!hub.engine.is_gtp) {
-			if (compare_versions(hub.engine.version, [99, 99, 99]) === 0) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
-				this.draw_engine_starting();
-				return;
-			}
+		if (!hub.engine.received_version) {			// Our engine handlers check that the engine is really responding by asking for its version.
+			this.draw_engine_starting();
+			return;
 		}
 
 		let board = node.get_board();

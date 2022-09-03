@@ -12,7 +12,7 @@ const {translate} = require("./translate");
 const {parse_version, compare_versions} = require("./utils");
 const {new_query, compare_queries} = require("./query");
 
-const bad_versions = [			// Versions of KataGo which are somehow broken.
+const bad_versions = [					// Versions of KataGo which are somehow broken.
 	[1, 9, 0],
 ];
 
@@ -25,13 +25,14 @@ function new_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.version = [99, 99, 99];	// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
+	eng.version = [99, 99, 99];			// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
 
-	eng.running = null;			// The search object actually running.
-	eng.desired = null;			// The search object we want to be running - possibly the same object as above.
+	eng.running = null;					// The search object actually running.
+	eng.desired = null;					// The search object we want to be running - possibly the same object as above.
 
 	eng.has_quit = false;
 	eng.tuning_in_progress = false;
+	eng.received_version = false;		// Indicates that KataGo has really started responding to commands.
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
@@ -239,6 +240,7 @@ let engine_prototype = {
 		}
 		if (o.action === "query_version") {
 			this.version = parse_version(o.version);
+			this.received_version = true;
 			for (let bv of bad_versions) {
 				if (compare_versions(bv, this.version) === 0) {
 					alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
