@@ -93,7 +93,6 @@ let gtp_engine_prototype = {
 	__send_query: function(o) {
 
 		// FIXME / TODO - sizes, komi
-		// Also, this method seems appallingly slow.
 
 		this.__send("clear_board");
 
