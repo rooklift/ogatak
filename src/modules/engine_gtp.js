@@ -92,7 +92,7 @@ let gtp_engine_prototype = {
 
 	__send_query: function(o) {
 
-		// FIXME / TODO - setup
+		// FIXME / TODO - setup, sizes, komi
 
 		this.__send("clear_board");
 
