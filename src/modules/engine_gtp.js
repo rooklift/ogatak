@@ -17,6 +17,8 @@ const path = require("path");
 const readline = require("readline");
 
 const log = require("./log");
+const {translate} = require("./translate");
+const {new_query, compare_queries} = require("./query");
 
 function new_gtp_engine() {
 
@@ -28,7 +30,7 @@ function new_gtp_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.version = [99, 99, 99];					// Just because some code expected us to have this. Not updated.
+	eng.version = [99, 99, 99];						// Just because some code expected us to have this. Not updated.
 	eng.known_commands = [];
 
 	eng.running = null;
@@ -36,8 +38,8 @@ function new_gtp_engine() {
 
 	eng.has_quit = false;
 
-	eng.id_query_map = Object.create(null);		// gtp id --> query string		// only for some special queries
-	eng.id_node_map = Object.create(null);		// gtp id --> node id
+	eng.pending_commands = Object.create(null);		// gtp id --> query string		// only for some special queries
+	eng.pending_nodes = Object.create(null);		// gtp id --> node id			// for analysis queries
 
 	eng.next_gtp_id = 1;
 	eng.current_incoming_gtp_id = null;
@@ -48,7 +50,7 @@ function new_gtp_engine() {
 
 let gtp_engine_prototype = {
 
-	__send: function(s, node_id) {
+	__send: function(s) {
 
 		if (!this.exe) {
 			return;
@@ -71,15 +73,42 @@ let gtp_engine_prototype = {
 			}
 
 			if (s === "list_commands") {						// FIXME / TODO
-				this.id_query_map[gtp_id] = s;
-			}
-
-			if (node_id) {
-				this.id_node_map[gtp_id] = node_id;
+				this.pending_commands[gtp_id] = s;
 			}
 
 		} catch (err) {
 			this.shutdown();
+		}
+	},
+
+	__send_query: function(o) {
+		// TODO
+	},
+
+	analyse: function(node) {
+
+		if (!this.exe) {
+			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+			return;
+		}
+
+		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+
+		let query = new_query(node, this);
+
+		if (this.desired) {
+			if (compare_queries(this.desired, query)) {
+				return;												// Everything matches; the search desired is already set as such.
+			}
+		}
+
+		this.desired = query;
+
+		if (this.running) {
+			this.__send("version");
+		} else {
+			this.__send_query(this.desired);
+			this.running = this.desired;
 		}
 	},
 
@@ -166,16 +195,36 @@ let gtp_engine_prototype = {
 
 		if (line.startsWith("=")) {
 
-			this.current_incoming_gtp_id = parseInt(line.slice(1), 10);		// Relying on ParseInt not caring about gibberish after the number.
+			let id = parseInt(line.slice(1), 10);		// Relying on ParseInt not caring about gibberish after the number.
 
-			let space_index = line.indexOf(" ");
-			if (space_index !== -1) {
-				line = line.slice(space_index + 1);
+			if (!Number.isNaN(id)) {
+
+				this.current_incoming_gtp_id = id;
+
+				// Clear older and obsolete stuff in our maps...
+
+				for (let key of Object.keys(this.pending_commands)) {
+					let i = parseInt(key, 10);
+					if (i < id) {
+						delete this.pending_commands[i];
+					}
+				}
+				for (let key of Object.keys(this.pending_nodes)) {
+					let i = parseInt(key, 10);
+					if (i < id) {
+						delete this.pending_nodes[i];
+					}
+				}
+
+				let space_index = line.indexOf(" ");
+				if (space_index !== -1) {
+					line = line.slice(space_index + 1);
+				}
+
 			}
-
 		}
 
-		let command = this.id_query_map[this.current_incoming_gtp_id];
+		let command = this.pending_commands[this.current_incoming_gtp_id];
 
 		if (command) {
 			if (command === "list_commands") {
@@ -183,7 +232,11 @@ let gtp_engine_prototype = {
 			}
 		}
 
-		// TODO
+		let node_id = this.pending_nodes[this.current_incoming_gtp_id];
+
+		if (node_id) {
+			// TODO
+		}
 	},
 
 	handle_stderr: function(line) {
