@@ -64,8 +64,8 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
-		let scores = [];									// From Black's POV (-Inf...Inf, but rescaled later to 0..1)
-		let winrates = [];									// From Black's POV (0..1)
+		let scores = [];													// From Black's POV (-Inf...Inf, but rescaled later to 0..1)
+		let winrates = [];													// From Black's POV (0..1)
 
 		let abs_score_max = 5;
 
@@ -74,15 +74,17 @@ let grapher_prototype = {
 			if (h_node.has_valid_analysis()) {
 
 				let score = h_node.analysis.rootInfo.scoreLead;
+				if (typeof score === "number") {							// It will only fail to be if we use GTP engines in future.
+					if ( score > abs_score_max) abs_score_max =  score;
+					if (-score > abs_score_max) abs_score_max = -score;
+					scores.push(score);
+				} else {
+					scores.push(null);
+				}
+
 				let winrate = h_node.analysis.rootInfo.winrate;
-
-				if ( score > abs_score_max) abs_score_max =  score;
-				if (-score > abs_score_max) abs_score_max = -score;
-
 				if (winrate < 0) winrate = 0;
 				if (winrate > 1) winrate = 1;
-
-				scores.push(score);
 				winrates.push(winrate);
 
 			} else {
