@@ -273,7 +273,6 @@ let engine_prototype = {
 				}
 			}
 		});
-
 	},
 
 	log_received_object: function(o) {
