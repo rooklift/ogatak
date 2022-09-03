@@ -886,7 +886,7 @@ let node_prototype = {
 
 		this.analysis = o;
 
-		let winrate = this.analysis.rootInfo.winrate * 100;		// SBKV is 0..100
+		let winrate = this.analysis.rootInfo.winrate * 100;			// SBKV is 0..100
 		if (winrate < 0) winrate = 0;
 		if (winrate > 100) winrate = 100;
 		let val = (winrate).toFixed(1);
@@ -894,7 +894,7 @@ let node_prototype = {
 
 		let score = this.analysis.rootInfo.scoreLead;
 
-		if (typeof score === "number") {
+		if (typeof score === "number") {							// It will only fail to be if we use GTP engines in future.
 			val = score.toFixed(1);
 			this.set("OGSC", val);
 		}
