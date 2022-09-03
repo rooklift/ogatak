@@ -1,5 +1,7 @@
 "use strict";
 
+// http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html
+//
 // My initial plan is to have our GTP engine object have the same API
 // as the normal one, including storing .running and .desired queries
 // in the normal object format.
@@ -90,6 +92,8 @@ let gtp_engine_prototype = {
 		// FIXME / TODO - sizes, komi
 
 		this.__send("clear_board");
+
+		this.__send(`komi ${o.komi}`);
 
 		for (let move of o.initialStones) {
 			this.__send(`play ${move[0]} ${move[1]}`);
@@ -352,7 +356,7 @@ let gtp_engine_prototype = {
 					}
 					if (state === "winrate") {
 						info.winrate = parseInt(token, 10) / 10000;
-						if (this.running_info.colour === "W") {
+						if (this.running_info.colour === "W") {				// Flip for White
 							info.winrate = 1 - info.winrate;
 						}
 						state = null;
@@ -363,6 +367,9 @@ let gtp_engine_prototype = {
 					}
 					if (state === "lcb") {
 						info.lcb = parseInt(token, 10) / 10000;
+						if (this.running_info.colour === "W") {				// Flip for White
+							info.lcb = 1 - info.lcb;
+						}
 						state = null;
 					}
 					if (state === "order") {
