@@ -401,7 +401,7 @@ let gtp_engine_prototype = {
 			alert("GTP engine said:\n" + line);
 		}
 
-		if (this.has_quit) {
+		if (this.has_quit || this.received_version) {		// Suppress stderr for GTP, since Leela sends a ton.
 			return;
 		}
 
