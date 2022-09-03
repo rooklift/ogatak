@@ -121,7 +121,7 @@ let gtp_engine_prototype = {
 		return {
 			colour: colour,
 			gtp_id: this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`),
-		];
+		};
 
 	},
 
