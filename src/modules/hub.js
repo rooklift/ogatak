@@ -787,6 +787,11 @@ let hub_main_props = {
 
 	clear_cache: function() {
 
+		if (this.engine.is_gtp) {
+			alert("Not available for GTP engines.");
+			return;
+		}
+
 		if (compare_versions(this.engine.version, [1,9,0]) === -1) {
 			alert("Not supported by this version of KataGo.");
 			return;

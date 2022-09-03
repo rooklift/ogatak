@@ -934,9 +934,11 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		if (compare_versions(hub.engine.version, [99, 99, 99]) === 0) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
-			this.draw_engine_starting();
-			return;
+		if (!hub.engine.is_gtp) {
+			if (compare_versions(hub.engine.version, [99, 99, 99]) === 0) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
+				this.draw_engine_starting();
+				return;
+			}
 		}
 
 		let board = node.get_board();
