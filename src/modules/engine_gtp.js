@@ -20,6 +20,7 @@ const {ipcRenderer} = require("electron");
 const log = require("./log");
 const {translate} = require("./translate");
 const {new_query, compare_queries} = require("./query");
+const {node_id_from_search_id} = require("./utils");
 
 function new_gtp_engine() {
 
@@ -86,6 +87,8 @@ let gtp_engine_prototype = {
 	},
 
 	__send_query: function(o) {
+
+
 
 		// TODO
 
@@ -200,7 +203,7 @@ let gtp_engine_prototype = {
 
 		if (line === "") {
 			return;														// FIXME: Should we set current_incoming_gtp_id to null?
-		}
+		}													// Should certainly detect if this means a query has ended and we need to send a new query.
 
 		if (line.startsWith("?")) {
 			this.current_incoming_gtp_id = null;						// FIXME: Report errors?
