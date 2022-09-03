@@ -52,7 +52,7 @@ function new_gtp_engine() {
 
 let gtp_engine_prototype = {
 
-	__send: function(s) {					// Returns the GTP id number which was sent
+	__send: function(s) {							// Returns the GTP id number which was sent
 
 		if (!this.exe) {
 			return null;
@@ -87,7 +87,7 @@ let gtp_engine_prototype = {
 
 	},
 
-	__send_query: function(o) {				// Returns object with some info about what is running.
+	__send_query: function(o) {						// Returns object with some info about what is running.
 
 		// FIXME / TODO - sizes, komi
 
@@ -117,7 +117,7 @@ let gtp_engine_prototype = {
 				colour = "W";
 			}
 		} else if (o.initialPlayer) {
-			colour = o.initialPlayer;		// This will be uppercase.
+			colour = o.initialPlayer;				// This will be uppercase.
 		} else {
 			colour = "B";
 		}
@@ -299,7 +299,7 @@ let gtp_engine_prototype = {
 			}
 			if (command === "version") {
 				this.received_version = true;
-				hub.receive_object({action: "query_version"});					// The hub expects to receive this, to trigger a draw().
+				hub.receive_object({action: "query_version"});			// The hub expects to receive this, to trigger a draw().
 			}
 		}
 
