@@ -305,8 +305,6 @@ let gtp_engine_prototype = {
 
 		if (this.running_info && this.running_info.gtp_id === this.current_incoming_gtp_id) {
 
-			// TODO / in-progress
-
 			let o = {
 				id: this.running.id,
 				moveInfos: [],
@@ -316,9 +314,11 @@ let gtp_engine_prototype = {
 				},
 			};
 
-			let blocks = line.split("info ");
+			let info_blocks = line.split("info ");
 
-			for (let block of blocks) {
+			for (let block of info_blocks) {
+
+				// Each block contains all the info needed to make a moveInfo object.
 
 				if (block === "") {
 					continue;
@@ -326,7 +326,7 @@ let gtp_engine_prototype = {
 
 				let tokens = block.split(" ");
 
-				let info = {			// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
+				let moveinfo = {			// Should maybe add null default values, and have checks for null in every place in the code that looks at these.
 					pv: [],
 				};
 
@@ -344,44 +344,44 @@ let gtp_engine_prototype = {
 					}
 
 					if (state === "move") {
-						info.move = token;
+						moveinfo.move = token;
 						state = null;
 					}
 					if (state === "visits") {
-						info.visits = parseInt(token, 10);
-						o.rootInfo.visits += info.visits;
+						moveinfo.visits = parseInt(token, 10);
+						o.rootInfo.visits += moveinfo.visits;
 						state = null;
 					}
 					if (state === "winrate") {
-						info.winrate = parseInt(token, 10) / 10000;
+						moveinfo.winrate = parseInt(token, 10) / 10000;
 						if (this.running_info.colour === "W") {				// Flip for White
-							info.winrate = 1 - info.winrate;
+							moveinfo.winrate = 1 - moveinfo.winrate;
 						}
 						state = null;
 					}
 					if (state === "prior") {
-						info.prior = parseInt(token, 10) / 10000;
+						moveinfo.prior = parseInt(token, 10) / 10000;
 						state = null;
 					}
 					if (state === "lcb") {
-						info.lcb = parseInt(token, 10) / 10000;
+						moveinfo.lcb = parseInt(token, 10) / 10000;
 						if (this.running_info.colour === "W") {				// Flip for White
-							info.lcb = 1 - info.lcb;
+							moveinfo.lcb = 1 - moveinfo.lcb;
 						}
 						state = null;
 					}
 					if (state === "order") {
-						info.order = parseInt(token, 10);
+						moveinfo.order = parseInt(token, 10);
 						state = null;
 					}
 					if (state === "pv") {
-						info.pv.push(token);
+						moveinfo.pv.push(token);
 						// stay in state "pv"
 					}
 				}
 
-				if (info.pv.length > 0) {
-					o.moveInfos.push(info);
+				if (moveinfo.pv.length > 0) {
+					o.moveInfos.push(moveinfo);
 				}
 
 			}
