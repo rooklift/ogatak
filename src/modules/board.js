@@ -479,7 +479,7 @@ let board_prototype = {
 	setup_list: function() {
 
 		// Returns a list of [player string, location string] tuples which can be sent to
-		// KataGo as its "initialStones" argument.
+		// KataGo as its "initialStones" argument. Should use uppercase B and W.
 
 		let ret = [];
 		for (let x = 0; x < this.width; x++) {

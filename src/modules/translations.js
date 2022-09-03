@@ -41,7 +41,8 @@ translations[`English`] = {
 		MENU_LOCATE_KATAGO: `Locate KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Locate KataGo analysis config...`,
 		MENU_CHOOSE_WEIGHTS: `Choose weights...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Launch KataGo via command...`,
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Launch KataGo via command...`,		// Unused now.
+		MENU_LAUNCH_GTP_ENGINE: `Launch GTP engine...`,
 		MENU_CLEAR_CACHE: `Clear cache`,
 		MENU_RESTART: `Restart`,
 		MENU_ENGINE_REPORT_RATE: `Engine report rate`,
@@ -171,6 +172,10 @@ translations[`English`] = {
 	// Message (split across 2 lines) that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: `Awaiting response from engine. If needed, select the`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">Dev --> Show engine stderr</span> menu item for more info.`,
+
+	// Message (split across 2 lines) that shows at startup while an unsupported GTP engine loads (not recommended)...
+	GUI_AWAITING_GTP_RESPONSE_1: `Awaiting response from GTP engine...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `Note: the GTP feature is experimental and not recommended.`,
 
 	// Info editor strings...
 	INFO_BLACK: `Black`,
