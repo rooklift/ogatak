@@ -223,13 +223,13 @@ let gtp_engine_prototype = {
 
 	handle_stdout: function(line) {
 
-		// FIXME - colour won't always be B
+		// FIXME - GTP bots give values from current POV whereas we want values from Black's POV.
 
 		if (config.logfile) {
 			this.log_received_string(line);
 		}
 
-		if (line === "") {
+		if (line === "") {			// The reply has finished. If it was analysis, we need to take some actions...
 
 			if (this.running_gtp_id && this.running_gtp_id === this.current_incoming_gtp_id) {
 
@@ -434,10 +434,6 @@ let gtp_engine_prototype = {
 		log(args.join(" "));
 		alert(args.join("\n"));
 	},
-
-
-
-
 
 };
 
