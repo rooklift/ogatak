@@ -203,6 +203,8 @@ let engine_prototype = {
 			terminal: false
 		});
 
+		this.__send({id: "query_version", action: "query_version"});
+
 		this.scanner.on("line", (line) => {
 			if (this.has_quit) {
 				return;
@@ -255,20 +257,15 @@ let engine_prototype = {
 			if (line.includes("exception")) {
 				alert("KataGo said:\n" + line);
 			}
-
 			if (this.has_quit) {		// Do this after the above, so that exceptions that caused the quit can be displayed.
 				return;
 			}
-
 			log("! " + line);
-
 			stderrbox.receive(line);
-
 			if (line.includes("Beginning GPU tuning") || line.includes("Creating new timing cache")) {
 				this.tuning_in_progress = true;
 				stderrbox.show();
 			}
-
 			if (line.includes("ready to begin handling requests")) {
 				if (this.tuning_in_progress) {
 					this.tuning_in_progress = false;
@@ -276,8 +273,6 @@ let engine_prototype = {
 				}
 			}
 		});
-
-		this.__send({id: "query_version", action: "query_version"});
 
 	},
 
