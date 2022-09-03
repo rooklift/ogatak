@@ -1,5 +1,9 @@
 /*
 
+// For the commits that removed this experiment, see:
+// https://github.com/rooklift/ogatak/commit/b23b4158ce1cf43399b3cd7e573b4582090d85d8
+// https://github.com/rooklift/ogatak/commit/e85b7b636c0acb0ebb9e031f9f7cb31929f24e34
+
 "use strict";
 
 // http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html
