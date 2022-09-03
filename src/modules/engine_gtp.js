@@ -89,10 +89,9 @@ let gtp_engine_prototype = {
 
 	__send_query: function(o) {						// Returns object with some info about what is running.
 
-		// FIXME / TODO - sizes, komi
+		// FIXME / TODO - sizes
 
 		this.__send("clear_board");
-
 		this.__send(`komi ${o.komi}`);
 
 		for (let move of o.initialStones) {
@@ -102,8 +101,6 @@ let gtp_engine_prototype = {
 		for (let move of o.moves) {
 			this.__send(`play ${move[0]} ${move[1]}`);
 		}
-
-		// TODO
 
 		let node_id = node_id_from_search_id(o.id);
 
@@ -230,8 +227,6 @@ let gtp_engine_prototype = {
 
 	handle_stdout: function(line) {
 
-		// FIXME - GTP bots give values from current POV whereas we want values from Black's POV.
-
 		if (config.logfile) {
 			this.log_received_string(line);
 		}
@@ -261,7 +256,7 @@ let gtp_engine_prototype = {
 		}
 
 		if (line.startsWith("?")) {
-			this.current_incoming_gtp_id = null;						// FIXME: Report errors?
+			this.current_incoming_gtp_id = null;						// Should maybe report errors...?
 		}
 
 		if (line.startsWith("=")) {
