@@ -11,6 +11,14 @@
 // - Store what commands are available
 // - Store the current boardsize and komi
 
+const child_process = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const readline = require("readline");
+
+const log = require("./log");
+const stringify = require("./stringify");
+
 function new_gtp_engine() {
 
 	let eng = Object.create(gtp_engine_prototype);
@@ -20,8 +28,6 @@ function new_gtp_engine() {
 	eng.filepath = "";
 	eng.engineconfig = "";
 	eng.weights = "";
-
-	// eng.version = [99, 99, 99];
 
 	eng.running = null;
 	eng.desired = null;
@@ -74,7 +80,11 @@ let gtp_engine_prototype = {
 		}
 	},
 
-	setup_with_command(command, argslist) {
+	halt: function() {
+		this.__send("version");
+	},
+
+	setup_with_command: function(command, argslist) {
 
 		if (this.exe || this.has_quit) {
 			throw new Error("setup_with_command(): engine object should not be reused");
