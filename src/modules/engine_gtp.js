@@ -44,7 +44,7 @@ function new_gtp_engine() {
 	eng.has_quit = false;
 
 	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only for some special queries.
-	eng.pending_nodes = Object.create(null);		// gtp id --> query id			// For analysis queries. Note query_id is like "node_123:456"
+	eng.pending_queries = Object.create(null);		// gtp id --> query id			// For analysis queries. Note query_id is like "node_123:456"
 
 	eng.next_gtp_id = 1;
 	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
@@ -113,7 +113,7 @@ let gtp_engine_prototype = {
 
 		let gtp_id = this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
 
-		this.pending_nodes[gtp_id] = o.id;
+		this.pending_queries[gtp_id] = o.id;
 
 	},
 
@@ -224,7 +224,7 @@ let gtp_engine_prototype = {
 
 		if (line === "") {
 
-			let query_id = this.pending_nodes[this.current_incoming_gtp_id];		// Maybe we were receiving analysis for some query. Start a new one?
+			let query_id = this.pending_queries[this.current_incoming_gtp_id];		// Maybe we were receiving analysis for some query. Start a new one?
 
 			if (query_id && query_id === this.running.id) {
 
@@ -265,10 +265,10 @@ let gtp_engine_prototype = {
 						delete this.pending_commands[i];
 					}
 				}
-				for (let key of Object.keys(this.pending_nodes)) {
+				for (let key of Object.keys(this.pending_queries)) {
 					let i = parseInt(key, 10);
 					if (i < id) {
-						delete this.pending_nodes[i];
+						delete this.pending_queries[i];
 					}
 				}
 
@@ -294,7 +294,7 @@ let gtp_engine_prototype = {
 			}
 		}
 
-		let query_id = this.pending_nodes[this.current_incoming_gtp_id];		// Something like "node_123:456"
+		let query_id = this.pending_queries[this.current_incoming_gtp_id];		// Something like "node_123:456"
 
 		if (query_id) {
 
