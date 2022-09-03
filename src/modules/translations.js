@@ -41,7 +41,8 @@ translations[`English`] = {
 		MENU_LOCATE_KATAGO: `Locate KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Locate KataGo analysis config...`,
 		MENU_CHOOSE_WEIGHTS: `Choose weights...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Launch KataGo via command...`,
+		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Launch KataGo via command...`,		// Unused now.
+		MENU_LAUNCH_GTP_ENGINE: `Launch GTP engine...`,
 		MENU_CLEAR_CACHE: `Clear cache`,
 		MENU_RESTART: `Restart`,
 		MENU_ENGINE_REPORT_RATE: `Engine report rate`,
