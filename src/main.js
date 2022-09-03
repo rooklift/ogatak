@@ -559,7 +559,7 @@ function menu_build() {
 							"Close Ogatak before editing, then edit \"gtp_command\" and \"gtp_argslist\" " +
 							"(which must be given as an array of strings) inside that file.\n\n" +
 
-							"This is rather experimental and unsupported."
+							"This is rather experimental, unsupported, and not recommended."
 						);
 					}
 				},
