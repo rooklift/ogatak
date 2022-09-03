@@ -149,26 +149,6 @@ let engine_prototype = {
 		this.finish_setup();
 	},
 
-	setup_with_command(command, argslist) {
-
-		if (this.exe || this.has_quit) {
-			throw new Error("setup_with_command(): engine object should not be reused");
-		}
-
-		if (!Array.isArray(argslist)) {
-			argslist = [];
-			alert("Engine argslist was ignored because it was not an array.");
-		}
-
-		try {
-			this.exe = child_process.spawn(command, argslist, {cwd: path.dirname(command)});
-		} catch (err) {
-			return;
-		}
-
-		this.finish_setup();
-	},
-
 	finish_setup: function() {
 
 		log("");
