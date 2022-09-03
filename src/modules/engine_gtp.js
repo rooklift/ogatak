@@ -44,7 +44,7 @@ function new_gtp_engine() {
 	eng.has_quit = false;
 
 	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only for some special queries.
-	eng.pending_nodes = Object.create(null);		// gtp id --> node id			// For analysis queries.
+	eng.pending_nodes = Object.create(null);		// gtp id --> query id			// For analysis queries. Note query_id is like "node_123:456"
 
 	eng.next_gtp_id = 1;
 	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
@@ -55,10 +55,10 @@ function new_gtp_engine() {
 
 let gtp_engine_prototype = {
 
-	__send: function(s) {
+	__send: function(s) {		// Returns the GTP id number which was sent
 
 		if (!this.exe) {
-			return;
+			return null;
 		}
 
 		if (typeof s !== "string") {
@@ -83,7 +83,11 @@ let gtp_engine_prototype = {
 
 		} catch (err) {
 			this.shutdown();
+			return null;
 		}
+
+		return gtp_id;
+
 	},
 
 	__send_query: function(o) {
@@ -92,7 +96,24 @@ let gtp_engine_prototype = {
 
 		// TODO
 
+		let node_id = node_id_from_search_id(o.id);
 
+		let colour = o.initialPlayer;
+
+		if (!colour) {
+			if (o.moves.length > 0) {
+				let last_colour = o.moves[o.moves.length - 1][0];
+				if (last_colour === "W" || last_colour === "w") {
+					colour = "B";
+				} else {
+					colour = "W";
+				}
+			}
+		}
+
+		let gtp_id = this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
+
+		this.pending_nodes[gtp_id] = o.id;
 
 	},
 
@@ -202,8 +223,27 @@ let gtp_engine_prototype = {
 		}
 
 		if (line === "") {
-			return;														// FIXME: Should we set current_incoming_gtp_id to null?
-		}													// Should certainly detect if this means a query has ended and we need to send a new query.
+
+			let query_id = this.pending_nodes[this.current_incoming_gtp_id];		// Maybe we were receiving analysis for some query. Start a new one?
+
+			if (query_id && query_id === this.running.id) {
+
+				if (this.desired === this.running) {
+					this.desired = null;
+					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+				}
+				this.running = null;
+				if (this.desired) {
+					this.__send_query(this.desired);
+					this.running = this.desired;
+				}
+
+			}
+
+			this.current_incoming_gtp_id = null;						// After the above.
+
+			return;
+		}
 
 		if (line.startsWith("?")) {
 			this.current_incoming_gtp_id = null;						// FIXME: Report errors?
@@ -235,6 +275,8 @@ let gtp_engine_prototype = {
 				let space_index = line.indexOf(" ");
 				if (space_index !== -1) {
 					line = line.slice(space_index + 1);
+				} else {
+					line = "";
 				}
 
 			}
@@ -248,14 +290,93 @@ let gtp_engine_prototype = {
 			}
 			if (command === "version") {
 				this.received_version = true;
-				hub.receive_object({action: "query_version"});			// The hub expects to receive this, to trigger a draw().
+				hub.receive_object({action: "query_version"});					// The hub expects to receive this, to trigger a draw().
 			}
 		}
 
-		let node_id = this.pending_nodes[this.current_incoming_gtp_id];
+		let query_id = this.pending_nodes[this.current_incoming_gtp_id];		// Something like "node_123:456"
 
-		if (node_id) {
-			// TODO
+		if (query_id) {
+
+			// TODO / in-progress
+
+			let o = {
+				id: query_id,
+				moveInfos: [],
+				rootInfo: {
+					scoreLead: 0,		// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
+					visits: 0,
+					winrate: 0.5,
+				},
+			};
+
+			let blocks = line.split("info ");
+
+			for (let block of blocks) {
+
+				if (block === "") {
+					continue;
+				}
+
+				let tokens = block.split(" ");
+
+				let info = {			// FIXME: add null default values, and have checks for null in every place in the code that looks at these.
+					pv: [],
+					scoreLead: 0,
+				};
+
+				let state = null;
+
+				for (let token of tokens) {
+
+					if (token === "") {
+						continue;
+					}
+
+					if (["move", "visits", "winrate", "prior", "lcb", "order", "pv"].includes(token)) {
+						state = token;
+						continue;
+					}
+
+					if (state === "move") {
+						info.move = token;
+						state = null;
+					}
+					if (state === "visits") {
+						info.visits = parseInt(token, 10);
+						o.rootInfo.visits += info.visits;
+						state = null;
+					}
+					if (state === "winrate") {
+						info.winrate = parseInt(token, 10) / 10000;
+						state = null;
+					}
+					if (state === "prior") {
+						info.prior = parseInt(token, 10) / 10000;
+						state = null;
+					}
+					if (state === "lcb") {
+						info.lcb = parseInt(token, 10) / 10000;
+						state = null;
+					}
+					if (state === "order") {
+						info.order = parseInt(token, 10);
+						state = null;
+					}
+					if (state === "pv") {
+						info.pv.push(token);
+						// stay in state "pv"
+					}
+				}
+
+				o.moveInfos.push(info);
+
+			}
+
+			if (o.moveInfos.length > 0) {
+				hub.receive_object(o);
+			}
+			
 		}
 	},
 
