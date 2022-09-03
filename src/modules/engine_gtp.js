@@ -92,23 +92,31 @@ let gtp_engine_prototype = {
 
 	__send_query: function(o) {
 
+		// FIXME / TODO - setup
 
+		this.__send("clear_board");
+
+		for (let move of o.moves) {
+			this.__send(`play ${move[0]} ${move[1]}`);
+		}
 
 		// TODO
 
 		let node_id = node_id_from_search_id(o.id);
 
-		let colour = o.initialPlayer;
+		let colour;
 
-		if (!colour) {
-			if (o.moves.length > 0) {
-				let last_colour = o.moves[o.moves.length - 1][0];
-				if (last_colour === "W" || last_colour === "w") {
-					colour = "B";
-				} else {
-					colour = "W";
-				}
+		if (o.moves.length > 0) {
+			let last_colour = o.moves[o.moves.length - 1][0];
+			if (last_colour === "W" || last_colour === "w") {
+				colour = "B";
+			} else {
+				colour = "W";
 			}
+		} else if (o.initialPlayer) {
+			colour = o.initialPlayer;
+		} else {
+			colour = "B";
 		}
 
 		let gtp_id = this.__send(`lz-analyze ${colour} ${o.reportDuringSearchEvery * 100}`);
@@ -217,6 +225,8 @@ let gtp_engine_prototype = {
 	},
 
 	handle_stdout: function(line) {
+
+		// FIXME - colour won't always be B
 
 		if (config.logfile) {
 			this.log_received_string(line);
