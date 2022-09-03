@@ -30,9 +30,6 @@ function new_gtp_engine() {
 	eng.is_gtp = true;
 
 	eng.exe = null;
-	eng.filepath = "";
-	eng.engineconfig = "";
-	eng.weights = "";
 
 	eng.received_version = false;					// Indicates when the engine has really started responding.
 	eng.known_commands = [];
@@ -413,7 +410,7 @@ let gtp_engine_prototype = {
 
 	problem_text: function() {
 		if (this.exe) return "";
-		return `GTP engine (${path.basename(this.filepath)}) not running.`;
+		return `GTP engine not running.`;
 	},
 
 	shutdown: function() {
