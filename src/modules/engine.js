@@ -202,82 +202,89 @@ let engine_prototype = {
 			terminal: false
 		});
 
-		this.__send({id: "query_version", action: "query_version"});
-
 		this.scanner.on("line", (line) => {
-			if (this.has_quit) {
-				return;
-			}
-			let o;
-			try {
-				o = JSON.parse(line);
-				if (typeof o !== "object" || o === null) {
-					throw new Error("scanner: got non-object");
-				}
-				if (config.logfile) {								// This test is just to save effort; the logging function checks this also.
-					this.log_received_object(o);
-				}
-			} catch (err) {
-				this.log_and_alert("Received non-JSON:", line);
-				return;
-			}
-			if (o.error) {
-				alert("Engine said:\n" + stringify(o));
-			}
-			if (o.warning) {
-				console.log("Engine warning: " + o.warning);
-			}
-			if (o.action === "query_version") {
-				this.version = parse_version(o.version);
-				for (let bv of bad_versions) {
-					if (compare_versions(bv, this.version) === 0) {
-						alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
-					}
-				}
-			}
-			if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
-				if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
-					if (this.desired === this.running) {
-						this.desired = null;
-						ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
-					}
-					this.running = null;
-					if (this.desired) {
-						this.__send(this.desired);
-						this.running = this.desired;
-					}
-				}
-			}
-			hub.receive_object(o);
+			this.handle_stdout(line);
 		});
 
 		this.err_scanner.on("line", (line) => {
+			this.handle_stderr(line);
+		});
 
-			if (line.includes("exception")) {
-				alert("KataGo said:\n" + line);
+		this.__send({id: "query_version", action: "query_version"});
+
+	},
+
+	handle_stdout(line) {
+		if (this.has_quit) {
+			return;
+		}
+		let o;
+		try {
+			o = JSON.parse(line);
+			if (typeof o !== "object" || o === null) {
+				throw new Error("scanner: got non-object");
 			}
-
-			if (this.has_quit) {		// Do this after the above, so that exceptions that caused the quit can be displayed.
-				return;
+			if (config.logfile) {								// This test is just to save effort; the logging function checks this also.
+				this.log_received_object(o);
 			}
-
-			log("! " + line);
-
-			stderrbox.receive(line);
-
-			if (line.includes("Beginning GPU tuning") || line.includes("Creating new timing cache")) {
-				this.tuning_in_progress = true;
-				stderrbox.show();
-			}
-
-			if (line.includes("ready to begin handling requests")) {
-				if (this.tuning_in_progress) {
-					this.tuning_in_progress = false;
-					stderrbox.hide();
+		} catch (err) {
+			this.log_and_alert("Received non-JSON:", line);
+			return;
+		}
+		if (o.error) {
+			alert("Engine said:\n" + stringify(o));
+		}
+		if (o.warning) {
+			console.log("Engine warning: " + o.warning);
+		}
+		if (o.action === "query_version") {
+			this.version = parse_version(o.version);
+			for (let bv of bad_versions) {
+				if (compare_versions(bv, this.version) === 0) {
+					alert(`This exact version of KataGo (${o.version}) is known to crash under Ogatak, consider downgrading or upgrading.`);
 				}
 			}
+		}
+		if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
+			if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
+				if (this.desired === this.running) {
+					this.desired = null;
+					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+				}
+				this.running = null;
+				if (this.desired) {
+					this.__send(this.desired);
+					this.running = this.desired;
+				}
+			}
+		}
+		hub.receive_object(o);
+	},
 
-		});
+	handle_stderr: function(line) {
+		if (line.includes("exception")) {
+			alert("KataGo said:\n" + line);
+		}
+
+		if (this.has_quit) {		// Do this after the above, so that exceptions that caused the quit can be displayed.
+			return;
+		}
+
+		log("! " + line);
+
+		stderrbox.receive(line);
+
+		if (line.includes("Beginning GPU tuning") || line.includes("Creating new timing cache")) {
+			this.tuning_in_progress = true;
+			stderrbox.show();
+		}
+
+		if (line.includes("ready to begin handling requests")) {
+			if (this.tuning_in_progress) {
+				this.tuning_in_progress = false;
+				stderrbox.hide();
+			}
+		}
 	},
 
 	log_received_object: function(o) {
