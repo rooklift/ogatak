@@ -1019,15 +1019,8 @@ let board_drawer_prototype = {
 	},
 
 	draw_engine_starting: function() {
-
-		if (hub.engine.is_gtp) {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span>`;
-			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_2")}</span>`;
-		} else {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
-			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
-		}
-
+		this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
+		this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
 		this.infodiv_displaying_stats = false;
 	},
 
