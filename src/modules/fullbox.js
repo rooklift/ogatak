@@ -80,7 +80,7 @@ let fullbox_prototype = {
 		translate("ABOUT_RAM_USAGE") + `\n\n` + 
 		`${ram_strings.join("\n")}` + `\n\n` +
 		translate("ABOUT_THANKS_TRANSLATORS") + `\n\n` +
-		`    ` + translator_list.join("\n    ")
+		`    ` + translator_list.join("\n    ");
 
 		this.set(s);
 	},
