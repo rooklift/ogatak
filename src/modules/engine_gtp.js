@@ -168,7 +168,7 @@ let gtp_engine_prototype = {
 		}
 
 		try {
-			this.exe = child_process.spawn(command, argslist);
+			this.exe = child_process.spawn(command, argslist, {cwd: path.dirname(command)});
 		} catch (err) {
 			return;
 		}
