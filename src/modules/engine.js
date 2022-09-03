@@ -20,19 +20,20 @@ function new_engine() {
 
 	let eng = Object.create(engine_prototype);
 
+	eng.is_gtp = false;
+	eng.has_quit = false;
 	eng.exe = null;
+
+	eng.received_version = false;		// Indicates that KataGo has really started responding to commands.
+	eng.version = [99, 99, 99];			// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
+	eng.tuning_in_progress = false;
+
 	eng.filepath = "";
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.version = [99, 99, 99];			// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
-
 	eng.running = null;					// The search object actually running.
 	eng.desired = null;					// The search object we want to be running - possibly the same object as above.
-
-	eng.has_quit = false;
-	eng.tuning_in_progress = false;
-	eng.received_version = false;		// Indicates that KataGo has really started responding to commands.
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.

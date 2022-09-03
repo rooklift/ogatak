@@ -35,17 +35,16 @@ function new_gtp_engine() {
 	eng.exe = null;
 
 	eng.received_version = false;					// Indicates when the engine has really started responding.
-	eng.known_commands = [];
 
+	eng.known_commands = [];
+	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only stored for some special queries where we care about the reply.
+	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
+	eng.next_gtp_id = 1;
+	
 	eng.running = null;
 	eng.running_info = null;						// Some extra info about the running analysis.
 	eng.desired = null;
 
-	eng.pending_commands = Object.create(null);		// gtp id --> query string		// Only stored for some special queries where we care about the reply.
-	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
-
-	eng.next_gtp_id = 1;
-	
 	return eng;
 
 }
