@@ -32,8 +32,8 @@ function new_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.running = null;					// The search object actually running. NEVER examined from outside.
-	eng.desired = null;					// The search object we want to be running - possibly the same object as above.
+	eng.desired = null;					// The search object we want to be running.
+	eng.running = null;					// The search object actually running. (Possibly the same object as above.)
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
 	// therefore every time desired is set, the relevant menu check should be set.
@@ -107,9 +107,7 @@ let engine_prototype = {
 
 		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
-		if (!this.exe) {
-			return;
-		}
+		this.desired = null;
 
 		if (this.running) {
 			this.__send({
@@ -118,8 +116,6 @@ let engine_prototype = {
 				terminateId: `${this.running.id}`
 			});
 		}
-
-		this.desired = null;
 	},
 
 	setup: function(filepath, engineconfig, weights) {
