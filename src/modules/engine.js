@@ -32,7 +32,7 @@ function new_engine() {
 	eng.engineconfig = "";
 	eng.weights = "";
 
-	eng.running = null;					// The search object actually running.
+	eng.running = null;					// The search object actually running. NEVER examined from outside.
 	eng.desired = null;					// The search object we want to be running - possibly the same object as above.
 
 	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
