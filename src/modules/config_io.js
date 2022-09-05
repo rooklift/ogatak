@@ -89,6 +89,7 @@ exports.defaults = {
 	"ownership_per_move": true,
 
 	"zobrist_checks": true,
+	"snappy_node_switch_hack": false,
 
 	"enable_hw_accel": false,
 	"logfile": null,

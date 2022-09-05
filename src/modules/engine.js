@@ -215,13 +215,15 @@ let engine_prototype = {
 				}
 			}
 			let running_has_finished = false;
-			if (o.action === "terminate") {									// We get these back when we explicitly end a search, which we usually do.
-				if (this.running && this.running.id === o.terminateId) {	// However, it may send updates in a little bit (10-100 ms or so).
-					running_has_finished = true;							
+			if (config.snappy_node_switch_hack) {
+				if (o.action === "terminate") {									// We get these back very quickly upon sending a "terminate", however Kata
+					if (this.running && this.running.id === o.terminateId) {	// may send further updates in a little bit (10-100 ms or so). Therefore,
+						running_has_finished = true;							// I consider this a hack and it's guarded behind a config value.
+					}
 				}
 			}
-			if (o.isDuringSearch === false || o.error) {					// Every analysis request generates exactly 1 of these eventually.
-				if (this.running && this.running.id === o.id) {				// Upon receipt, the search is completely finished.
+			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
+				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
 					running_has_finished = true;							
 				}
 			}
