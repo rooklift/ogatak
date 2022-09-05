@@ -214,17 +214,26 @@ let engine_prototype = {
 					}
 				}
 			}
-			if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
-				if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
-					if (this.desired === this.running) {
-						this.desired = null;
-						ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
-					}
-					this.running = null;
-					if (this.desired) {
-						this.__send(this.desired);
-						this.running = this.desired;
-					}
+			let running_has_finished = false;
+			if (o.action === "terminate") {									// We get these back when we explicitly end a search, which we usually do.
+				if (this.running && this.running.id === o.terminateId) {	// However, it may send updates in a little bit (10-100 ms or so).
+					running_has_finished = true;							
+				}
+			}
+			if (o.isDuringSearch === false || o.error) {					// Every analysis request generates exactly 1 of these eventually.
+				if (this.running && this.running.id === o.id) {				// Upon receipt, the search is completely finished.
+					running_has_finished = true;							
+				}
+			}
+			if (running_has_finished) {
+				if (this.desired === this.running) {
+					this.desired = null;
+					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+				}
+				this.running = null;
+				if (this.desired) {
+					this.__send(this.desired);
+					this.running = this.desired;
 				}
 			}
 			hub.receive_object(o);
