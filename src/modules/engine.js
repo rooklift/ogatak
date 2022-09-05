@@ -217,8 +217,8 @@ let engine_prototype = {
 			let running_has_finished = false;
 			if (config.snappy_node_switch_hack) {
 				if (o.action === "terminate") {									// We get these back very quickly upon sending a "terminate", however Kata
-					if (this.running && this.running.id === o.terminateId) {	// may send further updates in a little bit (10-100 ms or so). Therefore,
-						running_has_finished = true;							// I consider this a hack and it's guarded behind a config value.
+					if (this.running && this.running.id === o.terminateId) {	// may send further updates in a little bit (10-100 ms or so). While that's
+						running_has_finished = true;							// not a problem, it's a bit impure and so this behaviour is off by default.
 					}
 				}
 			}
