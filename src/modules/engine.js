@@ -1,5 +1,13 @@
 "use strict";
 
+// Notes:
+//
+// We only ever have one query active at a time, so we must receive an indication that the
+// previous query has terminated (or at least is terminating) before sending the next one.
+//
+// Our canonical concept of "state" is that the app is trying to ponder if desired is not
+// null, therefore every time desired is set, the relevant menu check should be set.
+
 const child_process = require("child_process");
 const fs = require("fs");
 const path = require("path");
@@ -34,9 +42,6 @@ function new_engine() {
 
 	eng.desired = null;					// The search object we want to be running.
 	eng.running = null;					// The search object actually running. (Possibly the same object as above.)
-
-	// Our canonical concept of "state" is that the app is trying to ponder if desired is not null,
-	// therefore every time desired is set, the relevant menu check should be set.
 
 	return eng;
 }
