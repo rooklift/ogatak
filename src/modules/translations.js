@@ -160,6 +160,7 @@ translations[`English`] = {
 		MENU_SHOW_ENGINE_STDERR: `Show engine stderr`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch checks`,							// Technical dev thing barely worth worrying about.
 		MENU_RESET_MISMATCH_WARNINGS: `Reset mismatch warnings`,							// Connected to the above.
+		MENU_SNAPPY_NODE_SWITCH_HACK: `Snappy node switch hack`,							// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `Show config file`,
 		MENU_TOGGLE_DEV_TOOLS: `Toggle dev tools`,
 

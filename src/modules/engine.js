@@ -214,17 +214,28 @@ let engine_prototype = {
 					}
 				}
 			}
-			if (o.isDuringSearch === false || o.error) {			// Every analysis request generates exactly 1 of these eventually.
-				if (this.running && this.running.id === o.id) {		// id matches the current search, which has therefore terminated.
-					if (this.desired === this.running) {
-						this.desired = null;
-						ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+			let running_has_finished = false;
+			if (config.snappy_node_switch_hack) {
+				if (o.action === "terminate") {									// We get these back very quickly upon sending a "terminate", however Kata
+					if (this.running && this.running.id === o.terminateId) {	// may send further updates in a little bit (10-100 ms or so). Therefore,
+						running_has_finished = true;							// I consider this a hack and it's guarded behind a config value.
 					}
-					this.running = null;
-					if (this.desired) {
-						this.__send(this.desired);
-						this.running = this.desired;
-					}
+				}
+			}
+			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
+				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
+					running_has_finished = true;							
+				}
+			}
+			if (running_has_finished) {
+				if (this.desired === this.running) {
+					this.desired = null;
+					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
+				}
+				this.running = null;
+				if (this.desired) {
+					this.__send(this.desired);
+					this.running = this.desired;
 				}
 			}
 			hub.receive_object(o);

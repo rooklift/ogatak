@@ -39,6 +39,7 @@ const togglechecks = {
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
 	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],
 	zobrist_checks:			[translate("MENU_DEV"), translate("MENU_ZOBRIST_MISMATCH_CHECKS")],
+	snappy_node_switch_hack:[translate("MENU_DEV"), translate("MENU_SNAPPY_NODE_SWITCH_HACK")],
 };
 
 // The following lines just ask main process to check the menupath exists,

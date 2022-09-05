@@ -2437,6 +2437,17 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: translate("MENU_SNAPPY_NODE_SWITCH_HACK"),
+					type: "checkbox",
+					checked: config.snappy_node_switch_hack,
+					click: () => {
+						win.webContents.send("toggle", "snappy_node_switch_hack");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: translate("MENU_SHOW_CONFIG_FILE"),
 					click: () => {
 						electron.shell.showItemInFolder(config_io.filepath);
