@@ -41,8 +41,6 @@ translations[`English`] = {
 		MENU_LOCATE_KATAGO: `Locate KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Locate KataGo analysis config...`,
 		MENU_CHOOSE_WEIGHTS: `Choose weights...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Launch KataGo via command...`,		// Currently unused.
-		MENU_LAUNCH_GTP_ENGINE: `Launch GTP engine...`,						// Currently unused.
 		MENU_CLEAR_CACHE: `Clear cache`,
 		MENU_RESTART: `Restart`,
 		MENU_ENGINE_REPORT_RATE: `Engine report rate`,
@@ -234,7 +232,6 @@ translations[`Français`] = {
 		MENU_LOCATE_KATAGO: `Localiser KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Localiser analysis.cfg...`,
 		MENU_CHOOSE_WEIGHTS: `Localiser les poids...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Lancer KataGo avec la commande...`,
 		MENU_CLEAR_CACHE: `Vider le cache`,
 		MENU_RESTART: `Redémarrage`,
 		MENU_ENGINE_REPORT_RATE: `Taux de rapport`,
@@ -404,7 +401,6 @@ translations[`русский`] = {
 		MENU_LOCATE_KATAGO: `Исполняемый файл KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Файл настроек анализа...`,
 		MENU_CHOOSE_WEIGHTS: `Файл сети...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `Запуск KataGo с помощью команды...`,
 		MENU_CLEAR_CACHE: `Очистить кэш`,
 		MENU_RESTART: `Перезапуск`,
 		MENU_ENGINE_REPORT_RATE: `Частота отчетов`,
@@ -582,7 +578,6 @@ translations[`繁體中文`] = {
 		MENU_LOCATE_KATAGO: `定位 KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `定位 KataGo 設定檔...`,
 		MENU_CHOOSE_WEIGHTS: `定位權重...`,
-		MENU_LAUNCH_KATAGO_VIA_COMMAND: `通過指令加載 KataGo...`,
 		MENU_CLEAR_CACHE: `清除 KataGo 快取`,
 		MENU_RESTART: `重新啟動 KataGo`,
 		MENU_ENGINE_REPORT_RATE: `引擎回報時間間隔（秒）`,
