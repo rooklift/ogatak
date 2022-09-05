@@ -345,6 +345,7 @@ translations[`Français`] = {
 		MENU_SHOW_ENGINE_STDERR: `Afficher le moteur stderr`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist test de non-concordance`,
 		MENU_RESET_MISMATCH_WARNINGS: `Réinitialiser les avertissements de non-concordance`,
+		MENU_SNAPPY_NODE_SWITCH_HACK: `Kludge pour réactivité`,
 		MENU_SHOW_CONFIG_FILE: `Afficher le fichier de configuration`,
 		MENU_TOGGLE_DEV_TOOLS: `Outils de développement`,
 
