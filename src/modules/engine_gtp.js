@@ -448,7 +448,8 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
 			s.charCodeAt(0) >= 65 &&		// A
 			s.charCodeAt(0) <= 90 &&		// Z
 			s.charCodeAt(1) >= 48 &&		// 0
-			s.charCodeAt(1) <= 57);			// 9
+			s.charCodeAt(1) <= 57			// 9
+		);			
 	}
 
 	if (s.length === 3) {
@@ -458,7 +459,8 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
 			s.charCodeAt(1) >= 48 &&
 			s.charCodeAt(1) <= 57 &&
 			s.charCodeAt(2) >= 48 &&
-			s.charCodeAt(2) <= 57);
+			s.charCodeAt(2) <= 57
+		);
 	}
 
 	return false;
