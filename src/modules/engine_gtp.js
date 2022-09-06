@@ -532,6 +532,9 @@ function make_analysis_object(line, running_info) {
 				}
 			}
 
+			// The ownership map is likely present at the end of the line, meaning we will encounter
+			// it during our parse of the final block. But it's not really part of that block.
+
 			if (parsing === "ownership") {
 				let val = parseFloat(token);
 				if (!Number.isNaN(val)) {
