@@ -266,6 +266,38 @@ let grapher_prototype = {
 			this.draw_x_offset + this.drawable_width,
 			this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
 		);
+
+		// Delta...
+
+		ctx.textAlign = "left";
+
+		if (!hub.__autoanalysis && !hub.__backanalysis && !hub.__autoplay && !hub.__play_colour) {
+			if (node.parent) {
+				if (config.graph_type === 1) {
+					let parent_winrate = node.parent.stored_winrate();
+					let node_winrate = node.stored_winrate();
+					if (typeof parent_winrate === "number" && typeof node_winrate === "number") {
+						let delta = (node_winrate - parent_winrate) * 100;
+						ctx.fillText(
+							"Δ " + Math.abs(delta).toFixed(1),
+							this.draw_x_offset,
+							this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
+						);
+					}
+				} else if (config.graph_type === 2) {
+					let parent_score = node.parent.stored_score();
+					let node_score = node.stored_score();
+					if (typeof parent_score === "number" && typeof node_score === "number") {
+						let delta = node.stored_score() - node.parent.stored_score();
+						ctx.fillText(
+							"Δ " + Math.abs(delta).toFixed(1),
+							this.draw_x_offset,
+							this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
+						);
+					}
+				}
+			}
+		}
 	},
 
 	node_from_click: function(node, event) {
