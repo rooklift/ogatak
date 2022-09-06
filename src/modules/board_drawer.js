@@ -981,7 +981,7 @@ let board_drawer_prototype = {
 
 			let lead = override_moveinfo ? override_moveinfo.scoreLead : node.analysis.rootInfo.scoreLead;
 
-			if (typeof lead === "number") {						// It will only fail to be if we use GTP engines in future.
+			if (typeof lead === "number") {						// scoreLead might not be present if it's a GTP engine.
 				let leader = lead >= 0 ? "B" : "W";
 				if (lead < 0) lead *= -1;
 				score = `${leader}+${lead.toFixed(1)}`;
@@ -1078,7 +1078,7 @@ function string_from_info(info, node, type, flip) {
 			return Math.floor(info.prior * 100).toString();
 		case "Score":
 			val = info.scoreLead;
-			if (typeof val !== "number") {			// It will only fail to be if we use GTP engines in future.
+			if (typeof val !== "number") {			// scoreLead might not be present if it's a GTP engine.
 				return "??";						// Don't return "?" which is special...
 			}
 			if (flip) {

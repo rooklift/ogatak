@@ -894,7 +894,7 @@ let node_prototype = {
 
 		let score = this.analysis.rootInfo.scoreLead;
 
-		if (typeof score === "number") {							// It will only fail to be if we use GTP engines in future.
+		if (typeof score === "number") {							// scoreLead might not be present if it's a GTP engine.
 			val = score.toFixed(1);
 			this.set("OGSC", val);
 		} else {

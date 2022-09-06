@@ -74,7 +74,7 @@ let grapher_prototype = {
 			if (h_node.has_valid_analysis()) {
 
 				let score = h_node.analysis.rootInfo.scoreLead;
-				if (typeof score === "number") {							// It will only fail to be if we use GTP engines in future.
+				if (typeof score === "number") {							// scoreLead might not be present if it's a GTP engine.
 					scores.push(score);
 					if ( score > abs_score_max) abs_score_max =  score;
 					if (-score > abs_score_max) abs_score_max = -score;
