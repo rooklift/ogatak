@@ -902,6 +902,56 @@ let node_prototype = {
 		}
 	},
 
+	stored_score: function() {
+		if (this.has_valid_analysis()) {
+			let score = this.analysis.rootInfo.scoreLead;
+			if (typeof score === "number") {						// scoreLead might not be present if it's a GTP engine.
+				return score;
+			} else {
+				return null;
+			}
+		} else {
+			let ogsc = this.get("OGSC");
+			if (ogsc) {
+				let score = parseFloat(ogsc);
+				if (!Number.isNaN(score)) {
+					return score;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	},
+
+	stored_winrate: function() {
+		if (this.has_valid_analysis()) {
+			let winrate = this.analysis.rootInfo.winrate;
+			if (typeof winrate === "number") {
+				if (winrate < 0) winrate = 0;
+				if (winrate > 1) winrate = 1;
+				return winrate;
+			} else {
+				return null;
+			}
+		} else {
+			let sbkv = this.get("SBKV");
+			if (sbkv) {
+				let winrate = parseFloat(sbkv);
+				if (!Number.isNaN(winrate)) {
+					if (winrate < 0) winrate = 0;
+					if (winrate > 100) winrate = 100;
+					return winrate / 100;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	},
+
 	reset_mismatch_warnings: function() {							// Note this is a module var, not actually part of the node.
 		have_alerted_zobrist_mismatch = false;
 	},
