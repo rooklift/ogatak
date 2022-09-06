@@ -288,7 +288,7 @@ let grapher_prototype = {
 					let parent_score = node.parent.stored_score();
 					let node_score = node.stored_score();
 					if (typeof parent_score === "number" && typeof node_score === "number") {
-						let delta = node.stored_score() - node.parent.stored_score();
+						let delta = node_score - parent_score;
 						ctx.fillText(
 							"Δ " + Math.abs(delta).toFixed(1),
 							this.draw_x_offset,
