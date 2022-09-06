@@ -110,7 +110,7 @@ exports.defaults = {
 	"kataconfig_folder": "",
 	"weights_folder": "",
 
-	"gtp_warning": "Use of GTP engines is experimental and unsupported. But you can try...",
+	"gtp_warning": "THE GTP INTERFACE IS EXPERIMENTAL AND UNSUPPORTED. BUT IF YOU MUST, EDIT THE FOLLOWING LINES...",
 	"gtp_command": "",							// Must be edited by the user in config.json
 	"gtp_argslist": [],							// Likewise.
 };
