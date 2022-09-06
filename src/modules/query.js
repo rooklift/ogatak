@@ -45,8 +45,10 @@ function new_query(query_node, engine) {
 	// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.
 	// So if the engine is earlier than that, strip out fields it hasn't heard of.
 
-	if (compare_versions(engine.version, [1,9,1]) === -1) {
-		delete o.overrideSettings.rootSymmetryPruning;		// Introduced in 1.9.0 but that's a crashy version anyway, so the 1.9.1 check is fine.
+	if (!engine.is_gtp) {
+		if (compare_versions(engine.version, [1,9,1]) === -1) {
+			delete o.overrideSettings.rootSymmetryPruning;		// Introduced in 1.9.0 but that's a crashy version anyway, so the 1.9.1 check is fine.
+		}
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -163,4 +165,4 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 
 
-module.exports = {new_query, compare_queries};
+module.exports = {new_query, compare_queries, compare_moves_arrays};

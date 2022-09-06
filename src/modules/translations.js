@@ -172,6 +172,10 @@ translations[`English`] = {
 	GUI_AWAITING_RESPONSE_1: `Awaiting response from engine. If needed, select the`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">Dev --> Show engine stderr</span> menu item for more info.`,
 
+	// Message (split across 2 lines) that shows at startup while an unsupported GTP engine loads (not recommended)...
+	GUI_AWAITING_GTP_RESPONSE_1: `Awaiting response from GTP engine...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `Note: the GTP feature is experimental and not recommended.`,
+
 	// Info editor strings...
 	INFO_BLACK: `Black`,
 	INFO_BLACK_RANK: `BR`,
@@ -189,6 +193,7 @@ translations[`English`] = {
 
 	// About box...
 	ABOUT_FILE_LOCATIONS: `Engine, engine config, and weights are at:`,
+	ABOUT_GTP_COMMAND: `GTP program and arguments are:`,
 	ABOUT_CONFIG_LOCATION: `Ogatak config file is at:`,
 	ABOUT_RAM_USAGE: `RAM usage (MB) (engine not included):`,
 	ABOUT_THANKS_TRANSLATORS: `Thanks to the translators:`,

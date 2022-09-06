@@ -59,19 +59,30 @@ let fullbox_prototype = {
 
 		let translator_list = all_translators().map(s => `<span class="green">${s}</span>`);
 
-		this.set(
-			`<span class="green">${name} ${version} --> Electron ${process.versions.electron}</span>\n\n` +
-			translate("ABOUT_FILE_LOCATIONS") + `\n\n` +
-			`    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n` +
-			`    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n` +
-			`    <span class="yellow" id="about_box_weights">${config.weights || "(unset)"}</span>\n\n` +
-			translate("ABOUT_CONFIG_LOCATION") + `\n\n` +
-			`    <span class="yellow">${config_io.filepath}</span>\n\n` +
-			translate("ABOUT_RAM_USAGE") + `\n\n` + 
-			`${ram_strings.join("\n")}` + `\n\n` +
-			translate("ABOUT_THANKS_TRANSLATORS") + `\n\n` +
-			`    ` + translator_list.join("\n    ")
-		);
+		let s = `<span class="green">${name} ${version} --> Electron ${process.versions.electron}</span>\n\n`;
+
+		if (config.gtp_command) {
+			s += translate("ABOUT_GTP_COMMAND") + `\n\n`;
+			s += `    <span class="yellow">${config.gtp_command}</span>\n`;
+			for (let item of config.gtp_argslist) {
+				s += `    <span class="yellow">${item}</span>\n`;
+			}
+			s += `\n`;
+		} else {
+			s += translate("ABOUT_FILE_LOCATIONS") + `\n\n`;
+			s += `    <span class="yellow" id="about_box_engine">${config.engine || "(unset)"}</span>\n`;
+			s += `    <span class="yellow" id="about_box_engineconfig">${config.engineconfig || "(unset)"}</span>\n`;
+			s += `    <span class="yellow" id="about_box_weights">${config.weights || "(unset)"}</span>\n\n`;
+		}
+
+		s += translate("ABOUT_CONFIG_LOCATION") + `\n\n`;
+		s += `    <span class="yellow">${config_io.filepath}</span>\n\n`;
+		s += translate("ABOUT_RAM_USAGE") + `\n\n`;
+		s += `${ram_strings.join("\n")}` + `\n\n`;
+		s += translate("ABOUT_THANKS_TRANSLATORS") + `\n\n`;
+		s += `    ` + translator_list.join("\n    ");
+
+		this.set(s);
 	},
 
 	warn_bad_config: function() {
