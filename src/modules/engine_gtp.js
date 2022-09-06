@@ -344,7 +344,7 @@ let gtp_engine_prototype = {
 
 	handle_response_start: function(line) {				// Called when the line starts with "=" and returns the contentful part of the line.
 
-		let id = parseInt(line.slice(1), 10);			// Relying on ParseInt not caring about gibberish after the number.
+		let id = parseInt(line.slice(1), 10);			// Relying on parseInt not caring about gibberish after the number.
 
 		if (!Number.isNaN(id)) {
 			this.current_incoming_gtp_id = id;
