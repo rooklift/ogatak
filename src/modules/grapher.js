@@ -71,14 +71,14 @@ let grapher_prototype = {
 
 		for (let h_node of history) {
 
-			let score = h_node.stored_score();
+			let score = h_node.stored_score();								// Possibly null
 			if (typeof score === "number") {
 				if ( score > abs_score_max) abs_score_max =  score;
 				if (-score > abs_score_max) abs_score_max = -score;
 			}
 			scores.push(score);
 
-			let winrate = h_node.stored_winrate();
+			let winrate = h_node.stored_winrate();							// Possibly null
 			winrates.push(winrate);
 
 		}
