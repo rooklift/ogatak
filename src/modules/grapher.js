@@ -64,59 +64,23 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
-		let scores = [];													// From Black's POV (-Inf...Inf, but rescaled later to 0..1)
-		let winrates = [];													// From Black's POV (0..1)
+		let scores = [];													// From Black's POV (-Inf...Inf, but rescaled later to 0..1) or null
+		let winrates = [];													// From Black's POV (0..1) or null
 
 		let abs_score_max = 5;
 
 		for (let h_node of history) {
 
-			if (h_node.has_valid_analysis()) {
-
-				let score = h_node.analysis.rootInfo.scoreLead;
-				if (typeof score === "number") {							// scoreLead might not be present if it's a GTP engine.
-					scores.push(score);
-					if ( score > abs_score_max) abs_score_max =  score;
-					if (-score > abs_score_max) abs_score_max = -score;
-				} else {
-					scores.push(null);
-				}
-
-				let winrate = h_node.analysis.rootInfo.winrate;
-				if (winrate < 0) winrate = 0;
-				if (winrate > 1) winrate = 1;
-				winrates.push(winrate);
-
-			} else {
-
-				let ogsc = h_node.get("OGSC");
-				if (ogsc) {
-					let score = parseFloat(ogsc);
-					if (!Number.isNaN(score)) {
-						scores.push(score);
-						if ( score > abs_score_max) abs_score_max =  score;
-						if (-score > abs_score_max) abs_score_max = -score;
-					} else {
-						scores.push(null);
-					}
-				} else {
-					scores.push(null);
-				}
-
-				let sbkv = h_node.get("SBKV");
-				if (sbkv) {
-					let winrate = parseFloat(sbkv);
-					if (!Number.isNaN(winrate)) {
-						if (winrate < 0) winrate = 0;
-						if (winrate > 100) winrate = 100;
-						winrates.push(winrate / 100);
-					} else {
-						winrates.push(null);
-					}
-				} else {
-					winrates.push(null);
-				}
+			let score = h_node.stored_score();
+			if (typeof score === "number") {
+				if ( score > abs_score_max) abs_score_max =  score;
+				if (-score > abs_score_max) abs_score_max = -score;
 			}
+			scores.push(score);
+
+			let winrate = h_node.stored_winrate();
+			winrates.push(winrate);
+
 		}
 
 		// Normalise our scores to the 0..1 range...
