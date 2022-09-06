@@ -613,7 +613,9 @@ function make_analysis_object(line, running_info) {
 			delete o.ownership;
 		}
 		o.rootInfo.winrate = o.moveInfos[0].winrate;
-		o.rootInfo.scoreLead = o.moveInfos[0].scoreLead;			// Possibly undefined.
+		if (typeof o.moveInfos[0].scoreLead === "number") {
+			o.rootInfo.scoreLead = o.moveInfos[0].scoreLead;
+		}
 		return o;
 	} else {
 		return null;
