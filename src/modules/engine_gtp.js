@@ -2,17 +2,10 @@
 
 // http://www.lysator.liu.se/~gunnar/gtp/gtp2-spec-draft2/gtp2-spec.html
 //
-// The idea is to have our GTP engine object have the same API as the
-// normal one, including storing .running and .desired queries in the
-// normal object format.
+// Ogatak is primarily a GUI for Katago via Katago's analysis engine,
+// therefore using any program in GTP mode is not really recommended.
 //
-// When it comes to actually sending and receiving, we will convert
-// between the object and the string formats.
-//
-// We also cannot record all stderr, since Leela sends a lot of it.
-//
-// But there are reasons not to include this GTP functionality at all:
-// 
+// Reasons not to use GTP:
 // -- Some engines won't support non-7.5 komi.
 // -- Some engines won't support non-19 boards, or rectangular boards.
 // -- Some engines won't support different rulesets.
