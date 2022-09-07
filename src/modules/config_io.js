@@ -54,7 +54,7 @@ exports.defaults = {
 	"wood_colour": "#d0ad75ff",					// Average of our board image, as claimed by matkl.github.io/average-color
 	"previous_marker": "#ff6666ff",
 	"candidate_moves": true,
-	"numbers": "LCB + Visits",					// Lame stringly typed
+	"numbers": "Winrate + Visits",				// Lame stringly typed
 	"visits_threshold": 0.02,
 	"mouseover_pv": true,
 	"mouseover_delay": 0,

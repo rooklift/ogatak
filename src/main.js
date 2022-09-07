@@ -1559,13 +1559,24 @@ function menu_build() {
 					label: translate("MENU_NUMBERS"),
 					submenu: [
 						{
+							label: `${translate("MENU_NUM_WINRATE")} + ${translate("MENU_NUM_VISITS")}`,
+							type: "checkbox",
+							checked: config.numbers === "Winrate + Visits",
+							accelerator: "F5",
+							click: () => {
+								win.webContents.send("set", {numbers: "Winrate + Visits"});
+							}
+						},
+						{
 							label: `${translate("MENU_NUM_LCB")} + ${translate("MENU_NUM_VISITS")}`,
 							type: "checkbox",
 							checked: config.numbers === "LCB + Visits",
-							accelerator: "F5",
 							click: () => {
 								win.webContents.send("set", {numbers: "LCB + Visits"});
 							}
+						},
+						{
+							type: "separator",
 						},
 						{
 							label: `${translate("MENU_NUM_SCORE")} + ${translate("MENU_NUM_VISITS")}`,
@@ -1587,6 +1598,14 @@ function menu_build() {
 						},
 						{
 							type: "separator",
+						},
+						{
+							label: translate("MENU_NUM_WINRATE"),
+							type: "checkbox",
+							checked: config.numbers === "Winrate",
+							click: () => {
+								win.webContents.send("set", {numbers: "Winrate"});
+							}
 						},
 						{
 							label: translate("MENU_NUM_LCB"),
@@ -1645,21 +1664,21 @@ function menu_build() {
 							}
 						},
 						{
-							label: translate("MENU_NUM_WINRATE"),
-							type: "checkbox",
-							checked: config.numbers === "Winrate",
-							click: () => {
-								win.webContents.send("set", {numbers: "Winrate"});
-							}
+							type: "separator",
 						},
 						{
-							type: "separator",
+							label: `${translate("MENU_NUM_WINRATE")} + ${translate("MENU_NUM_VISITS")} + ${translate("MENU_NUM_SCORE")}`,
+							type: "checkbox",
+							checked: config.numbers === "Winrate + Visits + Score",
+							accelerator: "F8",
+							click: () => {
+								win.webContents.send("set", {numbers: "Winrate + Visits + Score"});
+							}
 						},
 						{
 							label: `${translate("MENU_NUM_LCB")} + ${translate("MENU_NUM_VISITS")} + ${translate("MENU_NUM_SCORE")}`,
 							type: "checkbox",
 							checked: config.numbers === "LCB + Visits + Score",
-							accelerator: "F8",
 							click: () => {
 								win.webContents.send("set", {numbers: "LCB + Visits + Score"});
 							}

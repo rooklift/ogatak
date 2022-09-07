@@ -992,9 +992,11 @@ let hub_main_props = {
 	cycle_numbers: function(reverse) {
 
 		const values = [
+			"Winrate + Visits",
 			"LCB + Visits",
 			"Score + Visits",
 			"Delta + Visits",
+			"Winrate",
 			"LCB",
 			"Score",
 			"Delta",
@@ -1002,7 +1004,7 @@ let hub_main_props = {
 			"Visits (%)",
 			"Order",
 			"Policy",
-			"Winrate",
+			"Winrate + Visits + Score",
 			"LCB + Visits + Score",
 		];
 

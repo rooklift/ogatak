@@ -314,6 +314,7 @@ module.exports = {
 		// Our menu will follow the same general format but possibly translated:
 
 		let label_strings = {
+			"Winrate":		translate("MENU_NUM_WINRATE"),
 			"LCB":			translate("MENU_NUM_LCB"),
 			"Score":		translate("MENU_NUM_SCORE"),
 			"Delta":		translate("MENU_NUM_DELTA"),
@@ -321,7 +322,6 @@ module.exports = {
 			"Visits (%)":	translate("MENU_NUM_VISITS_PC"),
 			"Order":		translate("MENU_NUM_ORDER"),
 			"Policy":		translate("MENU_NUM_POLICY"),
-			"Winrate":		translate("MENU_NUM_WINRATE"),
 		};
 
 		let number_types = config.numbers.split(" + ");
