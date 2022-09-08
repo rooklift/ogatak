@@ -13,6 +13,8 @@
 //  - Next-move-markers can coincide with various stuff.
 //  - Flicker introduced by death marks when stepping forward.
 
+const path = require("path");
+
 const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
 const {translate} = require("./translate");
@@ -1020,7 +1022,8 @@ let board_drawer_prototype = {
 
 	draw_engine_starting: function() {
 		if (hub.engine.is_gtp) {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span>`;
+			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span> ` + 
+					`<span class="yellow">(${path.basename(hub.engine.filepath)})</span>`;
 			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_2")}</span>`;
 		} else {
 			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;

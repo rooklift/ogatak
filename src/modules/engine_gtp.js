@@ -39,6 +39,8 @@ function new_gtp_engine() {
 	eng.has_quit = false;
 	eng.exe = null;
 
+	eng.filepath = "";
+
 	eng.received_version = false;					// Indicates when the engine has really started responding.
 	eng.known_commands = [];
 	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
@@ -229,6 +231,8 @@ let gtp_engine_prototype = {
 			argslist = [];
 			alert("Engine argslist was ignored because it was not an array.");
 		}
+
+		this.filepath = command;
 
 		try {
 			this.exe = child_process.spawn(command, argslist, {cwd: path.dirname(command)});
