@@ -28,9 +28,9 @@ function init() {
 	Object.assign(hub_prototype, require("./hub_settings"));
 
 	let eng;
-	if (config.gtp_command) {
+	if (config.gtp_filepath) {
 		eng = new_gtp_engine();
-		eng.setup_with_command(config.gtp_command, config.gtp_argslist);
+		eng.setup_with_command(config.gtp_filepath, config.gtp_argslist);
 	} else {
 		eng = new_engine();
 		eng.setup(config.engine, config.engineconfig, config.weights);
@@ -814,11 +814,11 @@ let hub_main_props = {
 		if (this.engine.exe || this.engine.has_quit) {
 			this.halt();
 			this.engine.shutdown();
-			this.engine = config.gtp_command ? new_gtp_engine() : new_engine();
+			this.engine = config.gtp_filepath ? new_gtp_engine() : new_engine();
 		}
 		stderrbox.reset();
-		if (config.gtp_command) {
-			this.engine.setup_with_command(config.gtp_command, config.gtp_argslist);
+		if (config.gtp_filepath) {
+			this.engine.setup_with_command(config.gtp_filepath, config.gtp_argslist);
 		} else {
 			this.engine.setup(config.engine, config.engineconfig, config.weights);		// Won't do anything unless all 3 are valid.
 		}

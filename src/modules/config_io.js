@@ -111,7 +111,7 @@ exports.defaults = {
 	"weights_folder": "",
 
 	"gtp_warning": "THE GTP INTERFACE IS EXPERIMENTAL AND UNSUPPORTED. BUT IF YOU MUST, EDIT THE FOLLOWING LINES...",
-	"gtp_command": "",							// Must be edited by the user in config.json
+	"gtp_filepath": "",							// Must be edited by the user in config.json
 	"gtp_argslist": [],							// Likewise.
 };
 

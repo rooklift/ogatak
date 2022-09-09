@@ -96,8 +96,8 @@ module.exports = {
 				}
 			}
 
-			if (config.gtp_command) {
-				alert("A GTP engine command exists in the config, so this setting will not be used.");
+			if (config.gtp_filepath) {
+				alert("A GTP engine is set up in the config, so this setting will not be used.");
 			} else {
 				this.start_engine();				// Won't do anything unless all 3 settings are valid.
 			}
