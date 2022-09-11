@@ -536,7 +536,7 @@ function make_analysis_object(line, running_info) {
 				continue;
 			}
 
-			if (["move", "visits", "winrate", "prior", "scoreLead", "lcb", "order", "pv", "ownership"].includes(token)) {
+			if (["move", "visits", "winrate", "prior", "scoreLead", "lcb", "order", "pv", "ownership", "isSymmetryOf"].includes(token)) {
 				parsing = token;
 				continue;
 			}
@@ -562,6 +562,13 @@ function make_analysis_object(line, running_info) {
 				} else {
 					parsing = null;
 				}
+			}
+
+			if (parsing === "isSymmetryOf") {
+				if (is_gtp_move(token)) {
+					moveinfo.isSymmetryOf = token;
+				}
+				parsing = null;
 			}
 
 			// The ownership map is likely present at the end of the line, meaning we will encounter
