@@ -52,7 +52,18 @@ function new_gtp_engine() {
 	eng.desired = null;								// The search object we want to be running.
 	eng.running = null;								// The search object actually running. Possibly the same object as above.
 	eng.running_info = null;						// Some extra info about the running analysis.
-	eng.state = null;								// The last query actually sent to the engine. Will be the same object as .running when .running exists.
+
+	// The actual state the engine is in. These should only be adjusted on actually sending the thing. We used to simply store the query object
+	// as the engine state, but that has some complications: if the first query is sent before we receive the list of known commands, we won't
+	// know that things like "rules" were never sent (because they'll be in the state object).
+
+	eng.boardXSize = null;
+	eng.boardYSize = null;
+	eng.komi = null;
+	eng.rules = null;
+	eng.wideRootNoise = null;
+	eng.initialStones = null;
+	eng.moves = null;
 
 	return eng;
 }
@@ -93,39 +104,51 @@ let gtp_engine_prototype = {
 
 	},
 
-	__send_query: function(o) {											// Returns object with some extra info about what was sent.
+	__send_query: function(o) {						// Returns object with some extra info about what was sent.
 
-		if (!this.state || this.state.boardXSize !== o.boardXSize || this.state.boardYSize !== o.boardYSize) {
+		let did_send_boardsize = false;
+
+		if (this.boardXSize !== o.boardXSize || this.boardYSize !== o.boardYSize) {
 			if (o.boardXSize === o.boardYSize) {
 				this.__send(`boardsize ${o.boardXSize}`);
 			} else {
 				this.__send(`rectangular_boardsize ${o.boardXSize} ${o.boardYSize}`);
 			}
+			this.boardXSize = o.boardXSize;
+			this.boardYSize = o.boardYSize;
+			did_send_boardsize = true;
 		}
 
-		if (this.known_commands.includes("kata-set-rules")) {			// FIXME: if the first query is sent before the list_commands reply,
-			if (!this.state || this.state.rules !== o.rules) {			// it will be saved as this.state and we will never know that the
-				this.__send(`kata-set-rules ${o.rules}`);				// correct rules have not been sent...
+		if (this.known_commands.includes("kata-set-rules")) {
+			if (this.rules !== o.rules) {
+				this.__send(`kata-set-rules ${o.rules}`);
+				this.rules = o.rules;
 			}
 		}
 
-		if (!this.state || this.state.komi !== o.komi) {
+		if (this.known_commands.includes("kata-set-param")) {
+			if (this.wideRootNoise !== o.overrideSettings.wideRootNoise) {
+				this.__send(`kata-set-param analysisWideRootNoise ${o.overrideSettings.wideRootNoise}`);
+				this.wideRootNoise = o.overrideSettings.wideRootNoise;
+			}
+		}
+
+		if (this.komi !== o.komi) {
 			this.__send(`komi ${o.komi}`);
+			this.komi = o.komi;
 		}
 
 		let speedy_send = null;			// -1: Undo, 0: Nothing, 1: Advance 1			(Undo not actually implemented.)
 
-		if (this.state) {
-			if (this.state.boardXSize === o.boardXSize && this.state.boardYSize === o.boardYSize) {
-				if (compare_moves_arrays(this.state.initialStones, o.initialStones)) {
-					if (this.state.moves.length === o.moves.length) {
-						if (compare_moves_arrays(this.state.moves, o.moves)) {
-							speedy_send = 0;
-						}
-					} else if (this.state.moves.length === o.moves.length - 1) {
-						if (compare_moves_arrays(this.state.moves, o.moves.slice(0, -1))) {
-							speedy_send = 1;
-						}
+		if (this.initialStones && this.moves && !did_send_boardsize) {
+			if (compare_moves_arrays(this.initialStones, o.initialStones)) {
+				if (this.moves.length === o.moves.length) {
+					if (compare_moves_arrays(this.moves, o.moves)) {
+						speedy_send = 0;
+					}
+				} else if (this.moves.length === o.moves.length - 1) {
+					if (compare_moves_arrays(this.moves, o.moves.slice(0, -1))) {
+						speedy_send = 1;
 					}
 				}
 			}
@@ -146,9 +169,10 @@ let gtp_engine_prototype = {
 			}
 		}
 
-		// Now save the state the engine is going to be in...
+		// Now save the board state the engine is going to be in...
 
-		this.state = o;
+		this.initialStones = o.initialStones;
+		this.moves = o.moves;
 
 		// Work out what colour we're analysing...
 
@@ -218,7 +242,9 @@ let gtp_engine_prototype = {
 	halt: function() {
 		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		this.desired = null;
-		this.__send(HALT_COMMAND);
+		if (this.running) {
+			this.__send(HALT_COMMAND);
+		}
 	},
 
 	setup_with_command: function(command, argslist) {
