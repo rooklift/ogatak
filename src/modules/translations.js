@@ -40,7 +40,7 @@ translations[`English`] = {
 
 		MENU_LOCATE_KATAGO: `Locate KataGo...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Locate KataGo analysis config...`,
-		MENU_CHOOSE_WEIGHTS: `Choose weights...`,
+		MENU_CHOOSE_WEIGHTS: `Choose network...`,
 		MENU_CLEAR_CACHE: `Clear cache`,
 		MENU_RESTART: `Restart`,
 		MENU_ENGINE_REPORT_RATE: `Engine report rate`,
@@ -165,7 +165,7 @@ translations[`English`] = {
 	// Items that show on first run, when KataGo (etc) have not been located...
 	GUI_ENGINE_NOT_SET: `Engine not set.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `Engine config not set.`,
-	GUI_WEIGHTS_NOT_SET: `Weights not set.`,
+	GUI_WEIGHTS_NOT_SET: `Network not set.`,
 	GUI_RESOLVE_THIS: `Resolve this via the <span class="yellow">"Setup"</span> menu.`, 
 
 	// Message (split across 2 lines) that shows at startup while KataGo loads...
@@ -192,7 +192,7 @@ translations[`English`] = {
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
 
 	// About box...
-	ABOUT_FILE_LOCATIONS: `Engine, engine config, and weights are at:`,
+	ABOUT_FILE_LOCATIONS: `Engine, engine config, and network are at:`,
 	ABOUT_GTP_COMMAND: `GTP program and arguments are:`,
 	ABOUT_CONFIG_LOCATION: `Ogatak config file is at:`,
 	ABOUT_RAM_USAGE: `RAM usage (MB) (engine not included):`,
