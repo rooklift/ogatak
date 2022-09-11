@@ -414,6 +414,10 @@ let gtp_engine_prototype = {
 
 		}
 
+		if (this.current_incoming_gtp_id === this.list_commands_gtp_id) {
+			this.known_commands.sort();
+		}
+
 		this.current_incoming_gtp_id = null;			// After the above.
 	},
 
