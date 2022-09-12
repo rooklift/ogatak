@@ -1348,9 +1348,6 @@ function menu_build() {
 					]
 				},
 				{
-					type: "separator",
-				},
-				{
 					label: translate("MENU_WIDE_ROOT_NOISE"),
 					submenu: [
 						{
@@ -1402,14 +1399,6 @@ function menu_build() {
 							}
 						},
 					]
-				},
-				{
-					label: translate("MENU_SYMMETRY_PRUNING"),
-					type: "checkbox",
-					checked: config.symmetry_pruning,
-					click: () => {
-						win.webContents.send("toggle", "symmetry_pruning");
-					}
 				},
 				{
 					type: "separator",

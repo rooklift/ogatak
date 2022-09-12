@@ -26,7 +26,6 @@ const multichecks = {
 };
 
 const togglechecks = {
-	symmetry_pruning:		[translate("MENU_ANALYSIS"), translate("MENU_SYMMETRY_PRUNING")],
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
 	candidate_moves:		[translate("MENU_DISPLAY"), translate("MENU_CANDIDATE_MOVES")],
@@ -192,7 +191,6 @@ module.exports = {
 
 		case "analysis_pv_len":
 		case "wide_root_noise":
-		case "symmetry_pruning":
 		case "report_every":
 
 			if (this.engine.desired) {

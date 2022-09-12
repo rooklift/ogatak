@@ -35,21 +35,11 @@ function new_query(query_node, engine) {
 		includeOwnership: (want_ownership) ? true : false,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
-		overrideSettings: {										// REMEMBER to add new (post-1.9.1) features to the deletions below.
-			reportAnalysisWinratesAs: "BLACK",
+		overrideSettings: {										// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.
+			reportAnalysisWinratesAs: "BLACK",					// If we add new features here, we will need to delete them if version < 1.9.1...
 			wideRootNoise: config.wide_root_noise,
-			rootSymmetryPruning: (config.symmetry_pruning) ? true : false,
 		}
 	};
-
-	// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.
-	// So if the engine is earlier than that, strip out fields it hasn't heard of.
-
-	if (!engine.is_gtp) {
-		if (compare_versions(engine.version, [1,9,1]) === -1) {
-			delete o.overrideSettings.rootSymmetryPruning;		// Introduced in 1.9.0 but that's a crashy version anyway, so the 1.9.1 check is fine.
-		}
-	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
