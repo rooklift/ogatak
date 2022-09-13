@@ -517,6 +517,7 @@ translations[`русский`] = {
 		MENU_SHOW_ENGINE_STDERR: `Журнал программы`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist проверка несоответствий`,
 		MENU_RESET_MISMATCH_WARNINGS: `Сброс предупреждений о несоответствии`,
+		MENU_SNAPPY_NODE_SWITCH_HACK: `Быстрое переключение узлов`,
 		MENU_SHOW_CONFIG_FILE: `Показать файл настроек`,
 		MENU_TOGGLE_DEV_TOOLS: `Инструменты разработчика`,
 
@@ -526,7 +527,7 @@ translations[`русский`] = {
 	GUI_RESOLVE_THIS: `Решите это с помощью меню <span class="yellow">«Установить»</span>.`,
 
 	GUI_AWAITING_RESPONSE_1: `Ожидание ответа от программы. При необходимости выберите`,
-	GUI_AWAITING_RESPONSE_2: `<span class="yellow">Разработка --> Журнал программы</span> пункт меню.`,
+	GUI_AWAITING_RESPONSE_2: `пункт меню <span class="yellow">Разработка --> Журнал программы</span>.`,
 
 	INFO_BLACK: `Игрок чёрными`,
 	INFO_BLACK_RANK: `Ранг чёрных`,
