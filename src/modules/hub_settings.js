@@ -142,14 +142,14 @@ module.exports = {
 		case "next_move_markers":
 		case "visit_colours":
 		case "black_pov":
-		case "coordinates":
 
 			this.draw();
 			break;
 
 		case "embiggen_small_boards":
+		case "coordinates":
 
-			board_drawer.width = null;				// Force it to rebuild.
+			board_drawer.width = null;				// Force it to rebuild. (Is this needed?)
 			this.draw();
 			grapher.draw_graph(this.node);
 			comment_drawer.textarea.blur();			// In case it's been pushed offscreen (the rebuild can slightly change the board's width).
