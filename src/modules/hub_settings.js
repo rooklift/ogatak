@@ -151,6 +151,7 @@ module.exports = {
 
 			board_drawer.width = null;				// Force it to rebuild.
 			this.draw();
+			grapher.draw_graph(this.node);
 			comment_drawer.textarea.blur();			// In case it's been pushed offscreen (the rebuild can slightly change the board's width).
 			break;
 
