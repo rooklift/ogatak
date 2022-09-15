@@ -222,7 +222,7 @@ let board_drawer_prototype = {
 
 		// Set sizes of the big elements...
 
-		let adjust = config.coordinates ? 1 : 0;
+		let adjust = this.coordinates ? 1 : 0;
 
 		this.backgrounddiv.style.width = ((this.width + adjust) * this.square_size).toString() + "px";
 		this.backgrounddiv.style.height = ((this.height + adjust) * this.square_size).toString() + "px";
