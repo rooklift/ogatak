@@ -27,6 +27,7 @@ const multichecks = {
 
 const togglechecks = {
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
+	coordinates:			[translate("MENU_DISPLAY"), translate("MENU_COORDINATES")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
 	candidate_moves:		[translate("MENU_DISPLAY"), translate("MENU_CANDIDATE_MOVES")],
 	mouseover_pv:			[translate("MENU_DISPLAY"), translate("MENU_WITH_PV_MOUSEOVER")],
@@ -146,9 +147,11 @@ module.exports = {
 			break;
 
 		case "embiggen_small_boards":
+		case "coordinates":
 
-			board_drawer.width = null;				// Force it to rebuild.
+			board_drawer.width = null;				// Force it to rebuild. (Is this needed?)
 			this.draw();
+			grapher.draw_graph(this.node);
 			comment_drawer.textarea.blur();			// In case it's been pushed offscreen (the rebuild can slightly change the board's width).
 			break;
 
