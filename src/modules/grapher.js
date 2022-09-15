@@ -46,7 +46,7 @@ let grapher_prototype = {
 		this.draw_x_offset = 16;
 		this.draw_y_offset = 10;
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
-		this.drawable_height = Math.max(0, board_drawer.canvas.height - board_drawer.square_size);
+		this.drawable_height = Math.max(0, board_drawer.canvas.height - board_drawer.square_size - this.draw_y_offset);
 	},
 
 	draw_graph: function(node, is_auto_call) {
