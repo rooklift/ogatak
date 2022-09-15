@@ -80,9 +80,7 @@ board_drawer.infodiv.addEventListener("mousedown", (event) => {
 // The mouse leaving the board may require a redraw...
 
 board_drawer.htmltable.addEventListener("mouseleave", (event) => {
-	if (board_drawer.pv) {
-		board_drawer.draw_standard(hub.node);
-	}
+	hub.mouse_entering_point(null);
 });
 
 // Clicking on the graph should go to that position in the game... and dragging should also work...

@@ -1080,7 +1080,7 @@ let hub_main_props = {
 		return null;
 	},
 
-	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj"
+	mouse_entering_point: function(s) {									// Called when mouse has entered some point e.g. "jj" or sometimes null
 
 		this.mouseover_time = performance.now();
 
