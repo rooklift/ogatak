@@ -121,7 +121,7 @@ let board_drawer_prototype = {
 
 		// We may or may not need to remake the table...
 
-		if (this.width !== width || this.height !== height || this.square_size !== desired_square_size) {
+		if (this.width !== width || this.height !== height) {
 
 			// Full rebuild. First we detach event handlers in the table...
 			// This might be rather unnecessary, they should get GC'd anyway.
@@ -170,6 +170,15 @@ let board_drawer_prototype = {
 
 			this.has_handlers = true;
 
+		} else if (this.square_size !== desired_square_size) {
+
+			// Just set the TDs' width and height... while it might be possible not to ever set these,
+			// doing so may help the compositor or whatnot prevent flicker when changing size...
+
+			for (let td of this.htmltable.querySelectorAll("td") {
+				td.width = desired_square_size;
+				td.height = desired_square_size;
+			}
 		}
 
 		// Mark every TD as requiring redrawing...
