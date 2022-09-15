@@ -75,6 +75,7 @@ function init() {
 		square_size: null,
 		board_line_width: null,						// This other stuff is stored so we can detect when they 
 		grid_colour: null,							// don't match config and a rebuild() call is needed.
+		coordinates: null,
 
 		infodiv_displaying_stats: false,			// Becomes true when normal (i.e. non-error) stuff is shown.
 
@@ -94,7 +95,7 @@ let board_drawer_prototype = {
 			throw new Error("rebuild(): needs valid board sizes");
 		}
 
-		let desired_square_size = this.desired_square_size(width, height);
+		let desired_square_size = this.desired_square_size(width, height, config.coordinates);
 
 		// We may or may not need to remake the gridline PNG images that we draw...
 
@@ -121,7 +122,7 @@ let board_drawer_prototype = {
 
 		// We may or may not need to remake the table...
 
-		if (this.width !== width || this.height !== height) {
+		if (this.width !== width || this.height !== height || this.coordinates !== config.coordinates) {
 
 			// Full rebuild. First we detach event handlers in the table...
 			// This might be rather unnecessary, they should get GC'd anyway.
@@ -142,17 +143,24 @@ let board_drawer_prototype = {
 
 			this.htmltable.innerHTML = "";
 
-			for (let y = 0; y < height + 1; y++) {
+			let table_width = config.coordinates ? width + 1 : width;
+			let table_height = config.coordinates ? height + 1 : height;
+
+			for (let y = 0; y < table_height; y++) {
 				let tr = document.createElement("tr");
 				this.htmltable.appendChild(tr);
-				for (let x = 0; x < width + 1; x++) {
+				for (let x = 0; x < table_width; x++) {
 					let td = document.createElement("td");
 					td.width = desired_square_size;
 					td.height = desired_square_size;
-					if (x > 0 && y < height) {
+					if (!config.coordinates) {
+						let s = xy_to_s(x, y);
+						td.className = "td_" + s;
+						td.addEventListener("mouseenter", mouseenter_handlers[x][y]);
+					} else if (x > 0 && y < height) {
 						let s = xy_to_s(x - 1, y);
 						td.className = "td_" + s;
-						td.addEventListener("mouseenter", mouseenter_handlers[x - 1][y]);		// Add "mouseenter" handler to the TD element.
+						td.addEventListener("mouseenter", mouseenter_handlers[x - 1][y]);
 					} else if (x > 0 && y === height) {
 						td.innerHTML = "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x - 1];
 						td.className = "coords";
@@ -178,7 +186,7 @@ let board_drawer_prototype = {
 			// Just set the TDs' width and height... while it might be possible not to ever set these,
 			// doing so may help the compositor or whatnot prevent flicker when changing size...
 
-			for (let td of this.htmltable.querySelectorAll("td")) {
+			for (let td of this.htmltable.getElementsByTagName("td")) {
 				td.width = desired_square_size;
 				td.height = desired_square_size;
 				td.style.font = board_font_chooser.get_big(desired_square_size);
@@ -201,6 +209,7 @@ let board_drawer_prototype = {
 		this.square_size = desired_square_size;
 		this.board_line_width = config.board_line_width;
 		this.grid_colour = config.grid_colour;
+		this.coordinates = config.coordinates;
 
 		// Misc logic...
 
@@ -209,18 +218,20 @@ let board_drawer_prototype = {
 
 		// Set sizes of the big elements...
 
-		this.backgrounddiv.style.width = ((this.width + 1) * this.square_size).toString() + "px";
-		this.backgrounddiv.style.height = ((this.height + 1) * this.square_size).toString() + "px";
+		let adjust = config.coordinates ? 1 : 0;
 
-		this.htmltable.style.width = ((this.width + 1) * this.square_size).toString() + "px";
-		this.htmltable.style.height = ((this.height + 1) * this.square_size).toString() + "px";
+		this.backgrounddiv.style.width = ((this.width + adjust) * this.square_size).toString() + "px";
+		this.backgrounddiv.style.height = ((this.height + adjust) * this.square_size).toString() + "px";
+
+		this.htmltable.style.width = ((this.width + adjust) * this.square_size).toString() + "px";
+		this.htmltable.style.height = ((this.height + adjust) * this.square_size).toString() + "px";
 
 		if (config.embiggen_small_boards) {
-			this.canvas.width = Math.max(this.width + 1, this.height + 1) * this.square_size;
-			this.canvas.height = Math.max(this.width + 1, this.height + 1) * this.square_size;
+			this.canvas.width = Math.max(this.width + adjust, this.height + adjust) * this.square_size;
+			this.canvas.height = Math.max(this.width + adjust, this.height + adjust) * this.square_size;
 		} else {
-			this.canvas.width = Math.max(this.width + 1, this.height + 1, 19 + 1) * this.square_size;
-			this.canvas.height = Math.max(this.width + 1, this.height + 1, 19 + 1) * this.square_size;
+			this.canvas.width = Math.max(this.width + adjust, this.height + adjust, 19 + adjust) * this.square_size;
+			this.canvas.height = Math.max(this.width + adjust, this.height + adjust, 19 + adjust) * this.square_size;
 		}
 
 		this.ownercanvas.width = this.canvas.width;
@@ -230,20 +241,25 @@ let board_drawer_prototype = {
 	rebuild_if_needed: function(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== this.desired_square_size(board.width, board.height) ||
+			this.square_size !== this.desired_square_size(board.width, board.heigh, config.coordinates) ||
 			this.board_line_width !== config.board_line_width ||
-			this.grid_colour !== config.grid_colour
+			this.grid_colour !== config.grid_colour ||
+			this.coordinates !== config.coordinates
 		) {
 			this.rebuild(board.width, board.height);
 		}
 	},
 
-	desired_square_size: function(width, height) {
+	desired_square_size: function(width, height, coordinates) {
+		if (coordinates === undefined) {
+			throw new Error("desired_square_size(): bad call");
+		}
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
+		let adjust = coordinates ? 1 : 0;
 		if (config.embiggen_small_boards) {
-			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1)));
+			return Math.max(10, Math.floor(dy / Math.max(width + adjust, height + adjust)));
 		} else {
-			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1, 19 + 1)));
+			return Math.max(10, Math.floor(dy / Math.max(width + adjust, height + adjust, 19 + adjust)));
 		}
 	},
 
@@ -256,7 +272,7 @@ let board_drawer_prototype = {
 	// set the size of something, relative to the square size...
 
 	fcircle: function(x, y, fraction, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
@@ -267,7 +283,7 @@ let board_drawer_prototype = {
 	},
 
 	circle: function(x, y, line_fraction, fraction, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -279,7 +295,7 @@ let board_drawer_prototype = {
 	},
 
 	fsquare: function(x, y, fraction, colour, ownership_canvas_flag) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = !ownership_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2) - (this.square_size * fraction / 2);
@@ -288,7 +304,7 @@ let board_drawer_prototype = {
 	},
 
 	square: function(x, y, line_fraction, fraction, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -304,7 +320,7 @@ let board_drawer_prototype = {
 	},
 
 	cross: function(x, y, line_fraction, fraction, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -321,7 +337,7 @@ let board_drawer_prototype = {
 	},
 
 	triangle: function(x, y, line_fraction, fraction, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -337,7 +353,7 @@ let board_drawer_prototype = {
 	},
 
 	text: function(x, y, msg, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
@@ -349,7 +365,7 @@ let board_drawer_prototype = {
 	},
 
 	text_two: function(x, y, msg, msg2, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
@@ -363,7 +379,7 @@ let board_drawer_prototype = {
 	},
 
 	text_three: function(x, y, msg, msg2, msg3, colour) {
-		x++;
+		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";

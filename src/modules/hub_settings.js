@@ -141,6 +141,7 @@ module.exports = {
 		case "next_move_markers":
 		case "visit_colours":
 		case "black_pov":
+		case "coordinates":
 
 			this.draw();
 			break;
