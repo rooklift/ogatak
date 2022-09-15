@@ -860,7 +860,7 @@ let hub_main_props = {
 	// Misc........................................................................................
 
 	redraw_if_desired_square_size_mismatch: function() {
-		let desired = board_drawer.desired_square_size(this.node.get_board().width, this.node.get_board().height);
+		let desired = board_drawer.desired_square_size(this.node.get_board().width + 1, this.node.get_board().height + 1);
 		if (board_drawer.square_size !== desired) {
 			this.draw();
 		}
