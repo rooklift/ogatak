@@ -256,10 +256,11 @@ let board_drawer_prototype = {
 		}
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
 		let adjust = coordinates ? 1 : 0;
+		let border = coordinates ? 0 : 8;
 		if (config.embiggen_small_boards) {
-			return Math.max(10, Math.floor(dy / Math.max(width + adjust, height + adjust)));
+			return Math.max(10, Math.floor((dy - border) / Math.max(width + adjust, height + adjust)));
 		} else {
-			return Math.max(10, Math.floor(dy / Math.max(width + adjust, height + adjust, 19 + adjust)));
+			return Math.max(10, Math.floor((dy - border) / Math.max(width + adjust, height + adjust, 19 + adjust)));
 		}
 	},
 
