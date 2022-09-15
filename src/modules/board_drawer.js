@@ -241,7 +241,7 @@ let board_drawer_prototype = {
 	rebuild_if_needed: function(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== this.desired_square_size(board.width, board.heigh, config.coordinates) ||
+			this.square_size !== this.desired_square_size(board.width, board.height, config.coordinates) ||
 			this.board_line_width !== config.board_line_width ||
 			this.grid_colour !== config.grid_colour ||
 			this.coordinates !== config.coordinates
