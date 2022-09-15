@@ -79,6 +79,8 @@ function init() {
 
 		infodiv_displaying_stats: false,			// Becomes true when normal (i.e. non-error) stuff is shown.
 
+		rebuild_count: 0,							// For debugging.
+
 	});
 
 	ret.set_infodiv_font_size(config.info_font_size);
@@ -88,6 +90,8 @@ function init() {
 let board_drawer_prototype = {
 
 	rebuild: function(width, height) {
+
+		this.rebuild_count++;
 
 		// Reset or rebuild various things... REMEMBER though that this isn't even called unless certain conditions are met.
 
