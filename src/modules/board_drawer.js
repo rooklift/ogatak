@@ -94,7 +94,7 @@ let board_drawer_prototype = {
 			throw new Error("rebuild(): needs valid board sizes");
 		}
 
-		let desired_square_size = this.desired_square_size(width + 1, height + 1);
+		let desired_square_size = this.desired_square_size(width, height);
 
 		// We may or may not need to remake the gridline PNG images that we draw...
 
@@ -217,7 +217,7 @@ let board_drawer_prototype = {
 	rebuild_if_needed: function(board) {
 		if (this.width !== board.width ||
 			this.height !== board.height ||
-			this.square_size !== this.desired_square_size(board.width + 1, board.height + 1) ||
+			this.square_size !== this.desired_square_size(board.width, board.height) ||
 			this.board_line_width !== config.board_line_width ||
 			this.grid_colour !== config.grid_colour
 		) {
@@ -228,9 +228,9 @@ let board_drawer_prototype = {
 	desired_square_size: function(width, height) {
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
 		if (config.embiggen_small_boards) {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height)));
+			return Math.max(10, Math.floor((dy - 8) / Math.max(width + 1, height + 1)));
 		} else {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19 + 1)));
+			return Math.max(10, Math.floor((dy - 8) / Math.max(width + 1, height + 1, 19 + 1)));
 		}
 	},
 
