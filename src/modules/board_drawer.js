@@ -241,9 +241,9 @@ let board_drawer_prototype = {
 	desired_square_size: function(width, height) {
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
 		if (config.embiggen_small_boards) {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width + 1, height + 1)));
+			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1)));
 		} else {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width + 1, height + 1, 19 + 1)));
+			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1, 19 + 1)));
 		}
 	},
 
