@@ -121,7 +121,7 @@ translations[`English`] = {
 			MENU_GRAPH_WINRATE: `Winrate`,
 			MENU_GRAPH_SCORE: `Score`,
 		MENU_COORDINATES: `Coordinates`,
-		MENU_BLACK_POV_ALWAYS: `Black POV always`,
+		MENU_BLACK_POV_ALWAYS: `Black score always`,
 		MENU_CANDIDATE_MOVES: `Candidate moves`,
 		MENU_WITH_PV_MOUSEOVER: `...with PV mouseover`,
 		MENU_FADE_BY_VISITS: `...fade by visits`,
