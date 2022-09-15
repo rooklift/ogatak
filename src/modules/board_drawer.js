@@ -153,10 +153,12 @@ let board_drawer_prototype = {
 					} else if (x > 0 && y === height) {
 						td.innerHTML = "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x - 1];
 						td.className = "coords";
+						td.style.font = board_font_chooser.get_big(desired_square_size);
 						td.addEventListener("mouseenter", coord_enter_handler);
 					} else if (x === 0 && y < height) {
 						td.innerHTML = (height - y).toString();
 						td.className = "coords";
+						td.style.font = board_font_chooser.get_big(desired_square_size);
 						td.addEventListener("mouseenter", coord_enter_handler);
 					} else {
 						td.className = "coords";
