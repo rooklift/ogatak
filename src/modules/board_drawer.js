@@ -170,7 +170,7 @@ let board_drawer_prototype = {
 
 			this.has_handlers = true;
 
-		} else if (this.square_size !== desired_square_size) {
+		} else if (this.square_size !== desired_square_size)) {
 
 			// Just set the TDs' width and height... while it might be possible not to ever set these,
 			// doing so may help the compositor or whatnot prevent flicker when changing size...
