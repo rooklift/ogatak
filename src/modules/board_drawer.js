@@ -133,6 +133,9 @@ let board_drawer_prototype = {
 						td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
 					}
 				}
+				for (let td of this.htmltable.getElementsByClassName("coords")) {
+					td.removeEventListener("mouseenter", coord_enter_handler);
+				}
 			}
 
 			// Now remake...
