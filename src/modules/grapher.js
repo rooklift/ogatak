@@ -44,7 +44,7 @@ let grapher_prototype = {
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
 
 		this.draw_x_offset = 16;
-		this.draw_y_offset = board_drawer.square_size / 2;
+		this.draw_y_offset = Math.floor(board_drawer.square_size / 2);
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.coordinates ? board_drawer.square_size : 0) - (this.draw_y_offset * 2));
 	},
