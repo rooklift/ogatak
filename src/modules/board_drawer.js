@@ -35,6 +35,10 @@ for (let x = 0; x < 19; x++) {				// Create the event handlers for all usable va
 	}
 }
 
+let coord_enter_handler = () => {
+	hub.mouse_entering_point(null);
+};
+
 // ------------------------------------------------------------------------------------------------
 
 const black_stone = new Image();	black_stone.src = "./gfx/black_stone.png";		const black_stone_url = `url("${black_stone.src}")`;
@@ -129,22 +133,40 @@ let board_drawer_prototype = {
 						td.removeEventListener("mouseenter", mouseenter_handlers[x][y]);
 					}
 				}
+				for (let td of this.htmltable.getElementsByClassName("coords")) {
+					td.removeEventListener("mouseenter", coord_enter_handler);
+				}
 			}
 
 			// Now remake...
 
 			this.htmltable.innerHTML = "";
 
-			for (let y = 0; y < height; y++) {
+			for (let y = 0; y < height + 1; y++) {
 				let tr = document.createElement("tr");
 				this.htmltable.appendChild(tr);
-				for (let x = 0; x < width; x++) {
+				for (let x = 0; x < width + 1; x++) {
 					let td = document.createElement("td");
-					let s = xy_to_s(x, y);
-					td.className = "td_" + s;
 					td.width = desired_square_size;
 					td.height = desired_square_size;
-					td.addEventListener("mouseenter", mouseenter_handlers[x][y]);		// Add "mouseenter" handler to the TD element.
+					if (x > 0 && y < height) {
+						let s = xy_to_s(x - 1, y);
+						td.className = "td_" + s;
+						td.addEventListener("mouseenter", mouseenter_handlers[x - 1][y]);		// Add "mouseenter" handler to the TD element.
+					} else if (x > 0 && y === height) {
+						td.innerHTML = "ABCDEFGHJKLMNOPQRSTUVWXYZ"[x - 1];
+						td.className = "coords";
+						td.style.font = board_font_chooser.get_big(desired_square_size);
+						td.addEventListener("mouseenter", coord_enter_handler);
+					} else if (x === 0 && y < height) {
+						td.innerHTML = (height - y).toString();
+						td.className = "coords";
+						td.style.font = board_font_chooser.get_big(desired_square_size);
+						td.addEventListener("mouseenter", coord_enter_handler);
+					} else {
+						td.className = "coords";
+						td.addEventListener("mouseenter", coord_enter_handler);
+					}
 					tr.appendChild(td);
 				}
 			}
@@ -156,12 +178,10 @@ let board_drawer_prototype = {
 			// Just set the TDs' width and height... while it might be possible not to ever set these,
 			// doing so may help the compositor or whatnot prevent flicker when changing size...
 
-			for (let x = 0; x < width; x++) {
-				for (let y = 0; y < height; y++) {
-					let td = this.htmltable.getElementsByClassName("td_" + xy_to_s(x, y))[0];
-					td.width = desired_square_size;
-					td.height = desired_square_size;
-				}
+			for (let td of this.htmltable.querySelectorAll("td")) {
+				td.width = desired_square_size;
+				td.height = desired_square_size;
+				td.style.font = board_font_chooser.get_big(desired_square_size);
 			}
 		}
 
@@ -189,18 +209,18 @@ let board_drawer_prototype = {
 
 		// Set sizes of the big elements...
 
-		this.backgrounddiv.style.width = (this.width * this.square_size).toString() + "px";
-		this.backgrounddiv.style.height = (this.height * this.square_size).toString() + "px";
+		this.backgrounddiv.style.width = ((this.width + 1) * this.square_size).toString() + "px";
+		this.backgrounddiv.style.height = ((this.height + 1) * this.square_size).toString() + "px";
 
-		this.htmltable.style.width = (this.width * this.square_size).toString() + "px";
-		this.htmltable.style.height = (this.height * this.square_size).toString() + "px";
+		this.htmltable.style.width = ((this.width + 1) * this.square_size).toString() + "px";
+		this.htmltable.style.height = ((this.height + 1) * this.square_size).toString() + "px";
 
 		if (config.embiggen_small_boards) {
-			this.canvas.width = Math.max(this.width, this.height) * this.square_size;
-			this.canvas.height = Math.max(this.width, this.height) * this.square_size;
+			this.canvas.width = Math.max(this.width + 1, this.height + 1) * this.square_size;
+			this.canvas.height = Math.max(this.width + 1, this.height + 1) * this.square_size;
 		} else {
-			this.canvas.width = Math.max(this.width, this.height, 19) * this.square_size;
-			this.canvas.height = Math.max(this.width, this.height, 19) * this.square_size;
+			this.canvas.width = Math.max(this.width + 1, this.height + 1, 19 + 1) * this.square_size;
+			this.canvas.height = Math.max(this.width + 1, this.height + 1, 19 + 1) * this.square_size;
 		}
 
 		this.ownercanvas.width = this.canvas.width;
@@ -221,9 +241,9 @@ let board_drawer_prototype = {
 	desired_square_size: function(width, height) {
 		let dy = window.innerHeight - this.canvas.getBoundingClientRect().top;
 		if (config.embiggen_small_boards) {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height)));
+			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1)));
 		} else {
-			return Math.max(10, Math.floor((dy - 8) / Math.max(width, height, 19)));
+			return Math.max(10, Math.floor(dy / Math.max(width + 1, height + 1, 19 + 1)));
 		}
 	},
 
@@ -236,6 +256,7 @@ let board_drawer_prototype = {
 	// set the size of something, relative to the square size...
 
 	fcircle: function(x, y, fraction, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
@@ -246,6 +267,7 @@ let board_drawer_prototype = {
 	},
 
 	circle: function(x, y, line_fraction, fraction, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -257,6 +279,7 @@ let board_drawer_prototype = {
 	},
 
 	fsquare: function(x, y, fraction, colour, ownership_canvas_flag) {
+		x++;
 		let ctx = !ownership_canvas_flag ? this.ctx : this.ownerctx;
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2) - (this.square_size * fraction / 2);
@@ -265,6 +288,7 @@ let board_drawer_prototype = {
 	},
 
 	square: function(x, y, line_fraction, fraction, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -280,6 +304,7 @@ let board_drawer_prototype = {
 	},
 
 	cross: function(x, y, line_fraction, fraction, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -296,6 +321,7 @@ let board_drawer_prototype = {
 	},
 
 	triangle: function(x, y, line_fraction, fraction, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.lineWidth = line_fraction * this.square_size;
 		ctx.strokeStyle = colour;
@@ -311,6 +337,7 @@ let board_drawer_prototype = {
 	},
 
 	text: function(x, y, msg, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
@@ -322,6 +349,7 @@ let board_drawer_prototype = {
 	},
 
 	text_two: function(x, y, msg, msg2, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
@@ -335,6 +363,7 @@ let board_drawer_prototype = {
 	},
 
 	text_three: function(x, y, msg, msg2, msg3, colour) {
+		x++;
 		let ctx = this.ctx;
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";

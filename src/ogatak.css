@@ -261,6 +261,12 @@ td {
 	padding: 0;
 }
 
+.coords {
+	background-color: #080808ff;
+	text-align: center;
+	color: #d0ad75ff;
+}
+
 .white {
 	color: #ffffffff;
 }
