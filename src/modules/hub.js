@@ -1106,14 +1106,17 @@ let hub_main_props = {
 
 			if (this.pending_mouseover_fn_id) {							// Cancel any such timeout already pending.
 				clearTimeout(this.pending_mouseover_fn_id);
+				this.pending_mouseover_fn_id = null;
 			}
 
-			this.pending_mouseover_fn_id = setTimeout(() => {
-				this.pending_mouseover_fn_id = null;
-				if (this.mouse_point() === s && !board_drawer.pv) {
-					board_drawer.draw_pv(this.node, s);					// Might fail / refuse. We don't care.
-				}
-			}, config.mouseover_delay * 1000);
+			if (s) {
+				this.pending_mouseover_fn_id = setTimeout(() => {
+					this.pending_mouseover_fn_id = null;
+					if (this.mouse_point() === s && !board_drawer.pv) {
+						board_drawer.draw_pv(this.node, s);				// Might fail / refuse. We don't care.
+					}
+				}, config.mouseover_delay * 1000);
+			}
 		}
 	},
 
