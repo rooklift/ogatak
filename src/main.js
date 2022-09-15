@@ -1701,6 +1701,14 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: translate("MENU_COORDINATES"),
+					type: "checkbox",
+					checked: config.coordinates,
+					click: () => {
+						win.webContents.send("toggle", "coordinates");
+					}
+				},
+				{
 					label: translate("MENU_BLACK_POV_ALWAYS"),
 					type: "checkbox",
 					checked: config.black_pov,

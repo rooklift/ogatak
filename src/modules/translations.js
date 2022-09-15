@@ -120,6 +120,7 @@ translations[`English`] = {
 		MENU_GRAPH: `Graph`,
 			MENU_GRAPH_WINRATE: `Winrate`,
 			MENU_GRAPH_SCORE: `Score`,
+		MENU_COORDINATES: `Coordinates`,
 		MENU_BLACK_POV_ALWAYS: `Black POV always`,
 		MENU_CANDIDATE_MOVES: `Candidate moves`,
 		MENU_WITH_PV_MOUSEOVER: `...with PV mouseover`,
