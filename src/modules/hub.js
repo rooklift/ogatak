@@ -863,6 +863,7 @@ let hub_main_props = {
 		let desired = board_drawer.desired_square_size(this.node.get_board().width, this.node.get_board().height, config.coordinates);
 		if (board_drawer.square_size !== desired) {
 			this.draw();
+			grapher.draw_graph(this.node);
 		}
 	},
 
