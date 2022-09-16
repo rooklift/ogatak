@@ -37,17 +37,25 @@ let grapher_prototype = {
 	reset_grapher: function(ieml) {
 
 		this.is_entirely_main_line = ieml;
+		
+		// X stuff
 
 		this.canvas.width = this.positioncanvas.width = config.graph_width;
-		this.canvas.height = this.positioncanvas.height = board_drawer.canvas.height + 48;
-
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
-		let square_size = board_drawer.square_size || 16;	// In case we somehow call this before the first board draw, which should be impossible.
-
 		this.draw_x_offset = 16;
-		this.draw_y_offset = Math.floor(square_size / 2);
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
-		this.drawable_height = Math.max(0, board_drawer.canvas.height - (config.coordinates ? square_size : 0) - (this.draw_y_offset * 2));
+
+		// Y stuff
+
+		this.canvas.height = this.positioncanvas.height = board_drawer.canvas.height + 48;
+		let square_size = board_drawer.square_size || 16;	// In case we somehow call this before the first board draw, which should be impossible.
+		this.draw_y_offset = Math.floor(square_size / 2);
+
+		if (config.coordinates) {
+			this.drawable_height = Math.max(0, board_drawer.canvas.height - Math.floor(square_size * 1.5));
+		} else {
+			this.drawable_height = Math.max(0, board_drawer.canvas.height - (this.draw_y_offset * 2));
+		}
 	},
 
 	draw_graph: function(node, is_auto_call) {
