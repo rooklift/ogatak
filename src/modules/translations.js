@@ -696,7 +696,7 @@ translations[`繁體中文`] = {
 		MENU_SHOW_ENGINE_STDERR: `顯示引擎標準錯誤輸出`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `檢查 Zobrist 哈希值是否和 KataGo 一致`,
 		MENU_RESET_MISMATCH_WARNINGS: `重置檢查警告`,
-		MENU_SNAPPY_NODE_SWITCH_HACK: `靈巧的節點切換技巧`,
+		MENU_SNAPPY_NODE_SWITCH_HACK: `快速的訊息交換技巧`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
