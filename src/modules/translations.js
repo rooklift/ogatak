@@ -312,6 +312,7 @@ translations[`Français`] = {
 		MENU_GRAPH: `Graphique`,
 			MENU_GRAPH_WINRATE: `Prognostic`,
 			MENU_GRAPH_SCORE: `Score`,
+		MENU_COORDINATES: `Coordonnés`,
 		MENU_BLACK_POV_ALWAYS: `Du côté noir, toujours`,
 		MENU_CANDIDATE_MOVES: `Coups recommandés`,
 		MENU_WITH_PV_MOUSEOVER: `...avec le survol de la souris`,
