@@ -658,11 +658,12 @@ translations[`繁體中文`] = {
 		MENU_GRAPH: `分析圖`,
 			MENU_GRAPH_WINRATE: `勝率`,
 			MENU_GRAPH_SCORE: `領先目數`,
+		MENU_COORDINATES: `顯示座標`,
 		MENU_BLACK_POV_ALWAYS: `總是顯示黑棋觀點`,
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
 		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
 		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
-		MENU_MOUSEOVER_DELAY: `主變化懸停延遲`,
+		MENU_MOUSEOVER_DELAY: `主變化懸停延遲（秒）`,
 		MENU_NEXT_MOVE_MARKERS: `標示下一手`,
 		MENU_COLOURS: `顏色配置`,
 
@@ -676,7 +677,7 @@ translations[`繁體中文`] = {
 		MENU_BOARD_LINES: `棋盤線條`,
 		MENU_THUMBNAIL_SQUARES: `棋盤縮圖`,
 		MENU_TREE_SPACING: `遊戲樹`,
-		MENU_COMMENT_BOX: `評論區塊`,
+		MENU_COMMENT_BOX: `評論區`,
 
 	MENU_MISC: `其它`,
 
@@ -685,8 +686,8 @@ translations[`繁體中文`] = {
 		MENU_ENGINE_PLAYS_WHITE: `引擎執白`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以 Tygem 風格佈置讓三子棋`,
-		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `圖形界面使用硬體加速`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬體加速圖形界面`,
 
 	MENU_DEV: `開發人員選項`,
 
@@ -695,6 +696,7 @@ translations[`繁體中文`] = {
 		MENU_SHOW_ENGINE_STDERR: `顯示引擎標準錯誤輸出`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `檢查 Zobrist 哈希值是否和 KataGo 一致`,
 		MENU_RESET_MISMATCH_WARNINGS: `重置檢查警告`,
+		MENU_SNAPPY_NODE_SWITCH_HACK: `靈巧的節點切換技巧`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
@@ -705,6 +707,10 @@ translations[`繁體中文`] = {
 
 	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請按`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">開發人員選項 --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
+
+
+	GUI_AWAITING_GTP_RESPONSE_1: `正在等待 GTP 引擎回覆...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `提示：目前 GTP 界面只是實驗性功能，因此並不推薦使用`,
 
 	INFO_BLACK: `黑方名稱`,
 	INFO_BLACK_RANK: `黑方等級`,
