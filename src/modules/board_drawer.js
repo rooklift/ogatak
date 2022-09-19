@@ -193,7 +193,10 @@ let board_drawer_prototype = {
 			for (let td of this.htmltable.getElementsByTagName("td")) {
 				td.width = desired_square_size;
 				td.height = desired_square_size;
-				td.style.font = board_font_chooser.get_big(desired_square_size);		// Only relevant for the coords.
+			}
+
+			for (let td of this.htmltable.getElementsByClassName("coords")) {			// Possibly an empty array.
+				td.style.font = board_font_chooser.get_big(desired_square_size);
 			}
 		}
 
