@@ -26,7 +26,7 @@ function new_board(
 	ret.active = active;
 	ret.caps_by_b = caps_by_b;
 	ret.caps_by_w = caps_by_w;
-	ret.b_stones = b_stones;
+	ret.b_stones = b_stones;				// We could just count these as needed. Maybe this is bad optimisation...
 	ret.w_stones = w_stones;
 
 	for (let x = 0; x < width; x++) {
