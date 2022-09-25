@@ -1712,25 +1712,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: translate("MENU_COORDINATES"),
-					type: "checkbox",
-					checked: config.coordinates,
-					click: () => {
-						win.webContents.send("toggle", "coordinates");
-					}
-				},
-				{
-					label: translate("MENU_STONE_COUNTS"),
-					type: "checkbox",
-					checked: config.stone_counts,
-					click: () => {
-						win.webContents.send("toggle", "stone_counts");
-					}
-				},
-				{
-					type: "separator",
-				},
-				{
 					label: translate("MENU_CANDIDATE_MOVES"),
 					type: "checkbox",
 					checked: config.candidate_moves,
@@ -1810,6 +1791,25 @@ function menu_build() {
 					checked: config.next_move_markers,
 					click: () => {
 						win.webContents.send("toggle", "next_move_markers");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: translate("MENU_COORDINATES"),
+					type: "checkbox",
+					checked: config.coordinates,
+					click: () => {
+						win.webContents.send("toggle", "coordinates");
+					}
+				},
+				{
+					label: translate("MENU_STONE_COUNTS"),
+					type: "checkbox",
+					checked: config.stone_counts,
+					click: () => {
+						win.webContents.send("toggle", "stone_counts");
 					}
 				},
 				{
