@@ -1717,6 +1717,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_SHOW_STONE_COUNTS"),
+					type: "checkbox",
+					checked: config.stone_counts,
+					click: () => {
+						win.webContents.send("toggle", "stone_counts");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
@@ -2387,14 +2395,6 @@ function menu_build() {
 					checked: config.tygem_3,
 					click: () => {
 						win.webContents.send("toggle", "tygem_3");
-					}
-				},
-				{
-					label: translate("MENU_SHOW_STONE_COUNTS"),
-					type: "checkbox",
-					checked: config.stone_counts,
-					click: () => {
-						win.webContents.send("toggle", "stone_counts");
 					}
 				},
 				{
