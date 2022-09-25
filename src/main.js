@@ -1701,14 +1701,6 @@ function menu_build() {
 					type: "separator",
 				},
 				{
-					label: translate("MENU_COORDINATES"),
-					type: "checkbox",
-					checked: config.coordinates,
-					click: () => {
-						win.webContents.send("toggle", "coordinates");
-					}
-				},
-				{
 					label: translate("MENU_BLACK_POV_ALWAYS"),
 					type: "checkbox",
 					checked: config.black_pov,
@@ -1717,7 +1709,18 @@ function menu_build() {
 					}
 				},
 				{
-					label: translate("MENU_SHOW_STONE_COUNTS"),
+					type: "separator",
+				},
+				{
+					label: translate("MENU_COORDINATES"),
+					type: "checkbox",
+					checked: config.coordinates,
+					click: () => {
+						win.webContents.send("toggle", "coordinates");
+					}
+				},
+				{
+					label: translate("MENU_STONE_COUNTS"),
 					type: "checkbox",
 					checked: config.stone_counts,
 					click: () => {
