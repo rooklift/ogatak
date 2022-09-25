@@ -1056,7 +1056,7 @@ let board_drawer_prototype = {
 		let bw_string = (board.active === "b") ? `[<span class="white">B</span>|W]` : `[B|<span class="white">W</span>]`;
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
-			let stone_counts = `${board.b_stones} : ${board.w_stones}`;
+			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
 			s2 += `<span class="boardinfo_stone_counts">stn: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;

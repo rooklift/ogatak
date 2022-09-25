@@ -12,7 +12,7 @@ const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
 function new_board(
-	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0, b_stones = 0, w_stones = 0) {
+	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -26,8 +26,8 @@ function new_board(
 	ret.active = active;
 	ret.caps_by_b = caps_by_b;
 	ret.caps_by_w = caps_by_w;
-	ret.b_stones = b_stones;				// We could just count these as needed. Maybe this is bad optimisation...
-	ret.w_stones = w_stones;
+	ret.stones_b = stones_b;				// We could just count these as needed. Maybe this is bad optimisation...
+	ret.stones_w = stones_w;
 
 	for (let x = 0; x < width; x++) {
 		ret.state.push([]);
@@ -52,7 +52,7 @@ let board_prototype = {
 	copy: function() {
 		return new_board(
 			this.width, this.height, this.state, this.pos_hash, this.ko, this.komi, this.rules,
-			this.active, this.caps_by_b, this.caps_by_w, this.b_stones, this.w_stones
+			this.active, this.caps_by_b, this.caps_by_w, this.stones_b, this.stones_w
 		);
 	},
 
@@ -119,12 +119,12 @@ let board_prototype = {
 			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.black_stones[i];
 			}
-			this.b_stones--;
+			this.stones_b--;
 		} else if (this.state[x][y] === "w") {
 			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.white_stones[i];
 			}
-			this.w_stones--;
+			this.stones_w--;
 		}
 
 		// If we're adding a stone, xor in the new thing...
@@ -133,12 +133,12 @@ let board_prototype = {
 			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.black_stones[i];
 			}
-			this.b_stones++;
+			this.stones_b++;
 		} else if (colour === "w") {
 			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.white_stones[i];
 			}
-			this.w_stones++;
+			this.stones_w++;
 		}
 
 		this.state[x][y] = colour;
