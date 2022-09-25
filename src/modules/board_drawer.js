@@ -1057,7 +1057,7 @@ let board_drawer_prototype = {
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
 			let stone_counts = `${board.b_stones} : ${board.w_stones}`;
-			s2 += `<span class="boardinfo_stone_counts">sto: <span class="white">${pad(stone_counts, 11)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">stn: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
 			s2 += `<span class="boardinfo_stone_counts">+caps: <span class="white">${pad(capstring, 9)}</span></span>`;
