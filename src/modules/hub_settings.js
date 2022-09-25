@@ -37,6 +37,7 @@ const togglechecks = {
 	load_at_end:			[translate("MENU_MISC"), translate("MENU_LOAD_GAMES_AT_FINAL_POSITION")],
 	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
+	stone_counts:			[translate("MENU_MISC"), translate("MENU_SHOW_STONE_COUNTS")],
 	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],
 	zobrist_checks:			[translate("MENU_DEV"), translate("MENU_ZOBRIST_MISMATCH_CHECKS")],
 	snappy_node_switch_hack:[translate("MENU_DEV"), translate("MENU_SNAPPY_NODE_SWITCH_HACK")],
@@ -137,6 +138,7 @@ module.exports = {
 		case "previous_marker":
 		case "candidate_moves":
 		case "numbers":
+		case "stone_counts":
 		case "visits_threshold":
 		case "mouseover_pv":
 		case "next_move_markers":

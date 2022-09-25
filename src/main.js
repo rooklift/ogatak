@@ -2390,6 +2390,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_SHOW_STONE_COUNTS"),
+					type: "checkbox",
+					checked: config.stone_counts,
+					click: () => {
+						win.webContents.send("toggle", "stone_counts");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

@@ -12,7 +12,7 @@ const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
 function new_board(
-	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0) {
+	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0, b_stones = 0, w_stones = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -26,6 +26,8 @@ function new_board(
 	ret.active = active;
 	ret.caps_by_b = caps_by_b;
 	ret.caps_by_w = caps_by_w;
+	ret.b_stones = b_stones;
+	ret.w_stones = w_stones;
 
 	for (let x = 0; x < width; x++) {
 		ret.state.push([]);
@@ -48,7 +50,10 @@ function new_board(
 let board_prototype = {
 
 	copy: function() {
-		return new_board(this.width, this.height, this.state, this.pos_hash, this.ko, this.komi, this.rules, this.active, this.caps_by_b, this.caps_by_w);
+		return new_board(
+			this.width, this.height, this.state, this.pos_hash, this.ko, this.komi, this.rules,
+			this.active, this.caps_by_b, this.caps_by_w, this.b_stones, this.w_stones
+		);
 	},
 
 	has_valid_ko: function() {
@@ -96,7 +101,8 @@ let board_prototype = {
 	set_at: function(s, colour) {
 
 		// Converts the point to [x][y] and sets the state there, colour should be "" or "b" or "w".
-		// Adjusts the zobrist if we have one. So nothing else should ever set .state.
+		// Adjusts the zobrist if we have one. Also adjusts our stone counts.
+		// So **nothing else** should ever set .state.
 
 		if (!this.in_bounds(s)) {
 			return;
@@ -105,25 +111,34 @@ let board_prototype = {
 		let x = s.charCodeAt(0) - 97;
 		let y = s.charCodeAt(1) - 97;
 
-		if (this.pos_hash !== null) {			// It's null if the size is not supported.
+		let i = (y + 1) * (this.width + 1) + x + 1;
 
-			let i = (y + 1) * (this.width + 1) + x + 1;
+		// If we're overwriting a stone, xor out the old thing...
 
-			// If we're overwriting a stone, xor out the old thing...
-
-			if (this.state[x][y] === "b") {
+		if (this.state[x][y] === "b") {
+			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.black_stones[i];
-			} else if (this.state[x][y] === "w") {
+			}
+			this.b_stones--;
+		} else if (this.state[x][y] === "w") {
+			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.white_stones[i];
 			}
+			this.w_stones--;
+		}
 
-			// If we're adding a stone, xor in the new thing...
+		// If we're adding a stone, xor in the new thing...
 
-			if (colour === "b") {
+		if (colour === "b") {
+			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.black_stones[i];
-			} else if (colour === "w") {
+			}
+			this.b_stones++;
+		} else if (colour === "w") {
+			if (this.pos_hash !== null) {
 				this.pos_hash ^= zobrist.white_stones[i];
 			}
+			this.w_stones++;
 		}
 
 		this.state[x][y] = colour;
@@ -486,8 +501,7 @@ let board_prototype = {
 			for (let y = 0; y < this.height; y++) {
 				if (this.state[x][y] === "b") {
 					ret.push(["B", this.gtp_from_xy(x, y)]);
-				}
-				if (this.state[x][y] === "w") {
+				} else if (this.state[x][y] === "w") {
 					ret.push(["W", this.gtp_from_xy(x, y)]);
 				}
 			}

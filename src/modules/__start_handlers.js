@@ -74,6 +74,8 @@ board_drawer.infodiv.addEventListener("mousedown", (event) => {
 		hub.cycle_mode(event.which !== 1);
 	} else if (s === "active") {
 		hub.toggle_active_player();
+	} else if (s === "stone_counts") {
+		hub.set("stone_counts", !config.stone_counts);
 	}
 });
 

@@ -149,6 +149,7 @@ translations[`English`] = {
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_SHOW_STONE_COUNTS: `Show stone counts`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Enable hardware acceleration for GUI`,
 
 	MENU_DEV: `Dev`,
