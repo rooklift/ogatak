@@ -101,6 +101,7 @@ exports.defaults = {
 	"tygem_3": false,
 	"load_at_end": true,
 	"guess_ruleset": false,
+	"stone_counts": false,
 	"autoanalysis_visits": 500,
 	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "Unknown".
 	"default_komi": 7.5,						// Used for game on startup, but otherwise unknown komi is inferred as zero.
