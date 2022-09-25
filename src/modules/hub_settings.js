@@ -29,6 +29,7 @@ const togglechecks = {
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
 	coordinates:			[translate("MENU_DISPLAY"), translate("MENU_COORDINATES")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
+	stone_counts:			[translate("MENU_DISPLAY"), translate("MENU_STONE_COUNTS")],
 	candidate_moves:		[translate("MENU_DISPLAY"), translate("MENU_CANDIDATE_MOVES")],
 	mouseover_pv:			[translate("MENU_DISPLAY"), translate("MENU_WITH_PV_MOUSEOVER")],
 	visit_colours:			[translate("MENU_DISPLAY"), translate("MENU_FADE_BY_VISITS")],
@@ -137,6 +138,7 @@ module.exports = {
 		case "previous_marker":
 		case "candidate_moves":
 		case "numbers":
+		case "stone_counts":
 		case "visits_threshold":
 		case "mouseover_pv":
 		case "next_move_markers":
