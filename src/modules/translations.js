@@ -664,6 +664,7 @@ translations[`繁體中文`] = {
 			MENU_GRAPH_WINRATE: `勝率`,
 			MENU_GRAPH_SCORE: `領先目數`,
 		MENU_COORDINATES: `顯示座標`,
+		MENU_STONE_COUNTS: `顯示棋子數`,
 		MENU_BLACK_POV_ALWAYS: `總是顯示黑棋觀點`,
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
 		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
@@ -730,9 +731,12 @@ translations[`繁體中文`] = {
 
 	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
 
-	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於:`,
-	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於:`,
-	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎):`,
+	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於：`,
+    ABOUT_GTP_COMMAND: `GTP 引擎和參數為：`,
+	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於：`,
+	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎)：`,
+    ABOUT_THANKS_TRANSLATORS: `感謝下列翻譯者：`,
+
 
 	BAD_CONFIG_1: `config.json 不能被解析`,
 	BAD_CONFIG_2: `直到你修復問題前都不會被保存`,
