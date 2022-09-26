@@ -75,7 +75,6 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
-        let not_norm_scores = [];                                           // From Black's POV (-Inf...Inf) or null
 		let scores = [];													// From Black's POV (-Inf...Inf, but rescaled later to 0..1) or null
 		let winrates = [];													// From Black's POV (0..1) or null
 
@@ -89,7 +88,6 @@ let grapher_prototype = {
 				if (-score > abs_score_max) abs_score_max = -score;
 			}
 			scores.push(score);
-            not_norm_scores.push(score);
 
 			let winrate = h_node.stored_winrate();							// Possibly null
 			winrates.push(winrate);
@@ -118,7 +116,7 @@ let grapher_prototype = {
 			this.__draw_tracker(node, scores, config.major_graph_linewidth, major_colour);
 		}
 
-		this.draw_position(node, config.graph_type, winrates, not_norm_scores, true);
+		this.draw_position(node, true);
 
 	},
 
@@ -228,7 +226,7 @@ let grapher_prototype = {
 
 	},
 
-	draw_position: function(node, graph_type = null, winrates = null, scores = null , skip_blanking = false) {
+	draw_position: function(node, skip_blanking = false) {
 
 		let ctx = this.posctx;
 
@@ -270,29 +268,49 @@ let grapher_prototype = {
 
 		// Move number and analysis value...
 
-        let analysis_str = '';
-        let target = null;
+		function fetch_analysis_str(curr_node, graph_type) {
+			let analysis_str = "";
+			if (graph_type === 1) {
+				let val = curr_node.stored_winrate();
+				if (typeof val === "number") {
+					analysis_str = `(${(val * 100).toFixed(1)}%) `;
+				}
+			} else if (graph_type === 2) {
+				let val = curr_node.stored_score();
+				if (typeof val === "number") {
+					let s = val.toFixed(1);
+					if (!s.startsWith("-")) {
+						s = "+" + s;
+					}
+					analysis_str = "(" + s + ") ";
+				}
+			}
+			return analysis_str;
+		}
 
-        if (graph_type !== null) {
-            if (graph_type === 1) {
-                target = winrates;
-            } else if (graph_type === 2) {
-                target = scores;
-            }
-        }
+		let analysis_str = fetch_analysis_str(node, config.graph_type);
+		let fetched = analysis_str.length !== 0;
 
-        if (target !== null) {
-            let val = target[node.depth];
-            if (typeof val === "number") {
-                if (graph_type === 1) {
-                    val = Math.round(10000 * val) / 100;
-                    analysis_str = '(W:' + val.toString() + '%) ';
-                } else if (graph_type === 2) {
-                    val = Math.round(10 * val) / 10;
-                    analysis_str = '(S:' + val.toString() + ') ';
-                }
-            }
-        }
+		// There are analysis values in the child node in the back analysis mode.
+		let should_move_next = hub.__backanalysis; 
+		let skipped = 0;
+
+		let curr_node = node.parent;
+		if (should_move_next && node.children.length !== 0) {
+			curr_node = node.children[0];
+		}
+
+		while (!fetched && curr_node && skipped <= 2) {
+			analysis_str = fetch_analysis_str(curr_node, config.graph_type);
+			fetched = analysis_str.length !== 0;
+
+			if (should_move_next && node.children.length !== 0) {
+				curr_node = node.children[0];
+			} else {
+				curr_node = curr_node.parent;
+			}
+			skipped += 1;
+		}
 
 		ctx.fillStyle = "#ffffffff";
 		ctx.textAlign = "right";
