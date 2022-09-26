@@ -484,6 +484,7 @@ translations[`русский`] = {
 			MENU_GRAPH_WINRATE: `Шанс победы`,
 			MENU_GRAPH_SCORE: `Счёт`,
 		MENU_COORDINATES: `Координаты`,
+		MENU_STONE_COUNTS: `Количество камней`,
 		MENU_BLACK_POV_ALWAYS: `Всегда за чёрных`,
 		MENU_CANDIDATE_MOVES: `Предложение хода`,
 		MENU_WITH_PV_MOUSEOVER: `...ветвь при наведении курсора`,
