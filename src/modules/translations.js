@@ -314,6 +314,7 @@ translations[`Français`] = {
 			MENU_GRAPH_WINRATE: `Prognostic`,
 			MENU_GRAPH_SCORE: `Score`,
 		MENU_COORDINATES: `Coordonnés`,
+		MENU_STONE_COUNTS: `Pierre compte`,
 		MENU_BLACK_POV_ALWAYS: `Afficher le score noir, toujours`,
 		MENU_CANDIDATE_MOVES: `Coups recommandés`,
 		MENU_WITH_PV_MOUSEOVER: `...avec le survol de la souris`,
