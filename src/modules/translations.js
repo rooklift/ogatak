@@ -732,10 +732,10 @@ translations[`繁體中文`] = {
 	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
 
 	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於：`,
-    ABOUT_GTP_COMMAND: `GTP 引擎和參數為：`,
+	ABOUT_GTP_COMMAND: `GTP 引擎和參數為：`,
 	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於：`,
 	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎)：`,
-    ABOUT_THANKS_TRANSLATORS: `感謝下列翻譯者：`,
+	ABOUT_THANKS_TRANSLATORS: `感謝下列翻譯者：`,
 
 
 	BAD_CONFIG_1: `config.json 不能被解析`,
