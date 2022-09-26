@@ -75,6 +75,7 @@ let grapher_prototype = {
 
 		let history = end_node.history();
 
+        let not_norm_scores = [];                                           // From Black's POV (-Inf...Inf) or null
 		let scores = [];													// From Black's POV (-Inf...Inf, but rescaled later to 0..1) or null
 		let winrates = [];													// From Black's POV (0..1) or null
 
@@ -88,6 +89,7 @@ let grapher_prototype = {
 				if (-score > abs_score_max) abs_score_max = -score;
 			}
 			scores.push(score);
+            not_norm_scores.push(score);
 
 			let winrate = h_node.stored_winrate();							// Possibly null
 			winrates.push(winrate);
@@ -116,7 +118,7 @@ let grapher_prototype = {
 			this.__draw_tracker(node, scores, config.major_graph_linewidth, major_colour);
 		}
 
-		this.draw_position(node, true);
+		this.draw_position(node, config.graph_type, winrates, not_norm_scores, true);
 
 	},
 
@@ -226,7 +228,7 @@ let grapher_prototype = {
 
 	},
 
-	draw_position: function(node, skip_blanking = false) {
+	draw_position: function(node, graph_type = null, winrates = null, scores = null , skip_blanking = false) {
 
 		let ctx = this.posctx;
 
@@ -266,14 +268,38 @@ let grapher_prototype = {
 
 		ctx.setLineDash([]);
 
-		// Move number...
+		// Move number and analysis value...
+
+        let analysis_str = '';
+        let target = null;
+
+        if (graph_type !== null) {
+            if (graph_type === 1) {
+                target = winrates;
+            } else if (graph_type === 2) {
+                target = scores;
+            }
+        }
+
+        if (target !== null) {
+            let val = target[node.depth];
+            if (typeof val === "number") {
+                if (graph_type === 1) {
+                    val = Math.round(10000 * val) / 100;
+                    analysis_str = '(W:' + val.toString() + '%) ';
+                } else if (graph_type === 2) {
+                    val = Math.round(10 * val) / 10;
+                    analysis_str = '(S:' + val.toString() + ') ';
+                }
+            }
+        }
 
 		ctx.fillStyle = "#ffffffff";
 		ctx.textAlign = "right";
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
 		ctx.fillText(
-			node.depth.toString(),
+			analysis_str + node.depth.toString(),
 			this.draw_x_offset + this.drawable_width,
 			this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
 		);
