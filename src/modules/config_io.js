@@ -107,6 +107,7 @@ exports.defaults = {
 	"default_komi": 7.5,						// Used for game on startup, but otherwise unknown komi is inferred as zero.
 
 	"komi_options": [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5],
+	"visit_options": [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000],
 
 	"sgf_folder": "",
 	"katago_folder": "",
@@ -202,21 +203,21 @@ function apply_fixes() {
 		}
 	}
 
-	// Ensure validity of the komi options...
+	// Ensure validity of some (possibly user-edited) numeric arrays...
 
-	if (!Array.isArray(config.komi_options) || config.komi_options.length === 0) {
-		config.komi_options = Array.from(exports.defaults.komi_options);
-		console.log("Invalid config.komi_options... replacing with default");
-	}
-
-	for (let n of config.komi_options) {
-		if (typeof n !== "number") {
-			config.komi_options = Array.from(exports.defaults.komi_options);
-			console.log("Invalid config.komi_options (interval value)... replacing with default");
+	for (let key of ["komi_options", "visit_options"]) {
+		if (!Array.isArray(config[key]) || config[key].length === 0) {
+			config[key] = Array.from(exports.defaults[key]);
+			console.log(`Invalid config.${key}... replacing with default`);
 		}
+		for (let n of config[key]) {
+			if (typeof n !== "number") {
+				config[key] = Array.from(exports.defaults[key]);
+				console.log(`Invalid config.${key} (interval value)... replacing with default`);
+			}
+		}
+		config[key].sort((a, b) => a - b);
 	}
-
-	config.komi_options.sort((a, b) => a - b);
 
 	// Fix some stuff that used to be stored stringly-typed...
 

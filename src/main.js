@@ -984,88 +984,7 @@ function menu_build() {
 				},
 				{
 					label: translate("MENU_AUTOANALYSIS_VISITS"),
-					submenu: [
-						{
-							label: "10000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 10000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 10000});
-							}
-						},
-						{
-							label: "5000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 5000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 5000});
-							}
-						},
-						{
-							label: "2500",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 2500,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 2500});
-							}
-						},
-						{
-							label: "1000",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 1000,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 1000});
-							}
-						},
-						{
-							label: "500",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 500,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 500});
-							}
-						},
-						{
-							label: "250",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 250,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 250});
-							}
-						},
-						{
-							label: "100",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 100,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 100});
-							}
-						},
-						{
-							label: "50",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 50,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 50});
-							}
-						},
-						{
-							label: "25",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 25,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 25});
-							}
-						},
-						{
-							label: "10",
-							type: "checkbox",
-							checked: config.autoanalysis_visits === 10,
-							click: () => {
-								win.webContents.send("set", {autoanalysis_visits: 10});
-							}
-						}
-					]
+					submenu: visit_submenu(),
 				},
 				{
 					type: "separator",
@@ -2438,6 +2357,25 @@ function komi_submenu() {
 					fn: "coerce_komi",
 					args: [komi]
 				});
+			}
+		});
+	}
+
+	ret.reverse();
+	return ret;
+}
+
+function visit_submenu() {
+
+	let ret = [];
+
+	for (let n of config.visit_options) {
+		ret.push({
+			label: n.toString(),
+			type: "checkbox",
+			checked: config.autoanalysis_visits === n,
+			click: () => {
+				win.webContents.send("set", {autoanalysis_visits: n});
 			}
 		});
 	}
