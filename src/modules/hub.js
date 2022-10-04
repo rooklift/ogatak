@@ -951,20 +951,36 @@ let hub_main_props = {
 		this.coerce_rules(values[si]);
 	},
 
-	cycle_komi: function(reverse) {
+	cycle_komi: function(reverse) {					// Relies on config.komi_options being sorted.
 
 		let komi = this.node.get_board().komi;
 
 		if (reverse) {
-			komi -= 0.5;
+			for (let i = config.komi_options.length - 1; i >= 0; i--) {
+				if (config.komi_options[i] < komi) {
+					this.coerce_komi(config.komi_options[i]);
+					return;
+				}
+			}
 		} else {
-			komi += 0.5;
+			for (let i = 0; i < config.komi_options.length; i++) {
+				if (config.komi_options[i] > komi) {
+					this.coerce_komi(config.komi_options[i]);
+					return;
+				}
+			}
 		}
 
-		if (komi < 0) komi = 7.5;
-		if (komi > 7.5) komi = 0;
+		// If we get here, we need to wrap...
 
-		this.coerce_komi(komi);
+		if (reverse) {
+			this.coerce_komi(config.komi_options[config.komi_options.length - 1]);
+			return;
+		} else {
+			this.coerce_komi(config.komi_options[0]);
+			return;
+		}
+
 	},
 
 	cycle_mode: function(reverse) {

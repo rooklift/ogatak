@@ -1104,152 +1104,7 @@ function menu_build() {
 				},
 				{
 					label: translate("MENU_SET_KOMI"),
-					submenu: [
-						{
-							label: "7.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7.5]
-								});
-							}
-						},
-						{
-							label: "7",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [7]
-								});
-							}
-						},
-						{
-							label: "6.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6.5]
-								});
-							}
-						},
-						{
-							label: "6",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [6]
-								});
-							}
-						},
-						{
-							label: "5.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [5.5]
-								});
-							}
-						},
-						{
-							label: "5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [5]
-								});
-							}
-						},
-						{
-							label: "4.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [4.5]
-								});
-							}
-						},
-						{
-							label: "4",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [4]
-								});
-							}
-						},
-						{
-							label: "3.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [3.5]
-								});
-							}
-						},
-						{
-							label: "3",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [3]
-								});
-							}
-						},
-						{
-							label: "2.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [2.5]
-								});
-							}
-						},
-						{
-							label: "2",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [2]
-								});
-							}
-						},
-						{
-							label: "1.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [1.5]
-								});
-							}
-						},
-						{
-							label: "1",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [1]
-								});
-							}
-						},
-						{
-							label: "0.5",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0.5]
-								});
-							}
-						},
-						{
-							label: "0",
-							click: () => {
-								win.webContents.send("call", {
-									fn: "coerce_komi",
-									args: [0]
-								});
-							}
-						},
-					]
+					submenu: komi_submenu(),
 				},
 				{
 					type: "separator",
@@ -2568,6 +2423,26 @@ function rectangular_submenu() {
 		});
 	}
 
+	return ret;
+}
+
+function komi_submenu() {
+
+	let ret = [];
+
+	for (let komi of config.komi_options) {
+		ret.push({
+			label: komi.toString(),
+			click: () => {
+				win.webContents.send("call", {
+					fn: "coerce_komi",
+					args: [komi]
+				});
+			}
+		});
+	}
+
+	ret.reverse();
 	return ret;
 }
 

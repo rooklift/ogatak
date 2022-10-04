@@ -106,6 +106,8 @@ exports.defaults = {
 	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "Unknown".
 	"default_komi": 7.5,						// Used for game on startup, but otherwise unknown komi is inferred as zero.
 
+	"komi_options": [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5],
+
 	"sgf_folder": "",
 	"katago_folder": "",
 	"kataconfig_folder": "",
@@ -199,6 +201,22 @@ function apply_fixes() {
 			config[key] = fixed;
 		}
 	}
+
+	// Ensure validity of the komi options...
+
+	if (!Array.isArray(config.komi_options) || config.komi_options.length === 0) {
+		config.komi_options = Array.from(exports.defaults.komi_options);
+		console.log("Invalid config.komi_options... replacing with default");
+	}
+
+	for (let n of config.komi_options) {
+		if (typeof n !== "number") {
+			config.komi_options = Array.from(exports.defaults.komi_options);
+			console.log("Invalid config.komi_options (interval value)... replacing with default");
+		}
+	}
+
+	config.komi_options.sort((a, b) => a - b);
 
 	// Fix some stuff that used to be stored stringly-typed...
 
