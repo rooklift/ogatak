@@ -214,6 +214,7 @@ function apply_fixes() {
 			if (typeof n !== "number") {
 				config[key] = Array.from(exports.defaults[key]);
 				console.log(`Invalid config.${key} (interval value)... replacing with default`);
+				break;
 			}
 		}
 		config[key].sort((a, b) => a - b);
