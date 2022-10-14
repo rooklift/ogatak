@@ -136,6 +136,9 @@ exports.load = () => {
 	try {
 		if (fs.existsSync(exports.filepath)) {
 			raw_read = fs.readFileSync(exports.filepath, "UTF-8");
+			if (raw_read.length < 50 && raw_read.trim() === "") {
+				raw_read = "{}";
+			}
 			Object.assign(config, JSON.parse(raw_read));
 		}
 		errortext = "";
