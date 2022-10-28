@@ -59,7 +59,7 @@ module.exports = function(square_size, board_line_width, grid_colour) {
 	let gx = square_size + (square_size / 2) + offset;
 	let gy = square_size + (square_size / 2) + offset;
 	ctx.beginPath();
-	ctx.arc(gx, gy, board_line_width * 2, 0, 3 * Math.PI);		// Or consider + 2 instead of * 2
+	ctx.arc(gx, gy, board_line_width * 2, 0, 3 * Math.PI);		// I've experimented with +2 or *2
 	ctx.fill();
 
 	ret.hoshi = get_image_url(1, 1, ss);
