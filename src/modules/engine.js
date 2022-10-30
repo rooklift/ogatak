@@ -84,7 +84,7 @@ let engine_prototype = {
 
 		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
-		let query = new_query(node, this);
+		let query = new_query(node);
 
 		if (this.desired) {
 			if (compare_queries(this.desired, query)) {

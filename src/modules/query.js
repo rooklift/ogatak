@@ -13,7 +13,7 @@ const {node_id_from_search_id, compare_versions} = require("./utils");
 
 let next_query_id = 1;
 
-function new_query(query_node, engine) {
+function new_query(query_node) {
 
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
