@@ -2240,9 +2240,9 @@ function menu_build() {
 				{
 					label: translate("MENU_SNAPPY_NODE_SWITCH_HACK"),
 					type: "checkbox",
-					checked: config.snappy_node_switch_hack,
+					checked: config.snappy_node_switch,
 					click: () => {
-						win.webContents.send("toggle", "snappy_node_switch_hack");
+						win.webContents.send("toggle", "snappy_node_switch");
 					}
 				},
 				{
