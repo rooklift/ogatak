@@ -92,6 +92,7 @@ translations[`English`] = {
 		MENU_SET_RULES: `Set rules`,
 			MENU_CHINESE: `Chinese`,
 			MENU_JAPANESE: `Japanese`,
+			MENU_AGA: `AGA`,
 			MENU_STONE_SCORING: `Stone Scoring`,				// Get as many stones on the board as possible. Like area rules + group tax.
 		MENU_SET_KOMI: `Set komi`,
 		MENU_PV_LENGTH_MAX: `PV length (max)`,
@@ -285,6 +286,7 @@ translations[`Français`] = {
 		MENU_SET_RULES: `Règles`,
 			MENU_CHINESE: `Chinoises`,
 			MENU_JAPANESE: `Japonaises`,
+			MENU_AGA: `AGA`,
 			MENU_STONE_SCORING: `Comptage des pierres`,
 		MENU_SET_KOMI: `Komi`,
 		MENU_PV_LENGTH_MAX: `Longueur du PV (max)`,

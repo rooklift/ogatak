@@ -1011,6 +1011,15 @@ function menu_build() {
 							}
 						},
 						{
+							label: translate("MENU_AGA"),
+							click: () => {
+								win.webContents.send("call", {
+									fn: "coerce_rules",
+									args: ["AGA"]
+								});
+							}
+						},
+						{
 							label: translate("MENU_STONE_SCORING"),
 							click: () => {
 								win.webContents.send("call", {
