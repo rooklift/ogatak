@@ -1,10 +1,10 @@
 "use strict";
 
 let c = document.createElement("canvas");
-let ctx = c.getContext("2d");
+let ctx = c.getContext("2d", {willReadFrequently: true});
 
 let c2 = document.createElement("canvas");
-let ctx2 = c2.getContext("2d");
+let ctx2 = c2.getContext("2d", {willReadFrequently: true});
 
 module.exports = function(square_size, board_line_width, grid_colour) {
 
