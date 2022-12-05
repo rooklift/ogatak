@@ -40,7 +40,7 @@ module.exports = function(s) {
 				logfilename = null;
 				hub.set("logfile", null);
 			}
-		}
+		});
 		stream = new_stream;
 		logfilename = config.logfile;
 	}
