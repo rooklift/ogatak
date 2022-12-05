@@ -35,7 +35,7 @@ module.exports = function(s) {
 		new_stream.on("error", (err) => {
 			console.log(err);
 			new_stream.end();
-			if (stream === new_stream) {
+			if (stream === new_stream) {		// Presumably true, but avoiding some race condition.
 				stream = null;
 				logfilename = null;
 				hub.set("logfile", null);
