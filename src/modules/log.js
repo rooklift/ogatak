@@ -2,52 +2,68 @@
 
 const fs = require("fs");
 
-let logfilename = null;
-let stream = null;
+let logger = null;
+
+// To avoid various race conditions and whatnot, it's best to create a new logger
+// object each time the destination filename changes...
+
+function new_logger(filepath) {
+	let ret = Object.create(logger_prototype);
+	ret.init(filepath);
+	return ret;
+}
+
+let logger_prototype = {
+
+	init: function(filepath) {
+
+		console.log(`Logging to ${filepath}`);
+
+		this.filepath = filepath;
+		this.stream = fs.createWriteStream(filepath, {flags: "a"});			// If this fails it does not throw, rather it generates an error soonish...
+
+		this.stream.on("error", (err) => {
+			console.log(err);
+			this.close();
+		});
+	},
+
+	close: function() {
+		if (this.stream) {
+			console.log(`Closing ${this.filepath}`);
+			this.stream.end();
+			this.stream = null;
+			// this.filepath = null;				// Leave this alone, so that even when closed we can still absorb logs for this (broken) filepath.
+		}
+	},
+
+	log: function(s) {
+		if (this.stream) {
+			this.stream.write(s + "\n");
+		}
+	},
+
+};
+
+
 
 module.exports = function(s) {
 
-	// config.logfile - name of desired log file (or null)
-	// logfilename    - name of currently open log file (or null)
-	// stream         - actual write stream
-
-	if (typeof config.logfile !== "string" || config.logfile === "") {
-		if (logfilename) {
-			console.log(`Closing ${logfilename}`);
-			stream.end();
-			stream = null;
-			logfilename = null;
+	if (logger) {
+		if (config.logfile !== logger.filepath) {
+			logger.close();
+			logger = null;
 		}
-		return;
 	}
 
-	// So at this point, we know config.logfile is some string...
-
-	if (logfilename !== config.logfile) {
-		if (logfilename) {
-			console.log(`Closing log ${logfilename}`);
-			stream.end();
-			stream = null;
-			logfilename = null;
+	if (!logger) {
+		if (typeof config.logfile === "string" && config.logfile !== "") {
+			logger = new_logger(config.logfile);
 		}
-		console.log(`Logging to ${config.logfile}`);
-		let new_stream = fs.createWriteStream(config.logfile, {flags: "a"});
-		new_stream.on("error", (err) => {
-			console.log(err);
-			new_stream.end();
-			if (stream === new_stream) {		// Presumably true, but avoiding some race condition.
-				stream = null;
-				logfilename = null;
-				hub.set("logfile", null);
-			}
-		});
-		stream = new_stream;
-		logfilename = config.logfile;
 	}
 
-	if (typeof s !== "string") {
-		s = "Warning: log function was sent a non-string";
+	if (logger) {
+		logger.log(s);
 	}
 
-	stream.write(s + "\n");
 };
