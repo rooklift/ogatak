@@ -38,9 +38,9 @@ let logger = {
 		if (this.stream) {
 			console.log(`Closing ${this.filepath}`);
 			this.stream.end();
-			this.stream = null;
-			this.filepath = null;
 		}
+		this.stream = null;
+		this.filepath = null;
 	},
 
 	handle_error: function(stream, err) {			// Does not adjust this.filepath, see notes at top for why.
