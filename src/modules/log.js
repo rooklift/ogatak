@@ -2,30 +2,36 @@
 
 const fs = require("fs");
 
-let logger = null;
+// Notes: the logger maintains some state, specifically the open write stream and a filepath associated with it.
+// In the event of an error, the stream is invalidated, but the filepath remains cached as is, meaning future
+// log messages for that filepath are absorbed but not actually logged anywhere. This is the desired behaviour.
 
-// To avoid various race conditions and whatnot, it's best to create a new logger
-// object each time the destination filename changes...
+let logger = {
 
-function new_logger(filepath) {
-	let ret = Object.create(logger_prototype);
-	ret.init(filepath);
-	return ret;
-}
+	stream: null,
+	filepath: null,
 
-let logger_prototype = {
+	log: function(filepath, s) {
 
-	init: function(filepath) {
+		// Case where given filepath is invalid...
 
-		console.log(`Logging to ${filepath}`);
-
-		this.filepath = filepath;
-		this.stream = fs.createWriteStream(filepath, {flags: "a"});			// If this fails it does not throw, rather it generates an error soonish...
-
-		this.stream.on("error", (err) => {
-			console.log(err);
+		if (typeof filepath !== "string" || filepath === "") {
 			this.close();
-		});
+			return;
+		}
+
+		// Case where given filepath is valid but doesn't match our filepath...
+
+		if (filepath !== this.filepath) {
+			this.close();
+			this.open(filepath);
+		}
+
+		// See notes at top for why this.stream might be null even when this.filepath is OK...
+
+		if (this.stream) {
+			this.stream.write(s + "\n");
+		}
 	},
 
 	close: function() {
@@ -33,37 +39,37 @@ let logger_prototype = {
 			console.log(`Closing ${this.filepath}`);
 			this.stream.end();
 			this.stream = null;
-			// this.filepath = null;				// Leave this alone, so that even when closed we can still absorb logs for this (broken) filepath.
+			this.filepath = null;
 		}
 	},
 
-	log: function(s) {
-		if (this.stream) {
-			this.stream.write(s + "\n");
+	handle_error: function(stream, err) {			// Does not adjust this.filepath, see notes at top for why.
+		console.log(err);
+		stream.end();
+		if (stream === this.stream) {				// Might not be so, due to race conditions etc.
+			this.stream = null;
 		}
 	},
 
-};
+	open: function(filepath) {
+
+		console.log(`Logging to ${filepath}`);
+
+		let new_stream = fs.createWriteStream(filepath, {flags: "a"});		// This doesn't throw on bad filepath, but rather generates an error soon-ish.
+		new_stream.on("error", (err) => {
+			this.handle_error(new_stream, err);
+		});
+
+		this.stream = new_stream;
+		this.filepath = filepath;
+	},
+}
 
 
 
-module.exports = function(s) {
+function log(s) {
+	logger.log(config.logfile, s);
+}
 
-	if (logger) {
-		if (config.logfile !== logger.filepath) {
-			logger.close();
-			logger = null;
-		}
-	}
+module.exports = log;
 
-	if (!logger) {
-		if (typeof config.logfile === "string" && config.logfile !== "") {
-			logger = new_logger(config.logfile);
-		}
-	}
-
-	if (logger) {
-		logger.log(s);
-	}
-
-};
