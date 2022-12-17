@@ -43,11 +43,11 @@ let logger = {
 		this.filepath = null;
 	},
 
-	handle_error: function(stream, err) {			// Does not adjust this.filepath, see notes at top for why.
+	handle_error: function(stream, err) {
 		console.log(err);
 		stream.end();
 		if (stream === this.stream) {				// Might not be so, due to race conditions etc.
-			this.stream = null;
+			this.stream = null;						// We don't adjust this.filepath, see notes at top for why.
 		}
 	},
 
