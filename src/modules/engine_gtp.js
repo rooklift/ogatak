@@ -468,6 +468,7 @@ let gtp_engine_prototype = {
 
 	log_and_alert: function(...args) {
 		log(args.join(" "));
+		console.log(args.join(" "));
 		alert(args.join("\n"));
 	},
 
