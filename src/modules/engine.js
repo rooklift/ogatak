@@ -144,6 +144,7 @@ let engine_prototype = {
 				{cwd: path.dirname(this.filepath)}
 			);
 		} catch (err) {
+			this.log_and_alert("While spawning engine:", err.toString());
 			return;
 		}
 

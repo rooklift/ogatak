@@ -263,6 +263,7 @@ let gtp_engine_prototype = {
 		try {
 			this.exe = child_process.spawn(command, argslist, {cwd: path.dirname(command)});
 		} catch (err) {
+			this.log_and_alert("While spawning engine:", err.toString());
 			return;
 		}
 
