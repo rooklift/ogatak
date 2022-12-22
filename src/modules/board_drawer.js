@@ -1136,7 +1136,7 @@ function string_from_info(info, node, type, flip) {
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
-			return Math.floor(info.prior * 100).toString();
+			return Math.floor(info.prior * 100).toString();			// Or maybe: return (info.prior * 100).toFixed(1);
 		case "Score":
 			val = info.scoreLead;
 			if (typeof val !== "number") {			// scoreLead might not be present if it's a GTP engine.
