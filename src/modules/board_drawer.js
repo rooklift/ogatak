@@ -1136,7 +1136,18 @@ function string_from_info(info, node, type, flip) {
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
-			return Math.floor(info.prior * 100).toString();			// Or maybe: return (info.prior * 100).toFixed(1);
+			val = Math.round(info.prior * 1000);	// We want some integer between 0 and 1000.
+			if (val > 999) {
+				val = 999;
+			}
+			if (val < 0) {
+				val = 0;
+			}
+			text = val.toString();
+			while (text.length < 3) {
+				text = "0" + text;					// i.e.  5 out of 1000  means  .005
+			}
+			return "." + text;
 		case "Score":
 			val = info.scoreLead;
 			if (typeof val !== "number") {			// scoreLead might not be present if it's a GTP engine.
