@@ -357,3 +357,9 @@ exports.colour_curve = function(n) {			// Helper for the fade-by-visits feature.
 
 	return 1 - dsq;
 };
+
+exports.clamp = function(lower, val, upper) {
+	if (val < lower) return lower;
+	if (val > upper) return upper;
+	return val;
+};

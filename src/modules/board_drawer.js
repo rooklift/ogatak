@@ -20,7 +20,7 @@ const gridlines = require("./gridlines");
 const {translate} = require("./translate");
 
 const {handicap_stones, moveinfo_filter, node_id_from_search_id, pad, new_2d_array, compare_versions,
-	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve} = require("./utils");
+	xy_to_s, float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -1114,35 +1114,20 @@ function string_from_info(info, node, type, flip) {
 			if (flip) {
 				val = 100 - val;
 			}
-			if (val > 99) {
-				val = 99;
-			}
-			if (val < 0) {
-				val = 0;
-			}
+			val = clamp(0, val, 99);
 			return val.toString();
 		case "LCB":
 			val = Math.round(info.lcb * 100);
 			if (flip) {
 				val = 100 - val;
 			}
-			if (val > 99) {
-				val = 99;
-			}
-			if (val < 0) {
-				val = 0;
-			}
+			val = clamp(0, val, 99);
 			return val.toString();
 		case "Visits (%)":
 			return Math.floor(info.visits / node.analysis.rootInfo.visits * 100).toString();
 		case "Policy":
 			val = Math.round(info.prior * 1000);	// We want some integer between 0 and 1000.
-			if (val > 999) {
-				val = 999;
-			}
-			if (val < 0) {
-				val = 0;
-			}
+			val = clamp(0, val, 999);
 			text = val.toString();
 			while (text.length < 3) {
 				text = "0" + text;					// i.e.  5 out of 1000  means  .005
