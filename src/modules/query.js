@@ -13,7 +13,7 @@ const {node_id_from_search_id, compare_versions} = require("./utils");
 
 let next_query_id = 1;
 
-function new_query(query_node) {
+function new_query(query_node, eng_version = null) {
 
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
@@ -35,11 +35,17 @@ function new_query(query_node) {
 		includeOwnership: (want_ownership) ? true : false,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
-		overrideSettings: {										// Before KataGo 1.9.1, it would generate an error for unknown fields in the settings.
+		overrideSettings: {										// Before KataGo 1.9.1, it would generate an error for unknown fields in this part (only).
 			reportAnalysisWinratesAs: "BLACK",					// If we add new features here, we will need to delete them if version < 1.9.1...
 			wideRootNoise: config.wide_root_noise,
 		}
 	};
+
+	if (config.fast_first_report) {
+		if (eng_version && compare_versions(eng_version, [1,12,0]) >= 0) {
+			o.firstReportDuringSearchAfter = 0.05;
+		}
+	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).

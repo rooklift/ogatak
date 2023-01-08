@@ -90,6 +90,7 @@ exports.defaults = {
 
 	"zobrist_checks": true,
 	"snappy_node_switch": true,
+	"fast_first_report": true,
 
 	"enable_hw_accel": false,
 	"logfile": null,

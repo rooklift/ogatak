@@ -44,6 +44,7 @@ translations[`English`] = {
 		MENU_CLEAR_CACHE: `Clear cache`,
 		MENU_RESTART: `Restart`,
 		MENU_ENGINE_REPORT_RATE: `Engine report rate`,
+		MENU_FAST_FIRST_REPORT: `Fast first report`,			// Uses KataGo's firstReportDuringSearchAfter setting.
 
 	MENU_TREE: `Tree`,
 

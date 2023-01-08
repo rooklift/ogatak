@@ -33,7 +33,7 @@ function new_engine() {
 	eng.exe = null;
 
 	eng.received_version = false;		// Indicates that KataGo has really started responding to commands.
-	eng.version = [99, 99, 99];			// Gets updated to something like [1, 9, 0]. Starts high to assume features are present if version not known.
+	eng.version = [1, 0, 0];			// Gets updated to something like [1, 9, 0].
 	eng.tuning_in_progress = false;
 
 	eng.filepath = "";
@@ -84,7 +84,7 @@ let engine_prototype = {
 
 		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
-		let query = new_query(node);
+		let query = new_query(node, this.version);
 
 		if (this.desired) {
 			if (compare_queries(this.desired, query)) {

@@ -26,6 +26,7 @@ const multichecks = {
 };
 
 const togglechecks = {
+	fast_first_report:		[translate("MENU_SETUP"), translate("MENU_FAST_FIRST_REPORT")],
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
 	coordinates:			[translate("MENU_DISPLAY"), translate("MENU_COORDINATES")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],

@@ -611,6 +611,14 @@ function menu_build() {
 						},
 					]
 				},
+				{
+					label: translate("MENU_FAST_FIRST_REPORT"),
+					type: "checkbox",
+					checked: config.fast_first_report,
+					click: () => {
+						win.webContents.send("toggle", "fast_first_report");
+					}
+				},
 			]
 		},
 
