@@ -408,7 +408,8 @@ translations[`русский`] = {
 		MENU_CHOOSE_WEIGHTS: `Файл сети...`,
 		MENU_CLEAR_CACHE: `Очистить кэш`,
 		MENU_RESTART: `Перезапуск`,
-		MENU_ENGINE_REPORT_RATE: `Частота отчетов`,
+		MENU_ENGINE_REPORT_RATE: `Частота отчётов`,
+		MENU_FAST_FIRST_REPORT: `Быстрый первый отчёт`,
 
 	MENU_TREE: `Дерево`,
 
