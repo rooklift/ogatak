@@ -238,6 +238,7 @@ translations[`Français`] = {
 		MENU_CLEAR_CACHE: `Vider le cache`,
 		MENU_RESTART: `Redémarrage`,
 		MENU_ENGINE_REPORT_RATE: `Taux de rapport`,
+		MENU_FAST_FIRST_REPORT: `Premier rapport rapide`,
 
 	MENU_TREE: `Navigation`,
 
