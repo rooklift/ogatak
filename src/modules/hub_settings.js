@@ -67,33 +67,40 @@ module.exports = {
 		switch (key) {
 
 		case "engine":
-		case "engineconfig":
-		case "weights":
 
-			if (key === "engine" && typeof value === "string") {
-
-				if (value.includes("bs29")) {
+			if (value.includes("bs29")) {
 					alert("The path specified contains \"bs29\" suggesting this is the slower version of KataGo " +
 						"compiled for large board sizes. Consider acquiring the normal version.");
 				}
 
-				// Autodetect analysis_example.cfg if the "engineconfig" setting isn't already set...
+			// Decide whether to automagically use the analysis_example.cfg in the same folder...
 
-				if (!config["engineconfig"]) {
-					let expected_analysis_cfg = path.join(path.dirname(value), "analysis_example.cfg");
-					if (fs.existsSync(expected_analysis_cfg)) {
-						config["engineconfig"] = expected_analysis_cfg;
-					}
+			let autodetect_engineconfig = true;
+			if (typeof old_value === "string" && typeof config.engineconfig === "string") {		// Note that old_value is of config.engine
+				if (path.dirname(old_value) !== path.dirname(config.engineconfig)) {			// engineconfig is some external file and we shouldn't reset it.
+					autodetect_engineconfig = false;
+				}
+			}
+			if (autodetect_engineconfig) {
+				let expected_analysis_cfg = path.join(path.dirname(value), "analysis_example.cfg");
+				if (fs.existsSync(expected_analysis_cfg)) {
+					config.engineconfig = expected_analysis_cfg;
 				}
 			}
 
+			if (config.gtp_filepath) {
+				alert("A GTP engine is set up in the config, so this setting will not be used.");
+			} else {
+				this.start_engine();							// Won't do anything unless all 3 settings are valid.
+			}
+			break;
+
+		case "engineconfig":
+
 			if (key === "engineconfig" && typeof value === "string") {
-
 				if (["default_gtp.cfg", "contribute_example.cfg", "match_example.cfg"].includes(path.basename(value))) {
-
 					alert("The filename specified appears to be the wrong type of config file. You should use analysis_example.cfg instead.");
-					
-					config[key] = old_value;		// Refuse to accept this.
+					config.engineconfig = old_value;			// Refuse to accept this.
 					break;
 				}
 			}
@@ -101,7 +108,21 @@ module.exports = {
 			if (config.gtp_filepath) {
 				alert("A GTP engine is set up in the config, so this setting will not be used.");
 			} else {
-				this.start_engine();				// Won't do anything unless all 3 settings are valid.
+				this.start_engine();							// Won't do anything unless all 3 settings are valid.
+			}
+			break;
+
+		case "weights":
+
+			if (config.gtp_filepath) {
+				alert("A GTP engine is set up in the config, so this setting will not be used.");
+				break;
+			}
+			
+			if (config.gtp_filepath) {
+				alert("A GTP engine is set up in the config, so this setting will not be used.");
+			} else {
+				this.start_engine();							// Won't do anything unless all 3 settings are valid.
 			}
 			break;
 
