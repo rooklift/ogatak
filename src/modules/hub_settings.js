@@ -113,11 +113,6 @@ module.exports = {
 			break;
 
 		case "weights":
-
-			if (config.gtp_filepath) {
-				alert("A GTP engine is set up in the config, so this setting will not be used.");
-				break;
-			}
 			
 			if (config.gtp_filepath) {
 				alert("A GTP engine is set up in the config, so this setting will not be used.");
