@@ -77,13 +77,14 @@ module.exports = {
 
 				// Decide whether to automagically use the analysis_example.cfg in the same folder...
 
-				let autodetect_engineconfig = true;
-				if (typeof old_value === "string" && typeof config.engineconfig === "string") {		// Note that old_value is of config.engine.
-					if (path.dirname(old_value) !== path.dirname(config.engineconfig)) {			// engineconfig is some external file, we won't reset it.
-						autodetect_engineconfig = false;
-					}
-				}
-				if (autodetect_engineconfig) {
+//				let autodetect_engineconfig = true;													// This was one idea, but maybe it's too surprising.
+//				if (typeof old_value === "string" && typeof config.engineconfig === "string") {		// Note that old_value is of config.engine.
+//					if (path.dirname(old_value) !== path.dirname(config.engineconfig)) {			// engineconfig is some external file, we won't reset it.
+//						autodetect_engineconfig = false;											// And our if() below would rely on this var.
+//					}
+//				}
+
+				if (!config.engineconfig) {
 					let expected_analysis_cfg = path.join(path.dirname(value), "analysis_example.cfg");
 					if (fs.existsSync(expected_analysis_cfg)) {
 						config.engineconfig = expected_analysis_cfg;
