@@ -424,8 +424,8 @@ function menu_build() {
 				{
 					label: translate("MENU_OPEN"),
 					accelerator: "CommandOrControl+O",
-					click: () => {
-						electron.dialog.showOpenDialog(win, {defaultPath: config.sgf_folder, properties: ["multiSelections"]})
+					click: () => {							// Note that openFile seems to be needed for Mac when also using multiSelections - Electron 6472
+						electron.dialog.showOpenDialog(win, {defaultPath: config.sgf_folder, properties: ["openFile", "multiSelections"]})
 						.then(o => {
 							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
 								win.webContents.send("call", {
