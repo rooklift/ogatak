@@ -13,6 +13,7 @@ const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
 const {apply_komi_fix, apply_pl_fix, apply_depth_1_ab_fix, apply_ruleset_guess} = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
+const {new_query} = require("./query");
 
 const config_io = require("./config_io");
 
@@ -906,6 +907,11 @@ let hub_main_props = {
 
 	reset_mismatch_warnings: function() {
 		this.node.reset_mismatch_warnings();
+	},
+
+	english_history: function() {			// For debugging and such, not used otherwise.
+		let q = new_query(this.node);
+		console.log(q.moves.map(foo => foo[1]).join(" "));
 	},
 
 	// Komi / rules / active are part of the board.................................................
