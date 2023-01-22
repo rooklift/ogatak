@@ -187,6 +187,7 @@ let engine_prototype = {
 		});
 
 		this.__send({id: "query_version", action: "query_version"});
+		this.__send({id: "test_bs29", rules: "Chinese", boardXSize: 29, boardYSize: 29, maxVisits: 1, moves: []});
 
 		this.scanner.on("line", (line) => {
 			if (this.has_quit) {
@@ -203,6 +204,15 @@ let engine_prototype = {
 				}
 			} catch (err) {
 				this.log_and_alert("Received non-JSON:", line);
+				return;
+			}
+			if (o.id === "test_bs29") {								// Before the main check for errors.
+				if (!o.error) {
+					this.log_and_alert(
+						"This build of KataGo appears to be compiled with \"bs29\" support for board sizes above 19. " + 
+						"This build will be significantly slower. Consider installing the normal version."
+					);
+				}
 				return;
 			}
 			if (o.error) {
