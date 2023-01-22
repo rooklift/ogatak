@@ -70,11 +70,6 @@ module.exports = {
 
 			if (typeof value === "string") {
 
-				if (value.includes("bs29")) {
-					alert("The path specified contains \"bs29\" suggesting this is the slower version of KataGo " +
-						"compiled for large board sizes. Consider acquiring the normal version.");
-				}
-
 				// Decide whether to automagically use the analysis_example.cfg in the same folder...
 
 //				let autodetect_engineconfig = true;													// This was one idea, but maybe it's too surprising.
