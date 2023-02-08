@@ -292,6 +292,7 @@ let hub_main_props = {
 		let new_root = new_node();
 		let old_root = hub.node.get_root();
 		for (let key of old_root.all_keys()) {
+			if (key === "AB" || key === "AW" || key === "AE") continue;
 			for (let value of old_root.all_values(key)) {
 				new_root.add_value(key, value);
 			}
