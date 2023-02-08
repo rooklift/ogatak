@@ -290,14 +290,14 @@ let hub_main_props = {
 
 	load_current_position: function() {
 		let new_root = new_node();
-		let old_root = hub.node.get_root();
+		let old_root = this.node.get_root();
 		for (let key of old_root.all_keys()) {
 			if (key === "AB" || key === "AW" || key === "AE") continue;
 			for (let value of old_root.all_values(key)) {
 				new_root.add_value(key, value);
 			}
 		}
-		let board = hub.node.get_board();
+		let board = this.node.get_board();
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
 				if (board.state[x][y] === "b") {
