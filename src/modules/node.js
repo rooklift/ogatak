@@ -138,6 +138,10 @@ let node_prototype = {
 		return this.props[key][0];
 	},
 
+	all_keys: function() {
+		return Object.keys(this.props);
+	},
+
 	all_values: function(key) {
 		let ret = [];
 		if (!this.has_key(key)) {
