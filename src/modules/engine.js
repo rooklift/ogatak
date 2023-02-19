@@ -265,7 +265,9 @@ let engine_prototype = {
 				return;
 			}
 			log("! " + line);
-			stderrbox.receive(line);
+			if (!line.includes("test_bs29")) {		// These errors are expected.
+				stderrbox.receive(line);
+			}
 			if (line.includes("Beginning GPU tuning") || line.includes("Creating new timing cache")) {
 				this.tuning_in_progress = true;
 				stderrbox.show();
