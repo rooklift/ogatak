@@ -38,8 +38,13 @@ let stderrbox_prototype = {
 		this.inner_div.innerHTML = "";
 	},
 
-	receive: function(s) {
-		this.inner_div.innerHTML += safe_html(s) + "<br>";
+	receive: function(s, spanclass = null) {
+		s = safe_html(s);
+		if (spanclass) {
+			s = `<span class="${spanclass}">${s}</span>`;
+		}
+		s += "<br>";
+		this.inner_div.innerHTML += s;
 		if (this.is_visible) {
 			this.outer_div.scrollTop = this.outer_div.scrollHeight;
 		}
