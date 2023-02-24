@@ -1196,15 +1196,24 @@ function menu_build() {
 				},
 				{
 					label: translate("MENU_OWNERSHIP"),
+					type: "checkbox",
+					checked: config.ownership,
+					accelerator: "CommandOrControl+E",
+					click: () => {
+						win.webContents.send("toggle", "ownership");
+					}
+				},
+				{
+					label: translate("MENU_PER_MOVE"),
+					type: "checkbox",
+					checked: config.ownership_per_move,
+					click: () => {
+						win.webContents.send("toggle", "ownership_per_move");
+					}
+				},
+				{
+					label: translate("MENU_OWNERSHIP_STYLE"),
 					submenu: [
-						{
-							label: translate("MENU_NO_OWNERSHIP"),
-							type: "checkbox",
-							checked: config.ownership_marks === 0,
-							click: () => {
-								win.webContents.send("set", {ownership_marks: 0});
-							}
-						},
 						{
 							label: translate("MENU_DEAD_STONES"),
 							type: "checkbox",
@@ -1233,14 +1242,6 @@ function menu_build() {
 							}
 						},
 					]
-				},
-				{
-					label: translate("MENU_PER_MOVE"),
-					type: "checkbox",
-					checked: config.ownership_per_move,
-					click: () => {
-						win.webContents.send("toggle", "ownership_per_move");
-					}
 				},
 				{
 					type: "separator",

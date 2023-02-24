@@ -19,7 +19,7 @@ function new_query(query_node, eng_version = null) {
 
 	let board = query_node.get_board();
 
-	let want_ownership = (typeof config.ownership_marks === "number" && config.ownership_marks !== 0);
+	let want_ownership = (config.ownership && typeof config.ownership_marks === "number" && config.ownership_marks !== 0);
 
 	let o = {
 

@@ -85,8 +85,9 @@ exports.defaults = {
 	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
 	"report_every": 0.1,
 
-	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
+	"ownership": true,
 	"ownership_per_move": true,
+	"ownership_marks": 1,						// 1: Dead stones   2: Whole board   3: Whole board (alt)
 
 	"zobrist_checks": true,
 	"snappy_node_switch": true,
@@ -226,12 +227,11 @@ function apply_fixes() {
 
 	// Fix some stuff that used to be stored stringly-typed...
 
-	if (config.ownership_marks === "None") config.ownership_marks = 0;
 	if (config.ownership_marks === "Dead stones") config.ownership_marks = 1;
 	if (config.ownership_marks === "Whole board") config.ownership_marks = 2;
 	if (config.ownership_marks === "Whole board (alt)") config.ownership_marks = 3;
 
-	if (typeof config.ownership_marks !== "number") {					// It was some other string? (Check *after* the above)
+	if (typeof config.ownership_marks !== "number" || config.ownership_marks === 0) {
 		config.ownership_marks = exports.defaults.ownership_marks;
 	}
 

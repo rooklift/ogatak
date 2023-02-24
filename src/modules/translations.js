@@ -98,11 +98,11 @@ translations[`English`] = {
 		MENU_PV_LENGTH_MAX: `PV length (max)`,
 		MENU_WIDE_ROOT_NOISE: `Wide root noise`,
 		MENU_OWNERSHIP: `Ownership`,
-			MENU_NO_OWNERSHIP: `None`,
+		MENU_PER_MOVE: `...per-move (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
+		MENU_OWNERSHIP_STYLE: `Ownership style`,
 			MENU_DEAD_STONES: `Dead stones`,					// Stones where the predicted owner is the other colour.
 			MENU_WHOLE_BOARD: `Whole board`,
 			MENU_WHOLE_BOARD_ALT: `Whole board (alt)`,
-		MENU_PER_MOVE: `...per-move (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
 		MENU_CLEAR_ALL_ANALYSIS: `Clear all analysis`,
 
 	MENU_DISPLAY: `Display`,
@@ -292,11 +292,11 @@ translations[`Français`] = {
 		MENU_PV_LENGTH_MAX: `Longueur du PV (max)`,
 		MENU_WIDE_ROOT_NOISE: `Bruit uniforme à la racine`,
 		MENU_OWNERSHIP: `Possession`,
-			MENU_NO_OWNERSHIP: `Pas montré`,
+		MENU_PER_MOVE: `...pour chaque coup`,
+		MENU_OWNERSHIP_STYLE: `Mode de possession`,
 			MENU_DEAD_STONES: `Pierres mortes`,
 			MENU_WHOLE_BOARD: `Goban entier`,
 			MENU_WHOLE_BOARD_ALT: `Goban entier (autre)`,
-		MENU_PER_MOVE: `...pour chaque coup`,
 		MENU_CLEAR_ALL_ANALYSIS: `Supprimer toutes les analyses`,
 
 	MENU_DISPLAY: `Visualiser`,
@@ -464,11 +464,10 @@ translations[`русский`] = {
 		MENU_PV_LENGTH_MAX: `Количество предлагаемых ходов`,
 		MENU_WIDE_ROOT_NOISE: `Широкий корневой шум`,
 		MENU_OWNERSHIP: `Влияние`,
-			MENU_NO_OWNERSHIP: `Не показывать`,
+		MENU_PER_MOVE: `...каждый ход`,
 			MENU_DEAD_STONES: `Захваченные камни`,
 			MENU_WHOLE_BOARD: `Вся доска`,
 			MENU_WHOLE_BOARD_ALT: `Вся доска (другой вид)`,
-		MENU_PER_MOVE: `...каждый ход`,
 		MENU_CLEAR_ALL_ANALYSIS: `Очистить анализ`,
 
 	MENU_DISPLAY: `Вид`,
@@ -643,11 +642,10 @@ translations[`繁體中文`] = {
 		MENU_PV_LENGTH_MAX: `主變化最大顯示深度`,
 		MENU_WIDE_ROOT_NOISE: `根節點廣化噪音`,
 		MENU_OWNERSHIP: `形勢判斷`,
-			MENU_NO_OWNERSHIP: `不顯示`,
+		MENU_PER_MOVE: `根據後選手更新形勢判斷`,
 			MENU_DEAD_STONES: `死棋`,
 			MENU_WHOLE_BOARD: `勢力範圍`,
 			MENU_WHOLE_BOARD_ALT: `勢力範圍 (alt)`,
-		MENU_PER_MOVE: `根據後選手更新形勢判斷`,
 		MENU_CLEAR_ALL_ANALYSIS: `清除分析資訊`,
 
 	MENU_DISPLAY: `顯示畫面`,

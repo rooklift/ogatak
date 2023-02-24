@@ -27,6 +27,7 @@ const multichecks = {
 
 const togglechecks = {
 	fast_first_report:		[translate("MENU_SETUP"), translate("MENU_FAST_FIRST_REPORT")],
+	ownership:				[translate("MENU_ANALYSIS"), translate("MENU_OWNERSHIP")], 
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
 	coordinates:			[translate("MENU_DISPLAY"), translate("MENU_COORDINATES")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
@@ -219,6 +220,7 @@ module.exports = {
 			}
 			break;
 
+		case "ownership":
 		case "ownership_marks":
 		case "ownership_per_move":
 
@@ -307,13 +309,12 @@ module.exports = {
 
 	fix_ownership_menu: function() {
 		let label_strings = {
-			0: translate("MENU_NO_OWNERSHIP"),
 			1: translate("MENU_DEAD_STONES"),
 			2: translate("MENU_WHOLE_BOARD"),
 			3: translate("MENU_WHOLE_BOARD_ALT"),
 		};
 		let label = label_strings[config.ownership_marks];
-		ipcRenderer.send("set_checks", [translate("MENU_ANALYSIS"), translate("MENU_OWNERSHIP"), label]);
+		ipcRenderer.send("set_checks", [translate("MENU_ANALYSIS"), translate("MENU_OWNERSHIP_STYLE"), label]);
 	},
 
 	fix_graph_type_menu: function() {
