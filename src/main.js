@@ -1201,6 +1201,7 @@ function menu_build() {
 							label: translate("MENU_NO_OWNERSHIP"),
 							type: "checkbox",
 							checked: config.ownership_marks === 0,
+							accelerator: "CommandOrControl+Shift+[",
 							click: () => {
 								win.webContents.send("set", {ownership_marks: 0});
 							}
