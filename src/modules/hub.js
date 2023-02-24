@@ -703,7 +703,7 @@ let hub_main_props = {
 
 			this.draw();
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__autoplay) {
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__autoplay && !this.__play_colour) {
 
 			// We received info for the parent node, which commonly happens when advancing forwards. It's
 			// OK to set this info in the parent, unless we're in autoplay mode, in which case it's better
