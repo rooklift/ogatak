@@ -499,6 +499,10 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
 		);
 	}
 
+	if (s === "pass") {
+		return true;
+	}
+
 	return false;
 }
 
