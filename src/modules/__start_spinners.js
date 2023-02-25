@@ -89,6 +89,22 @@ const {node_id_from_search_id} = require("./utils");
 })();
 
 // ------------------------------------------------------------------------------------------------
+// When config.no_ponder_no_candidates is true, we don't want to display candidate moves when the
+// engine is not running. However, calling halt() does not automatically draw, therefore the
+// candidate moves can be left visible in some cases...
+
+(function no_ponder_no_candidates_spinner() {
+	if (board_drawer.has_drawn_candidates) {
+		if (config.no_ponder_no_candidates && !hub.engine.desired) {
+			hub.draw();
+			console.log("no_ponder_no_candidates_spinner() fired!");
+		}
+	}
+
+	setTimeout(no_ponder_no_candidates_spinner, 193);
+})();
+
+// ------------------------------------------------------------------------------------------------
 // Mousemove events (with button down) on the grapher have been setup to store a pending y value
 // there, so that we can actually react at a slower pace...
 

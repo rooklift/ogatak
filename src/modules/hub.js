@@ -725,7 +725,7 @@ let hub_main_props = {
 		this.engine.analyse(this.node);
 	},
 
-	halt: function() {						// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
+	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
@@ -733,13 +733,20 @@ let hub_main_props = {
 		this.engine.halt();
 	},
 
-	toggle_ponder: function() {
+	halt_by_user: function() {					// Exists so draw() can be called if needed. Note that various things that call halt()
+		this.halt();							// do a draw(), so we can't just put the test in halt() if we want to avoid redundant draws.
+		if (config.candidate_moves && config.no_ponder_no_candidates) {
+			this.draw();
+		}
+	},
+
+	toggle_ponder: function() {					// Only called when user does this.
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
 		this.set_play_colour(null);
 		if (this.engine.desired) {
-			this.halt();
+			this.halt_by_user();
 		} else {
 			this.go();
 		}

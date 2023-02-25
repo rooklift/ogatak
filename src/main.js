@@ -964,7 +964,7 @@ function menu_build() {
 					label: translate("MENU_HALT"),
 					accelerator: "CommandOrControl+H",
 					click: () => {
-						win.webContents.send("call", "halt");
+						win.webContents.send("call", "halt_by_user");
 					}
 				},
 				{
@@ -2170,7 +2170,7 @@ function menu_build() {
 				{
 					label: translate("MENU_HALT"),
 					click: () => {
-						win.webContents.send("call", "halt");
+						win.webContents.send("call", "halt_by_user");
 					}
 				},
 				{

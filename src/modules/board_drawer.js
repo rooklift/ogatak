@@ -63,6 +63,7 @@ function init() {
 
 		pv: null,									// The PV drawn, or null if there isn't one.
 		has_drawn_ownership: false,					// Whether any ownership stuff is being shown on either canvas.
+		has_drawn_candidates: false,				// Whether any candidate moves are being shown.
 		table_state: new_2d_array(19, 19, ""),		// "", "b", "w", "?" ... what TD contains ("" for grid, "?" for nothing at all).
 		needed_marks: new_2d_array(19, 19, null),	// Objects representing stuff waiting to be drawn to the main canvas.
 		hoshi_points: new_2d_array(19, 19, false),	// Lookup table for whether x,y is hoshi, this is a bit lazy.
@@ -221,6 +222,7 @@ let board_drawer_prototype = {
 		// Misc logic...
 
 		this.has_drawn_ownership = false;
+		this.has_drawn_candidates = false;
 		this.pv = null;
 
 		// Set sizes of the big elements...
@@ -560,6 +562,7 @@ let board_drawer_prototype = {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 		this.ownerctx.clearRect(0, 0, this.ownercanvas.width, this.ownercanvas.height);
 		this.has_drawn_ownership = false;
+		this.has_drawn_candidates = false;
 	},
 
 	draw_board: function(board) {
@@ -623,6 +626,8 @@ let board_drawer_prototype = {
 				} else if (o.text.length === 1) {
 					this.text(x, y, o.text[0], "#000000ff");
 				}
+
+				this.has_drawn_candidates = true;
 
 				break;
 
