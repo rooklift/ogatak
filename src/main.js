@@ -943,7 +943,7 @@ function menu_build() {
 					checked: false,								// which we use to track when the last spacebar press happened, BEFORE this sees it.
 					click: () => {
 						let time_since_spacebar = new Date() - spacebar_time;
-						if (time_since_spacebar > 200) {
+						if (time_since_spacebar > 200) {								// When user *clicks* the menu item rather than pressing space.
 							win.webContents.send("call", "toggle_ponder");
 						} else {
 							win.webContents.send("call", "fix_go_halt_menu_item");		// Because this event will have toggled our checkmark.
