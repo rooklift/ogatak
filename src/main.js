@@ -1513,6 +1513,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_NO_PONDER_NO_CANDIDATES"),
+					type: "checkbox",
+					checked: config.no_ponder_no_candidates,
+					click: () => {
+						win.webContents.send("toggle", "no_ponder_no_candidates");
+					}
+				},
+				{
 					label: translate("MENU_WITH_PV_MOUSEOVER"),
 					type: "checkbox",
 					checked: config.mouseover_pv,

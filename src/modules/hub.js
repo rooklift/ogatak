@@ -1065,6 +1065,11 @@ let hub_main_props = {
 			return;
 		}
 
+		if (config.no_ponder_no_candidates && !this.engine.desired) {
+			this.set("no_ponder_no_candidates", false);
+			return;
+		}
+
 		let current = config.numbers;
 
 		let si = values.indexOf(current);

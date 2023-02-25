@@ -502,6 +502,10 @@ let board_drawer_prototype = {
 			return false;
 		}
 
+		if (config.no_ponder_no_candidates && !hub.engine.desired) {
+			return false;
+		}
+
 		let startboard = node.get_board();
 		let gtp = startboard.gtp(point);				// Gets a string like "K10" from the mouse point argument (which is like "jj").
 
@@ -831,6 +835,10 @@ let board_drawer_prototype = {
 			return;
 		}
 
+		if (config.no_ponder_no_candidates && !hub.engine.desired) {
+			return;
+		}
+
 		let filtered_infos = moveinfo_filter(node);
 		let board = node.get_board();
 		let number_types = config.numbers.split(" + ");
@@ -1002,8 +1010,12 @@ let board_drawer_prototype = {
 			last_move = board.gtp(last_move_props[0]);
 		}
 
-		let numbers_string = "(hidden)";
-		if (config.candidate_moves) {
+		let numbers_string;
+		if (!config.candidate_moves) {
+			numbers_string = "(nothing)";
+		} else if (config.no_ponder_no_candidates && !hub.engine.desired) {
+			numbers_string = "(not pondering)";
+		} else {
 			numbers_string = config.numbers.split(" + ").join(", ");
 		}
 
