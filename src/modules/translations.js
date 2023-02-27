@@ -410,7 +410,7 @@ translations[`русский`] = {
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `Файл настроек анализа...`,
 		MENU_CHOOSE_WEIGHTS: `Файл сети...`,
 		MENU_CLEAR_CACHE: `Очистить кэш`,
-		MENU_RESTART: `Перезапуск`,
+		MENU_RESTART: `Перезапустить`,
 		MENU_ENGINE_REPORT_RATE: `Частота отчётов`,
 		MENU_FAST_FIRST_REPORT: `Быстрый первый отчёт`,
 
@@ -493,6 +493,7 @@ translations[`русский`] = {
 		MENU_STONE_COUNTS: `Количество камней`,
 		MENU_BLACK_POV_ALWAYS: `Всегда за чёрных`,
 		MENU_CANDIDATE_MOVES: `Предложение хода`,
+		MENU_NO_PONDER_NO_CANDIDATES: `...только при активном анализе`,
 		MENU_WITH_PV_MOUSEOVER: `...ветвь при наведении курсора`,
 		MENU_FADE_BY_VISITS: `...цвет по количеству посещений`,
 		MENU_MOUSEOVER_DELAY: `Задержка при наведении курсора`,
