@@ -933,6 +933,11 @@ let hub_main_props = {
 		}
 	},
 
+	delete_markup: function() {
+		this.node.delete_markup();
+		this.draw();
+	},
+
 	fix_go_halt_menu_item: function() {
 		if (this.engine.desired) {
 			ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);

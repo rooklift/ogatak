@@ -368,6 +368,12 @@ let node_prototype = {
 		}
 	},
 
+	delete_markup: function() {
+		for (let key of ["TR", "MA", "SQ", "CR", "LB"]) {
+			this.delete_key(key);
+		}
+	},
+
 	apply_handicap: function(handicap, tygem) {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
