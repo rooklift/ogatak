@@ -67,16 +67,28 @@ function new_query(query_node, eng_version = null) {
 			if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
 				o.komi -= node.get_board().caps_balance();
 			}
-
 			break;
 
 		} else if (nodemovecount === 1) {
+
+			let key = node.has_key("B") ? "B" : "W";
+			let s = node.get(key);
+
+			// If the stone overwrites a previously-existing stone we will have to make this the setup position as above.
+
+			if (node.parent && node.parent.get_board().state_at(s)) {
+				o.initialStones = node.get_board().setup_list();
+				if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
+					o.komi -= node.get_board().caps_balance();
+				}
+				break;
+			}
 
 			// The final move (i.e. the first one we see) will determine what colour KataGo plays but if
 			// query_node.get_board().active is the unnatural player instead, we will need to use a setup.
 
 			if (o.moves.length === 0) {
-				if ((node.has_key("B") && query_node.get_board().active === "b") || (node.has_key("W") && query_node.get_board().active === "w")) {
+				if ((key === "B" && query_node.get_board().active === "b") || (key === "W" && query_node.get_board().active === "w")) {
 					o.initialStones = query_node.get_board().setup_list();
 					if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
 						o.komi -= query_node.get_board().caps_balance();
@@ -87,14 +99,7 @@ function new_query(query_node, eng_version = null) {
 
 			// But normally, this node can be included in the moves list.
 
-			if (node.has_key("B")) {
-				let s = node.get("B");
-				o.moves.push(["B", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
-			}
-			if (node.has_key("W")) {
-				let s = node.get("W");
-				o.moves.push(["W", node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
-			}
+			o.moves.push([key, node.get_board().gtp(s)]);		// Sends "pass" if s is not in-bounds.
 
 		}
 	}
