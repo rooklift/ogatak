@@ -11,8 +11,7 @@
 const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
-function new_board(
-	width, height, state = null, pos_hash = null, ko = null, active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
+function new_board(width, height, state = null, pos_hash = null, ko = null, active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
