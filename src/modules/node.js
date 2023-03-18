@@ -563,6 +563,10 @@ let node_prototype = {
 		return undefined;
 	},
 
+	rules: function() {
+		return this.get_root().get("RU");							// Possibly ""
+	},
+
 	get_board: function() {
 
 		if (this.__board) {
@@ -588,16 +592,11 @@ let node_prototype = {
 				node.__board = node.parent.__board.copy();
 			}
 
-			// Set komi and rules (strictly these are only valid in root nodes, but meh)...
+			// Set komi (strictly this is only valid in root nodes, but meh)...
 
 			let km = parseFloat(node.get("KM"));
 			if (!Number.isNaN(km)) {
 				node.__board.komi = km;
-			}
-
-			let ru = node.get("RU");
-			if (ru) {
-				node.__board.rules = ru;
 			}
 
 			// Adjust the board from the node's board-changing properties...
@@ -856,12 +855,6 @@ let node_prototype = {
 		let root = this.get_root();
 		root.set("KM", value);
 		coerce_board_prop_recursive(root, "komi", value);
-	},
-
-	coerce_rules: function(value) {
-		let root = this.get_root();
-		root.set("RU", value);
-		coerce_board_prop_recursive(root, "rules", value);
 	},
 
 	forget_analysis_tree: function() {

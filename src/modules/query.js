@@ -18,14 +18,14 @@ function new_query(query_node, eng_version = null) {
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
 	let board = query_node.get_board();
-
+	let rules = query_node.rules() || config.default_rules;
 	let want_ownership = (typeof config.ownership_marks === "number" && config.ownership_marks !== 0);
 
 	let o = {
 
 		id: `${query_node.id}:${next_query_id++}`,
 		
-		rules: (board.rules === "Unknown") ? config.default_rules : board.rules,
+		rules: rules,
 		komi: board.komi,
 		boardXSize: board.width,
 		boardYSize: board.height,
@@ -64,7 +64,7 @@ function new_query(query_node, eng_version = null) {
 			// Note that in territory rules, we need to adjust komi to account for captures (info which is lost when sending a setup position).
 
 			o.initialStones = node.get_board().setup_list();
-			if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
+			if (rules.toLowerCase() === "japanese" || rules.toLowerCase() === "korean") {
 				o.komi -= node.get_board().caps_balance();
 			}
 			break;
@@ -78,7 +78,7 @@ function new_query(query_node, eng_version = null) {
 
 			if (node.parent && node.parent.get_board().state_at(s)) {
 				o.initialStones = node.get_board().setup_list();
-				if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
+				if (rules.toLowerCase() === "japanese" || rules.toLowerCase() === "korean") {
 					o.komi -= node.get_board().caps_balance();
 				}
 				break;
@@ -90,7 +90,7 @@ function new_query(query_node, eng_version = null) {
 			if (o.moves.length === 0) {
 				if ((key === "B" && query_node.get_board().active === "b") || (key === "W" && query_node.get_board().active === "w")) {
 					o.initialStones = query_node.get_board().setup_list();
-					if (o.rules.toLowerCase() === "japanese" || o.rules.toLowerCase() === "korean") {
+					if (rules.toLowerCase() === "japanese" || rules.toLowerCase() === "korean") {
 						o.komi -= query_node.get_board().caps_balance();
 					}
 					break;

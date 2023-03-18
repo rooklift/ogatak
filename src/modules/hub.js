@@ -366,7 +366,7 @@ let hub_main_props = {
 			}
 			this.draw();
 		} else {
-			this.new_game(board.width, board.height, board.komi, board.rules, handicap);
+			this.new_game(board.width, board.height, board.komi, this.node.rules(), handicap);
 		}
 	},
 
@@ -956,9 +956,10 @@ let hub_main_props = {
 	},
 
 	// Komi / rules / active are part of the board.................................................
+	// Update 2023-03-18 - not any more.
 
 	coerce_rules: function(value) {
-		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
+		this.node.get_root().set("RU", value);
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -989,7 +990,7 @@ let hub_main_props = {
 
 		const values = ["Chinese", "Japanese", "Stone Scoring"];
 
-		let current = this.node.get_board().rules;
+		let current = this.node.rules();
 
 		let si = values.indexOf(current) + (reverse ? -1 : 1);
 		if (si >= values.length) si = 0;
