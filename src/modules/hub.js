@@ -955,8 +955,7 @@ let hub_main_props = {
 		console.log(q.moves.map(foo => foo[1]).join(" "));
 	},
 
-	// Komi / rules / active are part of the board.................................................
-	// Update 2023-03-18 - not any more.
+	// Komi / rules / active can be changed easily.................................................
 
 	coerce_rules: function(value) {
 		this.node.get_root().set("RU", value);
