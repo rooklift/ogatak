@@ -1030,7 +1030,7 @@ let board_drawer_prototype = {
 		// Note the boardinfo_ prefix is used in __start_handlers.js
 
 		s1 += `<span class="boardinfo_rules">Rules: <span class="white">${pad(node.rules() || "Unknown", 16)}</span></span>`;
-		s1 += `<span class="boardinfo_komi">Komi: <span class="white">${pad(board.komi, 8)}</span></span>`;
+		s1 += `<span class="boardinfo_komi">Komi: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.mode) {
 			s1 += `<span class="yellow boardinfo_mode">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;

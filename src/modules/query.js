@@ -26,7 +26,7 @@ function new_query(query_node, eng_version = null) {
 		id: `${query_node.id}:${next_query_id++}`,
 		
 		rules: rules,
-		komi: board.komi,
+		komi: query_node.komi(),
 		boardXSize: board.width,
 		boardYSize: board.height,
 		maxVisits: 1000000,

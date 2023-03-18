@@ -366,7 +366,7 @@ let hub_main_props = {
 			}
 			this.draw();
 		} else {
-			this.new_game(board.width, board.height, board.komi, this.node.rules(), handicap);
+			this.new_game(board.width, board.height, this.node.komi(), this.node.rules(), handicap);
 		}
 	},
 
@@ -967,7 +967,7 @@ let hub_main_props = {
 	},
 
 	coerce_komi: function(value) {
-		this.node.coerce_komi(value);		// Sets the komi in every board in the tree.
+		this.node.get_root().set("KM", value);
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -1001,7 +1001,7 @@ let hub_main_props = {
 
 	cycle_komi: function(reverse) {					// Relies on config.komi_options being sorted.
 
-		let komi = this.node.get_board().komi;
+		let komi = this.node.komi();
 
 		if (reverse) {
 			for (let i = config.komi_options.length - 1; i >= 0; i--) {

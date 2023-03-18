@@ -567,6 +567,19 @@ let node_prototype = {
 		return this.get_root().get("RU");							// Possibly ""
 	},
 
+	komi: function() {												// Always a number
+		let km = this.get_root().get("KM");
+		if (km === "") {
+			return 0;
+		}
+		let val = parseFloat(km);
+		if (!Number.isNaN(val)) {
+			return val;
+		} else {
+			return 0;
+		}
+	},
+
 	get_board: function() {
 
 		if (this.__board) {
@@ -590,13 +603,6 @@ let node_prototype = {
 				node.__board = new_board(node.width(), node.height());
 			} else {
 				node.__board = node.parent.__board.copy();
-			}
-
-			// Set komi (strictly this is only valid in root nodes, but meh)...
-
-			let km = parseFloat(node.get("KM"));
-			if (!Number.isNaN(km)) {
-				node.__board.komi = km;
 			}
 
 			// Adjust the board from the node's board-changing properties...
@@ -851,12 +857,6 @@ let node_prototype = {
 		destroy_tree_recursive(this.get_root());
 	},
 
-	coerce_komi: function(value) {
-		let root = this.get_root();
-		root.set("KM", value);
-		coerce_board_prop_recursive(root, "komi", value);
-	},
-
 	forget_analysis_tree: function() {
 		forget_analysis_recursive(this.get_root());
 	},
@@ -1061,31 +1061,6 @@ function destroy_tree_recursive(node) {
 			break;
 		} else if (children.length === 1) {
 			node = children[0];
-			continue;
-		} else {
-			break;
-		}
-	}
-}
-
-function coerce_board_prop_recursive(node, prop, value) {
-
-	// Used for setting things like komi and rules in
-	// all boards (NOT nodes) in the tree.
-
-	while (true) {
-
-		if (node.__board) {
-			node.__board[prop] = value;
-		}
-
-		if (node.children.length > 1) {
-			for (let child of node.children) {
-				coerce_board_prop_recursive(child, prop, value);
-			}
-			break;
-		} else if (node.children.length === 1) {
-			node = node.children[0];
 			continue;
 		} else {
 			break;
