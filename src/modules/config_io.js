@@ -105,7 +105,7 @@ exports.defaults = {
 	"guess_ruleset": false,
 	"stone_counts": false,
 	"autoanalysis_visits": 500,
-	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "Unknown".
+	"default_rules": "Chinese",					// Used for game on startup, as well as when rules are "" (unknown).
 	"default_komi": 7.5,						// Used for game on startup, but otherwise unknown komi is inferred as zero.
 
 	"komi_options": [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5],

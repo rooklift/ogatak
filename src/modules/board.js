@@ -12,7 +12,7 @@ const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
 function new_board(
-	width, height, state = null, pos_hash = null, ko = null, komi = 0, rules = "Unknown", active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
+	width, height, state = null, pos_hash = null, ko = null, active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
 
 	let ret = Object.create(board_prototype);
 
@@ -21,8 +21,6 @@ function new_board(
 	ret.state = [];
 	ret.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
 	ret.ko = ko;							// Note that ko might not be valid, call has_valid_ko() to check
-	ret.komi = komi;
-	ret.rules = rules;
 	ret.active = active;
 	ret.caps_by_b = caps_by_b;
 	ret.caps_by_w = caps_by_w;
@@ -51,7 +49,7 @@ let board_prototype = {
 
 	copy: function() {
 		return new_board(
-			this.width, this.height, this.state, this.pos_hash, this.ko, this.komi, this.rules,
+			this.width, this.height, this.state, this.pos_hash, this.ko,
 			this.active, this.caps_by_b, this.caps_by_w, this.stones_b, this.stones_w
 		);
 	},

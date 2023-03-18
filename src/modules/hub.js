@@ -366,7 +366,7 @@ let hub_main_props = {
 			}
 			this.draw();
 		} else {
-			this.new_game(board.width, board.height, board.komi, board.rules, handicap);
+			this.new_game(board.width, board.height, this.node.komi(), this.node.rules(), handicap);
 		}
 	},
 
@@ -955,10 +955,10 @@ let hub_main_props = {
 		console.log(q.moves.map(foo => foo[1]).join(" "));
 	},
 
-	// Komi / rules / active are part of the board.................................................
+	// Komi / rules / active can be changed easily.................................................
 
 	coerce_rules: function(value) {
-		this.node.coerce_rules(value);		// Sets the rules in every board in the tree.
+		this.node.get_root().set("RU", value);
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -966,7 +966,7 @@ let hub_main_props = {
 	},
 
 	coerce_komi: function(value) {
-		this.node.coerce_komi(value);		// Sets the komi in every board in the tree.
+		this.node.get_root().set("KM", value);
 		if (this.engine.desired) {
 			this.go();
 		}
@@ -989,7 +989,7 @@ let hub_main_props = {
 
 		const values = ["Chinese", "Japanese", "Stone Scoring"];
 
-		let current = this.node.get_board().rules;
+		let current = this.node.rules();
 
 		let si = values.indexOf(current) + (reverse ? -1 : 1);
 		if (si >= values.length) si = 0;
@@ -1000,7 +1000,7 @@ let hub_main_props = {
 
 	cycle_komi: function(reverse) {					// Relies on config.komi_options being sorted.
 
-		let komi = this.node.get_board().komi;
+		let komi = this.node.komi();
 
 		if (reverse) {
 			for (let i = config.komi_options.length - 1; i >= 0; i--) {

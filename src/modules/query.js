@@ -25,8 +25,8 @@ function new_query(query_node, eng_version = null) {
 
 		id: `${query_node.id}:${next_query_id++}`,
 		
-		rules: (board.rules === "Unknown") ? config.default_rules : board.rules,
-		komi: board.komi,
+		rules: query_node.rules() || config.default_rules,
+		komi: query_node.komi(),
 		boardXSize: board.width,
 		boardYSize: board.height,
 		maxVisits: 1000000,
