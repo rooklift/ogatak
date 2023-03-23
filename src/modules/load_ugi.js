@@ -127,19 +127,19 @@ function load_ugi(buf) {
 			let slist = line.toUpperCase().split(",");
 
 			if (slist.length < 3) {
-				throw new Error("Data line was too short");
+				throw new Error("UGI load error: Data line was too short");
 			}
 
 			let xy_string = slist[0];
 
 			if (xy_string.length !== 2) {
-				throw new Error("Bad coordinate in data line");
+				throw new Error("UGI load error: Bad coordinate in data line");
 			}
 
 			let colour = slist[1][0];									// Conceivably could be undefined.
 
 			if (colour !== "B" && colour !== "W") {
-				throw new Error("Bad colour in data line");
+				throw new Error("UGI load error: Bad colour in data line");
 			}
 
 			let turn_string_char0 = slist[2][0];						// Conceivably could be undefined. Not sure why I look at char0 rather than whole string?
