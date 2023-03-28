@@ -2168,6 +2168,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_ENGINE_PLAYS_POLICY"),
+					type: "checkbox",
+					checked: false,						// Not saved to config.
+					click: () => {
+						win.webContents.send("toggle", "play_against_policy");
+					}
+				},
+				{
 					label: translate("MENU_HALT"),
 					click: () => {
 						win.webContents.send("call", "halt_by_user");

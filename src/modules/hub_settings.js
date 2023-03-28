@@ -37,6 +37,7 @@ const togglechecks = {
 	visit_colours:			[translate("MENU_DISPLAY"), translate("MENU_FADE_BY_VISITS")],
 	next_move_markers:		[translate("MENU_DISPLAY"), translate("MENU_NEXT_MOVE_MARKERS")],
 	embiggen_small_boards:	[translate("MENU_SIZES"), translate("MENU_EMBIGGEN_SMALL_BOARDS")],
+	play_versus_policy:		[translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_POLICY")],
 	load_at_end:			[translate("MENU_MISC"), translate("MENU_LOAD_GAMES_AT_FINAL_POSITION")],
 	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],

@@ -149,6 +149,7 @@ translations[`English`] = {
 		MENU_ESCAPE: `Escape (to main screen)`,
 		MENU_ENGINE_PLAYS_BLACK: `Engine plays Black`,
 		MENU_ENGINE_PLAYS_WHITE: `Engine plays White`,
+		MENU_ENGINE_PLAYS_POLICY: `Engine plays policy (no search)`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.

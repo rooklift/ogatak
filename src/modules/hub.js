@@ -493,6 +493,24 @@ let hub_main_props = {
 		}
 	},
 
+	play_top_policy: function() {
+		if (this.node.has_valid_analysis()) {
+			let best = null;
+			for (let info of this.node.analysis.moveInfos) {
+				if (!best || info.prior > best.prior) {
+					best = info;
+				}
+			}
+			let s = this.node.get_board().parse_gtp_move(best.move);
+			if (!s) {
+				this.pass();
+			} else {
+				let node = this.node.force_move(s);
+				this.set_node(node, {keep_autoplay_settings: true, bless: true});
+			}
+		}
+	},
+
 	prev: function() {
 		if (this.node.parent) {
 			this.set_node(this.node.parent, {bless: false});
@@ -664,7 +682,17 @@ let hub_main_props = {
 
 			this.node.receive_analysis(o);
 
-			if (o.rootInfo.visits >= config.autoanalysis_visits) {
+			if (config.play_against_policy && this.__play_colour && this.__play_colour === this.node.get_board().active) {
+
+				// Any valid analysis object should be enough, given our definition of valid_analysis_object()...
+
+				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
+				this.play_top_policy();
+				return;									// Just to avoid the redundant draw()
+
+			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
+
+				// This object has enough visits to advance the position if we're in any special mode...
 
 				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
