@@ -664,7 +664,7 @@ let hub_main_props = {
 
 			this.node.receive_analysis(o);
 
-			if (o.rootInfo.visits > config.autoanalysis_visits) {
+			if (o.rootInfo.visits >= config.autoanalysis_visits) {
 
 				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
