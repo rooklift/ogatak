@@ -93,6 +93,8 @@ exports.defaults = {
 	"snappy_node_switch": true,
 	"fast_first_report": true,
 
+	"play_against_policy": false,
+
 	"enable_hw_accel": false,
 	"logfile": null,
 

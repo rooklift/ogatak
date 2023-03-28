@@ -2170,7 +2170,7 @@ function menu_build() {
 				{
 					label: translate("MENU_ENGINE_PLAYS_POLICY"),
 					type: "checkbox",
-					checked: false,						// Not saved to config.
+					checked: config.play_against_policy,
 					click: () => {
 						win.webContents.send("toggle", "play_against_policy");
 					}
