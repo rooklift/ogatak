@@ -345,6 +345,7 @@ translations[`Français`] = {
 		MENU_ESCAPE: `Échapper`,
 		MENU_ENGINE_PLAYS_BLACK: `Jouer en tant que noir`,
 		MENU_ENGINE_PLAYS_WHITE: `Jouer en tant que blanc`,
+		MENU_ENGINE_PLAYS_POLICY: `Jouer en utilisant prior (pas de recherche)`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Ouvrir le fichier à la position finale`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
