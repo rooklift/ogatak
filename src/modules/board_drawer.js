@@ -479,10 +479,13 @@ let board_drawer_prototype = {
 		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
 			// But to avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
+			// Don't do this when playing policy in versus mode (which causes flicker a different way).
 
-			let analysis_node = node.anc_dec_with_valid_analysis(8);
-			if (analysis_node && analysis_node.analysis.ownership) {
-				this.handle_ownership(node.get_board(), analysis_node.analysis.ownership);
+			if (!hub.__play_colour || !config.play_against_policy) {
+				let analysis_node = node.anc_dec_with_valid_analysis(8);
+				if (analysis_node && analysis_node.analysis.ownership) {
+					this.handle_ownership(node.get_board(), analysis_node.analysis.ownership);
+				}
 			}
 		}
 
