@@ -467,6 +467,8 @@ let board_drawer_prototype = {
 
 	draw_standard: function(node) {
 
+		let drew_ownership_last_time = this.has_drawn_ownership;
+
 		this.clear_canvases();
 		this.draw_board(node.get_board());
 
@@ -476,16 +478,13 @@ let board_drawer_prototype = {
 
 			this.handle_ownership(node.get_board(), node.analysis.ownership);
 
-		} else if (hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+		} else if (drew_ownership_last_time && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
 
 			// But to avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
-			// Don't do this when playing policy in versus mode (which causes flicker a different way).
 
-			if (!hub.__play_colour || !config.play_against_policy) {
-				let analysis_node = node.anc_dec_with_valid_analysis(8);
-				if (analysis_node && analysis_node.analysis.ownership) {
-					this.handle_ownership(node.get_board(), analysis_node.analysis.ownership);
-				}
+			let analysis_node = node.anc_dec_with_valid_analysis(8);
+			if (analysis_node && analysis_node.analysis.ownership) {
+				this.handle_ownership(node.get_board(), analysis_node.analysis.ownership);
 			}
 		}
 
