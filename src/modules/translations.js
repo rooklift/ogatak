@@ -598,6 +598,7 @@ translations[`繁體中文`] = {
 		MENU_CLEAR_CACHE: `清除 KataGo 快取`,
 		MENU_RESTART: `重新啟動 KataGo`,
 		MENU_ENGINE_REPORT_RATE: `引擎回報時間間隔（秒）`,
+		MENU_FAST_FIRST_REPORT: `快速回報`,
 
 	MENU_TREE: `遊戲樹`,
 
@@ -678,9 +679,10 @@ translations[`繁體中文`] = {
 		MENU_STONE_COUNTS: `顯示棋子數`,
 		MENU_BLACK_POV_ALWAYS: `總是顯示黑棋觀點`,
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
+		MENU_NO_PONDER_NO_CANDIDATES: `...僅分析時顯示後選手`,
 		MENU_WITH_PV_MOUSEOVER: `...以滑鼠顯示主變化`,
 		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
-		MENU_MOUSEOVER_DELAY: `主變化懸停延遲（秒）`,
+		MENU_MOUSEOVER_DELAY: `主變化顯示延遲（秒）`,
 		MENU_NEXT_MOVE_MARKERS: `標示下一手`,
 		MENU_COLOURS: `顏色配置`,
 
@@ -701,6 +703,7 @@ translations[`繁體中文`] = {
 		MENU_ESCAPE: `退回主畫面`,
 		MENU_ENGINE_PLAYS_BLACK: `引擎執黑`,
 		MENU_ENGINE_PLAYS_WHITE: `引擎執白`,
+		MENU_ENGINE_PLAYS_POLICY: `僅使用策略網路`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
@@ -713,7 +716,7 @@ translations[`繁體中文`] = {
 		MENU_SHOW_ENGINE_STDERR: `顯示引擎標準錯誤輸出`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `檢查 Zobrist 哈希值是否和 KataGo 一致`,
 		MENU_RESET_MISMATCH_WARNINGS: `重置檢查警告`,
-		MENU_SNAPPY_NODE_SWITCH_HACK: `快速的訊息交換技巧`,
+		MENU_SNAPPY_NODE_SWITCH_HACK: `快速的訊息交換`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
 
@@ -727,7 +730,7 @@ translations[`繁體中文`] = {
 
 
 	GUI_AWAITING_GTP_RESPONSE_1: `正在等待 GTP 引擎回覆...`,
-	GUI_AWAITING_GTP_RESPONSE_2: `提示：目前 GTP 界面只是實驗性功能，因此並不推薦使用`,
+	GUI_AWAITING_GTP_RESPONSE_2: `提示：目前 GTP 界面只是實驗性功能，並不推薦使用`,
 
 	INFO_BLACK: `黑方名稱`,
 	INFO_BLACK_RANK: `黑方等級`,
