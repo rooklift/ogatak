@@ -63,7 +63,7 @@ let logger = {
 		this.stream = new_stream;
 		this.filepath = filepath;
 	},
-}
+};
 
 
 
