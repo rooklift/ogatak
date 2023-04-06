@@ -11,7 +11,7 @@ const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
-const {apply_komi_fix, apply_pl_fix, apply_depth_1_ab_fix, apply_ruleset_guess} = require("./root_fixes");
+const {apply_komi_fix, apply_pl_fix, apply_ruleset_guess} = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 const {new_query} = require("./query");
 
@@ -271,7 +271,6 @@ let hub_main_props = {
 		for (let root of ok_roots) {
 			apply_komi_fix(root);
 			apply_pl_fix(root);
-			apply_depth_1_ab_fix(root);
 			if (config.guess_ruleset) {
 				apply_ruleset_guess(root);		// AFTER the komi fix, above.
 			}

@@ -39,42 +39,31 @@ exports.apply_komi_fix = function(root) {
 
 exports.apply_pl_fix = function(root) {
 
-	// In some ancient games, white plays first.
-	// Add a PL property to the root if so.
+	// Find the node with the first real move (B or W tag).
+	// If it's not made by the natural player -- as defined by node.natural_active() -- then set a PL tag in its parent.
 
-	if (root.children.length === 0) {
+	let node = root;
+
+	if (node.has_key("B") || node.has_key("W")) {
 		return;
 	}
 
-	let node1 = root.children[0];
-
-	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("PL")) {
-		if (root.has_key("AB") === root.has_key("AW")) {						// Only needed if there are no setup stones, or setup of both colours.
-			if (node1.has_key("W") && !node1.has_key("B")) {
-				root.set("PL", "W");
-			}
+	while (true) {
+		if (node.children.length === 0) {
+			return;
 		}
-	}
-};
-
-exports.apply_depth_1_ab_fix = function(root) {
-
-	// Some sources (e.g. Fox) might place handicap stones at depth 1 rather than in the root.
-	// Add a PL property at depth 1 (since node.natural_active() ignores AB outside of root).
-	// Note this isn't quite the same as the above since we only care if there's an AB tag in node1.
-
-	if (root.children.length === 0 || root.children[0].children.length === 0) {
-		return;
-	}
-
-	let node1 = root.children[0];
-	let node2 = root.children[0].children[0];		// or node1.children[0]
-
-	if (!root.has_key("B") && !root.has_key("W") && !root.has_key("AB") && !root.has_key("AW")) {
-		if (node1.has_key("AB") && !node1.has_key("AW") && !node1.has_key("B") && !node1.has_key("W") && !node1.has_key("PL")) {
-			if (node2.has_key("W") && !node2.has_key("B")) {
-				node1.set("PL", "W");
+		node = node.children[0];
+		if (node.has_key("B")) {
+			if (node.parent.natural_active() !== "b") {
+				node.parent.set("PL", "B");
 			}
+			return;
+		}
+		if (node.has_key("W")) {
+			if (node.parent.natural_active() !== "w") {
+				node.parent.set("PL", "W");
+			}
+			return;
 		}
 	}
 };
