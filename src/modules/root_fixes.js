@@ -42,29 +42,22 @@ exports.apply_pl_fix = function(root) {
 	// Find the node with the first real move (B or W tag).
 	// If it's not made by the natural player -- as defined by node.natural_active() -- then set a PL tag in its parent.
 
-	if (root.has_key("B") || root.has_key("W")) {
-		return;
-	}
-
 	let node = root;
 
-	while (true) {
-		if (node.children.length === 0) {
-			return;
-		}
-		node = node.children[0];
+	while (node) {
 		if (node.has_key("B")) {
-			if (node.parent.natural_active() !== "b") {
+			if (node.parent && node.parent.natural_active() !== "b") {
 				node.parent.set("PL", "B");
 			}
 			return;
 		}
 		if (node.has_key("W")) {
-			if (node.parent.natural_active() !== "w") {
+			if (node.parent && node.parent.natural_active() !== "w") {
 				node.parent.set("PL", "W");
 			}
 			return;
 		}
+		node = node.children[0];		// Possibly undefined.
 	}
 };
 
