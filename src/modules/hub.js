@@ -917,7 +917,7 @@ let hub_main_props = {
 
 	performance: function() {
 		let stats = make_perf_report(this.node);
-		console.log(stats);
+		fullbox.display_perf_report(stats);
 	},
 
 	disable_specials_except: function(...args) {

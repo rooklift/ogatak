@@ -107,6 +107,30 @@ let fullbox_prototype = {
 		this.set(lines.join("<br>"));
 	},
 
+	display_perf_report: function(all_stats) {
+
+		let lines = [];
+
+		for (let key of ["B", "W"]) {
+
+			let stats = all_stats[key];
+
+			lines.push(`<span class="blue">${stats.name}</span> (${key})`);
+			lines.push(`${stats.moves} moves analysed:`);
+			lines.push(``);
+			lines.push(`            Total points lost:  ${stats.points_lost.toFixed(1)}`);
+			lines.push(`             Mean points lost:  ${(stats.points_lost / stats.moves).toFixed(1)}`);
+			lines.push(`          AI top 5 (any move):  ${(stats.top5_raw * 100 / stats.moves).toFixed(1)}%`);
+			lines.push(`          AI top 5 (low loss):  ${(stats.top5_approved * 100 / stats.moves).toFixed(1)}%`);
+			lines.push(``);
+			lines.push(``);
+		}
+
+		lines.push(`Note that the "low loss" formula is the one shown by KaTrain.`);
+
+		this.set(lines.join("<br>"));
+	},
+
 };
 
 
