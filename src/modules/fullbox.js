@@ -110,23 +110,27 @@ let fullbox_prototype = {
 	display_perf_report: function(all_stats) {
 
 		let lines = [];
+		let winners = all_stats.winners;
 
 		for (let key of ["B", "W"]) {
 
 			let stats = all_stats[key];
+			let span_string;
 
 			lines.push(`<span class="blue">${stats.name}</span> (${key})`);
 			lines.push(`${stats.moves} moves analysed:`);
 			lines.push(``);
-			lines.push(`            Total points lost:  ${stats.points_lost.toFixed(1)}`);
-			lines.push(`             Mean points lost:  ${(stats.points_lost / stats.moves).toFixed(1)}`);
-			lines.push(`          AI top 5 (any move):  ${(stats.top5_raw * 100 / stats.moves).toFixed(1)}%`);
-			lines.push(`          AI top 5 (low loss):  ${(stats.top5_approved * 100 / stats.moves).toFixed(1)}%`);
-			lines.push(``);
-			lines.push(``);
+			span_string = winners.points_lost === key ? `<span class="green">` : "<span>";
+			lines.push(`         Mean points lost: ${span_string} ${stats.points_lost.toFixed(1)}</span>`);
+			span_string = winners.top1 === key ? `<span class="green">` : "<span>";
+			lines.push(`              AI top move: ${span_string} ${(stats.top1 * 100).toFixed(1)}%</span>`);
+			span_string = winners.top5_raw === key ? `<span class="green">` : "<span>";
+			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_raw * 100).toFixed(1)}%</span> (simple formula)`);
+			span_string = winners.top5_approved === key ? `<span class="green">` : "<span>";
+			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span> (KaTrain adjusted formula)`);
+			lines.push("");
+			lines.push("");
 		}
-
-		lines.push(`Note that the "low loss" formula is the one shown by KaTrain.`);
 
 		this.set(lines.join("<br>"));
 	},

@@ -9,6 +9,7 @@ module.exports = function(node) {
 			name: root.get("PB") || "Unknown",
 			moves: 0,
 			points_lost: 0,
+			top1: 0,
 			top5_raw: 0,
 			top5_approved: 0,
 		},
@@ -16,6 +17,7 @@ module.exports = function(node) {
 			name: root.get("PW") || "Unknown",
 			moves: 0,
 			points_lost: 0,
+			top1: 0,
 			top5_raw: 0,
 			top5_approved: 0,
 		},
@@ -50,6 +52,9 @@ module.exports = function(node) {
 						if (points_lost < 0.5 || info.order === 0) {
 							stats[key].top5_approved++;
 						}
+						if (info.order === 0) {
+							stats[key].top1++;
+						}
 						break;
 					}
 				}
@@ -59,5 +64,30 @@ module.exports = function(node) {
 		node = node.children[0];		// Possibly undefined.
 	}
 
+	// Normalise the stats by dividing by the number of moves...
+
+	for (let key of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
+		for (let bw of ["B", "W"]) {
+			stats[bw][key] /= stats[bw].moves;
+		}
+	}
+
+	// Figure out who has the best stat for each type (to do colours later)...
+
+	let winners = {};
+
+	if (stats.B.points_lost < stats.W.points_lost) winners.points_lost = "B";
+	if (stats.W.points_lost < stats.B.points_lost) winners.points_lost = "W";
+
+	if (stats.B.top1 > stats.W.top1) winners.top1 = "B";
+	if (stats.W.top1 > stats.B.top1) winners.top1 = "W";
+
+	if (stats.B.top5_raw > stats.W.top5_raw) winners.top5_raw = "B";
+	if (stats.W.top5_raw > stats.B.top5_raw) winners.top5_raw = "W";
+
+	if (stats.B.top5_approved > stats.W.top5_approved) winners.top5_approved = "B";
+	if (stats.W.top5_approved > stats.B.top5_approved) winners.top5_approved = "W";
+
+	stats.winners = winners;
 	return stats;
 };
