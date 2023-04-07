@@ -41,6 +41,10 @@ module.exports = function(node) {
 				if (key === "W") {
 					points_lost *= -1;
 				}
+				
+				if (points_lost < 0) {
+					points_lost = 0;
+				}
 
 				stats[key].points_lost += points_lost;
 

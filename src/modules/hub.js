@@ -917,7 +917,11 @@ let hub_main_props = {
 
 	performance: function() {
 		let stats = make_perf_report(this.node);
-		fullbox.display_perf_report(stats);
+		if (stats.B.moves < 1 || stats.W.moves < 1) {
+			alert("Needs more analysis.");
+		} else {
+			fullbox.display_perf_report(stats);
+		}
 	},
 
 	disable_specials_except: function(...args) {

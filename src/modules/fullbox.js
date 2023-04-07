@@ -109,6 +109,10 @@ let fullbox_prototype = {
 
 	display_perf_report: function(all_stats) {
 
+		if (all_stats.B.moves < 1 || all_stats.W.moves < 1) {
+			return;
+		}
+
 		let lines = [];
 		let winners = all_stats.winners;
 
@@ -125,9 +129,9 @@ let fullbox_prototype = {
 			span_string = winners.top1 === key ? `<span class="green">` : "<span>";
 			lines.push(`              AI top move: ${span_string} ${(stats.top1 * 100).toFixed(1)}%</span>`);
 			span_string = winners.top5_raw === key ? `<span class="green">` : "<span>";
-			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_raw * 100).toFixed(1)}%</span> (simple formula)`);
+			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_raw * 100).toFixed(1)}%</span> (simple)`);
 			span_string = winners.top5_approved === key ? `<span class="green">` : "<span>";
-			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span> (KaTrain adjusted formula)`);
+			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span> (if loss < 0.5)`);
 			lines.push("");
 			lines.push("");
 		}
