@@ -1247,6 +1247,15 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: translate("MENU_PERFORMANCE_REPORT"),
+					click: () => {
+						win.webContents.send("call", "performance");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: translate("MENU_CLEAR_ALL_ANALYSIS"),
 					click: () => {
 						win.webContents.send("call", "forget_analysis_tree");

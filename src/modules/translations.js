@@ -103,6 +103,7 @@ translations[`English`] = {
 			MENU_WHOLE_BOARD: `Whole board`,
 			MENU_WHOLE_BOARD_ALT: `Whole board (alt)`,
 		MENU_PER_MOVE: `...per-move (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
+		MENU_PERFORMANCE_REPORT: `Performance report`,
 		MENU_CLEAR_ALL_ANALYSIS: `Clear all analysis`,
 
 	MENU_DISPLAY: `Display`,
@@ -299,6 +300,7 @@ translations[`Français`] = {
 			MENU_WHOLE_BOARD: `Goban entier`,
 			MENU_WHOLE_BOARD_ALT: `Goban entier (autre)`,
 		MENU_PER_MOVE: `...pour chaque coup`,
+		MENU_PERFORMANCE_REPORT: `Rapport de partie`,
 		MENU_CLEAR_ALL_ANALYSIS: `Supprimer toutes les analyses`,
 
 	MENU_DISPLAY: `Visualiser`,
@@ -473,6 +475,7 @@ translations[`русский`] = {
 			MENU_WHOLE_BOARD: `Вся доска`,
 			MENU_WHOLE_BOARD_ALT: `Вся доска (другой вид)`,
 		MENU_PER_MOVE: `...каждый ход`,
+		MENU_PERFORMANCE_REPORT: `Отчёт о производительности`,
 		MENU_CLEAR_ALL_ANALYSIS: `Очистить анализ`,
 
 	MENU_DISPLAY: `Вид`,
@@ -657,6 +660,7 @@ translations[`繁體中文`] = {
 			MENU_WHOLE_BOARD: `勢力範圍`,
 			MENU_WHOLE_BOARD_ALT: `勢力範圍 (alt)`,
 		MENU_PER_MOVE: `根據後選手更新形勢判斷`,
+		MENU_PERFORMANCE_REPORT: `表現報告`,
 		MENU_CLEAR_ALL_ANALYSIS: `清除分析資訊`,
 
 	MENU_DISPLAY: `顯示畫面`,
