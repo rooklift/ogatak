@@ -52,7 +52,7 @@ module.exports = function(any_node) {
 
 		let points_lost = node.parent.analysis.rootInfo.scoreLead - node.analysis.rootInfo.scoreLead;
 		if (key === "W") points_lost *= -1;
-		if (points_lost < 0) points_lost = 0;
+		// if (points_lost < 0) points_lost = 0;
 		stats[key].points_lost += points_lost;
 
 		for (let info of node.parent.analysis.moveInfos.slice(0, 5)) {
@@ -69,12 +69,15 @@ module.exports = function(any_node) {
 		}
 	}
 
-	// Normalise the stats by dividing by the number of moves analysed...
+	// Normalise the stats...
 
 	for (let stat of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
-		stats["B"][stat] /= stats["B"].moves_analysed;
-		stats["W"][stat] /= stats["W"].moves_analysed;
+		stats.B[stat] /= stats.B.moves_analysed;
+		stats.W[stat] /= stats.W.moves_analysed;
 	}
+
+	if (stats.B.points_lost < 0) stats.B.points_lost = 0;
+	if (stats.W.points_lost < 0) stats.W.points_lost = 0;
 
 	// Figure out who has the best stat for each type (to do colours later)...
 
