@@ -122,7 +122,7 @@ let fullbox_prototype = {
 			let span_string;
 
 			lines.push(`<span class="blue">${stats.name}</span> (${key})`);
-			lines.push(`${stats.moves} moves analysed:`);
+			lines.push(`${stats.moves_analysed} of ${stats.moves} moves analysed:`);
 			lines.push(``);
 			span_string = winners.points_lost === key ? `<span class="green">` : "<span>";
 			lines.push(`          Mean point loss: ${span_string} ${stats.points_lost.toFixed(1)}</span>`);

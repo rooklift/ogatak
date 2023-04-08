@@ -8,6 +8,7 @@ module.exports = function(node) {
 		B: {
 			name: root.get("PB") || "Unknown",
 			moves: 0,
+			moves_analysed: 0,
 			points_lost: 0,
 			top1: 0,
 			top5_raw: 0,
@@ -16,6 +17,7 @@ module.exports = function(node) {
 		W: {
 			name: root.get("PW") || "Unknown",
 			moves: 0,
+			moves_analysed: 0,
 			points_lost: 0,
 			top1: 0,
 			top5_raw: 0,
@@ -29,9 +31,13 @@ module.exports = function(node) {
 
 		for (let key of ["B", "W"]) {
 
+			if (node.has_key(key)) {
+				stats[key].moves++;
+			}
+
 			if (node.has_key(key) && node.has_valid_analysis() && node.parent.has_valid_analysis() && node.parent.get_board().active === key.toLowerCase()) {
 
-				stats[key].moves++;
+				stats[key].moves_analysed++;
 
 				let s = node.get(key);
 				let gtp = node.get_board().gtp(s);
@@ -68,11 +74,11 @@ module.exports = function(node) {
 		node = node.children[0];		// Possibly undefined.
 	}
 
-	// Normalise the stats by dividing by the number of moves...
+	// Normalise the stats by dividing by the number of moves analysed...
 
 	for (let key of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
 		for (let bw of ["B", "W"]) {
-			stats[bw][key] /= stats[bw].moves;
+			stats[bw][key] /= stats[bw].moves_analysed;
 		}
 	}
 
