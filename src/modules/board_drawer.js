@@ -1055,7 +1055,7 @@ let board_drawer_prototype = {
 			s1 += `<span class="yellow boardinfo_mode">${tEditing}: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (${tEscape})</span>`;
 		} else {
 			s1 += `${tPrev}: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 23)}</span></span>`;
 		}
 
 		let move = "";
