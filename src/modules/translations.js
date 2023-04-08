@@ -193,6 +193,23 @@ translations[`English`] = {
 	INFO_DATE: `Date`,
 	INFO_RESULT: `Result`,
 
+	// Info panel...
+	INFO_PANEL_RULES: `Rules`,
+	INFO_PANEL_UNKNOWN: `Unknown`,
+	INFO_PANEL_KOMI: `Komi`,
+	INFO_PANEL_EDIT: `Edit mode`,
+	INFO_PANEL_ESCAPE: `ESCAPE to exit`,
+	INFO_PANEL_PREV: `Prev`,
+	INFO_PANEL_SHOW: `Show`,
+	INFO_PANEL_B: `B`,
+	INFO_PANEL_W: `W`,
+	INFO_PANEL_SCORE: `Score`,
+	INFO_PANEL_STN: `stn`,
+	INFO_PANEL_CAPS: `+caps`,
+	INFO_PANEL_THIS: `This`,
+	INFO_PANEL_BEST: `Best`,
+	INFO_PANEL_VISITS: `Visits`,
+	
 	// Alerts...
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
 
