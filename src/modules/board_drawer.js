@@ -1009,6 +1009,23 @@ let board_drawer_prototype = {
 			return;
 		}
 
+		// Pull in the translations needed as variables to save line space later...
+		let tRules   = translate("INFO_PANEL_RULES");
+		let tUnknown = translate("INFO_PANEL_UNKNOWN");
+		let tKomi    = translate("INFO_PANEL_KOMI");
+		let tEditing = translate("INFO_PANEL_EDITING");
+		let tEscape  = translate("INFO_PANEL_ESCAPE");
+		let tPrev    = translate("INFO_PANEL_PREV");
+		let tShow    = translate("INFO_PANEL_SHOW");
+		let tB       = translate("INFO_PANEL_B");
+		let tW       = translate("INFO_PANEL_W");
+		let tStn     = translate("INFO_PANEL_STN");
+		let tCaps    = translate("INFO_PANEL_CAPS");
+		let tScore   = translate("INFO_PANEL_SCORE")
+		let tThis    = translate("INFO_PANEL_THIS");
+		let tBest    = translate("INFO_PANEL_BEST");
+		let tVisits  = translate("INFO_PANEL_VISITS");
+
 		let board = node.get_board();
 
 		let last_move = "";
@@ -1031,14 +1048,14 @@ let board_drawer_prototype = {
 
 		// Note the boardinfo_ prefix is used in __start_handlers.js
 
-		s1 += `<span class="boardinfo_rules">${translate("INFO_PANEL_RULES")}: <span class="white">${pad(node.rules() || translate("INFO_PANEL_UNKNOWN"), 16)}</span></span>`;
-		s1 += `<span class="boardinfo_komi">${translate("INFO_PANEL_KOMI")}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
+		s1 += `<span class="boardinfo_rules">${tRules}: <span class="white">${pad(node.rules() || tUnknown, 16)}</span></span>`;
+		s1 += `<span class="boardinfo_komi">${tKomi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.mode) {
-			s1 += `<span class="yellow boardinfo_mode">${translate("INFO_PANEL_EDIT")}: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (${translate("INFO_PANEL_ESCAPE")})</span>`;
+			s1 += `<span class="yellow boardinfo_mode">${tEditing}: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (${tEscape})</span>`;
 		} else {
-			s1 += `${translate("INFO_PANEL_PREV")}: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">${translate("INFO_PANEL_SHOW")}: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+			s1 += `${tPrev}: <span class="white">${pad(last_move, 6)}</span>`;
+			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 19)}</span></span>`;
 		}
 
 		let move = "";
@@ -1072,18 +1089,18 @@ let board_drawer_prototype = {
 
 		}
 
-		let bw_string = (board.active === "b") ? `[<span class="white">${translate("INFO_PANEL_B")}</span>|${translate("INFO_PANEL_W")}]` : `[${translate("INFO_PANEL_B")}|<span class="white">${translate("INFO_PANEL_W")}</span>]`;
+		let bw_string = (board.active === "b") ? `[<span class="white">${tB}</span>|${tW}]` : `[${tB}|<span class="white">${tW}</span>]`;
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
 			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${translate("INFO_PANEL_STN")}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${tStn}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${translate("INFO_PANEL_CAPS")}: <span class="white">${pad(capstring, 9)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${tCaps}: <span class="white">${pad(capstring, 9)}</span></span>`;
 		}
-		s2 += `${translate("INFO_PANEL_SCORE")}: <span class="white">${pad(score, 8)}</span>`;
-		s2 += `${override_moveinfo ? translate("INFO_PANEL_THIS") : translate("INFO_PANEL_BEST")}: <span class="white">${pad(move, 6)}</span>`;
-		s2 += `${translate("INFO_PANEL_VISITS")}: <span class="white">${pad(visits, 15)}</span>`;
+		s2 += `${tScore}: <span class="white">${pad(score, 8)}</span>`;
+		s2 += `${override_moveinfo ? tThis : tBest}: <span class="white">${pad(move, 6)}</span>`;
+		s2 += `${tVisits}: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.info1span.innerHTML = s1;
 		this.info2span.innerHTML = s2;
