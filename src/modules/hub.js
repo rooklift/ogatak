@@ -917,7 +917,7 @@ let hub_main_props = {
 
 	performance: function() {
 		let stats = make_perf_report(this.node);
-		if (stats.B.moves < 1 || stats.W.moves < 1) {
+		if (stats.B.moves_analysed < 1 || stats.W.moves_analysed < 1) {
 			alert("Needs more analysis.");
 		} else {
 			fullbox.display_perf_report(stats);
