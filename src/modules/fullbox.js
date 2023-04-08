@@ -128,10 +128,8 @@ let fullbox_prototype = {
 			lines.push(`          Mean point loss: ${span_string} ${stats.points_lost.toFixed(1)}</span>`);
 			span_string = winners.top1 === key ? `<span class="green">` : "<span>";
 			lines.push(`             AI best move: ${span_string} ${(stats.top1 * 100).toFixed(1)}%</span>`);
-			span_string = winners.top5_raw === key ? `<span class="green">` : "<span>";
-			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_raw * 100).toFixed(1)}%</span> (simple)`);
 			span_string = winners.top5_approved === key ? `<span class="green">` : "<span>";
-			lines.push(`                 AI top 5: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span> (point loss < 0.5)`);
+			lines.push(`              AI approved: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span>  (AI top 5 and point loss < 0.5)`);
 			lines.push("");
 			lines.push("");
 		}
