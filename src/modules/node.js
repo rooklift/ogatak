@@ -867,6 +867,10 @@ let node_prototype = {
 		this.delete_key("OGSC");
 	},
 
+	move_count: function() {
+		return (this.has_key("B") ? this.props.B.length : 0) + (this.has_key("W") ? this.props.W.length : 0);
+	},
+
 	has_valid_analysis: function() {
 		return valid_analysis_object(this.analysis);
 	},

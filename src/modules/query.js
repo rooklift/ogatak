@@ -55,9 +55,7 @@ function new_query(query_node, eng_version = null) {
 
 	for (let node of query_node.history_reversed()) {
 
-		let nodemovecount = (node.has_key("B") ? node.props.B.length : 0) + (node.has_key("W") ? node.props.W.length : 0);
-
-		if (node.has_key("AB") || node.has_key("AW") || node.has_key("AE") || nodemovecount > 1) {
+		if (node.has_key("AB") || node.has_key("AW") || node.has_key("AE") || node.move_count() > 1) {
 
 			// This node will serve as the setup position.
 			// Note that stones from any B or W properties will be included in the setup.
@@ -69,7 +67,7 @@ function new_query(query_node, eng_version = null) {
 			}
 			break;
 
-		} else if (nodemovecount === 1) {
+		} else if (node.move_count() === 1) {
 
 			let key = node.has_key("B") ? "B" : "W";
 			let s = node.get(key);
