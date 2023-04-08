@@ -1031,14 +1031,14 @@ let board_drawer_prototype = {
 
 		// Note the boardinfo_ prefix is used in __start_handlers.js
 
-		s1 += `<span class="boardinfo_rules">Rules: <span class="white">${pad(node.rules() || "Unknown", 16)}</span></span>`;
-		s1 += `<span class="boardinfo_komi">Komi: <span class="white">${pad(node.komi(), 8)}</span></span>`;
+		s1 += `<span class="boardinfo_rules">${translate("INFO_PANEL_RULES")}: <span class="white">${pad(node.rules() || translate("INFO_PANEL_UNKNOWN"), 16)}</span></span>`;
+		s1 += `<span class="boardinfo_komi">${translate("INFO_PANEL_KOMI")}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.mode) {
-			s1 += `<span class="yellow boardinfo_mode">Edit mode: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (ESCAPE to exit)</span>`;
+			s1 += `<span class="yellow boardinfo_mode">${translate("INFO_PANEL_EDIT")}: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (${translate("INFO_PANEL_ESCAPE")})</span>`;
 		} else {
-			s1 += `Prev: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">Show: <span class="white">${pad(numbers_string, 19)}</span></span>`;
+			s1 += `${translate("INFO_PANEL_PREV")}: <span class="white">${pad(last_move, 6)}</span>`;
+			s1 += `<span class="boardinfo_numbers">${translate("INFO_PANEL_SHOW")}: <span class="white">${pad(numbers_string, 19)}</span></span>`;
 		}
 
 		let move = "";
@@ -1072,18 +1072,18 @@ let board_drawer_prototype = {
 
 		}
 
-		let bw_string = (board.active === "b") ? `[<span class="white">B</span>|W]` : `[B|<span class="white">W</span>]`;
+		let bw_string = (board.active === "b") ? `[<span class="white">${translate("INFO_PANEL_B")}</span>|${translate("INFO_PANEL_W")}]` : `[${translate("INFO_PANEL_B")}|<span class="white">${translate("INFO_PANEL_W")}</span>]`;
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
 			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
-			s2 += `<span class="boardinfo_stone_counts">stn: <span class="white">${pad(stone_counts, 11)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${translate("INFO_PANEL_STN")}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
-			s2 += `<span class="boardinfo_stone_counts">+caps: <span class="white">${pad(capstring, 9)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${translate("INFO_PANEL_CAPS")}: <span class="white">${pad(capstring, 9)}</span></span>`;
 		}
-		s2 += `Score: <span class="white">${pad(score, 8)}</span>`;
-		s2 += `${override_moveinfo ? "This" : "Best"}: <span class="white">${pad(move, 6)}</span>`;
-		s2 += `Visits: <span class="white">${pad(visits, 15)}</span>`;
+		s2 += `${translate("INFO_PANEL_SCORE")}: <span class="white">${pad(score, 8)}</span>`;
+		s2 += `${override_moveinfo ? translate("INFO_PANEL_THIS") : translate("INFO_PANEL_BEST")}: <span class="white">${pad(move, 6)}</span>`;
+		s2 += `${translate("INFO_PANEL_VISITS")}: <span class="white">${pad(visits, 15)}</span>`;
 
 		this.info1span.innerHTML = s1;
 		this.info2span.innerHTML = s2;
