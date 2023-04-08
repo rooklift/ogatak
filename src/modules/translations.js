@@ -193,7 +193,8 @@ translations[`English`] = {
 	INFO_DATE: `Date`,
 	INFO_RESULT: `Result`,
 
-	// Info panel...
+	// Info panel... (note that whitespace is used for alignment, you may want to add spaces in some places).
+	// It's also fine to not translate this stuff at all (which may be easier).
 	INFO_PANEL_RULES: `Rules`,
 	INFO_PANEL_UNKNOWN: `Unknown`,
 	INFO_PANEL_KOMI: `Komi`,
