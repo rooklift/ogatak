@@ -44,6 +44,7 @@ module.exports = function(any_node) {
 	for (let node of valid_nodes) {
 
 		let key = node.has_key("B") ? "B" : "W";		// We know it has one of these, from the move_count() test above.
+		
 		stats[key].moves_analysed++;
 
 		let s = node.get(key);
@@ -54,9 +55,7 @@ module.exports = function(any_node) {
 		if (points_lost < 0) points_lost = 0;
 		stats[key].points_lost += points_lost;
 
-		let infos = node.parent.analysis.moveInfos.slice(0, 5);
-
-		for (let info of infos) {
+		for (let info of node.parent.analysis.moveInfos.slice(0, 5)) {
 			if (info.move === gtp) {
 				stats[key].top5_raw++;
 				if (points_lost < 0.5 || info.order === 0) {
