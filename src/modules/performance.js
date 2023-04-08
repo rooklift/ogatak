@@ -1,8 +1,8 @@
 "use strict";
 
-module.exports = function(node) {
+module.exports = function(any_node) {
 
-	let root = node.get_root();
+	let root = any_node.get_root();
 
 	let stats = {
 		B: {
@@ -25,61 +25,63 @@ module.exports = function(node) {
 		},
 	};
 
-	node = root.children[0];			// Possibly undefined.
+	let valid_nodes = [];
 
-	while (node) {
+	for (let node = root; node; node = node.children[0]) {
 
-		for (let key of ["B", "W"]) {
+		if (node.has_key("B")) stats["B"].moves++;
+		if (node.has_key("W")) stats["W"].moves++;
 
-			if (node.has_key(key)) {
-				stats[key].moves++;
-			}
-
-			if (node.has_key(key) && node.has_valid_analysis() && node.parent.has_valid_analysis() && node.parent.get_board().active === key.toLowerCase()) {
-
-				stats[key].moves_analysed++;
-
-				let s = node.get(key);
-				let gtp = node.get_board().gtp(s);
-
-				let points_lost = node.parent.analysis.rootInfo.scoreLead - node.analysis.rootInfo.scoreLead;
-
-				if (key === "W") {
-					points_lost *= -1;
-				}
-				
-				if (points_lost < 0) {
-					points_lost = 0;
-				}
-
-				stats[key].points_lost += points_lost;
-
-				let infos = node.parent.analysis.moveInfos.slice(0, 5);
-
-				for (let info of infos) {
-					if (info.move === gtp) {
-						stats[key].top5_raw++;
-						if (points_lost < 0.5 || info.order === 0) {
-							stats[key].top5_approved++;
-						}
-						if (info.order === 0) {
-							stats[key].top1++;
-						}
-						break;
-					}
-				}
+		if (node.has_valid_analysis() && node.parent && node.parent.has_valid_analysis() && node.move_count() === 1) {
+			if (node.has_key("B") && node.parent.get_board().active === "b") {
+				valid_nodes.push(node);
+			} else if (node.has_key("W") && node.parent.get_board().active === "w") {
+				valid_nodes.push(node);
 			}
 		}
+	}
 
-		node = node.children[0];		// Possibly undefined.
+	for (let node of valid_nodes) {
+
+		let key = node.has_key("B") ? "B" : "W";
+		stats[key].moves_analysed++;
+
+		let s = node.get(key);
+		let gtp = node.get_board().gtp(s);
+
+		let points_lost = node.parent.analysis.rootInfo.scoreLead - node.analysis.rootInfo.scoreLead;
+
+		if (key === "W") {
+			points_lost *= -1;
+		}
+		
+		if (points_lost < 0) {
+			points_lost = 0;
+		}
+
+		stats[key].points_lost += points_lost;
+
+		let infos = node.parent.analysis.moveInfos.slice(0, 5);
+
+		for (let info of infos) {
+			if (info.move === gtp) {
+				stats[key].top5_raw++;
+				if (points_lost < 0.5 || info.order === 0) {
+					stats[key].top5_approved++;
+				}
+				if (info.order === 0) {
+					stats[key].top1++;
+				}
+				break;
+			}
+		}
 	}
 
 	// Normalise the stats by dividing by the number of moves analysed...
 
-	for (let key of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
-		for (let bw of ["B", "W"]) {
-			stats[bw][key] /= stats[bw].moves_analysed;
-		}
+	for (let stat of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
+		stats["B"][stat] /= stats["B"].moves_analysed;
+		stats["W"][stat] /= stats["W"].moves_analysed;
 	}
 
 	// Figure out who has the best stat for each type (to do colours later)...
