@@ -492,7 +492,7 @@ translations[`русский`] = {
 			MENU_WHOLE_BOARD: `Вся доска`,
 			MENU_WHOLE_BOARD_ALT: `Вся доска (другой вид)`,
 		MENU_PER_MOVE: `...каждый ход`,
-		MENU_PERFORMANCE_REPORT: `Отчёт о производительности`,
+		MENU_PERFORMANCE_REPORT: `Отчёт о результативности`,
 		MENU_CLEAR_ALL_ANALYSIS: `Очистить анализ`,
 
 	MENU_DISPLAY: `Вид`,
@@ -575,11 +575,28 @@ translations[`русский`] = {
 	INFO_DATE: `Дата`,
 	INFO_RESULT: `Результат`,
 
-	ALERT_RESTART_REQUIRED: `Теперь требуется перезапуск графического интерфейса.`,
+	INFO_PANEL_RULES: `Правила`,
+	INFO_PANEL_UNKNOWN: `Неизвестны`,
+	INFO_PANEL_KOMI: `Коми`,
+	INFO_PANEL_EDIT: `Редактирование`,
+	INFO_PANEL_ESCAPE: `Esc для выхода`,
+	INFO_PANEL_PREV: `Предыдущий`,
+	INFO_PANEL_SHOW: `Вид`,
+	INFO_PANEL_B: `Ч`,
+	INFO_PANEL_W: `Б`,
+	INFO_PANEL_SCORE: `   Счёт`,
+	INFO_PANEL_STN: `кам`,
+	INFO_PANEL_CAPS: `+захв`,
+	INFO_PANEL_THIS: `Данный`,
+	INFO_PANEL_BEST: `Лучший`,
+	INFO_PANEL_VISITS: `    Посещений`,
+	
+	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
 
 	ABOUT_FILE_LOCATIONS: `Расположение KataGo, настроек анализа и файла сети:`,
 	ABOUT_CONFIG_LOCATION: `Расположение файла настроек Ogatak:`,
 	ABOUT_RAM_USAGE: `Использование оперативной памяти (Мбайт):`,
+	ABOUT_THANKS_TRANSLATORS: `Спасибо переводчикам:`,
 
 	BAD_CONFIG_1: `Не удалось проанализировать файл настроек.`,
 	BAD_CONFIG_2: `Он не будет сохранен до тех пор, пока вы не исправите это.`,
