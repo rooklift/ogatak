@@ -1100,7 +1100,7 @@ let board_drawer_prototype = {
 		}
 		s2 += `${tScore}: <span class="white">${pad(score, 8)}</span>`;
 		s2 += `${override_moveinfo ? tThis : tBest}: <span class="white">${pad(move, 6)}</span>`;
-		s2 += `${tVisits}: <span class="white">${pad(visits, 15)}</span>`;
+		s2 += `${tVisits}: <span class="white">${visits}</span>`;
 
 		this.info1span.innerHTML = s1;
 		this.info2span.innerHTML = s2;
