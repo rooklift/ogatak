@@ -386,7 +386,7 @@ let hub_main_props = {
 
 		let opts = {
 			keep_autoplay_settings: false,
-			bless: false						// When a caller leaves this as false, it's just because it isn't necessary.
+			bless: false						// Callers that leave this false do so because it's unneeded (would have no effect).
 		};
 
 		if (supplied_opts) Object.assign(opts, supplied_opts);		// I think this is Crockford's way of doing arguments to methods.
