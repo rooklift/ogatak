@@ -2177,6 +2177,15 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_HALT"),
+					click: () => {
+						win.webContents.send("call", "halt_by_user");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: translate("MENU_ENGINE_PLAYS_POLICY"),
 					type: "checkbox",
 					checked: config.play_against_policy,
@@ -2185,9 +2194,11 @@ function menu_build() {
 					}
 				},
 				{
-					label: translate("MENU_HALT"),
+					label: translate("MENU_ENGINE_PLAYS_DRUNK"),
+					type: "checkbox",
+					checked: config.play_against_drunk,
 					click: () => {
-						win.webContents.send("call", "halt_by_user");
+						win.webContents.send("toggle", "play_against_drunk");
 					}
 				},
 				{

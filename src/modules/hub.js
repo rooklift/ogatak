@@ -481,9 +481,18 @@ let hub_main_props = {
 		this.set_node(node, {keep_autoplay_settings: true, bless: true});
 	},
 
-	play_best: function() {
+	play_best: function(mode = "best") {
 		if (this.node.has_valid_analysis()) {
-			let s = this.node.get_board().parse_gtp_move(this.node.analysis.moveInfos[0].move);
+			let s;
+			if (mode === "best") {
+				s = this.node.get_board().parse_gtp_move(this.node.analysis.moveInfos[0].move);
+			} else if (mode === "policy") {
+				s = this.node.best_policy_move();
+			} else if (mode === "drunk") {
+				s = this.node.drunk_policy_move();
+			} else {
+				throw new Error("play_best(): bad call");
+			}
 			if (!s) {
 				this.pass();
 			} else {
@@ -494,21 +503,11 @@ let hub_main_props = {
 	},
 
 	play_top_policy: function() {
-		if (this.node.has_valid_analysis()) {
-			let best = null;
-			for (let info of this.node.analysis.moveInfos) {
-				if (!best || info.prior > best.prior) {
-					best = info;
-				}
-			}
-			let s = this.node.get_board().parse_gtp_move(best.move);
-			if (!s) {
-				this.pass();
-			} else {
-				let node = this.node.force_move(s);
-				this.set_node(node, {keep_autoplay_settings: true, bless: true});
-			}
-		}
+		this.play_best("policy");
+	},
+
+	play_drunk_policy: function() {
+		this.play_best("drunk");
 	},
 
 	prev: function() {
@@ -682,12 +681,17 @@ let hub_main_props = {
 
 			this.node.receive_analysis(o);
 
-			if (config.play_against_policy && this.__play_colour && this.__play_colour === this.node.get_board().active) {
+			if ((config.play_against_policy || config.play_against_drunk) && this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
 				// Any valid analysis object should be enough, given our definition of valid_analysis_object()...
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
-				this.play_top_policy();
+
+				if (config.play_against_policy) {
+					this.play_top_policy();
+				} else if (config.play_against_drunk) {
+					this.play_drunk_policy();
+				}
 				return;									// Just to avoid the redundant draw()
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {

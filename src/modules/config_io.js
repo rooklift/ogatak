@@ -94,6 +94,7 @@ exports.defaults = {
 	"fast_first_report": true,
 
 	"play_against_policy": false,
+	"play_against_drunk": false,
 
 	"enable_hw_accel": false,
 	"logfile": null,

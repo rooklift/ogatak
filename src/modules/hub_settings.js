@@ -38,6 +38,7 @@ const togglechecks = {
 	next_move_markers:		[translate("MENU_DISPLAY"), translate("MENU_NEXT_MOVE_MARKERS")],
 	embiggen_small_boards:	[translate("MENU_SIZES"), translate("MENU_EMBIGGEN_SMALL_BOARDS")],
 	play_against_policy:	[translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_POLICY")],
+	play_against_drunk:		[translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_DRUNK")],
 	load_at_end:			[translate("MENU_MISC"), translate("MENU_LOAD_GAMES_AT_FINAL_POSITION")],
 	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
@@ -231,6 +232,16 @@ module.exports = {
 			this.draw();
 			break;
 
+		case "play_against_policy":					// These 2 things...
+
+			if (value) config.play_against_drunk = false;
+			break;
+
+		case "play_against_drunk":					// ... are mutually exclusive. Also need a special menu-handler.
+
+			if (value) config.play_against_policy = false;
+			break;
+
 		case "enable_hw_accel":
 
 			if (old_value !== value) {
@@ -279,6 +290,10 @@ module.exports = {
 
 		if (key === "mode") {
 			this.fix_tools_menu();
+		}
+
+		if (key === "play_against_policy" || key === "play_against_drunk") {
+			this.fix_play_against_checks();
 		}
 
 		if (key === "visits_threshold") {
@@ -374,6 +389,11 @@ module.exports = {
 			let label = label_strings[config.mode];
 			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), label]);
 		}
+	},
+
+	fix_play_against_checks: function() {
+		ipcRenderer.send(config.play_against_policy ? "set_check_true" : "set_check_false", togglechecks["play_against_policy"]);
+		ipcRenderer.send(config.play_against_drunk ? "set_check_true" : "set_check_false", togglechecks["play_against_drunk"]);
 	},
 
 	fix_visit_filter_menu: function() {

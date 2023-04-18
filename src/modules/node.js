@@ -11,7 +11,7 @@ const path = require("path");
 
 const new_board = require("./board");
 const stringify = require("./stringify");
-const {replace_all, valid_analysis_object, handicap_stones, points_list} = require("./utils");
+const {replace_all, valid_analysis_object, handicap_stones, points_list, xy_to_s} = require("./utils");
 
 let next_node_id = 1;
 let have_alerted_zobrist_mismatch = false;
@@ -959,8 +959,67 @@ let node_prototype = {
 		}
 	},
 
-	reset_mismatch_warnings: function() {							// Note this is a module var, not actually part of the node.
-		have_alerted_zobrist_mismatch = false;
+	best_policy_move: function() {									// Result in SGF format e.g. "qq", (pass is "")
+
+		if (!this.has_valid_analysis()) {
+			return null;
+		}
+
+		let best_index = 0;
+		for (let n = 1; n < this.analysis.policy.length; n++) {
+			if (this.analysis.policy[n] > this.analysis.policy[best_index]) {
+				best_index = n;
+			}
+		}
+
+		if (best_index === this.analysis.policy.length - 1) {
+			return "";
+		}
+
+		let x = best_index % this.width();
+		let y = Math.floor(best_index / this.width());
+
+		return xy_to_s(x, y);
+	},
+
+	drunk_policy_move: function() {
+
+		if (!this.has_valid_analysis()) {
+			return null;
+		}
+
+		let rnd = Math.random();
+		let acc = 0;
+		let result = null;
+
+		for (let n = 0; n < this.analysis.policy.length; n++) {
+			let policy = this.analysis.policy[n];
+			if (policy === -1) {
+				continue;						// Illegal move flag.
+			}
+			acc += policy;
+			if (acc >= rnd) {
+				result = n;
+				break;
+			}
+		}
+
+		if (result === null) {
+			return this.best_policy_move();		// Due to floating point error, we didn't get a result. Return best policy.
+		}
+
+		if (result === this.analysis.policy.length - 1) {
+			return this.best_policy_move();		// We wanted to pass. Return best policy instead (which *could* be pass).
+		}
+
+		let x = result % this.width();
+		let y = Math.floor(result / this.width());
+
+		return xy_to_s(x, y);
+	},
+
+	reset_mismatch_warnings: function() {
+		have_alerted_zobrist_mismatch = false;	// Note this is a module var, not actually part of the node.
 	},
 
 	game_title_text: function() {
