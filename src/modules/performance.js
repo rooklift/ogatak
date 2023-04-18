@@ -52,7 +52,7 @@ module.exports = function(any_node) {
 
 		let points_lost = node.parent.analysis.rootInfo.scoreLead - node.analysis.rootInfo.scoreLead;
 		if (key === "W") points_lost *= -1;
-		// if (points_lost < 0) points_lost = 0;
+		if (points_lost < 0) points_lost = 0;
 		stats[key].points_lost += points_lost;
 
 		for (let info of node.parent.analysis.moveInfos.slice(0, 5)) {
@@ -76,8 +76,8 @@ module.exports = function(any_node) {
 		stats.W[stat] /= stats.W.moves_analysed;
 	}
 
-	if (stats.B.points_lost < 0) stats.B.points_lost = 0;
-	if (stats.W.points_lost < 0) stats.W.points_lost = 0;
+	if (stats.B.points_lost < 0) stats.B.points_lost = 0;		// Possible if we allow "gains" to remain
+	if (stats.W.points_lost < 0) stats.W.points_lost = 0;		// in the statistics, above...
 
 	// Figure out who has the best stat for each type (to do colours later)...
 
