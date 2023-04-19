@@ -996,7 +996,7 @@ let node_prototype = {
 		let result = null;
 		for (let n = 0; n < this.analysis.policy.length; n++) {
 			let prior = this.analysis.policy[n];
-			if (prior === -1) {
+			if (prior < 0) {
 				continue;						// Illegal move flag.
 			}
 			acc += prior;
