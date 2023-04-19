@@ -982,15 +982,7 @@ let node_prototype = {
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
-		let best_info = null;
-		for (let info of this.analysis.moveInfos) {
-			if (!best_info || info.prior > best_info.prior) {
-				best_info = info;
-			}
-		}
-		if (best_info === null) {				// Impossible?
-			return null;
-		}
+		let best_info = this.analysis.moveInfos.reduce((best, info) => info.prior > best.prior ? info : best);
 		return this.get_board().parse_gtp_move(best_info.move);
 	},
 
@@ -1001,7 +993,6 @@ let node_prototype = {
 		if (!Array.isArray(this.analysis.policy)) {
 			return this.drunk_policy_move_alt();
 		}
-
 		let rnd = Math.random();
 		let acc = 0;
 		let result = null;
@@ -1049,7 +1040,7 @@ let node_prototype = {
 		if (result === null) {
 			return this.best_policy_move_alt();
 		}
-		if (result.move === "pass") {			// Only pass if it's actually the top policy.
+		if (result.move === "pass") {			// We wanted to pass. Return best policy instead (which *could* be pass).
 			return this.best_policy_move_alt();
 		}
 		return this.get_board().parse_gtp_move(result.move);
