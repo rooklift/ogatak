@@ -968,20 +968,13 @@ let node_prototype = {
 			return this.best_policy_move_alt();
 		}
 
-		let best_index = null;
-		for (let n = 0; n < this.analysis.policy.length; n++) {
-			if (this.analysis.policy[n] > 0) {
-				if (best_index === null || this.analysis.policy[n] > this.analysis.policy[best_index]) {
-					best_index = n;
-				}
-			}
+		let best_index = this.analysis.policy.reduce((result, prior, i, arr) => prior > arr[result] ? i : result, 0);
+
+		if (this.analysis.policy[best_index] < 0) {
+			return null;
 		}
 
-		if (best_index === null) {
-			return this.best_policy_move_alt();
-		}
-
-		if (best_index === this.analysis.policy.length - 1) {
+		if (best_index >= this.width() * this.height()) {
 			return "";
 		}
 
