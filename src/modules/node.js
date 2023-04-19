@@ -995,11 +995,11 @@ let node_prototype = {
 		let acc = 0;
 		let result = null;
 		for (let n = 0; n < this.analysis.policy.length; n++) {
-			let policy = this.analysis.policy[n];
-			if (policy === -1) {
+			let prior = this.analysis.policy[n];
+			if (prior === -1) {
 				continue;						// Illegal move flag.
 			}
-			acc += policy;
+			acc += prior;
 			if (acc >= rnd) {
 				result = n;
 				break;
