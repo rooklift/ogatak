@@ -959,6 +959,8 @@ let node_prototype = {
 		}
 	},
 
+	// These 4 functions are a rather tangled web, but there's no recursion........................
+
 	best_policy_move: function() {				// Result in SGF format e.g. "qq", (pass is "")
 		if (!this.has_valid_analysis()) {
 			return null;
@@ -990,6 +992,10 @@ let node_prototype = {
 		if (!Array.isArray(this.analysis.policy)) {
 			return this.drunk_policy_move_alt();
 		}
+		let best_policy_move = this.best_policy_move();
+		if (best_policy_move === "") {			// Pass if it's the best policy.
+			return "";
+		}
 		let policy_sum = this.analysis.policy.reduce((sum, prior) => prior > 0 ? sum + prior : sum, 0);
 		let rnd = Math.random() * policy_sum;
 		let acc = 0;
@@ -1006,10 +1012,10 @@ let node_prototype = {
 			}
 		}
 		if (result === null) {
-			return this.best_policy_move();		// Due to floating point error, we didn't get a result. Return best policy.
+			return best_policy_move;			// Due to floating point error, we didn't get a result. Return best policy.
 		}
 		if (result === this.analysis.policy.length - 1) {
-			return this.best_policy_move();		// We wanted to pass. Return best policy instead (which *could* be pass).
+			return best_policy_move;			// We wanted to pass. Return best policy instead (which *could* be pass).
 		}
 		let x = result % this.width();
 		let y = Math.floor(result / this.width());
@@ -1019,6 +1025,10 @@ let node_prototype = {
 	drunk_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
 		if (!this.has_valid_analysis()) {
 			return null;
+		}
+		let best_policy_move = this.best_policy_move_alt();
+		if (best_policy_move === "") {			// Pass if it's the best policy.
+			return "";
 		}
 		let valid_infos = this.analysis.moveInfos.filter(info => info.prior && info.prior > 0);
 		let policy_sum = valid_infos.reduce((sum, info) => sum + info.prior, 0);
@@ -1036,10 +1046,10 @@ let node_prototype = {
 			}
 		}
 		if (result === null) {
-			return this.best_policy_move_alt();
+			return best_policy_move;
 		}
 		if (result.move === "pass") {			// We wanted to pass. Return best policy instead (which *could* be pass).
-			return this.best_policy_move_alt();
+			return best_policy_move;
 		}
 		return this.get_board().parse_gtp_move(result.move);
 	},
