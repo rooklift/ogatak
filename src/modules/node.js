@@ -967,9 +967,6 @@ let node_prototype = {
 			return this.best_policy_move_alt();
 		}
 		let best_index = this.analysis.policy.reduce((result, prior, i, arr) => prior > arr[result] ? i : result, 0);
-		if (this.analysis.policy[best_index] < 0) {
-			return null;
-		}
 		if (best_index >= this.width() * this.height()) {
 			return "";
 		}
