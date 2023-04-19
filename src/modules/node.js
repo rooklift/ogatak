@@ -964,7 +964,7 @@ let node_prototype = {
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
-		if (!Array.isArray(this.policy)) {
+		if (!Array.isArray(this.analysis.policy)) {
 			return this.best_policy_move_alt();
 		}
 
