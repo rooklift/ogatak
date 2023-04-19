@@ -678,23 +678,36 @@ let hub_main_props = {
 		}
 
 		let relevant_node_id = node_id_from_search_id(o.id);
+		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;		// Are either of these options set?
 
 		if (relevant_node_id === this.node.id) {
 
+			// Note: all the early returns here are just to avoid a redundant draw() at the end.
+
 			this.node.receive_analysis(o);
 
-			if ((config.play_against_policy || config.play_against_drunk) && this.__play_colour && this.__play_colour === this.node.get_board().active) {
-
-				// Any valid analysis object should be enough, given our definition of valid_analysis_object()...
+			if (policy_or_drunk && this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
-
-				if (config.play_against_policy) {
-					this.play_top_policy();
-				} else if (config.play_against_drunk) {
+				if (config.play_against_drunk) {
 					this.play_drunk_policy();
+				} else  {
+					this.play_top_policy();
 				}
-				return;									// Just to avoid the redundant draw()
+				return;
+				
+			} else if (policy_or_drunk && this.__autoplay) {
+
+				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
+					this.halt();
+				} else {
+					if (config.play_against_drunk) {
+						this.play_drunk_policy();
+					} else {
+						this.play_top_policy();
+					}
+					return;
+				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
 
@@ -704,13 +717,13 @@ let hub_main_props = {
 
 					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
-					return;								// Just to avoid the redundant draw()
+					return;
 
 				} else if (this.__autoanalysis) {
 
 					if (this.node.children.length > 0) {
 						this.next();
-						return;							// Just to avoid the redundant draw()
+						return;
 					} else {
 						this.halt();
 					}
@@ -719,7 +732,7 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
-						return;							// Just to avoid the redundant draw()
+						return;
 					} else {
 						this.halt();
 					}
@@ -730,7 +743,7 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
-						return;							// Just to avoid the redundant draw()
+						return;
 					}
 				}
 			}
