@@ -220,7 +220,7 @@ exports.valid_analysis_object = function(o) {		// Return value must be true or f
 		return false;
 	}
 
-	if (Array.isArray(o.moveInfos) && o.moveInfos.length > 0 && o.rootInfo && o.policy) {
+	if (Array.isArray(o.moveInfos) && o.moveInfos.length > 0 && o.rootInfo) {
 		return true;
 	}
 

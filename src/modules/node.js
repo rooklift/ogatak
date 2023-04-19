@@ -959,17 +959,26 @@ let node_prototype = {
 		}
 	},
 
-	best_policy_move: function() {									// Result in SGF format e.g. "qq", (pass is "")
+	best_policy_move: function() {				// Result in SGF format e.g. "qq", (pass is "")
 
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
+		if (!Array.isArray(this.policy)) {
+			return this.best_policy_move_alt();
+		}
 
-		let best_index = 0;
-		for (let n = 1; n < this.analysis.policy.length; n++) {
-			if (this.analysis.policy[n] > this.analysis.policy[best_index]) {
-				best_index = n;
+		let best_index = null;
+		for (let n = 0; n < this.analysis.policy.length; n++) {
+			if (this.analysis.policy[n] > 0) {
+				if (best_index === null || this.analysis.policy[n] > this.analysis.policy[best_index]) {
+					best_index = n;
+				}
 			}
+		}
+
+		if (best_index === null) {
+			return this.best_policy_move_alt();
 		}
 
 		if (best_index === this.analysis.policy.length - 1) {
@@ -982,10 +991,33 @@ let node_prototype = {
 		return xy_to_s(x, y);
 	},
 
-	drunk_policy_move: function() {
+	best_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
 
 		if (!this.has_valid_analysis()) {
 			return null;
+		}
+
+		let best_info = null;
+		for (let info of this.analysis.moveInfos) {
+			if (!best_info || info.prior > best_info.prior) {
+				best_info = info;
+			}
+		}
+
+		if (best_info === null) {				// Impossible?
+			return null;
+		}
+
+		return this.get_board().parse_gtp_move(best_info.move);
+	},
+
+	drunk_policy_move: function() {				// Weighted random choice from the policy.
+
+		if (!this.has_valid_analysis()) {
+			return null;
+		}
+		if (!Array.isArray(this.analysis.policy)) {
+			return this.drunk_policy_move_alt();
 		}
 
 		let rnd = Math.random();
@@ -1016,6 +1048,42 @@ let node_prototype = {
 		let y = Math.floor(result / this.width());
 
 		return xy_to_s(x, y);
+	},
+
+	drunk_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
+
+		if (!this.has_valid_analysis()) {
+			return null;
+		}
+
+		let valid_infos = this.analysis.moveInfos.filter(info => info.prior && info.prior > 0);
+		let policy_sum = valid_infos.reduce((sum, info) => sum + info.prior, 0);
+
+		if (policy_sum === 0) {
+			return this.best_policy_move_alt();
+		}
+
+		let rnd = Math.random() * policy_sum;
+		let acc = 0;
+		let result = null;
+
+		for (let info of valid_infos) {
+			acc += info.prior;
+			if (acc >= rnd) {
+				result = info;
+				break;
+			}
+		}
+
+		if (result === null) {
+			return this.best_policy_move_alt();
+		}
+
+		if (result.move === "pass") {			// Only pass if it's actually the top policy.
+			return this.best_policy_move_alt();
+		}
+
+		return this.get_board().parse_gtp_move(result.move);
 	},
 
 	reset_mismatch_warnings: function() {

@@ -493,7 +493,9 @@ let hub_main_props = {
 			} else {
 				throw new Error("play_best(): bad call");
 			}
-			if (!s) {
+			if (typeof s !== "string") {
+				return;
+			} else if (s === "") {
 				this.pass();
 			} else {
 				let node = this.node.force_move(s);
