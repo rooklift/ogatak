@@ -1023,7 +1023,7 @@ let node_prototype = {
 		let valid_infos = this.analysis.moveInfos.filter(info => info.prior && info.prior > 0);
 		let policy_sum = valid_infos.reduce((sum, info) => sum + info.prior, 0);
 		if (policy_sum === 0) {
-			return this.best_policy_move_alt();
+			return null;
 		}
 		let rnd = Math.random() * policy_sum;
 		let acc = 0;
