@@ -180,9 +180,11 @@ exports.load = () => {
 
 function apply_fixes() {
 
-	// Reset mode every time...
+	// Reset some stuff every time...
 
 	config.mode = exports.defaults.mode;
+	config.play_against_policy = exports.defaults.play_against_policy;
+	config.play_against_drunk = exports.defaults.play_against_drunk;
 
 	// Someone might edit the numbers in a slightly wrong way...
 
