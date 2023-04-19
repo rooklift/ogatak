@@ -990,7 +990,8 @@ let node_prototype = {
 		if (!Array.isArray(this.analysis.policy)) {
 			return this.drunk_policy_move_alt();
 		}
-		let rnd = Math.random();
+		let policy_sum = this.analysis.policy.reduce((sum, prior) => prior > 0 ? sum + prior : sum, 0);
+		let rnd = Math.random() * policy_sum;
 		let acc = 0;
 		let result = null;
 		for (let n = 0; n < this.analysis.policy.length; n++) {
