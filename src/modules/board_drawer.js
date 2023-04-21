@@ -644,7 +644,7 @@ let board_drawer_prototype = {
 				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
-			case "own_alt":
+			case "owner_square":
 
 				this.has_drawn_ownership = true;
 				this.fsquare(x, y, 1/3, o.colour);
@@ -748,9 +748,9 @@ let board_drawer_prototype = {
 				let own = ownership[x + (y * board.width)];
 
 				if (own > 0 && state !== "b") {
-					this.needed_marks[x][y] = {type: "own_alt", colour: "#000000" + float_to_hex_ff(own)};
+					this.needed_marks[x][y] = {type: "owner_square", colour: "#000000" + float_to_hex_ff(own)};
 				} else if (own < 0 && state !== "w") {
-					this.needed_marks[x][y] = {type: "own_alt", colour: "#ffffff" + float_to_hex_ff(-own)};
+					this.needed_marks[x][y] = {type: "owner_square", colour: "#ffffff" + float_to_hex_ff(-own)};
 				}
 			}
 		}
