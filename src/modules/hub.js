@@ -695,7 +695,7 @@ let hub_main_props = {
 					this.play_top_policy();
 				}
 				return;
-				
+
 			} else if (policy_or_drunk && this.__autoplay) {
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
@@ -871,7 +871,7 @@ let hub_main_props = {
 	clear_cache: function() {
 
 		if (this.engine.is_gtp) {
-			
+
 			if (this.engine.known_commands.includes("clear_cache")) {
 				this.engine.__send("clear_cache");
 			} else {
@@ -1177,14 +1177,15 @@ let hub_main_props = {
 			this.draw();
 		} else if (["AB", "AW", "AE"].includes(config.mode)) {
 			this.halt();
+			const rightClick = event.button === 2;
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
-				this.node.apply_board_edit(config.mode, s);
+				this.node.apply_board_edit(config.mode, s, rightClick);
 				this.node.change_id();							// Prevents the old query from updating the node. Prevents tabber from skipping its draw.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
-				node.apply_board_edit(config.mode, s);
+				node.apply_board_edit(config.mode, s, rightClick);
 				this.set_node(node, {bless: true});
 			}
 		}
