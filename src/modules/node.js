@@ -417,13 +417,14 @@ let node_prototype = {
 		let current_state = this.get_board().state_at(point);
 		let desired_state;
 
-		if (rightClick? key === "AW" : key === "AB") {
+		if (rightClick? key === "AW" : key === "AB") { // Right click with "Add White" tool should add black stone.
 			if (current_state === "b") {
 				desired_state = "";
 			} else {
 				desired_state = "b";
 			}
-		} else if (rightClick ? key === "AB" : key === "AW") {
+
+		} else if (rightClick ? key === "AB" : key === "AW") { // Right click with "Add Black" tool should add white stone.
 			if (current_state === "w") {
 				desired_state = "";
 			} else {
