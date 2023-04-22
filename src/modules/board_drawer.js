@@ -397,7 +397,7 @@ let board_drawer_prototype = {
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy;
-		
+
 		gy = y * this.square_size + (this.square_size * 0.22);
 		ctx.fillText(msg, gx, gy);
 		gy = y * this.square_size + (this.square_size * 0.5);
@@ -606,7 +606,7 @@ let board_drawer_prototype = {
 		// determined based on what is actually drawn in the table.
 
 		let tstate = this.table_state[x][y];
-				
+
 		switch (o.type) {
 
 			case "analysis":
@@ -837,7 +837,7 @@ let board_drawer_prototype = {
 	},
 
 	plan_analysis_circles: function(node) {
-		
+
 		if (config.mode || !config.candidate_moves) {
 			return;
 		}
@@ -1021,7 +1021,7 @@ let board_drawer_prototype = {
 		let tW       = translate("INFO_PANEL_W");
 		let tStn     = translate("INFO_PANEL_STN");
 		let tCaps    = translate("INFO_PANEL_CAPS");
-		let tScore   = translate("INFO_PANEL_SCORE")
+		let tScore   = translate("INFO_PANEL_SCORE");
 		let tThis    = translate("INFO_PANEL_THIS");
 		let tBest    = translate("INFO_PANEL_BEST");
 		let tVisits  = translate("INFO_PANEL_VISITS");
