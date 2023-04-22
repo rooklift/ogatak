@@ -380,7 +380,7 @@ module.exports = {
 			"CR": translate("MENU_CIRCLE"),
 			"MA": translate("MENU_CROSS"),
 			"LB:A": translate("MENU_LABELS_ABC"),
-			"LB:1": translate("MENU_LABELS_123"), 
+			"LB:1": translate("MENU_LABELS_123"),
 		};
 
 		if (!config.mode) {

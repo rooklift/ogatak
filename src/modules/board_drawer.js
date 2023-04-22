@@ -74,7 +74,7 @@ function init() {
 		width: null,								// We need to store width, height, and square_size
 		height: null,
 		square_size: null,
-		board_line_width: null,						// This other stuff is stored so we can detect when they 
+		board_line_width: null,						// This other stuff is stored so we can detect when they
 		grid_colour: null,							// don't match config and a rebuild() call is needed.
 		coordinates: null,
 
@@ -1116,7 +1116,7 @@ let board_drawer_prototype = {
 
 	draw_engine_starting: function() {
 		if (hub.engine.is_gtp) {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span> ` + 
+			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span> ` +
 					`<span class="yellow">(${path.basename(hub.engine.filepath)})</span>`;
 			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_2")}</span>`;
 		} else {

@@ -167,7 +167,7 @@ let board_prototype = {
 		}
 		let s = hash.toString(16);
 		if (s.length < 32) {
-			s = "0".repeat(32 - s.length) + s; 
+			s = "0".repeat(32 - s.length) + s;
 		}
 		return s.toUpperCase();
 	},

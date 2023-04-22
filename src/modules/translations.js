@@ -83,7 +83,7 @@ translations[`English`] = {
 
 	MENU_ANALYSIS: `Analysis`,
 
-		MENU_GO_HALT_TOGGLE: `Go / halt toggle`, 
+		MENU_GO_HALT_TOGGLE: `Go / halt toggle`,
 		MENU_GO: `Go`,
 		MENU_HALT: `Halt`,
 		MENU_SELF_PLAY: `Self-play`,
@@ -172,7 +172,7 @@ translations[`English`] = {
 	GUI_ENGINE_NOT_SET: `Engine not set.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `Engine config not set.`,
 	GUI_WEIGHTS_NOT_SET: `Network not set.`,
-	GUI_RESOLVE_THIS: `Resolve this via the <span class="yellow">"Setup"</span> menu.`, 
+	GUI_RESOLVE_THIS: `Resolve this via the <span class="yellow">"Setup"</span> menu.`,
 
 	// Message (split across 2 lines) that shows at startup while KataGo loads...
 	GUI_AWAITING_RESPONSE_1: `Awaiting response from engine. If needed, select the`,
@@ -299,7 +299,7 @@ translations[`Français`] = {
 
 	MENU_ANALYSIS: `Analyse`,
 
-		MENU_GO_HALT_TOGGLE: `Commencer / Halte`, 
+		MENU_GO_HALT_TOGGLE: `Commencer / Halte`,
 		MENU_GO: `Commencer`,
 		MENU_HALT: `Halte`,
 		MENU_SELF_PLAY: `Auto-jeu`,
@@ -474,7 +474,7 @@ translations[`русский`] = {
 
 	MENU_ANALYSIS: `Анализ`,
 
-		MENU_GO_HALT_TOGGLE: `Запустить / остановить`, 
+		MENU_GO_HALT_TOGGLE: `Запустить / остановить`,
 		MENU_GO: `Запустить`,
 		MENU_HALT: `Остановить`,
 		MENU_SELF_PLAY: `Компьютер играет сам с собой`,
@@ -676,7 +676,7 @@ translations[`繁體中文`] = {
 
 	MENU_ANALYSIS: `分析`,
 
-		MENU_GO_HALT_TOGGLE: `執行 / 暫停`, 
+		MENU_GO_HALT_TOGGLE: `執行 / 暫停`,
 		MENU_GO: `執行`,
 		MENU_HALT: `暫停`,
 		MENU_SELF_PLAY: `自我對戰`,
@@ -763,11 +763,10 @@ translations[`繁體中文`] = {
 	GUI_ENGINE_NOT_SET: `引擎位置尚未設定完成`,
 	GUI_ENGINE_CONFIG_NOT_SET: `設定檔位置尚未設定完成`,
 	GUI_WEIGHTS_NOT_SET: `權重位置尚未設定完成`,
-	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`, 
+	GUI_RESOLVE_THIS: `通過 <span class="yellow">"設定"</span> 選單解決此問題`,
 
 	GUI_AWAITING_RESPONSE_1: `正在等待引擎回應，如果需要請按`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">開發人員選項 --> 顯示引擎標準錯誤輸出</span> 獲取更多訊息`,
-
 
 	GUI_AWAITING_GTP_RESPONSE_1: `正在等待 GTP 引擎回覆...`,
 	GUI_AWAITING_GTP_RESPONSE_2: `提示：目前 GTP 界面只是實驗性功能，並不推薦使用`,
@@ -790,7 +789,6 @@ translations[`繁體中文`] = {
 	ABOUT_CONFIG_LOCATION: `Ogatak 的設定檔檔案位於：`,
 	ABOUT_RAM_USAGE: `記憶體已使用 (MB) (不包含引擎)：`,
 	ABOUT_THANKS_TRANSLATORS: `感謝下列翻譯者：`,
-
 
 	BAD_CONFIG_1: `config.json 不能被解析`,
 	BAD_CONFIG_2: `直到你修復問題前都不會被保存`,

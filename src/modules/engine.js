@@ -209,7 +209,7 @@ let engine_prototype = {
 			if (o.id === "test_bs29") {								// Before the main check for errors.
 				if (!o.error) {
 					this.log_and_alert(
-						"This build of KataGo appears to be compiled with \"bs29\" support for board sizes above 19. " + 
+						"This build of KataGo appears to be compiled with \"bs29\" support for board sizes above 19. " +
 						"This build will be significantly slower. Consider installing the normal version."
 					);
 				}
