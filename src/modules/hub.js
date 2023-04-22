@@ -1177,15 +1177,19 @@ let hub_main_props = {
 			this.draw();
 		} else if (["AB", "AW", "AE"].includes(config.mode)) {
 			this.halt();
-			const rightClick = event.button === 2;
+			let key = config.mode;
+			if (event.button === 2 && key !== "AE") {
+				// When user right click with Add Black or Add White, use the other color instead.
+				key = (key === "AB") ? "AW" : "AB";
+			}
 			if (this.node.safe_to_edit()) {
 				this.node.forget_analysis();
-				this.node.apply_board_edit(config.mode, s, rightClick);
+				this.node.apply_board_edit(key, s);
 				this.node.change_id();							// Prevents the old query from updating the node. Prevents tabber from skipping its draw.
 				this.draw();
 			} else {
 				let node = new_node(this.node);
-				node.apply_board_edit(config.mode, s, rightClick);
+				node.apply_board_edit(key, s);
 				this.set_node(node, {bless: true});
 			}
 		}

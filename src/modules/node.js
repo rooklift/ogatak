@@ -48,7 +48,7 @@ function new_node(parent) {
 			node.__root.graph_depth = node.depth;
 		}
 
-	}
+	}	
 
 	return node;
 }
@@ -401,7 +401,7 @@ let node_prototype = {
 		this.__board = null;
 	},
 
-	apply_board_edit: function(key, point, rightClick) {
+	apply_board_edit: function(key, point) {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 
@@ -417,19 +417,12 @@ let node_prototype = {
 		let current_state = this.get_board().state_at(point);
 		let desired_state;
 
-		if (rightClick? key === "AW" : key === "AB") { // Right click with "Add White" tool should add black stone.
-			if (current_state === "b") {
-				desired_state = "";
-			} else {
-				desired_state = "b";
-			}
-
-		} else if (rightClick ? key === "AB" : key === "AW") { // Right click with "Add Black" tool should add white stone.
-			if (current_state === "w") {
-				desired_state = "";
-			} else {
-				desired_state = "w";
-			}
+		if ((key === "AB" && current_state === "b") || (key === "AW" && current_state === "w")) {
+			desired_state = "";
+		} else if (key === "AB") {
+			desired_state = "b";
+		} else if (key === "AW") {
+			desired_state = "w";
 		} else if (key === "AE") {
 			desired_state = "";
 		} else {
@@ -466,7 +459,7 @@ let node_prototype = {
 	natural_active: function() {
 
 		// Returns who the active player should be (ignoring PL tags), or null if it can't be determined from this node alone.
-
+		
 		if (this.has_key("W")) return "b";			// This prevails if both B and W tags exist.
 		if (this.has_key("B")) return "w";
 
