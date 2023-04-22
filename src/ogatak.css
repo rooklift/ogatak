@@ -40,7 +40,7 @@ body {
 		"board graph";
 }
 
-#gridder_tree_comments {					
+#gridder_tree_comments {
 	background-color: #111111ff;
 	display: grid;
 	grid-area: t_c;

@@ -48,7 +48,7 @@ function new_node(parent) {
 			node.__root.graph_depth = node.depth;
 		}
 
-	}	
+	}
 
 	return node;
 }
@@ -459,7 +459,7 @@ let node_prototype = {
 	natural_active: function() {
 
 		// Returns who the active player should be (ignoring PL tags), or null if it can't be determined from this node alone.
-		
+
 		if (this.has_key("W")) return "b";			// This prevails if both B and W tags exist.
 		if (this.has_key("B")) return "w";
 

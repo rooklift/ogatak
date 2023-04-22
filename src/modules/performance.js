@@ -44,7 +44,7 @@ module.exports = function(any_node) {
 	for (let node of valid_nodes) {
 
 		let key = node.has_key("B") ? "B" : "W";		// We know it has one of these, from the move_count() test above.
-		
+
 		stats[key].moves_analysed++;
 
 		let s = node.get(key);

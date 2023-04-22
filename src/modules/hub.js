@@ -695,7 +695,7 @@ let hub_main_props = {
 					this.play_top_policy();
 				}
 				return;
-				
+
 			} else if (policy_or_drunk && this.__autoplay) {
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
@@ -871,7 +871,7 @@ let hub_main_props = {
 	clear_cache: function() {
 
 		if (this.engine.is_gtp) {
-			
+
 			if (this.engine.known_commands.includes("clear_cache")) {
 				this.engine.__send("clear_cache");
 			} else {

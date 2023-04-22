@@ -12,7 +12,7 @@ module.exports = function(square_size, board_line_width, grid_colour) {
 
 	c.width = square_size * 3;
 	c.height = square_size * 3;
-	
+
 	ctx.lineWidth = board_line_width;
 	ctx.strokeStyle = grid_colour;
 	ctx.fillStyle = grid_colour;
@@ -73,7 +73,7 @@ function get_image_url(x, y, square_size) {
 
 	c2.width = square_size;						// Clearing
 	c2.height = square_size;					// the canvas
-	
+
 	ctx2.putImageData(img_data, 0, 0);
 	return c2.toDataURL("image/png");
 }

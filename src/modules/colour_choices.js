@@ -133,7 +133,6 @@ exports.items = [
 			"off_colour_white": exports.clear,
 		},
 	},
-	
 	{
 		label: "Red + Transparent",
 		opts: {

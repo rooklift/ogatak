@@ -9,7 +9,7 @@ function init() {
 
 		canvas: document.getElementById("graphcanvas"),
 		positioncanvas: document.getElementById("graphpositioncanvas"),
-		
+
 		ctx: document.getElementById("graphcanvas").getContext("2d"),
 		posctx: document.getElementById("graphpositioncanvas").getContext("2d"),
 
@@ -42,7 +42,7 @@ let grapher_prototype = {
 
 		this.canvas.width = this.positioncanvas.width = config.graph_width;
 		this.canvas.height = this.positioncanvas.height = board_drawer.canvas.height + 48;
-		
+
 		// X stuff
 
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
@@ -286,7 +286,7 @@ let grapher_prototype = {
 		}
 
 		return this.node_from_click_y(node, event.offsetY);
-	},	
+	},
 
 	node_from_click_y: function(node, mousey) {
 

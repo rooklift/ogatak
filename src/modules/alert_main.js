@@ -18,7 +18,7 @@ module.exports = function(...args) {							// Can be called as  (msg)  or as  (w
 
 	let win = (args.length < 2) ? undefined : args[0];
 	let msg = (args.length < 2) ? args[0]   : args[1];
-	
+
 	if (alerts_open >= 3) {
 		console.log(msg);
 		return;

@@ -178,7 +178,7 @@ let tree_drawer_prototype = {
 							ctx.lineTo(node.parent.gx, node.gy - config.tree_spacing / 2);			// Horizontal line from above node to main line.
 							ctx.stroke();
 							ctx.beginPath();
-							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);					
+							ctx.moveTo(node.gx, node.gy - config.tree_spacing / 4);
 							ctx.lineTo(node.gx, node.gy - config.tree_spacing / 2 - 1);				// Vertical tiny line upwards from node.
 							ctx.stroke();
 							ctx.beginPath();

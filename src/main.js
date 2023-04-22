@@ -2505,7 +2505,7 @@ function verify_menupath(menupath) {
 	}
 
 	let result = get_submenu_items(menupath);
-	
+
 	if (!result) {
 		alert(win, `Failed to verify menupath: ${stringify(menupath)}`);
 	}

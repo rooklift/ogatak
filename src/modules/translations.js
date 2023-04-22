@@ -211,7 +211,7 @@ translations[`English`] = {
 	INFO_PANEL_THIS: `This`,
 	INFO_PANEL_BEST: `Best`,
 	INFO_PANEL_VISITS: `Visits`,
-	
+
 	// Alerts...
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
 
@@ -592,7 +592,7 @@ translations[`русский`] = {
 	INFO_PANEL_THIS: `Данный`,
 	INFO_PANEL_BEST: `Лучший`,
 	INFO_PANEL_VISITS: `    Посещений`,
-	
+
 	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
 
 	ABOUT_FILE_LOCATIONS: `Расположение KataGo, настроек анализа и файла сети:`,

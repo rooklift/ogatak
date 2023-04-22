@@ -48,7 +48,7 @@ function new_gtp_engine() {
 
 	eng.version_gtp_id = null;						// The GTP id for the "version" command we send.
 	eng.list_commands_gtp_id = null;				// The GTP id for the "list_commands" command we send.
-	
+
 	eng.desired = null;								// The search object we want to be running.
 	eng.running = null;								// The search object actually running. Possibly the same object as above.
 	eng.running_info = null;						// Some extra info about the running analysis.
@@ -485,7 +485,7 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
 			s.charCodeAt(0) <= 90 &&		// Z
 			s.charCodeAt(1) >= 48 &&		// 0
 			s.charCodeAt(1) <= 57			// 9
-		);			
+		);
 	}
 
 	if (s.length === 3) {
