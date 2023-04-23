@@ -783,6 +783,22 @@ translations[`繁體中文`] = {
 	INFO_DATE: `時間`,
 	INFO_RESULT: `結果`,
 
+//	INFO_PANEL_RULES: `規則`,
+//	INFO_PANEL_UNKNOWN: `未知`,
+//	INFO_PANEL_KOMI: `貼目`,
+//	INFO_PANEL_EDITING: `編輯模式`,
+//	INFO_PANEL_ESCAPE: `輸入 Esc 結束編輯`,
+//	INFO_PANEL_PREV: `上一手`,
+//	INFO_PANEL_SHOW: `顯示`,
+//	INFO_PANEL_B: `B`,
+//	INFO_PANEL_W: `W`,
+//	INFO_PANEL_CAPS: `提子數`,
+//	INFO_PANEL_SCORE: `領先目數`,
+//	INFO_PANEL_STN: `棋子數`,
+//	INFO_PANEL_THIS: `本手`,
+//	INFO_PANEL_BEST: `最佳手`,
+//	INFO_PANEL_VISITS: `訪問數`,
+
 	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
 
 	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於：`,
