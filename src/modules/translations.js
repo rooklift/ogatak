@@ -686,7 +686,7 @@ translations[`繁體中文`] = {
 		MENU_SET_RULES: `規則`,
 			MENU_CHINESE: `中國`,
 			MENU_JAPANESE: `日本`,
-			MENU_STONE_SCORING: `還頭棋`,
+			MENU_STONE_SCORING: `還棋頭`,
 		MENU_SET_KOMI: `貼目`,
 		MENU_PV_LENGTH_MAX: `主變化最大顯示深度`,
 		MENU_WIDE_ROOT_NOISE: `根節點廣化噪音`,
