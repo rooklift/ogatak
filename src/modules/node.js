@@ -1015,7 +1015,7 @@ let node_prototype = {
 			return best_policy_move;			// Due to floating point error, we didn't get a result. Return best policy.
 		}
 		if (result === this.analysis.policy.length - 1) {
-			return best_policy_move;			// We wanted to pass. Return best policy instead (which *could* be pass).
+			return best_policy_move;			// We wanted to pass. Return best policy instead.
 		}
 		let x = result % this.width();
 		let y = Math.floor(result / this.width());
@@ -1048,7 +1048,7 @@ let node_prototype = {
 		if (result === null) {
 			return best_policy_move;
 		}
-		if (result.move === "pass") {			// We wanted to pass. Return best policy instead (which *could* be pass).
+		if (result.move === "pass") {			// We wanted to pass. Return best policy instead.
 			return best_policy_move;
 		}
 		return this.get_board().parse_gtp_move(result.move);
