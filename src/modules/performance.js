@@ -19,7 +19,6 @@ module.exports = function(any_node) {
 			points_lost_adjusted_sum: 0,
 			weights_adjusted_sum: 0,
 			top1: 0,
-			top5_raw: 0,
 			top5_approved: 0,
 		},
 		W: {
@@ -31,7 +30,6 @@ module.exports = function(any_node) {
 			points_lost_adjusted_sum: 0,
 			weights_adjusted_sum: 0,
 			top1: 0,
-			top5_raw: 0,
 			top5_approved: 0,
 		},
 	};
@@ -69,33 +67,17 @@ module.exports = function(any_node) {
 		// KaTrain calculates some sort of difficulty statistic for the parent position (from which our move was played) by
 		// looking at its known moveInfos, and multiplying the points loss of each move by the prior. These are then summed...
 
-		let parent_difficulty_stat = 0;
-		let parent_moveinfo_prior_sum = 0;
+		let parent_difficulty_stat = node_difficulty_stat(node.parent);
+		let parent_moveinfo_prior_sum = sum(node.parent.analysis.moveInfos.map(info => info.prior));
 
-		for (let info of node.parent.analysis.moveInfos) {
-
-			let move_points_lost = node.parent.analysis.rootInfo.scoreLead - info.scoreLead;
-			if (key === "W") move_points_lost *= -1;
-			if (move_points_lost < 0) move_points_lost = 0;
-
-			parent_difficulty_stat += move_points_lost * info.prior;
-			parent_moveinfo_prior_sum += info.prior;
-		}
-
-		let weight = parent_difficulty_stat / parent_moveinfo_prior_sum;
-		if (weight > 1) weight = 1;
-
-		// The adjusted weight is especially relevant when some move loses a lot of points,
-		// in which case it gets pushed up towards 1...
-
+		let weight = clamp(0, parent_difficulty_stat / parent_moveinfo_prior_sum, 1.0);
 		let weight_adjusted = clamp(0.05, Math.max(weight, points_lost / 4), 1.0);
-		stats[key].weights_adjusted_sum += weight_adjusted;
 
+		stats[key].weights_adjusted_sum += weight_adjusted;
 		stats[key].points_lost_adjusted_sum += points_lost * weight_adjusted;
 
 		for (let info of node.parent.analysis.moveInfos.slice(0, 5)) {
 			if (info.move === gtp) {
-				stats[key].top5_raw++;
 				if (points_lost < 0.5 || info.order === 0) {
 					stats[key].top5_approved++;
 				}
@@ -112,32 +94,58 @@ module.exports = function(any_node) {
 		stats[key].accuracy = 100 * Math.pow(0.75, wt_loss);
 	}
 
-	// Normalise these stats to give averages...
+	stats.winners = declare_winners(stats);
 
-	for (let stat of ["points_lost", "top1", "top5_raw", "top5_approved"]) {
-		stats.B[stat] /= stats.B.moves_analysed;
-		stats.W[stat] /= stats.W.moves_analysed;
-	}
+	return stats;
+};
 
-	// Figure out who has the best stat for each type (to do colours later)...
+
+function declare_winners(stats) {
 
 	let winners = {};
 
-	if (stats.B.accuracy > stats.W.accuracy) winners.accuracy = "B";
-	if (stats.W.accuracy > stats.B.accuracy) winners.accuracy = "W";
+	if (stats.B.accuracy > stats.W.accuracy) {
+		winners.accuracy = "B";
+	}
+	if (stats.W.accuracy > stats.B.accuracy) {
+		winners.accuracy = "W";
+	}
+	if (stats.B.points_lost / stats.B.moves_analysed < stats.W.points_lost / stats.W.moves_analysed) {
+		winners.points_lost = "B";
+	}
+	if (stats.W.points_lost / stats.W.moves_analysed < stats.B.points_lost / stats.B.moves_analysed) {
+		winners.points_lost = "W";
+	}
+	if (stats.B.top1 / stats.B.moves_analysed > stats.W.top1 / stats.W.moves_analysed) {
+		winners.top1 = "B";
+	}
+	if (stats.W.top1 / stats.W.moves_analysed > stats.B.top1 / stats.B.moves_analysed) {
+		winners.top1 = "W";
+	}
+	if (stats.B.top5_approved / stats.B.moves_analysed > stats.W.top5_approved / stats.W.moves_analysed) {
+		winners.top5_approved = "B";
+	}
+	if (stats.W.top5_approved / stats.W.moves_analysed > stats.B.top5_approved / stats.B.moves_analysed) {
+		winners.top5_approved = "W";
+	}
 
-	if (stats.B.points_lost < stats.W.points_lost) winners.points_lost = "B";
-	if (stats.W.points_lost < stats.B.points_lost) winners.points_lost = "W";
+	return winners;
+}
 
-	if (stats.B.top1 > stats.W.top1) winners.top1 = "B";
-	if (stats.W.top1 > stats.B.top1) winners.top1 = "W";
 
-	if (stats.B.top5_raw > stats.W.top5_raw) winners.top5_raw = "B";
-	if (stats.W.top5_raw > stats.B.top5_raw) winners.top5_raw = "W";
+function node_difficulty_stat(node) {		// Assumes it has valid analysis.
 
-	if (stats.B.top5_approved > stats.W.top5_approved) winners.top5_approved = "B";
-	if (stats.W.top5_approved > stats.B.top5_approved) winners.top5_approved = "W";
+	let ret = 0;
 
-	stats.winners = winners;
-	return stats;
-};
+	for (let info of node.analysis.moveInfos) {
+
+		let move_points_lost = node.analysis.rootInfo.scoreLead - info.scoreLead;
+		if (node.get_board().active === "w") move_points_lost *= -1;
+		if (move_points_lost < 0) move_points_lost = 0;
+
+		ret += move_points_lost * info.prior;
+	}
+
+	return ret;
+}
+

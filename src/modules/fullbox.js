@@ -122,16 +122,17 @@ let fullbox_prototype = {
 			let span_string;
 
 			lines.push(`<span class="blue">${stats.name}</span> (${key})`);
-			lines.push(`${stats.moves_analysed} of ${stats.moves} moves analysed (main line only):`);
+			lines.push(`${stats.moves_analysed} of ${stats.moves} moves analysed - main line only:`);
 			lines.push(``);
 			span_string = winners.accuracy === key ? `<span class="green">` : "<span>";
 			lines.push(`                 Accuracy: ${span_string} ${stats.accuracy.toFixed(1)}</span>`);
 			span_string = winners.points_lost === key ? `<span class="green">` : "<span>";
-			lines.push(`          Mean point loss: ${span_string} ${stats.points_lost.toFixed(1)}</span>`);
+			lines.push(`          Mean point loss: ${span_string} ${(stats.points_lost / stats.moves_analysed).toFixed(1)}</span>`);
 			span_string = winners.top1 === key ? `<span class="green">` : "<span>";
-			lines.push(`             AI best move: ${span_string} ${(stats.top1 * 100).toFixed(1)}%</span>`);
+			lines.push(`             AI best move: ${span_string} ${(stats.top1 * 100 / stats.moves_analysed).toFixed(1)}%</span>`);
 			span_string = winners.top5_approved === key ? `<span class="green">` : "<span>";
-			lines.push(`              AI approved: ${span_string} ${(stats.top5_approved * 100).toFixed(1)}%</span>  (AI top 5 and point loss < 0.5)`);
+			lines.push(`              AI approved: ${span_string} ${(stats.top5_approved * 100 / stats.moves_analysed).toFixed(1)}%</span>`
+				+ `  (AI top 5 and point loss < 0.5)`);
 			lines.push("");
 			lines.push("");
 		}
