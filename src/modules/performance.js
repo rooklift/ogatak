@@ -64,9 +64,6 @@ module.exports = function(any_node) {
 		if (points_lost < 0) points_lost = 0;
 		stats[key].points_lost += points_lost;
 
-		// KaTrain calculates some sort of difficulty statistic for the parent position (from which our move was played) by
-		// looking at its known moveInfos, and multiplying the points loss of each move by the prior. These are then summed...
-
 		let parent_difficulty_stat = node_difficulty_stat(node.parent);
 		let parent_moveinfo_prior_sum = sum(node.parent.analysis.moveInfos.map(info => info.prior));
 
@@ -134,6 +131,9 @@ function declare_winners(stats) {
 
 
 function node_difficulty_stat(node) {		// Assumes it has valid analysis.
+
+	// KaTrain calculates some sort of difficulty statistic for a position by looking at the known moveInfos and
+	// multiplying the points lost for each by the prior. Then these values are summed...
 
 	let ret = 0;
 
