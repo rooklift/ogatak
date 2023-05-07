@@ -363,3 +363,13 @@ exports.clamp = function(lower, val, upper) {
 	if (val > upper) return upper;
 	return val;
 };
+
+exports.sum = function(arr) {
+	let ret = 0;
+	for (let item of arr) {
+		if (typeof item === "number") {
+			ret += item;
+		}
+	}
+	return ret;
+};
