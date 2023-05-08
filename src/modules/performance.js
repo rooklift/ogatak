@@ -10,45 +10,33 @@ module.exports = function(any_node) {
 	let root = any_node.get_root();
 
 	let stats = {
-		B: {
-			name: root.get("PB") || "Unknown",
-			moves: 0,
-			moves_analysed: 0,
-			accuracy: 0,
-			points_lost: 0,
-			points_lost_adjusted_sum: 0,
-			weights_adjusted_sum: 0,
-			top1: 0,
-			top5_approved: 0,
-		},
-		W: {
-			name: root.get("PW") || "Unknown",
-			moves: 0,
-			moves_analysed: 0,
-			accuracy: 0,
-			points_lost: 0,
-			points_lost_adjusted_sum: 0,
-			weights_adjusted_sum: 0,
-			top1: 0,
-			top5_approved: 0,
-		},
+		B: {name: root.get("PB") || "Unknown"},
+		W: {name: root.get("PW") || "Unknown"},
 	};
+	for (let key of ["B", "W"]) {
+		Object.assign(stats[key], {
+			moves: 0,
+			moves_analysed: 0,
+			accuracy: 0,
+			points_lost: 0,
+			points_lost_adjusted_sum: 0,
+			weights_adjusted_sum: 0,
+			top1: 0,
+			top5_approved: 0,
+		});
+	}
 
-	let valid_nodes = [];
+	// --------------------------------------------------------------------------------------------
 
+	let main_line = [];
 	for (let node = root; node; node = node.children[0]) {
-
 		if (node.has_key("B")) stats["B"].moves++;
 		if (node.has_key("W")) stats["W"].moves++;
-
-		if (node.has_valid_analysis() && node.parent && node.parent.has_valid_analysis() && node.move_count() === 1) {
-			if (node.has_key("B") && node.parent.get_board().active === "b") {
-				valid_nodes.push(node);
-			} else if (node.has_key("W") && node.parent.get_board().active === "w") {
-				valid_nodes.push(node);
-			}
-		}
+		main_line.push(node);
 	}
+	let valid_nodes = main_line.filter(node => valid_node_to_analyse(node));
+
+	// --------------------------------------------------------------------------------------------
 
 	for (let node of valid_nodes) {
 
@@ -86,6 +74,8 @@ module.exports = function(any_node) {
 		}
 	}
 
+	// --------------------------------------------------------------------------------------------
+
 	for (let key of ["B", "W"]) {
 		let wt_loss = stats[key].points_lost_adjusted_sum / stats[key].weights_adjusted_sum;
 		stats[key].accuracy = 100 * Math.pow(0.75, wt_loss);
@@ -95,6 +85,38 @@ module.exports = function(any_node) {
 
 	return stats;
 };
+
+
+function valid_node_to_analyse(node) {
+	if (node && node.has_valid_analysis() && node.parent && node.parent.has_valid_analysis() && node.move_count() === 1) {
+		if (node.has_key("B") && node.parent.get_board().active === "b") {
+			return true;
+		} else if (node.has_key("W") && node.parent.get_board().active === "w") {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+function node_difficulty_stat(node) {		// Assumes it has valid analysis.
+
+	// KaTrain calculates some sort of difficulty statistic for a position by looking at the known moveInfos and
+	// multiplying the points lost for each by the prior. Then these values are summed...
+
+	let ret = 0;
+
+	for (let info of node.analysis.moveInfos) {
+
+		let move_points_lost = node.analysis.rootInfo.scoreLead - info.scoreLead;
+		if (node.get_board().active === "w") move_points_lost *= -1;
+		if (move_points_lost < 0) move_points_lost = 0;
+
+		ret += move_points_lost * info.prior;
+	}
+
+	return ret;
+}
 
 
 function declare_winners(stats) {
@@ -128,24 +150,3 @@ function declare_winners(stats) {
 
 	return winners;
 }
-
-
-function node_difficulty_stat(node) {		// Assumes it has valid analysis.
-
-	// KaTrain calculates some sort of difficulty statistic for a position by looking at the known moveInfos and
-	// multiplying the points lost for each by the prior. Then these values are summed...
-
-	let ret = 0;
-
-	for (let info of node.analysis.moveInfos) {
-
-		let move_points_lost = node.analysis.rootInfo.scoreLead - info.scoreLead;
-		if (node.get_board().active === "w") move_points_lost *= -1;
-		if (move_points_lost < 0) move_points_lost = 0;
-
-		ret += move_points_lost * info.prior;
-	}
-
-	return ret;
-}
-
