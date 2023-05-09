@@ -64,8 +64,10 @@ let fullbox_prototype = {
 		if (config.gtp_filepath) {
 			s += translate("ABOUT_GTP_COMMAND") + `\n\n`;
 			s += `    <span class="yellow">${config.gtp_filepath}</span>\n`;
-			for (let item of config.gtp_argslist) {
-				s += `    <span class="yellow">${item}</span>\n`;
+			if (Array.isArray(config.gtp_argslist)) {
+				for (let item of config.gtp_argslist) {
+					s += `    <span class="yellow">${item}</span>\n`;
+				}
 			}
 			s += `\n`;
 		} else {
