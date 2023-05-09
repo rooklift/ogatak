@@ -6,6 +6,7 @@ const path = require("path");
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 const {translate} = require("./translate");
+const {compare_arrays} = require("./utils");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
@@ -427,6 +428,9 @@ module.exports = {
 	differences: function() {
 		for (let key of Object.keys(defaults)) {
 			if (defaults[key] !== config[key]) {
+				if (compare_arrays(defaults[key], config[key])) {		// False if one or both aren't arrays, or the arrays don't have same contents.
+					continue;
+				}
 				console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
 			}
 		}
