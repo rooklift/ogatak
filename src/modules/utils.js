@@ -373,3 +373,18 @@ exports.sum = function(arr) {
 	}
 	return ret;
 };
+
+exports.compare_arrays = function(a, b) {
+	if (Array.isArray(a) === false || Array.isArray(b) === false) {
+		return false;
+	}
+	if (a.length !== b.length) {
+		return false;
+	}
+	for (let n = 0; n < a.length; n++) {
+		if (a[n] !== b[n]) {
+			return false;
+		}
+	}
+	return true;
+};
