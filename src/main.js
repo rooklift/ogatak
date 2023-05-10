@@ -2177,6 +2177,16 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_ENGINE_PLAYS_CURRENT"),
+					accelerator: "CommandOrControl+E",
+					click: () => {
+						win.webContents.send("call", {
+							fn: "start_play_colour",
+							args: []
+						});
+					}
+				},
+				{
 					label: translate("MENU_HALT"),
 					click: () => {
 						win.webContents.send("call", "halt_by_user");

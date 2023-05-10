@@ -859,6 +859,9 @@ let hub_main_props = {
 	},
 
 	start_play_colour: function(val) {
+		if (!val) {
+			val = this.node.get_board().active;
+		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
