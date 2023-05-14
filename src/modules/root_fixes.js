@@ -61,6 +61,14 @@ exports.apply_pl_fix = function(root) {
 	}
 };
 
+exports.apply_ruleset_fix = function(root) {
+
+	// Just aesthetic really. OGS has these lowercase rules.
+
+	if (root.get("RU") === "chinese") root.set("RU", "Chinese");
+	if (root.get("RU") === "japanese") root.set("RU", "Japanese");
+};
+
 exports.apply_ruleset_guess = function(root) {
 	if (!root.has_key("RU")) {
 		if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
