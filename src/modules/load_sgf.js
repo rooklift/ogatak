@@ -141,7 +141,9 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 					throw new Error(`SGF load error: value started with [ but key was ""`);
 				}
 				if ((key_string === "B" || key_string === "W") && (node.has_key("B") || node.has_key("W"))) {
-					throw new Error(`SGF load error: multiple moves in node`);
+					// This is illegal, so we used to throw... but we can tolerate it.
+					// throw new Error(`SGF load error: multiple moves in node`);
+					node = new_node(node);
 				}
 			} else if (c === 40) {						// that is (
 				if (!node) {
