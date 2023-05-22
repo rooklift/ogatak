@@ -27,7 +27,7 @@ body {
 	grid-template-columns: min-content min-content 1fr;
 	grid-template-rows: min-content 1fr;
 	grid-template-areas:
-		"tabs info info"
+		"tabs info t_c"
 		"tabs b_g  t_c";
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 #gridder_tree_comments {
-	background-color: #080808ff;
+	background-color: #111111ff;
 	display: grid;
 	grid-area: t_c;
 	height: 100vh;
@@ -134,7 +134,7 @@ body {
 	grid-area: tree;
 	background-color: #111111ff;
 	display: block;
-	margin: 16px 0 0 0;
+	margin: 0;
 }
 
 #comments {
