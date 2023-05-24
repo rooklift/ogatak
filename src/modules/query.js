@@ -33,7 +33,7 @@ function new_query(query_node, eng_version = null) {
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
 		includePolicy: true,
-		includeOwnership: (want_ownership) ? true : false,
+		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
 		overrideSettings: {										// Before KataGo 1.9.1, it would generate an error for unknown fields in this part (only).
