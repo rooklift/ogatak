@@ -16,6 +16,10 @@
 			"!electron_zipped",
 			"!builder.py",
 			"!update_my_installation.py"
-		]
+		],
+		"win": {
+			"signAndEditExecutable": false,
+			"target": "zip"
+		}
 	}
 }
