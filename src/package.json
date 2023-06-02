@@ -8,5 +8,9 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/rooklift/ogatak"
+	},
+	"build": {
+		"asar": false,
+		"electronVersion": "9.4.4"
 	}
 }
