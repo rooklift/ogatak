@@ -11,6 +11,11 @@
 	},
 	"build": {
 		"asar": false,
-		"electronVersion": "9.4.4"
+		"electronVersion": "9.4.4",
+		"files": [
+			"!**/electron_zipped",
+			"!**/builder.py",
+			"!**/update_my_installation.py"
+		]
 	}
 }
