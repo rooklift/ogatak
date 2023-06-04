@@ -24,7 +24,7 @@
 
 * Download and unpack Ogatak, KataGo, and a KataGo weights file.
 * In Ogatak, select the menu item `Setup` `-->` `Locate KataGo...` (and locate katago.exe)
-* In Ogatak, select the menu item `Setup` `-->` `Choose weights...` (and locate the weights file) 
+* In Ogatak, select the menu item `Setup` `-->` `Choose network...` (and locate the weights file) 
 
 ## Performance tips
 
