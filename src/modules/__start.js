@@ -3,34 +3,47 @@
 const {ipcRenderer} = require("electron");
 const stringify = require("./stringify");
 
-const config_io = require("./config_io");		// Creates global.config
-config_io.load();								// Populates global.config
-config_io.create_if_needed();					// Saves config.json if it doesn't exist
+ipcRenderer.send("renderer_started", null);			// Causes main to send us any needed globals
 
-// ---------------------------------------------------------------------------------------------------
-// The order of events is important...
+ipcRenderer.on("renderer_globals", (event, o) => {
+	for (let [key, value] of Object.entries(o)) {
+		global[key] = value;
+	}
+	startup();
+});
 
-global.alert = (msg) => {
-	ipcRenderer.send("alert", stringify(msg));
-};
+function startup() {
 
-global.hub = require("./hub");
-global.tabber = require("./tabber_v2");
-global.board_drawer = require("./board_drawer");
-global.grapher = require("./grapher");
-global.tree_drawer = require("./tree_drawer");
-global.comment_drawer = require("./comment_drawer");
-global.fullbox = require("./fullbox");
-global.stderrbox = require("./stderrbox");
-global.root_editor = require("./root_editor");
+	const config_io = require("./config_io");		// Creates global.config
 
-hub.new_game(19, 19);
+	config_io.load();								// Populates global.config
+	config_io.create_if_needed();					// Saves config.json if it doesn't exist
 
-require("./__start_handlers");
-require("./__start_spinners");
+	// ---------------------------------------------------------------------------------------------------
+	// The order of events is important...
 
-if (config_io.error()) {
-	fullbox.warn_bad_config();
+	global.alert = (msg) => {
+		ipcRenderer.send("alert", stringify(msg));
+	};
+
+	global.hub = require("./hub");
+	global.tabber = require("./tabber_v2");
+	global.board_drawer = require("./board_drawer");
+	global.grapher = require("./grapher");
+	global.tree_drawer = require("./tree_drawer");
+	global.comment_drawer = require("./comment_drawer");
+	global.fullbox = require("./fullbox");
+	global.stderrbox = require("./stderrbox");
+	global.root_editor = require("./root_editor");
+
+	hub.new_game(19, 19);
+
+	require("./__start_handlers");
+	require("./__start_spinners");
+
+	if (config_io.error()) {
+		fullbox.warn_bad_config();
+	}
+
+	ipcRenderer.send("renderer_ready", null);		// Probably emitted at the same time as ready-to-show
 }
-
-ipcRenderer.send("renderer_ready", null);		// Probably emitted at the same time as ready-to-show

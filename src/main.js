@@ -75,22 +75,6 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 		}
 	});
 
-	win.once("ready-to-show", () => {
-
-		try {
-			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
-		} catch (err) {
-			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
-		}
-
-		if (config.maxed) {
-			win.maximize();
-		}
-
-		win.show();
-		win.focus();
-	});
-
 	win.webContents.on("before-input-event", (event, input) => {
 		if (input.type === "keyDown") {
 			if (input.code === "Space") {
@@ -142,7 +126,24 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 		electron.app.quit();
 	});
 
+	electron.ipcMain.once("renderer_started", () => {
+		win.webContents.send("renderer_globals", {
+			user_data_path: electron.app.getPath("userData")
+		});
+	});
+
 	electron.ipcMain.once("renderer_ready", () => {
+
+		try {
+			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
+		} catch (err) {
+			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
+		}
+		if (config.maxed) {
+			win.maximize();
+		}
+		win.show();
+		win.focus();
 
 		queued_files_spinner();
 
@@ -214,15 +215,9 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	menu_is_set = true;
 
 	// Actually load the page last, I guess, so the event handlers above are already set up.
-	// Send some possibly useful info as a query.
-
-	let query = {
-		user_data_path: electron.app.getPath("userData")
-	};
 
 	win.loadFile(
-		path.join(__dirname, "ogatak.html"),
-		{query: query}
+		path.join(__dirname, "ogatak.html")
 	);
 });
 
