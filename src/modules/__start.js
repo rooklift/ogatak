@@ -8,6 +8,7 @@ ipcRenderer.send("renderer_started", null);			// Causes main to send us any need
 ipcRenderer.on("renderer_globals", (event, o) => {
 	for (let [key, value] of Object.entries(o)) {
 		global[key] = value;
+		console.log(`${key}: ${value}`);
 	}
 	startup();
 });
