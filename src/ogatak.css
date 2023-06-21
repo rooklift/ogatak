@@ -84,13 +84,13 @@ body {
 	grid-area: board;
 	background-color: #d0ad75ff;		/* Matching the board. */
 	background-image: url("./gfx/board.png");
-	margin: 16px 0 0 16px;
+	margin: 16px 8px 0 16px;
 	z-index: 1;
 }
 
 #ownershipcanvas {
 	grid-area: board;
-	margin: 16px 0 0 16px;
+	margin: 16px 8px 0 16px;
 	pointer-events: none;
 	z-index: 2;
 }
@@ -98,14 +98,14 @@ body {
 #boardtable {
 	grid-area: board;
 	border-collapse: collapse;
-	margin: 16px 0 0 16px;
+	margin: 16px 8px 0 16px;
 	pointer-events: auto;
 	z-index: 3;
 }
 
 #boardcanvas {
 	grid-area: board;
-	margin: 16px 0 0 16px;
+	margin: 16px 8px 0 16px;
 	pointer-events: none;
 	z-index: 4;
 }
@@ -115,16 +115,14 @@ body {
 #graphcanvas {
 	grid-area: graph;
 	display: block;						/* Stops the parent element from being 4px bigger... */
-	margin-left: 0;
-	margin-top: 16px;
+	margin: 16px 8px 0 0;
 	z-index: 1;
 }
 
 #graphpositioncanvas {
 	grid-area: graph;
 	display: block;						/* Stops the parent element from being 4px bigger... */
-	margin-left: 0;
-	margin-top: 16px;
+	margin: 16px 8px 0 0;
 	z-index: 2;
 }
 

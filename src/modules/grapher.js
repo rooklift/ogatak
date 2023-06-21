@@ -46,7 +46,7 @@ let grapher_prototype = {
 		// X stuff
 
 		let visible_width = Math.max(0, Math.min(this.canvas.width, window.innerWidth - this.canvas.getBoundingClientRect().left));
-		this.draw_x_offset = 16;
+		this.draw_x_offset = 8;
 		this.drawable_width = Math.max(0, visible_width - (this.draw_x_offset * 2));
 
 		// Y stuff
