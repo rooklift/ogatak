@@ -3,8 +3,6 @@
 const {ipcRenderer} = require("electron");
 const stringify = require("./stringify");
 
-ipcRenderer.send("renderer_started", null);			// Causes main to send us any needed globals
-
 ipcRenderer.on("renderer_globals", (event, o) => {
 	for (let [key, value] of Object.entries(o)) {
 		global[key] = value;
@@ -12,6 +10,8 @@ ipcRenderer.on("renderer_globals", (event, o) => {
 	}
 	startup();
 });
+
+ipcRenderer.send("renderer_started", null);			// Causes main to send us the renderer_globals message
 
 function startup() {
 
