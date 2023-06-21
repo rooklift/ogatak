@@ -32,6 +32,7 @@ const {translate, all_languages} = require("./modules/translate");
 let win;						// Need to keep global references to every window we make. (Is that still true?)
 let menu = menu_build();
 let menu_is_set = false;
+let have_received_ready = false;
 let have_sent_quit = false;
 let have_received_terminate = false;
 let queued_files = [];
@@ -73,22 +74,6 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			spellcheck: false,
 			zoomFactor: desired_zoomfactor				// Unreliable? See https://github.com/electron/electron/issues/10572
 		}
-	});
-
-	win.once("ready-to-show", () => {
-
-		try {
-			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
-		} catch (err) {
-			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
-		}
-
-		if (config.maxed) {
-			win.maximize();
-		}
-
-		win.show();
-		win.focus();
 	});
 
 	win.webContents.on("before-input-event", (event, input) => {
@@ -142,7 +127,26 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 		electron.app.quit();
 	});
 
+	electron.ipcMain.once("renderer_started", () => {
+		win.webContents.send("renderer_globals", {
+			user_data_path: electron.app.getPath("userData")
+		});
+	});
+
 	electron.ipcMain.once("renderer_ready", () => {
+
+		have_received_ready = true;
+
+		try {
+			win.webContents.setZoomFactor(desired_zoomfactor);	// This seems to work, note issue 10572 above.
+		} catch (err) {
+			win.webContents.zoomFactor = desired_zoomfactor;	// The method above "will be removed" in future.
+		}
+		if (config.maxed) {
+			win.maximize();
+		}
+		win.show();
+		win.focus();
 
 		queued_files_spinner();
 
@@ -165,6 +169,15 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			args: [hw_msg],
 		});
 	});
+
+	if (path.basename(process.argv[0]) === "electron.exe") {	// i.e. it's not in production but in dev...
+		setTimeout(() => {
+			if (!have_received_ready) {							// We never received renderer_ready, so probably a syntax error in renderer source.
+				win.show();
+				win.focus();
+			}
+		}, 1000);
+	}
 
 	electron.ipcMain.on("alert", (event, msg) => {
 		alert(win, msg);
@@ -214,15 +227,9 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	menu_is_set = true;
 
 	// Actually load the page last, I guess, so the event handlers above are already set up.
-	// Send some possibly useful info as a query.
-
-	let query = {
-		user_data_path: electron.app.getPath("userData")
-	};
 
 	win.loadFile(
-		path.join(__dirname, "ogatak.html"),
-		{query: query}
+		path.join(__dirname, "ogatak.html")
 	);
 });
 

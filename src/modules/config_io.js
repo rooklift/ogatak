@@ -18,7 +18,7 @@ exports.filename = "config.json";
 
 exports.filepath = electron.app ?
 		path.join(electron.app.getPath("userData"), exports.filename) :			// in Main process
-		path.join(get_href_query_val("user_data_path"), exports.filename);		// in Renderer process
+		path.join(global.user_data_path, exports.filename);						// in Renderer process
 
 // ---------------------------------------------------------------------------------------------------------------------------
 
