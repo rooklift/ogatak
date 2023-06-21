@@ -22,8 +22,8 @@ if (!in_main_process && !global.user_data_path) {
 }
 
 exports.filepath = in_main_process ?
-		path.join(electron.app.getPath("userData"), exports.filename) :			// in Main process
-		path.join(global.user_data_path, exports.filename);						// in Renderer process
+		path.join(electron.app.getPath("userData"), exports.filename) :
+		path.join(global.user_data_path, exports.filename);
 
 // ---------------------------------------------------------------------------------------------------------------------------
 
