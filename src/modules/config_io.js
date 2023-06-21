@@ -13,11 +13,15 @@ const colour_choices = require("./colour_choices");
 
 exports.filename = "config.json";
 
-if (!electron.app && !global.user_data_path) {
-	throw new Error("config_io (Renderer process) global.user_data_path not set in!");
+// ---------------------------------------------------------------------------------------------------------------------------
+
+let in_main_process = electron.app ? true : false;
+
+if (!in_main_process && !global.user_data_path) {
+	throw new Error("config_io: global.user_data_path not set!");
 }
 
-exports.filepath = electron.app ?
+exports.filepath = in_main_process ?
 		path.join(electron.app.getPath("userData"), exports.filename) :			// in Main process
 		path.join(global.user_data_path, exports.filename);						// in Renderer process
 
