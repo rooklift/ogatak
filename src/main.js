@@ -2241,6 +2241,14 @@ function menu_build() {
 							}
 						},
 						{
+							label: "4",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 4,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 4});
+							}
+						},
+						{
 							label: "3",
 							type: "checkbox",
 							checked: config.autoscroll_delay === 3,
