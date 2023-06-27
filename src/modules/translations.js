@@ -153,6 +153,8 @@ translations[`English`] = {
 		MENU_ENGINE_PLAYS_CURRENT: `Engine plays current colour`,
 		MENU_ENGINE_PLAYS_POLICY: `Play using policy (no search)`,
 		MENU_ENGINE_PLAYS_DRUNK: `Play using policy (drunk version)`,
+		MENU_AUTOSCROLL: `Autoscroll`,
+		MENU_AUTOSCROLL_DELAY: `Autoscroll delay`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.
@@ -370,6 +372,8 @@ translations[`Français`] = {
 		MENU_ENGINE_PLAYS_CURRENT: `Jouer en tant que couleur actuelle`,
 		MENU_ENGINE_PLAYS_POLICY: `Jouer en utilisant prior (pas de recherche)`,
 		MENU_ENGINE_PLAYS_DRUNK: `Jouer en utilisant prior (mode ivre)`,
+		MENU_AUTOSCROLL: `Défilement automatique`,
+		MENU_AUTOSCROLL_DELAY: `Délai de défilement automatique`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Ouvrir le fichier à la position finale`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
