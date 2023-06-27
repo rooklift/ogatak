@@ -841,47 +841,41 @@ let hub_main_props = {
 	},
 
 	toggle_autoanalysis: function() {
-		if (this.__autoanalysis) {
-			this.halt();
-			return;
-		}
 		this.set_autoanalysis(true);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
-		if (!this.engine.desired) {
+		if (!this.__autoanalysis) {
+			this.engine.halt();
+		} else if (!this.engine.desired) {
 			this.go();
 		}
 
 	},
 
 	toggle_backanalysis: function() {
-		if (this.__backanalysis) {
-			this.halt();
-			return;
-		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(true);
 		this.set_autoplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
-		if (!this.engine.desired) {
+		if (!this.__backanalysis) {
+			this.engine.halt();
+		} else if (!this.engine.desired) {
 			this.go();
 		}
 	},
 
 	toggle_autoplay: function() {
-		if (this.__autoplay) {
-			this.halt();
-			return;
-		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(true);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
-		if (!this.engine.desired) {
+		if (!this.__autoplay) {
+			this.engine.halt();
+		} else if (!this.engine.desired) {
 			this.go();
 		}
 	},
