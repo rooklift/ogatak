@@ -892,7 +892,6 @@ let hub_main_props = {
 		this.set_autoplay(false);
 		this.set_autoscroll(!this.__autoscroll);
 		this.set_play_colour(null);
-		this.engine.halt();
 	},
 
 	start_play_colour: function(val) {
