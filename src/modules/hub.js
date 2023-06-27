@@ -774,6 +774,7 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
+		this.set_autoscroll(false);
 		this.engine.analyse(this.node);
 	},
 
@@ -898,6 +899,7 @@ let hub_main_props = {
 		this.set_autoplay(false);
 		this.set_autoscroll(true);
 		this.set_play_colour(null);
+		this.engine.halt();
 	},
 
 	start_play_colour: function(val) {
