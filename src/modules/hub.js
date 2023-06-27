@@ -422,13 +422,15 @@ let hub_main_props = {
 		}
 
 		if (!opts.keep_autoplay_settings) {
-			if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__autoscroll || this.__play_colour) {
+			if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
 				this.set_autoanalysis(false);
 				this.set_backanalysis(false);
 				this.set_autoplay(false);
-				this.set_autoscroll(false);
 				this.set_play_colour(null);
 				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
+			}
+			if (this.__autoscroll) {
+				this.set_autoscroll(false);		// (Don't set want_to_go = false just for this.)
 			}
 		}
 
