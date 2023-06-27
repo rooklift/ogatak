@@ -841,7 +841,7 @@ let hub_main_props = {
 	},
 
 	toggle_autoanalysis: function() {
-		this.set_autoanalysis(true);
+		this.set_autoanalysis(!this.__autoanalysis);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
 		this.set_autoscroll(false);
@@ -856,7 +856,7 @@ let hub_main_props = {
 
 	toggle_backanalysis: function() {
 		this.set_autoanalysis(false);
-		this.set_backanalysis(true);
+		this.set_backanalysis(!this.__backanalysis);
 		this.set_autoplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
@@ -870,7 +870,7 @@ let hub_main_props = {
 	toggle_autoplay: function() {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(true);
+		this.set_autoplay(!this.__autoplay);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.__autoplay) {
