@@ -887,14 +887,10 @@ let hub_main_props = {
 	},
 
 	toggle_autoscroll: function() {
-		if (this.__autoscroll) {
-			this.halt();
-			return;
-		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
-		this.set_autoscroll(true);
+		this.set_autoscroll(!this.__autoscroll);
 		this.set_play_colour(null);
 		this.engine.halt();
 	},
