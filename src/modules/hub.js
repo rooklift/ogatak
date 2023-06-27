@@ -46,7 +46,10 @@ function init() {
 		__autoanalysis: false,			// Don't set these directly, because main.js needs informed too
 		__backanalysis: false,
 		__autoplay: false,
+		__autoscroll: false,
 		__play_colour: null,
+
+		autoscroll_fn_id: null,
 
 		pending_up_down: 0,
 		dropped_inputs: 0,
@@ -419,10 +422,11 @@ let hub_main_props = {
 		}
 
 		if (!opts.keep_autoplay_settings) {
-			if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
+			if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__autoscroll || this.__play_colour) {
 				this.set_autoanalysis(false);
 				this.set_backanalysis(false);
 				this.set_autoplay(false);
+				this.set_autoscroll(false);
 				this.set_play_colour(null);
 				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
 			}
@@ -777,6 +781,7 @@ let hub_main_props = {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
+		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		this.engine.halt();
 	},
@@ -792,6 +797,7 @@ let hub_main_props = {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
+		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (this.engine.desired) {
 			this.halt_by_user();
@@ -821,6 +827,13 @@ let hub_main_props = {
 		return val;
 	},
 
+	set_autoscroll: function(val) {
+		val = val ? true : false;
+		this.__autoscroll = val;
+		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_AUTOSCROLL")]);
+		return val;
+	},
+
 	set_play_colour: function(val) {
 		val = (val === "b" || val === "w") ? val : null;
 		this.__play_colour = val;
@@ -829,34 +842,62 @@ let hub_main_props = {
 		return val;
 	},
 
-	start_autoanalysis: function() {
+	toggle_autoanalysis: function() {
+		if (this.__autoanalysis) {
+			this.halt();
+			return;
+		}
 		this.set_autoanalysis(true);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
+		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.engine.desired) {
 			this.go();
 		}
+
 	},
 
-	start_backanalysis: function() {
+	toggle_backanalysis: function() {
+		if (this.__backanalysis) {
+			this.halt();
+			return;
+		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(true);
 		this.set_autoplay(false);
+		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.engine.desired) {
 			this.go();
 		}
 	},
 
-	start_autoplay: function() {
+	toggle_autoplay: function() {
+		if (this.__autoplay) {
+			this.halt();
+			return;
+		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(true);
+		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.engine.desired) {
 			this.go();
 		}
+	},
+
+	toggle_autoscroll: function() {
+		if (this.__autoscroll) {
+			this.halt();
+			return;
+		}
+		this.set_autoanalysis(false);
+		this.set_backanalysis(false);
+		this.set_autoplay(false);
+		this.set_autoscroll(true);
+		this.set_play_colour(null);
 	},
 
 	start_play_colour: function(val) {
@@ -866,6 +907,7 @@ let hub_main_props = {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_autoplay(false);
+		this.set_autoscroll(false);
 		this.set_play_colour(val);
 		if (!this.engine.desired && this.node.get_board().active === val) {
 			this.go();
@@ -1013,6 +1055,29 @@ let hub_main_props = {
 	english_history: function() {			// For debugging and such, not used otherwise.
 		let q = new_query(this.node);
 		console.log(q.moves.map(foo => foo[1]).join(" "));
+	},
+
+	autoscroller: function() {
+
+		// This is a spinner, always running.
+		//
+		// We store autoscroll_fn_id in case the config.autoscroll_delay is changed, in which
+		// case we need to cancel the previously existing setTimeout and make a new one.
+		// That is handled in hub_settings.js
+
+		if (typeof config.autoscroll_delay !== "number" || config.autoscroll_delay < 0.25) {
+			config.autoscroll_delay = 0.25;
+		}
+
+		if (this.__autoscroll) {
+			if (this.node.children.length > 0) {
+				this.next();
+			} else {
+				this.set_autoscroll(false);
+			}
+		}
+
+		this.autoscroll_fn_id = setTimeout(this.autoscroller.bind(this), config.autoscroll_delay * 1000);
 	},
 
 	// Komi / rules / active can be changed easily.................................................

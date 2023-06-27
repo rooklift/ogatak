@@ -132,3 +132,7 @@ const {node_id_from_search_id} = require("./utils");
 	}
 	setTimeout(engine_failure_spinner, 1234);
 })();
+
+// ------------------------------------------------------------------------------------------------
+
+hub.autoscroller();

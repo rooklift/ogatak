@@ -101,6 +101,8 @@ exports.defaults = {
 	"play_against_policy": false,
 	"play_against_drunk": false,
 
+	"autoscroll_delay": 1,
+
 	"enable_hw_accel": false,
 	"logfile": null,
 

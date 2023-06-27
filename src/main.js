@@ -983,7 +983,7 @@ function menu_build() {
 					checked: false,
 					accelerator: "F11",
 					click: () => {
-						win.webContents.send("call", "start_autoplay");
+						win.webContents.send("call", "toggle_autoplay");
 					}
 				},
 				{
@@ -992,7 +992,7 @@ function menu_build() {
 					type: "checkbox",
 					checked: false,
 					click: () => {
-						win.webContents.send("call", "start_autoanalysis");
+						win.webContents.send("call", "toggle_autoanalysis");
 					}
 				},
 				{
@@ -1000,7 +1000,7 @@ function menu_build() {
 					type: "checkbox",
 					checked: false,
 					click: () => {
-						win.webContents.send("call", "start_backanalysis");
+						win.webContents.send("call", "toggle_backanalysis");
 					}
 				},
 				{
@@ -2217,6 +2217,62 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("toggle", "play_against_drunk");
 					}
+				},
+				{
+					type: "separator",
+				},
+				{
+					label: translate("MENU_AUTOSCROLL"),
+					type: "checkbox",
+					checked: false,
+					click: () => {
+						win.webContents.send("call", "toggle_autoscroll");
+					}
+				},
+				{
+					label: translate("MENU_AUTOSCROLL_DELAY"),
+					submenu: [
+						{
+							label: "5",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 5,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 5});
+							}
+						},
+						{
+							label: "3",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 3,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 3});
+							}
+						},
+						{
+							label: "2",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 2,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 2});
+							}
+						},
+						{
+							label: "1",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 1,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 1});
+							}
+						},
+						{
+							label: "0.5",
+							type: "checkbox",
+							checked: config.autoscroll_delay === 0.5,
+							click: () => {
+								win.webContents.send("set", {autoscroll_delay: 0.5});
+							}
+						},
+					]
 				},
 				{
 					type: "separator",

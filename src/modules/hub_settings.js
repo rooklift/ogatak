@@ -23,6 +23,7 @@ const multichecks = {
 	thumbnail_square_size:	[translate("MENU_SIZES"), translate("MENU_THUMBNAIL_SQUARES")],
 	tree_spacing:			[translate("MENU_SIZES"), translate("MENU_TREE_SPACING")],
 	comment_box_height: 	[translate("MENU_SIZES"), translate("MENU_COMMENT_BOX")],
+	autoscroll_delay:		[translate("MENU_MISC"), translate("MENU_AUTOSCROLL_DELAY")],
 	language:				["Language"],
 };
 
@@ -248,6 +249,12 @@ module.exports = {
 			if (old_value !== value) {
 				alert(translate("ALERT_RESTART_REQUIRED"));
 			}
+			break;
+
+		case "autoscroll_delay":
+
+			clearTimeout(this.autoscroll_fn_id);
+			this.autoscroller();
 			break;
 
 		case "language":
