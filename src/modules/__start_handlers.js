@@ -17,6 +17,15 @@
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
 
+// mousedown events in Electron 24-25 (at least) can be completely fake, see Electron issue #38322, I hate it so much...
+// Anyway in those versions we declare mousedown_event_is_electron_bug() to test for whether a click is fake...
+
+let mousedown_event_is_electron_bug = () => false;
+
+if ([24, 25].includes(parseInt(process.versions.electron))) {
+	mousedown_event_is_electron_bug = (event) => event.button === 0 && event.buttons === 2;
+}
+
 // Wheel should scroll the current game...
 
 window.addEventListener("wheel", (event) => {
@@ -43,6 +52,9 @@ window.addEventListener("wheel", (event) => {
 
 tabber.outer_div.addEventListener("mousedown", (event) => {
 	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
 	let i = event_path_class_string(event, "tab_");
 	if (typeof i === "string") {
 		hub.switch_tab_by_dom_id("tab_" + i);
@@ -53,6 +65,9 @@ tabber.outer_div.addEventListener("mousedown", (event) => {
 
 board_drawer.htmltable.addEventListener("mousedown", (event) => {
 	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
 	let s = event_path_class_string(event, "td_");
 	if (s) {
 		hub.click(s, event);
@@ -63,15 +78,18 @@ board_drawer.htmltable.addEventListener("mousedown", (event) => {
 
 board_drawer.infodiv.addEventListener("mousedown", (event) => {
 	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
 	let s = event_path_class_string(event, "boardinfo_");
 	if (s === "rules") {
-		hub.cycle_rules(event.which !== 1);
+		hub.cycle_rules(event.button !== 0);
 	} else if (s === "komi") {
-		hub.cycle_komi(event.which !== 1);
+		hub.cycle_komi(event.button !== 0);
 	} else if (s === "numbers") {
-		hub.cycle_numbers(event.which !== 1);
+		hub.cycle_numbers(event.button !== 0);
 	} else if (s === "mode") {
-		hub.cycle_mode(event.which !== 1);
+		hub.cycle_mode(event.button !== 0);
 	} else if (s === "active") {
 		hub.toggle_active_player();
 	} else if (s === "stone_counts") {
@@ -89,6 +107,9 @@ board_drawer.htmltable.addEventListener("mouseleave", (event) => {
 
 grapher.positioncanvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
 	let node = grapher.node_from_click(hub.node, event);
 	if (node) {
 		hub.set_node(node, {bless: false});
@@ -119,6 +140,9 @@ window.addEventListener("mouseup", (event) => {
 
 tree_drawer.canvas.addEventListener("mousedown", (event) => {
 	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
 	let node = tree_drawer.node_from_click(hub.node, event);
 	if (node) {
 		hub.set_node(node, {bless: true});
@@ -142,7 +166,10 @@ for (let [key, form] of Object.entries(root_editor.forms)) {
 // Also, any click outside the comments should defocus the comments...
 
 window.addEventListener("mousedown", (event) => {
-	if (event.which === 2) {
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
+	if (event.button === 1) {
 		event.preventDefault();
 	}
 	let path = event.composedPath();
