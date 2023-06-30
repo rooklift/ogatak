@@ -25,11 +25,16 @@ function new_query(query_node, eng_version = null) {
 
 		id: `${query_node.id}:${next_query_id++}`,
 
+		// About maxVisits: if we ever set it dynamically, don't ask for 1 (use min 2).
+		// One thing we might try is only asking for the required visits when in some autoanalysis or autoplay
+		// mode, however this has some downsides, especially that the ownership will flicker on and off.
+		// It would make various things more complicated.
+
 		rules: query_node.rules() || config.default_rules,
 		komi: query_node.komi(),
 		boardXSize: board.width,
 		boardYSize: board.height,
-		maxVisits: 1000000,										// Note: if we ever set this dynamically, don't ask for 1 (use min 2).
+		maxVisits: 1000000,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
 		includePolicy: true,
