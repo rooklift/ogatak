@@ -541,6 +541,17 @@ let node_prototype = {
 		return this.history_reversed().reverse();
 	},
 
+	naive_move_history: function() {								// For debugging only; not robust if board edits, etc
+		return this.history().map(node => {
+			if (node.has_key("B") || node.has_key("W")) {
+				let mv = node.get("B") || node.get("W");
+				return node.get_board().gtp(mv);
+			} else {
+				return null;
+			}
+		}).filter(mv => mv !== null);
+	},
+
 	greater_sibling: function() {									// The sibling to the left
 		if (!this.parent || this.parent.children.length < 2) {
 			return undefined;
