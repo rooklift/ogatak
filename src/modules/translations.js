@@ -757,6 +757,8 @@ translations[`繁體中文`] = {
         MENU_ENGINE_PLAYS_CURRENT: `引擎為當前顏色`,
 		MENU_ENGINE_PLAYS_POLICY: `僅使用策略網路（最佳手）`,
 		MENU_ENGINE_PLAYS_DRUNK: `僅使用策略網路（飄逸風格）`,
+		MENU_AUTOSCROLL: `自動播放`,
+		MENU_AUTOSCROLL_DELAY: `播放延遲（秒）`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
