@@ -41,16 +41,22 @@ function new_query(query_node, eng_version = null) {
 		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
 
-		overrideSettings: {										// Before KataGo 1.9.1, it would generate an error for unknown fields in this part (only).
-			reportAnalysisWinratesAs: "BLACK",					// If we add new features here, we will need to delete them if version < 1.9.1...
+		overrideSettings: {
+			reportAnalysisWinratesAs: "BLACK",
 			wideRootNoise: config.wide_root_noise,
 		}
 	};
 
-	if (config.fast_first_report) {
-		if (eng_version && compare_versions(eng_version, [1,12,0]) >= 0) {
+	// Some features of KataGo were added along the way, only set those if the engine version is adequate...
+
+	if (eng_version && compare_versions(eng_version, [1,12,0]) >= 0) {
+		if (config.fast_first_report) {
 			o.firstReportDuringSearchAfter = 0.05;
 		}
+	}
+
+	if (eng_version && compare_versions(eng_version, [1,14,0]) >= 0) {
+		o.overrideSettings.ignorePreRootHistory = true;					// Do we want this? I dunno. The default is true.
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
