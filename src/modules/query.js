@@ -55,9 +55,9 @@ function new_query(query_node, eng_version = null) {
 		}
 	}
 
-	if (eng_version && compare_versions(eng_version, [1,14,0]) >= 0) {
-		o.overrideSettings.ignorePreRootHistory = true;					// Do we want this? I dunno. The default is true.
-	}
+//	if (eng_version && compare_versions(eng_version, [1,14,0]) >= 0) {
+//		o.overrideSettings.ignorePreRootHistory = true;						// Eh I guess just allow user to config this via file.
+//	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
