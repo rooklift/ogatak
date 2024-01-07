@@ -985,7 +985,8 @@ let node_prototype = {
 		}
 		let x = best_index % this.width();
 		let y = Math.floor(best_index / this.width());
-		return xy_to_s(x, y);
+		let s = xy_to_s(x, y);
+		return this.canonical_symmetry(s);
 	},
 
 	best_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
@@ -993,7 +994,8 @@ let node_prototype = {
 			return null;
 		}
 		let best_info = this.analysis.moveInfos.reduce((best, info) => info.prior > best.prior ? info : best);
-		return this.get_board().parse_gtp_move(best_info.move);
+		let s = this.get_board().parse_gtp_move(best_info.move);
+		return this.canonical_symmetry(s);
 	},
 
 	drunk_policy_move: function() {				// Weighted random choice from the policy.
@@ -1030,7 +1032,8 @@ let node_prototype = {
 		}
 		let x = result % this.width();
 		let y = Math.floor(result / this.width());
-		return xy_to_s(x, y);
+		let s = xy_to_s(x, y);
+		return this.canonical_symmetry(s);
 	},
 
 	drunk_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
@@ -1062,7 +1065,25 @@ let node_prototype = {
 		if (result.move === "pass") {			// We wanted to pass. Return best policy instead.
 			return best_policy_move;
 		}
-		return this.get_board().parse_gtp_move(result.move);
+		let s = this.get_board().parse_gtp_move(result.move);
+		return this.canonical_symmetry(s);
+	},
+
+	canonical_symmetry: function(s) {			// Given a move e.g. "dd", return the canonical symmetry version of that move, if available.
+		if (!this.has_valid_analysis()) {
+			return s;
+		}
+		let g = this.get_board().gtp(s);
+		for (let o of this.analysis.moveInfos) {
+			if (o.move === g) {
+				if (o.isSymmetryOf) {
+					return this.get_board().parse_gtp_move(o.isSymmetryOf);
+				} else {
+					return s;
+				}
+			}
+		}
+		return s;
 	},
 
 	reset_mismatch_warnings: function() {
