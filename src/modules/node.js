@@ -1132,6 +1132,32 @@ let node_prototype = {
 
 		return ";" + list.join("");
 	},
+
+	policy_from_s: function(s) {				// For debugging only. "pd" --> this.analysis.policy[72]
+		if (!this.has_valid_analysis()) {
+			return null;
+		}
+		if (!Array.isArray(this.analysis.policy)) {
+			return null;
+		}
+		let board = this.get_board();
+		if (!board.in_bounds(s)) {
+			if (s !== "" && s !== "pass") {
+				return null;
+			} else {
+				return this.analysis.policy[this.analysis.policy.length - 1];
+			}
+		}
+		let x = s.charCodeAt(0) - 97;
+		let y = s.charCodeAt(1) - 97;
+		let i = y * board.width + x;
+		return this.analysis.policy[i];
+	},
+
+	policy_from_gtp: function(s) {				// For debugging only. "Q16" --> this.analysis.policy[72]
+		s = this.get_board().parse_gtp_move(s);
+		return this.policy_from_s(s);
+	},
 };
 
 // ------------------------------------------------------------------------------------------------
