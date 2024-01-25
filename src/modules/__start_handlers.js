@@ -254,7 +254,7 @@ window.addEventListener("keydown", (event) => {
 comment_drawer.textarea.addEventListener("keydown", (event) => {
 	if (event.code === "Space" || event.code === "Comma") {
 		event.stopPropagation();						// Stops it reaching the handler on window, above, which would call hub.something().
-	}													// We don't call preventDefault() since that prevents the edit the textarea.
+	}													// We don't call preventDefault() since that prevents the edit to the textarea.
 });
 
 root_editor.inner_div.addEventListener("keydown", (event) => {
