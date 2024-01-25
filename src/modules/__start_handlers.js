@@ -17,13 +17,19 @@
 const {ipcRenderer} = require("electron");
 const {event_path_class_string} = require("./utils");
 
-// mousedown events in Electron 24-27 (at least) can be completely fake, see Electron issue #38322, I hate it so much...
+// mousedown events in Electron 24-28 (at least) can be completely fake, see Electron issue #38322, I hate it so much...
 // Anyway in those versions we declare mousedown_event_is_electron_bug() to test for whether a click is fake...
 
 let mousedown_event_is_electron_bug = () => false;
 
-if ([24, 25, 26, 27].includes(parseInt(process.versions.electron))) {
-	mousedown_event_is_electron_bug = (event) => event.button === 0 && event.buttons === 2;
+if ([24, 25, 26, 27, 28].includes(parseInt(process.versions.electron))) {
+	mousedown_event_is_electron_bug = (event) => {
+		if (event.button === 0 && event.buttons === 2) {
+			console.log("Electron bugged click detected.");
+			return true;
+		}
+		return false;
+	};
 }
 
 // Wheel should scroll the current game...
