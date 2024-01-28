@@ -282,7 +282,8 @@ let hub_main_props = {
 		}
 
 		this.add_roots(ok_roots);
-		display_load_alert(new_roots.length - ok_roots.length, errors);
+		let size_rejections = new_roots.length - ok_roots.length;
+		display_load_alert(size_rejections, errors);
 	},
 
 	// Hidden / unused load functions..............................................................
