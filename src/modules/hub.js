@@ -175,20 +175,20 @@ let hub_main_props = {
 
 	load_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
 
-		let ret = null;
+		let load_results = null;
 
-		if (type === "sgf") ret = load_sgf(buf);
-		if (type === "ngf") ret = load_ngf(buf);
-		if (type === "gib") ret = load_gib(buf);
-		if (type === "ugi") ret = load_ugi(buf);
+		if (type === "sgf") load_results = load_sgf(buf);
+		if (type === "ngf") load_results = load_ngf(buf);
+		if (type === "gib") load_results = load_gib(buf);
+		if (type === "ugi") load_results = load_ugi(buf);
 
-		if (ret === null) {
-			ret = new_load_results();
-			ret.add_errors("load_from_buffer(): got no object");
+		if (load_results === null) {
+			load_results = new_load_results();
+			load_results.add_errors("load_from_buffer(): got no object");
 		}
 
 		if (filepath) {
-			let roots = ret.get_roots();
+			let roots = load_results.get_roots();
 			for (let root of roots) {
 				root.filepath = filepath;
 			}
@@ -197,7 +197,7 @@ let hub_main_props = {
 			}
 		}
 
-		return ret;
+		return load_results;
 	},
 
 	load_sgf_from_string: function(s) {
