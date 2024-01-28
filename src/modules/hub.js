@@ -236,7 +236,7 @@ let hub_main_props = {
 			try {
 				buf = fs.readFileSync(filepath);
 			} catch (err) {
-				load_results.errors.push(err);
+				load_results.add_errors(err);
 				continue;
 			}
 
