@@ -1,6 +1,6 @@
 "use strict";
 
-const new_load_results = require("./loading_results");
+const new_load_results = require("./loader_results");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
 const {handicap_stones, xy_to_s} = require("./utils");

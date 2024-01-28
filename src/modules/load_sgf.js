@@ -14,7 +14,7 @@
 // Thus we do need to decode the file and encode it back to UTF-8 (which is safe from such issues).
 
 const decoders = require("./decoders");
-const new_load_results = require("./loading_results");
+const new_load_results = require("./loader_results");
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
 

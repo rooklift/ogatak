@@ -3,7 +3,7 @@
 // https://homepages.cwi.nl/~aeb/go/misc/ugf.html has some useful info.
 
 const decoders = require("./decoders");
-const new_load_results = require("./loading_results");
+const new_load_results = require("./loader_results");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
 const {xy_to_s} = require("./utils");
