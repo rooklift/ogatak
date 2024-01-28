@@ -253,7 +253,7 @@ let hub_main_props = {
 		this.finish_load(load_results);
 	},
 
-	finish_load(load_results) {
+	finish_load: function(load_results) {
 
 		for (let root of load_results.roots) {
 			apply_komi_fix(root);
