@@ -11,49 +11,49 @@
 const {xy_to_s, points_list} = require("./utils");
 const zobrist = require("./zobrist");
 
-function new_board(width, height, state = null, pos_hash = null, ko = null, active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
+function new_board(...args) {
+	return new Board(...args);
+}
 
-	let ret = Object.create(board_prototype);
+class Board {
 
-	ret.width = width;
-	ret.height = height;
-	ret.state = [];
-	ret.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
-	ret.ko = ko;							// Note that ko might not be valid, call has_valid_ko() to check
-	ret.active = active;
-	ret.caps_by_b = caps_by_b;
-	ret.caps_by_w = caps_by_w;
-	ret.stones_b = stones_b;				// We could just count these as needed. Maybe this is bad optimisation...
-	ret.stones_w = stones_w;
+	constructor(width, height, state = null, pos_hash = null, ko = null, active = "b", caps_by_b = 0, caps_by_w = 0, stones_b = 0, stones_w = 0) {
 
-	for (let x = 0; x < width; x++) {
-		ret.state.push([]);
-		for (let y = 0; y < height; y++) {
-			if (state) {
-				ret.state[x].push(state[x][y]);
-			} else {
-				ret.state[x].push("");
+		this.width = width;
+		this.height = height;
+		this.state = [];
+		this.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
+		this.ko = ko;							// Note that ko might not be valid, call has_valid_ko() to check
+		this.active = active;
+		this.caps_by_b = caps_by_b;
+		this.caps_by_w = caps_by_w;
+		this.stones_b = stones_b;				// We could just count these as needed. Maybe this is bad optimisation...
+		this.stones_w = stones_w;
+
+		for (let x = 0; x < width; x++) {
+			this.state.push([]);
+			for (let y = 0; y < height; y++) {
+				if (state) {
+					this.state[x].push(state[x][y]);
+				} else {
+					this.state[x].push("");
+				}
 			}
+		}
+
+		if (state === null && zobrist.supported_size(width, height)) {
+			this.pos_hash = zobrist.widths[width] ^ zobrist.heights[height];
 		}
 	}
 
-	if (state === null && zobrist.supported_size(width, height)) {
-		ret.pos_hash = zobrist.widths[width] ^ zobrist.heights[height];
-	}
-
-	return ret;
-}
-
-let board_prototype = {
-
-	copy: function() {
+	copy() {
 		return new_board(
 			this.width, this.height, this.state, this.pos_hash, this.ko,
 			this.active, this.caps_by_b, this.caps_by_w, this.stones_b, this.stones_w
 		);
-	},
+	}
 
-	has_valid_ko: function() {
+	has_valid_ko() {
 		if (!this.ko) {
 			return false;
 		}
@@ -64,9 +64,9 @@ let board_prototype = {
 			}
 		}
 		return true;
-	},
+	}
 
-	in_bounds: function(s) {
+	in_bounds(s) {
 
 		// Returns true / false if the point is on the board.
 		// Note: any pass-ish things are not "in bounds".
@@ -79,9 +79,9 @@ let board_prototype = {
 		let y = s.charCodeAt(1) - 97;
 
 		return x >= 0 && x < this.width && y >= 0 && y < this.height;
-	},
+	}
 
-	state_at: function(s) {
+	state_at(s) {
 
 		// Converts the point to [x][y] and returns the state there, "" or "b" or "w".
 
@@ -93,9 +93,9 @@ let board_prototype = {
 		let y = s.charCodeAt(1) - 97;
 
 		return this.state[x][y];
-	},
+	}
 
-	set_at: function(s, colour) {
+	set_at(s, colour) {
 
 		// Converts the point to [x][y] and sets the state there, colour should be "" or "b" or "w".
 		// Adjusts the zobrist if we have one. Also adjusts our stone counts.
@@ -139,13 +139,13 @@ let board_prototype = {
 		}
 
 		this.state[x][y] = colour;
-	},
+	}
 
-	caps_balance: function() {
+	caps_balance() {
 		return this.caps_by_b - this.caps_by_w;
-	},
+	}
 
-	zobrist: function() {
+	zobrist() {
 		let hash = this.pos_hash;
 		if (hash === null) {
 			return null;
@@ -158,9 +158,9 @@ let board_prototype = {
 		}
 		hash ^= (this.active === "b") ? zobrist.black : zobrist.white;
 		return hash;
-	},
+	}
 
-	zobrist_string: function() {
+	zobrist_string() {
 		let hash = this.zobrist();
 		if (hash === null) {
 			return "";
@@ -170,9 +170,9 @@ let board_prototype = {
 			s = "0".repeat(32 - s.length) + s;
 		}
 		return s.toUpperCase();
-	},
+	}
 
-	one_liberty_singleton: function(s) {
+	one_liberty_singleton(s) {
 
 		// True iff the point has a stone which is not
 		// part of a group and has exactly 1 liberty.
@@ -199,9 +199,9 @@ let board_prototype = {
 		}
 
 		return liberties === 1;
-	},
+	}
 
-	neighbours: function(s) {
+	neighbours(s) {
 
 		// Returns a list of points (in SGF format, e.g. "cc")
 		// which neighbour the point given.
@@ -221,9 +221,9 @@ let board_prototype = {
 		if (y > 0)               ret.push(xy_to_s(x, y - 1));
 
 		return ret;
-	},
+	}
 
-	empty_neighbour: function(s) {
+	empty_neighbour(s) {
 
 		// Returns an arbitrary empty neighbour of a point.
 		// Useful for finding ko square.
@@ -235,9 +235,9 @@ let board_prototype = {
 		}
 
 		return null;
-	},
+	}
 
-	destroy_group: function(s) {
+	destroy_group(s) {
 
 		// Destroys the group and returns the number of stones removed.
 
@@ -252,9 +252,9 @@ let board_prototype = {
 		if (colour === "w") this.caps_by_b += group.length;
 
 		return group.length;
-	},
+	}
 
-	group_at: function(s) {
+	group_at(s) {
 
 		if (!this.state_at(s)) {
 			return [];
@@ -265,9 +265,9 @@ let board_prototype = {
 		this.group_at_recurse(s, touched);
 
 		return Object.keys(touched);
-	},
+	}
 
-	group_at_recurse: function(s, touched) {
+	group_at_recurse(s, touched) {
 
 		touched[s] = true;
 
@@ -283,9 +283,9 @@ let board_prototype = {
 				this.group_at_recurse(neighbour, touched);
 			}
 		}
-	},
+	}
 
-	has_liberties: function(s) {
+	has_liberties(s) {
 
 		if (!this.state_at(s)) {
 			return false;						// I guess?
@@ -294,9 +294,9 @@ let board_prototype = {
 		let touched = Object.create(null);
 
 		return this.has_liberties_recurse(s, touched);
-	},
+	}
 
-	has_liberties_recurse: function(s, touched) {
+	has_liberties_recurse(s, touched) {
 
 		touched[s] = true;
 
@@ -325,9 +325,9 @@ let board_prototype = {
 		}
 
 		return false;
-	},
+	}
 
-	legal_move: function(s) {
+	legal_move(s) {
 
 		// Returns true if the active player can legally play at the point given.
 		// Note: does NOT consider passes as "legal moves".
@@ -376,9 +376,9 @@ let board_prototype = {
 		}
 
 		return false;
-	},
+	}
 
-	play: function(s, colour) {					// If colour is not specified, uses this.active.
+	play(s, colour) {					// If colour is not specified, uses this.active.
 
 		// Play the move (or pass) given... contains no legality checks... can play ko... can play the inactive colour!
 
@@ -420,33 +420,33 @@ let board_prototype = {
 				this.ko = this.empty_neighbour(s);
 			}
 		}
-	},
+	}
 
-	add_empty: function(s) {
+	add_empty(s) {
 		let plist = points_list(s);
 		for (let p of plist) {
 			this.set_at(p, "");
 		}
 		this.ko = null;
-	},
+	}
 
-	add_black: function(s) {
+	add_black(s) {
 		let plist = points_list(s);
 		for (let p of plist) {
 			this.set_at(p, "b");
 		}
 		this.ko = null;
-	},
+	}
 
-	add_white: function(s) {
+	add_white(s) {
 		let plist = points_list(s);
 		for (let p of plist) {
 			this.set_at(p, "w");
 		}
 		this.ko = null;
-	},
+	}
 
-	gtp: function(s) {													// "jj" --> "K10"		(off-board becomes "pass")
+	gtp(s) {													// "jj" --> "K10"		(off-board becomes "pass")
 		if (!this.in_bounds(s)) {
 			return "pass";
 		}
@@ -456,7 +456,7 @@ let board_prototype = {
 		let letter = String.fromCharCode(x + 65 + letter_adjust);
 		let number = this.height - y;
 		return letter + number.toString();
-	},
+	}
 
 	gtp_from_xy(x, y) {													// (9, 9) --> "K10"		(off-board becomes "pass")
 		if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
@@ -466,9 +466,9 @@ let board_prototype = {
 		let letter = String.fromCharCode(x + 65 + letter_adjust);
 		let number = this.height - y;
 		return letter + number.toString();
-	},
+	}
 
-	parse_gtp_move: function(s) {										// "K10" --> "jj"		(off-board becomes "")
+	parse_gtp_move(s) {										// "K10" --> "jj"		(off-board becomes "")
 
 		if (typeof s !== "string" || s.length < 2 || s === "pass") {
 			return "";
@@ -486,9 +486,9 @@ let board_prototype = {
 		}
 
 		return xy_to_s(x, y);
-	},
+	}
 
-	setup_list: function() {
+	setup_list() {
 
 		// Returns a list of [player string, location string] tuples which can be sent to
 		// KataGo as its "initialStones" argument. Should use uppercase B and W.
@@ -504,9 +504,8 @@ let board_prototype = {
 			}
 		}
 		return ret;
-	},
-
-};
+	}
+}
 
 
 
