@@ -11,6 +11,7 @@ const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
+const new_load_results = require("./loading_results");
 const make_perf_report = require("./performance");
 const {apply_komi_fix, apply_pl_fix, apply_ruleset_fix, apply_ruleset_guess} = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
@@ -19,7 +20,7 @@ const {new_query} = require("./query");
 const config_io = require("./config_io");
 
 const {translate} = require("./translate");
-const {node_id_from_search_id, valid_analysis_object, compare_versions, display_load_alert, xy_to_s} = require("./utils");
+const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -172,50 +173,39 @@ let hub_main_props = {
 
 	// Loading.....................................................................................
 
-	get_roots_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
+	load_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
 
-		let new_roots = [];
+		let ret = null;
 
-		// The loaders all either throw or return a length >= 1 array...
+		if (type === "sgf") ret = load_sgf(buf);
+		if (type === "ngf") ret = load_ngf(buf);
+		if (type === "gib") ret = load_gib(buf);
+		if (type === "ugi") ret = load_ugi(buf);
 
-		if (type === "sgf") new_roots = load_sgf(buf);
-		if (type === "ngf") new_roots = load_ngf(buf);
-		if (type === "gib") new_roots = load_gib(buf);
-		if (type === "ugi") new_roots = load_ugi(buf);
-
-		if (new_roots.length === 0) {
-			throw new Error("get_roots_from_buffer(): got a zero length array of roots, this is supposed to be impossible");
+		if (ret === null) {
+			ret = new_load_results();
+			ret.add_errors("load_from_buffer(): got no object");
 		}
 
 		if (filepath) {
-			for (let root of new_roots) {
+			for (let root of ret.roots) {
 				root.filepath = filepath;
 			}
-			if (new_roots.length === 1 && type === "sgf") {
-				new_roots[0].save_ok = true;
+			if (ret.roots.length === 1 && type === "sgf") {
+				ret.roots[0].save_ok = true;
 			}
 		}
 
-		return new_roots;
+		return ret;
 	},
 
 	load_sgf_from_string: function(s) {
-
 		if (typeof s !== "string") {
 			return;
 		}
-
-		let new_roots = [];
-		let errors = [];
-
-		try {
-			let buf = Buffer.from(s);
-			new_roots = this.get_roots_from_buffer(buf, "sgf", "");			// Can throw (or the things it calls can).
-		} catch (err) {
-			errors = [err];
-		}
-
-		this.finish_load(new_roots, errors);
+		let buf = Buffer.from(s);
+		let load_results = this.load_from_buffer(buf, "sgf", "");
+		this.finish_load(load_results);
 	},
 
 	load_multifile: function(...args) {			// Tolerates whatever combination of arrays and strings are sent...
@@ -226,8 +216,7 @@ let hub_main_props = {
 			return;
 		}
 
-		let new_roots = [];
-		let errors = [];
+		let load_results = new_load_results();
 
 		for (let n = 0; n < arr.length; n++) {
 
@@ -243,36 +232,30 @@ let hub_main_props = {
 				continue;
 			}
 
+			let buf;
 			try {
-
-				let buf = fs.readFileSync(filepath);
-
-				let type = "sgf";
-				if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
-				if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
-				if (filepath.toLowerCase().endsWith(".ugi")) type = "ugi";
-				if (filepath.toLowerCase().endsWith(".ugf")) type = "ugi";							// .ugf is the same as .ugi I think.
-
-				new_roots = new_roots.concat(this.get_roots_from_buffer(buf, type, filepath));		// Can throw (or the things it calls can).
-
+				buf = fs.readFileSync(filepath);
 			} catch (err) {
-				errors.push(err);
+				load_results.errors.push(err);
 				continue;
 			}
+
+			let type = "sgf";
+			if (filepath.toLowerCase().endsWith(".ngf")) type = "ngf";
+			if (filepath.toLowerCase().endsWith(".gib")) type = "gib";
+			if (filepath.toLowerCase().endsWith(".ugi")) type = "ugi";
+			if (filepath.toLowerCase().endsWith(".ugf")) type = "ugi";							// .ugf is the same as .ugi I think.
+
+			let o = this.load_from_buffer(buf, type, filepath);
+			load_results.absorb(o);
 		}
 
-		this.finish_load(new_roots, errors);
+		this.finish_load(load_results);
 	},
 
-	finish_load(new_roots, errors) {
+	finish_load(load_results) {
 
-		if (!Array.isArray(errors)) {
-			errors = [];
-		}
-
-		let ok_roots = new_roots.filter(z => z.width() <= 19 && z.height() <= 19);
-
-		for (let root of ok_roots) {
+		for (let root of load_results.roots) {
 			apply_komi_fix(root);
 			apply_pl_fix(root);
 			apply_ruleset_fix(root);
@@ -281,9 +264,8 @@ let hub_main_props = {
 			}
 		}
 
-		this.add_roots(ok_roots);
-		let size_rejections = new_roots.length - ok_roots.length;
-		display_load_alert(size_rejections, errors);
+		this.add_roots(load_results.roots);
+		load_results.display_issues();
 	},
 
 	// Hidden / unused load functions..............................................................

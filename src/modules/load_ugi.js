@@ -3,6 +3,7 @@
 // https://homepages.cwi.nl/~aeb/go/misc/ugf.html has some useful info.
 
 const decoders = require("./decoders");
+const new_load_results = require("./loading_results");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
 const {xy_to_s} = require("./utils");
@@ -11,6 +12,7 @@ function load_ugi(buf) {
 
 	let decoder = decoders.get_decoder("UTF-8");		// Use this by default, but change if LANG line is seen.
 
+	let ret = new_load_results();
 	let lines = split_buffer(buf);
 
 	let root = new_node();
@@ -127,19 +129,22 @@ function load_ugi(buf) {
 			let slist = line.toUpperCase().split(",");
 
 			if (slist.length < 3) {
-				throw new Error("UGI load error: Data line was too short");
+				ret.add_errors("UGI load error: Data line was too short");
+				return ret;
 			}
 
 			let xy_string = slist[0];
 
 			if (xy_string.length !== 2) {
-				throw new Error("UGI load error: Bad coordinate in data line");
+				ret.add_errors("UGI load error: Bad coordinate in data line");
+				return ret;
 			}
 
 			let colour = slist[1][0];									// Conceivably could be undefined.
 
 			if (colour !== "B" && colour !== "W") {
-				throw new Error("UGI load error: Bad colour in data line");
+				ret.add_errors("UGI load error: Bad colour in data line");
+				return ret;
 			}
 
 			let turn_string_char0 = slist[2][0];						// Conceivably could be undefined. Not sure why I look at char0 rather than whole string?
@@ -173,7 +178,8 @@ function load_ugi(buf) {
 		}
 	}
 
-	return [root];
+	ret.add_roots(root);
+	return ret;
 }
 
 

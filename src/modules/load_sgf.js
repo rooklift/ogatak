@@ -14,6 +14,7 @@
 // Thus we do need to decode the file and encode it back to UTF-8 (which is safe from such issues).
 
 const decoders = require("./decoders");
+const new_load_results = require("./loading_results");
 const new_node = require("./node");
 const new_byte_pusher = require("./byte_pusher");
 
@@ -21,9 +22,8 @@ const new_byte_pusher = require("./byte_pusher");
 
 function load_sgf(buf) {
 
-	// Always returns at least 1 game; or throws if it cannot.
+	let ret = new_load_results();
 
-	let ret = [];
 	let off = 0;
 	let allow_charset_reset = true;		// This is true only for the very first call to load_sgf_recursive().
 
@@ -39,29 +39,32 @@ function load_sgf(buf) {
 		}
 	}
 
-	while (buf.length - off > 0) {
+	while (true) {
 		try {
 			let o = load_sgf_recursive(buf, off, null, allow_charset_reset);
-			ret.push(o.root);
-			off += o.readcount;
+			if (o === null) {													// Reached EOF.
+				break;
+			} else {
+				ret.add_roots(o.root);
+				off += o.readcount;
+			}
 		} catch (err) {
 			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset. Only possible for 1st call.
 				console.log(`load_sgf(): converting buf from ${err.charset}`);
 				buf = convert_buf(buf, err.charset);							// The thrower already checked that the charset is valid, so we can call this OK.
-			} else if (ret.length > 0) {
-				break;															// Break the while loop.
 			} else {
-				throw err;
+				ret.add_errors(err);
+				break;
 			}
 		}
 		allow_charset_reset = false;
 	}
 
-	if (ret.length === 0) {
-		throw new Error("SGF load error: found no game");
+	if (ret.roots.length === 0) {
+		ret.add_errors("SGF load error: found no game");
 	}
 
-	for (let root of ret) {
+	for (let root of ret.roots) {
 		root.set("GM", 1);
 		root.set("FF", 4);
 		root.set("CA", "UTF-8");
@@ -177,7 +180,13 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 		}
 	}
 
-	throw new Error("SGF load error: reached end of input");
+	// We reached EOF... if we already read some data, this is an error, otherwise it's OK...
+
+	if (parent_of_local_root || root) {
+		throw new Error("SGF load error: reached EOF while parsing");
+	} else {
+		return null;
+	}
 }
 
 function is_utf8_alias(s) {

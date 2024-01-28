@@ -1,15 +1,18 @@
 "use strict";
 
+const new_load_results = require("./loading_results");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
 const {handicap_stones, xy_to_s} = require("./utils");
 
 function load_ngf(buf) {
 
+	let ret = new_load_results();
 	let lines = split_buffer(buf);
 
 	if (lines.length < 12) {
-		throw new Error("NGF load error: file too short");
+		ret.add_errors("NGF load error: file too short");
+		return ret;
 	}
 
 	for (let n = 0; n < lines.length; n++) {
@@ -48,7 +51,8 @@ function load_ngf(buf) {
 		handicap = 0;
 	}
 	if (handicap < 0 || handicap > 9) {
-		throw new Error("NGF load error: bad handicap");
+		ret.add_errors("NGF load error: bad handicap");
+		return ret;
 	}
 
 	// ------------------------------------------------------------------------------------------------
@@ -157,10 +161,12 @@ function load_ngf(buf) {
 	}
 
 	if (root.children.length === 0) {
-		throw new Error("NGF load error: got no moves");
+		ret.add_errors("NGF load error: got no moves");
+		return ret;
 	}
 
-	return [root];
+	ret.add_roots(root);
+	return ret;
 }
 
 

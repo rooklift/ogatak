@@ -290,38 +290,6 @@ exports.undo_safe_html = function(s) {
 	return s;
 };
 
-exports.display_load_alert = function(size_rejections, errors) {
-
-	// size_rejections is the number of files rejected due to boardsize
-	// errors is an array (possibly empty) of errors or error strings
-
-	let size_msg = "";
-
-	if (size_rejections > 0) {
-		size_msg = `Rejected ${size_rejections} ${size_rejections === 1 ? "game" : "games"}, because sizes > 19 are not supported.`;
-	}
-
-	if (errors.length > 1) {
-		if (size_msg) {
-			alert(`${size_msg} Also, ${errors.length} other games were rejected due to errors.`);
-		} else {
-			alert(`${errors.length} games were rejected due to errors.`);
-		}
-	} else if (errors.length === 1) {
-		let error_msg = errors[0].toString();		// errors[0] could be an Error or a string. (Is that true? Meh...)
-		if (error_msg.startsWith("Error: ")) {		// If it's an Error, its toString() will generate "Error: Whatever"
-			error_msg = error_msg.slice(7);			// so we should slice it like so.
-		}
-		if (size_msg) {
-			alert(`${size_msg} Also, 1 other game was rejected because: ${error_msg}`);
-		} else {
-			alert(`Rejected 1 game because: ${error_msg}`);
-		}
-	} else if (size_msg) {
-		alert(size_msg);
-	}
-};
-
 exports.every_char_is_hex = function(s) {
 	for (let n = 0; n < s.length; n++) {
 		if (s.charCodeAt(n) >= 48 && s.charCodeAt(n) <=  57) continue;			// 0-9

@@ -1,11 +1,13 @@
 "use strict";
 
+const new_load_results = require("./loading_results");
 const new_node = require("./node");
 const split_buffer = require("./split_buffer");
 const {handicap_stones, replace_all, xy_to_s} = require("./utils");
 
 function load_gib(buf) {
 
+	let ret = new_load_results();
 	let lines = split_buffer(buf);
 
 	let root = new_node(null);
@@ -43,7 +45,8 @@ function load_gib(buf) {
 		if (fields.length >= 4 && fields[0] === "INI") {
 
 			if (node != root) {
-				throw new Error("GIB load error: got INI after moves were made");
+				ret.add_errors("GIB load error: got INI after moves were made");
+				return ret;
 			}
 
 			let handicap = parseInt(fields[3], 10);
@@ -72,10 +75,12 @@ function load_gib(buf) {
 	}
 
 	if (root.children.length === 0) {
-		throw new Error("GIB load error: got no moves");
+		ret.add_errors("GIB load error: got no moves");
+		return ret;
 	}
 
-	return [root];
+	ret.add_roots(root);
+	return ret;
 }
 
 function parse_gib_gametag(line) {
