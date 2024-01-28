@@ -1,37 +1,39 @@
 "use strict";
 
-// The load_results object is useful for loading multiple files, as well
+// The LoadResults object is useful for loading multiple files, as well
 // as SGF files with multiple games, since it can store both roots and
 // errors. It also disallows sizes > 19 and keeps track of how many
 // games were rejected as such...
 
-function new_load_results() {
-	let ret = Object.create(load_results_prototype);
-	ret._roots = [];
-	ret._errors = [];
-	ret._size_rejections = 0;
-	return ret;
+function new_load_results(...args) {
+	return new LoadResults(...args);
 }
 
-let load_results_prototype = {
+class LoadResults {
 
-	count_roots: function() {
+	constructor() {
+		this._roots = [];
+		this._errors = [];
+		this._size_rejections = 0;
+	}
+
+	count_roots() {
 		return this._roots.length;
-	},
+	}
 
-	count_errors: function() {
+	count_errors() {
 		return this._errors.length;
-	},
+	}
 
-	count_size_rejections: function() {
+	count_size_rejections() {
 		return this._size_rejections;
-	},
+	}
 
-	get_roots: function() {
+	get_roots() {
 		return Array.from(this._roots);
-	},
+	}
 
-	add_roots: function(...args) {
+	add_roots(...args) {
 		let arr = args.flat(Infinity);
 		for (let root of arr) {
 			if (root.width() > 19 || root.height() > 19) {
@@ -40,9 +42,9 @@ let load_results_prototype = {
 				this._roots.push(root);
 			}
 		}
-	},
+	}
 
-	add_errors: function(...args) {				// args are expected to be actual errors, or strings.
+	add_errors(...args) {				// args are expected to be actual errors, or strings.
 		let arr = args.flat(Infinity);
 		for (let error of arr) {
 			if (typeof error === "string") {
@@ -50,18 +52,18 @@ let load_results_prototype = {
 			}
 			this._errors.push(error);
 		}
-	},
+	}
 
-	absorb: function(...args) {					// args are expected to be other load_results objects.
+	absorb(...args) {					// args are expected to be other load_results objects.
 		let arr = args.flat(Infinity);
 		for (let o of arr) {
 			this._roots = this._roots.concat(o._roots);
 			this._errors = this._errors.concat(o._errors);
 			this._size_rejections += o._size_rejections;
 		}
-	},
+	}
 
-	display_issues: function() {				// Won't do anything if no errors or rejections.
+	display_issues() {					// Won't do anything if no errors or rejections.
 		let size_msg = "";
 		if (this._size_rejections > 0) {
 			let noun = this._size_rejections === 1 ? "game" : "games";
@@ -86,9 +88,9 @@ let load_results_prototype = {
 		} else if (size_msg) {
 			alert(size_msg);
 		}
-	},
+	}
+}
 
-};
 
 
 module.exports = new_load_results;

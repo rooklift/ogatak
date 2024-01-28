@@ -18,46 +18,45 @@ let have_alerted_zobrist_mismatch = false;
 
 // ------------------------------------------------------------------------------------------------
 
-function new_node(parent) {
-
-	let node = Object.create(node_prototype);
-	node.change_id();
-
-	node.parent = parent;
-	node.children = [];
-	node.props = Object.create(null);			// key --> list of values (strings only)
-	node.analysis = null;
-	node.__board = null;
-	node.__blessed_child_id = null;				// Usually don't inspect this directly, rather call get_blessed_child()
-
-	if (!parent) {								// This is a new root...
-
-		node.__root = node;
-		node.graph_depth = 60;
-		node.depth = 0;
-		node.filepath = "";						// Gets adjusted from outside
-		node.save_ok = false;					// Gets adjusted from outside
-
-	} else {
-
-		parent.children.push(node);
-		node.__root = parent.__root;			// Usually don't access this directly, call get_root() so that bugs will show up if it's not valid.
-		node.depth = parent.depth + 1;
-
-		if (node.depth > node.__root.graph_depth) {
-			node.__root.graph_depth = node.depth;
-		}
-
-	}
-
-	return node;
+function new_node(...args) {
+	return new Node(...args);
 }
 
-// ------------------------------------------------------------------------------------------------
+class Node {
 
-let node_prototype = {
+	constructor(parent) {
 
-	change_id: function() {
+		this.change_id();
+
+		this.parent = parent;
+		this.children = [];
+		this.props = Object.create(null);			// key --> list of values (strings only)
+		this.analysis = null;
+		this.__board = null;
+		this.__blessed_child_id = null;				// Usually don't inspect this directly, rather call get_blessed_child()
+
+		if (!parent) {								// This is a new root...
+
+			this.__root = this;
+			this.graph_depth = 60;
+			this.depth = 0;
+			this.filepath = "";						// Gets adjusted from outside
+			this.save_ok = false;					// Gets adjusted from outside
+
+		} else {
+
+			parent.children.push(this);
+			this.__root = parent.__root;			// Usually don't access this directly, call get_root() so that bugs will show up if it's not valid.
+			this.depth = parent.depth + 1;
+
+			if (this.depth > this.__root.graph_depth) {
+				this.__root.graph_depth = this.depth;
+			}
+
+		}
+	}
+
+	change_id() {
 		if (!this.id) {
 			this.id = `node_${next_node_id++}`;
 		} else {
@@ -67,21 +66,21 @@ let node_prototype = {
 				this.parent.__blessed_child_id = this.id;
 			}
 		}
-	},
+	}
 
-	set: function(key, value) {
+	set(key, value) {
 		this.props[key] = [stringify(value)];
-	},
+	}
 
-	add_value: function(key, value) {
+	add_value(key, value) {
 		if (!this.has_key(key)) {
 			this.props[key] = [stringify(value)];
 		} else {
 			this.props[key].push(stringify(value));
 		}
-	},
+	}
 
-	unset: function(key, value) {
+	unset(key, value) {
 		if (!this.has_key(key)) {
 			return;
 		}
@@ -90,7 +89,7 @@ let node_prototype = {
 		if (this.props[key].length === 0) {
 			delete this.props[key];
 		}
-	},
+	}
 
 	unset_starts_with(key, value) {
 		if (!this.has_key(key)) {
@@ -101,32 +100,32 @@ let node_prototype = {
 		if (this.props[key].length === 0) {
 			delete this.props[key];
 		}
-	},
+	}
 
-	delete_key: function(key) {
+	delete_key(key) {
 		delete this.props[key];
-	},
+	}
 
-	has_key: function(key) {
+	has_key(key) {
 		return Array.isArray(this.props[key]);
-	},
+	}
 
-	has_key_value: function(key, value) {
+	has_key_value(key, value) {
 		if (!this.has_key(key)) {
 			return false;
 		}
 		return this.props[key].indexOf(stringify(value)) !== -1;
-	},
+	}
 
-	has_key_value_starts_with: function(key, value) {
+	has_key_value_starts_with(key, value) {
 		if (!this.has_key(key)) {
 			return false;
 		}
 		value = stringify(value);
 		return this.props[key].some(z => z.startsWith(value));
-	},
+	}
 
-	get: function(key) {				// On the assumption there is at most 1 value for this key.
+	get(key) {				// On the assumption there is at most 1 value for this key.
 
 		// Always returns a string. Some stuff relies on this now. (We used to return undefined.)
 		// Note that an actual value could be "" so simply checking the return value for truthiness
@@ -136,13 +135,13 @@ let node_prototype = {
 			return "";
 		}
 		return this.props[key][0];
-	},
+	}
 
-	all_keys: function() {
+	all_keys() {
 		return Object.keys(this.props);
-	},
+	}
 
-	all_values: function(key) {
+	all_values(key) {
 		let ret = [];
 		if (!this.has_key(key)) {
 			return ret;
@@ -151,24 +150,24 @@ let node_prototype = {
 			ret.push(value);
 		}
 		return ret;
-	},
+	}
 
-	decompress_shapes: function() {
+	decompress_shapes() {
 		this.decompress_points_list("TR");
 		this.decompress_points_list("MA");
 		this.decompress_points_list("SQ");
 		this.decompress_points_list("CR");
-	},
+	}
 
-	unset_marks_at: function(point) {
+	unset_marks_at(point) {
 		this.unset("TR", point);
 		this.unset("MA", point);
 		this.unset("SQ", point);
 		this.unset("CR", point);
 		this.unset_starts_with("LB", `${point}:`);
-	},
+	}
 
-	toggle_shape_at: function(key, point) {
+	toggle_shape_at(key, point) {
 
 		this.decompress_shapes();
 
@@ -179,9 +178,9 @@ let node_prototype = {
 		if (!exists) {
 			this.add_value(key, point);
 		}
-	},
+	}
 
-	toggle_shape_at_group: function(key, point) {
+	toggle_shape_at_group(key, point) {
 
 		let group = this.get_board().group_at(point);
 
@@ -204,9 +203,9 @@ let node_prototype = {
 				}
 			}
 		}
-	},
+	}
 
-	toggle_alpha_at: function(point) {
+	toggle_alpha_at(point) {
 
 		this.decompress_shapes();
 
@@ -231,9 +230,9 @@ let node_prototype = {
 				}
 			}
 		}
-	},
+	}
 
-	toggle_number_at: function(point) {
+	toggle_number_at(point) {
 
 		this.decompress_shapes();
 
@@ -258,9 +257,9 @@ let node_prototype = {
 				}
 			}
 		}
-	},
+	}
 
-	bless: function() {
+	bless() {
 
 		let node = this;
 
@@ -272,9 +271,9 @@ let node_prototype = {
 			}
 			node = node.parent;
 		}
-	},
+	}
 
-	get_blessed_child: function() {
+	get_blessed_child() {
 
 		if (this.children.length === 0) {
 			return undefined;
@@ -295,24 +294,24 @@ let node_prototype = {
 
 		this.__blessed_child_id = null;
 		return this.children[0];
-	},
+	}
 
-	get_root: function() {
+	get_root() {
 		if (!this.__root) {
 			throw new Error("get_root(): root not available");
 		}
 		return this.__root;
-	},
+	}
 
-	get_end: function() {
+	get_end() {
 		let node = this;
 		while (node.children.length > 0) {
 			node = node.get_blessed_child();
 		}
 		return node;
-	},
+	}
 
-	has_pass: function() {		// That is, in the node properties, not the analysis!
+	has_pass() {		// That is, in the node properties, not the analysis!
 
 		let moves = this.all_values("B").concat(this.all_values("W"));
 
@@ -323,9 +322,9 @@ let node_prototype = {
 		}
 
 		return false;
-	},
+	}
 
-	safe_to_edit: function() {
+	safe_to_edit() {
 		if (this.children.length > 0) {
 			return false;
 		}
@@ -333,9 +332,9 @@ let node_prototype = {
 			return false;
 		}
 		return true;
-	},
+	}
 
-	decompress_points_list: function(key) {
+	decompress_points_list(key) {
 
 		let need_to_act = false;
 
@@ -366,15 +365,15 @@ let node_prototype = {
 		for (let point of Object.keys(points)) {
 			this.add_value(key, point);
 		}
-	},
+	}
 
-	delete_markup: function() {
+	delete_markup() {
 		for (let key of ["TR", "MA", "SQ", "CR", "LB"]) {
 			this.delete_key(key);
 		}
-	},
+	}
 
-	apply_handicap: function(handicap, tygem) {
+	apply_handicap(handicap, tygem) {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 
@@ -399,9 +398,9 @@ let node_prototype = {
 		}
 
 		this.__board = null;
-	},
+	}
 
-	apply_board_edit: function(key, point) {
+	apply_board_edit(key, point) {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 
@@ -440,9 +439,9 @@ let node_prototype = {
 		}
 
 		this.__board = null;						// We could update __board, but this way ensures consistency with our normal get_board() result.
-	},
+	}
 
-	interpret_pl: function(s) {
+	interpret_pl(s) {
 
 		// Returns who the active player should be, based on the node's PL tag, or null if it cannot.
 
@@ -454,9 +453,9 @@ let node_prototype = {
 		}
 
 		return null;								// Caller needs to check for this return value.
-	},
+	}
 
-	natural_active: function() {
+	natural_active() {
 
 		// Returns who the active player should be (ignoring PL tags), or null if it can't be determined from this node alone.
 
@@ -472,9 +471,9 @@ let node_prototype = {
 		}
 
 		return null;								// Caller needs to check for this return value.
-	},
+	}
 
-	toggle_player_to_move: function() {
+	toggle_player_to_move() {
 
 		// IMPORTANT: Because this changes the board, the caller should likely halt the engine and change the node id.
 		// We go through some rigmarol to not leave PL tags where there is enough info in the node that they're redundant...
@@ -489,9 +488,9 @@ let node_prototype = {
 			this.set("PL", desired.toUpperCase());
 		}
 		this.get_board().active = desired;			// I guess it's simple enough to update this directly.
-	},
+	}
 
-	width: function() {
+	width() {
 		if (this.__board) {
 			return this.__board.width;
 		}
@@ -504,9 +503,9 @@ let node_prototype = {
 			return sz;
 		}
 		return 19;
-	},
+	}
 
-	height: function() {
+	height() {
 		if (this.__board) {
 			return this.__board.height;
 		}
@@ -525,9 +524,9 @@ let node_prototype = {
 			return sz;
 		}
 		return 19;
-	},
+	}
 
-	history_reversed: function() {
+	history_reversed() {
 		let ret = [this];
 		let node = this;
 		while (node.parent) {
@@ -535,13 +534,13 @@ let node_prototype = {
 			ret.push(node);
 		}
 		return ret;
-	},
+	}
 
-	history: function() {
+	history() {
 		return this.history_reversed().reverse();
-	},
+	}
 
-	naive_move_history: function() {								// For debugging only; not robust if board edits, etc
+	naive_move_history() {								// For debugging only; not robust if board edits, etc
 		return this.history().map(node => {
 			if (node.has_key("B") || node.has_key("W")) {
 				let mv = node.get("B") || node.get("W");
@@ -550,9 +549,9 @@ let node_prototype = {
 				return null;
 			}
 		}).filter(mv => mv !== null);
-	},
+	}
 
-	greater_sibling: function() {									// The sibling to the left
+	greater_sibling() {												// The sibling to the left
 		if (!this.parent || this.parent.children.length < 2) {
 			return undefined;
 		}
@@ -561,9 +560,9 @@ let node_prototype = {
 			return this.parent.children[i - 1];
 		}
 		return undefined;
-	},
+	}
 
-	lesser_sibling: function() {									// The sibling to the right
+	lesser_sibling() {												// The sibling to the right
 		if (!this.parent || this.parent.children.length < 2) {
 			return undefined;
 		}
@@ -572,13 +571,13 @@ let node_prototype = {
 			return this.parent.children[i + 1];
 		}
 		return undefined;
-	},
+	}
 
-	rules: function() {
+	rules() {
 		return this.get_root().get("RU");							// Possibly ""
-	},
+	}
 
-	komi: function() {												// Always a number
+	komi() {														// Always a number
 		let km = this.get_root().get("KM");
 		if (km === "") {
 			return 0;
@@ -589,9 +588,9 @@ let node_prototype = {
 		} else {
 			return 0;
 		}
-	},
+	}
 
-	get_board: function() {
+	get_board() {
 
 		if (this.__board) {
 			return this.__board;
@@ -644,17 +643,17 @@ let node_prototype = {
 		}
 
 		return this.__board;
-	},
+	}
 
-	try_move: function(s) {							// Note: not to be used for passing.
+	try_move(s) {												// Note: not to be used for passing.
 		let board = this.get_board();
 		if (!board.legal_move(s)) {
 			return this;
 		}
 		return this.force_move(s);
-	},
+	}
 
-	force_move: function(s) {						// Note: not to be used for passing.
+	force_move(s) {												// Note: not to be used for passing.
 
 		let board = this.get_board();
 		let key = board.active.toUpperCase();
@@ -669,9 +668,9 @@ let node_prototype = {
 		node.set(key, s);
 
 		return node;
-	},
+	}
 
-	pass: function() {
+	pass() {
 
 		let board = this.get_board();
 		let key = board.active.toUpperCase();
@@ -688,9 +687,9 @@ let node_prototype = {
 		node.set(key, "");
 
 		return node;
-	},
+	}
 
-	return_to_main_line_helper: function() {
+	return_to_main_line_helper() {
 
 		// Returns the node that "return to main line" should go to.
 
@@ -705,9 +704,9 @@ let node_prototype = {
 		}
 
 		return ret;
-	},
+	}
 
-	bless_main_line: function() {
+	bless_main_line() {
 
 		let node = this.get_root();
 
@@ -719,9 +718,9 @@ let node_prototype = {
 			}
 			node = node.children[0];
 		}
-	},
+	}
 
-	previous_fork_helper: function() {
+	previous_fork_helper() {
 
 		let node = this;
 
@@ -733,9 +732,9 @@ let node_prototype = {
 		}
 
 		return this;
-	},
+	}
 
-	next_fork_helper: function() {
+	next_fork_helper() {
 
 		if (this.children.length === 0) {
 			return this;
@@ -752,9 +751,9 @@ let node_prototype = {
 				return this;
 			}
 		}
-	},
+	}
 
-	backward_helper: function(n) {
+	backward_helper(n) {
 
 		let node = this;
 
@@ -763,9 +762,9 @@ let node_prototype = {
 		}
 
 		return node;
-	},
+	}
 
-	forward_helper: function(n) {
+	forward_helper(n) {
 
 		let node = this;
 
@@ -774,9 +773,9 @@ let node_prototype = {
 		}
 
 		return node;
-	},
+	}
 
-	ancestor_with_valid_analysis: function(depth, initial_call = true) {
+	ancestor_with_valid_analysis(depth, initial_call = true) {
 
 		if (!initial_call && this.has_valid_analysis()) {
 			return this;
@@ -787,9 +786,9 @@ let node_prototype = {
 		}
 
 		return this.parent.ancestor_with_valid_analysis(depth - 1, false);
-	},
+	}
 
-	descendant_with_valid_analysis: function(depth, initial_call = true) {
+	descendant_with_valid_analysis(depth, initial_call = true) {
 
 		if (!initial_call && this.has_valid_analysis()) {
 			return this;
@@ -800,17 +799,17 @@ let node_prototype = {
 		}
 
 		return this.children[0].descendant_with_valid_analysis(depth - 1, false);
-	},
+	}
 
-	anc_dec_with_valid_analysis: function(depth) {
+	anc_dec_with_valid_analysis(depth) {
 		let ret = this.ancestor_with_valid_analysis(depth);
 		if (ret) {
 			return ret;
 		}
 		return this.descendant_with_valid_analysis(depth);
-	},
+	}
 
-	is_main_line: function() {
+	is_main_line() {
 
 		let node = this;
 
@@ -822,13 +821,13 @@ let node_prototype = {
 		}
 
 		return true;
-	},
+	}
 
-	is_bare_root: function() {
+	is_bare_root() {
 		return !this.parent && this.children.length === 0 && !this.has_key("AB") && !this.has_key("AW") && !this.has_key("B") && !this.has_key("W");
-	},
+	}
 
-	detach: function() {
+	detach() {
 
 		let parent = this.parent;
 		if (!parent) return;			// Fail
@@ -839,9 +838,9 @@ let node_prototype = {
 		parent.children = parent.children.filter(child => child !== this);
 
 		destroy_tree_recursive(this);
-	},
+	}
 
-	detach_siblings: function() {
+	detach_siblings() {
 
 		let parent = this.parent;
 		if (!parent || parent.children.length === 1) return;
@@ -853,40 +852,40 @@ let node_prototype = {
 		}
 
 		parent.children = [this];
-	},
+	}
 
-	detach_children: function() {
+	detach_children() {
 
 		for (let child of this.children) {
 			destroy_tree_recursive(child);
 		}
 
 		this.children = [];
-	},
+	}
 
-	destroy_tree: function() {
+	destroy_tree() {
 		destroy_tree_recursive(this.get_root());
-	},
+	}
 
-	forget_analysis_tree: function() {
+	forget_analysis_tree() {
 		forget_analysis_recursive(this.get_root());
-	},
+	}
 
-	forget_analysis: function() {
+	forget_analysis() {
 		this.analysis = null;
 		this.delete_key("SBKV");
 		this.delete_key("OGSC");
-	},
+	}
 
-	move_count: function() {
+	move_count() {
 		return (this.has_key("B") ? this.props.B.length : 0) + (this.has_key("W") ? this.props.W.length : 0);
-	},
+	}
 
-	has_valid_analysis: function() {
+	has_valid_analysis() {
 		return valid_analysis_object(this.analysis);
-	},
+	}
 
-	receive_analysis: function(o) {
+	receive_analysis(o) {
 
 		// Save a KataGo analysis object into the node for display.
 		// No real validation... caller should run valid_analysis_object(o) first!
@@ -918,9 +917,9 @@ let node_prototype = {
 		} else {
 			this.delete_key("OGSC");
 		}
-	},
+	}
 
-	stored_score: function() {
+	stored_score() {
 		if (this.has_valid_analysis()) {
 			let score = this.analysis.rootInfo.scoreLead;
 			if (typeof score === "number") {						// scoreLead might not be present if it's a GTP engine.
@@ -941,9 +940,9 @@ let node_prototype = {
 				return null;
 			}
 		}
-	},
+	}
 
-	stored_winrate: function() {
+	stored_winrate() {
 		if (this.has_valid_analysis()) {
 			let winrate = this.analysis.rootInfo.winrate;
 			if (typeof winrate === "number") {
@@ -968,11 +967,11 @@ let node_prototype = {
 				return null;
 			}
 		}
-	},
+	}
 
 	// These 4 functions are a rather tangled web, but there's no recursion........................
 
-	best_policy_move: function() {				// Result in SGF format e.g. "qq", (pass is "")
+	best_policy_move() {				// Result in SGF format e.g. "qq", (pass is "")
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -987,18 +986,18 @@ let node_prototype = {
 		let y = Math.floor(best_index / this.width());
 		let s = xy_to_s(x, y);
 		return this.canonical_symmetry(s);
-	},
+	}
 
-	best_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
+	best_policy_move_alt() {			// Alternative for when analysis.policy doesn't exist.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
 		let best_info = this.analysis.moveInfos.reduce((best, info) => info.prior > best.prior ? info : best);
 		let s = this.get_board().parse_gtp_move(best_info.move);
 		return this.canonical_symmetry(s);
-	},
+	}
 
-	drunk_policy_move: function() {				// Weighted random choice from the policy.
+	drunk_policy_move() {				// Weighted random choice from the policy.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -1034,9 +1033,9 @@ let node_prototype = {
 		let y = Math.floor(result / this.width());
 		let s = xy_to_s(x, y);
 		return this.canonical_symmetry(s);
-	},
+	}
 
-	drunk_policy_move_alt: function() {			// Alternative for when analysis.policy doesn't exist.
+	drunk_policy_move_alt() {			// Alternative for when analysis.policy doesn't exist.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -1067,9 +1066,9 @@ let node_prototype = {
 		}
 		let s = this.get_board().parse_gtp_move(result.move);
 		return this.canonical_symmetry(s);
-	},
+	}
 
-	canonical_symmetry: function(s) {			// Given a move e.g. "dd", return the canonical symmetry version of that move, if available.
+	canonical_symmetry(s) {			// Given a move e.g. "dd", return the canonical symmetry version of that move, if available.
 		if (!this.has_valid_analysis()) {
 			return s;
 		}
@@ -1084,13 +1083,13 @@ let node_prototype = {
 			}
 		}
 		return s;
-	},
+	}
 
-	reset_mismatch_warnings: function() {
+	reset_mismatch_warnings() {
 		have_alerted_zobrist_mismatch = false;	// Note this is a module var, not actually part of the node.
-	},
+	}
 
-	game_title_text: function() {
+	game_title_text() {
 
 		let root = this.get_root();
 
@@ -1113,9 +1112,9 @@ let node_prototype = {
 		}
 
 		return "";
-	},
+	}
 
-	string: function() {
+	string() {
 
 		// Returns a ;-prefixed string which can be saved into an SGF file.
 
@@ -1152,9 +1151,9 @@ let node_prototype = {
 		}
 
 		return ";" + list.join("");
-	},
+	}
 
-	policy_from_s: function(s) {				// For debugging only. "pd" --> this.analysis.policy[72]
+	policy_from_s(s) {				// For debugging only. "pd" --> this.analysis.policy[72]
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -1173,13 +1172,13 @@ let node_prototype = {
 		let y = s.charCodeAt(1) - 97;
 		let i = y * board.width + x;
 		return this.analysis.policy[i];
-	},
+	}
 
-	policy_from_gtp: function(s) {				// For debugging only. "Q16" --> this.analysis.policy[72]
+	policy_from_gtp(s) {				// For debugging only. "Q16" --> this.analysis.policy[72]
 		s = this.get_board().parse_gtp_move(s);
 		return this.policy_from_s(s);
-	},
-};
+	}
+}
 
 // ------------------------------------------------------------------------------------------------
 
@@ -1248,3 +1247,4 @@ function forget_analysis_recursive(node) {
 
 
 module.exports = new_node;
+
