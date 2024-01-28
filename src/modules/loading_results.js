@@ -18,6 +18,10 @@ let load_results_prototype = {
 		return this._errors.length;
 	},
 
+	count_size_rejections: function() {
+		return this._size_rejections;
+	},
+
 	get_roots: function() {
 		return Array.from(this._roots);
 	},

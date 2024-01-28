@@ -60,7 +60,7 @@ function load_sgf(buf) {
 		allow_charset_reset = false;
 	}
 
-	if (ret.count_roots() === 0 && ret.count_errors() === 0) {
+	if (ret.count_roots() === 0 && ret.count_errors() === 0 && ret.count_size_rejections() === 0) {
 		ret.add_errors("SGF load error: found no game");
 	}
 
