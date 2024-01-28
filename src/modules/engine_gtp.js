@@ -31,46 +31,46 @@ const {new_query, compare_queries, compare_moves_arrays} = require("./query");
 
 const HALT_COMMAND = "protocol_version";
 
-function new_gtp_engine() {
-
-	let eng = Object.create(gtp_engine_prototype);
-
-	eng.is_gtp = true;
-	eng.has_quit = false;
-	eng.exe = null;
-
-	eng.filepath = "";
-
-	eng.received_version = false;					// Indicates when the engine has really started responding.
-	eng.known_commands = [];
-	eng.current_incoming_gtp_id = null;				// The last seen =id number from the engine e.g. =123
-	eng.next_gtp_id = 1;
-
-	eng.version_gtp_id = null;						// The GTP id for the "version" command we send.
-	eng.list_commands_gtp_id = null;				// The GTP id for the "list_commands" command we send.
-
-	eng.desired = null;								// The search object we want to be running.
-	eng.running = null;								// The search object actually running. Possibly the same object as above.
-	eng.running_info = null;						// Some extra info about the running analysis.
-
-	// The actual state the engine is in. These should only be adjusted on actually sending the thing. We used to simply store the query object
-	// as the engine state, but that has some complications: if the first query is sent before we receive the list of known commands, we won't
-	// know that things like "rules" were never sent (because they'll be in the state object).
-
-	eng.boardXSize = null;
-	eng.boardYSize = null;
-	eng.komi = null;
-	eng.rules = null;
-	eng.wideRootNoise = null;
-	eng.initialStones = null;
-	eng.moves = null;
-
-	return eng;
+function new_gtp_engine(...args) {
+	return new GTPengine(...args);
 }
 
-let gtp_engine_prototype = {
+class GTPengine {
 
-	__send: function(s) {							// Returns the GTP id number which was sent
+	constructor() {
+
+		this.is_gtp = true;
+		this.has_quit = false;
+		this.exe = null;
+
+		this.filepath = "";
+
+		this.received_version = false;					// Indicates when the engine has really started responding.
+		this.known_commands = [];
+		this.current_incoming_gtp_id = null;			// The last seen =id number from the engine e.g. =123
+		this.next_gtp_id = 1;
+
+		this.version_gtp_id = null;						// The GTP id for the "version" command we send.
+		this.list_commands_gtp_id = null;				// The GTP id for the "list_commands" command we send.
+
+		this.desired = null;							// The search object we want to be running.
+		this.running = null;							// The search object actually running. Possibly the same object as above.
+		this.running_info = null;						// Some extra info about the running analysis.
+
+		// The actual state the engine is in. These should only be adjusted on actually sending the thing. We used to simply store the query object
+		// as the engine state, but that has some complications: if the first query is sent before we receive the list of known commands, we won't
+		// know that things like "rules" were never sent (because they'll be in the state object).
+
+		this.boardXSize = null;
+		this.boardYSize = null;
+		this.komi = null;
+		this.rules = null;
+		this.wideRootNoise = null;
+		this.initialStones = null;
+		this.moves = null;
+	}
+
+	__send(s) {											// Returns the GTP id number which was sent
 
 		if (!this.exe) {
 			return null;
@@ -101,10 +101,9 @@ let gtp_engine_prototype = {
 		}
 
 		return gtp_id;
+	}
 
-	},
-
-	__send_query: function(o) {						// Returns object with some extra info about what was sent.
+	__send_query(o) {									// Returns object with some extra info about what was sent.
 
 		let did_send_boardsize = false;
 
@@ -209,10 +208,9 @@ let gtp_engine_prototype = {
 		let gtp_id = this.__send(s);
 
 		return {colour, command, query_id, gtp_id};
+	}
 
-	},
-
-	analyse: function(node) {
+	analyse(node) {
 
 		if (!this.exe) {
 			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
@@ -225,7 +223,7 @@ let gtp_engine_prototype = {
 
 		if (this.desired) {
 			if (compare_queries(this.desired, query)) {
-				return;												// Everything matches; the search desired is already set as such.
+				return;										// Everything matches; the search desired is already set as such.
 			}
 		}
 
@@ -237,17 +235,17 @@ let gtp_engine_prototype = {
 			this.running_info = this.__send_query(this.desired);
 			this.running = this.desired;
 		}
-	},
+	}
 
-	halt: function() {
+	halt() {
 		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		this.desired = null;
 		if (this.running) {
 			this.__send(HALT_COMMAND);
 		}
-	},
+	}
 
-	setup_with_command: function(command, argslist) {
+	setup_with_command(command, argslist) {
 
 		if (this.exe || this.has_quit) {
 			throw new Error("setup_with_command(): engine object should not be reused");
@@ -268,9 +266,9 @@ let gtp_engine_prototype = {
 		}
 
 		this.finish_setup();
-	},
+	}
 
-	finish_setup: function() {
+	finish_setup() {
 
 		log("");
 		log("-----------------------------------------------------------------------------------");
@@ -315,10 +313,9 @@ let gtp_engine_prototype = {
 
 		this.__send("list_commands");
 		this.__send("version");
+	}
 
-	},
-
-	handle_stdout: function(line) {
+	handle_stdout(line) {
 
 		if (config.logfile) {
 			this.log_received_string(line);
@@ -371,9 +368,9 @@ let gtp_engine_prototype = {
 				hub.receive_object(analysis_object);
 			}
 		}
-	},
+	}
 
-	handle_response_start: function(line) {				// Called when the line starts with "=" and returns the contentful part of the line.
+	handle_response_start(line) {						// Called when the line starts with "=" and returns the contentful part of the line.
 
 		let id = parseInt(line.slice(1), 10);			// Relying on parseInt not caring about gibberish after the number.
 
@@ -391,9 +388,9 @@ let gtp_engine_prototype = {
 		}
 
 		return line;
-	},
+	}
 
-	handle_response_finish: function() {				// Called upon receiving a blank line indicating response ended.
+	handle_response_finish() {							// Called upon receiving a blank line indicating response ended.
 
 		// Is a query running, and is this blank line terminating it?
 		// If yes, we may need to start a new query...
@@ -420,9 +417,9 @@ let gtp_engine_prototype = {
 		}
 
 		this.current_incoming_gtp_id = null;			// After the above.
-	},
+	}
 
-	handle_stderr: function(line) {
+	handle_stderr(line) {
 
 		if (line.includes("exception")) {
 			alert("GTP engine said:\n" + line);
@@ -435,14 +432,14 @@ let gtp_engine_prototype = {
 		log("! " + line);
 
 		stderrbox.receive(line);
-	},
+	}
 
-	problem_text: function() {
+	problem_text() {
 		if (this.exe) return "";
 		return `GTP engine not running.`;
-	},
+	}
 
-	shutdown: function() {
+	shutdown() {
 
 		this.has_quit = true;
 		if (this.exe) {
@@ -457,23 +454,23 @@ let gtp_engine_prototype = {
 		this.running = null;
 		this.running_info = null;
 		this.desired = null;
-	},
+	}
 
-	log_sent_string: function(s) {
+	log_sent_string(s) {
 		log(s);
-	},
+	}
 
-	log_received_string: function(s) {
+	log_received_string(s) {
 		log(s);
-	},
+	}
 
-	log_and_alert: function(...args) {
+	log_and_alert(...args) {
 		log(args.join(" "));
 		console.log(args.join(" "));
 		alert(args.join("\n"));
-	},
+	}
 
-};
+}
 
 
 

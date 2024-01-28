@@ -20,35 +20,37 @@ const {translate} = require("./translate");
 const {parse_version, compare_versions} = require("./utils");
 const {new_query, compare_queries} = require("./query");
 
-const bad_versions = [					// Versions of KataGo which are somehow broken.
+const bad_versions = [						// Versions of KataGo which are somehow broken.
 	[1, 9, 0],
 ];
 
-function new_engine() {
-
-	let eng = Object.create(engine_prototype);
-
-	eng.is_gtp = false;
-	eng.has_quit = false;
-	eng.exe = null;
-
-	eng.received_version = false;		// Indicates that KataGo has really started responding to commands.
-	eng.version = [1, 0, 0];			// Gets updated to something like [1, 9, 0].
-	eng.tuning_in_progress = false;
-
-	eng.filepath = "";
-	eng.engineconfig = "";
-	eng.weights = "";
-
-	eng.desired = null;					// The search object we want to be running.
-	eng.running = null;					// The search object actually running. (Possibly the same object as above.)
-
-	return eng;
+function new_engine(...args) {
+	return new Engine(...args);
 }
 
-let engine_prototype = {
+class Engine {
 
-	__send: function(o) {
+	constructor() {
+
+		this.is_gtp = false;
+		this.has_quit = false;
+		this.exe = null;
+
+		this.received_version = false;		// Indicates that KataGo has really started responding to commands.
+		this.version = [1, 0, 0];			// Gets updated to something like [1, 9, 0].
+		this.tuning_in_progress = false;
+
+		this.filepath = "";
+		this.engineconfig = "";
+		this.weights = "";
+
+		this.desired = null;				// The search object we want to be running.
+		this.running = null;				// The search object actually running. (Possibly the same object as above.)
+
+		return this;
+	}
+
+	__send(o) {
 
 		// Sends the object to the KataGo Analysis Engine by converting it to JSON and writing it to stdin.
 
@@ -69,9 +71,9 @@ let engine_prototype = {
 			this.log_and_alert("While sending to engine:", err.toString());
 			this.shutdown();
 		}
-	},
+	}
 
-	analyse: function(node) {
+	analyse(node) {
 
 		// Sets this.desired to be a query for the node.
 		// If a query is currently running, sends a stop message to the engine.
@@ -104,9 +106,9 @@ let engine_prototype = {
 			this.__send(this.desired);
 			this.running = this.desired;
 		}
-	},
+	}
 
-	halt: function() {
+	halt() {
 
 		// Clears this.desired, and sends a stop message if required.
 
@@ -121,9 +123,9 @@ let engine_prototype = {
 				terminateId: `${this.running.id}`
 			});
 		}
-	},
+	}
 
-	setup: function(filepath, engineconfig, weights) {
+	setup(filepath, engineconfig, weights) {
 
 		if (this.exe || this.has_quit) {
 			throw new Error("setup(): engine object should not be reused");
@@ -149,9 +151,9 @@ let engine_prototype = {
 		}
 
 		this.finish_setup();
-	},
+	}
 
-	finish_setup: function() {
+	finish_setup() {
 
 		log("");
 		log("-----------------------------------------------------------------------------------");
@@ -279,9 +281,9 @@ let engine_prototype = {
 				}
 			}
 		});
-	},
+	}
 
-	log_received_object: function(o) {
+	log_received_object(o) {
 
 		let redacted = {};
 
@@ -294,9 +296,9 @@ let engine_prototype = {
 		}
 
 		log("< " + JSON.stringify(redacted));
-	},
+	}
 
-	log_sent_object: function(o) {
+	log_sent_object(o) {
 
 		let redacted = {};
 
@@ -309,23 +311,23 @@ let engine_prototype = {
 		}
 
 		log("\n--> " + JSON.stringify(redacted) + "\n");
-	},
+	}
 
-	log_and_alert: function(...args) {
+	log_and_alert(...args) {
 		log(args.join(" "));
 		console.log(args.join(" "));
 		alert(args.join("\n"));
-	},
+	}
 
-	problem_text: function() {
+	problem_text() {
 		if (this.exe) return "";
 		if (!this.filepath) return translate("GUI_ENGINE_NOT_SET");
 		if (!this.engineconfig) return translate("GUI_ENGINE_CONFIG_NOT_SET");
 		if (!this.weights) return translate("GUI_WEIGHTS_NOT_SET");
 		return `Engine (${path.basename(this.filepath)}) not running.`;
-	},
+	}
 
-	shutdown: function() {											// Note: Don't reuse the engine object.
+	shutdown() {													// Note: Don't reuse the engine object.
 
 		this.has_quit = true;										// Do this first so we know to ignore the "exit" event generated next...
 		if (this.exe) {
@@ -339,8 +341,8 @@ let engine_prototype = {
 		this.exe = null;
 		this.running = null;
 		this.desired = null;
-	},
-};
+	}
+}
 
 
 
