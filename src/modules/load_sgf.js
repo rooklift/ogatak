@@ -155,7 +155,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				if (!root) {
 					throw new Error("SGF load error: subtree ended but local root was nil");
 				}
-				return {root: root, readcount: i + 1 - off};
+				return {root: root, readcount: i - off + 1};
 			} else if (c === 59) {						// that is ;
 				if (!node) {
 					node = new_node(parent_of_local_root);
