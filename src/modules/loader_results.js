@@ -1,5 +1,10 @@
 "use strict";
 
+// The load_results object is useful for loading multiple files, as well
+// as SGF files with multiple games, since it can store both roots and
+// errors. It also disallows sizes > 19 and keeps track of how many
+// games were rejected as such...
+
 function new_load_results() {
 	let ret = Object.create(load_results_prototype);
 	ret._roots = [];
