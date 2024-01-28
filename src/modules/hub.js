@@ -188,11 +188,12 @@ let hub_main_props = {
 		}
 
 		if (filepath) {
-			for (let root of ret.roots) {
+			let roots = ret.get_roots();
+			for (let root of roots) {
 				root.filepath = filepath;
 			}
-			if (ret.roots.length === 1 && type === "sgf") {
-				ret.roots[0].save_ok = true;
+			if (roots.length === 1 && type === "sgf") {
+				roots[0].save_ok = true;
 			}
 		}
 
@@ -255,7 +256,7 @@ let hub_main_props = {
 
 	finish_load: function(load_results) {
 
-		for (let root of load_results.roots) {
+		for (let root of load_results.get_roots()) {
 			apply_komi_fix(root);
 			apply_pl_fix(root);
 			apply_ruleset_fix(root);
@@ -264,7 +265,7 @@ let hub_main_props = {
 			}
 		}
 
-		this.add_roots(load_results.roots);
+		this.add_roots(load_results.get_roots());
 		load_results.display_issues();
 	},
 

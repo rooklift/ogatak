@@ -2,21 +2,33 @@
 
 function new_load_results() {
 	let ret = Object.create(load_results_prototype);
-	ret.roots = [];
-	ret.errors = [];
-	ret.size_rejections = 0;
+	ret._roots = [];
+	ret._errors = [];
+	ret._size_rejections = 0;
 	return ret;
 }
 
 let load_results_prototype = {
 
+	count_roots: function() {
+		return this._roots.length;
+	},
+
+	count_errors: function() {
+		return this._errors.length;
+	},
+
+	get_roots: function() {
+		return Array.from(this._roots);
+	},
+
 	add_roots: function(...args) {
 		let arr = args.flat(Infinity);
 		for (let root of arr) {
 			if (root.width() > 19 || root.height() > 19) {
-				this.size_rejections++;
+				this._size_rejections++;
 			} else {
-				this.roots.push(root);
+				this._roots.push(root);
 			}
 		}
 	},
@@ -27,33 +39,33 @@ let load_results_prototype = {
 			if (typeof error === "string") {
 				error = new Error(error);
 			}
-			this.errors.push(error);
+			this._errors.push(error);
 		}
 	},
 
 	absorb: function(...args) {					// args are expected to be other load_results objects.
 		let arr = args.flat(Infinity);
 		for (let o of arr) {
-			this.roots = this.roots.concat(o.roots);
-			this.errors = this.errors.concat(o.errors);
-			this.size_rejections += o.size_rejections;
+			this._roots = this._roots.concat(o._roots);
+			this._errors = this._errors.concat(o._errors);
+			this._size_rejections += o._size_rejections;
 		}
 	},
 
 	display_issues: function() {				// Won't do anything if no errors or rejections.
 		let size_msg = "";
-		if (this.size_rejections > 0) {
-			let noun = this.size_rejections === 1 ? "game" : "games";
-			size_msg = `Rejected ${this.size_rejections} ${noun}, because sizes > 19 are not supported.`;
+		if (this._size_rejections > 0) {
+			let noun = this._size_rejections === 1 ? "game" : "games";
+			size_msg = `Rejected ${this._size_rejections} ${noun}, because sizes > 19 are not supported.`;
 		}
-		if (this.errors.length > 1) {
+		if (this._errors.length > 1) {
 			if (size_msg) {
-				alert(`${size_msg} Also, ${this.errors.length} other games were rejected due to errors.`);
+				alert(`${size_msg} Also, ${this._errors.length} other games were rejected due to errors.`);
 			} else {
-				alert(`${this.errors.length} games were rejected due to errors.`);
+				alert(`${this._errors.length} games were rejected due to errors.`);
 			}
-		} else if (this.errors.length === 1) {
-			let error_msg = this.errors[0].toString();
+		} else if (this._errors.length === 1) {
+			let error_msg = this._errors[0].toString();
 			if (error_msg.startsWith("Error: ")) {
 				error_msg = error_msg.slice(7);
 			}

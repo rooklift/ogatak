@@ -60,11 +60,11 @@ function load_sgf(buf) {
 		allow_charset_reset = false;
 	}
 
-	if (ret.roots.length === 0) {
+	if (ret.count_roots() === 0 && ret.count_errors() === 0) {
 		ret.add_errors("SGF load error: found no game");
 	}
 
-	for (let root of ret.roots) {
+	for (let root of ret.get_roots()) {
 		root.set("GM", 1);
 		root.set("FF", 4);
 		root.set("CA", "UTF-8");
