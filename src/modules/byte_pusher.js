@@ -6,19 +6,19 @@
 
 const decoders = require("./decoders");
 
-function new_byte_pusher(encoding = "UTF-8", size = 16) {
-
-	return Object.assign(Object.create(byte_pusher_prototype), {
-		decoder: decoders.get_decoder(encoding),					// This can throw if encoding is not supported.
-		storage: new Uint8Array(size),
-		length: 0,													// Both the length and also the next index to write to.
-	});
-
+function new_byte_pusher(...args) {
+	return new BytePusher(...args);
 }
 
-let byte_pusher_prototype = {
+class BytePusher {
 
-	push: function(c) {
+	constructor(encoding = "UTF-8", size = 16) {
+		this.decoder = decoders.get_decoder(encoding);			// This can throw if encoding is not supported.
+		this.storage = new Uint8Array(size);
+		this.length = 0;										// Both the length and also the next index to write to.
+	}
+
+	push(c) {
 		if (this.length >= this.storage.length) {
 			let new_storage = new Uint8Array(this.storage.length * 2);
 			for (let n = 0; n < this.storage.length; n++) {
@@ -28,20 +28,20 @@ let byte_pusher_prototype = {
 		}
 		this.storage[this.length] = c;
 		this.length++;
-	},
+	}
 
-	reset: function() {
+	reset() {
 		this.length = 0;
-	},
+	}
 
-	bytes: function() {
+	bytes() {
 		return this.storage.slice(0, this.length);
-	},
+	}
 
-	string: function() {
+	string() {
 		return this.decoder.decode(this.bytes());
 	}
-};
+}
 
 
 
