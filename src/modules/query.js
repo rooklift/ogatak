@@ -19,7 +19,7 @@ function new_query(query_node, eng_version = null, maxvisits = default_maxvisits
 
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
-	if (maxvisits < 2) maxvisits = 2;							// Don't use 1.
+	if (maxvisits < 2) maxvisits = 2;							// Don't use 1, I think it only visits the root and doesn't suggest a move.
 
 	let board = query_node.get_board();
 
