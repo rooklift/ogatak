@@ -1079,7 +1079,7 @@ let hub_main_props = {
 
 		if (this.__autoscroll) {
 			if (this.node.children.length > 0) {
-				this.next();
+				this.next_auto();
 			} else {
 				this.set_autoscroll(false);
 			}
