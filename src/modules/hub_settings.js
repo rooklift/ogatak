@@ -6,7 +6,7 @@ const path = require("path");
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 const {translate} = require("./translate");
-const {compare_arrays, node_id_from_search_id} = require("./utils");
+const {compare_arrays} = require("./utils");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
