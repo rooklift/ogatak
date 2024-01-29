@@ -251,6 +251,17 @@ module.exports = {
 			}
 			break;
 
+		case "autoanalysis_visits":
+
+			if (old_value < value) {
+				if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
+					if (this.engine.desired && this.engine.desired === this.engine.running) {
+						hub.go();
+					}
+				}
+			}
+			break;
+
 		case "autoscroll_delay":
 
 			clearTimeout(this.autoscroll_fn_id);
