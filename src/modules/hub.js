@@ -77,17 +77,18 @@ let hub_main_props = {
 		}
 
 		if (!did_draw_pv) {
-
-			let suggest_antiflicker = false;
-
-			if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
-				suggest_antiflicker = true;
-			} else if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {		// Not relevant for __autoscroll
-				suggest_antiflicker = true;
-			}
-
-			board_drawer.draw_standard(this.node, suggest_antiflicker);
+			board_drawer.draw_standard(this.node, this.suggest_antiflicker());
 		}
+	},
+
+	suggest_antiflicker: function() {
+		if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
+			return true;
+		}
+		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {		// Not relevant for __autoscroll
+			return true;
+		}
+		return false;
 	},
 
 	// Tabs........................................................................................
