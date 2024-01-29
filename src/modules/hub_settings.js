@@ -6,7 +6,7 @@ const path = require("path");
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 const {translate} = require("./translate");
-const {compare_arrays} = require("./utils");
+const {compare_arrays, node_id_from_search_id} = require("./utils");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
@@ -255,7 +255,7 @@ module.exports = {
 
 			if (old_value < value) {
 				if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
-					if (this.engine.desired && this.engine.desired === this.engine.running) {
+					if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
 						hub.go();
 					}
 				}
