@@ -113,7 +113,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
 				// See notes on character sets, above...
-				if (allow_charset_reset && key_string === "CA" && node.props.CA.length === 1) {
+				if (allow_charset_reset && key_string === "CA") {
 					if (!is_utf8_alias(value_string) && decoders.available(value_string)) {
 						throw {charset: value_string};
 					}
