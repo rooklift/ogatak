@@ -466,7 +466,7 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 	// The 2 methods here are the main methods called by the hub...
 
-	draw_standard: function(node) {
+	draw_standard: function(node, hub_suggests_antiflicker = false) {
 
 		let drew_ownership_last_time = this.has_drawn_ownership;
 
@@ -479,7 +479,7 @@ let board_drawer_prototype = {
 
 			this.handle_ownership(node.get_board(), node.analysis.ownership);
 
-		} else if (drew_ownership_last_time && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+		} else if (drew_ownership_last_time && hub_suggests_antiflicker) {
 
 			// But to avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
 

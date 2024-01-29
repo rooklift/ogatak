@@ -34,7 +34,7 @@ function new_query(query_node, eng_version = null) {
 		komi: query_node.komi(),
 		boardXSize: board.width,
 		boardYSize: board.height,
-		maxVisits: 1000000,
+		maxVisits: 350, // FIXME 1000000,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
 		includePolicy: true,

@@ -77,7 +77,16 @@ let hub_main_props = {
 		}
 
 		if (!did_draw_pv) {
-			board_drawer.draw_standard(this.node);
+
+			let suggest_antiflicker = false;
+
+			if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
+				suggest_antiflicker = true;
+			} else if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {		// Not needed for __autoscroll
+				suggest_antiflicker = true;
+			}
+
+			board_drawer.draw_standard(this.node, suggest_antiflicker);
 		}
 	},
 
@@ -703,6 +712,9 @@ let hub_main_props = {
 
 					if (this.node.children.length > 0) {
 						this.next();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					} else {
 						this.halt();
 					}
@@ -711,6 +723,9 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					} else {
 						this.halt();
 					}
@@ -721,6 +736,9 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					}
 				}
 			}
