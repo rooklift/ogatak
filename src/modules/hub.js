@@ -686,6 +686,8 @@ let hub_main_props = {
 
 			this.node.receive_analysis(o);
 
+			// Stuff we can do with any result at all for this node...
+
 			if (policy_or_drunk && this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
