@@ -77,25 +77,16 @@ let hub_main_props = {
 		}
 
 		if (!did_draw_pv) {
-			board_drawer.draw_standard(this.node, this.suggest_antiflicker());
+			board_drawer.draw_standard(this.node, Boolean(this.engine.desired));
 		}
-	},
 
-	suggest_antiflicker: function() {
-
-		// Whether the drawer should use ownership of a nearby node if ownership is not present in this.node.
+		// The 2nd arg is whether the drawer should use ownership of a nearby node if ownership is not present in this.node.
+		// I used to have more complicated criteria but this is probably fine.
 		// Has 2 purposes:
 		//		- Prevents flicker when advancing.
 		//		- The only way to get ownership drawn at all if the position is advancing rapidly
 		//		  (e.g. due to play_against_policy mode).
 
-		if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
-			return true;
-		}
-		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {
-			return true;
-		}
-		return false;
 	},
 
 	// Tabs........................................................................................

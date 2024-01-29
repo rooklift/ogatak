@@ -4,8 +4,6 @@
 // I'm sure there's some technical term somewhere. The rather arbitrary timings are just to
 // make accidental sync-ups less common, which could conceivably cause lag when they occur.
 
-const {node_id_from_search_id} = require("./utils");
-
 // ------------------------------------------------------------------------------------------------
 
 (function active_tab_draw_spinner() {
@@ -78,7 +76,7 @@ const {node_id_from_search_id} = require("./utils");
 (function bad_ownership_spinner() {
 	if (board_drawer.has_drawn_ownership) {
 		if (!hub.node.has_valid_analysis() || !hub.node.analysis.ownership) {
-			if (!hub.engine.desired || node_id_from_search_id(hub.engine.desired.id) !== hub.node.id) {
+			if (!hub.engine.desired) {
 				hub.draw();
 				console.log("bad_ownership_spinner() fired!");
 			}
