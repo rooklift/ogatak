@@ -253,12 +253,8 @@ module.exports = {
 
 		case "autoanalysis_visits":
 
-			if (old_value < value) {
-				if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
-					if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
-						hub.go();
-					}
-				}
+			if (this.engine.desired && this.engine.desired.maxVisits < value) {
+				hub.go();
 			}
 			break;
 
