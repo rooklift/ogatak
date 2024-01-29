@@ -866,7 +866,6 @@ let hub_main_props = {
 		} else if (!this.engine.desired) {
 			this.go();
 		}
-
 	},
 
 	toggle_backanalysis: function() {
