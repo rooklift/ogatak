@@ -983,7 +983,7 @@ function menu_build() {
 					checked: false,
 					accelerator: "F11",
 					click: () => {
-						win.webContents.send("call", "toggle_autoplay");
+						win.webContents.send("call", "toggle_selfplay");
 					}
 				},
 				{

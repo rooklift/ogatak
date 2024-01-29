@@ -44,9 +44,11 @@ function init() {
 		node: null,
 		engine: eng,
 
+		// FIXME: since these are all mutually exclusive, just have 1 variable special_play_mode or suchlike...
+
 		__autoanalysis: false,			// Don't set these directly, because main.js needs informed too
 		__backanalysis: false,
-		__autoplay: false,
+		__selfplay: false,
 		__autoscroll: false,
 		__play_colour: null,
 
@@ -95,7 +97,7 @@ let hub_main_props = {
 
 		// Note that engine.desired will briefly be null while we switch nodes in these modes...
 
-		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {
+		if (this.__autoanalysis || this.__backanalysis || this.__selfplay) {
 			return true;
 		}
 
@@ -387,7 +389,10 @@ let hub_main_props = {
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
 		let opts = {
-			keep_autoplay_settings: false,		// FIXME? Might want to split this out into 2 or 3 things.
+			keep_selfplay: false,
+			keep_autoanalysis: false,
+			keep_play_color: false,
+			keep_autoscroll: false,
 			bless: false						// Callers that leave this false do so because it's unneeded (would have no effect).
 		};
 
@@ -419,17 +424,24 @@ let hub_main_props = {
 			want_to_go = this.__play_colour === this.node.get_board().active;
 		}
 
-		if (!opts.keep_autoplay_settings) {
-			if (this.__autoanalysis || this.__backanalysis || this.__autoplay || this.__play_colour) {
-				this.set_autoanalysis(false);
-				this.set_backanalysis(false);
-				this.set_autoplay(false);
-				this.set_play_colour(null);
-				want_to_go = false;				// i.e. we halt only if we are turning off one of these things.
-			}
-			if (this.__autoscroll) {
-				this.set_autoscroll(false);		// (Don't set want_to_go = false just for this.)
-			}
+		if (!opts.keep_selfplay && this.__selfplay) { this.set_selfplay(false);
+			want_to_go = false;
+		}
+
+		if (!opts.keep_autoanalysis && (this.__autoanalysis || this.__backanalysis)) {
+			this.set_autoanalysis(false);
+			this.set_backanalysis(false);
+			want_to_go = false;
+		}
+
+		if (!opts.keep_play_color && this.__play_colour) {
+			this.set_play_colour(null);
+			want_to_go = false;
+		}
+
+		if (!opts.keep_autoscroll && this.__autoscroll) {
+			this.set_autoscroll(false);
+			// want_to_go = false;			// Not for this.
 		}
 
 		if (want_to_go) {
@@ -478,12 +490,12 @@ let hub_main_props = {
 
 	try_move: function(s) {						// Can't be used for passing.
 		let node = this.node.try_move(s);		// Note node.try_move() returns the original node on failure.
-		this.set_node(node, {keep_autoplay_settings: true, bless: true});
+		this.set_node(node, {keep_play_color: true, bless: true});
 	},
 
 	pass: function() {
 		let node = this.node.pass();
-		this.set_node(node, {keep_autoplay_settings: true, bless: true});
+		this.set_node(node, {keep_play_color: true, bless: true});
 	},
 
 	play_best: function(mode = "best") {
@@ -504,7 +516,7 @@ let hub_main_props = {
 				this.pass();
 			} else {
 				let node = this.node.force_move(s);
-				this.set_node(node, {keep_autoplay_settings: true, bless: true});
+				this.set_node(node, {keep_selfplay: true, keep_play_color: true, bless: true});
 			}
 		}
 	},
@@ -519,7 +531,7 @@ let hub_main_props = {
 
 	prev_auto: function() {
 		if (this.node.parent) {
-			this.set_node(this.node.parent, {keep_autoplay_settings: true, bless: false});
+			this.set_node(this.node.parent, {keep_autoanalysis: true, bless: false});
 		}
 	},
 
@@ -537,7 +549,7 @@ let hub_main_props = {
 
 	next_auto: function() {
 		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true, bless: false});
+			this.set_node(this.node.get_blessed_child(), {keep_autoanalysis: true, keep_autoscroll: true, bless: false});
 		}
 	},
 
@@ -707,7 +719,7 @@ let hub_main_props = {
 					this.play_top_policy();
 				}
 
-			} else if (policy_or_drunk && this.__autoplay) {
+			} else if (policy_or_drunk && this.__selfplay) {
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();
@@ -753,7 +765,7 @@ let hub_main_props = {
 						this.halt();
 					}
 
-				} else if (this.__autoplay) {
+				} else if (this.__selfplay) {
 
 					if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 						this.halt();
@@ -770,10 +782,10 @@ let hub_main_props = {
 				this.draw();
 			}
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__autoplay && !this.__play_colour) {
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__selfplay && !this.__play_colour) {
 
 			// We received info for the parent node, which commonly happens when advancing forwards. It's
-			// OK to set this info in the parent, unless we're in autoplay mode, in which case it's better
+			// OK to set this info in the parent, unless we're in selfplay mode, in which case it's better
 			// to leave the analysis that actually triggered the move.
 
 			this.node.parent.receive_analysis(o);
@@ -791,7 +803,7 @@ let hub_main_props = {
 		this.disable_specials_except("comment_drawer");
 		if (this.__autoanalysis || this.__backanalysis) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
-		} else if (this.__autoplay) {
+		} else if (this.__selfplay) {
 			if (config.play_against_policy || config.play_against_drunk) {
 				this.engine.analyse(this.node, 5);
 			} else {
@@ -805,7 +817,7 @@ let hub_main_props = {
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_play_colour(null);
 		this.engine.halt();
 	},
@@ -820,7 +832,7 @@ let hub_main_props = {
 	toggle_ponder: function() {					// Only called when user does this.
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_play_colour(null);
 		if (this.engine.desired) {
 			this.halt_by_user();
@@ -843,9 +855,9 @@ let hub_main_props = {
 		return val;
 	},
 
-	set_autoplay: function(val) {
+	set_selfplay: function(val) {
 		val = val ? true : false;
-		this.__autoplay = val;
+		this.__selfplay = val;
 		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")]);
 		return val;
 	},
@@ -868,7 +880,7 @@ let hub_main_props = {
 	toggle_autoanalysis: function() {
 		this.set_autoanalysis(!this.__autoanalysis);
 		this.set_backanalysis(false);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.__autoanalysis) {
@@ -881,7 +893,7 @@ let hub_main_props = {
 	toggle_backanalysis: function() {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(!this.__backanalysis);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
 		if (!this.__backanalysis) {
@@ -891,13 +903,13 @@ let hub_main_props = {
 		}
 	},
 
-	toggle_autoplay: function() {
+	toggle_selfplay: function() {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(!this.__autoplay);
+		this.set_selfplay(!this.__selfplay);
 		this.set_autoscroll(false);
 		this.set_play_colour(null);
-		if (!this.__autoplay) {
+		if (!this.__selfplay) {
 			this.engine.halt();
 		} else if (!this.engine.desired) {
 			this.go();
@@ -907,7 +919,7 @@ let hub_main_props = {
 	toggle_autoscroll: function() {
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_autoscroll(!this.__autoscroll);
 		this.set_play_colour(null);
 	},
@@ -918,7 +930,7 @@ let hub_main_props = {
 		}
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
-		this.set_autoplay(false);
+		this.set_selfplay(false);
 		this.set_autoscroll(false);
 		this.set_play_colour(val);
 		if (!this.engine.desired && this.node.get_board().active === val) {
