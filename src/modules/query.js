@@ -11,30 +11,27 @@
 
 const {node_id_from_search_id, compare_versions} = require("./utils");
 
+const default_maxvisits = 1000000;
+
 let next_query_id = 1;
 
-function new_query(query_node, eng_version = null) {
+function new_query(query_node, eng_version = null, maxvisits = default_maxvisits) {
 
 	// Every key that's used at all should be in 100% of the queries, even for default values.
+
+	if (maxvisits < 2) maxvisits = 2;							// Don't use 1, I think it only visits the root and doesn't suggest a move.
 
 	let board = query_node.get_board();
 
 	let want_ownership = (typeof config.ownership_marks === "number" && config.ownership_marks !== 0);
 
 	let o = {
-
 		id: `${query_node.id}:${next_query_id++}`,
-
-		// About maxVisits: if we ever set it dynamically, don't ask for 1 (use min 2).
-		// One thing we might try is only asking for the required visits when in some autoanalysis or autoplay
-		// mode, however this has some downsides, especially that the ownership will flicker on and off.
-		// It would make various things more complicated.
-
 		rules: query_node.rules() || config.default_rules,
 		komi: query_node.komi(),
 		boardXSize: board.width,
 		boardYSize: board.height,
-		maxVisits: 1000000,
+		maxVisits: maxvisits,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
 		includePolicy: true,
@@ -176,4 +173,4 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 
 
-module.exports = {new_query, compare_queries, compare_moves_arrays};
+module.exports = {default_maxvisits, new_query, compare_queries, compare_moves_arrays};

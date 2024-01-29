@@ -77,8 +77,25 @@ let hub_main_props = {
 		}
 
 		if (!did_draw_pv) {
-			board_drawer.draw_standard(this.node);
+			board_drawer.draw_standard(this.node, this.suggest_antiflicker());
 		}
+	},
+
+	suggest_antiflicker: function() {
+
+		// Whether the drawer should use ownership of a nearby node if ownership is not present in this.node.
+		// Has 2 purposes:
+		//		- Prevents flicker when advancing.
+		//		- The only way to get ownership drawn at all if the position is advancing rapidly
+		//		  (e.g. due to play_against_policy mode).
+
+		if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
+			return true;
+		}
+		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {
+			return true;
+		}
+		return false;
 	},
 
 	// Tabs........................................................................................
@@ -669,6 +686,8 @@ let hub_main_props = {
 
 			this.node.receive_analysis(o);
 
+			// Stuff we can do with any result at all for this node...
+
 			if (policy_or_drunk && this.__play_colour && this.__play_colour === this.node.get_board().active) {
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
@@ -688,6 +707,9 @@ let hub_main_props = {
 					} else {
 						this.play_top_policy();
 					}
+					if (!this.engine.desired) {
+						this.go();
+					}
 				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
@@ -703,6 +725,9 @@ let hub_main_props = {
 
 					if (this.node.children.length > 0) {
 						this.next();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					} else {
 						this.halt();
 					}
@@ -711,6 +736,9 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					} else {
 						this.halt();
 					}
@@ -721,6 +749,9 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
+						if (!this.engine.desired) {
+							this.go();
+						}
 					}
 				}
 			}
@@ -748,7 +779,17 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
-		this.engine.analyse(this.node);
+		if (this.__autoanalysis || this.__backanalysis) {
+			this.engine.analyse(this.node, config.autoanalysis_visits);
+		} else if (this.__autoplay) {
+			if (config.play_against_policy || config.play_against_drunk) {
+				this.engine.analyse(this.node, 5);
+			} else {
+				this.engine.analyse(this.node, config.autoanalysis_visits);
+			}
+		} else {
+			this.engine.analyse(this.node);
+		}
 	},
 
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
@@ -825,7 +866,6 @@ let hub_main_props = {
 		} else if (!this.engine.desired) {
 			this.go();
 		}
-
 	},
 
 	toggle_backanalysis: function() {

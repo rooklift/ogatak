@@ -466,9 +466,9 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 	// The 2 methods here are the main methods called by the hub...
 
-	draw_standard: function(node) {
+	draw_standard: function(node, caller_suggests_antiflicker = false) {
 
-		let drew_ownership_last_time = this.has_drawn_ownership;
+		// let drew_ownership_last_time = this.has_drawn_ownership;		// Unused now...
 
 		this.clear_canvases();
 		this.draw_board(node.get_board());
@@ -479,9 +479,9 @@ let board_drawer_prototype = {
 
 			this.handle_ownership(node.get_board(), node.analysis.ownership);
 
-		} else if (drew_ownership_last_time && hub.engine.desired && node_id_from_search_id(hub.engine.desired.id) === node.id) {
+		} else if (caller_suggests_antiflicker) {		// We used to also have drew_ownership_last_time as part of this conditional.
 
-			// But to avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
+			// To avoid flicker, we can use some nearby node's analysis, if (as per the test above) we are expecting real data soon.
 
 			let analysis_node = node.anc_dec_with_valid_analysis(8);
 			if (analysis_node && analysis_node.analysis.ownership) {
