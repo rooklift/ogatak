@@ -254,7 +254,7 @@ module.exports = {
 		case "autoanalysis_visits":
 
 			if (this.engine.desired && this.engine.desired.maxVisits < value) {
-				hub.go();
+				this.go();
 			}
 			break;
 
