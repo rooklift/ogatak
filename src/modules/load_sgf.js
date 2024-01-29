@@ -109,9 +109,6 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				i++;
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
-				if (!node) {
-					throw new Error("SGF load error: value ended by ] but node was nil");
-				}
 				let key_string = key.string();
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
