@@ -383,7 +383,7 @@ let hub_main_props = {
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
 		let opts = {
-			keep_autoplay_settings: false,
+			keep_autoplay_settings: false,		// FIXME? Might want to split this out into 2 or 3 things.
 			bless: false						// Callers that leave this false do so because it's unneeded (would have no effect).
 		};
 
