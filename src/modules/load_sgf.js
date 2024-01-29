@@ -127,11 +127,11 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 			if (c <= 32 || (c >= 97 && c <= 122)) {		// that is a-z
 				continue;
 			} else if (c === 91) {						// that is [
-				if (!node) {
+				if (!root) {
 					// The tree has ( but no ; before its first property.
 					// We tolerate this.
-					node = new_node(parent_of_local_root);
-					root = node;
+					root = new_node(parent_of_local_root);
+					node = root;
 				}
 				value.reset();
 				inside_value = true;
@@ -157,9 +157,9 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				}
 				return {root: root, readcount: i - off + 1};
 			} else if (c === 59) {						// that is ;
-				if (!node) {
-					node = new_node(parent_of_local_root);
-					root = node;
+				if (!root) {
+					root = new_node(parent_of_local_root);
+					node = root;
 				} else {
 					node = new_node(node);
 				}
