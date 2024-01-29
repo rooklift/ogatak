@@ -22,6 +22,16 @@ const config_io = require("./config_io");
 const {translate} = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s} = require("./utils");
 
+// Special modes...
+
+const NONE = 0;
+const AUTOANALYSIS = 1;
+const BACKANALYSIS = 2;
+const SELFPLAY = 3;
+const AUTOSCROLL = 4;
+const PLAY_BLACK = 5;
+const PLAY_WHITE = 6;
+
 // ------------------------------------------------------------------------------------------------
 
 function init() {
@@ -97,6 +107,7 @@ let hub_main_props = {
 
 		// Note that engine.desired will briefly be null while we switch nodes in these modes...
 
+		// FIXME
 		if (this.__autoanalysis || this.__backanalysis || this.__selfplay) {
 			return true;
 		}
@@ -420,25 +431,30 @@ let hub_main_props = {
 
 		let want_to_go = this.engine.desired ? true : false;
 
+		// FIXME
 		if (this.__play_colour) {
 			want_to_go = this.__play_colour === this.node.get_board().active;
 		}
 
+		// FIXME
 		if (!opts.keep_selfplay && this.__selfplay) { this.set_selfplay(false);
 			want_to_go = false;
 		}
 
+		// FIXME
 		if (!opts.keep_autoanalysis && (this.__autoanalysis || this.__backanalysis)) {
 			this.set_autoanalysis(false);
 			this.set_backanalysis(false);
 			want_to_go = false;
 		}
 
+		// FIXME
 		if (!opts.keep_play_color && this.__play_colour) {
 			this.set_play_colour(null);
 			want_to_go = false;
 		}
 
+		// FIXME
 		if (!opts.keep_autoscroll && this.__autoscroll) {
 			this.set_autoscroll(false);
 			// want_to_go = false;			// Not for this.
@@ -710,7 +726,7 @@ let hub_main_props = {
 
 			// Stuff we can do with any result at all for this node...
 
-			if (policy_or_drunk && this.__play_colour && this.__play_colour === this.node.get_board().active) {
+			if (policy_or_drunk && this.__play_colour && this.__play_colour === this.node.get_board().active) {		// FIXME
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
 				if (config.play_against_drunk) {
@@ -719,7 +735,7 @@ let hub_main_props = {
 					this.play_top_policy();
 				}
 
-			} else if (policy_or_drunk && this.__selfplay) {
+			} else if (policy_or_drunk && this.__selfplay) {		// FIXME
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();
@@ -738,12 +754,12 @@ let hub_main_props = {
 
 				// This object has enough visits to advance the position if we're in any special mode...
 
-				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {
+				if (this.__play_colour && this.__play_colour === this.node.get_board().active) {		// FIXME
 
 					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
 
-				} else if (this.__autoanalysis) {
+				} else if (this.__autoanalysis) {		// FIXME
 
 					if (this.node.children.length > 0) {
 						this.next_auto();
@@ -754,7 +770,7 @@ let hub_main_props = {
 						this.halt();
 					}
 
-				} else if (this.__backanalysis) {
+				} else if (this.__backanalysis) {		// FIXME
 
 					if (this.node.parent) {
 						this.prev_auto();
@@ -765,7 +781,7 @@ let hub_main_props = {
 						this.halt();
 					}
 
-				} else if (this.__selfplay) {
+				} else if (this.__selfplay) {			// FIXME
 
 					if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 						this.halt();
@@ -782,7 +798,7 @@ let hub_main_props = {
 				this.draw();
 			}
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__selfplay && !this.__play_colour) {
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__selfplay && !this.__play_colour) {		// FIXME
 
 			// We received info for the parent node, which commonly happens when advancing forwards. It's
 			// OK to set this info in the parent, unless we're in selfplay mode, in which case it's better
@@ -801,8 +817,10 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
+		// FIXME
 		if (this.__autoanalysis || this.__backanalysis) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
+		// FIXME
 		} else if (this.__selfplay) {
 			if (config.play_against_policy || config.play_against_drunk) {
 				this.engine.analyse(this.node, 5);
@@ -843,6 +861,7 @@ let hub_main_props = {
 
 	set_autoanalysis: function(val) {
 		val = val ? true : false;
+		// FIXME
 		this.__autoanalysis = val;
 		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS")]);
 		return val;
@@ -850,6 +869,7 @@ let hub_main_props = {
 
 	set_backanalysis: function(val) {
 		val = val ? true : false;
+		// FIXME
 		this.__backanalysis = val;
 		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_BACKWARD_ANALYSIS")]);
 		return val;
@@ -857,6 +877,7 @@ let hub_main_props = {
 
 	set_selfplay: function(val) {
 		val = val ? true : false;
+		// FIXME
 		this.__selfplay = val;
 		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")]);
 		return val;
@@ -864,6 +885,7 @@ let hub_main_props = {
 
 	set_autoscroll: function(val) {
 		val = val ? true : false;
+		// FIXME
 		this.__autoscroll = val;
 		ipcRenderer.send(val ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_AUTOSCROLL")]);
 		return val;
@@ -871,6 +893,7 @@ let hub_main_props = {
 
 	set_play_colour: function(val) {
 		val = (val === "b" || val === "w") ? val : null;
+		// FIXME
 		this.__play_colour = val;
 		ipcRenderer.send(val === "b" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_BLACK")]);
 		ipcRenderer.send(val === "w" ? "set_check_true" : "set_check_false", [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_WHITE")]);
@@ -878,6 +901,7 @@ let hub_main_props = {
 	},
 
 	toggle_autoanalysis: function() {
+		// FIXME
 		this.set_autoanalysis(!this.__autoanalysis);
 		this.set_backanalysis(false);
 		this.set_selfplay(false);
@@ -891,6 +915,7 @@ let hub_main_props = {
 	},
 
 	toggle_backanalysis: function() {
+		// FIXME
 		this.set_autoanalysis(false);
 		this.set_backanalysis(!this.__backanalysis);
 		this.set_selfplay(false);
@@ -904,6 +929,7 @@ let hub_main_props = {
 	},
 
 	toggle_selfplay: function() {
+		// FIXME
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_selfplay(!this.__selfplay);
@@ -917,6 +943,7 @@ let hub_main_props = {
 	},
 
 	toggle_autoscroll: function() {
+		// FIXME
 		this.set_autoanalysis(false);
 		this.set_backanalysis(false);
 		this.set_selfplay(false);
@@ -1093,6 +1120,7 @@ let hub_main_props = {
 			config.autoscroll_delay = 0.25;
 		}
 
+		// FIXME
 		if (this.__autoscroll) {
 			if (this.node.children.length > 0) {
 				this.next_auto();
