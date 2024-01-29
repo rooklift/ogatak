@@ -770,8 +770,14 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
-		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {
+		if (this.__autoanalysis || this.__backanalysis) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
+		} else if (this.__autoplay) {
+			if (config.play_against_policy || config.play_against_drunk) {
+				this.engine.analyse(this.node, 5);
+			} else {
+				this.engine.analyse(this.node, config.autoanalysis_visits);
+			}
 		} else {
 			this.engine.analyse(this.node);
 		}
