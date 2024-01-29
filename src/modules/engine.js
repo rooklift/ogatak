@@ -18,7 +18,7 @@ const log = require("./log");
 const stringify = require("./stringify");
 const {translate} = require("./translate");
 const {parse_version, compare_versions} = require("./utils");
-const {new_query, compare_queries} = require("./query");
+const {default_maxvisits, new_query, compare_queries} = require("./query");
 
 const bad_versions = [						// Versions of KataGo which are somehow broken.
 	[1, 9, 0],
@@ -73,7 +73,7 @@ class Engine {
 		}
 	}
 
-	analyse(node) {
+	analyse(node, maxvisits = default_maxvisits) {
 
 		// Sets this.desired to be a query for the node.
 		// If a query is currently running, sends a stop message to the engine.
@@ -86,7 +86,7 @@ class Engine {
 
 		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
-		let query = new_query(node, this.version);
+		let query = new_query(node, this.version, maxvisits);
 
 		if (this.desired) {
 			if (compare_queries(this.desired, query)) {

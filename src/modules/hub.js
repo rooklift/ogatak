@@ -82,7 +82,7 @@ let hub_main_props = {
 
 			if (this.engine.desired && node_id_from_search_id(this.engine.desired.id) === this.node.id) {
 				suggest_antiflicker = true;
-			} else if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {		// Not needed for __autoscroll
+			} else if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {		// Not relevant for __autoscroll
 				suggest_antiflicker = true;
 			}
 
@@ -766,7 +766,11 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
-		this.engine.analyse(this.node);
+		if (this.__autoanalysis || this.__backanalysis || this.__autoplay) {
+			this.engine.analyse(this.node, config.autoanalysis_visits);
+		} else {
+			this.engine.analyse(this.node);
+		}
 	},
 
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
