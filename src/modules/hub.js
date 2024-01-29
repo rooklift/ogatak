@@ -698,6 +698,9 @@ let hub_main_props = {
 					} else {
 						this.play_top_policy();
 					}
+					if (!this.engine.desired) {
+						this.go();
+					}
 				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
