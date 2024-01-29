@@ -513,27 +513,33 @@ let hub_main_props = {
 		this.play_best("drunk");
 	},
 
-	prev: function() {
-		if (this.node.parent) {
-			this.set_node(this.node.parent, {bless: false});
-		}
-	},
-
 	prev_auto: function() {
 		if (this.node.parent) {
 			this.set_node(this.node.parent, {keep_autoplay_settings: true, bless: false});
 		}
 	},
 
-	next: function() {
-		if (this.node.children.length > 0) {
-			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true, bless: false});
+	prev: function() {
+		if (this.node.parent) {
+			this.set_node(this.node.parent, {bless: false});
 		}
 	},
 
 	backward: function(n) {
 		if (this.node.parent) {
 			this.set_node(this.node.backward_helper(n), {bless: false});
+		}
+	},
+
+	next_auto: function() {
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.get_blessed_child(), {keep_autoplay_settings: true, bless: false});
+		}
+	},
+
+	next: function() {
+		if (this.node.children.length > 0) {
+			this.set_node(this.node.get_blessed_child(), {bless: false});
 		}
 	},
 
@@ -724,7 +730,7 @@ let hub_main_props = {
 				} else if (this.__autoanalysis) {
 
 					if (this.node.children.length > 0) {
-						this.next();
+						this.next_auto();
 						if (!this.engine.desired) {
 							this.go();
 						}
