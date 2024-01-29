@@ -81,6 +81,7 @@ function init() {
 		infodiv_displaying_stats: false,			// Becomes true when normal (i.e. non-error) stuff is shown.
 
 		rebuild_count: 0,							// For debugging.
+		draw_count: 0,								// Used by hub to avoid redundant draws.
 
 	});
 
@@ -498,6 +499,8 @@ let board_drawer_prototype = {
 		this.draw_canvas();
 		this.draw_node_info(node);
 		this.pv = null;
+
+		this.draw_count++;
 	},
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
@@ -554,6 +557,7 @@ let board_drawer_prototype = {
 		this.draw_node_info(node, info);
 		this.pv = points;
 
+		this.draw_count++;
 		return true;
 	},
 

@@ -661,12 +661,11 @@ let hub_main_props = {
 			return;
 		}
 
+		let initial_draw_count = board_drawer.draw_count;
 		let relevant_node_id = node_id_from_search_id(o.id);
 		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;		// Are either of these options set?
 
 		if (relevant_node_id === this.node.id) {
-
-			// Note: all the early returns here are just to avoid a redundant draw() at the end.
 
 			this.node.receive_analysis(o);
 
@@ -678,7 +677,6 @@ let hub_main_props = {
 				} else  {
 					this.play_top_policy();
 				}
-				return;
 
 			} else if (policy_or_drunk && this.__autoplay) {
 
@@ -690,7 +688,6 @@ let hub_main_props = {
 					} else {
 						this.play_top_policy();
 					}
-					return;
 				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
@@ -701,13 +698,11 @@ let hub_main_props = {
 
 					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
-					return;
 
 				} else if (this.__autoanalysis) {
 
 					if (this.node.children.length > 0) {
 						this.next();
-						return;
 					} else {
 						this.halt();
 					}
@@ -716,7 +711,6 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
-						return;
 					} else {
 						this.halt();
 					}
@@ -727,12 +721,13 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
-						return;
 					}
 				}
 			}
 
-			this.draw();
+			if (board_drawer.draw_count === initial_draw_count) {		// Nothing we did above fired draw(), so we must.
+				this.draw();
+			}
 
 		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.__autoplay && !this.__play_colour) {
 
