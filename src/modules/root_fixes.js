@@ -1,6 +1,6 @@
 "use strict";
 
-exports.apply_komi_fix = function(root) {
+function apply_komi_fix(root) {
 
 	let km = parseFloat(root.get("KM"));
 	if (Number.isNaN(km)) {
@@ -35,9 +35,9 @@ exports.apply_komi_fix = function(root) {
 	}
 
 	root.set("KM", km);
-};
+}
 
-exports.apply_pl_fix = function(root) {
+function apply_pl_fix(root) {
 
 	// Find the node with the first real move (B or W tag).
 	// If it's not made by the natural player -- as defined by node.natural_active() -- then set a PL tag in its parent.
@@ -59,19 +59,33 @@ exports.apply_pl_fix = function(root) {
 		}
 		node = node.children[0];		// Possibly undefined.
 	}
-};
+}
 
-exports.apply_ruleset_fix = function(root) {
+function apply_ruleset_fix(root) {
 
 	// Just aesthetic really. OGS has these lowercase rules.
 
 	if (root.get("RU") === "chinese") root.set("RU", "Chinese");
 	if (root.get("RU") === "japanese") root.set("RU", "Japanese");
-};
+}
 
-exports.apply_ruleset_guess = function(root) {
+function apply_ruleset_guess(root) {
 	if (!root.has_key("RU")) {
 		if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
 		if (root.get("KM").startsWith("6.5")) root.set("RU", "Japanese");
 	}
-};
+}
+
+function apply_all_fixes(root, guess_ruleset) {
+
+	apply_komi_fix(root);
+	apply_pl_fix(root);
+	apply_ruleset_fix(root);
+
+	if (guess_ruleset) {
+		apply_ruleset_guess(root);		// AFTER the komi fix, above.
+	}
+}
+
+
+module.exports = {apply_komi_fix, apply_pl_fix, apply_ruleset_fix, apply_ruleset_guess, apply_all_fixes};

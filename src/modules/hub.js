@@ -13,7 +13,7 @@ const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
 const new_load_results = require("./loader_results");
 const make_perf_report = require("./performance");
-const {apply_komi_fix, apply_pl_fix, apply_ruleset_fix, apply_ruleset_guess} = require("./root_fixes");
+const root_fixes = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
 const {new_query} = require("./query");
 
@@ -255,16 +255,9 @@ let hub_main_props = {
 	},
 
 	finish_load: function(load_results) {
-
 		for (let root of load_results.get_roots()) {
-			apply_komi_fix(root);
-			apply_pl_fix(root);
-			apply_ruleset_fix(root);
-			if (config.guess_ruleset) {
-				apply_ruleset_guess(root);		// AFTER the komi fix, above.
-			}
+			root_fixes.apply_all_fixes(root, config.guess_ruleset);
 		}
-
 		this.add_roots(load_results.get_roots());
 		load_results.display_issues();
 	},
