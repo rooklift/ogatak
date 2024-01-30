@@ -24,13 +24,7 @@ const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s}
 
 // Special modes... (these do not include editing modes such as AB mode, etc)
 
-const NONE = 0;
-const AUTOANALYSIS = 1;
-const BACKANALYSIS = 2;
-const SELFPLAY = 3;
-const AUTOSCROLL = 4;
-const PLAY_BLACK = 5;
-const PLAY_WHITE = 6;
+const NONE = 0, AUTOANALYSIS = 1, BACKANALYSIS = 2, SELFPLAY = 3, AUTOSCROLL = 4, PLAY_BLACK = 5, PLAY_WHITE = 6;
 
 // ------------------------------------------------------------------------------------------------
 
