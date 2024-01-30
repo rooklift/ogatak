@@ -505,7 +505,7 @@ let board_drawer_prototype = {
 
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
-		if (config.mode || !point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
+		if (config.editing || !point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
 			return false;
 		}
 
@@ -842,7 +842,7 @@ let board_drawer_prototype = {
 
 	plan_analysis_circles: function(node) {
 
-		if (config.mode || !config.candidate_moves) {
+		if (config.editing || !config.candidate_moves) {
 			return;
 		}
 
@@ -1055,8 +1055,8 @@ let board_drawer_prototype = {
 		s1 += `<span class="boardinfo_rules">${tRules}: <span class="white">${pad(node.rules() || tUnknown, 16)}</span></span>`;
 		s1 += `<span class="boardinfo_komi">${tKomi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
-		if (config.mode) {
-			s1 += `<span class="yellow boardinfo_mode">${tEditing}: <span class="white">${pad(pad(config.mode, 3, true), 4)}</span> (${tEscape})</span>`;
+		if (config.editing) {
+			s1 += `<span class="yellow boardinfo_editing">${tEditing}: <span class="white">${pad(pad(config.editing, 3, true), 4)}</span> (${tEscape})</span>`;
 		} else {
 			s1 += `${tPrev}: <span class="white">${pad(last_move, 6)}</span>`;
 			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 23)}</span></span>`;

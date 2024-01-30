@@ -147,7 +147,7 @@ module.exports = {
 			tabber.draw_everything(this.node);
 			break;
 
-		case "mode":
+		case "editing":
 		case "board_font_override":
 		case "board_line_width":
 		case "grid_colour":
@@ -303,7 +303,7 @@ module.exports = {
 			this.fix_numbers_menu();
 		}
 
-		if (key === "mode") {
+		if (key === "editing") {
 			this.fix_tools_menu();
 		}
 
@@ -398,10 +398,10 @@ module.exports = {
 			"LB:1": translate("MENU_LABELS_123"),
 		};
 
-		if (!config.mode) {
+		if (!config.editing) {
 			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), translate("MENU_NORMAL")]);
 		} else {
-			let label = label_strings[config.mode];
+			let label = label_strings[config.editing];
 			ipcRenderer.send("set_checks", [translate("MENU_TOOLS"), label]);
 		}
 	},

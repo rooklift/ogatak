@@ -988,8 +988,8 @@ let hub_main_props = {
 
 	escape: function() {
 		this.disable_specials_except();
-		if (config.mode !== "") {
-			this.set("mode", "");
+		if (config.editing !== "") {
+			this.set("editing", "");
 		}
 	},
 
@@ -1177,11 +1177,11 @@ let hub_main_props = {
 
 	},
 
-	cycle_mode: function(reverse) {
+	cycle_editing: function(reverse) {
 
 		const values = ["AB", "AW", "AE", "TR", "SQ", "CR", "MA", "LB:A", "LB:1"];
 
-		let current = config.mode;
+		let current = config.editing;
 
 		let si = values.indexOf(current);
 
@@ -1197,7 +1197,7 @@ let hub_main_props = {
 			}
 		}
 
-		this.set("mode", values[si]);
+		this.set("editing", values[si]);
 	},
 
 	cycle_numbers: function(reverse) {
@@ -1251,24 +1251,24 @@ let hub_main_props = {
 	// Mouse.......................................................................................
 
 	click: function(s, event) {
-		if (!config.mode) {
+		if (!config.editing) {
 			this.try_move(s);
-		} else if (["TR", "SQ", "CR", "MA"].includes(config.mode)) {
+		} else if (["TR", "SQ", "CR", "MA"].includes(config.editing)) {
 			if (event.shiftKey || event.ctrlKey) {
-				this.node.toggle_shape_at_group(config.mode, s);
+				this.node.toggle_shape_at_group(config.editing, s);
 			} else {
-				this.node.toggle_shape_at(config.mode, s);
+				this.node.toggle_shape_at(config.editing, s);
 			}
 			this.draw();
-		} else if (config.mode === "LB:A") {
+		} else if (config.editing === "LB:A") {
 			this.node.toggle_alpha_at(s);
 			this.draw();
-		} else if (config.mode === "LB:1") {
+		} else if (config.editing === "LB:1") {
 			this.node.toggle_number_at(s);
 			this.draw();
-		} else if (["AB", "AW", "AE"].includes(config.mode)) {
+		} else if (["AB", "AW", "AE"].includes(config.editing)) {
 			this.halt();
-			let key = config.mode;
+			let key = config.editing;
 			if (event.button === 2 && key !== "AE") {
 				// When user right click with Add Black or Add White, use the other color instead.
 				key = (key === "AB") ? "AW" : "AB";

@@ -820,10 +820,10 @@ function menu_build() {
 				{
 					label: translate("MENU_NORMAL"),
 					type: "checkbox",
-					checked: !config.mode,
+					checked: !config.editing,
 					accelerator: "CommandOrControl+1",
 					click: () => {
-						win.webContents.send("set", {mode: ""});
+						win.webContents.send("set", {editing: ""});
 					}
 				},
 				{
@@ -832,28 +832,28 @@ function menu_build() {
 				{
 					label: translate("MENU_ADD_BLACK"),
 					type: "checkbox",
-					checked: config.mode === "AB",
+					checked: config.editing === "AB",
 					accelerator: "CommandOrControl+2",
 					click: () => {
-						win.webContents.send("set", {mode: "AB"});
+						win.webContents.send("set", {editing: "AB"});
 					}
 				},
 				{
 					label: translate("MENU_ADD_WHITE"),
 					type: "checkbox",
-					checked: config.mode === "AW",
+					checked: config.editing === "AW",
 					accelerator: "CommandOrControl+3",
 					click: () => {
-						win.webContents.send("set", {mode: "AW"});
+						win.webContents.send("set", {editing: "AW"});
 					}
 				},
 				{
 					label: translate("MENU_ADD_EMPTY"),
 					type: "checkbox",
-					checked: config.mode === "AE",
+					checked: config.editing === "AE",
 					accelerator: "CommandOrControl+4",
 					click: () => {
-						win.webContents.send("set", {mode: "AE"});
+						win.webContents.send("set", {editing: "AE"});
 					}
 				},
 				{
@@ -862,37 +862,37 @@ function menu_build() {
 				{
 					label: translate("MENU_TRIANGLE"),
 					type: "checkbox",
-					checked: config.mode === "TR",
+					checked: config.editing === "TR",
 					accelerator: "CommandOrControl+5",
 					click: () => {
-						win.webContents.send("set", {mode: "TR"});
+						win.webContents.send("set", {editing: "TR"});
 					}
 				},
 				{
 					label: translate("MENU_SQUARE"),
 					type: "checkbox",
-					checked: config.mode === "SQ",
+					checked: config.editing === "SQ",
 					accelerator: "CommandOrControl+6",
 					click: () => {
-						win.webContents.send("set", {mode: "SQ"});
+						win.webContents.send("set", {editing: "SQ"});
 					}
 				},
 				{
 					label: translate("MENU_CIRCLE"),
 					type: "checkbox",
-					checked: config.mode === "CR",
+					checked: config.editing === "CR",
 					accelerator: "CommandOrControl+7",
 					click: () => {
-						win.webContents.send("set", {mode: "CR"});
+						win.webContents.send("set", {editing: "CR"});
 					}
 				},
 				{
 					label: translate("MENU_CROSS"),
 					type: "checkbox",
-					checked: config.mode === "MA",
+					checked: config.editing === "MA",
 					accelerator: "CommandOrControl+8",
 					click: () => {
-						win.webContents.send("set", {mode: "MA"});
+						win.webContents.send("set", {editing: "MA"});
 					}
 				},
 				{
@@ -901,19 +901,19 @@ function menu_build() {
 				{
 					label: translate("MENU_LABELS_ABC"),
 					type: "checkbox",
-					checked: config.mode === "LB:A",
+					checked: config.editing === "LB:A",
 					accelerator: "CommandOrControl+9",
 					click: () => {
-						win.webContents.send("set", {mode: "LB:A"});
+						win.webContents.send("set", {editing: "LB:A"});
 					}
 				},
 				{
 					label: translate("MENU_LABELS_123"),
 					type: "checkbox",
-					checked: config.mode === "LB:1",
+					checked: config.editing === "LB:1",
 					accelerator: "CommandOrControl+0",
 					click: () => {
-						win.webContents.send("set", {mode: "LB:1"});
+						win.webContents.send("set", {editing: "LB:1"});
 					}
 				},
 				{

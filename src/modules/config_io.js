@@ -42,7 +42,7 @@ exports.defaults = {
 	"engineconfig": "",
 	"weights": "",
 
-	"mode": "",									// Reset at launch.
+	"editing": "",								// Reset at launch.
 
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
@@ -189,7 +189,7 @@ function apply_fixes() {
 
 	// Reset some stuff every time...
 
-	config.mode = exports.defaults.mode;
+	config.editing = exports.defaults.editing;
 	config.play_against_policy = exports.defaults.play_against_policy;
 	config.play_against_drunk = exports.defaults.play_against_drunk;
 

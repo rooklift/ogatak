@@ -94,8 +94,8 @@ board_drawer.infodiv.addEventListener("mousedown", (event) => {
 		hub.cycle_komi(event.button !== 0);
 	} else if (s === "numbers") {
 		hub.cycle_numbers(event.button !== 0);
-	} else if (s === "mode") {
-		hub.cycle_mode(event.button !== 0);
+	} else if (s === "editing") {
+		hub.cycle_editing(event.button !== 0);
 	} else if (s === "active") {
 		hub.toggle_active_player();
 	} else if (s === "stone_counts") {
