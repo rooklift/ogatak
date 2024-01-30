@@ -59,10 +59,6 @@ function init() {
 
 let hub_main_props = {
 
-	special_play_mode_in: function(...args) {
-		return args.includes(this.special_play_mode);
-	},
-
 	// Draw........................................................................................
 
 	draw: function() {
@@ -703,15 +699,8 @@ let hub_main_props = {
 		}
 
 		let initial_draw_count = board_drawer.draw_count;
-
 		let relevant_node_id = node_id_from_search_id(o.id);
-
 		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;		// Are either of these options set?
-
-		let playing_active_colour =
-			(this.special_play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
-			(this.special_play_mode === PLAY_WHITE && this.node.get_board().active === "w");
-
 
 		if (relevant_node_id === this.node.id) {
 
@@ -719,7 +708,7 @@ let hub_main_props = {
 
 			// Stuff we can do with any result at all for this node...
 
-			if (policy_or_drunk && playing_active_colour) {
+			if (policy_or_drunk && this.playing_active_colour()) {
 
 				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
 				if (config.play_against_drunk) {
@@ -747,7 +736,7 @@ let hub_main_props = {
 
 				// This object has enough visits to advance the position if we're in any special mode...
 
-				if (playing_active_colour) {
+				if (this.playing_active_colour()) {
 
 					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
@@ -932,12 +921,7 @@ let hub_main_props = {
 		} else {
 			this.set_special_play_mode(NONE);
 		}
-
-		let playing_active_colour =
-			(this.special_play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
-			(this.special_play_mode === PLAY_WHITE && this.node.get_board().active === "w");
-
-		if (!this.engine.desired && playing_active_colour) {
+		if (!this.engine.desired && this.playing_active_colour()) {
 			this.go();
 		}
 	},
@@ -1025,6 +1009,15 @@ let hub_main_props = {
 	},
 
 	// Misc........................................................................................
+
+	special_play_mode_in: function(...args) {
+		return args.includes(this.special_play_mode);
+	},
+
+	playing_active_colour: function() {
+		return (this.special_play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
+		       (this.special_play_mode === PLAY_WHITE && this.node.get_board().active === "w");
+	},
 
 	redraw_if_desired_square_size_mismatch: function() {
 		let desired = board_drawer.desired_square_size(this.node.get_board().width, this.node.get_board().height, config.coordinates);
