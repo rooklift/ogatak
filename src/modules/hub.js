@@ -511,7 +511,8 @@ let hub_main_props = {
 			if (typeof s !== "string") {
 				return;
 			} else if (s === "") {
-				this.pass();
+				let node = this.node.pass();
+				this.set_node(node, {keep_selfplay: true, keep_play_color: true, bless: true});
 			} else {
 				let node = this.node.force_move(s);
 				this.set_node(node, {keep_selfplay: true, keep_play_color: true, bless: true});
