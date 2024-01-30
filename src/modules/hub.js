@@ -91,7 +91,7 @@ let hub_main_props = {
 
 		// Note that engine.desired will briefly be null while we switch nodes in these modes...
 
-		if (this.play_mode_in(AUTOANALYSIS, BACKANALYSIS, SELFPLAY)) {
+		if ([AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode)) {
 			return true;
 		}
 
@@ -427,12 +427,12 @@ let hub_main_props = {
 			want_to_go = false;
 		}
 
-		if (!opts.keep_autoanalysis && this.play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
+		if (!opts.keep_autoanalysis && [AUTOANALYSIS, BACKANALYSIS].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
 
-		if (!opts.keep_play_colour && this.play_mode_in(PLAY_BLACK, PLAY_WHITE)) {
+		if (!opts.keep_play_colour && [PLAY_BLACK, PLAY_WHITE].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
@@ -781,7 +781,7 @@ let hub_main_props = {
 				this.draw();
 			}
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.play_mode_in(SELFPLAY, PLAY_BLACK, PLAY_WHITE)) {
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && ![SELFPLAY, PLAY_BLACK, PLAY_WHITE].includes(this.play_mode)) {
 
 			// We received info for the parent node, which commonly happens when advancing forwards. It's
 			// OK to set this info in the parent, unless we're in selfplay mode, in which case it's better
@@ -800,7 +800,7 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
-		if (this.play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
+		if ([AUTOANALYSIS, BACKANALYSIS].includes(this.play_mode)) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
 		} else if (this.play_mode === SELFPLAY) {
 			if (config.play_against_policy || config.play_against_drunk) {
@@ -814,7 +814,7 @@ let hub_main_props = {
 	},
 
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
-		if (!this.play_mode_in(NONE, AUTOSCROLL)) {
+		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
 		}
 		this.engine.halt();
@@ -829,7 +829,7 @@ let hub_main_props = {
 
 	toggle_ponder: function() {					// Only called when user does this.
 
-		if (!this.play_mode_in(NONE, AUTOSCROLL)) {
+		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
 		}
 		if (this.engine.desired) {
@@ -1010,10 +1010,6 @@ let hub_main_props = {
 	},
 
 	// Misc........................................................................................
-
-	play_mode_in: function(...args) {
-		return args.includes(this.play_mode);
-	},
 
 	playing_active_colour: function() {
 		return (this.play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
