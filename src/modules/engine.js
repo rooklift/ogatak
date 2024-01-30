@@ -80,11 +80,8 @@ class Engine {
 		// Otherwise, sends the desired query to the engine, and sets this.running.
 
 		if (!this.exe) {
-			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 			return;
 		}
-
-		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
 		let query = new_query(node, this.version, maxvisits);
 
@@ -111,8 +108,6 @@ class Engine {
 	halt() {
 
 		// Clears this.desired, and sends a stop message if required.
-
-		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
 		this.desired = null;
 
@@ -248,7 +243,6 @@ class Engine {
 			if (running_has_finished) {
 				if (this.desired === this.running) {
 					this.desired = null;
-					ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 				}
 				this.running = null;
 				if (this.desired) {

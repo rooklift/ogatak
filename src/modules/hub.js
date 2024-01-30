@@ -1058,14 +1058,6 @@ let hub_main_props = {
 		this.draw();
 	},
 
-	fix_go_halt_menu_item: function() {
-		if (this.engine.desired) {
-			ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
-		} else {
-			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
-		}
-	},
-
 	reset_mismatch_warnings: function() {
 		this.node.reset_mismatch_warnings();
 	},

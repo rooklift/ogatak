@@ -213,11 +213,8 @@ class GTPengine {
 	analyse(node) {
 
 		if (!this.exe) {
-			ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 			return;
 		}
-
-		ipcRenderer.send("set_check_true", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 
 		let query = new_query(node);
 
@@ -238,7 +235,6 @@ class GTPengine {
 	}
 
 	halt() {
-		ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 		this.desired = null;
 		if (this.running) {
 			this.__send(HALT_COMMAND);
@@ -399,7 +395,6 @@ class GTPengine {
 
 			if (this.desired === this.running) {
 				this.desired = null;
-				ipcRenderer.send("set_check_false", [translate("MENU_ANALYSIS"), translate("MENU_GO_HALT_TOGGLE")]);
 			}
 
 			this.running_info = null;

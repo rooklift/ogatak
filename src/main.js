@@ -946,14 +946,12 @@ function menu_build() {
 				{
 					label: translate("MENU_GO_HALT_TOGGLE"),	// We do some shenanigans here to show "Space" to the user as a valid accelerator, while
 					accelerator: "Space",						// actually ignoring it - spacebar is handled entirely on the renderer side, because of
-					type: "checkbox",							// reasons. Thus, somewhere above we declared a handler for "before-input-event" events
-					checked: false,								// which we use to track when the last spacebar press happened, BEFORE this sees it.
+																// reasons. Thus, somewhere above we declared a handler for "before-input-event" events
+																// which we use to track when the last spacebar press happened, BEFORE this sees it.
 					click: () => {
 						let time_since_spacebar = new Date() - spacebar_time;
 						if (time_since_spacebar > 200) {								// When user *clicks* the menu item rather than pressing space.
 							win.webContents.send("call", "toggle_ponder");
-						} else {
-							win.webContents.send("call", "fix_go_halt_menu_item");		// Because this event will have toggled our checkmark.
 						}
 					}
 				},
