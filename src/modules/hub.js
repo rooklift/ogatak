@@ -385,7 +385,7 @@ let hub_main_props = {
 		let opts = {
 			keep_selfplay: false,
 			keep_autoanalysis: false,
-			keep_play_color: false,
+			keep_play_colour: false,
 			keep_autoscroll: false,
 			bless: false						// Callers that leave this false do so because it's unneeded (would have no effect).
 		};
@@ -432,7 +432,7 @@ let hub_main_props = {
 			want_to_go = false;
 		}
 
-		if (!opts.keep_play_color && this.play_mode_in(PLAY_BLACK, PLAY_WHITE)) {
+		if (!opts.keep_play_colour && this.play_mode_in(PLAY_BLACK, PLAY_WHITE)) {
 			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
@@ -488,12 +488,12 @@ let hub_main_props = {
 
 	try_move: function(s) {						// Can't be used for passing.
 		let node = this.node.try_move(s);		// Note node.try_move() returns the original node on failure.
-		this.set_node(node, {keep_play_color: true, bless: true});
+		this.set_node(node, {keep_play_colour: true, bless: true});
 	},
 
 	pass: function() {
 		let node = this.node.pass();
-		this.set_node(node, {keep_play_color: true, bless: true});
+		this.set_node(node, {keep_play_colour: true, bless: true});
 	},
 
 	play_best: function(mode = "best") {
@@ -512,10 +512,10 @@ let hub_main_props = {
 				return;
 			} else if (s === "") {
 				let node = this.node.pass();
-				this.set_node(node, {keep_selfplay: true, keep_play_color: true, bless: true});
+				this.set_node(node, {keep_selfplay: true, keep_play_colour: true, bless: true});
 			} else {
 				let node = this.node.force_move(s);
-				this.set_node(node, {keep_selfplay: true, keep_play_color: true, bless: true});
+				this.set_node(node, {keep_selfplay: true, keep_play_colour: true, bless: true});
 			}
 		}
 	},
@@ -1270,7 +1270,7 @@ let hub_main_props = {
 			this.halt();
 			let key = config.editing;
 			if (event.button === 2 && key !== "AE") {
-				// When user right click with Add Black or Add White, use the other color instead.
+				// When user right click with Add Black or Add White, use the other colour instead.
 				key = (key === "AB") ? "AW" : "AB";
 			}
 			if (this.node.safe_to_edit()) {
