@@ -47,7 +47,7 @@ function init() {
 
 		node: null,
 		engine: eng,
-		special_play_mode: NONE,		// Don't set this directly, call set_special_play_mode() - to inform main.js
+		play_mode: NONE,			// Don't set this directly, call set_play_mode() - to inform main.js
 		autoscroll_fn_id: null,
 		pending_up_down: 0,
 		dropped_inputs: 0,
@@ -91,7 +91,7 @@ let hub_main_props = {
 
 		// Note that engine.desired will briefly be null while we switch nodes in these modes...
 
-		if (this.special_play_mode_in(AUTOANALYSIS, BACKANALYSIS, SELFPLAY)) {
+		if (this.play_mode_in(AUTOANALYSIS, BACKANALYSIS, SELFPLAY)) {
 			return true;
 		}
 
@@ -414,31 +414,31 @@ let hub_main_props = {
 
 		let want_to_go = this.engine.desired ? true : false;
 
-		if (this.special_play_mode === PLAY_BLACK) {
+		if (this.play_mode === PLAY_BLACK) {
 			want_to_go = this.node.get_board().active === "b";
 		}
 
-		if (this.special_play_mode === PLAY_WHITE) {
+		if (this.play_mode === PLAY_WHITE) {
 			want_to_go = this.node.get_board().active === "w";
 		}
 
-		if (!opts.keep_selfplay && this.special_play_mode === SELFPLAY) {
-			this.set_special_play_mode(NONE);
+		if (!opts.keep_selfplay && this.play_mode === SELFPLAY) {
+			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
 
-		if (!opts.keep_autoanalysis && this.special_play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
-			this.set_special_play_mode(NONE);
+		if (!opts.keep_autoanalysis && this.play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
+			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
 
-		if (!opts.keep_play_color && this.special_play_mode_in(PLAY_BLACK, PLAY_WHITE)) {
-			this.set_special_play_mode(NONE);
+		if (!opts.keep_play_color && this.play_mode_in(PLAY_BLACK, PLAY_WHITE)) {
+			this.set_play_mode(NONE);
 			want_to_go = false;
 		}
 
-		if (!opts.keep_autoscroll && this.special_play_mode === AUTOSCROLL) {
-			this.set_special_play_mode(NONE);
+		if (!opts.keep_autoscroll && this.play_mode === AUTOSCROLL) {
+			this.set_play_mode(NONE);
 			// want_to_go = false;			// Not for this.
 		}
 
@@ -718,7 +718,7 @@ let hub_main_props = {
 					this.play_top_policy();
 				}
 
-			} else if (policy_or_drunk && this.special_play_mode === SELFPLAY) {
+			} else if (policy_or_drunk && this.play_mode === SELFPLAY) {
 
 				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();
@@ -742,7 +742,7 @@ let hub_main_props = {
 					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
 					this.play_best();
 
-				} else if (this.special_play_mode === AUTOANALYSIS) {
+				} else if (this.play_mode === AUTOANALYSIS) {
 
 					if (this.node.children.length > 0) {
 						this.next_auto();
@@ -753,7 +753,7 @@ let hub_main_props = {
 						this.halt();
 					}
 
-				} else if (this.special_play_mode === BACKANALYSIS) {
+				} else if (this.play_mode === BACKANALYSIS) {
 
 					if (this.node.parent) {
 						this.prev_auto();
@@ -764,7 +764,7 @@ let hub_main_props = {
 						this.halt();
 					}
 
-				} else if (this.special_play_mode === SELFPLAY) {
+				} else if (this.play_mode === SELFPLAY) {
 
 					if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
 						this.halt();
@@ -781,7 +781,7 @@ let hub_main_props = {
 				this.draw();
 			}
 
-		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.special_play_mode_in(SELFPLAY, PLAY_BLACK, PLAY_WHITE)) {
+		} else if (this.node.parent && relevant_node_id === this.node.parent.id && !this.play_mode_in(SELFPLAY, PLAY_BLACK, PLAY_WHITE)) {
 
 			// We received info for the parent node, which commonly happens when advancing forwards. It's
 			// OK to set this info in the parent, unless we're in selfplay mode, in which case it's better
@@ -800,9 +800,9 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
-		if (this.special_play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
+		if (this.play_mode_in(AUTOANALYSIS, BACKANALYSIS)) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
-		} else if (this.special_play_mode === SELFPLAY) {
+		} else if (this.play_mode === SELFPLAY) {
 			if (config.play_against_policy || config.play_against_drunk) {
 				this.engine.analyse(this.node, 5);
 			} else {
@@ -814,8 +814,8 @@ let hub_main_props = {
 	},
 
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
-		if (!this.special_play_mode_in(NONE, AUTOSCROLL)) {
-			this.set_special_play_mode(NONE);
+		if (!this.play_mode_in(NONE, AUTOSCROLL)) {
+			this.set_play_mode(NONE);
 		}
 		this.engine.halt();
 	},
@@ -829,8 +829,8 @@ let hub_main_props = {
 
 	toggle_ponder: function() {					// Only called when user does this.
 
-		if (!this.special_play_mode_in(NONE, AUTOSCROLL)) {
-			this.set_special_play_mode(NONE);
+		if (!this.play_mode_in(NONE, AUTOSCROLL)) {
+			this.set_play_mode(NONE);
 		}
 		if (this.engine.desired) {
 			this.halt_by_user();
@@ -839,7 +839,7 @@ let hub_main_props = {
 		}
 	},
 
-	set_special_play_mode(val) {
+	set_play_mode(val) {
 
 		const menus = {
 			[NONE]:         null,
@@ -851,11 +851,11 @@ let hub_main_props = {
 			[PLAY_WHITE]:   [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_WHITE")],
 		};
 
-		if (this.special_play_mode === val) {
+		if (this.play_mode === val) {
 			return;
 		}
 
-		let menu = menus[this.special_play_mode];				// Clear check mark for the mode that's ending.
+		let menu = menus[this.play_mode];				// Clear check mark for the mode that's ending.
 		if (menu) {
 			ipcRenderer.send("set_check_false", menu);
 		}
@@ -864,15 +864,15 @@ let hub_main_props = {
 			ipcRenderer.send("set_check_true", menu);
 		}
 
-		this.special_play_mode = val;
+		this.play_mode = val;
 	},
 
 	toggle_autoanalysis: function() {
-		if (this.special_play_mode === AUTOANALYSIS) {
-			this.set_special_play_mode(NONE);
+		if (this.play_mode === AUTOANALYSIS) {
+			this.set_play_mode(NONE);
 			this.engine.halt();
 		} else {
-			this.set_special_play_mode(AUTOANALYSIS);
+			this.set_play_mode(AUTOANALYSIS);
 			if (!this.engine.desired) {
 				this.go();
 			}
@@ -880,11 +880,11 @@ let hub_main_props = {
 	},
 
 	toggle_backanalysis: function() {
-		if (this.special_play_mode === BACKANALYSIS) {
-			this.set_special_play_mode(NONE);
+		if (this.play_mode === BACKANALYSIS) {
+			this.set_play_mode(NONE);
 			this.engine.halt();
 		} else {
-			this.set_special_play_mode(BACKANALYSIS);
+			this.set_play_mode(BACKANALYSIS);
 			if (!this.engine.desired) {
 				this.go();
 			}
@@ -892,11 +892,11 @@ let hub_main_props = {
 	},
 
 	toggle_selfplay: function() {
-		if (this.special_play_mode === SELFPLAY) {
-			this.set_special_play_mode(NONE);
+		if (this.play_mode === SELFPLAY) {
+			this.set_play_mode(NONE);
 			this.engine.halt();
 		} else {
-			this.set_special_play_mode(SELFPLAY);
+			this.set_play_mode(SELFPLAY);
 			if (!this.engine.desired) {
 				this.go();
 			}
@@ -904,10 +904,10 @@ let hub_main_props = {
 	},
 
 	toggle_autoscroll: function() {
-		if (this.special_play_mode === AUTOSCROLL) {
-			this.set_special_play_mode(NONE);
+		if (this.play_mode === AUTOSCROLL) {
+			this.set_play_mode(NONE);
 		} else {
-			this.set_special_play_mode(AUTOSCROLL);
+			this.set_play_mode(AUTOSCROLL);
 		}
 	},
 
@@ -916,11 +916,11 @@ let hub_main_props = {
 			val = this.node.get_board().active;
 		}
 		if (val === "b") {
-			this.set_special_play_mode(PLAY_BLACK);
+			this.set_play_mode(PLAY_BLACK);
 		} else if (val === "w") {
-			this.set_special_play_mode(PLAY_WHITE);
+			this.set_play_mode(PLAY_WHITE);
 		} else {
-			this.set_special_play_mode(NONE);
+			this.set_play_mode(NONE);
 		}
 		if (!this.engine.desired && this.playing_active_colour()) {
 			this.go();
@@ -1011,13 +1011,13 @@ let hub_main_props = {
 
 	// Misc........................................................................................
 
-	special_play_mode_in: function(...args) {
-		return args.includes(this.special_play_mode);
+	play_mode_in: function(...args) {
+		return args.includes(this.play_mode);
 	},
 
 	playing_active_colour: function() {
-		return (this.special_play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
-		       (this.special_play_mode === PLAY_WHITE && this.node.get_board().active === "w");
+		return (this.play_mode === PLAY_BLACK && this.node.get_board().active === "b") ||
+		       (this.play_mode === PLAY_WHITE && this.node.get_board().active === "w");
 	},
 
 	redraw_if_desired_square_size_mismatch: function() {
@@ -1091,11 +1091,11 @@ let hub_main_props = {
 			config.autoscroll_delay = 0.25;
 		}
 
-		if (this.special_play_mode === AUTOSCROLL) {
+		if (this.play_mode === AUTOSCROLL) {
 			if (this.node.children.length > 0) {
 				this.next_auto();
 			} else {
-				this.set_special_play_mode(NONE);
+				this.set_play_mode(NONE);
 			}
 		}
 
