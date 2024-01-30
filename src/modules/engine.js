@@ -46,8 +46,6 @@ class Engine {
 
 		this.desired = null;				// The search object we want to be running.
 		this.running = null;				// The search object actually running. (Possibly the same object as above.)
-
-		return this;
 	}
 
 	__send(o) {
