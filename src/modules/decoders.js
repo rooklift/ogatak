@@ -5,19 +5,19 @@
 
 const util = require("util");
 
-module.exports = {
+let decoder_cache = Object.create(null);
 
-	decoders: Object.create(null),
+module.exports = {
 
 	get_decoder: function(encoding) {
 
 		// This can throw if encoding is not supported.
 
-		if (this.decoders[encoding] === undefined) {
-			this.decoders[encoding] = new util.TextDecoder(encoding);
+		if (decoder_cache[encoding] === undefined) {
+			decoder_cache[encoding] = new util.TextDecoder(encoding);
 		}
 
-		return this.decoders[encoding];
+		return decoder_cache[encoding];
 
 	},
 
