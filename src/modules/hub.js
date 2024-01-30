@@ -56,7 +56,9 @@ function init() {
 
 		// FIXME: since these are all mutually exclusive, just have 1 variable special_play_mode or suchlike...
 
-		__autoanalysis: false,			// Don't set these directly, because main.js needs informed too
+		special_play_mode: NONE,		// Don't set this directly, call set_special_play_mode() - to inform main.js
+
+		__autoanalysis: false,			// FIXME - delete all these
 		__backanalysis: false,
 		__selfplay: false,
 		__autoscroll: false,
@@ -857,6 +859,34 @@ let hub_main_props = {
 		} else {
 			this.go();
 		}
+	},
+
+	set_special_play_mode(val) {
+
+		const menus = {
+			[NONE]:         null,
+			[AUTOANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS")],
+			[BACKANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_BACKWARD_ANALYSIS")],
+			[SELFPLAY]:     [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")],
+			[AUTOSCROLL]:   [translate("MENU_MISC"), translate("MENU_AUTOSCROLL")],
+			[PLAY_BLACK]:   [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_BLACK")],
+			[PLAY_WHITE]:   [translate("MENU_MISC"), translate("MENU_ENGINE_PLAYS_WHITE")],
+		}
+
+		if (this.special_play_mode === val) {
+			return;
+		}
+
+		let menu = menus[this.special_play_mode];				// Clear check mark for the mode that's ending.
+		if (menu) {
+			ipcRenderer.send("set_check_false", menu);
+		}
+		menu = menus[val];										// Add check mark for the mode that's starting.
+		if (menu) {
+			ipcRenderer.send("set_check_true", menu);
+		}
+
+		this.special_play_mode = val;
 	},
 
 	set_autoanalysis: function(val) {
