@@ -824,7 +824,9 @@ let hub_main_props = {
 	},
 
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
-		this.set_special_play_mode(NONE);
+		if (!this.special_play_mode_in(NONE, AUTOSCROLL)) {
+			this.set_special_play_mode(NONE);
+		}
 		this.engine.halt();
 	},
 
@@ -836,7 +838,10 @@ let hub_main_props = {
 	},
 
 	toggle_ponder: function() {					// Only called when user does this.
-		this.set_special_play_mode(NONE);
+
+		if (!this.special_play_mode_in(NONE, AUTOSCROLL)) {
+			this.set_special_play_mode(NONE);
+		}
 		if (this.engine.desired) {
 			this.halt_by_user();
 		} else {
