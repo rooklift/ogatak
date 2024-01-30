@@ -412,15 +412,7 @@ let hub_main_props = {
 
 		// Figure out whether we want the engine to be running...
 
-		let want_to_go = this.engine.desired ? true : false;
-
-		if (this.play_mode === PLAY_BLACK) {
-			want_to_go = this.node.get_board().active === "b";
-		}
-
-		if (this.play_mode === PLAY_WHITE) {
-			want_to_go = this.node.get_board().active === "w";
-		}
+		let want_to_go = Boolean(this.engine.desired) || this.playing_active_colour();
 
 		if (!opts.keep_selfplay && this.play_mode === SELFPLAY) {
 			this.set_play_mode(NONE);
@@ -439,7 +431,7 @@ let hub_main_props = {
 
 		if (!opts.keep_autoscroll && this.play_mode === AUTOSCROLL) {
 			this.set_play_mode(NONE);
-			// want_to_go = false;			// Not for this.
+			// want_to_go = false;				// Not for this.
 		}
 
 		if (want_to_go) {
