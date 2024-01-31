@@ -79,23 +79,13 @@ let hub_main_props = {
 
 	suggest_antiflicker: function() {
 
-		// Whether the drawer should use ownership of a nearby node if ownership is not present in this.node.
-		// Has 2 purposes:
-		//		- Prevents flicker when advancing.
-		//		- The only way to get ownership drawn at all if the position is advancing rapidly
-		//		  (e.g. due to play_against_policy mode).
+		// Whether the drawer should use ownership of a nearby node if ownership is not present in this.node. This both
+		// prevents flicker when advancing, and is the only way to get ownership drawn at all if the position is advancing
+		// rapidly (e.g. due to play_against_policy mode).
 
-		if (this.engine.desired) {
-			return true;
-		}
+		return Boolean(this.engine.desired || [AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode));
 
-		// Note that engine.desired will briefly be null while we switch nodes in these modes...
-
-		if ([AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode)) {
-			return true;
-		}
-
-		return false;
+		// Note that engine.desired may be briefly null while switching nodes in these modes, so it's not redundant to test.
 	},
 
 	// Tabs........................................................................................
