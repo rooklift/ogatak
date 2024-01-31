@@ -1,6 +1,6 @@
 {
 	"browser": true,
-	"esversion": 6,
+	"esversion": 11,
 	"loopfunc": true,
 	"node": true,
 	"sub": true,
@@ -16,8 +16,5 @@
 		"stderrbox": true,
 		"tabber": true,
 		"tree_drawer": true
-	},
-	"unstable": {
-		"bigint": true
 	}
 }
