@@ -139,7 +139,6 @@ class Engine {
 				["analysis", "-config", this.engineconfig, "-model", this.weights, "-quit-without-waiting"],
 				{cwd: path.dirname(this.filepath)}
 			);
-			console.log(`${this.filepath} analysis -config ${this.engineconfig} -model ${this.weights}`);
 		} catch (err) {
 			this.log_and_alert("While spawning engine:", err.toString());
 			return;
