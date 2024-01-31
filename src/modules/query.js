@@ -12,6 +12,7 @@
 const {node_id_from_search_id, compare_versions} = require("./utils");
 
 const default_maxvisits = 1000000;
+const fast_maxvisits = 5;										// What the hub will ask for when in play policy mode.
 
 let next_query_id = 1;
 
@@ -44,10 +45,14 @@ function new_query(query_node, eng_version = null, maxvisits = default_maxvisits
 		}
 	};
 
+	if (maxvisits <= fast_maxvisits) {
+		delete o.reportDuringSearchEvery;
+	}
+
 	// Some features of KataGo were added along the way, only set those if the engine version is adequate...
 
 	if (eng_version && compare_versions(eng_version, [1,12,0]) >= 0) {
-		if (config.fast_first_report) {
+		if (config.fast_first_report && maxvisits > fast_maxvisits) {
 			o.firstReportDuringSearchAfter = 0.05;
 		}
 	}
@@ -173,4 +178,4 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 
 
-module.exports = {default_maxvisits, new_query, compare_queries, compare_moves_arrays};
+module.exports = {default_maxvisits, fast_maxvisits, new_query, compare_queries, compare_moves_arrays};

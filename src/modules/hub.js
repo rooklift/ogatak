@@ -15,16 +15,14 @@ const new_load_results = require("./loader_results");
 const make_perf_report = require("./performance");
 const root_fixes = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
-const {new_query} = require("./query");
+const {fast_maxvisits, new_query} = require("./query");
 
 const config_io = require("./config_io");
 
 const {translate} = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s} = require("./utils");
 
-// Special modes... (these do not include editing modes such as AB mode, etc)
-
-const NONE = 0, AUTOANALYSIS = 1, BACKANALYSIS = 2, SELFPLAY = 3, AUTOSCROLL = 4, PLAY_BLACK = 5, PLAY_WHITE = 6;
+const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -72,15 +70,9 @@ let hub_main_props = {
 			}
 		}
 
+		let want_antiflicker = Boolean(this.engine.desired) && !this.playing_active_colour();
+
 		if (!did_draw_pv) {
-
-			// Should the drawer use ownership of a nearby node if ownership is not present in this.node? It both prevents flicker when advancing,
-			// and is the only way to get ownership drawn at all if the position is advancing rapidly (e.g. due to play_against_policy mode):
-
-			let want_antiflicker = Boolean(this.engine.desired || [AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode));
-
-			// Note that engine.desired may be briefly null while switching nodes in these modes, so it's not redundant to test.
-
 			board_drawer.draw_standard(this.node, want_antiflicker);
 		}
 	},
@@ -707,9 +699,6 @@ let hub_main_props = {
 					} else {
 						this.play_top_policy();
 					}
-					if (!this.engine.desired) {
-						this.go();
-					}
 				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
@@ -725,9 +714,6 @@ let hub_main_props = {
 
 					if (this.node.children.length > 0) {
 						this.next_auto();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					} else {
 						this.halt();
 					}
@@ -736,9 +722,6 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					} else {
 						this.halt();
 					}
@@ -749,9 +732,6 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					}
 				}
 			}
@@ -779,11 +759,18 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
+		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;
 		if ([AUTOANALYSIS, BACKANALYSIS].includes(this.play_mode)) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
 		} else if (this.play_mode === SELFPLAY) {
-			if (config.play_against_policy || config.play_against_drunk) {
-				this.engine.analyse(this.node, 5);
+			if (policy_or_drunk) {
+				this.engine.analyse(this.node, fast_maxvisits);
+			} else {
+				this.engine.analyse(this.node, config.autoanalysis_visits);
+			}
+		} else if (this.playing_active_colour()) {
+			if (policy_or_drunk) {
+				this.engine.analyse(this.node, fast_maxvisits);
 			} else {
 				this.engine.analyse(this.node, config.autoanalysis_visits);
 			}

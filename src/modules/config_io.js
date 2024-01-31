@@ -95,7 +95,6 @@ exports.defaults = {
 	"ownership_per_move": true,
 
 	"zobrist_checks": true,
-	"snappy_node_switch": true,
 	"fast_first_report": true,
 
 	"play_against_policy": false,

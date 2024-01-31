@@ -8,6 +8,8 @@ const {defaults} = require("./config_io");
 const {translate} = require("./translate");
 const {compare_arrays} = require("./utils");
 
+const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
+
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
 	report_every:			[translate("MENU_SETUP"), translate("MENU_ENGINE_REPORT_RATE")],
@@ -46,7 +48,6 @@ const togglechecks = {
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
 	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],
 	zobrist_checks:			[translate("MENU_DEV"), translate("MENU_ZOBRIST_MISMATCH_CHECKS")],
-	snappy_node_switch:		[translate("MENU_DEV"), translate("MENU_SNAPPY_NODE_SWITCH_HACK")],
 };
 
 // The following lines just ask main process to check the menupath exists,
@@ -236,12 +237,24 @@ module.exports = {
 
 		case "play_against_policy":					// These 2 things...
 
-			if (value) config.play_against_drunk = false;
+			if (value) {
+				config.play_against_drunk = false;
+			} else {
+				if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+					this.go();	// Need more visits.
+				}
+			}
 			break;
 
 		case "play_against_drunk":					// ... are mutually exclusive. Also need a special menu-handler.
 
-			if (value) config.play_against_policy = false;
+			if (value) {
+				config.play_against_policy = false;
+			} else {
+				if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+					this.go();	// Need more visits.
+				}
+			}
 			break;
 
 		case "enable_hw_accel":
