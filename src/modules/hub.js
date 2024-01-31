@@ -72,15 +72,15 @@ let hub_main_props = {
 			}
 		}
 
-		// Whether the drawer should use ownership of a nearby node if ownership is not present in this.node. This both
-		// prevents flicker when advancing, and is the only way to get ownership drawn at all if the position is advancing
-		// rapidly (e.g. due to play_against_policy mode):
-
-		let want_antiflicker = Boolean(this.engine.desired || [AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode));
-
-		// Note that engine.desired may be briefly null while switching nodes in these modes, so it's not redundant to test.
-
 		if (!did_draw_pv) {
+
+			// Should the drawer use ownership of a nearby node if ownership is not present in this.node? It both prevents flicker when advancing,
+			// and is the only way to get ownership drawn at all if the position is advancing rapidly (e.g. due to play_against_policy mode):
+
+			let want_antiflicker = Boolean(this.engine.desired || [AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode));
+
+			// Note that engine.desired may be briefly null while switching nodes in these modes, so it's not redundant to test.
+
 			board_drawer.draw_standard(this.node, want_antiflicker);
 		}
 	},
