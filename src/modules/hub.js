@@ -70,11 +70,7 @@ let hub_main_props = {
 			}
 		}
 
-		let want_antiflicker = Boolean(this.engine.desired);
-
-		if (this.playing_active_colour()) {
-			want_antiflicker = false;
-		}
+		let want_antiflicker = Boolean(this.engine.desired) && !this.playing_active_colour();
 
 		if (!did_draw_pv) {
 			board_drawer.draw_standard(this.node, want_antiflicker);
