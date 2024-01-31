@@ -237,17 +237,23 @@ module.exports = {
 
 		case "play_against_policy":					// These 2 things...
 
-			if (value) config.play_against_drunk = false;
-			if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
-				this.go();
+			if (value) {
+				config.play_against_drunk = false;
+			} else {
+				if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+					this.go();	// Need more visits.
+				}
 			}
 			break;
 
 		case "play_against_drunk":					// ... are mutually exclusive. Also need a special menu-handler.
 
-			if (value) config.play_against_policy = false;
-			if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
-				this.go();
+			if (value) {
+				config.play_against_policy = false;
+			} else {
+				if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+					this.go();	// Need more visits.
+				}
 			}
 			break;
 
