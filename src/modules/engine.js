@@ -138,6 +138,7 @@ class Engine {
 				["analysis", "-config", this.engineconfig, "-model", this.weights, "-quit-without-waiting"],
 				{cwd: path.dirname(this.filepath)}
 			);
+			console.log(`${this.filepath} analysis -config ${this.engineconfig} -model ${this.weights}`);
 		} catch (err) {
 			this.log_and_alert("While spawning engine:", err.toString());
 			return;
@@ -226,18 +227,19 @@ class Engine {
 				}
 			}
 			let running_has_finished = false;
-			if (config.snappy_node_switch) {
-				if (o.action === "terminate") {									// We get these back very quickly upon sending a "terminate", however Kata
-					if (this.running && this.running.id === o.terminateId) {	// may send further updates in a little bit (10-100 ms or so). While that's
-						running_has_finished = true;							// not a problem, it's a bit impure and so this behaviour is off by default.
-					}
-				}
-			}
-			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
-				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
+			if (o.action === "terminate") {										// We get these back very quickly upon sending a "terminate", however
+				if (this.running && this.running.id === o.terminateId) {		// Kata may send further updates in a little bit (10-100 ms or so).
 					running_has_finished = true;
 				}
 			}
+
+// -- Experiment - what if we just don't do this?? --------------------------
+//			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
+//				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
+//					running_has_finished = true;
+//				}
+//			}
+
 			if (running_has_finished) {
 				if (this.desired === this.running) {
 					this.desired = null;
