@@ -15,7 +15,7 @@ const new_load_results = require("./loader_results");
 const make_perf_report = require("./performance");
 const root_fixes = require("./root_fixes");
 const {save_sgf, save_sgf_multi, tree_string} = require("./save_sgf");
-const {new_query} = require("./query");
+const {fast_maxvisits, new_query} = require("./query");
 
 const config_io = require("./config_io");
 
@@ -70,8 +70,14 @@ let hub_main_props = {
 			}
 		}
 
+		let want_antiflicker = Boolean(this.engine.desired);
+
+		if (this.playing_active_colour()) {
+			want_antiflicker = false;
+		}
+
 		if (!did_draw_pv) {
-			board_drawer.draw_standard(this.node, Boolean(this.engine.desired));
+			board_drawer.draw_standard(this.node, want_antiflicker);
 		}
 	},
 
@@ -757,11 +763,18 @@ let hub_main_props = {
 
 	go: function() {
 		this.disable_specials_except("comment_drawer");
+		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;
 		if ([AUTOANALYSIS, BACKANALYSIS].includes(this.play_mode)) {
 			this.engine.analyse(this.node, config.autoanalysis_visits);
 		} else if (this.play_mode === SELFPLAY) {
-			if (config.play_against_policy || config.play_against_drunk) {
-				this.engine.analyse(this.node, 5);
+			if (policy_or_drunk) {
+				this.engine.analyse(this.node, fast_maxvisits);
+			} else {
+				this.engine.analyse(this.node, config.autoanalysis_visits);
+			}
+		} else if (this.playing_active_colour()) {
+			if (policy_or_drunk) {
+				this.engine.analyse(this.node, fast_maxvisits);
 			} else {
 				this.engine.analyse(this.node, config.autoanalysis_visits);
 			}
