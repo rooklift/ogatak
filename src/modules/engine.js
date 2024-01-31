@@ -232,12 +232,13 @@ class Engine {
 				}
 			}
 
-// -- Experiment - what if we just don't do this?? --------------------------
+// ---------------------------------- Experiment - what if we just don't do this?? ---------------------------------------------------------------
 //			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
 //				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
 //					running_has_finished = true;
 //				}
 //			}
+// -----------------------------------------------------------------------------------------------------------------------------------------------
 
 			if (running_has_finished) {
 				if (this.desired === this.running) {
