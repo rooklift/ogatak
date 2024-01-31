@@ -231,9 +231,14 @@ class Engine {
 					running_has_finished = true;
 				}
 			}
+			if (o.error) {
+				if (this.running && this.running.id === o.id) {
+					running_has_finished = true;
+				}
+			}
 
 // ---------------------------------- Experiment - what if we just don't do this?? ---------------------------------------------------------------
-//			if (o.isDuringSearch === false || o.error) {						// Every analysis request generates exactly 1 of these eventually.
+//			if (o.isDuringSearch === false) {									// Every analysis request generates exactly 1 of these eventually.
 //				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
 //					running_has_finished = true;
 //				}
