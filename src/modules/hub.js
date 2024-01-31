@@ -22,9 +22,7 @@ const config_io = require("./config_io");
 const {translate} = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s} = require("./utils");
 
-// Special modes... (these do not include editing modes such as AB mode, etc)
-
-const NONE = 0, AUTOANALYSIS = 1, BACKANALYSIS = 2, SELFPLAY = 3, AUTOSCROLL = 4, PLAY_BLACK = 5, PLAY_WHITE = 6;
+const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
 
 // ------------------------------------------------------------------------------------------------
 

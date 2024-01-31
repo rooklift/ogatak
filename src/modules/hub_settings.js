@@ -8,6 +8,8 @@ const {defaults} = require("./config_io");
 const {translate} = require("./translate");
 const {compare_arrays} = require("./utils");
 
+const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
+
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
 	report_every:			[translate("MENU_SETUP"), translate("MENU_ENGINE_REPORT_RATE")],
@@ -236,11 +238,17 @@ module.exports = {
 		case "play_against_policy":					// These 2 things...
 
 			if (value) config.play_against_drunk = false;
+			if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+				this.go();
+			}
 			break;
 
 		case "play_against_drunk":					// ... are mutually exclusive. Also need a special menu-handler.
 
 			if (value) config.play_against_policy = false;
+			if (this.play_mode === SELFPLAY || this.playing_active_colour()) {
+				this.go();
+			}
 			break;
 
 		case "enable_hw_accel":
