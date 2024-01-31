@@ -43,6 +43,8 @@ class Engine {
 		this.engineconfig = "";
 		this.weights = "";
 
+		// Note that for experiment in 1.9.6, the following will not be null'd just because we receive isDuringSearch: false...
+
 		this.desired = null;				// The search object we want to be running.
 		this.running = null;				// The search object actually running. (Possibly the same object as above.)
 	}
