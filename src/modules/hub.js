@@ -73,15 +73,7 @@ let hub_main_props = {
 		}
 
 		if (!did_draw_pv) {
-
-			// Should the drawer use ownership of a nearby node if ownership is not present in this.node? It both prevents flicker when advancing,
-			// and is the only way to get ownership drawn at all if the position is advancing rapidly (e.g. due to play_against_policy mode):
-
-			let want_antiflicker = Boolean(this.engine.desired || [AUTOANALYSIS, BACKANALYSIS, SELFPLAY].includes(this.play_mode));
-
-			// Note that engine.desired may be briefly null while switching nodes in these modes, so it's not redundant to test.
-
-			board_drawer.draw_standard(this.node, want_antiflicker);
+			board_drawer.draw_standard(this.node, Boolean(this.engine.desired));
 		}
 	},
 
@@ -707,9 +699,6 @@ let hub_main_props = {
 					} else {
 						this.play_top_policy();
 					}
-					if (!this.engine.desired) {
-						this.go();
-					}
 				}
 
 			} else if (o.rootInfo.visits >= config.autoanalysis_visits) {
@@ -725,9 +714,6 @@ let hub_main_props = {
 
 					if (this.node.children.length > 0) {
 						this.next_auto();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					} else {
 						this.halt();
 					}
@@ -736,9 +722,6 @@ let hub_main_props = {
 
 					if (this.node.parent) {
 						this.prev_auto();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					} else {
 						this.halt();
 					}
@@ -749,9 +732,6 @@ let hub_main_props = {
 						this.halt();
 					} else {
 						this.play_best();
-						if (!this.engine.desired) {
-							this.go();
-						}
 					}
 				}
 			}
