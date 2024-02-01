@@ -805,7 +805,7 @@ let hub_main_props = {
 		}
 	},
 
-	set_play_mode(val) {
+	set_play_mode: function(val) {
 
 		const menus = {
 			[NONE]:         null,
