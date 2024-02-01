@@ -875,7 +875,7 @@ let hub_main_props = {
 		}
 	},
 
-	toggle_autoscroll: function() {
+	toggle_autoscroll: function() {					// Doesn't go / halt (in general)
 		if (this.play_mode === AUTOSCROLL) {
 			this.set_play_mode(NONE);
 		} else {
