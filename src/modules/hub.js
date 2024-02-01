@@ -45,9 +45,9 @@ function init() {
 
 		node: null,
 		engine: eng,
-		play_mode: NONE,			// Don't set this directly, call set_play_mode() - to inform main.js
-		autoscroll_fn_id: null,
-		pending_up_down: 0,
+		play_mode: NONE,			// Don't set this directly, call set_play_mode() - to inform main.js, and also note that
+		autoscroll_fn_id: null,		// play_mode: NONE does not mean we aren't searching: ponder on/off is indicated by the
+		pending_up_down: 0,			// state of engine.desired...
 		dropped_inputs: 0,
 		mouseover_time: 0,
 		pending_mouseover_fn_id: null,
