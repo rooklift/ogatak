@@ -791,7 +791,7 @@ let hub_main_props = {
 	// - Both halt() and halt_by_user() will change the play_mode.
 	// - If we want to halt the engine without changing the play_mode, call engine.halt() instead.
 
-	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
+	halt: function() {							// Note: if the adjustments to play_mode aren't wanted, just call engine.halt() directly.
 		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
 		}
