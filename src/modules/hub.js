@@ -868,6 +868,9 @@ let hub_main_props = {
 			this.set_play_mode(NONE);
 		} else {
 			this.set_play_mode(AUTOSCROLL);
+			if (this.engine.desired) {				// In the case where we switched from SELFPLAY to AUTOSCROLL, the
+				this.go();							// query will have low maxVisits, so we need to restart it.
+			}
 		}
 	},
 
@@ -880,7 +883,7 @@ let hub_main_props = {
 		} else if (val === "w") {
 			this.set_play_mode(PLAY_WHITE);
 		} else {
-			this.set_play_mode(NONE);
+			throw new Error("start_play_colour(): bad call");
 		}
 		if (this.playing_active_colour()) {
 			this.go();
