@@ -839,9 +839,7 @@ let hub_main_props = {
 			this.engine.halt();
 		} else {
 			this.set_play_mode(AUTOANALYSIS);
-			if (!this.engine.desired) {
-				this.go();
-			}
+			this.go();
 		}
 	},
 
@@ -851,9 +849,7 @@ let hub_main_props = {
 			this.engine.halt();
 		} else {
 			this.set_play_mode(BACKANALYSIS);
-			if (!this.engine.desired) {
-				this.go();
-			}
+			this.go();
 		}
 	},
 
@@ -863,9 +859,7 @@ let hub_main_props = {
 			this.engine.halt();
 		} else {
 			this.set_play_mode(SELFPLAY);
-			if (!this.engine.desired) {
-				this.go();
-			}
+			this.go();
 		}
 	},
 
@@ -888,7 +882,7 @@ let hub_main_props = {
 		} else {
 			this.set_play_mode(NONE);
 		}
-		if (!this.engine.desired && this.playing_active_colour()) {
+		if (this.playing_active_colour()) {
 			this.go();
 		}
 	},
