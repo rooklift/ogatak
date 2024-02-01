@@ -786,6 +786,11 @@ let hub_main_props = {
 		this.go();
 	},
 
+	// - NOTES ON GO / HALT:
+	// - go() does not change play_mode, but go_by_user() does.
+	// - Both halt() and halt_by_user() will change the play_mode.
+	// - If we want to halt the engine without changing the play_mode, call engine.halt() instead.
+
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NONE);
