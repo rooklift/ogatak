@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-	NONE:         0,
+	NORMAL:       0,
 	AUTOANALYSIS: 1,
 	BACKANALYSIS: 2,
 	SELFPLAY:     3,

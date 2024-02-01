@@ -22,7 +22,7 @@ const config_io = require("./config_io");
 const {translate} = require("./translate");
 const {node_id_from_search_id, valid_analysis_object, compare_versions, xy_to_s} = require("./utils");
 
-const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
+const {NORMAL, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -45,9 +45,9 @@ function init() {
 
 		node: null,
 		engine: eng,
-		play_mode: NONE,			// Don't set this directly, call set_play_mode() - to inform main.js, and also note that
-		autoscroll_fn_id: null,		// play_mode: NONE does not mean we aren't searching: ponder on/off is indicated by the
-		pending_up_down: 0,			// state of engine.desired...
+		play_mode: NORMAL,			// Don't set this directly, call set_play_mode() - to inform main.js
+		autoscroll_fn_id: null,
+		pending_up_down: 0,
 		dropped_inputs: 0,
 		mouseover_time: 0,
 		pending_mouseover_fn_id: null,
@@ -394,22 +394,22 @@ let hub_main_props = {
 		let want_to_go = Boolean(this.engine.desired) || this.playing_active_colour();
 
 		if (!opts.keep_selfplay && this.play_mode === SELFPLAY) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			want_to_go = false;
 		}
 
 		if (!opts.keep_autoanalysis && [AUTOANALYSIS, BACKANALYSIS].includes(this.play_mode)) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			want_to_go = false;
 		}
 
 		if (!opts.keep_play_colour && [PLAY_BLACK, PLAY_WHITE].includes(this.play_mode)) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			want_to_go = false;
 		}
 
 		if (!opts.keep_autoscroll && this.play_mode === AUTOSCROLL) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			// want_to_go = false;				// Not for this.
 		}
 
@@ -780,8 +780,8 @@ let hub_main_props = {
 	},
 
 	go_by_user: function() {
-		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
-			this.set_play_mode(NONE);
+		if (![NORMAL, AUTOSCROLL].includes(this.play_mode)) {
+			this.set_play_mode(NORMAL);
 		}
 		this.go();
 	},
@@ -792,8 +792,8 @@ let hub_main_props = {
 	// - If we want to halt the engine without changing the play_mode, call engine.halt() instead.
 
 	halt: function() {							// Note: if the adjustments to play_mode aren't wanted, just call engine.halt() directly.
-		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
-			this.set_play_mode(NONE);
+		if (![NORMAL, AUTOSCROLL].includes(this.play_mode)) {
+			this.set_play_mode(NORMAL);
 		}
 		this.engine.halt();
 	},
@@ -807,8 +807,8 @@ let hub_main_props = {
 
 	toggle_ponder: function() {					// Only called when user does this.
 
-		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
-			this.set_play_mode(NONE);
+		if (![NORMAL, AUTOSCROLL].includes(this.play_mode)) {
+			this.set_play_mode(NORMAL);
 		}
 		if (this.engine.desired) {
 			this.halt_by_user();
@@ -820,7 +820,7 @@ let hub_main_props = {
 	set_play_mode: function(val) {
 
 		const menus = {
-			[NONE]:         null,
+			[NORMAL]:         null,
 			[AUTOANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS")],
 			[BACKANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_BACKWARD_ANALYSIS")],
 			[SELFPLAY]:     [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")],
@@ -847,7 +847,7 @@ let hub_main_props = {
 
 	toggle_autoanalysis: function() {
 		if (this.play_mode === AUTOANALYSIS) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			this.engine.halt();
 		} else {
 			this.set_play_mode(AUTOANALYSIS);
@@ -857,7 +857,7 @@ let hub_main_props = {
 
 	toggle_backanalysis: function() {
 		if (this.play_mode === BACKANALYSIS) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			this.engine.halt();
 		} else {
 			this.set_play_mode(BACKANALYSIS);
@@ -867,7 +867,7 @@ let hub_main_props = {
 
 	toggle_selfplay: function() {
 		if (this.play_mode === SELFPLAY) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 			this.engine.halt();
 		} else {
 			this.set_play_mode(SELFPLAY);
@@ -877,7 +877,7 @@ let hub_main_props = {
 
 	toggle_autoscroll: function() {					// Doesn't go / halt (in general)
 		if (this.play_mode === AUTOSCROLL) {
-			this.set_play_mode(NONE);
+			this.set_play_mode(NORMAL);
 		} else {
 			this.set_play_mode(AUTOSCROLL);
 			if (this.engine.desired) {				// In the case where we switched from SELFPLAY to AUTOSCROLL, the
@@ -1058,7 +1058,7 @@ let hub_main_props = {
 			if (this.node.children.length > 0) {
 				this.next_auto();
 			} else {
-				this.set_play_mode(NONE);
+				this.set_play_mode(NORMAL);
 			}
 		}
 

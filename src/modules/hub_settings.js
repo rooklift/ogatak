@@ -8,7 +8,7 @@ const {defaults} = require("./config_io");
 const {translate} = require("./translate");
 const {compare_arrays} = require("./utils");
 
-const {NONE, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
+const {NORMAL, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
 
 const multichecks = {
 	// Some special submenus are not included here, when their values don't match their labels.
