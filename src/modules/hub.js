@@ -779,6 +779,13 @@ let hub_main_props = {
 		}
 	},
 
+	go_by_user: function() {
+		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
+			this.set_play_mode(NONE);
+		}
+		this.go();
+	},
+
 	halt: function() {							// Note: if the adjustments to auto-stuff aren't wanted, just call engine.halt() directly.
 		if (![NONE, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NONE);

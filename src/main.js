@@ -962,7 +962,7 @@ function menu_build() {
 					label: translate("MENU_GO"),
 					accelerator: "CommandOrControl+G",
 					click: () => {
-						win.webContents.send("call", "go");
+						win.webContents.send("call", "go_by_user");
 					}
 				},
 				{
