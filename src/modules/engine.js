@@ -43,7 +43,10 @@ class Engine {
 		this.engineconfig = "";
 		this.weights = "";
 
-		// Note that for experiment in 1.9.6, the following will not be null'd just because we receive isDuringSearch: false...
+		// Note that the following will not be null'd just because we receive {isDuringSearch: false}
+		// results, rather they will be left in place to indicate that the app still wants to ponder if
+		// the position changes - which will likely happen immediately as the hub receives the search
+		// results and changes the position based on what play mode it is in (e.g. autoplay, etc).
 
 		this.desired = null;				// The search object we want to be running.
 		this.running = null;				// The search object actually running. (Possibly the same object as above.)
