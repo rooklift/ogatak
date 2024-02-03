@@ -820,7 +820,7 @@ let hub_main_props = {
 	set_play_mode: function(val) {
 
 		const menus = {
-			[NORMAL]:         null,
+			[NORMAL]:       null,
 			[AUTOANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_AUTOANALYSIS")],
 			[BACKANALYSIS]: [translate("MENU_ANALYSIS"), translate("MENU_BACKWARD_ANALYSIS")],
 			[SELFPLAY]:     [translate("MENU_ANALYSIS"), translate("MENU_SELF_PLAY")],
