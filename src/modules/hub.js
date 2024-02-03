@@ -791,15 +791,20 @@ let hub_main_props = {
 	// - Both halt() and halt_by_user() will change the play_mode.
 	// - If we want to halt the engine without changing the play_mode, call engine.halt() instead.
 
-	halt: function() {							// Note: if the adjustments to play_mode aren't wanted, just call engine.halt() directly.
+	halt: function() {							// Stop engine and stop special modes except AUTOSCROLL.
 		if (![NORMAL, AUTOSCROLL].includes(this.play_mode)) {
 			this.set_play_mode(NORMAL);
 		}
 		this.engine.halt();
 	},
 
-	halt_by_user: function() {					// Exists so draw() can be called if needed. Note that various things that call halt()
-		this.halt();							// do a draw(), so we can't just put the test in halt() if we want to avoid redundant draws.
+	stop: function() {							// Like halt, but also stops AUTOSCROLL.
+		this.set_play_mode(NORMAL);
+		this.engine.halt();
+	},
+
+	halt_by_user: function() {					// Like halt, but also redraws if needed.
+		this.halt();
 		if (config.candidate_moves && config.no_ponder_no_candidates) {
 			this.draw();
 		}

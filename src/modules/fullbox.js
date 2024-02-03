@@ -28,7 +28,7 @@ let fullbox_prototype = {
 		if (!this.is_visible) {
 			this.outer_div.style["display"] = "block";
 			this.is_visible = true;
-			hub.halt();
+			hub.stop();
 			hub.disable_specials_except("fullbox");
 		}
 	},
