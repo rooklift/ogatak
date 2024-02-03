@@ -850,7 +850,10 @@ let hub_main_props = {
 			this.set_play_mode(NORMAL);
 			this.engine.halt();
 		} else {
-			this.set_play_mode(AUTOANALYSIS);
+			if (this.node.children.length === 0) {
+				this.go_to_root();
+			}
+			this.set_play_mode(AUTOANALYSIS);		// After go_to_root(), which calls set_node() without keeping self_play settings.
 			this.go();
 		}
 	},
