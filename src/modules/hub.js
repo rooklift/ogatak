@@ -856,7 +856,6 @@ let hub_main_props = {
 			this.engine.halt();
 		} else {
 			if (this.node.children.length === 0) {
-				this.engine.halt();					// Avoids go_to_root() --> set_node() starting a query with the wrong maxVisits.
 				this.go_to_root();
 			}
 			this.set_play_mode(AUTOANALYSIS);		// After go_to_root(), which calls set_node() without keeping self_play settings.
