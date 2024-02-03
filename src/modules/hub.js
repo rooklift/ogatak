@@ -833,11 +833,11 @@ let hub_main_props = {
 			return;
 		}
 
-		let menu = menus[this.play_mode];				// Clear check mark for the mode that's ending.
+		let menu = menus[this.play_mode];			// Clear check mark for the mode that's ending.
 		if (menu) {
 			ipcRenderer.send("set_check_false", menu);
 		}
-		menu = menus[val];										// Add check mark for the mode that's starting.
+		menu = menus[val];							// Add check mark for the mode that's starting.
 		if (menu) {
 			ipcRenderer.send("set_check_true", menu);
 		}
@@ -851,6 +851,7 @@ let hub_main_props = {
 			this.engine.halt();
 		} else {
 			if (this.node.children.length === 0) {
+				this.engine.halt();					// Avoids go_to_root() --> set_node() starting a query with the wrong maxVisits.
 				this.go_to_root();
 			}
 			this.set_play_mode(AUTOANALYSIS);		// After go_to_root(), which calls set_node() without keeping self_play settings.
