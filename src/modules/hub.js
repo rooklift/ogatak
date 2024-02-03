@@ -672,7 +672,7 @@ let hub_main_props = {
 
 		let initial_draw_count = board_drawer.draw_count;
 		let relevant_node_id = node_id_from_search_id(o.id);
-		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;		// Are either of these options set?
+		let policy_or_drunk = config.play_against_policy || config.play_against_drunk;					// Are either of these options set?
 
 		if (relevant_node_id === this.node.id) {
 
@@ -691,7 +691,7 @@ let hub_main_props = {
 
 			} else if (policy_or_drunk && this.play_mode === SELFPLAY) {
 
-				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {		// Already had 2 passes, incoming move is 3rd (maybe).
+				if (this.node.parent && this.node.parent.has_pass() && this.node.has_pass()) {			// Already had 2 passes, incoming move is 3rd (maybe).
 					this.halt();
 				} else {
 					if (config.play_against_drunk) {
