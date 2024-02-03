@@ -416,7 +416,7 @@ let hub_main_props = {
 		if (want_to_go) {
 			this.go();
 		} else {
-			this.engine.halt();					// Don't use this.halt() which adjusts auto-stuff.
+			this.engine.halt();
 		}
 
 		// Draw things...
@@ -682,7 +682,7 @@ let hub_main_props = {
 
 			if (policy_or_drunk && this.playing_active_colour()) {
 
-				this.engine.halt();						// Can't use this.halt() which turns off all auto-stuff
+				this.engine.halt();
 				if (config.play_against_drunk) {
 					this.play_drunk_policy();
 				} else  {
@@ -707,7 +707,7 @@ let hub_main_props = {
 
 				if (this.playing_active_colour()) {
 
-					this.engine.halt();					// Can't use this.halt() which turns off all auto-stuff
+					this.engine.halt();
 					this.play_best();
 
 				} else if (this.play_mode === AUTOANALYSIS) {
