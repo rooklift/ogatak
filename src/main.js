@@ -1538,7 +1538,6 @@ function menu_build() {
 					label: translate("MENU_WITH_PV_MOUSEOVER"),
 					type: "checkbox",
 					checked: config.mouseover_pv,
-					accelerator: "CommandOrControl+Shift+M",
 					click: () => {
 						win.webContents.send("toggle", "mouseover_pv");
 					}
@@ -1603,6 +1602,7 @@ function menu_build() {
 					label: translate("MENU_NEXT_MOVE_MARKERS"),
 					type: "checkbox",
 					checked: config.next_move_markers,
+					accelerator: "CommandOrControl+Shift+M",
 					click: () => {
 						win.webContents.send("toggle", "next_move_markers");
 					}
