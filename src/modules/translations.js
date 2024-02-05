@@ -965,7 +965,7 @@ translations[`简体中文`] = {
 		MENU_ENGINE_PLAYS_BLACK: `引擎执黑`,
 		MENU_ENGINE_PLAYS_WHITE: `引擎执白`,
         MENU_ENGINE_PLAYS_CURRENT: `引擎执当前颜色`,
-		MENU_ENGINE_PLAYS_POLICY: `使用策略 最佳`,
+		MENU_ENGINE_PLAYS_POLICY: `使用策略 原始`,
 		MENU_ENGINE_PLAYS_DRUNK: `使用策略 飘逸`,
 		MENU_AUTOSCROLL: `自动播放`,
 		MENU_AUTOSCROLL_DELAY: `播放延迟（秒）`,
