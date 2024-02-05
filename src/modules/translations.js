@@ -1032,8 +1032,8 @@ translations[`简体中文`] = {
 	ABOUT_THANKS_TRANSLATORS: `感谢下列翻译者：`,
 
 	BAD_CONFIG_1: `无法解析Ogatak配置文件`,
-	BAD_CONFIG_2: `当前的设定值不会被保存!`,
-	BAD_CONFIG_3: `当前的设定值不会被保存!`,
+	BAD_CONFIG_2: `此问题解决前，配置文件无法使用`,
+	BAD_CONFIG_3: `并且当前的设定值无法被保存`,
 	BAD_CONFIG_4: `请尝试修复配置文件`,
 	BAD_CONFIG_5: `或是直接刪除配置文件`,
 
