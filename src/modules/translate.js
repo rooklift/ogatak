@@ -25,8 +25,13 @@ function translate(key, force_language = null) {
 function all_translators() {
 	let set = Object.create(null);
 	for (let dict of Object.values(translations)) {
-		if (dict["TRANSLATION_BY"]) {
-			set[dict["TRANSLATION_BY"]] = true;
+		let o = dict["TRANSLATION_BY"];
+		if (typeof o === "string" && o !== "") {
+			set[o] = true;
+		} else if (Array.isArray(o)) {
+			for (let name of o) {
+				set[name] = true;
+			}
 		}
 	}
 	return Object.keys(set);
