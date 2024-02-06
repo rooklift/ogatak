@@ -1097,10 +1097,10 @@ let board_drawer_prototype = {
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
 			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${tStn}: <span class="white">${pad(stone_counts, 9)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${tStn}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${tCaps}: <span class="white">${pad(capstring, 9)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${tCaps}: <span class="white">${pad(capstring, 11)}</span></span>`;
 		}
 		s2 += `${tScore}: <span class="white">${pad(score, 8)}</span>`;
 		s2 += `${override_moveinfo ? tThis : tBest}: <span class="white">${pad(move, 6)}</span>`;
