@@ -1,5 +1,7 @@
 "use strict";
 
+const {replace_all} = require("./utils");
+
 function apply_komi_fix(root) {
 
 	let km = parseFloat(root.get("KM"));
@@ -61,12 +63,16 @@ function apply_pl_fix(root) {
 	}
 }
 
-function apply_ruleset_fix(root) {
-
-	// Just aesthetic really. OGS has these lowercase rules.
-
-	if (root.get("RU") === "chinese") root.set("RU", "Chinese");
-	if (root.get("RU") === "japanese") root.set("RU", "Japanese");
+function apply_ruleset_fixes(root) {
+	if (!root.has_key("RU")) {
+		return;
+	}
+	let rules = root.get("RU");
+	rules = replace_all(rules, "\n", " ");
+	if (["chinese", "japanese", "korean"].includes(rules)) {
+		rules = rules[0].toUpperCase() + rules.slice(1);
+	}
+	root.set("RU", rules);
 }
 
 function apply_ruleset_guess(root) {
@@ -80,7 +86,7 @@ function apply_all_fixes(root, guess_ruleset) {
 
 	apply_komi_fix(root);
 	apply_pl_fix(root);
-	apply_ruleset_fix(root);
+	apply_ruleset_fixes(root);
 
 	if (guess_ruleset) {
 		apply_ruleset_guess(root);		// AFTER the komi fix, above.
@@ -88,4 +94,4 @@ function apply_all_fixes(root, guess_ruleset) {
 }
 
 
-module.exports = {apply_komi_fix, apply_pl_fix, apply_ruleset_fix, apply_ruleset_guess, apply_all_fixes};
+module.exports = apply_all_fixes;

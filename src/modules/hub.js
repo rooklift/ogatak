@@ -252,7 +252,7 @@ let hub_main_props = {
 
 	finish_load: function(load_results) {
 		for (let root of load_results.get_roots()) {
-			root_fixes.apply_all_fixes(root, config.guess_ruleset);
+			root_fixes(root, config.guess_ruleset);
 		}
 		this.add_roots(load_results.get_roots());
 		load_results.display_issues();
