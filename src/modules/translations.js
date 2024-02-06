@@ -1019,7 +1019,7 @@ translations[`简体中文`] = {
 	INFO_PANEL_SCORE: `领先目数`,
 	INFO_PANEL_STN: `棋子数`,
 	INFO_PANEL_CAPS: `提子数`,
-	INFO_PANEL_THIS: `　本手`,
+	INFO_PANEL_THIS: `本点位`,									// Correction from ivysrono
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `运算数`,
 
