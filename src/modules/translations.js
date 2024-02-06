@@ -798,7 +798,7 @@ translations[`繁體中文`] = {
 	INFO_RESULT: `結果`,
 
 	INFO_PANEL_RULES: `規則`,
-	INFO_PANEL_UNKNOWN: `Unknown`,		// Avoids resizing the infobox when displayed.
+	INFO_PANEL_UNKNOWN: `Unknown`,									// Avoids resizing the infobox when displayed.
 	INFO_PANEL_KOMI: `貼目`,
 	INFO_PANEL_EDITING: `編輯模式`,
 	INFO_PANEL_ESCAPE: `輸入 Esc 結束編輯`,
@@ -809,7 +809,7 @@ translations[`繁體中文`] = {
 	INFO_PANEL_SCORE: `領先目數`,
 	INFO_PANEL_STN: `棋子數`,
 	INFO_PANEL_CAPS: `提子數`,
-	INFO_PANEL_THIS: `本手`,
+	INFO_PANEL_THIS: `　本手`,										// Uses &#x3000; char to maintain width of 3.
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `訪問數`,
 
@@ -1008,7 +1008,7 @@ translations[`简体中文`] = {
 	INFO_RESULT: `结果`,
 
 	INFO_PANEL_RULES: `规则`,
-	INFO_PANEL_UNKNOWN: `Unknown`,		// Avoids resizing the infobox when displayed.
+	INFO_PANEL_UNKNOWN: `Unknown`,									// Avoids resizing the infobox when displayed.
 	INFO_PANEL_KOMI: `贴目`,
 	INFO_PANEL_EDITING: `编辑模式`,
 	INFO_PANEL_ESCAPE: `按 Esc 结束编辑`,
@@ -1019,7 +1019,7 @@ translations[`简体中文`] = {
 	INFO_PANEL_SCORE: `领先目数`,
 	INFO_PANEL_STN: `棋子数`,
 	INFO_PANEL_CAPS: `提子数`,
-	INFO_PANEL_THIS: `本手`,
+	INFO_PANEL_THIS: `　本手`,										// Uses &#x3000; char to maintain width of 3.
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `运算数`,
 
