@@ -790,12 +790,12 @@ translations[`繁體中文`] = {
 	INFO_BLACK_RANK: `黑方等級`,
 	INFO_WHITE: `白方名稱`,
 	INFO_WHITE_RANK: `白方等級`,
-	INFO_EVENT: `事件`,
-	INFO_ROUND: `回合`,
+	INFO_EVENT: `　　事件`,
+	INFO_ROUND: `　　回合`,
 	INFO_GAME_NAME: `遊戲名稱`,
-	INFO_PLACE: `地點`,
-	INFO_DATE: `時間`,
-	INFO_RESULT: `結果`,
+	INFO_PLACE: `　　地點`,
+	INFO_DATE: `　　時間`,
+	INFO_RESULT: `　　結果`,
 
 	INFO_PANEL_RULES: `規則`,
 	INFO_PANEL_UNKNOWN: `Unknown`,									// Avoids resizing the infobox when displayed.
@@ -809,7 +809,7 @@ translations[`繁體中文`] = {
 	INFO_PANEL_SCORE: `領先目數`,
 	INFO_PANEL_STN: `棋子數`,
 	INFO_PANEL_CAPS: `提子數`,
-	INFO_PANEL_THIS: `　本手`,										// Uses &#x3000; char to maintain width of 3.
+	INFO_PANEL_THIS: `　本手`,
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `訪問數`,
 
@@ -996,16 +996,16 @@ translations[`简体中文`] = {
 	GUI_AWAITING_GTP_RESPONSE_1: `正在等待 GTP 引擎回应...`,
 	GUI_AWAITING_GTP_RESPONSE_2: `注意：目前 GTP 界面为实验功能，不推荐使用`,
 
-	INFO_BLACK: `黑方`,
+	INFO_BLACK: `　　黑方`,
 	INFO_BLACK_RANK: `黑方段位`,
-	INFO_WHITE: `白方`,
+	INFO_WHITE: `　　白方`,
 	INFO_WHITE_RANK: `白方段位`,
-	INFO_EVENT: `事件`,
-	INFO_ROUND: `轮次`,
-	INFO_GAME_NAME: `比赛名`,
-	INFO_PLACE: `地点`,
-	INFO_DATE: `时间`,
-	INFO_RESULT: `结果`,
+	INFO_EVENT: `　　事件`,
+	INFO_ROUND: `　　轮次`,
+	INFO_GAME_NAME: `　比赛名`,
+	INFO_PLACE: `　　地点`,
+	INFO_DATE: `　　时间`,
+	INFO_RESULT: `　　结果`,
 
 	INFO_PANEL_RULES: `规则`,
 	INFO_PANEL_UNKNOWN: `Unknown`,									// Avoids resizing the infobox when displayed.
@@ -1019,7 +1019,7 @@ translations[`简体中文`] = {
 	INFO_PANEL_SCORE: `领先目数`,
 	INFO_PANEL_STN: `棋子数`,
 	INFO_PANEL_CAPS: `提子数`,
-	INFO_PANEL_THIS: `　本手`,										// Uses &#x3000; char to maintain width of 3.
+	INFO_PANEL_THIS: `　本手`,
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `运算数`,
 
