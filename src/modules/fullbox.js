@@ -1,7 +1,7 @@
 "use strict";
 
 const config_io = require("./config_io");
-const {safe_html, pad} = require("./utils");
+const {safe_html, pad, shuffled} = require("./utils");
 const {translate, all_translators} = require("./translate");
 
 function init() {
@@ -58,6 +58,7 @@ let fullbox_prototype = {
 		}
 
 		let translator_list = all_translators().map(s => `<span class="green">${s}</span>`);
+		translator_list = shuffled(translator_list);
 
 		let s = `<span class="green">${name} ${version} --> Electron ${process.versions.electron}</span>\n\n`;
 
