@@ -356,3 +356,25 @@ exports.compare_arrays = function(a, b) {
 	}
 	return true;
 };
+
+exports.randint = function(a, b) {		// a <= N <= b   i.e. result is inclusive of b
+	if (a > b) {
+		let tmp = a;
+		a = b;
+		b = tmp;
+	}
+	let r = Math.random() * (b + 1 - a);
+	let ret = a + Math.floor(r);
+	return exports.clamp(a, ret, b);	// If the range was sufficiently large I can imagine floating point issues might require this clamp?
+};
+
+exports.shuffle = function(orig) {
+	let arr = Array.from(orig);
+	for (let i = 0; i < arr.length; i++) {
+		let j = exports.randint(i, arr.length - 1);
+		let tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+	return arr;
+};
