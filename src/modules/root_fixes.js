@@ -68,8 +68,9 @@ function apply_ruleset_fixes(root) {
 		return;
 	}
 	let rules = root.get("RU");
-	rules = replace_all(rules, "\r\n", " ");						// Unlikely, but if this ever existed it would
-	rules = replace_all(rules, "\n", " ");							// mess up the infobox very badly...
+	rules = replace_all(rules, "\r\n", " ");						// Unlikely, but if these ever
+	rules = replace_all(rules, "\n", " ");							// existed they would mess up
+	rules = replace_all(rules, "\r", " ");							// the infobox very badly...
 	if (["chinese", "japanese", "korean"].includes(rules)) {
 		rules = rules[0].toUpperCase() + rules.slice(1);
 	}
