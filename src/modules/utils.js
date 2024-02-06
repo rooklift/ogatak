@@ -368,7 +368,7 @@ exports.randint = function(a, b) {		// a <= N <= b   i.e. result is inclusive of
 	return exports.clamp(a, ret, b);	// If the range was sufficiently large I can imagine floating point issues might require this clamp?
 };
 
-exports.shuffle = function(orig) {
+exports.shuffled = function(orig) {
 	let arr = Array.from(orig);
 	for (let i = 0; i < arr.length; i++) {
 		let j = exports.randint(i, arr.length - 1);
