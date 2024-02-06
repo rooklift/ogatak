@@ -64,17 +64,28 @@ function apply_pl_fix(root) {
 }
 
 function apply_ruleset_fixes(root) {
-	if (!root.has_key("RU")) {
-		return;
+	if (root.has_key("RU")) {
+		let rules = root.get("RU");
+		if (["chinese", "japanese", "korean"].includes(rules)) {
+			rules = rules[0].toUpperCase() + rules.slice(1);
+		}
+		root.set("RU", rules);
 	}
-	let rules = root.get("RU");
-	rules = replace_all(rules, "\r\n", " ");						// Unlikely, but if these ever
-	rules = replace_all(rules, "\n", " ");							// existed they would mess up
-	rules = replace_all(rules, "\r", " ");							// the infobox very badly...
-	if (["chinese", "japanese", "korean"].includes(rules)) {
-		rules = rules[0].toUpperCase() + rules.slice(1);
+}
+
+function purge_newlines(root) {
+
+	// It's obnoxious for most important root properties to possess newlines...
+
+	for (let key of ["RU", "PB", "BR", "PW", "WR", "EV", "RO", "GN", "PC", "DT", "RE"]) {
+		if (root.has_key(key)) {
+			let val = root.get(key);
+			val = replace_all(val, "\r\n", " ");
+			val = replace_all(val, "\r", " ");
+			val = replace_all(val, "\n", " ");
+			root.set(key, val);
+		}
 	}
-	root.set("RU", rules);
 }
 
 function apply_ruleset_guess(root) {
@@ -89,6 +100,7 @@ function apply_all_fixes(root, guess_ruleset) {
 	apply_komi_fix(root);
 	apply_pl_fix(root);
 	apply_ruleset_fixes(root);
+	purge_newlines(root);
 
 	if (guess_ruleset) {
 		apply_ruleset_guess(root);		// AFTER the komi fix, above.
