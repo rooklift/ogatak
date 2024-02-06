@@ -798,7 +798,7 @@ translations[`繁體中文`] = {
 	INFO_RESULT: `結果`,
 
 	INFO_PANEL_RULES: `規則`,
-	INFO_PANEL_UNKNOWN: `未知`,
+	INFO_PANEL_UNKNOWN: `Unknown`,		// Avoids resizing the infobox when displayed.
 	INFO_PANEL_KOMI: `貼目`,
 	INFO_PANEL_EDITING: `編輯模式`,
 	INFO_PANEL_ESCAPE: `輸入 Esc 結束編輯`,
@@ -1008,7 +1008,7 @@ translations[`简体中文`] = {
 	INFO_RESULT: `结果`,
 
 	INFO_PANEL_RULES: `规则`,
-	INFO_PANEL_UNKNOWN: `未知`,
+	INFO_PANEL_UNKNOWN: `Unknown`,		// Avoids resizing the infobox when displayed.
 	INFO_PANEL_KOMI: `贴目`,
 	INFO_PANEL_EDITING: `编辑模式`,
 	INFO_PANEL_ESCAPE: `按 Esc 结束编辑`,
