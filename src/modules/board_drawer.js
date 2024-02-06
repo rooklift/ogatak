@@ -1052,7 +1052,14 @@ let board_drawer_prototype = {
 
 		// Note the boardinfo_ prefix is used in __start_handlers.js
 
-		s1 += `<span class="boardinfo_rules">${tRules}: <span class="white">${pad(node.rules() || tUnknown, 16)}</span></span>`;
+		let rules = node.rules();
+		if (rules.length > 15) {
+			rules = rules.slice(0, 12) + "...";
+		} else if (rules === "") {
+			rules = tUnknown;
+		}
+
+		s1 += `<span class="boardinfo_rules">${tRules}: <span class="white">${pad(rules, 16)}</span></span>`;
 		s1 += `<span class="boardinfo_komi">${tKomi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.editing) {
