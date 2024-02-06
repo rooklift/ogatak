@@ -68,6 +68,7 @@ function apply_ruleset_fixes(root) {
 		return;
 	}
 	let rules = root.get("RU");
+	rules = replace_all(rules, "\r\n", " ");
 	rules = replace_all(rules, "\n", " ");
 	if (["chinese", "japanese", "korean"].includes(rules)) {
 		rules = rules[0].toUpperCase() + rules.slice(1);
