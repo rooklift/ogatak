@@ -809,7 +809,7 @@ translations[`繁體中文`] = {
 	INFO_PANEL_SCORE: `領先目數`,
 	INFO_PANEL_STN: `棋子數`,
 	INFO_PANEL_CAPS: `提子數`,
-	INFO_PANEL_THIS: `　本手`,
+	INFO_PANEL_THIS: `本點位`,
 	INFO_PANEL_BEST: `最佳手`,
 	INFO_PANEL_VISITS: `訪問數`,
 
