@@ -88,6 +88,10 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 
 		let c = buf[i];
 
+		if (c === 13) {									// that is \r - discard it regardless of location.
+			continue;
+		}
+
 		if (!tree_started) {
 			if (c <= 32) {
 				continue;
