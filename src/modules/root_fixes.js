@@ -103,24 +103,22 @@ function fix_singleton_handicap(root) {
 }
 
 function delay_root_move(root) {
-	if (root.move_count() !== 1 || root.has_key("AB") || root.has_key("AW") || root.has_key("AE")) {
+	if (root.move_count() !== 1 || root.has_key("AB") || root.has_key("AW") || root.has_key("AE") || root.has_key("PL")) {
 		return;
 	}
 	let orig_children = root.children;
 	root.children = [];
 	let inserted_node = new_node(root);
 	inserted_node.children = orig_children;
-	if (root.has_key("B")) {
-		inserted_node.set("B", root.get("B"));
-		root.delete_key("B");
-	}
-	if (root.has_key("W")) {
-		inserted_node.set("W", root.get("W"));
-		root.delete_key("W");
-	}
 	for (let child of orig_children) {
 		child.parent = inserted_node;
 		child.increase_depth();
+	}
+	for (let key of ["B", "W"]) {
+		if (root.has_key(key)) {
+			inserted_node.set(key, root.get(key));
+			root.delete_key(key);
+		}
 	}
 }
 
@@ -137,11 +135,11 @@ function apply_all_fixes(root, guess_ruleset) {
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
 	fix_singleton_handicap(root);
-	delay_root_move(root);
-	apply_pl_fix(root);					// After  delay_root_move()
+	delay_root_move(root);				// After fix_singleton_handicap()
+	apply_pl_fix(root);					// After delay_root_move()
 
 	if (guess_ruleset) {
-		apply_ruleset_guess(root);		// After  apply_komi_fix()
+		apply_ruleset_guess(root);		// After apply_komi_fix()
 	}
 }
 
