@@ -134,14 +134,14 @@ function apply_ruleset_guess(root) {
 function apply_all_fixes(root, guess_ruleset) {
 
 	apply_komi_fix(root);
-	apply_pl_fix(root);
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
 	fix_singleton_handicap(root);
 	delay_root_move(root);
+	apply_pl_fix(root);					// After  delay_root_move()
 
 	if (guess_ruleset) {
-		apply_ruleset_guess(root);		// AFTER the komi fix, above.
+		apply_ruleset_guess(root);		// After  apply_komi_fix()
 	}
 }
 
