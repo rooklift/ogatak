@@ -138,6 +138,10 @@ function apply_ruleset_guess(root) {
 
 function apply_all_fixes(root, guess_ruleset) {
 
+	// These fixes are appled on load, but note that the app can still
+	// create trees with these problems through various means, so don't
+	// assume the tree is never in such a state...
+
 	apply_komi_fix(root);
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
