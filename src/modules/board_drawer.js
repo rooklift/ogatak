@@ -1030,6 +1030,13 @@ let board_drawer_prototype = {
 		let tBest    = translate("INFO_PANEL_BEST");
 		let tVisits  = translate("INFO_PANEL_VISITS");
 
+		// config.numbers uses various hardcoded strings like "Winrate" etc. But some can be shortened.
+		// We could actually do translations also... but for now it's just to reduce space used...
+		let short_strings = {
+			"Winrate": "Win",
+			"Visits": "Visit",
+		};
+
 		let board = node.get_board();
 
 		let last_move = "";
@@ -1044,7 +1051,12 @@ let board_drawer_prototype = {
 		} else if (config.no_ponder_no_candidates && !hub.engine.desired) {
 			numbers_string = "(not pondering)";
 		} else {
-			numbers_string = config.numbers.split(" + ").join(", ");
+			let arr = config.numbers.split(" + ");
+			if (arr.length === 3) {
+				numbers_string = arr.map(s => short_strings[s] || s).join(", ");
+			} else {
+				numbers_string = arr.join(", ");
+			}
 		}
 
 		let s1 = "";
@@ -1066,7 +1078,7 @@ let board_drawer_prototype = {
 			s1 += `<span class="yellow boardinfo_editing">${tEditing}: <span class="white">${pad(pad(config.editing, 3, true), 4)}</span> (${tEscape})</span>`;
 		} else {
 			s1 += `${tPrev}: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 23)}</span></span>`;
+			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 18)}</span></span>`;
 		}
 
 		let move = "";
