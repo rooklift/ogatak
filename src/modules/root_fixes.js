@@ -1,5 +1,6 @@
 "use strict";
 
+const new_node = require("./node");
 const {replace_all} = require("./utils");
 
 function apply_komi_fix(root) {
@@ -101,6 +102,28 @@ function fix_singleton_handicap(root) {
 	root.delete_key("AB");
 }
 
+function delay_root_move(root) {
+	if (root.move_count() !== 1 || root.has_key("AB") || root.has_key("AW") || root.has_key("AE")) {
+		return;
+	}
+	let orig_children = root.children;
+	root.children = [];
+	let inserted_node = new_node(root);
+	inserted_node.children = orig_children;
+	if (root.has_key("B")) {
+		inserted_node.set("B", root.get("B"));
+		root.delete_key("B");
+	}
+	if (root.has_key("W")) {
+		inserted_node.set("W", root.get("W"));
+		root.delete_key("W");
+	}
+	for (let child of orig_children) {
+		child.parent = inserted_node;
+		child.increase_depth();
+	}
+}
+
 function apply_ruleset_guess(root) {
 	if (!root.has_key("RU")) {
 		if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
@@ -115,6 +138,7 @@ function apply_all_fixes(root, guess_ruleset) {
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
 	fix_singleton_handicap(root);
+	delay_root_move(root);
 
 	if (guess_ruleset) {
 		apply_ruleset_guess(root);		// AFTER the komi fix, above.
