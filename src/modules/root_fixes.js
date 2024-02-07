@@ -121,7 +121,9 @@ function delay_root_move(root) {
 	}
 	for (let key of ["B", "C", "CR", "LB", "MA", "PL", "SQ", "TR", "W"]) {		// Some rarely-used keys will be left behind. Meh.
 		if (root.has_key(key)) {
-			inserted_node.set(key, root.get(key));
+			for (let value of root.all_values(key)) {
+				inserted_node.add_value(key, value);
+			}
 			root.delete_key(key);
 		}
 	}
