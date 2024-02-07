@@ -90,14 +90,27 @@ function purge_newlines(root) {
 }
 
 function fix_singleton_handicap(root) {
-	if (root.all_values("AB").length !== 1 || root.has_key("AW") || root.has_key("AE") || root.has_key("B") || root.has_key("W")) {
+
+	if (root.all_values("AB").length !== 1) {
 		return;
 	}
-	for (let child of root.children) {		// Any weirdness, i.e. anything other than one W move in a child, and we abort...
+
+	// Any weirdness at all about this file, and we abort...
+
+	if (root.has_key("AW") || root.has_key("AE") || root.has_key("B") || root.has_key("W")) {
+		return;
+	}
+	if (root.children.length === 0) {
+		return;
+	}
+	for (let child of root.children) {
 		if (!child.has_key("W") || child.has_key("B") || child.has_key("AB") || child.has_key("AW") || child.has_key("AE")) {
 			return;
 		}
 	}
+
+	// File is apparently not weird...
+
 	root.set("B", root.get("AB"));
 	root.delete_key("AB");
 }
