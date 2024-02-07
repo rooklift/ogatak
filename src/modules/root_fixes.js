@@ -88,6 +88,19 @@ function purge_newlines(root) {
 	}
 }
 
+function fix_singleton_handicap(root) {
+	if (root.all_values("AB").length !== 1 || root.has_key("AW") || root.has_key("AE") || root.has_key("B") || root.has_key("W")) {
+		return;
+	}
+	for (let child of root.children) {		// Any weirdness, i.e. anything other than one W move in a child, and we abort...
+		if (!child.has_key("W") || child.has_key("B") || child.has_key("AB") || child.has_key("AW") || child.has_key("AE")) {
+			return;
+		}
+	}
+	root.set("B", root.get("AB"));
+	root.delete_key("AB");
+}
+
 function apply_ruleset_guess(root) {
 	if (!root.has_key("RU")) {
 		if (root.get("KM").startsWith("7.5")) root.set("RU", "Chinese");
@@ -101,6 +114,7 @@ function apply_all_fixes(root, guess_ruleset) {
 	apply_pl_fix(root);
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
+	fix_singleton_handicap(root);
 
 	if (guess_ruleset) {
 		apply_ruleset_guess(root);		// AFTER the komi fix, above.
