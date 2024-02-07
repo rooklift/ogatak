@@ -103,8 +103,13 @@ function fix_singleton_handicap(root) {
 }
 
 function delay_root_move(root) {
-	if (root.move_count() !== 1 || root.has_key("AB") || root.has_key("AW") || root.has_key("AE") || root.has_key("PL")) {
+	if (root.move_count() !== 1) {
 		return;
+	}
+	for (let key of ["AB", "AW", "AE"]) {
+		if root.has_key(key) {
+			return;
+		}
 	}
 	let orig_children = root.children;
 	root.children = [];
@@ -114,7 +119,7 @@ function delay_root_move(root) {
 		child.parent = inserted_node;
 		child.increase_depth();
 	}
-	for (let key of ["B", "W"]) {
+	for (let key of ["B", "C", "CR", "LB", "MA", "PL", "SQ", "TR", "W"]) {		// Some rarely-used keys will be left behind. Meh.
 		if (root.has_key(key)) {
 			inserted_node.set(key, root.get(key));
 			root.delete_key(key);
