@@ -1035,6 +1035,7 @@ let board_drawer_prototype = {
 		let short_strings = {
 			"Winrate": "Win",
 			"Visits": "Visit",
+			"Visits (%)": "Vis %",
 		};
 
 		let board = node.get_board();
