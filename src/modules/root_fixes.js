@@ -107,7 +107,7 @@ function delay_root_move(root) {
 		return;
 	}
 	for (let key of ["AB", "AW", "AE"]) {
-		if root.has_key(key) {
+		if (root.has_key(key)) {
 			return;
 		}
 	}
