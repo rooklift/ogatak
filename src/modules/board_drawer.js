@@ -19,8 +19,14 @@ const board_font_chooser = require("./board_font_chooser");
 const gridlines = require("./gridlines");
 const {translate} = require("./translate");
 
-const {handicap_stones, moveinfo_filter, pad, new_2d_array, compare_versions, xy_to_s,
-	float_to_hex_ff, points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
+const {handicap_stones, moveinfo_filter, pad, new_2d_array, xy_to_s, float_to_hex_ff,
+	points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
+
+const t = {Rules: translate("INFO_PANEL_RULES"),  Unknown: translate("INFO_PANEL_UNKNOWN"), Komi: translate("INFO_PANEL_KOMI"),
+	     Editing: translate("INFO_PANEL_EDITING"), Escape: translate("INFO_PANEL_ESCAPE"),  Prev: translate("INFO_PANEL_PREV"),
+	        Show: translate("INFO_PANEL_SHOW"),         B: translate("INFO_PANEL_B"),          W: translate("INFO_PANEL_W"),
+	         Stn: translate("INFO_PANEL_STN"),       Caps: translate("INFO_PANEL_CAPS"),   Score: translate("INFO_PANEL_SCORE"),
+	        This: translate("INFO_PANEL_THIS"),      Best: translate("INFO_PANEL_BEST"),  Visits: translate("INFO_PANEL_VISITS")};
 
 // ------------------------------------------------------------------------------------------------
 
@@ -895,8 +901,8 @@ let board_drawer_prototype = {
 				o.fill = colour.slice(0, 7) + float_to_hex_ff(colour_curve(info.visits / filtered_infos[0].visits));
 			}
 
-			for (let t of number_types) {
-				let z = string_from_info(info, node, t, needs_flip);
+			for (let nt of number_types) {
+				let z = string_from_info(info, node, nt, needs_flip);
 				if (z === "?") {
 					got_bad_analysis_text = true;
 				}
@@ -1013,23 +1019,6 @@ let board_drawer_prototype = {
 			return;
 		}
 
-		// Pull in the translations needed as variables to save line space later...
-		let tRules   = translate("INFO_PANEL_RULES");
-		let tUnknown = translate("INFO_PANEL_UNKNOWN");
-		let tKomi    = translate("INFO_PANEL_KOMI");
-		let tEditing = translate("INFO_PANEL_EDITING");
-		let tEscape  = translate("INFO_PANEL_ESCAPE");
-		let tPrev    = translate("INFO_PANEL_PREV");
-		let tShow    = translate("INFO_PANEL_SHOW");
-		let tB       = translate("INFO_PANEL_B");
-		let tW       = translate("INFO_PANEL_W");
-		let tStn     = translate("INFO_PANEL_STN");
-		let tCaps    = translate("INFO_PANEL_CAPS");
-		let tScore   = translate("INFO_PANEL_SCORE");
-		let tThis    = translate("INFO_PANEL_THIS");
-		let tBest    = translate("INFO_PANEL_BEST");
-		let tVisits  = translate("INFO_PANEL_VISITS");
-
 		// config.numbers uses various hardcoded strings like "Winrate" etc. But some can be shortened.
 		// We could actually do translations also... but for now it's just to reduce space used...
 		let short_strings = {
@@ -1069,17 +1058,17 @@ let board_drawer_prototype = {
 		if (rules.length > 15) {
 			rules = rules.slice(0, 12) + "...";
 		} else if (rules === "") {
-			rules = tUnknown;
+			rules = t.Unknown;
 		}
 
-		s1 += `<span class="boardinfo_rules">${tRules}: <span class="white">${pad(rules, 16)}</span></span>`;
-		s1 += `<span class="boardinfo_komi">${tKomi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
+		s1 += `<span class="boardinfo_rules">${t.Rules}: <span class="white">${pad(rules, 16)}</span></span>`;
+		s1 += `<span class="boardinfo_komi">${t.Komi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.editing) {
-			s1 += `<span class="yellow boardinfo_editing">${tEditing}: <span class="white">${pad(pad(config.editing, 3, true), 4)}</span> (${tEscape})</span>`;
+			s1 += `<span class="yellow boardinfo_editing">${t.Editing}: <span class="white">${pad(pad(config.editing, 3, true), 4)}</span> (${t.Escape})</span>`;
 		} else {
-			s1 += `${tPrev}: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">${tShow}: <span class="white">${pad(numbers_string, 18)}</span></span>`;
+			s1 += `${t.Prev}: <span class="white">${pad(last_move, 6)}</span>`;
+			s1 += `<span class="boardinfo_numbers">${t.Show}: <span class="white">${pad(numbers_string, 18)}</span></span>`;
 		}
 
 		let move = "";
@@ -1113,18 +1102,18 @@ let board_drawer_prototype = {
 
 		}
 
-		let bw_string = (board.active === "b") ? `[<span class="white">${tB}</span>|${tW}]` : `[${tB}|<span class="white">${tW}</span>]`;
+		let bw_string = (board.active === "b") ? `[<span class="white">${t.B}</span>|${t.W}]` : `[${t.B}|<span class="white">${t.W}</span>]`;
 		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
 		if (config.stone_counts) {
 			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${tStn}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${t.Stn}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
 		} else {
 			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${tCaps}: <span class="white">${pad(capstring, 11)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts">${t.Caps}: <span class="white">${pad(capstring, 11)}</span></span>`;
 		}
-		s2 += `${tScore}: <span class="white">${pad(score, 8)}</span>`;
-		s2 += `${override_moveinfo ? tThis : tBest}: <span class="white">${pad(move, 6)}</span>`;
-		s2 += `${tVisits}: <span class="white">${visits}</span>`;
+		s2 += `${t.Score}: <span class="white">${pad(score, 8)}</span>`;
+		s2 += `${override_moveinfo ? t.This : t.Best}: <span class="white">${pad(move, 6)}</span>`;
+		s2 += `${t.Visits}: <span class="white">${visits}</span>`;
 
 		this.info1span.innerHTML = s1;
 		this.info2span.innerHTML = s2;
