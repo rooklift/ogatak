@@ -827,8 +827,8 @@ class Node {
 		return !this.parent && this.children.length === 0 && !this.has_key("AB") && !this.has_key("AW") && !this.has_key("B") && !this.has_key("W");
 	}
 
-	increase_depth() {
-		let deepest = increase_depth_recursive(this);
+	increase_depth(n) {
+		let deepest = increase_depth_recursive(this, n);
 		if (deepest > this.get_root().graph_depth) {
 			this.get_root().graph_depth = deepest;
 		}
@@ -1251,14 +1251,14 @@ function forget_analysis_recursive(node) {
 	}
 }
 
-function increase_depth_recursive(node) {		// Returns the depth of the deepest node in the recurse.
+function increase_depth_recursive(node, n) {		// Returns the depth of the deepest node in the recurse.
 
 	while (true) {
-		node.depth++;
+		node.depth += n;
 		if (node.children.length > 1) {
 			let deepest_subtree = 0;
 			for (let child of node.children) {
-				let d = increase_depth_recursive(child);
+				let d = increase_depth_recursive(child, n);
 				if (d > deepest_subtree) {
 					deepest_subtree = d;
 				}
