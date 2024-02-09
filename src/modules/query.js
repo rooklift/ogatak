@@ -16,10 +16,11 @@ const fast_maxvisits = 5;										// What the hub will ask for when in play pol
 
 let next_query_id = 1;
 
-function new_query(query_node, eng_version = null, maxvisits = default_maxvisits) {
+function new_query(query_node, eng_version = null, maxvisits = null) {
 
 	// Every key that's used at all should be in 100% of the queries, even for default values.
 
+	if (!maxvisits) maxvisits = default_maxvisits;
 	if (maxvisits < 2) maxvisits = 2;							// Don't use 1, I think it only visits the root and doesn't suggest a move.
 
 	let board = query_node.get_board();
