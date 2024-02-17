@@ -65,12 +65,27 @@ function apply_pl_fix(root) {
 }
 
 function apply_ruleset_fixes(root) {
-	if (root.has_key("RU")) {
-		let rules = root.get("RU");
-		if (["chinese", "japanese", "korean"].includes(rules)) {
-			rules = rules[0].toUpperCase() + rules.slice(1);
+
+	if (!root.has_key("RU")) {
+		return;
+	}
+
+	const altdict = {
+		"Chinese": ["chinese"],
+		"Japanese": ["japanese"],
+		"Korean": ["korean"],
+		"AGA": ["aga", "bga", "french"],
+		"New Zealand": ["new zealand", "nz"],
+		"Tromp Taylor": ["tromp taylor", "tromp-taylor"],
+	}
+
+	let rules = root.get("RU").toLowerCase();
+
+	for (let [main, alts] of Object.entries(altdict)) {
+		if (alts.includes(rules)) {
+			root.set("RU", main);
+			return;
 		}
-		root.set("RU", rules);
 	}
 }
 
