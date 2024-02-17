@@ -505,6 +505,47 @@ class Board {
 		}
 		return ret;
 	}
+
+	setup_sgf() {					// For debugging only. Returns the position as an SGF string.
+
+		let AB = [];
+		let AW = [];
+
+		for (let x = 0; x < this.width; x++) {
+			for (let y = 0; y < this.height; y++) {
+				if (this.state[x][y] === "b") {
+					AB.push(xy_to_s(x, y));
+				} else if (this.state[x][y] === "w") {
+					AW.push(xy_to_s(x, y));
+				}
+			}
+		}
+
+		let s = "";
+
+		if (this.width === this.height) {
+			s += `SZ[${this.width}]`;
+		} else {
+			s += `SZ[${this.width}:${this.height}]`;
+		}
+
+		if (this.active === "b") {
+			s += `PL[B]`;
+		} else {
+			s += `PL[W]`;
+		}
+
+		if (AB.length > 0) {
+			s += `AB[${AB.join("][")}]`;
+		}
+		if (AW.length > 0) {
+			s += `AW[${AW.join("][")}]`;
+		}
+
+
+
+		return `(;${s})`;
+	}
 }
 
 
