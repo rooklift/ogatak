@@ -542,8 +542,6 @@ class Board {
 			s += `AW[${AW.join("][")}]`;
 		}
 
-
-
 		return `(;${s})`;
 	}
 }
