@@ -173,6 +173,10 @@ let tabber_prototype = {
 			this.inner_div.appendChild(img);
 		}
 	},
+
+	hide: function() {			// Not used in code, but can be called manually for screenshots etc.
+		this.outer_div.style.display = "none";
+	},
 };
 
 // ------------------------------------------------------------------------------------------------
