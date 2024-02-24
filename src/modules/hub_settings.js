@@ -76,14 +76,13 @@ module.exports = {
 
 			if (typeof value === "string") {
 
-				// Decide whether to automagically use the analysis_example.cfg in the same folder...
+				if (value.endsWith(".bin.gz") || value.endsWith(".cfg")) {
+					alert("That appears to be the wrong file. Try to find KataGo or KataGo.exe.");
+					config.engine = old_value;					// Refuse to accept this.
+					break;
+				}
 
-//				let autodetect_engineconfig = true;													// This was one idea, but maybe it's too surprising.
-//				if (typeof old_value === "string" && typeof config.engineconfig === "string") {		// Note that old_value is of config.engine.
-//					if (path.dirname(old_value) !== path.dirname(config.engineconfig)) {			// engineconfig is some external file, we won't reset it.
-//						autodetect_engineconfig = false;											// And our if() below would rely on this var.
-//					}
-//				}
+				// We will automagically use the analysis_example.cfg in the same folder if we have no setting already.
 
 				if (!config.engineconfig) {
 					let expected_analysis_cfg = path.join(path.dirname(value), "analysis_example.cfg");
