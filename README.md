@@ -40,7 +40,7 @@
 ## Translations
 
 * At the moment, it is possible to translate most of the menu items and some of the GUI text. See `src/modules/translations.js` for instructions.
-* Thanks to the following translators: ParmuzinAlexander, CGLemon.
+* Thanks to the following translators: ParmuzinAlexander, CGLemon, Bandysol.
 
 ## Talk to me
 
