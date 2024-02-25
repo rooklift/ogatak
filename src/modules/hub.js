@@ -152,7 +152,7 @@ let hub_main_props = {
 		let root = this.node.get_root();
 		root.filepath = filepath;
 		root.save_ok = true;
-		title.set_override("Saved!", 2000);
+		title.set_override(translate("ALERT_SAVED"), 2000);
 	},
 
 	save_fast: function() {
@@ -167,7 +167,7 @@ let hub_main_props = {
 	save_collection: function(filepath) {
 		let nodes = tabber.tab_node_list(this.node);
 		save_sgf_multi(nodes, filepath);
-		title.set_override("Saved collection!", 2000);
+		title.set_override(translate("ALERT_SAVED_COLLECTION"), 2000);
 	},
 
 	// Loading.....................................................................................

@@ -217,6 +217,8 @@ translations[`English`] = {
 
 	// Alerts...
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
+	ALERT_SAVED: `Saved!`,
+	ALERT_SAVED_COLLECTION: `Saved collection!`,
 
 	// About box...
 	ABOUT_FILE_LOCATIONS: `Engine, engine config, and network are at:`,
