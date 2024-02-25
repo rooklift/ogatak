@@ -11,6 +11,7 @@ const load_gib = require("./load_gib");
 const load_ngf = require("./load_ngf");
 const load_sgf = require("./load_sgf");
 const load_ugi = require("./load_ugi");
+const title = require("./title");
 const new_load_results = require("./loader_results");
 const make_perf_report = require("./performance");
 const root_fixes = require("./root_fixes");
@@ -151,6 +152,7 @@ let hub_main_props = {
 		let root = this.node.get_root();
 		root.filepath = filepath;
 		root.save_ok = true;
+		title.set_override("Saved!", 2000);
 	},
 
 	save_fast: function() {
@@ -165,6 +167,7 @@ let hub_main_props = {
 	save_collection: function(filepath) {
 		let nodes = tabber.tab_node_list(this.node);
 		save_sgf_multi(nodes, filepath);
+		title.set_override("Saved collection!", 2000);
 	},
 
 	// Loading.....................................................................................
