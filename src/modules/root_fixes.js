@@ -71,8 +71,8 @@ function apply_ruleset_fixes(root) {
 	}
 
 	const altdict = {
-		"Chinese": ["chinese"],
-		"Japanese": ["japanese"],
+		"Chinese": ["chinese", "cn"],
+		"Japanese": ["japanese", "jp"],
 		"Korean": ["korean"],
 		"AGA": ["aga", "bga", "french"],
 		"New Zealand": ["new zealand", "nz"],
