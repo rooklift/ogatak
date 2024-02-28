@@ -18,8 +18,6 @@ let next_query_id = 1;
 
 function new_query(query_node, eng_version = null, maxvisits = null, avoid = null) {
 
-	// For the compare_queries function to work, every key must exist in every query, even for default values.
-
 	if (typeof maxvisits !== "number") {						// Things will likely send null / undefined when not specifying.
 		maxvisits = default_maxvisits;
 	}
@@ -45,7 +43,6 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 		maxVisits: maxvisits,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
-		avoidMoves: [],
 		includePolicy: true,
 		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
@@ -57,7 +54,7 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 	};
 
 	if (maxvisits <= fast_maxvisits) {
-		delete o.reportDuringSearchEvery;						// This violates our "every key in every object rule", but it's OK.
+		delete o.reportDuringSearchEvery;
 	}
 
 	if (avoid.length > 0) {
@@ -152,18 +149,24 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 
 function compare_queries(a, b) {
 
-	// We rather assume every key is in both queries...
+	let a_keys = Object.keys(a).sort();			// Sorting is important...
+	let b_keys = Object.keys(b).sort();
 
-	for (let key of Object.keys(a)) {
+	if (a_keys.length !== b_keys.length) {
+		return false;
+	}
 
+	for (let i = 0; i < a_keys.length; i++) {
+		let key = a_keys[i];
+		if (b_keys[i] !== key) {
+			return false;
+		}
 		if (["id", "overrideSettings", "initialStones", "moves", "avoidMoves"].includes(key)) {
 			continue;
 		}
-
 		if (a[key] !== b[key]) {
 			return false;
 		}
-
 	}
 
 	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
