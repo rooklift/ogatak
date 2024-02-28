@@ -515,6 +515,10 @@ let board_drawer_prototype = {
 			return false;
 		}
 
+		if (config.avoid.includes(point)) {
+			return false;
+		}
+
 		if (config.no_ponder_no_candidates && !hub.engine.desired) {
 			return false;
 		}
@@ -867,6 +871,10 @@ let board_drawer_prototype = {
 			let s = board.parse_gtp_move(info.move);
 
 			if (s.length !== 2) {				// This is a pass.
+				continue;
+			}
+
+			if (config.avoid.includes(s)) {		// We right-clicked this spot.
 				continue;
 			}
 

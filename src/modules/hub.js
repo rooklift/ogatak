@@ -52,7 +52,6 @@ function init() {
 		dropped_inputs: 0,
 		mouseover_time: 0,
 		pending_mouseover_fn_id: null,
-		avoid: [],
 
 	});
 }
@@ -363,7 +362,7 @@ let hub_main_props = {
 			return false;
 		}
 
-		this.avoid = [];
+		config.avoid = [];
 
 		// Of course, note that the early return means no graph draw or tree draw will be scheduled if it happens.
 
@@ -781,7 +780,7 @@ let hub_main_props = {
 				this.engine.analyse(this.node, config.autoanalysis_visits);
 			}
 		} else {
-			this.engine.analyse(this.node, null, this.avoid);		// avoidMoves only used in normalish modes.
+			this.engine.analyse(this.node, null, config.avoid);		// avoidMoves only used in normalish modes.
 		}
 	},
 
@@ -1230,11 +1229,12 @@ let hub_main_props = {
 	click: function(s, event) {
 		if (!config.editing) {
 			if (event.button === 2) {
-				if (!this.avoid.includes(s)) {
-					this.avoid.push(s);
+				if (!config.avoid.includes(s)) {
+					config.avoid.push(s);
 					if (this.engine.desired) {
 						this.go();
 					}
+					this.draw();
 				}
 			} else {
 				this.try_move(s);

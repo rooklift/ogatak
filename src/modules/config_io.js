@@ -43,6 +43,7 @@ exports.defaults = {
 	"weights": "",
 
 	"editing": "",								// Reset at launch.
+	"avoid": [],								// Reset at launch.
 
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
