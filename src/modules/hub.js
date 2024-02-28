@@ -1232,7 +1232,9 @@ let hub_main_props = {
 			if (event.button === 2) {
 				if (!this.avoid.includes(s)) {
 					this.avoid.push(s);
-					this.go();
+					if (this.engine.desired) {
+						this.go();
+					}
 				}
 			} else {
 				this.try_move(s);
