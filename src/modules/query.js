@@ -43,6 +43,7 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 		maxVisits: maxvisits,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
+		avoidMoves: [],
 		includePolicy: true,
 		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
@@ -57,14 +58,14 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 		delete o.reportDuringSearchEvery;
 	}
 
-	if (avoid.length > 0) {
-
+	if (avoid.length === 0) {
+		delete o.avoidMoves;
+	} else {
 		o.avoidMoves = [{
 			player: board.active.toUpperCase(),
 			moves: [],
 			untilDepth: 1,
 		}];
-
 		for (let s of avoid) {
 			o.avoidMoves[0].moves.push(board.gtp(s));
 		}
@@ -187,8 +188,14 @@ function compare_queries(a, b) {
 		return false;
 	}
 
-	if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
+	if (Array.isArray(a.avoidMoves) !== Array.isArray(b.avoidMoves)) {
 		return false;
+	}
+
+	if (Array.isArray(a.avoidMoves)) && (Array.isArray(b.avoidMoves)) {
+		if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
+			return false;
+		}
 	}
 
 	return true;
