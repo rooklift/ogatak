@@ -192,7 +192,7 @@ function compare_queries(a, b) {
 		return false;
 	}
 
-	if (Array.isArray(a.avoidMoves)) && (Array.isArray(b.avoidMoves)) {
+	if (Array.isArray(a.avoidMoves) && Array.isArray(b.avoidMoves)) {
 		if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
 			return false;
 		}
