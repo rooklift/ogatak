@@ -361,9 +361,6 @@ exports.deep_equals = function(a, b, skip_id_field = false) {
 	if (a === b) {
 		return true;
 	}
-	if (Number.isNaN(a) && Number.isNaN(b)) {
-		return true;							// I guess?
-	}
 	if (typeof a !== "object" || typeof b !== "object") {
 		return false;
 	}
@@ -377,11 +374,11 @@ exports.deep_equals = function(a, b, skip_id_field = false) {
 		return false;
 	}
 	for (let key of a_keys) {
-		if (skip_id_field && key === "id") {
-			continue;
-		}
 		if (!Object.prototype.hasOwnProperty.call(b, key)) {		// Would prefer to use Object.hasOwn() but it's not in old Node.
 			return false;
+		}
+		if (skip_id_field && key === "id") {
+			continue;												// Skipping equality test (but AFTER we did existence test).
 		}
 		if (!exports.deep_equals(a[key], b[key], false)) {
 			return false;
