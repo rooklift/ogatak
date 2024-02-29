@@ -9,7 +9,7 @@
 // 2. KataGo has no way to know how many handicap stones there were at the start, which means it will miscount
 // the score under Chinese rules. We don't deal with this at all.
 
-const {node_id_from_search_id, compare_versions, compare_arrays, deep_equals} = require("./utils");
+const {node_id_from_search_id, compare_versions, deep_equals} = require("./utils");
 
 const default_maxvisits = 1000000;
 const fast_maxvisits = 5;										// What the hub will ask for when in play policy mode.
