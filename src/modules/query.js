@@ -9,7 +9,7 @@
 // 2. KataGo has no way to know how many handicap stones there were at the start, which means it will miscount
 // the score under Chinese rules. We don't deal with this at all.
 
-const {node_id_from_search_id, compare_versions, compare_arrays} = require("./utils");
+const {node_id_from_search_id, compare_versions, compare_arrays, deep_equals} = require("./utils");
 
 const default_maxvisits = 1000000;
 const fast_maxvisits = 5;										// What the hub will ask for when in play policy mode.
@@ -145,76 +145,20 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 
 function compare_queries(a, b) {
 
-	let a_keys = Object.keys(a).sort();			// Sorting is important...
-	let b_keys = Object.keys(b).sort();
-
-	if (a_keys.length !== b_keys.length) {
+	if (!deep_equals(a, b, true)) {					// 3rd param causes it to skip the id field.
 		return false;
 	}
-
-	for (let i = 0; i < a_keys.length; i++) {
-		let key = a_keys[i];
-		if (b_keys[i] !== key) {
-			return false;
-		}
-		if (["id", "overrideSettings", "initialStones", "moves", "avoidMoves"].includes(key)) {
-			continue;
-		}
-		if (a[key] !== b[key]) {
-			return false;
-		}
-	}
-
-	// Specials -- id
 
 	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
 		return false;
 	}
 
-	// Specials -- overrideSettings
-
-	for (let key of Object.keys(a.overrideSettings)) {
-		if (a.overrideSettings[key] !== b.overrideSettings[key]) {
-			return false;
-		}
-	}
-
-	// Specials -- initialStones
-
-	if (!compare_moves_arrays(a.initialStones, b.initialStones)) {
-		return false;
-	}
-
-	// Specials -- moves
-
-	if (!compare_moves_arrays(a.moves, b.moves)) {
-		return false;
-	}
-
-	// Specials -- avoidMoves (which might not even exist in a query).
-	// Note we only create avoidMoves arrays with length 1. The item [0]
-	// therein is an object with a .moves field, which is the real array.
-
-	let a_has_avoid = Array.isArray(a.avoidMoves) && a.avoidMoves.length > 0;
-	let b_has_avoid = Array.isArray(b.avoidMoves) && b.avoidMoves.length > 0;
-
-	if (a_has_avoid !== b_has_avoid) {
-		return false;
-	}
-
-	if (a_has_avoid && b_has_avoid) {				// We should maybe sort the arrays. Meh.
-		if (!compare_arrays(a.avoidMoves[0].moves, b.avoidMoves[0].moves)) {
-			return false;
-		}
-	}
-
-	// Everything matches.
-
 	return true;
+
 }
 
 
-function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well.
+function compare_moves_arrays(arr1, arr2) {			// Arrays of format [["B", "K10"], ["W", "Q16"], etc...]
 
 	if (arr1.length !== arr2.length) {
 		return false;

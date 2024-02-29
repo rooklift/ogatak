@@ -357,7 +357,7 @@ exports.compare_arrays = function(a, b) {
 	return true;
 };
 
-exports.deep_equals = function(a, b) {
+exports.deep_equals = function(a, b, skip_id_field = false) {
 	if (a === b) {
 		return true;
 	}
@@ -377,10 +377,13 @@ exports.deep_equals = function(a, b) {
 		return false;
 	}
 	for (let key of a_keys) {
+		if (skip_id_field && key === "id") {
+			continue;
+		}
 		if (!Object.prototype.hasOwnProperty.call(b, key)) {		// Would prefer to use Object.hasOwn() but it's not in old Node.
 			return false;
 		}
-		if (!exports.deep_equals(a[key], b[key])) {
+		if (!exports.deep_equals(a[key], b[key], false)) {
 			return false;
 		}
 	}
