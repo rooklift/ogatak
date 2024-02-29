@@ -515,7 +515,7 @@ let board_drawer_prototype = {
 			return false;
 		}
 
-		if (config.avoid.includes(point)) {
+		if (config.avoid.includes(point)) {				// We right-clicked this spot.
 			return false;
 		}
 
