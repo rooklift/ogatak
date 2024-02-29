@@ -220,16 +220,18 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 function compare_avoid_arrays(arr1, arr2) {
 
+	// The arrays will either be of length 0 or length 1...
+
+	if (arr1.length === 0 && arr2.length === 0) {
+		return true;
+	}
+
 	if (arr1.length !== arr2.length) {
 		return false;
 	}
 
-	// The arrays will either be of length 0 or length 1...
-	// (the only dict in a length 1 array contains its own (possibly long) array.
-
-	if (arr1.length === 0) {
-		return true;
-	}
+	// So both arrays have length 1...
+	// Each of the items at index [0] contains its own array though...
 
 	if (arr1[0].moves.length !== arr2[0].moves.length) {
 		return false;
