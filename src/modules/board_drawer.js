@@ -496,6 +496,7 @@ let board_drawer_prototype = {
 		}
 
 		this.plan_ko_marker(node);
+		this.plan_avoid_markers();
 		this.plan_previous_markers(node);
 		this.plan_shapes(node);
 		this.plan_labels(node);
@@ -512,6 +513,10 @@ let board_drawer_prototype = {
 	draw_pv: function(node, point) {					// Returns true / false indicating whether this happened.
 
 		if (config.editing || !point || !config.candidate_moves || !config.mouseover_pv || !node.has_valid_analysis()) {
+			return false;
+		}
+
+		if (config.avoid_set[point]) {					// We right-clicked this spot.
 			return false;
 		}
 
@@ -646,6 +651,11 @@ let board_drawer_prototype = {
 			case "ko":
 
 				this.fcircle(x, y, 0.4, "#00000080");
+				break;
+
+			case "avoid":
+
+				this.fcircle(x, y, 0.4, "#00000040");
 				break;
 
 			case "death":
@@ -828,6 +838,15 @@ let board_drawer_prototype = {
 		}
 	},
 
+	plan_avoid_markers: function() {
+
+		for (let s of Object.keys(config.avoid_set)) {
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+			this.needed_marks[x][y] = {type: "avoid"};
+		}
+	},
+
 	plan_previous_markers: function(node) {
 
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
@@ -867,6 +886,10 @@ let board_drawer_prototype = {
 			let s = board.parse_gtp_move(info.move);
 
 			if (s.length !== 2) {				// This is a pass.
+				continue;
+			}
+
+			if (config.avoid_set[s]) {			// We right-clicked this spot.
 				continue;
 			}
 

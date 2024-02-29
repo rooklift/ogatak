@@ -16,10 +16,14 @@ const fast_maxvisits = 5;										// What the hub will ask for when in play pol
 
 let next_query_id = 1;
 
-function new_query(query_node, eng_version = null, maxvisits = null) {
+function new_query(query_node, eng_version = null, maxvisits = null, avoid = null) {
 
 	if (typeof maxvisits !== "number") {						// Things will likely send null / undefined when not specifying.
 		maxvisits = default_maxvisits;
+	}
+
+	if (!Array.isArray(avoid)) {
+		avoid = [];
 	}
 
 	if (maxvisits < 2) {
@@ -39,6 +43,7 @@ function new_query(query_node, eng_version = null, maxvisits = null) {
 		maxVisits: maxvisits,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
+		avoidMoves: [],
 		includePolicy: true,
 		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
@@ -51,6 +56,19 @@ function new_query(query_node, eng_version = null, maxvisits = null) {
 
 	if (maxvisits <= fast_maxvisits) {
 		delete o.reportDuringSearchEvery;
+	}
+
+	if (avoid.length === 0) {
+		delete o.avoidMoves;
+	} else {
+		o.avoidMoves = [{
+			player: board.active.toUpperCase(),
+			moves: [],
+			untilDepth: 1,
+		}];
+		for (let s of avoid) {
+			o.avoidMoves[0].moves.push(board.gtp(s));
+		}
 	}
 
 	// Some features of KataGo were added along the way, only set those if the engine version is adequate...
@@ -170,7 +188,15 @@ function compare_queries(a, b) {
 		return false;
 	}
 
-	// If we implement avoidMoves, do the comparison here.
+	if (Array.isArray(a.avoidMoves) !== Array.isArray(b.avoidMoves)) {
+		return false;
+	}
+
+	if (Array.isArray(a.avoidMoves) && Array.isArray(b.avoidMoves)) {
+		if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -191,6 +217,35 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 	return true;
 }
 
+
+function compare_avoid_arrays(arr1, arr2) {
+
+	if (arr1.length !== arr2.length) {
+		return false;
+	}
+
+	// The arrays will either be of length 0 or length 1...
+	// (the only dict in a length 1 array contains its own (possibly long) array.
+
+	if (arr1.length === 0) {
+		return true;
+	}
+
+	if (arr1[0].moves.length !== arr2[0].moves.length) {
+		return false;
+	}
+
+	// Ideally we would consider the arrays the same if they had the same moves
+	// in a different order, but meh, this is good enough...
+
+	for (let i = 0; i < arr1[0].moves.length; i++) {
+		if (arr1[0].moves[i] !== arr2[0].moves[i]) {
+			return false;
+		}
+	}
+
+	return true;
+}
 
 
 module.exports = {default_maxvisits, fast_maxvisits, new_query, compare_queries, compare_moves_arrays};

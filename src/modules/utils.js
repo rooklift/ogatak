@@ -357,6 +357,36 @@ exports.compare_arrays = function(a, b) {
 	return true;
 };
 
+exports.deep_equals = function(a, b) {
+	if (a === b) {
+		return true;
+	}
+	if (Number.isNaN(a) && Number.isNaN(b)) {
+		return true;							// I guess?
+	}
+	if (typeof a !== "object" || typeof b !== "object") {
+		return false;
+	}
+	// So both are objects...
+	if (a === null || b === null) {
+		return false;							// We know they're not both null from the test at top
+	}
+	let a_keys = Object.keys(a);
+	let b_keys = Object.keys(b);
+	if (a_keys.length !== b_keys.length) {
+		return false;
+	}
+	for (let key of a_keys) {
+		if (!Object.hasOwn(b, key)) {
+			return false;
+		}
+		if (!deepEquals(a[key], b[key])) {
+			return false;
+		}
+	}
+	return true;
+}
+
 exports.randint = function(a, b) {		// a <= N <= b   i.e. result is inclusive of b
 	if (a > b) {
 		let tmp = a;
