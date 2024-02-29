@@ -9,7 +9,7 @@
 // 2. KataGo has no way to know how many handicap stones there were at the start, which means it will miscount
 // the score under Chinese rules. We don't deal with this at all.
 
-const {node_id_from_search_id, compare_versions} = require("./utils");
+const {node_id_from_search_id, compare_versions, compare_arrays} = require("./utils");
 
 const default_maxvisits = 1000000;
 const fast_maxvisits = 5;										// What the hub will ask for when in play policy mode.
@@ -191,11 +191,24 @@ function compare_queries(a, b) {
 		return false;
 	}
 
-	// Specials -- avoidMoves (which might not even exist in a query)
+	// Specials -- avoidMoves (which might not even exist in a query).
+	// Note we only create avoidMoves arrays with length 1. The item [0]
+	// therein is an object with a .moves field, which is the real array.
 
-	if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
+	let a_has_avoid = Array.isArray(a.avoidMoves) && a.avoidMoves.length > 0;
+	let b_has_avoid = Array.isArray(b.avoidMoves) && b.avoidMoves.length > 0;
+
+	if (a_has_avoid !== b_has_avoid) {
 		return false;
 	}
+
+	if (a_has_avoid && b_has_avoid) {				// We should maybe sort the arrays. Meh.
+		if (!compare_arrays(a.avoidMoves[0].moves, b.avoidMoves[0].moves)) {
+			return false;
+		}
+	}
+
+	// Everything matches.
 
 	return true;
 }
@@ -209,40 +222,6 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 	for (let i = 0; i < arr1.length; i++) {
 		if (arr1[i][0] !== arr2[i][0] || arr1[i][1] !== arr2[i][1]) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-
-function compare_avoid_arrays(arr1, arr2) {
-
-	// Either argument could be undefined or length 0...
-
-	let good_arrays = 0;
-	if (Array.isArray(arr1) && arr1.length > 0) good_arrays++;
-	if (Array.isArray(arr2) && arr2.length > 0) good_arrays++;
-
-	if (good_arrays === 0) return true;
-	if (good_arrays === 1) return false;
-
-	// So both arrays should have length 1, the only item being the dict.
-	// We care about the moves field in that dict...
-
-	let avoidlist1 = arr1[0].moves;
-	let avoidlist2 = arr2[0].moves;
-
-	if (avoidlist1.length !== avoidlist2.length) {
-		return false;
-	}
-
-	// Ideally we would consider the arrays the same if they had the same moves
-	// in a different order, but meh, this is good enough...
-
-	for (let i = 0; i < avoidlist1.length; i++) {
-		if (avoidlist1[i] !== avoidlist2[i]) {
 			return false;
 		}
 	}
