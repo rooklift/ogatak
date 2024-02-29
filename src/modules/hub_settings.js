@@ -454,10 +454,9 @@ module.exports = {
 	differences: function() {
 		for (let key of Object.keys(defaults)) {
 			if (defaults[key] !== config[key]) {
-				if (compare_arrays(defaults[key], config[key])) {		// False if one or both aren't arrays, or the arrays don't have same contents.
-					continue;
+				if (!deep_equals(defaults[key], config[key])) {
+					console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
 				}
-				console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
 			}
 		}
 	},

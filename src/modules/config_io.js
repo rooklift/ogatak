@@ -43,7 +43,7 @@ exports.defaults = {
 	"weights": "",
 
 	"editing": "",								// Reset at launch.
-	"avoid": [],								// Reset at launch.
+	"avoid_set": {},							// Reset at launch.
 
 	"board_line_width": 1,
 	"grid_colour": "#000000ff",
@@ -190,6 +190,7 @@ function apply_fixes() {
 	// Reset some stuff every time...
 
 	config.editing = exports.defaults.editing;
+	config.avoid_set = exports.defaults.avoid_set;
 	config.play_against_policy = exports.defaults.play_against_policy;
 	config.play_against_drunk = exports.defaults.play_against_drunk;
 
