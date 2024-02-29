@@ -170,6 +170,8 @@ function compare_queries(a, b) {
 		return false;
 	}
 
+	// If we implement avoidMoves, do the comparison here.
+
 	return true;
 }
 
