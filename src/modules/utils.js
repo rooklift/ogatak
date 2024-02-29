@@ -367,7 +367,7 @@ exports.deep_equals = function(a, b, skip_id_field = false) {
 	}
 	// Both are objects...
 	if (a === null || b === null) {
-		return false;												// We know they're not both null from the test at top
+		return false;												// We know they're not both null from the test at top.
 	}
 	let a_keys = Object.keys(a);
 	let b_keys = Object.keys(b);
