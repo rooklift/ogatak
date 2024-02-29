@@ -6,7 +6,7 @@ const path = require("path");
 const {ipcRenderer} = require("electron");
 const {defaults} = require("./config_io");
 const {translate} = require("./translate");
-const {compare_arrays} = require("./utils");
+const {deep_equals} = require("./utils");
 
 const {NORMAL, AUTOANALYSIS, BACKANALYSIS, SELFPLAY, AUTOSCROLL, PLAY_BLACK, PLAY_WHITE} = require("./enums");
 
