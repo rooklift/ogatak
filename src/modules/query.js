@@ -43,7 +43,6 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 		maxVisits: maxvisits,
 		analysisPVLen: 32, 										// Was (config.analysis_pv_len - 1) but why not ask for whatever's available...
 		reportDuringSearchEvery: config.report_every,
-		avoidMoves: [],
 		includePolicy: true,
 		includeOwnership: true,
 		includeMovesOwnership: (want_ownership && config.ownership_per_move) ? true : false,
@@ -58,9 +57,9 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 		delete o.reportDuringSearchEvery;
 	}
 
-	if (avoid_list.length === 0) {
-		delete o.avoidMoves;
-	} else {
+	// I don't like sending this if its empty, though I doubt it troubles KataGo...
+
+	if (avoid_list.length > 0) {
 		o.avoidMoves = [{
 			player: board.active.toUpperCase(),
 			moves: [],
@@ -78,10 +77,6 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 			o.firstReportDuringSearchAfter = 0.05;
 		}
 	}
-
-//	if (eng_version && compare_versions(eng_version, [1,14,0]) >= 0) {
-//		o.overrideSettings.ignorePreRootHistory = true;						// Eh I guess just allow user to config this via file.
-//	}
 
 	// -----------------------------------------------------------------------------------------------------------------------------------------------
 	// Whatever else we do, we make sure that KataGo will analyse from the POV of (query_node.get_board().active).
@@ -170,9 +165,13 @@ function compare_queries(a, b) {
 		}
 	}
 
+	// Specials -- id
+
 	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
 		return false;
 	}
+
+	// Specials -- overrideSettings
 
 	for (let key of Object.keys(a.overrideSettings)) {
 		if (a.overrideSettings[key] !== b.overrideSettings[key]) {
@@ -180,22 +179,22 @@ function compare_queries(a, b) {
 		}
 	}
 
+	// Specials -- initialStones
+
 	if (!compare_moves_arrays(a.initialStones, b.initialStones)) {
 		return false;
 	}
+
+	// Specials -- moves
 
 	if (!compare_moves_arrays(a.moves, b.moves)) {
 		return false;
 	}
 
-	if (Array.isArray(a.avoidMoves) !== Array.isArray(b.avoidMoves)) {
-		return false;
-	}
+	// Specials -- avoidMoves (which might not even exist in a query)
 
-	if (Array.isArray(a.avoidMoves) && Array.isArray(b.avoidMoves)) {
-		if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
-			return false;
-		}
+	if (!compare_avoid_arrays(a.avoidMoves, b.avoidMoves)) {
+		return false;
 	}
 
 	return true;
@@ -220,28 +219,30 @@ function compare_moves_arrays(arr1, arr2) {			// Works for initialStones as well
 
 function compare_avoid_arrays(arr1, arr2) {
 
-	// The arrays will either be of length 0 or length 1...
+	// Either argument could be undefined or length 0...
 
-	if (arr1.length === 0 && arr2.length === 0) {
-		return true;
-	}
+	let good_arrays = 0;
+	if (Array.isArray(arr1) && arr1.length > 0) good_arrays++;
+	if (Array.isArray(arr2) && arr2.length > 0) good_arrays++;
 
-	if (arr1.length !== arr2.length) {
-		return false;
-	}
+	if (good_arrays === 0) return true;
+	if (good_arrays === 1) return false;
 
-	// So both arrays have length 1...
-	// Each of the items at index [0] contains its own array though...
+	// So both arrays should have length 1, the only item being the dict.
+	// We care about the moves field in that dict...
 
-	if (arr1[0].moves.length !== arr2[0].moves.length) {
+	let avoidlist1 = arr1[0].moves;
+	let avoidlist2 = arr2[0].moves;
+
+	if (avoidlist1.length !== avoidlist2.length) {
 		return false;
 	}
 
 	// Ideally we would consider the arrays the same if they had the same moves
 	// in a different order, but meh, this is good enough...
 
-	for (let i = 0; i < arr1[0].moves.length; i++) {
-		if (arr1[0].moves[i] !== arr2[0].moves[i]) {
+	for (let i = 0; i < avoidlist1.length; i++) {
+		if (avoidlist1[i] !== avoidlist2[i]) {
 			return false;
 		}
 	}
