@@ -826,12 +826,11 @@ let board_drawer_prototype = {
 	},
 
 	plan_ko_marker: function(node) {
-
 		let board = node.get_board();
-
-		if (board.has_valid_ko()) {
-			let x = board.ko.charCodeAt(0) - 97;
-			let y = board.ko.charCodeAt(1) - 97;
+		let ko = board.get_ko();
+		if (ko) {
+			let x = ko.charCodeAt(0) - 97;
+			let y = ko.charCodeAt(1) - 97;
 			this.needed_marks[x][y] = {type: "ko"};
 		}
 	},

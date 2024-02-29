@@ -1229,7 +1229,7 @@ let hub_main_props = {
 	click: function(s, event) {
 		if (!config.editing) {
 			let board = this.node.get_board();
-			if (!board.state_at(s) && (board.ko !== s || !board.has_valid_ko())) {
+			if (!board.state_at(s) && (board.get_ko() !== s)) {
 				if (event.button === 2) {
 					if (!config.avoid_set[s]) {
 						config.avoid_set[s] = true;

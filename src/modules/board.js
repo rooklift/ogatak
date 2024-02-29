@@ -23,7 +23,7 @@ class Board {
 		this.height = height;
 		this.state = [];
 		this.pos_hash = pos_hash;				// This is either null or a zobrist hash value for [stones ^ width ^ height]
-		this.ko = ko;							// Note that ko might not be valid, call has_valid_ko() to check
+		this.ko = ko;							// Note that ko might not be valid, call get_ko() instead
 		this.active = active;
 		this.caps_by_b = caps_by_b;
 		this.caps_by_w = caps_by_w;
@@ -64,6 +64,13 @@ class Board {
 			}
 		}
 		return true;
+	}
+
+	get_ko() {
+		if (!this.ko || !this.has_valid_ko()) {
+			return null;
+		}
+		return this.ko;
 	}
 
 	in_bounds(s) {
@@ -150,9 +157,10 @@ class Board {
 		if (hash === null) {
 			return null;
 		}
-		if (this.has_valid_ko()) {
-			let x = this.ko.charCodeAt(0) - 97;
-			let y = this.ko.charCodeAt(1) - 97;
+		let ko = this.get_ko();
+		if (ko) {
+			let x = ko.charCodeAt(0) - 97;
+			let y = ko.charCodeAt(1) - 97;
 			let i = (y + 1) * (this.width + 1) + x + 1;
 			hash ^= zobrist.ko_locs[i];
 		}
@@ -342,7 +350,7 @@ class Board {
 
 		let neighbours = this.neighbours(s);
 
-		if (this.ko === s && this.has_valid_ko()) {		// 2nd test is needed since .ko can be invalid if active player was flipped.
+		if (this.get_ko() === s) {
 			return false;
 		}
 
