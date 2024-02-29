@@ -1228,18 +1228,21 @@ let hub_main_props = {
 
 	click: function(s, event) {
 		if (!config.editing) {
-			if (event.button === 2) {
-				if (!config.avoid_set[s]) {
-					config.avoid_set[s] = true;
+			let board = this.node.get_board();
+			if (!board.state_at(s) && (board.ko !== s || !board.has_valid_ko())) {
+				if (event.button === 2) {
+					if (!config.avoid_set[s]) {
+						config.avoid_set[s] = true;
+					} else {
+						delete config.avoid_set[s];
+					}
+					if (this.engine.desired) {
+						this.go();
+					}
+					this.draw();
 				} else {
-					delete config.avoid_set[s];
+					this.try_move(s);
 				}
-				if (this.engine.desired) {
-					this.go();
-				}
-				this.draw();
-			} else {
-				this.try_move(s);
 			}
 		} else if (["TR", "SQ", "CR", "MA"].includes(config.editing)) {
 			if (event.shiftKey || event.ctrlKey) {
