@@ -53,22 +53,15 @@ class Board {
 		);
 	}
 
-	has_valid_ko() {
+	get_ko() {
 		if (!this.ko) {
-			return false;
+			return null;
 		}
 		let inactive = (this.active === "b") ? "w" : "b";
 		for (let neighbour of this.neighbours(this.ko)) {				// If the active player has been unnaturally
 			if (this.state_at(neighbour) !== inactive) {				// flipped, this test will detect it...
-				return false;
+				return null;
 			}
-		}
-		return true;
-	}
-
-	get_ko() {
-		if (!this.ko || !this.has_valid_ko()) {
-			return null;
 		}
 		return this.ko;
 	}
