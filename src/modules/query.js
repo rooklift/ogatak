@@ -18,8 +18,6 @@ let next_query_id = 1;
 
 function new_query(query_node, eng_version = null, maxvisits = null) {
 
-	// Every key that's used at all should be in 100% of the queries, even for default values.
-
 	if (typeof maxvisits !== "number") {						// Things will likely send null / undefined when not specifying.
 		maxvisits = default_maxvisits;
 	}
@@ -134,12 +132,21 @@ function new_query(query_node, eng_version = null, maxvisits = null) {
 
 function compare_queries(a, b) {
 
-	for (let key of Object.keys(a)) {
+	let a_keys = Object.keys(a).sort();			// Sorting is important...
+	let b_keys = Object.keys(b).sort();
 
-		if (["id", "overrideSettings", "initialStones", "moves"].includes(key)) {
+	if (a_keys.length !== b_keys.length) {
+		return false;
+	}
+
+	for (let i = 0; i < a_keys.length; i++) {
+		let key = a_keys[i];
+		if (b_keys[i] !== key) {
+			return false;
+		}
+		if (["id", "overrideSettings", "initialStones", "moves", "avoidMoves"].includes(key)) {
 			continue;
 		}
-
 		if (a[key] !== b[key]) {
 			return false;
 		}
