@@ -453,10 +453,8 @@ module.exports = {
 
 	differences: function() {
 		for (let key of Object.keys(defaults)) {
-			if (defaults[key] !== config[key]) {
-				if (!deep_equals(defaults[key], config[key])) {
-					console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
-				}
+			if (!deep_equals(defaults[key], config[key])) {
+				console.log(key, JSON.stringify(defaults[key]), JSON.stringify(config[key]));
 			}
 		}
 	},
