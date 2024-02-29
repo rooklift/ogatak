@@ -377,7 +377,7 @@ exports.deep_equals = function(a, b) {
 		return false;
 	}
 	for (let key of a_keys) {
-		if (!Object.hasOwn(b, key)) {
+		if (!Object.prototype.hasOwnProperty.call(b, key)) {		// Would prefer to use Object.hasOwn() but it's not in old Node.
 			return false;
 		}
 		if (!exports.deep_equals(a[key], b[key])) {
