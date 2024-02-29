@@ -75,7 +75,7 @@ class Engine {
 		}
 	}
 
-	analyse(node, maxvisits = null, avoid = null) {
+	analyse(node, maxvisits = null, avoid_list = null) {
 
 		// Sets this.desired to be a query for the node.
 		// If a query is currently running, sends a stop message to the engine.
@@ -85,7 +85,7 @@ class Engine {
 			return;
 		}
 
-		let query = new_query(node, this.version, maxvisits, avoid);
+		let query = new_query(node, this.version, maxvisits, avoid_list);
 
 		if (this.desired) {
 			if (compare_queries(this.desired, query)) {

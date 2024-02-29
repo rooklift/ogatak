@@ -16,14 +16,14 @@ const fast_maxvisits = 5;										// What the hub will ask for when in play pol
 
 let next_query_id = 1;
 
-function new_query(query_node, eng_version = null, maxvisits = null, avoid = null) {
+function new_query(query_node, eng_version = null, maxvisits = null, avoid_list = null) {
 
 	if (typeof maxvisits !== "number") {						// Things will likely send null / undefined when not specifying.
 		maxvisits = default_maxvisits;
 	}
 
-	if (!Array.isArray(avoid)) {
-		avoid = [];
+	if (!Array.isArray(avoid_list)) {
+		avoid_list = [];
 	}
 
 	if (maxvisits < 2) {
@@ -58,7 +58,7 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 		delete o.reportDuringSearchEvery;
 	}
 
-	if (avoid.length === 0) {
+	if (avoid_list.length === 0) {
 		delete o.avoidMoves;
 	} else {
 		o.avoidMoves = [{
@@ -66,7 +66,7 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid = nul
 			moves: [],
 			untilDepth: 1,
 		}];
-		for (let s of avoid) {
+		for (let s of avoid_list) {
 			o.avoidMoves[0].moves.push(board.gtp(s));
 		}
 	}
