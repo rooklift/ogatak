@@ -145,11 +145,11 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 
 function compare_queries(a, b) {
 
-	if (!deep_equals(a, b, true)) {					// 3rd param causes it to skip the id field.
+	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
 		return false;
 	}
 
-	if (node_id_from_search_id(a.id) !== node_id_from_search_id(b.id)) {
+	if (!deep_equals(a, b, true)) {					// 3rd param causes it to skip the id field.
 		return false;
 	}
 
