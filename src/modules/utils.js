@@ -361,12 +361,13 @@ exports.deep_equals = function(a, b, skip_id_field = false) {
 	if (a === b) {
 		return true;
 	}
+	// Since they aren't the same, if either is not an object they must be different...
 	if (typeof a !== "object" || typeof b !== "object") {
 		return false;
 	}
-	// So both are objects...
+	// Both are objects...
 	if (a === null || b === null) {
-		return false;							// We know they're not both null from the test at top
+		return false;												// We know they're not both null from the test at top
 	}
 	let a_keys = Object.keys(a);
 	let b_keys = Object.keys(b);
