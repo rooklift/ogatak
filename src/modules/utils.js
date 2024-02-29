@@ -380,7 +380,7 @@ exports.deep_equals = function(a, b) {
 		if (!Object.hasOwn(b, key)) {
 			return false;
 		}
-		if (!deepEquals(a[key], b[key])) {
+		if (!exports.deep_equals(a[key], b[key])) {
 			return false;
 		}
 	}
