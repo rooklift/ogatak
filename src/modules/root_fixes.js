@@ -77,7 +77,7 @@ function apply_ruleset_fixes(root) {
 		"AGA": ["aga", "bga", "french"],
 		"New Zealand": ["new zealand", "nz"],
 		"Tromp Taylor": ["tromp taylor", "tromp-taylor"],
-	}
+	};
 
 	let rules = root.get("RU").toLowerCase();
 

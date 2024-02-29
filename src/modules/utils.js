@@ -385,7 +385,7 @@ exports.deep_equals = function(a, b) {
 		}
 	}
 	return true;
-}
+};
 
 exports.randint = function(a, b) {		// a <= N <= b   i.e. result is inclusive of b
 	if (a > b) {
