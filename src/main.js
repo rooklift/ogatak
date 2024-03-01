@@ -1395,6 +1395,17 @@ function menu_build() {
 							type: "separator",
 						},
 						{
+							label: `${translate("MENU_NUM_ORDER")} + ${translate("MENU_NUM_VISITS")}`,
+							type: "checkbox",
+							checked: config.numbers === "Order + Visits",
+							click: () => {
+								win.webContents.send("set", {numbers: "Order + Visits"});
+							}
+						},
+						{
+							type: "separator",
+						},
+						{
 							label: translate("MENU_NUM_WINRATE"),
 							type: "checkbox",
 							checked: config.numbers === "Winrate",
