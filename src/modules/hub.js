@@ -1183,6 +1183,7 @@ let hub_main_props = {
 			"LCB + Visits",
 			"Score + Visits",
 			"Delta + Visits",
+			"Order + Visits",
 			"Winrate",
 			"LCB",
 			"Score",
