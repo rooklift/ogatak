@@ -1259,6 +1259,7 @@ let hub_main_props = {
 			this.draw();
 		} else if (["AB", "AW", "AE"].includes(config.editing)) {
 			this.halt();
+			delete config.avoid_set[s]							// Reasonable in all cases.
 			let key = config.editing;
 			if (event.button === 2 && key !== "AE") {
 				// When user right click with Add Black or Add White, use the other colour instead.
