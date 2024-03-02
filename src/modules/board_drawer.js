@@ -86,6 +86,8 @@ function init() {
 
 		infodiv_displaying_stats: false,			// Becomes true when normal (i.e. non-error) stuff is shown.
 
+		grid_has_half_pixel_shift: false,
+
 		rebuild_count: 0,							// For debugging.
 		draw_count: 0,								// Used by hub to avoid redundant draws.
 
@@ -232,6 +234,8 @@ let board_drawer_prototype = {
 		this.has_drawn_candidates = false;
 		this.pv = null;
 
+		this.grid_has_half_pixel_shift = (config.board_line_width + desired_square_size) % 2 === 1;
+
 		// Set sizes of the big elements...
 
 		let adjust = this.coordinates ? 1 : 0;
@@ -287,16 +291,32 @@ let board_drawer_prototype = {
 	// --------------------------------------------------------------------------------------------
 	// Low-level canvas methods. Methods that call for "fractions" want a number between 0 and 1 to
 	// set the size of something, relative to the square size...
+	//
+	// Note that, when square_size is even but board_line_width is odd, or vice versa, the gridlines
+	// are shifted down and right half a pixel. However, in such cases the stones themselves do not
+	// quite align to the grid.
 
-	fcircle: function(x, y, fraction, colour) {
+	_fcircle: function(x, y, fraction, colour, adjust) {
 		if (this.coordinates) x++;
 		let ctx = this.ctx;
 		ctx.fillStyle = colour;
 		let gx = x * this.square_size + (this.square_size / 2);
 		let gy = y * this.square_size + (this.square_size / 2);
+		if (adjust && this.grid_has_half_pixel_shift) {
+			gx += 0.5;
+			gy += 0.5;
+		}
 		ctx.beginPath();
 		ctx.arc(gx, gy, fraction * this.square_size / 2, 0, 2 * Math.PI);
 		ctx.fill();
+	},
+
+	fcircle: function(...args) {
+		this._fcircle(...args, false);
+	},
+
+	fcircle_adjusted: function(...args) {
+		this._fcircle(...args, true);
 	},
 
 	circle: function(x, y, line_fraction, fraction, colour) {
@@ -648,12 +668,12 @@ let board_drawer_prototype = {
 
 			case "ko":
 
-				this.fcircle(x, y, 0.4, "#00000080");
+				this.fcircle_adjusted(x, y, 0.4, "#00000080");
 				break;
 
 			case "avoid":
 
-				this.fcircle(x, y, 0.4, "#00000040");
+				this.fcircle_adjusted(x, y, 0.4, "#00000040");
 				break;
 
 			case "death":
