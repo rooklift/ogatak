@@ -396,7 +396,16 @@ let hub_main_props = {
 
 		// Figure out whether we want the engine to be running...
 
-		let want_to_go = Boolean(this.engine.desired) || this.playing_active_colour();
+		let want_to_go;
+
+		// want_to_go = Boolean(this.engine.desired) || this.playing_active_colour();	-- is a WRONG AND BAD TEST.
+		// Caused Issue 120. If playing vs the machine, but we click for it, this test gave the wrong outcome.
+
+		if ([PLAY_BLACK, PLAY_WHITE].includes(this.play_mode)) {
+			want_to_go = this.playing_active_colour();
+		} else {
+			want_to_go = Boolean(this.engine.desired);
+		}
 
 		if (!opts.keep_selfplay && this.play_mode === SELFPLAY) {
 			this.set_play_mode(NORMAL);
