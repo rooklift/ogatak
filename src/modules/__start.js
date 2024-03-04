@@ -46,5 +46,5 @@ function startup() {
 		fullbox.warn_bad_config();
 	}
 
-	ipcRenderer.send("renderer_ready", null);		// Probably emitted at the same time as ready-to-show
+	ipcRenderer.send("renderer_ready", null);
 }
