@@ -214,7 +214,8 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			electron.dialog.showSaveDialog(win, {
 				defaultPath: config.sgf_folder,
 				filters: [{name: "Portable Network Graphics", extensions: ["png"]}, {name: "All files", extensions: ["*"]}]
-			}).then(o => {
+			})
+			.then(o => {
 				if (typeof o.filePath === "string" && o.filePath.length > 0) {
 					fs.writeFileSync(o.filePath, img.toPNG());
 				}
@@ -457,7 +458,8 @@ function menu_build() {
 								{name: "Kifu", extensions: ["sgf", "gib", "ngf", "ugi", "ugf"]},
 								{name: "All files", extensions: ["*"]}
 							]
-						}).then(o => {
+						})
+						.then(o => {
 							if (Array.isArray(o.filePaths) && o.filePaths.length > 0) {
 								win.webContents.send("call", {
 									fn: "load_multifile",
