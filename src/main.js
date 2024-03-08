@@ -21,6 +21,7 @@ if (!config.enable_hw_accel) {
 
 // --------------------------------------------------------------------------------------------------------------
 
+const fs = require("fs");
 const path = require("path");
 const alert = require("./modules/alert_main");
 const colour_choices = require("./modules/colour_choices");
@@ -205,6 +206,20 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 
 	electron.ipcMain.on("verify_menupath", (event, msg) => {
 		verify_menupath(msg);
+	});
+
+	electron.ipcMain.on("screenshot", (event, msg) => {		// msg is {x, y, width, height}
+		win.webContents.capturePage(msg)
+		.then(img => {
+			electron.dialog.showSaveDialog(win, {
+				defaultPath: config.sgf_folder,
+				filters: [{name: "Portable Network Graphics", extensions: ["png"]}, {name: "All files", extensions: ["*"]}]
+			}).then(o => {
+				if (typeof o.filePath === "string" && o.filePath.length > 0) {
+					fs.writeFileSync(o.filePath, img.toPNG());
+				}
+			});
+		});
 	});
 
 	electron.ipcMain.on("save_as_required", (event, msg) => {
