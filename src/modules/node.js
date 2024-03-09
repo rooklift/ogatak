@@ -13,6 +13,8 @@ const new_board = require("./board");
 const stringify = require("./stringify");
 const {replace_all, valid_analysis_object, handicap_stones, points_list, xy_to_s} = require("./utils");
 
+const MIN_GRAPH_DEPTH = 60;
+
 let next_node_id = 1;
 let have_alerted_zobrist_mismatch = false;
 
@@ -38,7 +40,7 @@ class Node {
 		if (!parent) {								// This is a new root...
 
 			this.__root = this;
-			this.graph_depth = 60;
+			this.graph_depth = MIN_GRAPH_DEPTH;
 			this.depth = 0;
 			this.filepath = "";						// Gets adjusted from outside
 			this.save_ok = false;					// Gets adjusted from outside
@@ -827,11 +829,9 @@ class Node {
 		return !this.parent && this.children.length === 0 && !this.has_key("AB") && !this.has_key("AW") && !this.has_key("B") && !this.has_key("W");
 	}
 
-	increase_depth(n) {
-		let deepest = increase_depth_recursive(this, n);
-		if (deepest > this.get_root().graph_depth) {
-			this.get_root().graph_depth = deepest;
-		}
+	fix_tree_depths() {
+		let deepest = fix_depths_recursive(this.get_root(), 0);
+		this.get_root().graph_depth = Math.max(deepest, MIN_GRAPH_DEPTH);
 	}
 
 	detach() {
@@ -1251,14 +1251,14 @@ function forget_analysis_recursive(node) {
 	}
 }
 
-function increase_depth_recursive(node, n) {		// Returns the depth of the deepest node in the recurse.
+function fix_depths_recursive(node, depth) {		// Returns the depth of the deepest node in the recurse.
 
 	while (true) {
-		node.depth += n;
+		node.depth = depth++;
 		if (node.children.length > 1) {
 			let deepest_subtree = 0;
 			for (let child of node.children) {
-				let d = increase_depth_recursive(child, n);
+				let d = fix_depths_recursive(child, depth);
 				if (d > deepest_subtree) {
 					deepest_subtree = d;
 				}
@@ -1268,7 +1268,7 @@ function increase_depth_recursive(node, n) {		// Returns the depth of the deepes
 			node = node.children[0];
 			continue;
 		} else {
-			return node.depth;
+			return node.depth;						// Which is not the same as depth now since we did depth++
 		}
 	}
 }

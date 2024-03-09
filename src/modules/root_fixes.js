@@ -104,13 +104,60 @@ function purge_newlines(root) {
 	}
 }
 
+function advance_depth_1_setup(root) {
+
+	for (let key of ["AB", "AW", "AE", "B", "W"]) {
+		if (root.has_key(key)) {
+			return;
+		}
+	}
+	if (root.children.length !== 1) {
+		return;
+	}
+	let child = root.children[0];
+	if (!child.has_key("AB") && !child.has_key("AW")) {
+		return;
+	}
+	for (let key of ["B", "W"]) {
+		if (child.has_key(key)) {
+			return;
+		}
+	}
+	let grandchildren = child.children;
+	for (let gc of grandchildren) {
+		if (gc.has_key("AW") || gc.has_key("AB") || gc.has_key("AE")) {
+			return;
+		}
+	}
+
+	// We're doing it...
+
+	root.delete_key("PL");
+
+	root.children = grandchildren;
+	for (let gc of grandchildren) {
+		gc.parent = root;
+	}
+
+	for (let key of child.all_keys()) {
+		if (!root.has_key(key)) {
+			for (let value of child.all_values(key)) {
+				root.add_value(key, value);
+			}
+		}
+	}
+
+	child.children = [];
+	child.detach();
+
+	root.fix_tree_depths();
+}
+
 function fix_singleton_handicap(root) {
 
 	if (root.all_values("AB").length !== 1) {
 		return;
 	}
-
-	// Any weirdness at all about this file, and we abort...
 
 	if (root.has_key("AW") || root.has_key("AE") || root.has_key("B") || root.has_key("W")) {
 		return;
@@ -123,8 +170,6 @@ function fix_singleton_handicap(root) {
 			return;
 		}
 	}
-
-	// File is apparently not weird...
 
 	root.set("B", root.get("AB"));
 	root.delete_key("AB");
@@ -145,9 +190,8 @@ function delay_root_move(root) {
 	inserted_node.children = orig_children;
 	for (let child of orig_children) {
 		child.parent = inserted_node;
-		child.increase_depth(1);
 	}
-	for (let key of ["B", "C", "CR", "LB", "MA", "PL", "SQ", "TR", "W"]) {		// Some rarely-used keys will be left behind. Meh.
+	for (let key of ["B", "CR", "LB", "MA", "PL", "SQ", "TR", "W"]) {
 		if (root.has_key(key)) {
 			for (let value of root.all_values(key)) {
 				inserted_node.add_value(key, value);
@@ -155,6 +199,7 @@ function delay_root_move(root) {
 			root.delete_key(key);
 		}
 	}
+	root.fix_tree_depths();
 }
 
 function apply_ruleset_guess(root) {
@@ -173,7 +218,8 @@ function apply_all_fixes(root, guess_ruleset) {
 	apply_komi_fix(root);
 	apply_ruleset_fixes(root);
 	purge_newlines(root);
-	fix_singleton_handicap(root);
+	advance_depth_1_setup(root);
+	fix_singleton_handicap(root);		// After advance_depth_1_setup()
 	delay_root_move(root);				// After fix_singleton_handicap()
 	apply_pl_fix(root);					// After delay_root_move()
 
