@@ -217,8 +217,8 @@ function apply_all_fixes(root, guess_ruleset) {
 
 	apply_komi_fix(root);
 	apply_ruleset_fixes(root);
-	purge_newlines(root);
-	advance_depth_1_setup(root);
+	advance_depth_1_setup(root);		// Actually pulls all properties from child to root (unless prohibited)
+	purge_newlines(root);				// After advance_depth_1_setup()
 	fix_singleton_handicap(root);		// After advance_depth_1_setup()
 	delay_root_move(root);				// After fix_singleton_handicap()
 	apply_pl_fix(root);					// After delay_root_move()
