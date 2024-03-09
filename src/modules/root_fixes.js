@@ -124,6 +124,9 @@ function advance_depth_1_setup(root) {
 		}
 	}
 	let grandchildren = child.children;
+	if (grandchildren.length === 0) {
+		return;
+	}
 	for (let gc of grandchildren) {
 		if (gc.has_key("AW") || gc.has_key("AB") || gc.has_key("AE")) {
 			return;
