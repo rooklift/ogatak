@@ -209,17 +209,18 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	});
 
 	electron.ipcMain.on("screenshot", (event, msg) => {		// msg is {x, y, width, height}
-		win.webContents.capturePage(msg)
-		.then(img => {
+		Promise.all([
+			win.webContents.capturePage(msg),
 			electron.dialog.showSaveDialog(win, {
 				defaultPath: config.sgf_folder,
 				filters: [{name: "Portable Network Graphics", extensions: ["png"]}, {name: "All files", extensions: ["*"]}]
 			})
-			.then(o => {
-				if (typeof o.filePath === "string" && o.filePath.length > 0) {
-					fs.writeFileSync(o.filePath, img.toPNG());
-				}
-			});
+		])
+		.then(results => {
+			let [img, dialogret] = results;
+			if (typeof dialogret.filePath === "string" && dialogret.filePath.length > 0) {
+				fs.writeFileSync(dialogret.filePath, img.toPNG());
+			}
 		});
 	});
 
