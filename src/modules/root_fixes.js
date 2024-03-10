@@ -108,28 +108,28 @@ function advance_depth_1_setup(root) {
 
 	for (let key of ["AB", "AW", "AE", "B", "W"]) {
 		if (root.has_key(key)) {
-			return;
+			return false;
 		}
 	}
 	if (root.children.length !== 1) {
-		return;
+		return false;
 	}
 	let child = root.children[0];
 	if (!child.has_key("AB") && !child.has_key("AW")) {
-		return;
+		return false;
 	}
 	for (let key of ["B", "W"]) {
 		if (child.has_key(key)) {
-			return;
+			return false;
 		}
 	}
 	let grandchildren = child.children;
 	if (grandchildren.length === 0) {
-		return;
+		return false;
 	}
 	for (let gc of grandchildren) {
 		if (gc.has_key("AW") || gc.has_key("AB") || gc.has_key("AE")) {
-			return;
+			return false;
 		}
 	}
 
@@ -153,7 +153,7 @@ function advance_depth_1_setup(root) {
 	child.children = [];
 	child.detach();
 
-	root.fix_tree_depths();
+	return true;
 }
 
 function fix_singleton_handicap(root) {
@@ -180,11 +180,11 @@ function fix_singleton_handicap(root) {
 
 function delay_root_move(root) {
 	if (root.move_count() !== 1) {
-		return;
+		return false;
 	}
 	for (let key of ["AB", "AW", "AE"]) {
 		if (root.has_key(key)) {
-			return;
+			return false;
 		}
 	}
 	let orig_children = root.children;
@@ -202,7 +202,7 @@ function delay_root_move(root) {
 			root.delete_key(key);
 		}
 	}
-	root.fix_tree_depths();
+	return true;
 }
 
 function apply_ruleset_guess(root) {
@@ -218,16 +218,26 @@ function apply_all_fixes(root, guess_ruleset) {
 	// create trees with these problems through various means, so don't
 	// assume the tree is never in such a state...
 
+	let dep;								// Whether we did something that messes with depths
+
 	apply_komi_fix(root);
 	apply_ruleset_fixes(root);
-	advance_depth_1_setup(root);		// Actually pulls all properties from child to root (unless prohibited)
-	purge_newlines(root);				// After advance_depth_1_setup()
-	fix_singleton_handicap(root);		// After advance_depth_1_setup()
-	delay_root_move(root);				// After fix_singleton_handicap()
-	apply_pl_fix(root);					// After delay_root_move()
+
+	dep = advance_depth_1_setup(root);		// Pulls all properties from child to root (if it acts at all, which it mostly won't)
+
+	purge_newlines(root);					// After advance_depth_1_setup()
+	fix_singleton_handicap(root);			// After advance_depth_1_setup()
+
+	dep ||= delay_root_move(root);			// After fix_singleton_handicap()
+
+	apply_pl_fix(root);						// After delay_root_move()
 
 	if (guess_ruleset) {
-		apply_ruleset_guess(root);		// After apply_komi_fix()
+		apply_ruleset_guess(root);			// After apply_komi_fix()
+	}
+
+	if (dep) {
+		root.fix_tree_depths();
 	}
 }
 
