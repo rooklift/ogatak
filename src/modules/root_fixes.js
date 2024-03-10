@@ -228,7 +228,7 @@ function apply_all_fixes(root, guess_ruleset) {
 	purge_newlines(root);					// After advance_depth_1_setup()
 	fix_singleton_handicap(root);			// After advance_depth_1_setup()
 
-	dep ||= delay_root_move(root);			// After fix_singleton_handicap()
+	dep = delay_root_move(root) || dep;		// After fix_singleton_handicap()
 
 	apply_pl_fix(root);						// After delay_root_move()
 
