@@ -218,17 +218,17 @@ function apply_all_fixes(root, guess_ruleset) {
 	// create trees with these problems through various means, so don't
 	// assume the tree is never in such a state...
 
-	let dep;								// Whether we did something that messes with depths
+	let dep1, dep2;							// Whether we did something that messes with depths
 
 	apply_komi_fix(root);
 	apply_ruleset_fixes(root);
 
-	dep = advance_depth_1_setup(root);		// Pulls all properties from child to root (if it acts at all, which it mostly won't)
+	dep1 = advance_depth_1_setup(root);		// Pulls all properties from child to root (if it acts at all, which it mostly won't)
 
 	purge_newlines(root);					// After advance_depth_1_setup()
 	fix_singleton_handicap(root);			// After advance_depth_1_setup()
 
-	dep = delay_root_move(root) || dep;		// After fix_singleton_handicap()
+	dep2 = delay_root_move(root);			// After fix_singleton_handicap()
 
 	apply_pl_fix(root);						// After delay_root_move()
 
@@ -236,7 +236,7 @@ function apply_all_fixes(root, guess_ruleset) {
 		apply_ruleset_guess(root);			// After apply_komi_fix()
 	}
 
-	if (dep) {
+	if (dep1 || dep2) {
 		root.fix_tree_depths();
 	}
 }
