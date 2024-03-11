@@ -910,6 +910,8 @@ class Node {
 
 		this.analysis = o;
 
+		// this.analysis.moveInfos.sort((a, b) => a.order - b.order);		// KataGo already sends it this way.
+
 		let winrate = this.analysis.rootInfo.winrate * 100;			// SBKV is 0..100
 		if (winrate < 0) winrate = 0;
 		if (winrate > 100) winrate = 100;
