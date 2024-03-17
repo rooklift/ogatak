@@ -394,6 +394,8 @@ translations[`Français`] = {
 		MENU_SHOW_CONFIG_FILE: `Afficher le fichier de configuration`,
 		MENU_TOGGLE_DEV_TOOLS: `Outils de développement`,
 
+	MENU_LANGUAGE: `Langue`,
+
 	GUI_ENGINE_NOT_SET: `Vous devez localiser le moteur.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `Vous devez localiser analysis.cfg.`,
 	GUI_WEIGHTS_NOT_SET: `Vous devez localiser les poids.`,
