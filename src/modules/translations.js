@@ -171,6 +171,8 @@ translations[`English`] = {
 		MENU_SHOW_CONFIG_FILE: `Show config file`,
 		MENU_TOGGLE_DEV_TOOLS: `Toggle dev tools`,
 
+	MENU_LANGUAGE: `Language`,
+
 	// Items that show on first run, when KataGo (etc) have not been located...
 	GUI_ENGINE_NOT_SET: `Engine not set.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `Engine config not set.`,
@@ -986,6 +988,8 @@ translations[`简体中文`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `快速信息交换`,
 		MENU_SHOW_CONFIG_FILE: `显示配置文件`,
 		MENU_TOGGLE_DEV_TOOLS: `显示网页开发工具`,
+
+	MENU_LANGUAGE: `语言`,
 
 	GUI_ENGINE_NOT_SET: `引擎位置尚未配置完成`,
 	GUI_ENGINE_CONFIG_NOT_SET: `配置文件位置尚未配置完成`,
