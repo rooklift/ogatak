@@ -2416,7 +2416,7 @@ function menu_build() {
 		// Language menu...........................................................................
 
 		{
-			label: "Language",
+			label: translate("MENU_LANGUAGE"),
 			submenu: language_choices_submenu(),
 		},
 	];
