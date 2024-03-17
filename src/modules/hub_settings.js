@@ -26,7 +26,7 @@ const multichecks = {
 	tree_spacing:			[translate("MENU_SIZES"), translate("MENU_TREE_SPACING")],
 	comment_box_height: 	[translate("MENU_SIZES"), translate("MENU_COMMENT_BOX")],
 	autoscroll_delay:		[translate("MENU_MISC"), translate("MENU_AUTOSCROLL_DELAY")],
-	language:				["Language"],
+	language:				[translate("MENU_LANGUAGE")],
 };
 
 const togglechecks = {
