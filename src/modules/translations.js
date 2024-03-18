@@ -574,9 +574,9 @@ translations[`русский`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `Быстрое переключение узлов`,
 		MENU_SHOW_CONFIG_FILE: `Показать файл настроек`,
 		MENU_TOGGLE_DEV_TOOLS: `Инструменты разработчика`,
-	
+
 	MENU_LANGUAGE: `Язык`,
-	
+
 	GUI_ENGINE_NOT_SET: `Исполняемый файл KataGo не установлен.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `Файл настроек анализа не установлен.`,
 	GUI_WEIGHTS_NOT_SET: `Файл сети не установлен.`,
@@ -615,7 +615,7 @@ translations[`русский`] = {
 	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
 	ALERT_SAVED: `Сохранено.`,
 	ALERT_SAVED_COLLECTION: `Коллекция сохранена.`,
-	
+
 	ABOUT_FILE_LOCATIONS: `Расположение KataGo, настроек анализа и файла сети:`,
 	ABOUT_CONFIG_LOCATION: `Расположение файла настроек Ogatak:`,
 	ABOUT_RAM_USAGE: `Использование оперативной памяти (Мбайт):`,
@@ -784,6 +784,8 @@ translations[`繁體中文`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `快速的訊息交換`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
+
+	MENU_LANGUAGE: `語言`,
 
 	GUI_ENGINE_NOT_SET: `引擎位置尚未設定完成`,
 	GUI_ENGINE_CONFIG_NOT_SET: `設定檔位置尚未設定完成`,
