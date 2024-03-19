@@ -241,7 +241,7 @@ class Engine {
 				}
 			}
 
-//			NOT SINCE 1.9.6
+//			SINCE OGATAK 1.9.6 WE DON'T CARE WHETHER KATAGO ENDED ITS SEARCH
 //			if (o.isDuringSearch === false) {									// Every analysis request generates exactly 1 of these eventually.
 //				if (this.running && this.running.id === o.id) {					// Upon receipt, the search is completely finished.
 //					running_has_finished = true;
