@@ -1116,7 +1116,7 @@ let hub_main_props = {
 					if (board.state[x][y] === "") {
 						bscore += 1;							// My territory
 					} else if (board.state[x][y] === "w") {
-						bscore += 1 + cap_value;				// Opponent's dead stone
+						bscore += 1 + cap_value;				// My territory containing opponent's dead stone
 					} else if (board.state[x][y] === "b") {
 						bscore += stn_value;					// My living stone
 					}
