@@ -1092,67 +1092,6 @@ let hub_main_props = {
 		ipcRenderer.send("screenshot", {x, y, width, height});
 	},
 
-	// Scoring (this isn't in the GUI as such).....................................................
-	// Note that we rather assume we are at the game end.
-
-	score: function(jp = false) {
-
-		if (!this.node.has_valid_analysis() || !this.node.analysis.ownership) {
-			return "No ownership data";
-		}
-
-		let board = this.node.get_board();
-
-		let cap_value = jp ? 1 : 0;
-		let stn_value = jp ? 0 : 1;
-
-		let bscore = 0;
-		let wscore = 0;
-
-		for (let x = 0; x < board.width; x++) {
-			for (let y = 0; y < board.height; y++) {
-				let own = this.node.analysis.ownership[x + (y * board.width)];
-				if (own > 0.5) {
-					if (board.state[x][y] === "") {
-						bscore += 1;							// My territory
-					} else if (board.state[x][y] === "w") {
-						bscore += 1 + cap_value;				// My territory containing opponent's dead stone
-					} else if (board.state[x][y] === "b") {
-						bscore += stn_value;					// My living stone
-					}
-				} else if (own < -0.5) {
-					if (board.state[x][y] === "") {
-						wscore += 1;
-					} else if (board.state[x][y] === "b") {
-						wscore += 1 + cap_value;
-					} else if (board.state[x][y] === "w") {
-						wscore += stn_value;
-					}
-				}
-			}
-		}
-
-		bscore += board.caps_by_b * cap_value;
-		wscore += board.caps_by_w * cap_value;
-		wscore += this.node.komi();
-
-		if (bscore > wscore) {
-			return `B+${bscore - wscore}`;
-		} else if (wscore > bscore) {
-			return `W+${wscore - bscore}`;
-		} else {
-			return `Jigo`;
-		}
-	},
-
-	score_japanese: function() {
-		return this.score(true);
-	},
-
-	score_chinese: function() {
-		return this.score(false);
-	},
-
 	// Komi / rules / active can be changed easily.................................................
 
 	coerce_rules: function(value) {
