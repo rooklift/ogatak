@@ -1112,7 +1112,7 @@ let hub_main_props = {
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
 				let own = this.node.analysis.ownership[x + (y * board.width)];
-				if (own > 0.8) {
+				if (own > 0.5) {
 					if (board.state[x][y] === "") {
 						bscore += 1;							// My territory
 					} else if (board.state[x][y] === "w") {
@@ -1120,7 +1120,7 @@ let hub_main_props = {
 					} else if (board.state[x][y] === "b") {
 						bscore += stn_value;					// My living stone
 					}
-				} else if (own < -0.8) {
+				} else if (own < -0.5) {
 					if (board.state[x][y] === "") {
 						wscore += 1;
 					} else if (board.state[x][y] === "b") {
