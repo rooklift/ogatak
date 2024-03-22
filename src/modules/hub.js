@@ -1064,6 +1064,11 @@ let hub_main_props = {
 		console.log(q.moves.map(foo => foo[1]).join(" "));
 	},
 
+	screenshot: function() {
+		let {x, y, width, height} = board_drawer.htmltable.getBoundingClientRect();
+		ipcRenderer.send("screenshot", {x, y, width, height});
+	},
+
 	autoscroller: function() {
 
 		// This is a spinner, always running.
@@ -1085,11 +1090,6 @@ let hub_main_props = {
 		}
 
 		this.autoscroll_fn_id = setTimeout(this.autoscroller.bind(this), config.autoscroll_delay * 1000);
-	},
-
-	screenshot: function() {
-		let {x, y, width, height} = board_drawer.htmltable.getBoundingClientRect();
-		ipcRenderer.send("screenshot", {x, y, width, height});
 	},
 
 	// Komi / rules / active can be changed easily.................................................
