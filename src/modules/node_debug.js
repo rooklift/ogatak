@@ -135,12 +135,12 @@ module.exports = {
 						if (board.state[x][y] === "b") {
 							if (this.analysis.ownership[x + (y * board.width)] > 0) {
 								sees_black = true;
-							};
+							}
 						}
 						if (board.state[x][y] === "w") {
 							if (this.analysis.ownership[x + (y * board.width)] < 0) {
 								sees_white = true;
-							};
+							}
 						}
 					}
 				}
