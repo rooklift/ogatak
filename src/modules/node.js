@@ -1152,9 +1152,6 @@ class Node {
 	}
 }
 
-// Add in some extra methods for debugging, etc, which are in another file...
-Object.assign(Node.prototype, require("./node_debug"));
-
 // ------------------------------------------------------------------------------------------------
 
 function safe_sgf_string(s) {
@@ -1168,8 +1165,6 @@ function safe_sgf_string(s) {
 
 	return s;
 }
-
-// ------------------------------------------------------------------------------------------------
 
 function destroy_tree_recursive(node) {
 
@@ -1240,6 +1235,9 @@ function fix_depths_recursive(node, depth) {		// Returns the depth of the deepes
 		}
 	}
 }
+
+// Add in some extra methods for debugging, etc, which are in another file.........................
+Object.assign(Node.prototype, require("./node_debug"));
 
 
 
