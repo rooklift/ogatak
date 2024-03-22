@@ -1,11 +1,15 @@
 "use strict";
 
-// Various stuff for debugging, etc...
+// Various stuff for debugging, info, etc. None of this is used by the GUI.
 // These methods get added to the Node prototype.
+
+const {xy_to_s} = require("./utils");
 
 module.exports = {
 
-	score: function(jp = false) {								// Note that we rather assume we are at the game end.
+	score: function(jp = false) {
+
+		// Note that we rather assume we are at the game end.
 
 		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
 			return "No ownership data";
@@ -19,10 +23,16 @@ module.exports = {
 		let bscore = 0;
 		let wscore = 0;
 
+		let dame = this.dame();
+
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
+				let s = xy_to_s(x, y);
+				if (dame.includes(s)) {
+					continue;
+				}
 				let own = this.analysis.ownership[x + (y * board.width)];
-				if (own > 0.9) {
+				if (own > 0) {
 					if (board.state[x][y] === "") {
 						bscore += 1;							// My territory
 					} else if (board.state[x][y] === "w") {
@@ -30,7 +40,7 @@ module.exports = {
 					} else if (board.state[x][y] === "b") {
 						bscore += stn_value;					// My living stone
 					}
-				} else if (own < -0.9) {
+				} else if (own < 0) {
 					if (board.state[x][y] === "") {
 						wscore += 1;
 					} else if (board.state[x][y] === "b") {
@@ -53,6 +63,97 @@ module.exports = {
 		} else {
 			return `Jigo`;
 		}
+	},
+
+	dame: function() {
+
+		// Note that we rather assume we are at the game end.
+
+		let ret = [];
+
+		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
+			return ret;
+		}
+
+		let board = this.get_board();
+
+		// First, find all points which are either empty, or would be empty if dead stones were removed...
+
+		let todo = Object.create(null);
+
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
+				let s = xy_to_s(x, y);
+				if (board.state[x][y] === "") {
+					todo[s] = true;
+				} else {
+					let own = this.analysis.ownership[x + (y * board.width)];
+					if (board.state[x][y] === "b" && own < 0) {
+						todo[s] = true;
+					} else if (board.state[x][y] === "w" && own > 0) {
+						todo[s] = true;
+					}
+				}
+			}
+		}
+
+		// Now find areas of connected "empty" points, and check whether any of their neighbours are
+		// living Black or White stones... if the area sees both, they are dame points.
+
+		while (true) {
+
+			let todo_keys = Object.keys(todo);
+			if (todo_keys.length === 0) {
+				break;
+			}
+
+			let start_point = todo_keys[0];
+
+			let space = [];			// All "empty" intersections connected to the start point.
+
+			space.push(start_point);
+			delete todo[start_point];
+
+			let sees_black = false;
+			let sees_white = false;
+
+			for (let i = 0; i < space.length; i++) {
+
+				// This is kind of a trick, space.length is increasing during the loop.
+
+				let point = space[i];
+
+				let neighbours = board.neighbours(point);
+
+				for (let neighbour of neighbours) {
+					if (todo[neighbour]) {
+						space.push(neighbour);
+						delete todo[neighbour];
+					} else {
+						let x = neighbour.charCodeAt(0) - 97;
+						let y = neighbour.charCodeAt(1) - 97;
+						if (board.state[x][y] === "b") {
+							if (this.analysis.ownership[x + (y * board.width)] > 0) {
+								sees_black = true;
+							};
+						}
+						if (board.state[x][y] === "w") {
+							if (this.analysis.ownership[x + (y * board.width)] < 0) {
+								sees_white = true;
+							};
+						}
+					}
+				}
+			}
+
+			if (sees_black && sees_white) {
+				for (let point of space) {
+					ret.push(point);
+				}
+			}
+		}
+
+		return ret;
 	},
 
 	score_japanese: function() {
