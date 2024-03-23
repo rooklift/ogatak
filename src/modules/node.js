@@ -969,7 +969,7 @@ class Node {
 
 	// These 4 functions are a rather tangled web, but there's no recursion........................
 
-	best_policy_move() {				// Result in SGF format e.g. "qq", (pass is "")
+	best_policy_move() {						// Result in SGF format e.g. "qq", (pass is "")
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -986,7 +986,7 @@ class Node {
 		return this.canonical_symmetry(s);
 	}
 
-	best_policy_move_alt() {			// Alternative for when analysis.policy doesn't exist.
+	best_policy_move_alt() {					// Alternative for when analysis.policy doesn't exist.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -995,7 +995,7 @@ class Node {
 		return this.canonical_symmetry(s);
 	}
 
-	drunk_policy_move() {				// Weighted random choice from the policy.
+	drunk_policy_move() {						// Weighted random choice from the policy.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -1033,7 +1033,7 @@ class Node {
 		return this.canonical_symmetry(s);
 	}
 
-	drunk_policy_move_alt() {			// Alternative for when analysis.policy doesn't exist.
+	drunk_policy_move_alt() {					// Alternative for when analysis.policy doesn't exist.
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -1066,7 +1066,7 @@ class Node {
 		return this.canonical_symmetry(s);
 	}
 
-	canonical_symmetry(s) {			// Given a move e.g. "dd", return the canonical symmetry version of that move, if available.
+	canonical_symmetry(s) {						// Given a move e.g. "dd", return the canonical symmetry version of that move, if available.
 		if (!this.has_valid_analysis()) {
 			return s;
 		}
