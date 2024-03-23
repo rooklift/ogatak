@@ -23,7 +23,7 @@ module.exports = {
 		let bscore = 0;
 		let wscore = 0;
 
-		let dame = this.dame();
+		let dame = this.dame();									// We could convert this into a set-like Object if performance was an issue?
 
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
@@ -108,9 +108,7 @@ module.exports = {
 
 		// First, find all points which are either empty, or would be empty if dead stones were removed...
 
-		let todo = Object.create(null);
-		Object.assign(todo, array_to_set(this.all_empty()));
-		Object.assign(todo, array_to_set(this.all_dead()));
+		let todo = this.all_empty().concat(this.all_dead());
 
 		// Now find areas of connected "empty" points, and check whether any of their neighbours are
 		// living Black or White stones... if the area sees both, they are dame points.
@@ -119,17 +117,16 @@ module.exports = {
 
 		while (true) {
 
-			let todo_keys = Object.keys(todo);
-			if (todo_keys.length === 0) {
+			if (todo.length === 0) {
 				break;
 			}
 
-			let start_point = todo_keys[0];
+			let start_point = todo[0];
 
 			let space = [];			// All "empty" intersections connected to the start point.
 
 			space.push(start_point);
-			delete todo[start_point];
+			todo = todo.filter(s => s !== start_point);
 
 			let sees_black = false;
 			let sees_white = false;
@@ -143,9 +140,9 @@ module.exports = {
 				let neighbours = board.neighbours(point);
 
 				for (let neighbour of neighbours) {
-					if (todo[neighbour]) {
+					if (todo.includes(neighbour)) {				// Probably slow? Could make todo into a set-like Object?
 						space.push(neighbour);
-						delete todo[neighbour];
+						todo = todo.filter(s => s !== neighbour);
 					} else {
 						let x = neighbour.charCodeAt(0) - 97;
 						let y = neighbour.charCodeAt(1) - 97;
@@ -183,7 +180,7 @@ module.exports = {
 
 	// Some debugging functions to access those 1 dimensional arrays KataGo sends us...............
 
-	policy_from_s: function(s) {				// "pd" --> this.analysis.policy[72]
+	policy_from_s: function(s) {					// "pd" --> this.analysis.policy[72]
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -204,12 +201,12 @@ module.exports = {
 		return this.analysis.policy[i];
 	},
 
-	policy_from_gtp: function(s) {				// "Q16" --> this.analysis.policy[72]
+	policy_from_gtp: function(s) {					// "Q16" --> this.analysis.policy[72]
 		s = this.get_board().parse_gtp_move(s);
 		return this.policy_from_s(s);
 	},
 
-	ownership_from_s: function(s) {				// For debugging only. "pd" --> this.analysis.ownership[72]
+	ownership_from_s: function(s) {					// "pd" --> this.analysis.ownership[72]
 		if (!this.has_valid_analysis()) {
 			return null;
 		}
@@ -226,12 +223,9 @@ module.exports = {
 		return this.analysis.ownership[i];
 	},
 
-	ownership_from_gtp: function(s) {			// For debugging only. "Q16" --> this.analysis.ownership[72]
+	ownership_from_gtp: function(s) {				// "Q16" --> this.analysis.ownership[72]
 		s = this.get_board().parse_gtp_move(s);
 		return this.ownership_from_s(s);
 	},
 
 };
-
-
-
