@@ -115,11 +115,7 @@ module.exports = {
 
 		let board = this.get_board();
 
-		while (true) {
-
-			if (todo.length === 0) {
-				break;
-			}
+		while (todo.length > 0) {
 
 			let start_point = todo[0];
 
