@@ -409,3 +409,11 @@ exports.shuffled = function(orig) {
 	}
 	return arr;
 };
+
+exports.array_to_set = function(arr) {
+	let ret = Object.create(null);
+	for (let item of arr) {
+		ret[item] = true;
+	}
+	return ret;
+};
