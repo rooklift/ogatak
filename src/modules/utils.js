@@ -409,3 +409,9 @@ exports.shuffled = function(orig) {
 	}
 	return arr;
 };
+
+exports.arbitrary_set_val = function(z) {		// From an actual proper Set()
+	let values = Array.from(z);
+	return values[0];
+};
+
