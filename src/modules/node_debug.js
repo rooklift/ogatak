@@ -3,7 +3,7 @@
 // Various stuff for debugging, info, etc. None of this is used by the GUI.
 // These methods get added to the Node prototype.
 
-const {array_to_set, xy_to_s} = require("./utils");
+const {arbitrary_set_val, xy_to_s} = require("./utils");
 
 module.exports = {
 
@@ -23,12 +23,12 @@ module.exports = {
 		let bscore = 0;
 		let wscore = 0;
 
-		let dame = this.dame();									// We could convert this into a set-like Object if performance was an issue?
+		let dame = this.dame();
 
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
 				let s = xy_to_s(x, y);
-				if (dame.includes(s)) {
+				if (dame.has(s)) {
 					continue;
 				}
 				let own = this.analysis.ownership[x + (y * board.width)];
@@ -66,7 +66,7 @@ module.exports = {
 	},
 
 	all_dead: function() {
-		let ret = [];
+		let ret = new Set();
 		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
 			return ret;
 		}
@@ -74,9 +74,10 @@ module.exports = {
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
 				if (board.state[x][y] === "b" && this.analysis.ownership[x + (y * board.width)] < 0) {
-					ret.push(xy_to_s(x, y));
+
+					ret.add(xy_to_s(x, y));
 				} else if (board.state[x][y] === "w" && this.analysis.ownership[x + (y * board.width)] > 0) {
-					ret.push(xy_to_s(x, y));
+					ret.add(xy_to_s(x, y));
 				}
 			}
 		}
@@ -84,12 +85,12 @@ module.exports = {
 	},
 
 	all_empty: function() {
-		let ret = [];
+		let ret = new Set();
 		let board = this.get_board();
 		for (let x = 0; x < board.width; x++) {
 			for (let y = 0; y < board.height; y++) {
 				if (board.state[x][y] === "") {
-					ret.push(xy_to_s(x, y));
+					ret.add(xy_to_s(x, y));
 				}
 			}
 		}
@@ -100,7 +101,7 @@ module.exports = {
 
 		// Note that we rather assume we are at the game end. We also need ownership data.
 
-		let ret = [];
+		let ret = new Set();
 
 		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
 			return ret;
@@ -108,21 +109,21 @@ module.exports = {
 
 		// First, find all points which are either empty, or would be empty if dead stones were removed...
 
-		let todo = this.all_empty().concat(this.all_dead());
+		let todo = this.all_empty().union(this.all_dead());
 
 		// Now find areas of connected "empty" points, and check whether any of their neighbours are
 		// living Black or White stones... if the area sees both, they are dame points.
 
 		let board = this.get_board();
 
-		while (todo.length > 0) {
-
-			let start_point = todo[0];
+		while (todo.size > 0) {
 
 			let space = [];			// All "empty" intersections connected to the start point.
 
+			let start_point = arbitrary_set_val(todo);
+
 			space.push(start_point);
-			todo = todo.filter(s => s !== start_point);
+			todo.delete(start_point);
 
 			let sees_black = false;
 			let sees_white = false;
@@ -136,9 +137,9 @@ module.exports = {
 				let neighbours = board.neighbours(point);
 
 				for (let neighbour of neighbours) {
-					if (todo.includes(neighbour)) {				// Probably slow? Could make todo into a set-like Object?
+					if (todo.has(neighbour)) {
 						space.push(neighbour);
-						todo = todo.filter(s => s !== neighbour);
+						todo.delete(neighbour);
 					} else {
 						let x = neighbour.charCodeAt(0) - 97;
 						let y = neighbour.charCodeAt(1) - 97;
@@ -158,7 +159,7 @@ module.exports = {
 
 			if (sees_black && sees_white) {
 				for (let point of space) {
-					ret.push(point);
+					ret.add(point);
 				}
 			}
 		}
