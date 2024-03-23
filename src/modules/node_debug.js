@@ -3,13 +3,13 @@
 // Various stuff for debugging, info, etc. None of this is used by the GUI.
 // These methods get added to the Node prototype.
 
-const {xy_to_s} = require("./utils");
+const {array_to_set, xy_to_s} = require("./utils");
 
 module.exports = {
 
 	score: function(jp = false) {
 
-		// Note that we rather assume we are at the game end.
+		// Note that we rather assume we are at the game end. We also need ownership data.
 
 		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
 			return "No ownership data";
@@ -65,9 +65,40 @@ module.exports = {
 		}
 	},
 
+	all_dead: function() {
+		let ret = [];
+		if (!this.has_valid_analysis() || !Array.isArray(this.analysis.ownership)) {
+			return ret;
+		}
+		let board = this.get_board();
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
+				if (board.state[x][y] === "b" && this.analysis.ownership[x + (y * board.width)] < 0) {
+					ret.push(xy_to_s(x, y));
+				} else if (board.state[x][y] === "w" && this.analysis.ownership[x + (y * board.width)] > 0) {
+					ret.push(xy_to_s(x, y));
+				}
+			}
+		}
+		return ret;
+	},
+
+	all_empty: function() {
+		let ret = [];
+		let board = this.get_board();
+		for (let x = 0; x < board.width; x++) {
+			for (let y = 0; y < board.height; y++) {
+				if (board.state[x][y] === "") {
+					ret.push(xy_to_s(x, y));
+				}
+			}
+		}
+		return ret;
+	},
+
 	dame: function() {
 
-		// Note that we rather assume we are at the game end.
+		// Note that we rather assume we are at the game end. We also need ownership data.
 
 		let ret = [];
 
@@ -75,30 +106,16 @@ module.exports = {
 			return ret;
 		}
 
-		let board = this.get_board();
-
 		// First, find all points which are either empty, or would be empty if dead stones were removed...
 
 		let todo = Object.create(null);
-
-		for (let x = 0; x < board.width; x++) {
-			for (let y = 0; y < board.height; y++) {
-				let s = xy_to_s(x, y);
-				if (board.state[x][y] === "") {
-					todo[s] = true;
-				} else {
-					let own = this.analysis.ownership[x + (y * board.width)];
-					if (board.state[x][y] === "b" && own < 0) {
-						todo[s] = true;
-					} else if (board.state[x][y] === "w" && own > 0) {
-						todo[s] = true;
-					}
-				}
-			}
-		}
+		Object.assign(todo, array_to_set(this.all_empty()));
+		Object.assign(todo, array_to_set(this.all_dead()));
 
 		// Now find areas of connected "empty" points, and check whether any of their neighbours are
 		// living Black or White stones... if the area sees both, they are dame points.
+
+		let board = this.get_board();
 
 		while (true) {
 
