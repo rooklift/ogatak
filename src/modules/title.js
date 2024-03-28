@@ -4,8 +4,7 @@ const {ipcRenderer} = require("electron");
 const stringify = require("./stringify");
 
 let title = "";
-let override = "";
-let timeout_id = null;
+let override_stopper_id = null;		// When overriding the title temporarily, this setTimeout will clear it.
 
 exports.set_title = function(s) {
 	s = stringify(s);
@@ -13,7 +12,7 @@ exports.set_title = function(s) {
 		return;
 	}
 	title = s;
-	if (override) {
+	if (override_stopper_id) {
 		return;
 	} else {
 		ipcRenderer.send("set_title", title);
@@ -25,14 +24,13 @@ exports.get_title = function() {
 };
 
 exports.set_override = function(s, duration) {
-	override = stringify(s);
-	ipcRenderer.send("set_title", override);
-	if (timeout_id) {
-		clearTimeout(timeout_id);
+	s = stringify(s);
+	ipcRenderer.send("set_title", s);
+	if (override_stopper_id) {
+		clearTimeout(override_stopper_id);
 	}
-	timeout_id = setTimeout(() => {
-		timeout_id = null;
-		override = "";
+	override_stopper_id = setTimeout(() => {
+		override_stopper_id = null;
 		ipcRenderer.send("set_title", title);
 	}, duration);
 };
