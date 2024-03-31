@@ -137,7 +137,7 @@ class GTPengine {
 			this.komi = o.komi;
 		}
 
-		let speedy_send = null;			// -1: Undo, 0: Nothing, 1: Advance 1			(Undo not actually implemented.)
+		let speedy_send = null;			// -1: Undo, 0: Nothing, 1: Advance 1, 2: Advance 2			(Undo not actually implemented.)
 
 		if (this.initialStones && this.moves && !did_send_boardsize) {
 			if (compare_moves_arrays(this.initialStones, o.initialStones)) {
@@ -149,16 +149,15 @@ class GTPengine {
 					if (compare_moves_arrays(this.moves, o.moves.slice(0, -1))) {
 						speedy_send = 1;
 					}
+				} else if (this.moves.length === o.moves.length - 2) {
+					if (compare_moves_arrays(this.moves, o.moves.slice(0, -2))) {
+						speedy_send = 2;
+					}
 				}
 			}
 		}
 
-		if (speedy_send === 0) {
-			// Engine has correct position already.
-		} else if (speedy_send === 1) {
-			let move = o.moves[o.moves.length - 1];
-			this.__send(`play ${move[0]} ${move[1]}`);
-		} else {
+		if (speedy_send === null) {
 			this.__send("clear_board");
 			for (let move of o.initialStones) {
 				this.__send(`play ${move[0]} ${move[1]}`);
@@ -166,6 +165,13 @@ class GTPengine {
 			for (let move of o.moves) {
 				this.__send(`play ${move[0]} ${move[1]}`);
 			}
+		} else if (speedy_send >= 0) {
+			for (let n = speedy_send; n > 0; n--) {
+				let move = o.moves[o.moves.length - n];
+				this.__send(`play ${move[0]} ${move[1]}`);
+			}
+		} else {
+			throw new Error("__send_query(): speedy_send had unexpected value");
 		}
 
 		// Now save the board state the engine is going to be in...
@@ -456,7 +462,11 @@ class GTPengine {
 	}
 
 	log_received_string(s) {
-		log(s);
+		if (s.startsWith("info")) {
+			log("[info line]");
+		} else {
+			log(s);
+		}
 	}
 
 	log_and_alert(...args) {
