@@ -721,7 +721,6 @@ let hub_main_props = {
 
 				if (this.playing_active_colour()) {
 
-					this.engine.halt();
 					this.play_best();
 
 				} else if (this.play_mode === AUTOANALYSIS) {
