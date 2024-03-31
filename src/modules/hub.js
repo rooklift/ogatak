@@ -493,7 +493,7 @@ let hub_main_props = {
 			} else {
 				throw new Error("play_best(): bad call");
 			}
-			if (typeof s !== "string") {
+			if (typeof s !== "string") {		// Is this possible?
 				return;
 			} else if (s === "") {
 				let node = this.node.pass();
