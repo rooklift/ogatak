@@ -997,7 +997,7 @@ let hub_main_props = {
 			return;
 		}
 		fullbox.display_perf_report(stats);
-	}
+	},
 
 	performance: function() {
 		this.performance_with_bounds(0, Infinity);
