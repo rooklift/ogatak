@@ -290,7 +290,7 @@ class Engine {
 		let redacted = {};
 
 		for (let [key, value] of Object.entries(o)) {
-			if (key !== "moveInfos" && key !== "ownership") {
+			if (!["moveInfos", "ownership", "policy"].includes(key)) {
 				redacted[key] = value;								// Note this is a shallow copy, so we must not do anything destructive to it.
 			} else {
 				redacted[key] = ["redacted"];
