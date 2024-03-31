@@ -990,13 +990,17 @@ let hub_main_props = {
 		}
 	},
 
-	performance: function() {
-		let stats = make_perf_report(this.node);
+	performance_with_bounds: function(min_depth, max_depth) {
+		let stats = make_perf_report(this.node, min_depth, max_depth);
 		if (stats.B.moves_analysed < 1 || stats.W.moves_analysed < 1) {
 			alert("Needs more analysis.");
-		} else {
-			fullbox.display_perf_report(stats);
+			return;
 		}
+		fullbox.display_perf_report(stats);
+	}
+
+	performance: function() {
+		this.performance_with_bounds(0, Infinity);
 	},
 
 	disable_specials_except: function(...args) {

@@ -5,7 +5,7 @@
 
 const {clamp, sum} = require("./utils");
 
-module.exports = function(any_node) {
+module.exports = function(any_node, min_depth = 0, max_depth = Infinity) {
 
 	let root = any_node.get_root();
 
@@ -34,7 +34,7 @@ module.exports = function(any_node) {
 		if (node.has_key("W")) stats["W"].moves++;
 		main_line.push(node);
 	}
-	let valid_nodes = main_line.filter(node => valid_node_to_analyse(node));
+	let valid_nodes = main_line.filter(node => valid_node_to_analyse(node) && node.depth >= min_depth && node.depth <= max_depth);
 
 	// --------------------------------------------------------------------------------------------
 
