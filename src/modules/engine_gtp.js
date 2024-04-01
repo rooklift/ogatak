@@ -29,7 +29,7 @@ const {new_query, compare_queries, compare_moves_arrays} = require("./query");
 // We don't send a query when another is running, so we must terminate
 // queries by sending some non-query command. But which one?
 
-const HALT_COMMAND = "protocol_version";
+const HALT_COMMAND = "name";
 
 function new_gtp_engine(...args) {
 	return new GTPengine(...args);
