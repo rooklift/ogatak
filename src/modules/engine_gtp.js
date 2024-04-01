@@ -140,7 +140,7 @@ class GTPengine {
 		let speedy_send = null;			// -1: Undo, 0: Nothing, 1: Advance 1, 2: Advance 2			(Undo not actually implemented.)
 
 		if (this.initialStones && this.moves && !did_send_boardsize) {
-			if (compare_moves_arrays(this.initialStones, o.initialStones)) {
+			if (compare_moves_arrays(this.initialStones, o.initialStones)) {		// These often will be []
 				if (this.moves.length === o.moves.length) {
 					if (compare_moves_arrays(this.moves, o.moves)) {
 						speedy_send = 0;
