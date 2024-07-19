@@ -205,7 +205,7 @@ class Engine {
 				this.log_and_alert("Received non-JSON:", line);
 				return;
 			}
-			if (o.id === "test_bs29") {								// Before the main check for errors.
+			if (o.id === "test_bs29") {											// Before the main check for errors.
 				if (!o.error) {
 					this.log_and_alert(
 						"This build of KataGo appears to be compiled with \"bs29\" support for board sizes above 19. " +
@@ -214,6 +214,16 @@ class Engine {
 				}
 				return;
 			}
+			// KataGo 1.15.0 sends a mistaken error when sent the "query_version" command. We should ignore it once.
+			if (o.error === "'action' field must be 'query_version' or 'terminate' or 'terminate_all'") {
+				if (compare_versions([1, 15, 0], this.version) === 0) {
+					if (!this.saw_bad_1_15_0_error) {
+						this.saw_bad_1_15_0_error = true;						// We only expect to see this once. Any further events are real errors I guess.
+						return;
+					}
+				}
+			}
+			// From here on we don't return early but try to use the object in any event...
 			if (o.error) {
 				alert("Engine said:\n" + stringify(o));
 			}
