@@ -23,6 +23,7 @@ module.exports = function(any_node, min_depth = 0, max_depth = Infinity) {
 			weights_adjusted_sum: 0,
 			top1: 0,
 			top5_approved: 0,
+			top5: 0,
 		});
 	}
 
@@ -65,6 +66,9 @@ module.exports = function(any_node, min_depth = 0, max_depth = Infinity) {
 			if (info.move === gtp) {
 				if (points_lost < 0.5 || info.order === 0) {
 					stats[key].top5_approved++;
+				}
+				if (info.order < 5) {
+					stats[key].top5++;
 				}
 				if (info.order === 0) {
 					stats[key].top1++;
@@ -146,6 +150,12 @@ function declare_winners(stats) {
 	}
 	if (stats.W.top5_approved / stats.W.moves_analysed > stats.B.top5_approved / stats.B.moves_analysed) {
 		winners.top5_approved = "W";
+	}
+	if (stats.B.top5 / stats.B.moves_analysed > stats.W.top5 / stats.W.moves_analysed) {
+		winners.top5 = "B";
+	}
+	if (stats.W.top5 / stats.W.moves_analysed > stats.B.top5 / stats.B.moves_analysed) {
+		winners.top5 = "W";
 	}
 
 	return winners;
