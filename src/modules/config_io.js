@@ -102,6 +102,7 @@ exports.defaults = {
 	"play_against_drunk": false,
 
 	"autoscroll_delay": 1,
+	"mousemove_delay": 41,
 
 	"enable_hw_accel": false,
 	"logfile": null,

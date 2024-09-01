@@ -114,7 +114,7 @@
 		}
 	}
 	grapher.pending_mousemove_y = null;
-	setTimeout(graph_mousemove_spinner, 41);
+	setTimeout(graph_mousemove_spinner, config.mousemove_delay);
 })();
 
 // ------------------------------------------------------------------------------------------------
