@@ -1101,7 +1101,8 @@ let board_drawer_prototype = {
 			rules = t.Unknown;
 		}
 
-		s1 += `<span class="boardinfo_rules">${t.Rules}: <span class="white">${pad(rules, 16)}</span></span>`;
+        let first_paddings = config.language == `繁體中文` ? 20 : 16; 
+		s1 += `<span class="boardinfo_rules">${t.Rules}: <span class="white">${pad(rules, first_paddings)}</span></span>`;
 		s1 += `<span class="boardinfo_komi">${t.Komi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
 
 		if (config.editing) {
