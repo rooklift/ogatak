@@ -14,13 +14,12 @@
 // These two concepts are basically independent of each other.
 // At least, all of this is my possibly-flawed understanding.
 
-const {ipcRenderer} = require("electron");
+const {ipcRenderer, webUtils} = require("electron");		// webUtils might not actually exist, depending on version. Don't use it directly.
 const {event_path_class_string} = require("./utils");
 
 // In olden days, when dealing with an event from a file being dragged onto the window, we could
 // access the filepath from .path but no longer as of v32...
 
-const webUtils = require("electron").webUtils;
 const get_file_for_path = (webUtils && webUtils.getPathForFile) ? webUtils.getPathForFile : file => file.path;
 
 // mousedown events in Electron 24-28 (at least) can be completely fake, see Electron issue #38322, I hate it so much...
