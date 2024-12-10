@@ -20,7 +20,7 @@ const {event_path_class_string} = require("./utils");
 // In olden days, when dealing with an event from a file being dragged onto the window, we could
 // access the filepath from .path but no longer as of v32...
 
-const get_file_for_path = (webUtils && webUtils.getPathForFile) ? webUtils.getPathForFile : file => file.path;
+const get_path_for_file = (webUtils && webUtils.getPathForFile) ? webUtils.getPathForFile : file => file.path;
 
 // mousedown events in Electron 24-28 (at least) can be completely fake, see Electron issue #38322, I hate it so much...
 // Anyway in those versions we declare mousedown_event_is_electron_bug() to test for whether a click is fake...
@@ -283,8 +283,8 @@ window.addEventListener("drop", (event) => {
 	let files = [];
 	if (event.dataTransfer && event.dataTransfer.files) {
 		for (let file of event.dataTransfer.files) {
-			if (get_file_for_path(file)) {
-				files.push(get_file_for_path(file));
+			if (get_path_for_file(file)) {
+				files.push(get_path_for_file(file));
 			}
 		}
 	}
