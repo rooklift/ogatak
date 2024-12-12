@@ -302,8 +302,9 @@ class Board {
 				let c = this.state_at(neighbour);
 				if (c === "") {
 					return true;
-				} else if (c === colour) {
-					seen[neighbour] = true;
+				}
+				seen[neighbour] = true;
+				if (c === colour) {
 					queue.push(neighbour);
 				}
 			}
