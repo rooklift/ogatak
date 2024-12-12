@@ -257,39 +257,35 @@ class Board {
 
 	group_at(s) {
 
-		if (!this.state_at(s)) {
+		let colour = this.state_at(s);
+
+		if (!colour) {
 			return [];
 		}
 
-		let touched = Object.create(null);
+		let result = {}; result[s] = true;
+		let queue = []; queue.push(s);
 
-		this.group_at_recurse(s, touched);
-
-		return Object.keys(touched);
-	}
-
-	group_at_recurse(s, touched) {
-
-		touched[s] = true;
-
-		let colour = this.state_at(s);
-
-		for (let neighbour of this.neighbours(s)) {
-
-			if (touched[neighbour]) {
-				continue;
-			}
-
-			if (this.state_at(neighbour) === colour) {
-				this.group_at_recurse(neighbour, touched);
+		while (queue.length > 0) {
+			let z = queue.shift()								// i.e. popleft
+			for (let neighbour of this.neighbours(z)) {
+				if (result.hasOwnProperty(neighbour)) {
+					continue;
+				}
+				if (this.state_at(neighbour) == colour) {
+					result[neighbour] = true;					// In BFS, important to add to result as soon as discovered,
+					queue.push(neighbour);						// to prevent things from being added to the queue twice or more.
+				}
 			}
 		}
+
+		return Object.keys(result);
 	}
 
 	has_liberties(s) {
 
 		if (!this.state_at(s)) {
-			return false;						// I guess?
+			return false;										// I guess?
 		}
 
 		let touched = Object.create(null);
