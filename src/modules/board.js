@@ -286,7 +286,7 @@ class Board {
 
 		let colour = this.state_at(s);
 
-		if (!this.state_at(s)) {
+		if (!colour) {
 			return false;										// I guess?
 		}
 
