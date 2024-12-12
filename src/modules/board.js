@@ -272,7 +272,7 @@ class Board {
 				if (result.hasOwnProperty(neighbour)) {
 					continue;
 				}
-				if (this.state_at(neighbour) == colour) {
+				if (this.state_at(neighbour) === colour) {
 					result[neighbour] = true;					// In BFS, important to add to result as soon as discovered,
 					queue.push(neighbour);						// to prevent things from being added to the queue twice or more.
 				}
@@ -284,39 +284,27 @@ class Board {
 
 	has_liberties(s) {
 
+		let colour = this.state_at(s);
+
 		if (!this.state_at(s)) {
 			return false;										// I guess?
 		}
 
-		let touched = Object.create(null);
+		let seen = {}; seen[s] = true;
+		let queue = []; queue.push(s);
 
-		return this.has_liberties_recurse(s, touched);
-	}
-
-	has_liberties_recurse(s, touched) {
-
-		touched[s] = true;
-
-		let colour = this.state_at(s);
-
-		for (let neighbour of this.neighbours(s)) {
-
-			// Note that, by checking touched at the start, we allow legality checking by setting
-			// the potentially suicidal / capturing stone as touched without actually playing it.
-
-			if (touched[neighbour]) {
-				continue;
-			}
-
-			let neighbour_colour = this.state_at(neighbour);
-
-			if (!neighbour_colour) {
-				return true;
-			}
-
-			if (neighbour_colour === colour) {
-				if (this.has_liberties_recurse(neighbour, touched)) {
+		while (queue.length > 0) {
+			let z = queue.shift()								// i.e. popleft
+			for (let neighbour of this.neighbours(z)) {
+				if (seen.hasOwnProperty(neighbour)) {
+					continue;
+				}
+				let c = this.state_at(neighbour);
+				if (c === "") {
 					return true;
+				} else if (c === colour) {
+					seen[neighbour] = true;
+					queue.push(neighbour);
 				}
 			}
 		}
@@ -337,45 +325,38 @@ class Board {
 			return false;
 		}
 
-		let neighbours = this.neighbours(s);
-
 		if (this.get_ko() === s) {
 			return false;
 		}
 
 		// Move will be legal as long as it's not suicide...
 
-		for (let neighbour of neighbours) {
-			if (!this.state_at(neighbour)) {
-				return true;					// New stone has a liberty.
+		try {									// Using try... finally pattern to always undo the following temp stone placement.
+
+			this.set_at(s, this.active);		// A little inefficient since it leads to zobrist hashing, but legal_move() is rarely called.
+
+			if (this.has_liberties(s)) {
+				return true;
 			}
-		}
 
-		// Note that the above test is done there rather than inside the loop below
-		// because it's super-cheap and so worth doing in its entirety first.
+			let inactive = (this.active === "b") ? "w" : "b";
+			let neighbours = this.neighbours(s);
 
-		let inactive = (this.active === "b") ? "w" : "b";
-
-		for (let neighbour of neighbours) {
-			if (this.state_at(neighbour) === this.active) {
-				let touched = Object.create(null);
-				touched[s] = true;
-				if (this.has_liberties_recurse(neighbour, touched)) {
-					return true;				// One of the groups we're joining has a liberty other than s.
-				}
-			} else if (this.state_at(neighbour) === inactive) {
-				let touched = Object.create(null);
-				touched[s] = true;
-				if (!this.has_liberties_recurse(neighbour, touched)) {
-					return true;				// One of the enemy groups has no liberties other than s.
+			for (let neighbour of neighbours) {
+				if (this.state_at(neighbour) === inactive) {
+					if (!this.has_liberties(neighbour)) {
+						return true;			// One of the enemy groups has no liberties other than s.
+					}
 				}
 			}
+		} finally {								// Gets done even if we return in the try {} block.
+			this.set_at(s, "");
 		}
 
 		return false;
 	}
 
-	play(s, colour) {					// If colour is not specified, uses this.active.
+	play(s, colour) {							// If colour is not specified, uses this.active.
 
 		// Play the move (or pass) given... contains no legality checks... can play ko... can play the inactive colour!
 
@@ -443,7 +424,7 @@ class Board {
 		this.ko = null;
 	}
 
-	gtp(s) {													// "jj" --> "K10"		(off-board becomes "pass")
+	gtp(s) {															// "jj" --> "K10"		(off-board becomes "pass")
 		if (!this.in_bounds(s)) {
 			return "pass";
 		}
@@ -465,7 +446,7 @@ class Board {
 		return letter + number.toString();
 	}
 
-	parse_gtp_move(s) {										// "K10" --> "jj"		(off-board becomes "")
+	parse_gtp_move(s) {													// "K10" --> "jj"		(off-board becomes "")
 
 		if (typeof s !== "string" || s.length < 2 || s === "pass") {
 			return "";
