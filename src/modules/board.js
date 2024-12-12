@@ -333,17 +333,12 @@ class Board {
 		// Move will be legal as long as it's not suicide...
 
 		try {									// Using try... finally pattern to always undo the following temp stone placement.
-
 			this.set_at(s, this.active);		// A little inefficient since it leads to zobrist hashing, but legal_move() is rarely called.
-
 			if (this.has_liberties(s)) {
 				return true;
 			}
-
 			let inactive = (this.active === "b") ? "w" : "b";
-			let neighbours = this.neighbours(s);
-
-			for (let neighbour of neighbours) {
+			for (let neighbour of this.neighbours(s)) {
 				if (this.state_at(neighbour) === inactive) {
 					if (!this.has_liberties(neighbour)) {
 						return true;			// One of the enemy groups has no liberties other than s.
