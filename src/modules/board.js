@@ -263,13 +263,13 @@ class Board {
 			return [];
 		}
 
-		let result = {}; result[s] = true;
+		let result = Object.create(null); result[s] = true;
 		let queue = []; queue.push(s);
 
 		while (queue.length > 0) {
 			let z = queue.shift()								// i.e. popleft
 			for (let neighbour of this.neighbours(z)) {
-				if (result.hasOwnProperty(neighbour)) {
+				if (result[neighbour]) {
 					continue;
 				}
 				if (this.state_at(neighbour) === colour) {
@@ -290,13 +290,13 @@ class Board {
 			return false;										// I guess?
 		}
 
-		let seen = {}; seen[s] = true;
+		let seen = Object.create(null); seen[s] = true;
 		let queue = []; queue.push(s);
 
 		while (queue.length > 0) {
 			let z = queue.shift()								// i.e. popleft
 			for (let neighbour of this.neighbours(z)) {
-				if (seen.hasOwnProperty(neighbour)) {
+				if (seen[neighbour]) {
 					continue;
 				}
 				let c = this.state_at(neighbour);
