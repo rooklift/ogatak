@@ -303,7 +303,7 @@ class Board {
 				if (c === "") {
 					return true;
 				}
-				seen[neighbour] = true;
+				seen[neighbour] = true;							// Add to seen as soon as discovered. See note above.
 				if (c === colour) {
 					queue.push(neighbour);
 				}
