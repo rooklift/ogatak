@@ -265,9 +265,10 @@ class Board {
 
 		let result = Object.create(null); result[s] = true;
 		let queue = []; queue.push(s);
+		let qi = -1;
 
-		while (queue.length > 0) {
-			let z = queue.shift()								// i.e. popleft
+		while (++qi < queue.length) {
+			let z = queue[qi];
 			for (let neighbour of this.neighbours(z)) {
 				if (result[neighbour]) {
 					continue;
@@ -292,9 +293,10 @@ class Board {
 
 		let seen = Object.create(null); seen[s] = true;
 		let queue = []; queue.push(s);
+		let qi = -1;
 
-		while (queue.length > 0) {
-			let z = queue.shift()								// i.e. popleft
+		while (++qi < queue.length) {
+			let z = queue[qi];
 			for (let neighbour of this.neighbours(z)) {
 				if (seen[neighbour]) {
 					continue;
