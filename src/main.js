@@ -699,6 +699,23 @@ function menu_build() {
 					type: "separator",
 				},
 				{
+					label: translate("MENU_NEXT_MISTAKE"),
+					accelerator: "CommandOrControl+Shift+N",
+					click: () => {
+						win.webContents.send("call", "next_mistake");
+					}
+				},
+				{
+					label: translate("MENU_PREVIOUS_MISTAKE"),
+					accelerator: "CommandOrControl+Shift+P",
+					click: () => {
+						win.webContents.send("call", "previous_mistake");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: translate("MENU_BACKWARD"),
 					accelerator: "Up",			// Likely intercepted by the renderer process, see __start_handlers.js
 					click: () => {
