@@ -669,9 +669,10 @@ let hub_main_props = {
 	},
 
 	next_mistake: function() {
+
 		let delta_score = 0
 		let current_node = this.node
-		while (delta_score > -3 && current_node.children.length > 0) {
+		while (delta_score > -config.mistake_threshold && current_node.children.length > 0) {
 			current_node = current_node.get_blessed_child()
 			const last_score = current_node.parent.stored_score()
 			delta_score = current_node.stored_score() - last_score
@@ -690,7 +691,7 @@ let hub_main_props = {
 		if (!current_node.parent)
 			return
 		current_node = current_node.parent
-		while (delta_score > -3 && current_node.parent) {
+		while (delta_score > -config.mistake_threshold && current_node.parent) {
 			const last_score = current_node.stored_score()
 			delta_score = last_score - current_node.parent.stored_score()
 			if (current_node.has_key("W")) {
