@@ -27,7 +27,7 @@ const get_path_for_file = (webUtils && webUtils.getPathForFile) ? webUtils.getPa
 
 let mousedown_event_is_electron_bug = () => false;
 
-if ([24, 25, 26, 27, 28, 29, 30, 31, 32].includes(parseInt(process.versions.electron))) {
+if ([24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35].includes(parseInt(process.versions.electron))) {
 	mousedown_event_is_electron_bug = (event) => {
 		if (event.button === 0 && event.buttons === 2) {
 			console.log("Electron bugged click detected.");
