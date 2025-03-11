@@ -219,7 +219,7 @@ translations[`English`] = {
 
 	// Alerts...
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
-	ALERT_SAVED: `Saved.`,
+	ALERT_SAVED: `Saved 1 game.`,
 	ALERT_SAVED_COLLECTION: `Saved collection.`,
 
 	// About box...
