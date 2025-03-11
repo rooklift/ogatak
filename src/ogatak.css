@@ -205,6 +205,27 @@ body {
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */
 
+#toast {
+	position: fixed;
+	font-size: 2em;
+	bottom: 20px;
+	right: 20px;
+	background-color: #000000b3;
+	color: #ffbbccff;
+	padding: 10px 20px;
+	border-radius: 5px;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease-in-out;
+	z-index: 9999;
+}
+
+#toast.visible {
+	opacity: 1;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------------------- */
+
 #rootprops {
 	background-color: #080808ff;
 	display: none;
@@ -280,3 +301,4 @@ td {
 .green {
 	color: #99ff99ff;
 }
+
