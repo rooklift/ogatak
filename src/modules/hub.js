@@ -153,7 +153,7 @@ let hub_main_props = {
 		let root = this.node.get_root();
 		root.filepath = filepath;
 		root.save_ok = true;
-		toast(translate("ALERT_SAVED"), 2000);
+		toast(translate("ALERT_SAVED"), 1600);
 	},
 
 	save_fast: function() {
@@ -168,7 +168,7 @@ let hub_main_props = {
 	save_collection: function(filepath) {
 		let nodes = tabber.tab_node_list(this.node);
 		save_sgf_multi(nodes, filepath);
-		toast(translate("ALERT_SAVED_COLLECTION"), 2000);
+		toast(translate("ALERT_SAVED_COLLECTION"), 1600);
 	},
 
 	// Loading.....................................................................................

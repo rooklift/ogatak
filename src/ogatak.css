@@ -208,10 +208,10 @@ body {
 #toast {
 	position: fixed;
 	font-size: 2em;
-	bottom: 20px;
-	right: 20px;
-	background-color: #000000b3;
-	color: #ffbbccff;
+	bottom: 3px;
+	right: 3px;
+	background-color: #ffffffff;
+	color: #000000ff;
 	padding: 10px 20px;
 	border-radius: 5px;
 	opacity: 0;
