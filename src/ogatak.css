@@ -207,7 +207,7 @@ body {
 
 #toast {
 	position: fixed;
-	font-size: 2em;
+	font-size: 1.5em;
 	bottom: 3px;
 	right: 3px;
 	background-color: #ffffffff;
