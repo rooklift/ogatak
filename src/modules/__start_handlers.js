@@ -243,7 +243,9 @@ window.addEventListener("keydown", (event) => {
 
 	} else if (event.code === "Space") {
 		event.preventDefault();							// As noted, this can't be done if the space was for the comment_drawer, so the handler
-		hub.toggle_ponder();							// below calls stopPropagation() to prevent it reaching this window-based handler.
+		if (!event.repeat) {							// below calls stopPropagation() to prevent it reaching this window-based handler.
+			hub.toggle_ponder();
+		}
 
 	// Comma is handled here on the renderer side for similar reasons.
 
