@@ -30,7 +30,7 @@ const mousedown_event_is_electron_bug = parseInt(process.versions.electron) < 24
 	() => false :
 
 	(event) => {
-		if (event.button === 0 && event.buttons === 2) {
+		if (event.button === 0 && event.buttons !== 1) {
 			console.log("Electron bugged click detected.");
 			return true;
 		}
