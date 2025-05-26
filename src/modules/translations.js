@@ -1053,6 +1053,229 @@ translations[`简体中文`] = {
 
 };
 
+// ------------------------------------------------------------------------------------------------
+
+translations[`한국어`] = {
+
+	TRANSLATION_BY: "gro00",		// Name of the translator, for credits. Leave blank for no credit.
+
+	MENU_FILE: `파일`,
+
+		MENU_ABOUT: `정보`,
+		MENU_NEW_BOARD: `새 바둑판`,
+		MENU_NEW_SMALL_BOARD: `새 작은 바둑판`,
+		MENU_NEW_RECTANGULAR_BOARD: `새 크기 바둑판`,
+		MENU_HANDICAP: `접바둑`,
+		MENU_CLOSE_TAB: `탭 닫기`,
+		MENU_OPEN: `열기...`,
+		MENU_PASTE_SGF: `SGF 붙여넣기`,
+		MENU_SAVE_GAME: `기보 저장`,
+		MENU_SAVE_GAME_AS: `새 이름으로 기보 저장하기...`,
+		MENU_SAVE_COLLECTION_AS: `기보 모음 저장하기...`,		// Every game in the tabs saved into 1 file.
+		MENU_QUIT: `종료`,
+
+	MENU_SETUP: `설정`,
+
+		MENU_LOCATE_KATAGO: `KataGo 선택...`,
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `KataGo 분석 설정 선택...`,
+		MENU_CHOOSE_WEIGHTS: `network 선택...`,
+		MENU_CLEAR_CACHE: `캐시 비우기`,
+		MENU_RESTART: `재시작`,
+		MENU_ENGINE_REPORT_RATE: `엔진 보고 빈도`,
+		MENU_FAST_FIRST_REPORT: `빠른 초기분석 보고`,			// Uses KataGo's firstReportDuringSearchAfter setting.
+
+	MENU_TREE: `수순`,
+
+		MENU_PLAY_BEST_MOVE: `최선 수`,					// Only works if some analysis already exists for the position.
+		MENU_PASS: `쉼`,
+		MENU_ROOT: `처음`,
+		MENU_END: `끝`,
+		MENU_BACKWARD: `이전으로`,
+		MENU_FORWARD: `다음으로`,
+		MENU_BACKWARD_10: `이전 10수`,
+		MENU_FORWARD_10: `다음 10수`,
+		MENU_PREVIOUS_SIBLING: `이전 변화도`,
+		MENU_NEXT_SIBLING: `다음 변화도`,
+		MENU_RETURN_TO_MAIN_LINE: `기준 수순으로 복귀`,
+		MENU_FIND_PREVIOUS_FORK: `이전 분기 찾기`,
+		MENU_FIND_NEXT_FORK: `다음 분기 찾기`,
+		MENU_PROMOTE_LINE: `수순 승격`,
+		MENU_PROMOTE_LINE_TO_MAIN_LINE: `현재 수순을 기준 수순으로 승격`,
+		MENU_DELETE_NODE: `현재 수 이후 삭제`,
+		MENU_DELETE_ALL_PREVIOUS_FORKS: `이전 분기 모두 삭제`,
+
+	MENU_TOOLS: `도구`,
+
+		MENU_NORMAL: `일반`,
+		MENU_ADD_BLACK: `흑 추가`,
+		MENU_ADD_WHITE: `백 추가`,
+		MENU_ADD_EMPTY: `돌 지움`,
+		MENU_TRIANGLE: `삼각형`,
+		MENU_SQUARE: `사각형`,
+		MENU_CIRCLE: `원`,
+		MENU_CROSS: `가위`,
+		MENU_LABELS_ABC: `라벨 (ABC)`,
+		MENU_LABELS_123: `라벨 (123)`,
+		MENU_TOGGLE_ACTIVE_PLAYER: `한 수 쉬기`,
+		MENU_GAME_INFO_EDITOR: `대국 정보 편집`,
+
+	MENU_ANALYSIS: `분석`,
+
+		MENU_GO_HALT_TOGGLE: `분석 / 멈춤 토글`,
+		MENU_GO: `분석`,
+		MENU_HALT: `멈춤`,
+		MENU_SELF_PLAY: `Self-play`,
+		MENU_AUTOANALYSIS: `자동 분석`,
+		MENU_BACKWARD_ANALYSIS: `역방향 분석`,			// Looks at a position then goes to the previous position, repeatedly.
+		MENU_AUTOANALYSIS_VISITS: `자동분석 visits`,
+		MENU_SET_RULES: `규칙`,
+			MENU_CHINESE: `중국`,
+			MENU_JAPANESE: `한국/일본`,
+			MENU_STONE_SCORING: `Stone Scoring`,				// Get as many stones on the board as possible. Like area rules + group tax.
+		MENU_SET_KOMI: `덤`,
+		MENU_PV_LENGTH_MAX: `후보 수순 길이 (최대값)`,
+		MENU_WIDE_ROOT_NOISE: `Wide root noise`,
+		MENU_OWNERSHIP: `우위 표시`,
+			MENU_NO_OWNERSHIP: `없음`,
+			MENU_DEAD_STONES: `죽은 돌`,					// Stones where the predicted owner is the other colour.
+			MENU_WHOLE_BOARD: `전체 판`,
+			MENU_WHOLE_BOARD_ALT: `전체 판 (alt)`,
+		MENU_PER_MOVE: `...매 착수마다 (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
+		MENU_PERFORMANCE_REPORT: `성능 보고`,
+		MENU_CLEAR_ALL_ANALYSIS: `모든 분석 삭제`,
+
+	MENU_DISPLAY: `보기`,
+
+		MENU_VISIT_FILTER: `Visit 필터`,
+			MENU_ALL: `모두`,
+		MENU_NUMBERS: `숫자`,
+			MENU_NUM_WINRATE: `승률`,
+			MENU_NUM_LCB: `LCB`,
+			MENU_NUM_SCORE: `점수`,
+			MENU_NUM_DELTA: `차이값`,
+			MENU_NUM_VISITS: `Visits`,
+			MENU_NUM_VISITS_PC: `Visits (%)`,
+			MENU_NUM_ORDER: `순위`,
+			MENU_NUM_POLICY: `정책값`,
+		MENU_GRAPH: `그래프`,
+			MENU_GRAPH_WINRATE: `승률`,
+			MENU_GRAPH_SCORE: `점수`,
+		MENU_BLACK_POV_ALWAYS: `항상 흑 기준`,
+		MENU_COORDINATES: `좌표`,
+		MENU_STONE_COUNTS: `돌 갯수 (잡은 돌 대신)`,
+		MENU_CANDIDATE_MOVES: `후보 수순`,
+		MENU_NO_PONDER_NO_CANDIDATES: `...생각 중에만 표시`,
+		MENU_WITH_PV_MOUSEOVER: `...마우스 위치시 표시`,
+		MENU_FADE_BY_VISITS: `...visits 기준 선명도`,
+		MENU_MOUSEOVER_DELAY: `후보수 표시 지연`,
+		MENU_NEXT_MOVE_MARKERS: `후보수 마크`,
+		MENU_COLOURS: `색상`,
+
+	MENU_SIZES: `크기`,
+
+		MENU_EMBIGGEN_SMALL_BOARDS: `작은 바둑판 확대`,
+		MENU_INFO_FONT: `정보표시 글꼴`,
+		MENU_GRAPH_WIDTH: `그래프 폭`,
+		MENU_GRAPH_MAJOR_LINES: `그래프 주요 선`,
+		MENU_GRAPH_MINOR_LINES: `그래프 보조 선`,
+		MENU_BOARD_LINES: `바둑판 선`,
+		MENU_THUMBNAIL_SQUARES: `미리보기 크기`,
+		MENU_TREE_SPACING: `수순 간격`,
+		MENU_COMMENT_BOX: `코멘트 상자`,
+
+	MENU_MISC: `기타`,
+
+		MENU_ESCAPE: `메인 화면으로`,
+		MENU_ENGINE_PLAYS_BLACK: `엔진이 흑돌을 둠`,
+		MENU_ENGINE_PLAYS_WHITE: `엔진이 백돌을 둠`,
+		MENU_ENGINE_PLAYS_CURRENT: `엔진이 현재 색으로 둠`,
+		MENU_ENGINE_PLAYS_POLICY: `정책 값으로 (no search)`,
+		MENU_ENGINE_PLAYS_DRUNK: `정책 값으로 (drunk version)`,
+		MENU_AUTOSCROLL: `자동 스크롤`,
+		MENU_AUTOSCROLL_DELAY: `스크롤 지연시간`,
+		MENU_LOAD_GAMES_AT_FINAL_POSITION: `대국 불러올때 마지막 수 위치로`,
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `불러오는 대국의 덤 값으로 규칙 추측`,			// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치`,						// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI에 하드웨어 가속 사용`,
+
+	MENU_DEV: `Dev`,
+
+		MENU_SHOW_ROOT_PROPERTIES: `SGF 루트 속성 표시`,
+		MENU_SHOW_NODE_PROPERTIES: `노드 속성 표시`,
+		MENU_SHOW_ENGINE_STDERR: `엔진 오류메시지 표시`,
+		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch 검사`,							// Technical dev thing barely worth worrying about.
+		MENU_RESET_MISMATCH_WARNINGS: `mismatch 경고 초기화`,							// Connected to the above.
+		MENU_SNAPPY_NODE_SWITCH_HACK: `빠른 노드 전환 사용`,							// Uses a slightly dubious trick to make things more responsive.
+		MENU_SHOW_CONFIG_FILE: `설정 파일 보기`,
+		MENU_TOGGLE_DEV_TOOLS: `개발자 도구 토글`,
+
+	MENU_LANGUAGE: `언어`,
+
+	// Items that show on first run, when KataGo (etc) have not been located...
+	GUI_ENGINE_NOT_SET: `엔진 지정 없음.`,
+	GUI_ENGINE_CONFIG_NOT_SET: `엔진 설정 없음.`,
+	GUI_WEIGHTS_NOT_SET: `네트웍 지정 없음.`,
+	GUI_RESOLVE_THIS: `<span class="yellow">"설정"</span> 메뉴를 통해 문제를 해결하세요.`,
+
+	// Message (split across 2 lines) that shows at startup while KataGo loads...
+	GUI_AWAITING_RESPONSE_1: `엔진의 응답을 기다리는 중입니다. 필요한 경우`,
+	GUI_AWAITING_RESPONSE_2: `메뉴에서 <span class="yellow">Dev --> 엔진 오류메시지 표시</span> 항목을 선택하세요.`,
+
+	// Message (split across 2 lines) that shows at startup while an unsupported GTP engine loads (not recommended)...
+	GUI_AWAITING_GTP_RESPONSE_1: `GTP 엔진의 응답을 기다리는 중...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `Note: GTP 기능은 실험적이며 권장되지 않습니다.`,
+
+	// Info editor strings...
+	INFO_BLACK: `흑`,
+	INFO_BLACK_RANK: `흑 단수`,
+	INFO_WHITE: `백`,
+	INFO_WHITE_RANK: `백 단수`,
+	INFO_EVENT: `이벤트`,
+	INFO_ROUND: `라운드`,
+	INFO_GAME_NAME: `게임 이름`,
+	INFO_PLACE: `장소`,
+	INFO_DATE: `날짜`,
+	INFO_RESULT: `결과`,
+
+	// Info panel... (note that whitespace is used for alignment, you may want to add spaces in some places).
+	// It's also fine to not translate this stuff at all (which may be easier).
+	INFO_PANEL_RULES: `규칙`,
+	INFO_PANEL_UNKNOWN: `Unknown`,
+	INFO_PANEL_KOMI: `덤`,
+	INFO_PANEL_EDITING: `편집 모드`,
+	INFO_PANEL_ESCAPE: `ESCAPE 키를 눌러 종료`,
+	INFO_PANEL_PREV: `이전`,
+	INFO_PANEL_SHOW: `표시`,
+	INFO_PANEL_B: `B`,
+	INFO_PANEL_W: `W`,
+	INFO_PANEL_SCORE: `점수`,
+	INFO_PANEL_STN: `돌`,
+	INFO_PANEL_CAPS: `잡은 돌`,
+	INFO_PANEL_THIS: `현재 위치`,
+	INFO_PANEL_BEST: `최선수`,
+	INFO_PANEL_VISITS: `Visits`,
+
+	// Alerts...
+	ALERT_RESTART_REQUIRED: `프로그램을 재시작해야 합니다.`,
+	ALERT_SAVED: `저장됨.`,
+	ALERT_SAVED_COLLECTION: `모음이 저장됨.`,
+
+	// About box...
+	ABOUT_FILE_LOCATIONS: `엔진, 엔진 설정 파일 및 네트워크 위치:`,
+	ABOUT_GTP_COMMAND: `GTP 프로그램 및 매개변수:`,
+	ABOUT_CONFIG_LOCATION: `Ogatak 설정 파일 위치:`,
+	ABOUT_RAM_USAGE: `RAM 사용량 (MB) (엔진 제외):`,
+	ABOUT_THANKS_TRANSLATORS: `번역자에게 감사드립니다:`,
+
+	// A single message (split across 5 lines) that shows if config.json cannot be parsed...
+	BAD_CONFIG_1: `설정 파일을 분석할 수 없습니다.`,
+	BAD_CONFIG_2: `이 문제를 해결하기 전까지 저장되지 않습니다.`,
+	BAD_CONFIG_3: `현재 설정이 저장되지 않는다는 의미입니다.`,
+	BAD_CONFIG_4: `이 문제를 해결해야 합니다.`,
+	BAD_CONFIG_5: `또는 파일을 삭제할 수도 있습니다.`,
+
+};
+
 
 
 module.exports = translations;
