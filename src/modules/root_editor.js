@@ -16,14 +16,6 @@ const supported_keys = {
 	"RE": translate("INFO_RESULT"),
 };
 
-let padding_value = 10;
-
-for (let value of Object.values(supported_keys)) {
-	if (value.length > padding_value) {
-		padding_value = value.length;
-	}
-}
-
 function init() {
 
 	let ret = Object.assign(Object.create(root_editor_prototype), {
@@ -35,10 +27,14 @@ function init() {
 
 	ret.set_font_size(config.info_font_size);
 
-	let s = "";
+	let s = "<table>";
 	for (let [key, label] of Object.entries(supported_keys)) {
-		s += `<span class="yellow">${pad(label, padding_value, true)}</span> <input type="text" id="rootprops_${key}" value="">\n`;
+		s += `<tr>`;
+		s += `<td class="right yellow">${label}</td>`;
+		s += `<td><input type="text" id="rootprops_${key}" value=""></td>`;
+		s += `</tr>`;
 	}
+	s += "</table>";
 	ret.inner_div.innerHTML = s;
 
 	// Now that the elements actually exist, we can do this...

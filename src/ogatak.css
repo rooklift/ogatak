@@ -248,7 +248,7 @@ body {
 }
 
 input {
-	margin: 1em 1em 0 1em;
+	margin: 0.5em 1em 0.5em 1em;
 	background-color: #181818ff;
 	border: none;
 	caret-color: white;
@@ -284,6 +284,10 @@ td {
 	background-color: #080808ff;
 	text-align: center;
 	color: #d0ad75ff;
+}
+
+.right {
+	text-align: right;
 }
 
 .white {
