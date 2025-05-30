@@ -1252,7 +1252,7 @@ translations[`한국어`] = {
 	INFO_PANEL_STN: `돌`,
 	INFO_PANEL_CAPS: `잡은 돌`,
 	INFO_PANEL_THIS: `현재 위치`,
-	INFO_PANEL_BEST: `최선수`,
+	INFO_PANEL_BEST: `　 최선수`,
 	INFO_PANEL_VISITS: `Visits`,
 
 	// Alerts...
