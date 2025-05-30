@@ -1078,7 +1078,7 @@ translations[`한국어`] = {
 
 		MENU_LOCATE_KATAGO: `KataGo 선택...`,
 		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `KataGo 분석 설정 선택...`,
-		MENU_CHOOSE_WEIGHTS: `network 선택...`,
+		MENU_CHOOSE_WEIGHTS: `네트웍 가중치 선택...`,
 		MENU_CLEAR_CACHE: `캐시 비우기`,
 		MENU_RESTART: `재시작`,
 		MENU_ENGINE_REPORT_RATE: `엔진 보고 빈도`,
@@ -1124,14 +1124,14 @@ translations[`한국어`] = {
 		MENU_GO_HALT_TOGGLE: `분석 / 멈춤 토글`,
 		MENU_GO: `분석`,
 		MENU_HALT: `멈춤`,
-		MENU_SELF_PLAY: `Self-play`,
+		MENU_SELF_PLAY: `자가대국`,
 		MENU_AUTOANALYSIS: `자동 분석`,
 		MENU_BACKWARD_ANALYSIS: `역방향 분석`,			// Looks at a position then goes to the previous position, repeatedly.
-		MENU_AUTOANALYSIS_VISITS: `자동분석 visits`,
+		MENU_AUTOANALYSIS_VISITS: `자동분석 visit값`,
 		MENU_SET_RULES: `규칙`,
 			MENU_CHINESE: `중국`,
 			MENU_JAPANESE: `한국/일본`,
-			MENU_STONE_SCORING: `Stone Scoring`,				// Get as many stones on the board as possible. Like area rules + group tax.
+			MENU_STONE_SCORING: `고대 중국`,				// Get as many stones on the board as possible. Like area rules + group tax.
 		MENU_SET_KOMI: `덤`,
 		MENU_PV_LENGTH_MAX: `후보 수순 길이 (최대값)`,
 		MENU_WIDE_ROOT_NOISE: `Wide root noise`,
@@ -1139,8 +1139,8 @@ translations[`한국어`] = {
 			MENU_NO_OWNERSHIP: `없음`,
 			MENU_DEAD_STONES: `죽은 돌`,					// Stones where the predicted owner is the other colour.
 			MENU_WHOLE_BOARD: `전체 판`,
-			MENU_WHOLE_BOARD_ALT: `전체 판 (alt)`,
-		MENU_PER_MOVE: `...매 착수마다 (costly)`,					// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
+			MENU_WHOLE_BOARD_ALT: `전체 판 (다른 방식)`,
+		MENU_PER_MOVE: `...매 착수마다 (성능 희생)`,		// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
 		MENU_PERFORMANCE_REPORT: `성능 보고`,
 		MENU_CLEAR_ALL_ANALYSIS: `모든 분석 삭제`,
 
@@ -1189,13 +1189,13 @@ translations[`한국어`] = {
 		MENU_ENGINE_PLAYS_BLACK: `엔진이 흑돌을 둠`,
 		MENU_ENGINE_PLAYS_WHITE: `엔진이 백돌을 둠`,
 		MENU_ENGINE_PLAYS_CURRENT: `엔진이 현재 색으로 둠`,
-		MENU_ENGINE_PLAYS_POLICY: `정책 값으로 (no search)`,
-		MENU_ENGINE_PLAYS_DRUNK: `정책 값으로 (drunk version)`,
+		MENU_ENGINE_PLAYS_POLICY: `정책망 최선수 (탐색 없이)`,
+		MENU_ENGINE_PLAYS_DRUNK: `정책망 (느슨한)`,
 		MENU_AUTOSCROLL: `자동 스크롤`,
 		MENU_AUTOSCROLL_DELAY: `스크롤 지연시간`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `대국 불러올때 마지막 수 위치로`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `불러오는 대국의 덤 값으로 규칙 추측`,			// 6.5 --> Japanese, 7.5 --> Chinese.
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치`,						// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치 (접바둑)`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI에 하드웨어 가속 사용`,
 
 	MENU_DEV: `Dev`,
@@ -1205,16 +1205,16 @@ translations[`한국어`] = {
 		MENU_SHOW_ENGINE_STDERR: `엔진 오류메시지 표시`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist mismatch 검사`,							// Technical dev thing barely worth worrying about.
 		MENU_RESET_MISMATCH_WARNINGS: `mismatch 경고 초기화`,							// Connected to the above.
-		MENU_SNAPPY_NODE_SWITCH_HACK: `빠른 노드 전환 사용`,							// Uses a slightly dubious trick to make things more responsive.
+		MENU_SNAPPY_NODE_SWITCH_HACK: `빠른 노드 전환 사용`,								// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `설정 파일 보기`,
 		MENU_TOGGLE_DEV_TOOLS: `개발자 도구 토글`,
 
 	MENU_LANGUAGE: `언어`,
 
 	// Items that show on first run, when KataGo (etc) have not been located...
-	GUI_ENGINE_NOT_SET: `엔진 지정 없음.`,
+	GUI_ENGINE_NOT_SET: `엔진 없음.`,
 	GUI_ENGINE_CONFIG_NOT_SET: `엔진 설정 없음.`,
-	GUI_WEIGHTS_NOT_SET: `네트웍 지정 없음.`,
+	GUI_WEIGHTS_NOT_SET: `네트웍 가중치 없음.`,
 	GUI_RESOLVE_THIS: `<span class="yellow">"설정"</span> 메뉴를 통해 문제를 해결하세요.`,
 
 	// Message (split across 2 lines) that shows at startup while KataGo loads...
@@ -1227,12 +1227,12 @@ translations[`한국어`] = {
 
 	// Info editor strings...
 	INFO_BLACK: `흑`,
-	INFO_BLACK_RANK: `흑 단수`,
+	INFO_BLACK_RANK: `흑 단위(급수)`,
 	INFO_WHITE: `백`,
-	INFO_WHITE_RANK: `백 단수`,
-	INFO_EVENT: `이벤트`,
+	INFO_WHITE_RANK: `백 단위(급수)`,
+	INFO_EVENT: `대회 이름`,
 	INFO_ROUND: `라운드`,
-	INFO_GAME_NAME: `게임 이름`,
+	INFO_GAME_NAME: `대국 이름`,
 	INFO_PLACE: `장소`,
 	INFO_DATE: `날짜`,
 	INFO_RESULT: `결과`,
@@ -1243,25 +1243,25 @@ translations[`한국어`] = {
 	INFO_PANEL_UNKNOWN: `Unknown`,
 	INFO_PANEL_KOMI: `덤`,
 	INFO_PANEL_EDITING: `편집 모드`,
-	INFO_PANEL_ESCAPE: `ESCAPE 키를 눌러 종료`,
-	INFO_PANEL_PREV: `이전`,
+	INFO_PANEL_ESCAPE: `ESC 키를 눌러 편집 종료`,
+	INFO_PANEL_PREV: `이전 수`,
 	INFO_PANEL_SHOW: `표시`,
 	INFO_PANEL_B: `B`,
 	INFO_PANEL_W: `W`,
-	INFO_PANEL_SCORE: `점수`,
+	INFO_PANEL_SCORE: `점수 차이`,
 	INFO_PANEL_STN: `돌`,
 	INFO_PANEL_CAPS: `잡은 돌`,
 	INFO_PANEL_THIS: `현재 위치`,
-	INFO_PANEL_BEST: `　 최선수`,
+	INFO_PANEL_BEST: `최선수`,
 	INFO_PANEL_VISITS: `Visits`,
 
 	// Alerts...
 	ALERT_RESTART_REQUIRED: `프로그램을 재시작해야 합니다.`,
-	ALERT_SAVED: `저장됨.`,
-	ALERT_SAVED_COLLECTION: `모음이 저장됨.`,
+	ALERT_SAVED: `기보가 저장됨.`,
+	ALERT_SAVED_COLLECTION: `기보 모음이 저장됨.`,
 
 	// About box...
-	ABOUT_FILE_LOCATIONS: `엔진, 엔진 설정 파일 및 네트워크 위치:`,
+	ABOUT_FILE_LOCATIONS: `엔진, 엔진 설정 및 네트워크 파일 위치:`,
 	ABOUT_GTP_COMMAND: `GTP 프로그램 및 매개변수:`,
 	ABOUT_CONFIG_LOCATION: `Ogatak 설정 파일 위치:`,
 	ABOUT_RAM_USAGE: `RAM 사용량 (MB) (엔진 제외):`,
