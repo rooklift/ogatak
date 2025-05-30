@@ -818,7 +818,7 @@ translations[`繁體中文`] = {
 	INFO_PANEL_SHOW: `顯示`,
 	INFO_PANEL_B: `黑`,
 	INFO_PANEL_W: `白`,
-	INFO_PANEL_SCORE: `領先目數`,
+	INFO_PANEL_SCORE: `目差`,
 	INFO_PANEL_STN: `棋子數`,
 	INFO_PANEL_CAPS: `提子數`,
 	INFO_PANEL_THIS: `本點位`,
