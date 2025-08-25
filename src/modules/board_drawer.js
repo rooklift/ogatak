@@ -1011,9 +1011,13 @@ let board_drawer_prototype = {
 
 		for (let n = 0; n < node.children.length; n++) {
 
+			let is_main_line = (n === 0 && node.children.length !== 1);
+
 			for (let key of ["B", "W"]) {
 
-				let draw_colour = (key === "B") ? "#00000080" : "#ffffffa0";
+				let black_code = is_main_line ? "#000000d0" : "#00000080";
+				let white_code = is_main_line ? "#fffffff0" : "#ffffffa0";
+				let draw_colour = (key === "B") ? black_code : white_code;
 
 				let moves_played = node.children[n].all_values(key);
 
@@ -1029,6 +1033,7 @@ let board_drawer_prototype = {
 							if (this.needed_marks[x][y]) {
 								if (!this.needed_marks[x][y].next_mark_colour) {
 									this.needed_marks[x][y].next_mark_colour = draw_colour;
+									this.needed_marks[x][y].is_main_line = is_main_line;
 								} else {
 									// We already have this mark due to some sibling, do nothing.
 								}
@@ -1036,6 +1041,7 @@ let board_drawer_prototype = {
 								this.needed_marks[x][y] = {
 									type: "next",
 									next_mark_colour: draw_colour,
+									is_main_line: is_main_line,
 								};
 							}
 						}
