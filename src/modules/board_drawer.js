@@ -679,7 +679,7 @@ let board_drawer_prototype = {
 			case "death":
 
 				this.has_drawn_ownership = true;
-				this.fsquare(x, y, 1/6, mark_colour_from_state(tstate, "#00000080"));
+				this.fsquare(x, y, o.deathProb/5, mark_colour_from_state(tstate, "#00000080"));
 				break;
 
 			case "owner_square":
@@ -813,9 +813,9 @@ let board_drawer_prototype = {
 				let own = ownership[x + (y * board.width)];
 
 				if (own > 0 && state === "w") {
-					this.needed_marks[x][y] = {type: "death"};
+					this.needed_marks[x][y] = {type: "death", deathProb: own};
 				} else if (own < 0 && state === "b") {
-					this.needed_marks[x][y] = {type: "death"};
+					this.needed_marks[x][y] = {type: "death", deathProb: -own};
 				}
 			}
 		}
