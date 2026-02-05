@@ -46,7 +46,7 @@ function load_sgf(buf) {
 				break;
 			} else {
 				ret.add_roots(o.root);
-				off += o.readcount;
+				off = o.offset + 1;
 			}
 		} catch (err) {
 			if (typeof err === "object" && err !== null && err.charset) {		// The function threw an object indicating the charset. Only possible for 1st call.
@@ -73,7 +73,7 @@ function load_sgf(buf) {
 	return ret;
 }
 
-function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset) {
+function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 
 	let root = null;
 	let node = null;
@@ -84,7 +84,7 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 	let key = new_byte_pusher("ascii");
 	let keycomplete = false;
 
-	for (let i = off; i < buf.length; i++) {
+	for ( ; i < buf.length; i++) {
 
 		let c = buf[i];
 
@@ -149,13 +149,13 @@ function load_sgf_recursive(buf, off, parent_of_local_root, allow_charset_reset)
 				if (!node) {
 					throw new Error("SGF load error: new subtree started but node was nil");
 				}
-				i += load_sgf_recursive(buf, i, node, false).readcount - 1;
-				// We subtract 1 as the ( character we have read is also counted by the recurse.
+				i = load_sgf_recursive(buf, i, node, false).offset;
+				// We don't add 1 because our loop will do i++ now.
 			} else if (c === 41) {						// that is )
 				if (!root) {
 					throw new Error("SGF load error: subtree ended but local root was nil");
 				}
-				return {root: root, readcount: i - off + 1};
+				return {root: root, offset: i};
 			} else if (c === 59) {						// that is ;
 				if (!root) {
 					root = new_node(parent_of_local_root);
