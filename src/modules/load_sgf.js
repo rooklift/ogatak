@@ -105,8 +105,18 @@ function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 				if (buf.length <= i + 1) {
 					throw new Error("SGF load error: escape character at end of input");
 				}
-				value.push(buf[i + 1]);
-				i++;
+				let next = buf[i + 1];
+				if (next === 10) {						// \n escaped line break: ignore
+					i++;
+				} else if (next === 13) {				// \r (and optional \n) escaped line break: ignore
+					i++;
+					if (buf.length > i + 1 && buf[i + 1] === 10) {
+						i++;
+					}
+				} else {
+					value.push(next);
+					i++;
+				}
 			} else if (c === 93) {						// that is ]
 				inside_value = false;
 				let key_string = key.string();
