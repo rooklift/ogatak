@@ -108,7 +108,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 				let next = buf[++i];					// Read the next char now.
 				if (next === 10) {						// escaped LF linebreak: ignore
 					// pass
-				} else if (next === 13) {				// escape CR linebreak: ignore (and check if it's CRLF)
+				} else if (next === 13) {				// escaped CR linebreak: ignore (and check if it's CRLF)
 					if (buf.length > i + 1 && buf[i + 1] === 10) {
 						i++;
 					}
