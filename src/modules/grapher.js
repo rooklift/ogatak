@@ -266,14 +266,58 @@ let grapher_prototype = {
 
 		ctx.setLineDash([]);
 
-		// Move number...
+		// Move number and analysis value...
+
+		function fetch_analysis_str(curr_node, graph_type) {
+			let analysis_str = "";
+			if (graph_type === 1) {
+				let val = curr_node.stored_winrate();
+				if (typeof val === "number") {
+					analysis_str = `(${(val * 100).toFixed(1)}%) `;
+				}
+			} else if (graph_type === 2) {
+				let val = curr_node.stored_score();
+				if (typeof val === "number") {
+					let s = val.toFixed(1);
+					if (!s.startsWith("-")) {
+						s = "+" + s;
+					}
+					analysis_str = "(" + s + ") ";
+				}
+			}
+			return analysis_str;
+		}
+
+		let analysis_str = fetch_analysis_str(node, config.graph_type);
+		let fetched = analysis_str.length !== 0;
+
+		// There are analysis values in the child node in the back analysis mode.
+		let should_move_next = hub.__backanalysis; 
+		let skipped = 0;
+
+		let curr_node = node.parent;
+		if (should_move_next && node.children.length !== 0) {
+			curr_node = node.children[0];
+		}
+
+		while (!fetched && curr_node && skipped <= 2) {
+			analysis_str = fetch_analysis_str(curr_node, config.graph_type);
+			fetched = analysis_str.length !== 0;
+
+			if (should_move_next && node.children.length !== 0) {
+				curr_node = node.children[0];
+			} else {
+				curr_node = curr_node.parent;
+			}
+			skipped += 1;
+		}
 
 		ctx.fillStyle = "#ffffffff";
 		ctx.textAlign = "right";
 		ctx.textBaseline = "top";
 		ctx.font = `${config.info_font_size}px Courier New`;
 		ctx.fillText(
-			node.depth.toString(),
+			analysis_str + node.depth.toString(),
 			this.draw_x_offset + this.drawable_width,
 			this.draw_y_offset + (this.drawable_height * node.depth / graph_depth) + 4
 		);
