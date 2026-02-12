@@ -72,7 +72,7 @@ body {
 #boardinfo {
 	grid-area: info;
 	display: grid;
-	grid-template-columns: auto 15ch auto 9ch auto 20ch;
+	grid-template-columns: auto 15ch auto 9ch auto 18ch;
 	column-gap: 0;
 	line-height: 1.5em;
 	font-family: monospace, monospace;
