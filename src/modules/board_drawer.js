@@ -1100,7 +1100,7 @@ let board_drawer_prototype = {
 
 		// A --------------------------------------------------------------------------------------
 
-		s1 += `<span class="boardinfo_rules"><span class="sand">${t.Rules}:&nbsp;</span>`;
+		s1 += `<span class="boardinfo_rules"><span class="sand">${t.Rules}: </span>`;
 
 		let rules = node.rules();
 		if (rules.length > 15) {
@@ -1109,19 +1109,19 @@ let board_drawer_prototype = {
 			rules = t.Unknown;
 		}
 
-		s1 += `<span class="white">${rules}</span></span>`;
+		s1 += `<span class="white">${pad(rules, 14)}</span></span>`;
 
 		// B --------------------------------------------------------------------------------------
 
-		s1 += `<span class="boardinfo_komi">${t.Komi}:&nbsp;</span>`;
+		s1 += `<span class="boardinfo_komi"> ${t.Komi}: </span>`;
 
 		// 2 --------------------------------------------------------------------------------------
 
-		s1 += `<span class="boardinfo_komi">${node.komi()}</span>`;
+		s1 += `<span class="boardinfo_komi">${pad(node.komi(), 5)}</span>`;
 
 		// C --------------------------------------------------------------------------------------
 
-		s1 += `<span class="boardinfo_numbers">${t.Show}:&nbsp;</span>`;
+		s1 += `<span class="boardinfo_numbers"> ${t.Show}: </span>`;
 
 		// 3 --------------------------------------------------------------------------------------
 
@@ -1151,22 +1151,22 @@ let board_drawer_prototype = {
 		let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
 
 		if (config.stone_counts) {
-			foo += ` <span class="boardinfo_stone_counts">${t.Stn}:&nbsp;</span>`;
+			foo += ` <span class="boardinfo_stone_counts">${t.Stn}: </span>`;
 		} else {
-			foo += ` <span class="boardinfo_stone_counts">${t.Caps}:&nbsp;</span>`;
+			foo += ` <span class="boardinfo_stone_counts">${t.Caps}: </span>`;
 		}
 
 		s2 += `<span>${foo}`;
 
 		if (config.stone_counts) {
-			s2 += `<span class="boardinfo_stone_counts white">${stone_counts}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts white">${pad(stone_counts, 10)}</span></span>`;
 		} else {
-			s2 += `<span class="boardinfo_stone_counts white">${capstring}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts white">${pad(capstring, 10)}</span></span>`;
 		}
 
 		// E --------------------------------------------------------------------------------------
 
-		s2 += `<span>${t.Score}:&nbsp;</span>`;
+		s2 += `<span> ${t.Score}: </span>`;
 
 		// 5 --------------------------------------------------------------------------------------
 
@@ -1196,11 +1196,11 @@ let board_drawer_prototype = {
 
 		}
 
-		s2 += `<span>${score}</span>`;
+		s2 += `<span>${pad(score, 7)}</span>`;
 
 		// F --------------------------------------------------------------------------------------
 
-		s2 += `<span>${t.Visits}:&nbsp;</span>`;
+		s2 += `<span> ${t.Visits}: </span>`;
 
 		// 6 --------------------------------------------------------------------------------------
 
@@ -1210,7 +1210,7 @@ let board_drawer_prototype = {
 			visits = `${override_moveinfo ? override_moveinfo.visits : node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
 		}
 
-		s2 += `<span>${visits}</span>`;
+		s2 += `<span>${pad(visits, 13)}</span>`;
 
 		// Done....................................................................................
 
