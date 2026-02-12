@@ -1095,14 +1095,12 @@ let board_drawer_prototype = {
 		//
 		// We will layout our 12 main spans (which can have nested spans inside) like so:
 		//
-		// A 1 B 2 C 3
-		// D 4 E 5 F 6
+		// A   B 2 C 3			(where A and D are special, and the rest lines up)
+		// D   E 5 F 6
 
 		// A --------------------------------------------------------------------------------------
 
-		s1 += `<span class="boardinfo_rules">${t.Rules}:&nbsp;</span>`;
-
-		// 1 --------------------------------------------------------------------------------------
+		s1 += `<span class="boardinfo_rules"><span class="sand">${t.Rules}:&nbsp;</span>`;
 
 		let rules = node.rules();
 		if (rules.length > 15) {
@@ -1111,7 +1109,7 @@ let board_drawer_prototype = {
 			rules = t.Unknown;
 		}
 
-		s1 += `<span class="boardinfo_rules">${rules}</span>`;
+		s1 += `<span class="white">${rules}</span></span>`;
 
 		// B --------------------------------------------------------------------------------------
 
@@ -1158,14 +1156,12 @@ let board_drawer_prototype = {
 			foo += ` <span class="boardinfo_stone_counts">${t.Caps}:&nbsp;</span>`;
 		}
 
-		s2 += `<span>${foo}</span>`;
-
-		// 4 --------------------------------------------------------------------------------------
+		s2 += `<span>${foo}`;
 
 		if (config.stone_counts) {
-			s2 += `<span class="boardinfo_stone_counts">${stone_counts}</span>`;
+			s2 += `<span class="white">${stone_counts}</span></span>`;
 		} else {
-			s2 += `<span class="boardinfo_stone_counts">${capstring}</span>`;
+			s2 += `<span class="white">${capstring}</span></span>`;
 		}
 
 		// E --------------------------------------------------------------------------------------
