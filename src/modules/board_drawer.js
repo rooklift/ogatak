@@ -22,11 +22,20 @@ const {translate} = require("./translate");
 const {handicap_stones, moveinfo_filter, pad, new_2d_array, xy_to_s, float_to_hex_ff,
 	points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
 
-const t = {Rules: translate("INFO_PANEL_RULES"),  Unknown: translate("INFO_PANEL_UNKNOWN"), Komi: translate("INFO_PANEL_KOMI"),
-	     Editing: translate("INFO_PANEL_EDITING"), Escape: translate("INFO_PANEL_ESCAPE"),  Prev: translate("INFO_PANEL_PREV"),
-	        Show: translate("INFO_PANEL_SHOW"),         B: translate("INFO_PANEL_B"),          W: translate("INFO_PANEL_W"),
-	         Stn: translate("INFO_PANEL_STN"),       Caps: translate("INFO_PANEL_CAPS"),   Score: translate("INFO_PANEL_SCORE"),
-	        This: translate("INFO_PANEL_THIS"),      Best: translate("INFO_PANEL_BEST"),  Visits: translate("INFO_PANEL_VISITS")};
+const t = {
+	Rules: translate("INFO_PANEL_RULES"),
+	Unknown: translate("INFO_PANEL_UNKNOWN"),
+	Komi: translate("INFO_PANEL_KOMI"),
+	Editing: translate("INFO_PANEL_EDITING"),
+	Escape: translate("INFO_PANEL_ESCAPE"),
+	Show: translate("INFO_PANEL_SHOW"),
+	B: translate("INFO_PANEL_B"),
+	W: translate("INFO_PANEL_W"),
+	Stn: translate("INFO_PANEL_STN"),
+	Caps: translate("INFO_PANEL_CAPS"),
+	Score: translate("INFO_PANEL_SCORE"),
+	Visits: translate("INFO_PANEL_VISITS")
+};
 
 // ------------------------------------------------------------------------------------------------
 
@@ -1049,6 +1058,8 @@ let board_drawer_prototype = {
 
 	draw_node_info: function(node, override_moveinfo) {
 
+		this.infodiv_displaying_stats = false;		// Stays false if we early-abort.
+
 		if (hub.engine.problem_text()) {
 			this.draw_engine_problem();
 			return;
@@ -1056,6 +1067,13 @@ let board_drawer_prototype = {
 
 		if (!hub.engine.received_version) {			// The version query hasn't succeeded yet, engine hasn't finished startup.
 			this.draw_engine_starting();
+			return;
+		}
+
+		this.infodiv_displaying_stats = true;		// We are in a normal-enough mode (including drawing the editing message, below).
+
+		if (config.editing) {
+			this.draw_gui_editing();
 			return;
 		}
 
@@ -1069,11 +1087,45 @@ let board_drawer_prototype = {
 
 		let board = node.get_board();
 
-		let last_move = "";
-		let last_move_props = node.all_values("B").concat(node.all_values("W"));
-		if (last_move_props.length === 1) {
-			last_move = board.gtp(last_move_props[0]);
+		let s1 = "";
+		let s2 = "";
+
+		// Various spans below use the boardinfo_ prefix for clicking on stuff.
+		// See __start_handlers.js for how that works.
+		//
+		// We will layout our 12 main spans (which can have nested spans inside) like so:
+		//
+		// A 1 B 2 C 3
+		// D 4 E 5 F 6
+
+		// A --------------------------------------------------------------------------------------
+
+		s1 += `<span class="boardinfo_rules">${t.Rules}:&nbsp;</span>`;
+
+		// 1 --------------------------------------------------------------------------------------
+
+		let rules = node.rules();
+		if (rules.length > 15) {
+			rules = rules.slice(0, 12) + "...";
+		} else if (rules === "") {
+			rules = t.Unknown;
 		}
+
+		s1 += `<span class="boardinfo_rules">${rules}</span>`;
+
+		// B --------------------------------------------------------------------------------------
+
+		s1 += `<span class="boardinfo_komi">${t.Komi}:&nbsp;</span>`;
+
+		// 2 --------------------------------------------------------------------------------------
+
+		s1 += `<span class="boardinfo_komi">${node.komi()}</span>`;
+
+		// C --------------------------------------------------------------------------------------
+
+		s1 += `<span class="boardinfo_numbers">${t.Show}:&nbsp;</span>`;
+
+		// 3 --------------------------------------------------------------------------------------
 
 		let numbers_string;
 		if (!config.candidate_moves) {
@@ -1089,36 +1141,42 @@ let board_drawer_prototype = {
 			}
 		}
 
-		let s1 = "";
-		let s2 = "";
+		s1 += `<span class="boardinfo_numbers">${numbers_string}</span>`;
 
-		// Note the boardinfo_ prefix is used in __start_handlers.js
+		// D --------------------------------------------------------------------------------------
 
-		let rules = node.rules();
-		if (rules.length > 15) {
-			rules = rules.slice(0, 12) + "...";
-		} else if (rules === "") {
-			rules = t.Unknown;
-		}
+		let foo = `<span class="boardinfo_active">`;
+		foo += (board.active === "b") ? `[<span class="white">${t.B}</span>|${t.W}]` : `[${t.B}|<span class="white">${t.W}</span>]`;
+		foo += `</span>`;
 
-		s1 += `<span class="boardinfo_rules">${t.Rules}: <span class="white">${pad(rules, 16)}</span></span>`;
-		s1 += `<span class="boardinfo_komi">${t.Komi}: <span class="white">${pad(node.komi(), 8)}</span></span>`;
+		let stone_counts = `${board.stones_b} : ${board.stones_w}`;
+		let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
 
-		if (config.editing) {
-			s1 += `<span class="yellow boardinfo_editing">${t.Editing}: <span class="white">${pad(pad(config.editing, 3, true), 4)}</span> (${t.Escape})</span>`;
+		if (config.stone_counts) {
+			foo += ` <span class="boardinfo_stone_counts">${t.Stn}:&nbsp;</span>`;
 		} else {
-			s1 += `${t.Prev}: <span class="white">${pad(last_move, 6)}</span>`;
-			s1 += `<span class="boardinfo_numbers">${t.Show}: <span class="white">${pad(numbers_string, 18)}</span></span>`;
+			foo += ` <span class="boardinfo_stone_counts">${t.Caps}:&nbsp;</span>`;
 		}
 
-		let move = "";
+		s2 += `<span>${foo}</span>`;
+
+		// 4 --------------------------------------------------------------------------------------
+
+		if (config.stone_counts) {
+			s2 += `<span class="boardinfo_stone_counts">${stone_counts}</span>`;
+		} else {
+			s2 += `<span class="boardinfo_stone_counts">${capstring}</span>`;
+		}
+
+		// E --------------------------------------------------------------------------------------
+
+		s2 += `<span>${t.Score}:&nbsp;</span>`;
+
+		// 5 --------------------------------------------------------------------------------------
+
 		let score = "";
-		let visits = "";
 
 		if (node.has_valid_analysis()) {
-
-			move = override_moveinfo ? override_moveinfo.move : node.analysis.moveInfos[0].move;
-			visits = `${override_moveinfo ? override_moveinfo.visits : node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
 
 			// If there is no specific move being mouseover'd, we now (1.5.3) draw the score from
 			// the rootInfo (previously we drew the score from the top move i.e. moveInfos[0]...
@@ -1142,41 +1200,53 @@ let board_drawer_prototype = {
 
 		}
 
-		let bw_string = (board.active === "b") ? `[<span class="white">${t.B}</span>|${t.W}]` : `[${t.B}|<span class="white">${t.W}</span>]`;
-		s2 += `<span class="boardinfo_active">${bw_string}</span> `;
-		if (config.stone_counts) {
-			let stone_counts = `${board.stones_b} : ${board.stones_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${t.Stn}: <span class="white">${pad(stone_counts, 11)}</span></span>`;
-		} else {
-			let capstring = `${board.caps_by_b} : ${board.caps_by_w}`;
-			s2 += `<span class="boardinfo_stone_counts">${t.Caps}: <span class="white">${pad(capstring, 11)}</span></span>`;
-		}
-		s2 += `${t.Score}: <span class="white">${pad(score, 8)}</span>`;
-		s2 += `${override_moveinfo ? t.This : t.Best}: <span class="white">${pad(move, 6)}</span>`;
-		s2 += `${t.Visits}: <span class="white">${visits}</span>`;
+		s2 += `<span>${score}</span>`;
 
-		this.info1span.innerHTML = s1;
-		this.info2span.innerHTML = s2;
-		this.infodiv_displaying_stats = true;
+		// F --------------------------------------------------------------------------------------
+
+		s2 += `<span>${t.Visits}:&nbsp;</span>`;
+
+		// 6 --------------------------------------------------------------------------------------
+
+		let visits = "";
+
+		if (node.has_valid_analysis()) {
+			visits = `${override_moveinfo ? override_moveinfo.visits : node.analysis.moveInfos[0].visits} / ${node.analysis.rootInfo.visits}`;
+		}
+
+		s2 += `<span>${visits}</span>`;
+
+		// Done....................................................................................
+
+		this.infodiv.innerHTML = s1 + s2;
 	},
 
 	draw_engine_problem: function() {
-		let s = hub.engine.problem_text();
-		this.info1span.innerHTML = `<span class="white">${s}</span>`;
-		this.info2span.innerHTML = `<span class="white">${translate("GUI_RESOLVE_THIS")}</span>`;
-		this.infodiv_displaying_stats = false;
+		let s1 = `<span class="fullmsg">${hub.engine.problem_text()}</span>`;
+		let s2 = `<span class="fullmsg">${translate("GUI_RESOLVE_THIS")}</span>`;
+		this.infodiv.innerHTML = s1 + s2;
 	},
 
 	draw_engine_starting: function() {
 		if (hub.engine.is_gtp) {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_1")}</span> ` +
-					`<span class="yellow">(${path.basename(hub.engine.filepath)})</span>`;
-			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_GTP_RESPONSE_2")}</span>`;
+			let s1 = `<span class="fullmsg">${translate("GUI_AWAITING_GTP_RESPONSE_1")} <span class="yellow">(${path.basename(hub.engine.filepath)})</span></span>`;
+			let s2 = `<span class="fullmsg">${translate("GUI_AWAITING_GTP_RESPONSE_2")}</span>`;
+			this.infodiv.innerHTML = s1 + s2;
 		} else {
-			this.info1span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
-			this.info2span.innerHTML = `<span class="white">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
+			let s1 = `<span class="fullmsg">${translate("GUI_AWAITING_RESPONSE_1")}</span>`;
+			let s2 = `<span class="fullmsg">${translate("GUI_AWAITING_RESPONSE_2")}</span>`;
+			this.infodiv.innerHTML = s1 + s2;
 		}
-		this.infodiv_displaying_stats = false;
+	},
+
+	draw_gui_editing: function() {
+		let s1 = `<span class="fullmsg">`;
+		s1 += `<span class="boardinfo_editing yellow"> --> ${t.Editing}:  <span class="white">${config.editing}</span></span>`;
+		s1 += `</span>`;
+		let s2 = `<span class="fullmsg">`;
+		s2 += `<span class="yellow"> --> ${t.Escape}</span>`;
+		s2 += `</span>`;
+		this.infodiv.innerHTML = s1 + s2;
 	},
 
 };

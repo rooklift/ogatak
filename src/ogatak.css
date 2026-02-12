@@ -71,11 +71,28 @@ body {
 
 #boardinfo {
 	grid-area: info;
-	color: #e0b872ff;
+	display: grid;
+	grid-template-columns: auto 15ch auto 9ch auto 20ch;
+	column-gap: 0;
+	row-gap: 0.25em;
 	font-family: monospace, monospace;
+	color: #ffffffff;
 	line-height: 150%;
-	white-space: pre;
 	margin: 16px 0 0 16px;
+	width: max-content;
+}
+
+#boardinfo > :nth-child(6n+1),
+#boardinfo > :nth-child(6n+3),
+#boardinfo > :nth-child(6n+5) {
+	text-align: right;
+	color: #e0b872ff;
+}
+
+#boardinfo > .fullmsg {
+	color: #ffffffff;
+	text-align: left;
+	grid-column: 1 / -1;
 }
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------- */

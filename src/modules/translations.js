@@ -206,15 +206,15 @@ translations[`English`] = {
 	INFO_PANEL_KOMI: `Komi`,
 	INFO_PANEL_EDITING: `Edit mode`,
 	INFO_PANEL_ESCAPE: `ESCAPE to exit`,
-	INFO_PANEL_PREV: `Prev`,
+	INFO_PANEL_PREV: `Prev`,									// Unused now.
 	INFO_PANEL_SHOW: `Show`,
 	INFO_PANEL_B: `B`,
 	INFO_PANEL_W: `W`,
 	INFO_PANEL_SCORE: `Score`,
 	INFO_PANEL_STN: `stn`,
 	INFO_PANEL_CAPS: `cap`,
-	INFO_PANEL_THIS: `This`,
-	INFO_PANEL_BEST: `Best`,
+	INFO_PANEL_THIS: `This`,									// Unused now.
+	INFO_PANEL_BEST: `Best`,									// Unused now.
 	INFO_PANEL_VISITS: `Visits`,
 
 	// Alerts...
@@ -608,8 +608,8 @@ translations[`русский`] = {
 	INFO_PANEL_SCORE: `Счёт`,
 	INFO_PANEL_STN: `камней`,
 	INFO_PANEL_CAPS: `взятых`,
-	INFO_PANEL_THIS: `    Данный`,
-	INFO_PANEL_BEST: `    Лучший`,
+	INFO_PANEL_THIS: `Данный`,
+	INFO_PANEL_BEST: `Лучший`,
 	INFO_PANEL_VISITS: `Посещений`,
 
 	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
@@ -764,7 +764,7 @@ translations[`繁體中文`] = {
 		MENU_ESCAPE: `退回主畫面`,
 		MENU_ENGINE_PLAYS_BLACK: `引擎執黑`,
 		MENU_ENGINE_PLAYS_WHITE: `引擎執白`,
-        MENU_ENGINE_PLAYS_CURRENT: `引擎為當前顏色`,
+		MENU_ENGINE_PLAYS_CURRENT: `引擎為當前顏色`,
 		MENU_ENGINE_PLAYS_POLICY: `僅使用策略網路（最佳手）`,
 		MENU_ENGINE_PLAYS_DRUNK: `僅使用策略網路（飄逸風格）`,
 		MENU_AUTOSCROLL: `自動播放`,
@@ -976,7 +976,7 @@ translations[`简体中文`] = {
 		MENU_ESCAPE: `退回主界面`,
 		MENU_ENGINE_PLAYS_BLACK: `引擎执黑`,
 		MENU_ENGINE_PLAYS_WHITE: `引擎执白`,
-        MENU_ENGINE_PLAYS_CURRENT: `引擎执当前颜色`,
+		MENU_ENGINE_PLAYS_CURRENT: `引擎执当前颜色`,
 		MENU_ENGINE_PLAYS_POLICY: `使用策略 原始`,
 		MENU_ENGINE_PLAYS_DRUNK: `使用策略 飘逸`,
 		MENU_AUTOSCROLL: `自动播放`,
@@ -1249,10 +1249,10 @@ translations[`한국어`] = {
 	INFO_PANEL_B: `B`,
 	INFO_PANEL_W: `W`,
 	INFO_PANEL_SCORE: `점수 차이`,
-	INFO_PANEL_STN: `돌`,
-	INFO_PANEL_CAPS: `잡은 돌`,
+	INFO_PANEL_STN: `　돌`,
+	INFO_PANEL_CAPS: `포로`,
 	INFO_PANEL_THIS: `현재 위치`,
-	INFO_PANEL_BEST: `　 최선수`,
+	INFO_PANEL_BEST: `최선수`,
 	INFO_PANEL_VISITS: `Visits`,
 
 	// Alerts...
