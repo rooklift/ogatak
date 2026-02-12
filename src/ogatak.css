@@ -74,10 +74,9 @@ body {
 	display: grid;
 	grid-template-columns: auto 15ch auto 9ch auto 20ch;
 	column-gap: 0;
-	row-gap: 0.25em;
+	line-height: 1.5em;
 	font-family: monospace, monospace;
 	color: #ffffffff;
-	line-height: 150%;
 	margin: 16px 0 0 16px;
 	width: max-content;
 }
