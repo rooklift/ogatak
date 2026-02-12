@@ -608,9 +608,9 @@ translations[`русский`] = {
 	INFO_PANEL_SCORE: `Счёт`,
 	INFO_PANEL_STN: `камней`,
 	INFO_PANEL_CAPS: `взятых`,
-	INFO_PANEL_THIS: `Данный`,
-	INFO_PANEL_BEST: `Лучший`,
-	INFO_PANEL_VISITS: `    Посещений`,
+	INFO_PANEL_THIS: `    Данный`,
+	INFO_PANEL_BEST: `    Лучший`,
+	INFO_PANEL_VISITS: `Посещений`,
 
 	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
 	ALERT_SAVED: `Сохранено.`,
