@@ -82,9 +82,9 @@ body {
 	width: max-content;
 }
 
-#boardinfo > :nth-child(6n+1),
-#boardinfo > :nth-child(6n+3),
-#boardinfo > :nth-child(6n+5) {
+#boardinfo > :nth-child(6n+1):not(.fullmsg),
+#boardinfo > :nth-child(6n+3):not(.fullmsg),
+#boardinfo > :nth-child(6n+5):not(.fullmsg) {
 	text-align: right;
 	color: #e0b872ff;
 }
