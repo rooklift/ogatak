@@ -404,6 +404,9 @@ translations[`Français`] = {
 	GUI_AWAITING_RESPONSE_1: `En attente de réponse du moteur. Si nécessaire, sélectionnez`,
 	GUI_AWAITING_RESPONSE_2: `<span class="yellow">Développeur --> Afficher le moteur stderr</span> élément de menu.`,
 
+	GUI_AWAITING_GTP_RESPONSE_1: `En attente de réponse du moteur GTP...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `Note : la fonctionnalité GTP est expérimentale et non recommandée.`,
+
 	INFO_BLACK: `Joueur Noir`,
 	INFO_BLACK_RANK: `Classement de Noir`,
 	INFO_WHITE: `Joueur Blanc`,
@@ -415,7 +418,37 @@ translations[`Français`] = {
 	INFO_DATE: `Date`,
 	INFO_RESULT: `Résultat`,
 
+	INFO_PANEL_RULES: `Règles`,
+	INFO_PANEL_UNKNOWN: `Inconnu`,
+	INFO_PANEL_KOMI: `Komi`,
+	INFO_PANEL_EDITING: `Édition`,
+	INFO_PANEL_ESCAPE: `ÉCHAP pour quitter`,
+	INFO_PANEL_PREV: `Préc`,
+	INFO_PANEL_SHOW: `Voir`,
+	INFO_PANEL_B: `N`,
+	INFO_PANEL_W: `B`,
+	INFO_PANEL_SCORE: `Score`,
+	INFO_PANEL_STN: `prs`,
+	INFO_PANEL_CAPS: `cap`,
+	INFO_PANEL_THIS: `Ici`,
+	INFO_PANEL_BEST: `Meilleur`,
+	INFO_PANEL_VISITS: `Visites`,
+
 	ALERT_RESTART_REQUIRED: `Veuillez redémarrer l'application.`,
+	ALERT_SAVED: `Partie enregistrée.`,
+	ALERT_SAVED_COLLECTION: `Collection enregistrée.`,
+
+	ABOUT_FILE_LOCATIONS: `Le moteur, sa configuration et le réseau sont à :`,
+	ABOUT_GTP_COMMAND: `Programme GTP et arguments :`,
+	ABOUT_CONFIG_LOCATION: `Le fichier de configuration Ogatak est à :`,
+	ABOUT_RAM_USAGE: `Utilisation RAM (Mo) (moteur non inclus) :`,
+	ABOUT_THANKS_TRANSLATORS: `Merci aux traducteurs :`,
+
+	BAD_CONFIG_1: `Le fichier de configuration n'a pas pu être lu.`,
+	BAD_CONFIG_2: `Il ne sera pas sauvegardé tant que vous ne corrigez pas cela.`,
+	BAD_CONFIG_3: `Cela signifie que vos paramètres ne seront pas sauvegardés.`,
+	BAD_CONFIG_4: `Vous devriez corriger ce problème.`,
+	BAD_CONFIG_5: `Vous pouvez aussi simplement supprimer le fichier.`,
 
 };
 
