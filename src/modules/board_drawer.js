@@ -22,20 +22,28 @@ const {translate} = require("./translate");
 const {handicap_stones, moveinfo_filter, pad, new_2d_array, xy_to_s, float_to_hex_ff,
 	points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
 
-const t = {
-	Rules: translate("INFO_PANEL_RULES"),
-	Unknown: translate("INFO_PANEL_UNKNOWN"),
-	Komi: translate("INFO_PANEL_KOMI"),
-	Editing: translate("INFO_PANEL_EDITING"),
-	Escape: translate("INFO_PANEL_ESCAPE"),
-	Show: translate("INFO_PANEL_SHOW"),
-	B: translate("INFO_PANEL_B"),
-	W: translate("INFO_PANEL_W"),
-	Stn: translate("INFO_PANEL_STN"),
-	Caps: translate("INFO_PANEL_CAPS"),
-	Score: translate("INFO_PANEL_SCORE"),
-	Visits: translate("INFO_PANEL_VISITS")
-};
+// ------------------------------------------------------------------------------------------------
+
+const t = {};
+
+function do_translations(lang) {			// Leave the arg as undefined to use the startup language.
+	Object.assign(t, {
+		Rules: translate("INFO_PANEL_RULES", lang),
+		Unknown: translate("INFO_PANEL_UNKNOWN", lang),
+		Komi: translate("INFO_PANEL_KOMI", lang),
+		Editing: translate("INFO_PANEL_EDITING", lang),
+		Escape: translate("INFO_PANEL_ESCAPE", lang),
+		Show: translate("INFO_PANEL_SHOW", lang),
+		B: translate("INFO_PANEL_B", lang),
+		W: translate("INFO_PANEL_W", lang),
+		Stn: translate("INFO_PANEL_STN", lang),
+		Caps: translate("INFO_PANEL_CAPS", lang),
+		Score: translate("INFO_PANEL_SCORE", lang),
+		Visits: translate("INFO_PANEL_VISITS", lang),
+	});
+}
+
+do_translations();
 
 // ------------------------------------------------------------------------------------------------
 
@@ -295,6 +303,10 @@ let board_drawer_prototype = {
 
 	set_infodiv_font_size: function(value) {
 		this.infodiv.style["font-size"] = value.toString() + "px";
+	},
+
+	redo_translations: function() {			// Unused in code, purely for dev purposes.
+		do_translations(config.language);
 	},
 
 	// --------------------------------------------------------------------------------------------
