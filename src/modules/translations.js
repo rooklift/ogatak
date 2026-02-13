@@ -911,10 +911,10 @@ translations[`简体中文`] = {
 		MENU_PASS: `虚手`,
 		MENU_ROOT: `起始状态`,
 		MENU_END: `结束状态`,
-		MENU_BACKWARD: `下一手`,
-		MENU_FORWARD: `上一手`,
-		MENU_BACKWARD_10: `往前十手`,
-		MENU_FORWARD_10: `往后十手`,
+		MENU_BACKWARD: `上一手`,					// Hopefully this and the
+		MENU_FORWARD: `下一手`,					// next 3 lines are the
+		MENU_BACKWARD_10: `往后十手`,			// right way around? Have
+		MENU_FORWARD_10: `往前十手`,				// had some confusion.
 		MENU_PREVIOUS_SIBLING: `跳到左侧节点`,
 		MENU_NEXT_SIBLING: `跳到右侧节点`,
 		MENU_RETURN_TO_MAIN_LINE: `返回主分支`,
