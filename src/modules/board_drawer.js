@@ -1159,10 +1159,12 @@ let board_drawer_prototype = {
 		s2 += `<span>${foo}`;
 
 		if (config.stone_counts) {
-			s2 += `<span class="boardinfo_stone_counts white">${pad(stone_counts, 10)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts white">${pad(stone_counts, 10)}</span>`;
 		} else {
-			s2 += `<span class="boardinfo_stone_counts white">${pad(capstring, 10)}</span></span>`;
+			s2 += `<span class="boardinfo_stone_counts white">${pad(capstring, 10)}</span>`;
 		}
+
+		s2 += `</span>`;
 
 		// E --------------------------------------------------------------------------------------
 
