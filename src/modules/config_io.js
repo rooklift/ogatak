@@ -92,6 +92,8 @@ exports.defaults = {
 	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
 	"report_every": 0.1,
 
+	"mistake_threshold": 3,						// Amount of points to lose in a single move before it is considered a "mistake"
+
 	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
 	"ownership_per_move": true,
 

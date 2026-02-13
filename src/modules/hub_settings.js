@@ -225,6 +225,9 @@ module.exports = {
 			}
 			break;
 
+		case "mistake_threshold":
+			break;									// This doesn't change anything that needs to be drawn.
+
 		case "ownership_marks":
 		case "ownership_per_move":
 
