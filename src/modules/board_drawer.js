@@ -307,6 +307,7 @@ let board_drawer_prototype = {
 
 	redo_translations: function() {			// Unused in code, purely for dev purposes.
 		do_translations(config.language);
+		hub.draw();
 	},
 
 	// --------------------------------------------------------------------------------------------
