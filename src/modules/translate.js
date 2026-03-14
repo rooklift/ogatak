@@ -48,7 +48,7 @@ function all_strings(language, with_english) {
 	return arr;
 }
 
-function missing_keys() {
+function missing_keys() {		// require("./modules/translate").missing_keys()
 	let ret = {};
 	for (let language of Object.keys(translations)) {
 		ret[language] = [];
