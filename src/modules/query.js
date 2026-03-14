@@ -50,6 +50,7 @@ function new_query(query_node, eng_version = null, maxvisits = null, avoid_list 
 		overrideSettings: {
 			reportAnalysisWinratesAs: "BLACK",
 			wideRootNoise: config.wide_root_noise,
+			ignorePreRootHistory: config.ignore_history,
 		}
 	};
 

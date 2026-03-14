@@ -97,6 +97,7 @@ translations[`English`] = {
 		MENU_SET_KOMI: `Set komi`,
 		MENU_PV_LENGTH_MAX: `PV length (max)`,
 		MENU_WIDE_ROOT_NOISE: `Wide root noise`,
+		MENU_IGNORE_HISTORY: `Ignore history`,
 		MENU_OWNERSHIP: `Ownership`,
 			MENU_NO_OWNERSHIP: `None`,
 			MENU_DEAD_STONES: `Dead stones`,					// Stones where the predicted owner is the other colour.

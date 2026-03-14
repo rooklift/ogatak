@@ -90,6 +90,7 @@ exports.defaults = {
 
 	"analysis_pv_len": 16,
 	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
+	"ignore_history": true,
 	"report_every": 0.1,
 
 	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)

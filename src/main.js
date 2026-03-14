@@ -1215,6 +1215,14 @@ function menu_build() {
 					]
 				},
 				{
+					label: translate("MENU_IGNORE_HISTORY"),
+					type: "checkbox",
+					checked: config.ignore_history,
+					click: () => {
+						win.webContents.send("toggle", "ignore_history");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{

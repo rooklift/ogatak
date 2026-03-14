@@ -33,6 +33,7 @@ const togglechecks = {
 	fast_first_report:		[translate("MENU_SETUP"), translate("MENU_FAST_FIRST_REPORT")],
 	ownership_per_move:		[translate("MENU_ANALYSIS"), translate("MENU_PER_MOVE")],
 	coordinates:			[translate("MENU_DISPLAY"), translate("MENU_COORDINATES")],
+	ignore_history:			[translate("MENU_ANALYSIS"), translate("MENU_IGNORE_HISTORY")],
 	black_pov:				[translate("MENU_DISPLAY"), translate("MENU_BLACK_POV_ALWAYS")],
 	stone_counts:			[translate("MENU_DISPLAY"), translate("MENU_STONE_COUNTS")],
 	candidate_moves:		[translate("MENU_DISPLAY"), translate("MENU_CANDIDATE_MOVES")],
