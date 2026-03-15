@@ -1,4 +1,4 @@
-import json, os, shutil, zipfile
+import json, os, shutil, subprocess, zipfile
 
 zips = {
 	"windows": "electron_zipped/electron-v23.3.13-win32-x64.zip",
@@ -35,3 +35,19 @@ for key, value in zips.items():
 		os.rename(os.path.join(build_dir, "electron.exe"), os.path.join(build_dir, "ogatak.exe"))
 	if os.path.exists(os.path.join(build_dir, "electron")):
 		os.rename(os.path.join(build_dir, "electron"), os.path.join(build_dir, "ogatak"))
+
+	# We could and maybe should...
+	"""
+	if key == "windows":
+		electron_exe = os.path.join(build_dir, "ogatak.exe")
+		print("Running rcedit...")
+		subprocess.run([
+			"rcedit-x64.exe",
+			electron_exe,
+			"--set-version-string", "FileDescription", "Ogatak",
+			"--set-version-string", "ProductName", "Ogatak",
+			"--set-version-string", "LegalCopyright", "Copyright 2026 Rooklift",
+			"--set-file-version", version,
+			"--set-product-version", version
+		], check=True)
+	"""
