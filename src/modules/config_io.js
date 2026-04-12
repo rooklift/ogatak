@@ -85,6 +85,11 @@ exports.defaults = {
 	"tree_main_colour": "#909090ff",
 	"central_node_colour": "#d0ad75ff",
 
+	"tree_te_main_colour": "#66ff66ff",
+	"tree_bm_main_colour": "#ff6666ff",
+	"tree_te_off_colour": "#44aa44ff",
+	"tree_bm_off_colour": "#aa4444ff",
+
 	"coordinates": false,
 	"black_pov": false,
 
