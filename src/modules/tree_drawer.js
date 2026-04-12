@@ -145,13 +145,6 @@ let tree_drawer_prototype = {
 				if (node.has_key("B") || node.has_key("W")) {
 					ctx.beginPath();
 					ctx.arc(node.gx, node.gy, (config.tree_spacing / 4), 0, 2 * Math.PI);
-					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
-					ctx.lineWidth = 2;
-					ctx.stroke();
-					if (node.has_key("C")) {
-						ctx.fillStyle = ctx.strokeStyle;
-						ctx.fill();
-					}
 				} else {
 					ctx.beginPath();
 					ctx.moveTo(node.gx - (config.tree_spacing / 4), node.gy - (config.tree_spacing / 4));
@@ -159,14 +152,22 @@ let tree_drawer_prototype = {
 					ctx.lineTo(node.gx + (config.tree_spacing / 4), node.gy + (config.tree_spacing / 4));
 					ctx.lineTo(node.gx - (config.tree_spacing / 4), node.gy + (config.tree_spacing / 4));
 					ctx.closePath();
-					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
-					ctx.lineWidth = 2;
-					ctx.stroke();
-					if (node.has_key("C")) {
-						ctx.fillStyle = ctx.strokeStyle;
-						ctx.fill();
-					}
 				}
+
+				if (node.has_key("BM")) {
+					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_bm_main_colour : config.tree_bm_off_colour;
+					ctx.fill();
+				} else if (node.has_key("TE")) {
+					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_te_main_colour : config.tree_te_off_colour;
+					ctx.fill();
+				} else if (node.has_key("C")) {
+					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
+					ctx.fill();
+				}
+
+				ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
+				ctx.lineWidth = 2;
+				ctx.stroke();
 
 				if (node.parent) {
 					ctx.strokeStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
