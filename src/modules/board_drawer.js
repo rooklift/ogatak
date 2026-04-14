@@ -1116,8 +1116,8 @@ let board_drawer_prototype = {
 		s1 += `<span class="boardinfo_rules"><span class="sand">${t.Rules}: </span>`;
 
 		let rules = node.rules();
-		if (rules.length > 15) {
-			rules = rules.slice(0, 12) + "...";
+		if (rules.length > 14) {
+			rules = rules.slice(0, 11) + "...";
 		} else if (rules === "") {
 			rules = t.Unknown;
 		}
