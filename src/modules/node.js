@@ -568,6 +568,12 @@ class Node {
 		return this.get_root().get("RU");							// Possibly ""
 	}
 
+	rules_allow_self_capture() {
+		const foo = ["goe", "ing", "tromp-taylor", "tromp_taylor", "tromp taylor",
+				"tromptaylor", "nz", "newzealand", "new zealand", "new-zealand", "new_zealand"];
+		return foo.includes(this.rules().toLowerCase());
+	}
+
 	komi() {														// Always a number
 		let km = this.get_root().get("KM");
 		if (km === "") {
@@ -638,7 +644,7 @@ class Node {
 
 	try_move(s) {												// Note: not to be used for passing.
 		let board = this.get_board();
-		if (!board.legal_move(s)) {
+		if (!board.legal_move(s, this.rules_allow_self_capture())) {
 			return this;
 		}
 		return this.force_move(s);

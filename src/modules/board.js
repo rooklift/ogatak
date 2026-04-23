@@ -315,7 +315,7 @@ class Board {
 		return false;
 	}
 
-	legal_move(s) {
+	legal_move(s, allow_self_capture = false) {
 
 		// Returns true if the active player can legally play at the point given.
 		// Note: does NOT consider passes as "legal moves".
@@ -332,7 +332,7 @@ class Board {
 			return false;
 		}
 
-		// Move will be legal as long as it's not suicide...
+		// Move will be legal as long as it's not self-capture...
 
 		try {									// Using try... finally pattern to always undo the following temp stone placement.
 			this.set_at(s, this.active);		// A little inefficient since it leads to zobrist hashing, but legal_move() is rarely called.
@@ -344,6 +344,13 @@ class Board {
 				if (this.state_at(neighbour) === inactive) {
 					if (!this.has_liberties(neighbour)) {
 						return true;			// One of the enemy groups has no liberties other than s.
+					}
+				}
+			}
+			if (allow_self_capture) {			// Multi-stone only.
+				for (let neighbour of this.neighbours(s)) {
+					if (this.state_at(neighbour) === this.active) {
+						return true;
 					}
 				}
 			}
