@@ -569,9 +569,14 @@ class Node {
 	}
 
 	rules_allow_self_capture() {
+
 		const foo = ["goe", "ing", "tromp-taylor", "tromp_taylor", "tromp taylor",
 				"tromptaylor", "nz", "newzealand", "new zealand", "new-zealand", "new_zealand"];
-		return foo.includes(this.rules().toLowerCase());
+
+		const rules = this.rules().toLowerCase();
+
+		return foo.includes(rules) || rules.includes("sui1");
+
 	}
 
 	komi() {														// Always a number
