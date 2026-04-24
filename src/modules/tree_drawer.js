@@ -160,6 +160,12 @@ let tree_drawer_prototype = {
 				} else if (node.has_key("TE")) {
 					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_te_main_colour : config.tree_te_off_colour;
 					ctx.fill();
+				} else if (node.has_key("IT")) {
+					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_it_main_colour : config.tree_it_off_colour;
+					ctx.fill();
+				} else if (node.has_key("DO")) {
+					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_do_main_colour : config.tree_do_off_colour;
+					ctx.fill();
 				} else if (node.has_key("C")) {
 					ctx.fillStyle = node.draw_as_blessed_line ? config.tree_main_colour : config.tree_off_colour;
 					ctx.fill();
