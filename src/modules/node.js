@@ -882,6 +882,7 @@ class Node {
 		this.analysis = null;
 		this.delete_key("SBKV");
 		this.delete_key("OGSC");
+		this.delete_key("BM");
 	}
 
 	move_count() {
@@ -908,23 +909,56 @@ class Node {
 			}
 		}
 
+		this.forget_analysis();
 		this.analysis = o;
+
+		let has_w = this.has_key("W");
+		let has_b = this.has_key("B");
 
 		// this.analysis.moveInfos.sort((a, b) => a.order - b.order);		// KataGo already sends it this way.
 
-		let winrate = this.analysis.rootInfo.winrate * 100;			// SBKV is 0..100
-		if (winrate < 0) winrate = 0;
-		if (winrate > 100) winrate = 100;
-		let val = (winrate).toFixed(1);
-		this.set("SBKV", val);
+		let winrate = this.analysis.rootInfo.winrate;
+
+		if (typeof winrate === "number") {
+
+			if (winrate < 0) winrate = 0;
+			if (winrate > 1) winrate = 1;
+
+			let parent_winrate = this.parent ? this.parent.stored_winrate() : null;
+			if (typeof parent_winrate === "number") {
+				let winrate_drop = null;
+				if (has_w) {
+					winrate_drop = winrate - parent_winrate;
+				} else if (has_b) {
+					winrate_drop = parent_winrate - winrate;
+				}
+				if (winrate_drop !== null && winrate_drop >= config.bm_winrate_drop_threshold) {
+					this.set("BM", "1");
+				}
+			}
+
+			let val = (winrate * 100).toFixed(1);					// SBKV is 0..100
+			this.set("SBKV", val);
+		}
 
 		let score = this.analysis.rootInfo.scoreLead;
 
 		if (typeof score === "number") {							// scoreLead might not be present if it's a GTP engine.
-			val = score.toFixed(1);
+			let parent_score = this.parent ? this.parent.stored_score() : null;
+			if (typeof parent_score === "number") {
+				let score_drop = null;
+				if (has_w) {
+					score_drop = score - parent_score;
+				} else if (has_b) {
+					score_drop = parent_score - score;
+				}
+				if (score_drop !== null && score_drop >= config.bm_score_drop_threshold) {
+					this.set("BM", "1");
+				}
+			}
+
+			let val = score.toFixed(1);
 			this.set("OGSC", val);
-		} else {
-			this.delete_key("OGSC");
 		}
 	}
 

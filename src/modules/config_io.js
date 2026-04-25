@@ -81,19 +81,21 @@ exports.defaults = {
 	"comment_box_height": 256,
 
 	"tree_spacing": 24,
+
 	"tree_off_colour": "#444444ff",
 	"tree_main_colour": "#909090ff",
 	"central_node_colour": "#d0ad75ff",
 
 	"tree_te_main_colour": "#66ff66ff",
-	"tree_bm_main_colour": "#ff6666ff",
-	"tree_it_main_colour": "#ffff66ff",
-	"tree_do_main_colour": "#6666ffff",
-
 	"tree_te_off_colour": "#44aa44ff",
-	"tree_bm_off_colour": "#aa4444ff",
-	"tree_it_off_colour": "#aaaa44ff",
-	"tree_do_off_colour": "#4444aaff",
+
+	"tree_bm_main_colour_white": "#ff6666ff",
+	"tree_bm_main_colour_black": "#6666ffff",
+	"tree_bm_off_colour_white": "#aa4444ff",
+	"tree_bm_off_colour_black": "#4444aaff",
+
+	"tree_it_do_main_colour": "#ffff66ff",
+	"tree_it_do_off_colour": "#aaaa44ff",
 
 	"coordinates": false,
 	"black_pov": false,
@@ -101,6 +103,8 @@ exports.defaults = {
 	"analysis_pv_len": 16,
 	"wide_root_noise": 0.04,					// Until 1.5.9, this was a bool, but was called "widerootnoise"
 	"report_every": 0.1,
+	"bm_winrate_drop_threshold": 0.25,			// Winrate drop, as a fraction (0.20 = 20 percentage points).
+	"bm_score_drop_threshold": 5.0,				// Score lead drop, in points.
 
 	"ownership_marks": 1,						// 0: None   1: Dead stones   2: Whole board   3: Whole board (alt)
 	"ownership_per_move": true,

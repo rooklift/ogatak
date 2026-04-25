@@ -666,6 +666,7 @@ let hub_main_props = {
 		this.halt();
 		this.node.forget_analysis_tree();
 		this.node.change_id();							// Prevents the old query from updating the node.
+		tree_drawer.must_draw = true;
 		this.draw();
 	},
 
