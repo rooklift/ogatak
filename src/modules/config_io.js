@@ -132,6 +132,8 @@ exports.defaults = {
 	"komi_options": [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5],
 	"visit_options": [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000],
 
+	"read_only_paths": [],
+
 	"sgf_folder": "",
 	"katago_folder": "",
 	"kataconfig_folder": "",
