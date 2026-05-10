@@ -159,6 +159,7 @@ translations[`English`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Enable hardware acceleration for GUI`,
+		MENU_CONFIRM_QUIT: `Confirm before quitting`,
 
 	MENU_DEV: `Dev`,
 
@@ -382,6 +383,7 @@ translations[`Français`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Accélération matérielle pour l'application`,
+		MENU_CONFIRM_QUIT: `Confirmer avant de quitter`,
 
 	MENU_DEV: `Développeur`,
 
@@ -596,6 +598,7 @@ translations[`русский`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Угадывать правила по коми`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Расположение трёх камней форы как на Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Включить аппаратное ускорение для графического интерфейса`,
+		MENU_CONFIRM_QUIT: `Подтверждать перед выходом`,
 
 	MENU_DEV: `Разработка`,
 
@@ -806,6 +809,7 @@ translations[`繁體中文`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬體加速圖形界面`,
+		MENU_CONFIRM_QUIT: `退出前確認`,
 
 	MENU_DEV: `開發人員選項`,
 
@@ -1018,6 +1022,7 @@ translations[`简体中文`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以载入棋谱的贴目猜测规则`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城风格布置让三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬件加速图形界面`,
+		MENU_CONFIRM_QUIT: `退出前确认`,
 
 	MENU_DEV: `开发人员选项`,
 
@@ -1230,6 +1235,7 @@ translations[`한국어`] = {
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `불러오는 대국의 덤 값으로 규칙 추측`,			// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치 (접바둑)`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI에 하드웨어 가속 사용`,
+		MENU_CONFIRM_QUIT: `종료 전에 확인`,
 
 	MENU_DEV: `Dev`,
 
