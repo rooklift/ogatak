@@ -222,7 +222,7 @@ translations[`English`] = {
 	ALERT_RESTART_REQUIRED: `A restart of the GUI is now required.`,
 	ALERT_SAVED: `Saved 1 game.`,
 	ALERT_SAVED_COLLECTION: `Saved collection.`,
-	DIALOG_REALLY_QUIT: `Really quit?`,
+	ALERT_REALLY_QUIT: `Really quit?`,
 
 	// About box...
 	ABOUT_FILE_LOCATIONS: `Engine, engine config, and network are at:`,
@@ -440,7 +440,7 @@ translations[`Français`] = {
 	ALERT_RESTART_REQUIRED: `Veuillez redémarrer l'application.`,
 	ALERT_SAVED: `Partie enregistrée.`,
 	ALERT_SAVED_COLLECTION: `Collection enregistrée.`,
-	DIALOG_REALLY_QUIT: `Voulez-vous vraiment quitter ?`,
+	ALERT_REALLY_QUIT: `Voulez-vous vraiment quitter ?`,
 
 	ABOUT_FILE_LOCATIONS: `Le moteur, sa configuration et le réseau sont à :`,
 	ABOUT_GTP_COMMAND: `Programme GTP et arguments :`,
@@ -653,7 +653,7 @@ translations[`русский`] = {
 	ALERT_RESTART_REQUIRED: `Требуется перезапуск графического интерфейса.`,
 	ALERT_SAVED: `Сохранено.`,
 	ALERT_SAVED_COLLECTION: `Коллекция сохранена.`,
-	DIALOG_REALLY_QUIT: `Действительно выйти?`,
+	ALERT_REALLY_QUIT: `Действительно выйти?`,
 
 	ABOUT_FILE_LOCATIONS: `Расположение KataGo, настроек анализа и файла сети:`,
 	ABOUT_CONFIG_LOCATION: `Расположение файла настроек Ogatak:`,
@@ -866,7 +866,7 @@ translations[`繁體中文`] = {
 	INFO_PANEL_VISITS: `訪問數`,
 
 	ALERT_RESTART_REQUIRED: `需要關閉並重新起動程式`,
-	DIALOG_REALLY_QUIT: `確定要退出嗎？`,
+	ALERT_REALLY_QUIT: `確定要退出嗎？`,
 
 	ABOUT_FILE_LOCATIONS: `引擎、設定檔和權重位於：`,
 	ABOUT_GTP_COMMAND: `GTP 引擎和參數為：`,
@@ -1080,7 +1080,7 @@ translations[`简体中文`] = {
 	INFO_PANEL_VISITS: `运算数`,
 
 	ALERT_RESTART_REQUIRED: `需要重启程序`,
-	DIALOG_REALLY_QUIT: `确定要退出吗？`,
+	ALERT_REALLY_QUIT: `确定要退出吗？`,
 
 	ABOUT_FILE_LOCATIONS: `引擎、配置文件和权重位于：`,
 	ABOUT_GTP_COMMAND: `GTP 引擎和参数为：`,
@@ -1303,7 +1303,7 @@ translations[`한국어`] = {
 	ALERT_RESTART_REQUIRED: `프로그램을 재시작해야 합니다.`,
 	ALERT_SAVED: `기보가 저장됨.`,
 	ALERT_SAVED_COLLECTION: `기보 모음이 저장됨.`,
-	DIALOG_REALLY_QUIT: `정말 종료할까요?`,
+	ALERT_REALLY_QUIT: `정말 종료할까요?`,
 
 	// About box...
 	ABOUT_FILE_LOCATIONS: `엔진, 엔진 설정 및 네트워크 파일 위치:`,
