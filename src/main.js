@@ -36,6 +36,7 @@ let menu_is_set = false;
 let have_received_ready = false;
 let have_sent_quit = false;
 let have_received_terminate = false;
+let have_confirmed_quit = false;
 let queued_files = [];
 let spacebar_time = 0;			// Contrived workaround allowing us to have these as
 let comma_time = 0;				// accelerators without interfering with text editing
@@ -100,7 +101,28 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 
 	win.on("close", (event) => {						// We used to use .once() but I suppose there's a race condition if two events happen rapidly.
 
-		if (!have_received_terminate) {
+		if (config.confirm_quit && !have_confirmed_quit && !have_received_terminate) {
+
+			event.preventDefault();						// Only a "terminate" message from the Renderer should close the app.
+
+			electron.dialog.showMessageBox(win, {
+				message: "Really quit?",
+				buttons: ["Quit", "Cancel"],
+				cancelId: 1,							// Note: without this field, cancellation might (?) return 0 (poor design imo...)
+				defaultId: 1,
+				noLink: true,
+				title: "Warning",
+				type: "warning",
+			}).then((o) => {
+				if (o.response === 0) {
+					have_confirmed_quit = true;
+					win.close();
+				}
+			})
+
+			return;
+
+		} else if (!have_received_terminate) {
 
 			event.preventDefault();						// Only a "terminate" message from the Renderer should close the app.
 
@@ -116,7 +138,13 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 				have_received_terminate = true;
 				win.close();
 			}, 3000);
+
+		} else {
+
+			// Pass. Let the default happen.
+
 		}
+
 	});
 
 	electron.ipcMain.on("terminate", () => {
@@ -2347,6 +2375,14 @@ function menu_build() {
 						win.webContents.send("toggle", "enable_hw_accel");
 					}
 				},
+				{
+					label: translate("MENU_CONFIRM_QUIT"),
+					type: "checkbox",
+					checked: config.confirm_quit,
+					click: () => {
+						two_process_toggle("confirm_quit");
+					}
+				},
 			]
 		},
 
@@ -2641,6 +2677,14 @@ function two_process_set(key, value) {
 	let msg = {};
 	msg[key] = value;					// not msg = {key: value} which makes the key "key"
 	win.webContents.send("set", msg);
+}
+
+function two_process_toggle(key) {
+
+	// Based on whatever the value is in the main process. If this is desynced from the
+	// renderer then the main process value will prevail. Hmm.
+
+	two_process_set(key, !config[key]);
 }
 
 // --------------------------------------------------------------------------------------------------------------

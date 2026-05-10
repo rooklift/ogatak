@@ -47,6 +47,7 @@ const togglechecks = {
 	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
 	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],
+	confirm_quit:           [translate("MENU_MISC"), translate("MENU_CONFIRM_QUIT")],
 	zobrist_checks:			[translate("MENU_DEV"), translate("MENU_ZOBRIST_MISMATCH_CHECKS")],
 };
 

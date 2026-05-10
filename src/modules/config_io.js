@@ -115,6 +115,7 @@ exports.defaults = {
 	"mousemove_delay": 41,
 
 	"enable_hw_accel": false,
+	"confirm_quit": false,
 	"logfile": null,
 
 	"width": 1333,
