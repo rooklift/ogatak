@@ -107,7 +107,7 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 
 			electron.dialog.showMessageBox(win, {
 				message: translate("ALERT_REALLY_QUIT", config.language),
-				buttons: [translate("ALERT_CHOICE_QUIT"), translate("ALERT_CHOICE_CANCEL")],
+				buttons: [translate("ALERT_CHOICE_QUIT", config.language), translate("ALERT_CHOICE_CANCEL", config.language)],
 				cancelId: 1,							// Note: without this field, cancellation might (?) return 0 (poor design imo...)
 				defaultId: 1,
 				noLink: true,
