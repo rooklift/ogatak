@@ -106,7 +106,7 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			event.preventDefault();						// Only a "terminate" message from the Renderer should close the app.
 
 			electron.dialog.showMessageBox(win, {
-				message: "Really quit?",
+				message: translate("DIALOG_REALLY_QUIT", config.language),
 				buttons: ["Quit", "Cancel"],
 				cancelId: 1,							// Note: without this field, cancellation might (?) return 0 (poor design imo...)
 				defaultId: 1,
@@ -2498,7 +2498,7 @@ function language_choices_submenu() {
 			type: "checkbox",
 			checked: config.language === language,
 			click: () => {
-				win.webContents.send("set", {language: language});
+				two_process_set("language", language);
 			}
 		});
 	}
