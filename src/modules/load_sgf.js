@@ -133,7 +133,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 		} else {
 
 			if (c <= 32 || (c >= 97 && c <= 122)) {		// that is a-z
-				continue;
+				// pass
 			} else if (c === 91) {						// that is [
 				if (!root) {
 					// The tree has ( but no ; before its first property.
@@ -179,6 +179,13 @@ function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 					keycomplete = false;
 				}
 				key.push(c);
+			} else if (c === 92) {						// that is \
+				// Fox sometimes generates SGF with "\r\n" (those 4 actual characters) randomly present.
+				let next = buf[++i];
+				if (next !== 110 && next !== 114) {		// that is n and r
+					throw new Error("SGF load error: backslash present while expecting key");
+				}
+				// If we got here, take no action.
 			} else {
 				throw new Error("SGF load error: unacceptable byte while expecting key");
 			}
