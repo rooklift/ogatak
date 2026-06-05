@@ -92,7 +92,7 @@ let hub_main_props = {
 		if (tabber.active_tab_is_last() || new_roots.length === 1) {
 			if (!this.node || this.node.is_bare_root()) {
 				let node;
-				if (typeof config.midgame_training === "number") {
+				if (typeof config.midgame_training === "number" && config.midgame_training > 0) {
 					node = new_roots[0].get_at_depth(config.midgame_training + Math.round(Math.random()));
 				} else if (config.load_at_end) {
 					node = new_roots[0].get_end();
@@ -119,7 +119,7 @@ let hub_main_props = {
 
 			for (let root of new_roots) {
 				let node;
-				if (typeof config.midgame_training === "number") {
+				if (typeof config.midgame_training === "number" && config.midgame_training > 0) {
 					node = root.get_at_depth(config.midgame_training + Math.round(Math.random()));
 				} else if (config.load_at_end) {
 					node = root.get_end();
