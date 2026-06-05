@@ -313,6 +313,18 @@ class Node {
 		return node;
 	}
 
+	get_at_depth(d) {
+		let node = this.get_root();
+		for (let n = 0; n < d; n++) {
+			if (node.children.length > 0) {
+				node = node.children[0];
+			} else {
+				break;
+			}
+		}
+		return node;
+	}
+
 	has_pass() {		// That is, in the node properties, not the analysis!
 
 		let moves = this.all_values("B").concat(this.all_values("W"));
