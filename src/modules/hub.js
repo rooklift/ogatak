@@ -120,11 +120,11 @@ let hub_main_props = {
 			for (let root of new_roots) {
 				let node;
 				if (typeof config.midgame_training === "number") {
-					node = new_roots[0].get_at_depth(config.midgame_training);
+					node = root.get_at_depth(config.midgame_training);
 				} else if (config.load_at_end) {
-					node = new_roots[0].get_end();
+					node = root.get_end();
 				} else {
-					node = new_roots[0];
+					node = root;
 				}
 				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
 			}
