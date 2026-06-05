@@ -91,7 +91,14 @@ let hub_main_props = {
 
 		if (tabber.active_tab_is_last() || new_roots.length === 1) {
 			if (!this.node || this.node.is_bare_root()) {
-				let node = config.load_at_end ? new_roots[0].get_end() : new_roots[0];
+				let node;
+				if (typeof config.midgame_training === "number" && config.midgame_training > 0) {
+					node = new_roots[0].get_at_depth(config.midgame_training + Math.round(Math.random()));
+				} else if (config.load_at_end) {
+					node = new_roots[0].get_end();
+				} else {
+					node = new_roots[0];
+				}
 				this.set_node(node, {bless: true});
 				new_roots = new_roots.slice(1);
 			}
@@ -111,7 +118,14 @@ let hub_main_props = {
 			let switch_tab_dom_id;
 
 			for (let root of new_roots) {
-				let node = config.load_at_end ? root.get_end() : root;
+				let node;
+				if (typeof config.midgame_training === "number" && config.midgame_training > 0) {
+					node = root.get_at_depth(config.midgame_training + Math.round(Math.random()));
+				} else if (config.load_at_end) {
+					node = root.get_end();
+				} else {
+					node = root;
+				}
 				switch_tab_dom_id = tabber.create_inactive_tab_at_end(node);
 			}
 
