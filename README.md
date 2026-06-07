@@ -1,4 +1,4 @@
-![Screenshot](https://user-images.githubusercontent.com/16438795/239653023-369442f4-e35f-4dc7-98f4-5cf7a266c2f9.png)
+![Screenshot](https://github.com/user-attachments/assets/4da9904a-a912-41aa-98f3-c8711e3ebec2)
 
 * Simple analysis GUI for [KataGo](https://github.com/lightvector/KataGo). See [Releases](https://github.com/rooklift/ogatak/releases) for the latest version.
 * Stone and board graphics modified from [Sabaki](https://github.com/SabakiHQ/Sabaki), with thanks.
