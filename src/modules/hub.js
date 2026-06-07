@@ -209,7 +209,7 @@ let hub_main_props = {
 
 			let read_only = Array.isArray(config.read_only_paths) && config.read_only_paths.some(s => filepath.toLowerCase().includes(s.toLowerCase()));
 
-			if (roots.length === 1 && type === "sgf" && !read_only) {
+			if (roots.length === 1 && type === "sgf" && !read_only && load_results.count_errors() === 0 && load_results.count_size_rejections() === 0) {
 				roots[0].save_ok = true;
 			}
 		}
