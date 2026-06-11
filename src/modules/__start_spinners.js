@@ -118,6 +118,36 @@
 })();
 
 // ------------------------------------------------------------------------------------------------
+// Likewise, mousemove events while dragging a resize handle just store a pending value, and this
+// spinner does the actual (more expensive) resizes. Note that small values snap to 0, which is the
+// "hidden" state for both the graph and the comment box. The hardcoded 8s are the handle sizes in
+// the CSS.
+
+(function handle_drag_spinner() {
+
+	if (typeof grapher.pending_handle_drag_x === "number") {
+		let left = grapher.canvas.getBoundingClientRect().left;
+		let width = Math.round(grapher.pending_handle_drag_x - left);
+		let max_width = Math.round(window.innerWidth - left - 8);			// So the handle itself stays onscreen.
+		if (width > max_width) width = max_width;
+		if (width < 40) width = 0;			// Below 40, the grapher is too_small_to_draw() anyway (24 + its two 8px x offsets).
+		hub.set("graph_width", width);
+		grapher.pending_handle_drag_x = null;
+	}
+
+	if (typeof comment_drawer.pending_handle_drag_y === "number") {
+		let height = Math.round(window.innerHeight - comment_drawer.pending_handle_drag_y - 4);		// 4 so the handle centre follows the mouse.
+		let max_height = Math.round(window.innerHeight - tree_drawer.canvas.getBoundingClientRect().top - 8);
+		if (height > max_height) height = max_height;
+		if (height < 40) height = 0;		// 40 is enough for one line at default font size, without a scroll bar.
+		hub.set("comment_box_height", height);
+		comment_drawer.pending_handle_drag_y = null;
+	}
+
+	setTimeout(handle_drag_spinner, config.mousemove_delay);
+})();
+
+// ------------------------------------------------------------------------------------------------
 // In the event that the engine just quits / crashes it will generate an "exit" event which will
 // cause hub.engine to enter its terminal state, but we need to do a draw to display the fact...
 

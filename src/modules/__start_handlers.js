@@ -145,6 +145,48 @@ for (let s of ["mousemove", "mouseleave"]) {
 
 window.addEventListener("mouseup", (event) => {
 	grapher.dragging = false;
+	grapher.handle_dragging = false;
+	comment_drawer.handle_dragging = false;
+	document.body.classList.remove("col_dragging", "row_dragging");
+});
+
+// Dragging the resize handles should adjust the graph width / comment box height...
+
+document.getElementById("graphhandle").addEventListener("mousedown", (event) => {
+	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
+	grapher.handle_dragging = true;
+	document.body.classList.add("col_dragging");
+});
+
+document.getElementById("commentshandle").addEventListener("mousedown", (event) => {
+	event.preventDefault();
+	if (mousedown_event_is_electron_bug(event)) {
+		return;
+	}
+	comment_drawer.handle_dragging = true;
+	document.body.classList.add("row_dragging");
+});
+
+window.addEventListener("mousemove", (event) => {
+	if (grapher.handle_dragging) {
+		if (!event.buttons) {
+			grapher.handle_dragging = false;
+			document.body.classList.remove("col_dragging");
+		} else {
+			grapher.pending_handle_drag_x = event.clientX;					// See the related spinner that actually resizes.
+		}
+	}
+	if (comment_drawer.handle_dragging) {
+		if (!event.buttons) {
+			comment_drawer.handle_dragging = false;
+			document.body.classList.remove("row_dragging");
+		} else {
+			comment_drawer.pending_handle_drag_y = event.clientY;			// See the related spinner that actually resizes.
+		}
+	}
 });
 
 // Clicking on the tree should go to that position in the game...
