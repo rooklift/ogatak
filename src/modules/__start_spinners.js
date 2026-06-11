@@ -148,6 +148,26 @@
 })();
 
 // ------------------------------------------------------------------------------------------------
+// If the window shrinks, the graph handle can be pushed offscreen right, where it can never be
+// grabbed again, so reduce the graph width as needed to keep it onscreen. We take no action during
+// a drag, which has its own clamp in any case.
+
+(function graph_handle_rescue_spinner() {
+
+	if (!grapher.handle_dragging && config.graph_width > 0) {		// The > 0 check matters: if even width 0 doesn't help, we must not spam hub.set().
+		let overshoot = Math.ceil(document.getElementById("graphhandle").getBoundingClientRect().right - window.innerWidth);
+		if (overshoot > 0) {
+			let width = config.graph_width - overshoot;
+			if (width < 40) width = 0;
+			hub.set("graph_width", width);
+			console.log("graph_handle_rescue_spinner() fired!");
+		}
+	}
+
+	setTimeout(graph_handle_rescue_spinner, 179);
+})();
+
+// ------------------------------------------------------------------------------------------------
 // In the event that the engine just quits / crashes it will generate an "exit" event which will
 // cause hub.engine to enter its terminal state, but we need to do a draw to display the fact...
 
