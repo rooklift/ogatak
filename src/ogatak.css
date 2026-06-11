@@ -147,14 +147,14 @@ body {
 	z-index: 2;
 }
 
-#graphhandle {						/* The 8px width replaces what used to be the graph's right margin. */
+#graphhandle {							/* The 8px width replaces what used to be the graph's right margin. */
 	grid-area: ghandle;
 	cursor: col-resize;
 	pointer-events: auto;
 	width: 8px;
 }
 
-/* While actually dragging a handle, the mouse can outpace it, so force the cursor everywhere... */
+/* While actually dragging a handle, the mouse can outpace it, so while dragging we set one of these classes on body... */
 
 body.col_dragging, body.col_dragging * {
 	cursor: col-resize !important;
