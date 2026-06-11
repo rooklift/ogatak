@@ -160,7 +160,6 @@
 			let width = config.graph_width - overshoot;
 			if (width < 40) width = 0;
 			hub.set("graph_width", width);
-			console.log("graph_handle_rescue_spinner() fired!");
 		}
 	}
 
