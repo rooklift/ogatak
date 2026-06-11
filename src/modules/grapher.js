@@ -20,10 +20,10 @@ function init() {
 
 		is_entirely_main_line: false,						// Cached so draw_position() knows what colour to use cheaply.
 
-		dragging: false,									// Used in __start_spinners.js.
-		pending_mousemove_y: null,							// Used in __start_spinners.js.
+		dragging: false,									// Used in __start_spinners.js. These 2 are for
+		pending_mousemove_y: null,							// dragging the mouse up and down on the graph.
 
-		handle_dragging: false,								// Used in __start_spinners.js. These two are for the
+		handle_dragging: false,								// Used in __start_spinners.js. These 2 are for the
 		pending_handle_drag_x: null,						// resize handle, which adjusts config.graph_width.
 
 		non_auto_call_count: 0,								// For debugging.
