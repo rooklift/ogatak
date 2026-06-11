@@ -23,6 +23,9 @@ function init() {
 		dragging: false,									// Used in __start_spinners.js.
 		pending_mousemove_y: null,							// Used in __start_spinners.js.
 
+		handle_dragging: false,								// Used in __start_spinners.js. These two are for the
+		pending_handle_drag_x: null,						// resize handle, which adjusts config.graph_width.
+
 		non_auto_call_count: 0,								// For debugging.
 
 	});

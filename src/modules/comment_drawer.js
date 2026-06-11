@@ -3,6 +3,9 @@
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
 		textarea: document.getElementById("comments"),
+
+		handle_dragging: false,				// Used in __start_spinners.js. These two are for the
+		pending_handle_drag_y: null,		// resize handle, which adjusts config.comment_box_height.
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;
