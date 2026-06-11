@@ -3,9 +3,8 @@
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
 		textarea: document.getElementById("comments"),
-
-		handle_dragging: false,				// Used in __start_spinners.js. These two are for the
-		pending_handle_drag_y: null,		// resize handle, which adjusts config.comment_box_height.
+		handle_dragging: false,							// Used in __start_spinners.js. These 2 are for the
+		pending_handle_drag_y: null,					// resize handle, which adjusts config.comment_box_height.
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;
@@ -27,10 +26,10 @@ let comment_drawer_prototype = {
 			this.textarea.blur();
 			this.textarea.value = "";
 			this.textarea.style.display = "none";
-			this.textarea.readOnly = true;			// Maybe paranoia, but it should never be edited by the user in this condition.
+			this.textarea.readOnly = true;				// Maybe paranoia, but it should never be edited by the user in this condition.
 		} else {
 			this.textarea.readOnly = false;
-			this.textarea.value = s;				// safe_html(s);			// Not needed for textarea I guess.
+			this.textarea.value = s;					// safe_html(s);			// Not needed for textarea I guess.
 			this.textarea.style.display = "block";
 		}
 	},
