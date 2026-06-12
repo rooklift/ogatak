@@ -3,8 +3,11 @@
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
 		textarea: document.getElementById("comments"),
-		handle_dragging: false,							// Used in __start_spinners.js. These 2 are for the
-		pending_handle_drag_y: null,					// resize handle, which adjusts config.comment_box_height.
+		handle: document.getElementById("commentshandle"),
+		handle_dragging: false,							// Used in __start_spinners.js. These 4 are for the
+		pending_handle_drag_y: null,					// resize handle, which adjusts config.comment_box_height
+		handle_drag_start_y: 0,							// by the mouse's movement since the drag started,
+		handle_drag_start_height: 0,					// so there's no jump on grabbing the handle.
 	});
 	ret.set_font_size(config.info_font_size);
 	return ret;

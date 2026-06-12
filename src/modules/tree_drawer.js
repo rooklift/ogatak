@@ -17,6 +17,7 @@ function init() {
 
 		canvas: document.getElementById("treecanvas"),
 		ctx: document.getElementById("treecanvas").getContext("2d"),
+		commentshandle: document.getElementById("commentshandle"),		// Just because we need to know its height.
 
 		clickers: [],
 		must_draw: false,				// Set from outside if the tree changes.
@@ -38,7 +39,7 @@ let tree_drawer_prototype = {
 		this.call_count++;
 
 		let correct_width = Math.max(0, window.innerWidth - this.canvas.getBoundingClientRect().left);
-		let correct_height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_box_height - 8); // 8 == handle height (CSS).
+		let correct_height = Math.max(0, window.innerHeight - this.canvas.getBoundingClientRect().top - config.comment_box_height - this.commentshandle.offsetHeight);
 		let size_is_ok = this.canvas.width === correct_width && this.canvas.height === correct_height;
 
 		if (!this.must_draw && !this.weak_draw && (size_is_ok || this.call_count % 10 !== 0)) {

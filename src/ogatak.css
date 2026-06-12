@@ -173,7 +173,7 @@ body.row_dragging, body.row_dragging * {
 	margin: 0;
 }
 
-#commentshandle {					/* If the height changes, adjust the hardcoded 8s in tree_drawer.js and __start_spinners.js. */
+#commentshandle {
 	grid-area: chandle;
 	background-color: #111111ff;
 	cursor: row-resize;

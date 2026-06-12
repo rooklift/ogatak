@@ -143,30 +143,38 @@ for (let s of ["mousemove", "mouseleave"]) {
 
 }
 
-window.addEventListener("mouseup", (event) => {
-	grapher.dragging = false;
-	grapher.handle_dragging = false;
-	comment_drawer.handle_dragging = false;
-	document.body.classList.remove("col_dragging", "row_dragging");
-});
+for (let s of ["mouseup", "blur"]) {
+
+	window.addEventListener(s, (event) => {
+		grapher.dragging = false;
+		grapher.handle_dragging = false;
+		comment_drawer.handle_dragging = false;
+		document.body.classList.remove("col_dragging", "row_dragging");
+	});
+
+}
 
 // Dragging the resize handles should adjust the graph width / comment box height...
 
-document.getElementById("graphhandle").addEventListener("mousedown", (event) => {
+grapher.handle.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	if (mousedown_event_is_electron_bug(event)) {
 		return;
 	}
 	grapher.handle_dragging = true;
+	grapher.handle_drag_start_x = event.clientX;
+	grapher.handle_drag_start_width = config.graph_width;
 	document.body.classList.add("col_dragging");
 });
 
-document.getElementById("commentshandle").addEventListener("mousedown", (event) => {
+comment_drawer.handle.addEventListener("mousedown", (event) => {
 	event.preventDefault();
 	if (mousedown_event_is_electron_bug(event)) {
 		return;
 	}
 	comment_drawer.handle_dragging = true;
+	comment_drawer.handle_drag_start_y = event.clientY;
+	comment_drawer.handle_drag_start_height = config.comment_box_height;
 	document.body.classList.add("row_dragging");
 });
 

@@ -119,16 +119,15 @@
 
 // ------------------------------------------------------------------------------------------------
 // Likewise, mousemove events while dragging a resize handle just store a pending value, and this
-// spinner does the actual (more expensive) resizes. Note that small values snap to 0, which is the
-// "hidden" state for both the graph and the comment box. The hardcoded 8s are the handle sizes in
-// the CSS.
+// spinner does the actual (more expensive) resizes. The new sizes come from the mouse's movement
+// since the drag started, applied to the size at that time. Note that small values snap to 0,
+// which is the "hidden" state for both the graph and the comment box.
 
 (function handle_drag_spinner() {
 
 	if (typeof grapher.pending_handle_drag_x === "number") {
-		let left = grapher.canvas.getBoundingClientRect().left;
-		let width = Math.round(grapher.pending_handle_drag_x - left);
-		let max_width = Math.round(window.innerWidth - left - 8);			// So the handle itself stays onscreen.
+		let width = Math.round(grapher.handle_drag_start_width + grapher.pending_handle_drag_x - grapher.handle_drag_start_x);
+		let max_width = Math.round(window.innerWidth - grapher.canvas.getBoundingClientRect().left - grapher.handle.offsetWidth);	// So the handle itself stays onscreen.
 		if (width > max_width) width = max_width;
 		if (width < 40) width = 0;			// Below 40, the grapher is too_small_to_draw() anyway (24 + its two 8px x offsets).
 		hub.set("graph_width", width);
@@ -136,8 +135,8 @@
 	}
 
 	if (typeof comment_drawer.pending_handle_drag_y === "number") {
-		let height = Math.round(window.innerHeight - comment_drawer.pending_handle_drag_y - 4);		// 4 so the handle centre follows the mouse.
-		let max_height = Math.round(window.innerHeight - tree_drawer.canvas.getBoundingClientRect().top - 8);
+		let height = Math.round(comment_drawer.handle_drag_start_height + comment_drawer.handle_drag_start_y - comment_drawer.pending_handle_drag_y);
+		let max_height = Math.round(window.innerHeight - tree_drawer.canvas.getBoundingClientRect().top - comment_drawer.handle.offsetHeight);
 		if (height > max_height) height = max_height;
 		if (height < 40) height = 0;		// 40 is enough for one line at default font size, without a scroll bar.
 		hub.set("comment_box_height", height);
@@ -155,7 +154,7 @@
 (function graph_handle_rescue_spinner() {
 
 	if (!grapher.handle_dragging && config.graph_width > 0) {		// The > 0 check matters: if even width 0 doesn't help, we must not spam hub.set().
-		let overshoot = Math.ceil(document.getElementById("graphhandle").getBoundingClientRect().right - window.innerWidth);
+		let overshoot = Math.ceil(grapher.handle.getBoundingClientRect().right - window.innerWidth);
 		if (overshoot > 0) {
 			let width = config.graph_width - overshoot;
 			if (width < 40) width = 0;

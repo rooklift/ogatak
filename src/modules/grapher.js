@@ -9,6 +9,7 @@ function init() {
 
 		canvas: document.getElementById("graphcanvas"),
 		positioncanvas: document.getElementById("graphpositioncanvas"),
+		handle: document.getElementById("graphhandle"),
 
 		ctx: document.getElementById("graphcanvas").getContext("2d"),
 		posctx: document.getElementById("graphpositioncanvas").getContext("2d"),
@@ -23,8 +24,10 @@ function init() {
 		dragging: false,									// Used in __start_spinners.js. These 2 are for
 		pending_mousemove_y: null,							// dragging the mouse up and down on the graph.
 
-		handle_dragging: false,								// Used in __start_spinners.js. These 2 are for the
-		pending_handle_drag_x: null,						// resize handle, which adjusts config.graph_width.
+		handle_dragging: false,								// Used in __start_spinners.js. These 4 are for the
+		pending_handle_drag_x: null,						// resize handle, which adjusts config.graph_width
+		handle_drag_start_x: 0,								// by the mouse's movement since the drag started,
+		handle_drag_start_width: 0,							// so there's no jump on grabbing the handle.
 
 		non_auto_call_count: 0,								// For debugging.
 
