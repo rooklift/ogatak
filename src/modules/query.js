@@ -5,7 +5,7 @@
 //
 // 1. KataGo has no way to know how many prisoners there were in this "initial" position, which means it will
 // miscount the score under Japanese rules. We deal with this by manually adjusting komi, though this assumes
-// the board's caps_balance() is correct, which it might not be, e.g. if the user pastes in a midgame position.
+// the board's caps_balance() is correct, which it might not be, e.g. if the user pastes a midgame position.
 //
 // 2. KataGo has no way to know how many handicap stones there were at the start, which means it will miscount
 // the score under Chinese rules. We don't deal with this at all.
