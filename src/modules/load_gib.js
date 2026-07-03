@@ -44,7 +44,7 @@ function load_gib(buf) {
 
 		if (fields.length >= 4 && fields[0] === "INI") {
 
-			if (node != root) {
+			if (node !== root) {
 				ret.add_errors("GIB load error: got INI after moves were made");
 				return ret;
 			}
