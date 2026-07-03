@@ -336,7 +336,7 @@ class GTPengine {
 
 		if (line.startsWith("?")) {
 			console.log(line);
-			this.current_incoming_gtp_id = null;
+			this.handle_response_start(line);							// In order to set current_incoming_gtp_id.
 			return;
 		}
 
