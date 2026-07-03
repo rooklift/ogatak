@@ -20,7 +20,7 @@ const gridlines = require("./gridlines");
 const {translate} = require("./translate");
 
 const {handicap_stones, moveinfo_filter, pad, new_2d_array, xy_to_s, float_to_hex_ff,
-	points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp} = require("./utils");
+	points_list, is_valid_rgb_or_rgba_colour, colour_curve, clamp, safe_html} = require("./utils");
 
 // ------------------------------------------------------------------------------------------------
 
@@ -1115,7 +1115,7 @@ let board_drawer_prototype = {
 
 		s1 += `<span class="boardinfo_rules"><span class="sand">${t.Rules}: </span>`;
 
-		let rules = node.rules();
+		let rules = safe_html(node.rules());
 		let long_rules = "";
 
 		if (rules.length > 14) {
