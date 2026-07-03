@@ -135,7 +135,7 @@ exports.defaults = {
 
 	"read_only_paths": [],
 
-	"midgame_training": null,					// Secret feature...
+	"midgame_training": null,					// Secret feature (must be turned on via console each time).
 
 	"sgf_folder": "",
 	"katago_folder": "",
