@@ -135,6 +135,8 @@ exports.defaults = {
 
 	"read_only_paths": [],
 
+	"midgame_training": null,					// Secret feature...
+
 	"sgf_folder": "",
 	"katago_folder": "",
 	"kataconfig_folder": "",
@@ -207,6 +209,7 @@ function apply_fixes() {
 	config.avoid_set = exports.defaults.avoid_set;
 	config.play_against_policy = exports.defaults.play_against_policy;
 	config.play_against_drunk = exports.defaults.play_against_drunk;
+	config.midgame_training = exports.defaults.midgame_training;
 
 	// Someone might edit the numbers in a slightly wrong way...
 
