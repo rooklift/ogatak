@@ -118,7 +118,7 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 					have_confirmed_quit = true;
 					win.close();
 				}
-			})
+			});
 
 			return;
 

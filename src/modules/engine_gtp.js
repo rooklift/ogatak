@@ -517,7 +517,7 @@ function normalise_gtp_token(s) {			// "k10" --> "K10", "PASS" --> "pass"
 		return "pass";
 	}
 	return s.toUpperCase();
-};
+}
 
 
 
