@@ -266,11 +266,6 @@ exports.compare_versions = function(a, b) {		// args are both arrays like [1,8,2
 	return 0;
 };
 
-exports.normalise_gtp_token = function(s) {					// "k10" --> "K10", "PASS" --> "pass"
-	if (s.toLowerCase() === "pass") return "pass";
-	return s.toUpperCase();
-};
-
 exports.get_href_query_val = function(key) {
 	let s = global.location.search;
 	if (s[0] === "?") s = s.slice(1);

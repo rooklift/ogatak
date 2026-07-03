@@ -25,7 +25,6 @@ const {ipcRenderer} = require("electron");
 const log = require("./log");
 const {translate} = require("./translate");
 const {new_query, compare_queries, compare_moves_arrays} = require("./query");
-const {normalise_gtp_token} = require("./utils");
 
 // We don't send a query when another is running, so we must terminate
 // queries by sending some non-query command. But which one?
@@ -510,6 +509,15 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99, case-insensitive
 
 	return false;
 }
+
+
+
+function normalise_gtp_token(s) {			// "k10" --> "K10", "PASS" --> "pass"
+	if (s.toLowerCase() === "pass") {
+		return "pass";
+	}
+	return s.toUpperCase();
+};
 
 
 
