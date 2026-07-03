@@ -1333,6 +1333,232 @@ translations[`한국어`] = {
 
 };
 
+// ------------------------------------------------------------------------------------------------
+
+translations[`日本語`] = {
+
+	TRANSLATION_BY: "Claude Fable 5",
+
+	MENU_FILE: `ファイル`,
+
+		MENU_ABOUT: `Ogatak について`,
+		MENU_NEW_BOARD: `新しい碁盤`,
+		MENU_NEW_SMALL_BOARD: `新しい小さな碁盤`,
+		MENU_NEW_RECTANGULAR_BOARD: `新しい長方形の碁盤`,
+		MENU_HANDICAP: `置き石`,
+		MENU_CLOSE_TAB: `タブを閉じる`,
+		MENU_OPEN: `開く...`,
+		MENU_PASTE_SGF: `SGF を貼り付け`,
+		MENU_SAVE_GAME: `棋譜を保存`,
+		MENU_SAVE_GAME_AS: `名前を付けて棋譜を保存...`,
+		MENU_SAVE_COLLECTION_AS: `名前を付けて棋譜集を保存...`,		// Every game in the tabs saved into 1 file.
+		MENU_QUIT: `終了`,
+
+	MENU_SETUP: `セットアップ`,
+
+		MENU_LOCATE_KATAGO: `KataGo の場所を指定...`,
+		MENU_LOCATE_KATAGO_ANALYSIS_CONFIG: `KataGo の解析設定ファイルを指定...`,
+		MENU_CHOOSE_WEIGHTS: `ネットワークを選択...`,
+		MENU_CLEAR_CACHE: `キャッシュをクリア`,
+		MENU_RESTART: `再起動`,
+		MENU_ENGINE_REPORT_RATE: `エンジンの報告間隔`,
+		MENU_FAST_FIRST_REPORT: `最初の報告を早くする`,			// Uses KataGo's firstReportDuringSearchAfter setting.
+
+	MENU_TREE: `ツリー`,
+
+		MENU_PLAY_BEST_MOVE: `最善手を打つ`,					// Only works if some analysis already exists for the position.
+		MENU_PASS: `パス`,
+		MENU_ROOT: `開始局面へ`,
+		MENU_END: `最終局面へ`,
+		MENU_BACKWARD: `一手戻る`,
+		MENU_FORWARD: `一手進む`,
+		MENU_BACKWARD_10: `10手戻る`,
+		MENU_FORWARD_10: `10手進む`,
+		MENU_PREVIOUS_SIBLING: `前の変化へ`,
+		MENU_NEXT_SIBLING: `次の変化へ`,
+		MENU_RETURN_TO_MAIN_LINE: `本譜に戻る`,
+		MENU_FIND_PREVIOUS_FORK: `前の分岐点へ`,
+		MENU_FIND_NEXT_FORK: `次の分岐点へ`,
+		MENU_PROMOTE_LINE: `変化を昇格`,
+		MENU_PROMOTE_LINE_TO_MAIN_LINE: `変化を本譜にする`,
+		MENU_DELETE_NODE: `ノードを削除`,
+		MENU_DELETE_ALL_PREVIOUS_FORKS: `これまでの分岐をすべて削除`,
+
+	MENU_TOOLS: `ツール`,
+
+		MENU_NORMAL: `通常`,
+		MENU_ADD_BLACK: `黒石を置く`,
+		MENU_ADD_WHITE: `白石を置く`,
+		MENU_ADD_EMPTY: `石を消す`,
+		MENU_TRIANGLE: `三角`,
+		MENU_SQUARE: `四角`,
+		MENU_CIRCLE: `丸`,
+		MENU_CROSS: `バツ`,
+		MENU_LABELS_ABC: `ラベル (ABC)`,
+		MENU_LABELS_123: `ラベル (123)`,
+		MENU_TOGGLE_ACTIVE_PLAYER: `手番を切り替え`,
+		MENU_GAME_INFO_EDITOR: `対局情報の編集`,
+
+	MENU_ANALYSIS: `解析`,
+
+		MENU_GO_HALT_TOGGLE: `解析開始 / 停止`,
+		MENU_GO: `解析開始`,
+		MENU_HALT: `停止`,
+		MENU_SELF_PLAY: `自己対局`,
+		MENU_AUTOANALYSIS: `自動解析`,
+		MENU_BACKWARD_ANALYSIS: `自動解析（逆方向）`,			// Looks at a position then goes to the previous position, repeatedly.
+		MENU_AUTOANALYSIS_VISITS: `自動解析の探索数`,
+		MENU_SET_RULES: `ルール`,
+			MENU_CHINESE: `中国ルール`,
+			MENU_JAPANESE: `日本ルール`,
+			MENU_STONE_SCORING: `石数え（純碁式）`,			// Get as many stones on the board as possible. Like area rules + group tax.
+		MENU_SET_KOMI: `コミ`,
+		MENU_PV_LENGTH_MAX: `読み筋の長さ（最大）`,
+		MENU_WIDE_ROOT_NOISE: `ワイドルートノイズ`,
+		MENU_OWNERSHIP: `形勢判断`,
+			MENU_NO_OWNERSHIP: `表示しない`,
+			MENU_DEAD_STONES: `死に石`,						// Stones where the predicted owner is the other colour.
+			MENU_WHOLE_BOARD: `盤面全体`,
+			MENU_WHOLE_BOARD_ALT: `盤面全体（別表示）`,
+		MENU_PER_MOVE: `...候補手ごと（高負荷）`,				// Ask KataGo for an ownership map for every candidate move (displayed on mouseover).
+		MENU_PERFORMANCE_REPORT: `パフォーマンスレポート`,
+		MENU_CLEAR_ALL_ANALYSIS: `すべての解析を消去`,
+
+	MENU_DISPLAY: `表示`,
+
+		MENU_VISIT_FILTER: `探索数フィルター`,
+			MENU_ALL: `すべて`,
+		MENU_NUMBERS: `数値`,
+			MENU_NUM_WINRATE: `勝率`,
+			MENU_NUM_LCB: `LCB`,
+			MENU_NUM_SCORE: `目差`,
+			MENU_NUM_DELTA: `デルタ`,
+			MENU_NUM_VISITS: `探索数`,
+			MENU_NUM_VISITS_PC: `探索数 (%)`,
+			MENU_NUM_ORDER: `順位`,
+			MENU_NUM_POLICY: `ポリシー`,
+		MENU_GRAPH: `グラフ`,
+			MENU_GRAPH_WINRATE: `勝率`,
+			MENU_GRAPH_SCORE: `目差`,
+		MENU_BLACK_POV_ALWAYS: `常に黒視点の目差`,
+		MENU_COORDINATES: `座標`,
+		MENU_STONE_COUNTS: `石数を表示`,
+		MENU_CANDIDATE_MOVES: `候補手`,
+		MENU_NO_PONDER_NO_CANDIDATES: `...解析中のみ`,
+		MENU_WITH_PV_MOUSEOVER: `...マウスオーバーで読み筋を表示`,
+		MENU_FADE_BY_VISITS: `...探索数に応じて薄くする`,
+		MENU_MOUSEOVER_DELAY: `読み筋を表示するまでの時間`,
+		MENU_NEXT_MOVE_MARKERS: `次の一手マーカー`,
+		MENU_COLOURS: `配色`,
+
+	MENU_SIZES: `サイズ`,
+
+		MENU_EMBIGGEN_SMALL_BOARDS: `小さな碁盤を拡大する`,
+		MENU_INFO_FONT: `情報フォント`,
+		MENU_GRAPH_WIDTH: `グラフの幅`,
+		MENU_GRAPH_MAJOR_LINES: `グラフの主線`,
+		MENU_GRAPH_MINOR_LINES: `グラフの補助線`,
+		MENU_BOARD_LINES: `碁盤の線`,
+		MENU_THUMBNAIL_SQUARES: `サムネイル`,
+		MENU_TREE_SPACING: `ツリーの間隔`,
+		MENU_COMMENT_BOX: `コメント欄`,
+
+	MENU_MISC: `その他`,
+
+		MENU_ESCAPE: `メイン画面に戻る`,
+		MENU_ENGINE_PLAYS_BLACK: `エンジンが黒を持つ`,
+		MENU_ENGINE_PLAYS_WHITE: `エンジンが白を持つ`,
+		MENU_ENGINE_PLAYS_CURRENT: `エンジンが手番の色を持つ`,
+		MENU_ENGINE_PLAYS_POLICY: `ポリシーで着手（探索なし）`,
+		MENU_ENGINE_PLAYS_DRUNK: `ポリシーで着手（千鳥足版）`,
+		MENU_AUTOSCROLL: `自動再生`,
+		MENU_AUTOSCROLL_DELAY: `自動再生の間隔`,
+		MENU_LOAD_GAMES_AT_FINAL_POSITION: `棋譜を最終局面で開く`,
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `読み込み時にコミからルールを推測`,				// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,					// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーション`,
+		MENU_CONFIRM_QUIT: `終了前に確認する`,
+
+	MENU_DEV: `開発`,
+
+		MENU_SHOW_ROOT_PROPERTIES: `ルートのプロパティを表示`,
+		MENU_SHOW_NODE_PROPERTIES: `ノードのプロパティを表示`,
+		MENU_SHOW_ENGINE_STDERR: `エンジンの標準エラー出力を表示`,
+		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist 不一致チェック`,							// Technical dev thing barely worth worrying about.
+		MENU_RESET_MISMATCH_WARNINGS: `不一致警告をリセット`,								// Connected to the above.
+		MENU_SNAPPY_NODE_SWITCH_HACK: `高速ノード切り替えハック`,							// Uses a slightly dubious trick to make things more responsive.
+		MENU_SHOW_CONFIG_FILE: `設定ファイルを表示`,
+		MENU_TOGGLE_DEV_TOOLS: `開発者ツールの切り替え`,
+
+	MENU_LANGUAGE: `言語`,
+
+	// Items that show on first run, when KataGo (etc) have not been located...
+	GUI_ENGINE_NOT_SET: `エンジンが設定されていません。`,
+	GUI_ENGINE_CONFIG_NOT_SET: `エンジンの設定ファイルが設定されていません。`,
+	GUI_WEIGHTS_NOT_SET: `ネットワークが設定されていません。`,
+	GUI_RESOLVE_THIS: `<span class="yellow">「セットアップ」</span>メニューから設定してください。`,
+
+	// Message (split across 2 lines) that shows at startup while KataGo loads...
+	GUI_AWAITING_RESPONSE_1: `エンジンの応答を待っています。必要であれば、メニューの`,
+	GUI_AWAITING_RESPONSE_2: `<span class="yellow">開発 --> エンジンの標準エラー出力を表示</span> で詳細を確認できます。`,
+
+	// Message (split across 2 lines) that shows at startup while an unsupported GTP engine loads (not recommended)...
+	GUI_AWAITING_GTP_RESPONSE_1: `GTP エンジンの応答を待っています...`,
+	GUI_AWAITING_GTP_RESPONSE_2: `注意: GTP 機能は実験的なものであり、推奨されません。`,
+
+	// Info editor strings...
+	INFO_BLACK: `黒`,
+	INFO_BLACK_RANK: `黒の段級位`,
+	INFO_WHITE: `白`,
+	INFO_WHITE_RANK: `白の段級位`,
+	INFO_EVENT: `棋戦`,
+	INFO_ROUND: `回戦`,
+	INFO_GAME_NAME: `対局名`,
+	INFO_PLACE: `場所`,
+	INFO_DATE: `日付`,
+	INFO_RESULT: `結果`,
+
+	// Info panel... (note that whitespace is used for alignment, you may want to add spaces in some places).
+	INFO_PANEL_RULES: `ルール`,
+//	INFO_PANEL_UNKNOWN: `不明`,									// Would cause text in the infobox to resize due to Latin/CJK size discrepancy.
+	INFO_PANEL_KOMI: `コミ`,
+	INFO_PANEL_EDITING: `編集モード`,
+	INFO_PANEL_ESCAPE: `ESC で終了`,
+	INFO_PANEL_PREV: `前`,										// Unused now.
+	INFO_PANEL_SHOW: `表示`,
+	INFO_PANEL_B: `黒`,
+	INFO_PANEL_W: `白`,
+	INFO_PANEL_SCORE: `目差`,
+	INFO_PANEL_STN: `石数`,
+	INFO_PANEL_CAPS: `ハマ`,
+	INFO_PANEL_THIS: `ここ`,									// Unused now.
+	INFO_PANEL_BEST: `最善`,									// Unused now.
+	INFO_PANEL_VISITS: `探索数`,
+
+	// Alerts...
+	ALERT_RESTART_REQUIRED: `GUI の再起動が必要です。`,
+	ALERT_SAVED: `棋譜を保存しました。`,
+	ALERT_SAVED_COLLECTION: `棋譜集を保存しました。`,
+	ALERT_REALLY_QUIT: `本当に終了しますか？`,
+	ALERT_CHOICE_QUIT: `終了`,
+	ALERT_CHOICE_CANCEL: `キャンセル`,
+
+	// About box...
+	ABOUT_FILE_LOCATIONS: `エンジン、エンジン設定、ネットワークの場所:`,
+	ABOUT_GTP_COMMAND: `GTP プログラムと引数:`,
+	ABOUT_CONFIG_LOCATION: `Ogatak の設定ファイルの場所:`,
+	ABOUT_RAM_USAGE: `RAM 使用量 (MB)（エンジンは含まず）:`,
+	ABOUT_THANKS_TRANSLATORS: `翻訳者の皆さんに感謝します:`,
+
+	// A single message (split across 5 lines) that shows if config.json cannot be parsed...
+	BAD_CONFIG_1: `設定ファイルを解析できませんでした。`,
+	BAD_CONFIG_2: `修正するまで設定ファイルへの保存は行われません。`,
+	BAD_CONFIG_3: `つまり、設定の変更は保存されないということです。`,
+	BAD_CONFIG_4: `修正することをおすすめします。`,
+	BAD_CONFIG_5: `単にファイルを削除してしまっても構いません。`,
+
+};
+
 
 
 module.exports = translations;
