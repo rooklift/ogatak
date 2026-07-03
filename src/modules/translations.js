@@ -1343,7 +1343,7 @@ translations[`日本語`] = {
 
 		MENU_ABOUT: `Ogatak について`,
 		MENU_NEW_BOARD: `新しい碁盤`,
-		MENU_NEW_SMALL_BOARD: `新しい小さな碁盤`,
+		MENU_NEW_SMALL_BOARD: `新しい小路盤`,
 		MENU_NEW_RECTANGULAR_BOARD: `新しい長方形の碁盤`,
 		MENU_HANDICAP: `置き石`,
 		MENU_CLOSE_TAB: `タブを閉じる`,
@@ -1361,10 +1361,10 @@ translations[`日本語`] = {
 		MENU_CHOOSE_WEIGHTS: `ネットワークを選択...`,
 		MENU_CLEAR_CACHE: `キャッシュをクリア`,
 		MENU_RESTART: `再起動`,
-		MENU_ENGINE_REPORT_RATE: `エンジンの報告間隔`,
-		MENU_FAST_FIRST_REPORT: `最初の報告を早くする`,			// Uses KataGo's firstReportDuringSearchAfter setting.
+		MENU_ENGINE_REPORT_RATE: `解析結果の更新間隔`,
+		MENU_FAST_FIRST_REPORT: `初回の解析結果を早く表示`,			// Uses KataGo's firstReportDuringSearchAfter setting.
 
-	MENU_TREE: `ツリー`,
+	MENU_TREE: `棋譜ツリー`,
 
 		MENU_PLAY_BEST_MOVE: `最善手を打つ`,					// Only works if some analysis already exists for the position.
 		MENU_PASS: `パス`,
@@ -1379,7 +1379,7 @@ translations[`日本語`] = {
 		MENU_RETURN_TO_MAIN_LINE: `本譜に戻る`,
 		MENU_FIND_PREVIOUS_FORK: `前の分岐点へ`,
 		MENU_FIND_NEXT_FORK: `次の分岐点へ`,
-		MENU_PROMOTE_LINE: `変化を昇格`,
+		MENU_PROMOTE_LINE: `変化の順位を上げる`,
 		MENU_PROMOTE_LINE_TO_MAIN_LINE: `変化を本譜にする`,
 		MENU_DELETE_NODE: `ノードを削除`,
 		MENU_DELETE_ALL_PREVIOUS_FORKS: `これまでの分岐をすべて削除`,
@@ -1415,7 +1415,7 @@ translations[`日本語`] = {
 		MENU_SET_KOMI: `コミ`,
 		MENU_PV_LENGTH_MAX: `読み筋の長さ（最大）`,
 		MENU_WIDE_ROOT_NOISE: `ワイドルートノイズ`,
-		MENU_OWNERSHIP: `形勢判断`,
+		MENU_OWNERSHIP: `地合い予測`,
 			MENU_NO_OWNERSHIP: `表示しない`,
 			MENU_DEAD_STONES: `死に石`,						// Stones where the predicted owner is the other colour.
 			MENU_WHOLE_BOARD: `盤面全体`,
@@ -1468,7 +1468,7 @@ translations[`日本語`] = {
 		MENU_ESCAPE: `メイン画面に戻る`,
 		MENU_ENGINE_PLAYS_BLACK: `エンジンが黒を持つ`,
 		MENU_ENGINE_PLAYS_WHITE: `エンジンが白を持つ`,
-		MENU_ENGINE_PLAYS_CURRENT: `エンジンが手番の色を持つ`,
+		MENU_ENGINE_PLAYS_CURRENT: `現在の手番をエンジンにする`,
 		MENU_ENGINE_PLAYS_POLICY: `ポリシーで着手（探索なし）`,
 		MENU_ENGINE_PLAYS_DRUNK: `ポリシーで着手（千鳥足版）`,
 		MENU_AUTOSCROLL: `自動再生`,
@@ -1476,7 +1476,7 @@ translations[`日本語`] = {
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `棋譜を最終局面で開く`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `読み込み時にコミからルールを推測`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,					// Tygem (and Fox) place 3rd handicap stone in top left.
-		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーション`,
+		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーションを有効にする`,
 		MENU_CONFIRM_QUIT: `終了前に確認する`,
 
 	MENU_DEV: `開発`,
@@ -1493,9 +1493,9 @@ translations[`日本語`] = {
 	MENU_LANGUAGE: `言語`,
 
 	// Items that show on first run, when KataGo (etc) have not been located...
-	GUI_ENGINE_NOT_SET: `エンジンが設定されていません。`,
-	GUI_ENGINE_CONFIG_NOT_SET: `エンジンの設定ファイルが設定されていません。`,
-	GUI_WEIGHTS_NOT_SET: `ネットワークが設定されていません。`,
+	GUI_ENGINE_NOT_SET: `エンジンが指定されていません。`,
+	GUI_ENGINE_CONFIG_NOT_SET: `エンジン設定ファイルが指定されていません。`,
+	GUI_WEIGHTS_NOT_SET: `ネットワークが指定されていません。`,
 	GUI_RESOLVE_THIS: `<span class="yellow">「セットアップ」</span>メニューから設定してください。`,
 
 	// Message (split across 2 lines) that shows at startup while KataGo loads...
@@ -1511,7 +1511,7 @@ translations[`日本語`] = {
 	INFO_BLACK_RANK: `黒の段級位`,
 	INFO_WHITE: `白`,
 	INFO_WHITE_RANK: `白の段級位`,
-	INFO_EVENT: `棋戦`,
+	INFO_EVENT: `大会名`,
 	INFO_ROUND: `回戦`,
 	INFO_GAME_NAME: `対局名`,
 	INFO_PLACE: `場所`,
@@ -1523,7 +1523,7 @@ translations[`日本語`] = {
 //	INFO_PANEL_UNKNOWN: `不明`,									// Would cause text in the infobox to resize due to Latin/CJK size discrepancy.
 	INFO_PANEL_KOMI: `コミ`,
 	INFO_PANEL_EDITING: `編集モード`,
-	INFO_PANEL_ESCAPE: `ESC で終了`,
+	INFO_PANEL_ESCAPE: `ESC で編集を終了`,
 	INFO_PANEL_PREV: `前`,										// Unused now.
 	INFO_PANEL_SHOW: `表示`,
 	INFO_PANEL_B: `黒`,
@@ -1554,7 +1554,7 @@ translations[`日本語`] = {
 	BAD_CONFIG_1: `設定ファイルを解析できませんでした。`,
 	BAD_CONFIG_2: `修正するまで設定ファイルへの保存は行われません。`,
 	BAD_CONFIG_3: `つまり、設定の変更は保存されないということです。`,
-	BAD_CONFIG_4: `修正することをおすすめします。`,
+	BAD_CONFIG_4: `この問題を修正してください。`,
 	BAD_CONFIG_5: `単にファイルを削除してしまっても構いません。`,
 
 };
