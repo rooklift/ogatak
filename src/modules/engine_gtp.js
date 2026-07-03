@@ -24,7 +24,8 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const {translate} = require("./translate");
-const {new_query, compare_queries, compare_moves_arrays, normalise_gtp_token} = require("./query");
+const {new_query, compare_queries, compare_moves_arrays} = require("./query");
+const {normalise_gtp_token} = require("./utils");
 
 // We don't send a query when another is running, so we must terminate
 // queries by sending some non-query command. But which one?
