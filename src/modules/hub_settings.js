@@ -156,7 +156,6 @@ module.exports = {
 		case "top_colour_white":
 		case "off_colour_black":
 		case "off_colour_white":
-		case "wood_colour":
 		case "previous_marker":
 		case "candidate_moves":
 		case "no_ponder_no_candidates":
