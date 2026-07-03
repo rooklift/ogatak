@@ -24,7 +24,7 @@ const {ipcRenderer} = require("electron");
 
 const log = require("./log");
 const {translate} = require("./translate");
-const {new_query, compare_queries, compare_moves_arrays} = require("./query");
+const {new_query, compare_queries, compare_moves_arrays, normalise_gtp_token} = require("./query");
 
 // We don't send a query when another is running, so we must terminate
 // queries by sending some non-query command. But which one?
@@ -479,21 +479,23 @@ class GTPengine {
 
 
 
-function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
+function is_gtp_move(s) {					// Very lax, accepting A0 to Z99, case-insensitive
 
 	if (s.length === 2) {
+		let c0 = s.toUpperCase().charCodeAt(0);
 		return (
-			s.charCodeAt(0) >= 65 &&		// A
-			s.charCodeAt(0) <= 90 &&		// Z
+			c0 >= 65 &&						// A
+			c0 <= 90 &&						// Z
 			s.charCodeAt(1) >= 48 &&		// 0
 			s.charCodeAt(1) <= 57			// 9
 		);
 	}
 
 	if (s.length === 3) {
+		let c0 = s.toUpperCase().charCodeAt(0);
 		return (
-			s.charCodeAt(0) >= 65 &&
-			s.charCodeAt(0) <= 90 &&
+			c0 >= 65 &&
+			c0 <= 90 &&
 			s.charCodeAt(1) >= 48 &&
 			s.charCodeAt(1) <= 57 &&
 			s.charCodeAt(2) >= 48 &&
@@ -501,7 +503,7 @@ function is_gtp_move(s) {					// Very lax, accepting A0 to Z99
 		);
 	}
 
-	if (s === "pass") {
+	if (s.toLowerCase() === "pass") {		// GTP spec seems to imply this should always be lowercase, but meh
 		return true;
 	}
 
@@ -557,7 +559,7 @@ function make_analysis_object(line, running_info) {
 
 			if (parsing === "move") {
 				if (is_gtp_move(token)) {
-					moveinfo.move = token;
+					moveinfo.move = normalise_gtp_token(token);
 				}
 				parsing = null;
 			}
@@ -569,7 +571,7 @@ function make_analysis_object(line, running_info) {
 
 			if (parsing === "pv") {
 				if (is_gtp_move(token)) {
-					moveinfo.pv.push(token);
+					moveinfo.pv.push(normalise_gtp_token(token));
 					// stay in parsing state "pv"
 				} else {
 					parsing = null;
@@ -578,7 +580,7 @@ function make_analysis_object(line, running_info) {
 
 			if (parsing === "isSymmetryOf") {
 				if (is_gtp_move(token)) {
-					moveinfo.isSymmetryOf = token;
+					moveinfo.isSymmetryOf = normalise_gtp_token(token);
 				}
 				parsing = null;
 			}

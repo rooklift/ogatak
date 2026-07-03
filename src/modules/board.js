@@ -453,11 +453,15 @@ class Board {
 
 	parse_gtp_move(s) {													// "K10" --> "jj"		(off-board becomes "")
 
+		// Note: as I understand it, a vertex can be case-insensitive but a pass should always be lowercase.
+
 		if (typeof s !== "string" || s.length < 2 || s === "pass") {
 			return "";
 		}
 
-		let x = s.charCodeAt(0) - 65;
+		let code = s.charCodeAt(0);
+		let x = code >= 97 ? code - 97 : code - 65;
+
 		if (x >= 8) {					// Adjust for missing "I"
 			x--;
 		}
