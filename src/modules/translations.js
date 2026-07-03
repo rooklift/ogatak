@@ -1366,7 +1366,7 @@ translations[`日本語`] = {
 
 	MENU_TREE: `棋譜ツリー`,
 
-		MENU_PLAY_BEST_MOVE: `最善手を打つ`,					// Only works if some analysis already exists for the position.
+		MENU_PLAY_BEST_MOVE: `最善手を打つ`,						// Only works if some analysis already exists for the position.
 		MENU_PASS: `パス`,
 		MENU_ROOT: `開始局面へ`,
 		MENU_END: `最終局面へ`,
@@ -1475,7 +1475,7 @@ translations[`日本語`] = {
 		MENU_AUTOSCROLL_DELAY: `自動再生の間隔`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `棋譜を最終局面で開く`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `読み込み時にコミからルールを推測`,				// 6.5 --> Japanese, 7.5 --> Chinese.
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,					// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,			// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーションを有効にする`,
 		MENU_CONFIRM_QUIT: `終了前に確認する`,
 
@@ -1485,7 +1485,7 @@ translations[`日本語`] = {
 		MENU_SHOW_NODE_PROPERTIES: `ノードのプロパティを表示`,
 		MENU_SHOW_ENGINE_STDERR: `エンジンの標準エラー出力を表示`,
 		MENU_ZOBRIST_MISMATCH_CHECKS: `Zobrist 不一致チェック`,							// Technical dev thing barely worth worrying about.
-		MENU_RESET_MISMATCH_WARNINGS: `不一致警告をリセット`,								// Connected to the above.
+		MENU_RESET_MISMATCH_WARNINGS: `不一致警告をリセット`,							// Connected to the above.
 		MENU_SNAPPY_NODE_SWITCH_HACK: `高速ノード切り替えハック`,							// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `設定ファイルを表示`,
 		MENU_TOGGLE_DEV_TOOLS: `開発者ツールの切り替え`,
@@ -1520,11 +1520,11 @@ translations[`日本語`] = {
 
 	// Info panel... (note that whitespace is used for alignment, you may want to add spaces in some places).
 	INFO_PANEL_RULES: `ルール`,
-//	INFO_PANEL_UNKNOWN: `不明`,									// Would cause text in the infobox to resize due to Latin/CJK size discrepancy.
+//	INFO_PANEL_UNKNOWN: `不明`,								// Would cause text in the infobox to resize due to Latin/CJK size discrepancy.
 	INFO_PANEL_KOMI: `コミ`,
 	INFO_PANEL_EDITING: `編集モード`,
 	INFO_PANEL_ESCAPE: `ESC で編集を終了`,
-	INFO_PANEL_PREV: `前`,										// Unused now.
+	INFO_PANEL_PREV: `前`,									// Unused now.
 	INFO_PANEL_SHOW: `表示`,
 	INFO_PANEL_B: `黒`,
 	INFO_PANEL_W: `白`,
