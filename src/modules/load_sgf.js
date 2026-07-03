@@ -132,8 +132,15 @@ function load_sgf_recursive(buf, i, parent_of_local_root, allow_charset_reset) {
 
 		} else {
 
-			if (c <= 32 || (c >= 97 && c <= 122)) {		// that is a-z
+			if (c <= 32) {								// that is whitespace
 				// pass
+			} else if (c >= 97 && c <= 122) {			// that is a-z
+				// Usually discard lowercase ASCII. However, if we already completed
+				// the key, this must be a new key...
+				if (keycomplete) {
+					key.reset();
+					keycomplete = false;
+				}
 			} else if (c === 91) {						// that is [
 				if (!root) {
 					// The tree has ( but no ; before its first property.
