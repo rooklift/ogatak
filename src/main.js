@@ -226,7 +226,7 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 				o[key] = Math.max(1, Math.round(config_io.defaults[key] / desired_zoomfactor));
 			}
 			if (o["info_font_size"] % 2 === 1) {
-				o["info_font_size"] -= 1;
+				o["info_font_size"] -= 1;						// To match some menu item, so something gets a tick.
 			}
 			win.webContents.send("set", o);
 		}
