@@ -25,6 +25,8 @@ exports.filepath = in_main_process ?
 		path.join(electron.app.getPath("userData"), exports.filename) :
 		path.join(global.user_data_path, exports.filename);
 
+exports.pre_existed = fs.existsSync(exports.filepath);
+
 // ---------------------------------------------------------------------------------------------------------------------------
 
 global.config = {};
@@ -50,7 +52,7 @@ exports.defaults = {
 
 	"embiggen_small_boards": true,
 
-	"info_font_size": 16,
+	"info_font_size": 18,
 	"board_font_override": null,
 
 	"top_colour_black": colour_choices.blue,

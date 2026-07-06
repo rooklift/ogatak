@@ -62,6 +62,13 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 
 	let desired_zoomfactor = 1 / electron.screen.getPrimaryDisplay().scaleFactor;
 
+	// If this appears to be first run, and the user is on a high-res display, adjust width and height...
+
+	if (desired_zoomfactor !== 1 && !config_io.pre_existed) {
+		config.width = Math.round(config.width / desired_zoomfactor);
+		config.height = Math.round(config.height / desired_zoomfactor);
+	}
+
 	win = new electron.BrowserWindow({
 		width: Math.round(config.width * desired_zoomfactor),
 		height: Math.round(config.height * desired_zoomfactor),
@@ -197,6 +204,26 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			fn: "log",
 			args: [hw_msg],
 		});
+
+		// If this appears to be first run, and the user is on a high-res display, adjust every size...
+
+		if (desired_zoomfactor !== 1 && !config_io.pre_existed) {
+			let o = {};
+			for (let key of [
+				"info_font_size",
+				"thumbnail_square_size",
+				"tree_spacing",
+				"graph_width",
+				"comment_box_height",
+				"board_line_width",
+				"major_graph_linewidth",
+				"minor_graph_linewidth"
+			]) {
+				o[key] = Math.max(1, Math.round(config_io.defaults[key] / desired_zoomfactor));
+			}
+			win.webContents.send("set", o);
+		}
+
 	});
 
 	if (path.basename(process.argv[0]) === "electron.exe") {	// i.e. it's not in production but in dev...
