@@ -65,8 +65,12 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 	// If this appears to be first run, and the user is on a high-res display, adjust width and height...
 
 	if (desired_zoomfactor !== 1 && !config_io.pre_existed) {
-		config.width = Math.round(config.width / desired_zoomfactor);
-		config.height = Math.round(config.height / desired_zoomfactor);
+		let wa = electron.screen.getPrimaryDisplay().workAreaSize;
+		let max_width = Math.floor((wa.width - 16) / desired_zoomfactor);
+		let max_height = Math.floor((wa.height - 80) / desired_zoomfactor);
+
+		config.width = Math.min(Math.round(config_io.defaults.width / desired_zoomfactor), max_width);
+		config.height = Math.min(Math.round(config_io.defaults.height / desired_zoomfactor), max_height);
 	}
 
 	win = new electron.BrowserWindow({
@@ -220,6 +224,9 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 				"minor_graph_linewidth"
 			]) {
 				o[key] = Math.max(1, Math.round(config_io.defaults[key] / desired_zoomfactor));
+			}
+			if (o["info_font_size"] % 2 === 1) {
+				o["info_font_size"] -= 1;
 			}
 			win.webContents.send("set", o);
 		}
@@ -2499,9 +2506,9 @@ function colour_choices_submenu() {
 				label: item.label,
 				type: "checkbox",
 				checked: config.top_colour_black === item.opts.top_colour_black &&
-				         config.top_colour_white === item.opts.top_colour_white &&
-				         config.off_colour_black === item.opts.off_colour_black &&
-				         config.off_colour_white === item.opts.off_colour_white,
+						 config.top_colour_white === item.opts.top_colour_white &&
+						 config.off_colour_black === item.opts.off_colour_black &&
+						 config.off_colour_white === item.opts.off_colour_white,
 				click: () => {
 					win.webContents.send("call", {
 						fn: "apply_colour_settings",
