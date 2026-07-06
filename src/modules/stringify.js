@@ -4,21 +4,28 @@
 // Helps with sending messages over IPC, displaying alerts, etc.
 
 module.exports = (msg) => {
-	if (typeof msg !== "string") {
-		try {
-			if (msg instanceof Error) {
-				msg = msg.toString();
-			} else if (typeof msg === "object") {
-				msg = JSON.stringify(msg);
-			} else if (typeof msg === "undefined") {
-				msg = "undefined";
-			} else {
-				msg = msg.toString();
+	if (typeof msg === "string") {
+		return msg.trim();
+	}
+	let str;
+	try {
+		if (msg instanceof Error) {
+			str = String(msg);									// Error objects (same-realm only)
+		} else if (msg !== null && typeof msg === "object") {
+			try {
+				str = JSON.stringify(msg) ?? String(msg);		// Other (normal) objects. The ?? handles foo.toJSON() -> undefined
+			} catch {
+				str = String(msg);								// JSON.stringify threw: circular, toJSON() -> throw, BigInt value inside, too deep
 			}
-		} catch (err) {
-			return "stringify() failed";
+		} else {
+			str = String(msg);									// null, undefined, number, boolean, symbol, bigint, function
+		}
+	} catch {
+		try {
+			str = Object.prototype.toString.call(msg);			// String() threw (e.g. circular null-proto object), or instanceof trapped (proxy)
+		} catch {
+			str = "[unstringifiable " + typeof msg + "]";		// hostile / revoked proxies
 		}
 	}
-	msg = msg.trim();
-	return msg;
+	return str.trim();
 };
