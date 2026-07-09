@@ -187,11 +187,11 @@ let hub_main_props = {
 
 	// Loading.....................................................................................
 
-	load_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
+	load_from_buffer: function(buf, type, filepath, known_utf8 = false) {		// filepath is passed solely so we can store it in the root.
 
 		let load_results = null;
 
-		if (type === "sgf") load_results = load_sgf(buf);
+		if (type === "sgf") load_results = load_sgf(buf, known_utf8);
 		if (type === "ngf") load_results = load_ngf(buf);
 		if (type === "gib") load_results = load_gib(buf);
 		if (type === "ugi") load_results = load_ugi(buf);
@@ -221,8 +221,8 @@ let hub_main_props = {
 		if (typeof s !== "string") {
 			return;
 		}
-		let buf = Buffer.from(s);
-		let load_results = this.load_from_buffer(buf, "sgf", "");
+		let buf = Buffer.from(s);											// Since s was a string, buf is always UTF-8, and any CA property
+		let load_results = this.load_from_buffer(buf, "sgf", "", true);		// describes some other bytes we don't have. The true arg handles this.
 		this.finish_load(load_results);
 	},
 
