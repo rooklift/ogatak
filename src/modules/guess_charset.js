@@ -4,22 +4,24 @@
 //
 // Method: decode some of the buffer with each candidate decoder and score the result by what
 // Unicode characters come out. Text decoded with the right charset produces characters from
-// the script the charset was designed for (e.g. kana for Japanese, hangul for Korean) while
-// text decoded with a wrong charset tends to produce replacement characters, control
-// characters, floods of halfwidth katakana, or -- the tricky case -- valid-but-wrong CJK
-// ideographs (GBK / Big5 / EUC-KR / EUC-JP can often decode each other's bytes into
-// plausible ideographs). Hence ideographs score low, script-specific characters score high,
-// and each candidate penalises characters its own language wouldn't really produce.
+// the script the charset was designed for (e.g. kana for Japanese, hangul for Korean,
+// Cyrillic for Russian) while text decoded with a wrong charset tends to produce replacement
+// characters, control characters, floods of halfwidth katakana, or -- the tricky case --
+// valid-but-wrong CJK ideographs (GBK / Big5 / EUC-KR / EUC-JP can often decode each other's
+// bytes into plausible ideographs). Hence ideographs score low, script-specific characters
+// score high, and each candidate penalises characters its own language wouldn't really produce.
 
 const decoders = require("./decoders");
 
 const candidates = [		// In priority order - ties are won by the earlier candidate.
-	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	needs_kana: false},
-	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	needs_kana: true},		// Note kana requirement: else GBK text can decode as EUC-JP.
-	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	needs_kana: false},
-	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	needs_kana: false},		// Note: GBK is a superset of GB2312.
-	{charset: "big5",			kana: -2,	hangul: -2,		han:  2,	needs_kana: false},
-	{charset: "windows-1252",	kana: -2,	hangul: -2,		han: -2,	needs_kana: false},
+	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
+	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: true},		// Note kana requirement: else GBK text can decode as EUC-JP.
+	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	cyrillic: -2,	needs_kana: false},
+	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},		// Note: GBK is a superset of GB2312.
+	{charset: "big5",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
+	{charset: "windows-1252",	kana: -2,	hangul: -2,		han: -2,	cyrillic: -2,	needs_kana: false},		// Before the Cyrillic charsets, so that a lone
+	{charset: "windows-1251",	kana: -2,	hangul: -2,		han: -2,	cyrillic:  3,	needs_kana: false},		// accented letter (which ties) stays Latin.
+	{charset: "koi8-r",			kana: -2,	hangul: -2,		han: -2,	cyrillic:  3,	needs_kana: false},
 ];
 
 const CLOSER_SCORE = 6;
@@ -66,6 +68,8 @@ function score_buf(buf, candidate) {
 	let prev_was_latin = false;
 	let prev_was_letter = false;
 	let prev_was_backslash = false;
+	let prev_was_cyrillic = false;
+	let prev_was_cyrillic_lower = false;
 
 	let rank_tag_progress = 0;
 
@@ -77,6 +81,8 @@ function score_buf(buf, candidate) {
 
 		let cp = ch.codePointAt(0);
 		let this_is_latin = false;
+		let this_is_cyrillic = false;
+		let this_is_cyrillic_lower = false;
 
 		if (rank_tag_progress === 0) {
 			rank_tag_progress = (ch === "B" || ch === "W") ? 1 : 0;
@@ -111,6 +117,20 @@ function score_buf(buf, candidate) {
 			if (!prev_was_letter) {											// is how accented Latin bytes look when decoded as a CJK
 				score += candidate.han;										// charset (e.g. windows-1252 "Müller" as GBK is "M黮ler"),
 			}																// so those don't score.
+		} else if (cp >= 0x0400 && cp <= 0x045f) {							// Cyrillic. The two Cyrillic charsets have opposite case layouts,
+			this_is_cyrillic = true;										// so each decodes typical (mostly lowercase) text in the other as
+			this_is_cyrillic_lower = (cp >= 0x0430);						// mostly UPPERCASE -- hence only lowercase gets the full score.
+			if (!this_is_cyrillic_lower && prev_was_cyrillic_lower) {		// Real Cyrillic text never flips to uppercase mid-word, but CJK
+				score -= 6;													// bytes decoded as a Cyrillic charset give randomly mixed case,
+			} else if (!prev_was_letter) {									// so such flips are penalised. (The prev_was_letter check is as
+				if (this_is_cyrillic_lower && prev_was_cyrillic) {			// for ideographs: e.g. "Müller" as windows-1251 is "Mьller".)
+					score += candidate.cyrillic;							// Also, the full score needs a Cyrillic run: real Russian text
+				} else {													// comes in whole words of it, whereas stray accented Latin
+					score += Math.min(candidate.cyrillic, 1);				// letters decoded as Cyrillic are isolated singles.
+				}
+			}
+		} else if (cp >= 0x2500 && cp <= 0x25ff) {							// Box drawing and geometric shapes, a sign of a wrong decode
+			score -= 2;														// (KOI8-R is full of them).
 		} else if (cp >= 0xff61 && cp <= 0xff9f) {							// Halfwidth katakana, usually a sign of a wrong decode.
 			score -= 2;
 		} else if ((cp >= 0x3000 && cp <= 0x303f) || (cp >= 0xff00 && cp <= 0xff60) || (cp >= 0xffe0 && cp <= 0xffe6)) {	// CJK punctuation and fullwidth forms.
@@ -125,6 +145,8 @@ function score_buf(buf, candidate) {
 		prev_was_latin = this_is_latin;
 		prev_was_letter = (cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122);
 		prev_was_backslash = cp === 92;
+		prev_was_cyrillic = this_is_cyrillic;
+		prev_was_cyrillic_lower = this_is_cyrillic_lower;
 	}
 
 	if (candidate.needs_kana && (!kana_seen && !rank_seen)) {
