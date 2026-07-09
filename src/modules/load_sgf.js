@@ -29,50 +29,44 @@ function load_sgf(buf) {
 	let ret = new_load_results();
 
 	let off = 0;
-	let buf_to_load = buf;
-	let detected_charset = "";
+	let buf_to_load = buf;					// This will remain true iff file is UTF-8-without-BOM, or is unknown.
 
 	// Rarely the encoding will be obvious from initial byte-order marks...
 
 	if (buf.length > 3) {
 	 	if (buf[0] === 239 && buf[1] === 187 && buf[2] === 191) {				// Presumably a UTF-8 file (which is what we want anyway).
 			buf_to_load = buf.slice(3);											// Skip the UTF-8 BOM. Note that slice() references the same memory.
-			detected_charset = "utf-8";
 		} else if (buf[0] === 255 && buf[1] === 254) {							// Presumably a UTF-16LE file. Should be rare in the wild.
 			buf_to_load = convert_buf(buf, "utf-16le");
 			console.log(`load_sgf(): converted buf from UTF-16LE`);
-			detected_charset = "utf-16le";
 		}
+		// Note: we could try to detect no-BOM UTF-16 but these really shouldn't exist in the wild. We don't expect UTF-16BE either?
 	}
 
 	// Often the root node will declare a charset...
 
-	if (!detected_charset) {
+	if (buf_to_load === buf) {
 		try {
 			let root = load_sgf_recursive(buf, off, null, true).root;
 			let ca = root.get("CA");
 			if (ca && !is_utf8_alias(ca) && decoders.available(ca)) {
 				buf_to_load = convert_buf(buf, ca);
 				console.log(`load_sgf(): converted buf from declared CA: ${ca}`);
-				detected_charset = ca;
 			}
 		} catch (err) {
 			// Pass?
 		}
 	}
 
-	// If we still don't know the charset...
+	// If we still don't know the charset, or we detected UTF-8 via a CA property (which could be lying)...
 
-	if (!detected_charset) {
-		if (is_valid_utf8(buf)) {
-			detected_charset = "utf-8";
-		} else {
+	if (buf_to_load === buf) {
+		if (!is_valid_utf8(buf)) {														// We only try a charset conversion if it clearly isn't UTF-8.
 			let guessed_charset = guess_charset(buf);
 			if (guessed_charset && decoders.available(guessed_charset)) {
 				try {
 					buf_to_load = convert_buf(buf, guessed_charset);
 					console.log(`load_sgf(): converted buf from guessed charset ${guessed_charset}`);
-					detected_charset = guessed_charset;
 				} catch (err) {
 					// Pass?
 				}
@@ -80,23 +74,21 @@ function load_sgf(buf) {
 		}
 	}
 
-	let loading_from_raw = false;
-
 	while (true) {
 		try {
-			let o = load_sgf_recursive(loading_from_raw ? buf : buf_to_load, off, null, false);
-			if (o === null) {														// Reached EOF.
+			let o = load_sgf_recursive(buf_to_load, off, null, false);
+			if (o === null) {															// Reached EOF.
 				break;
 			} else {
 				ret.add_roots(o.root);
 				off = o.offset + 1;
 			}
 		} catch (err) {
-			if (loading_from_raw || is_utf8_alias(detected_charset) || off > 3) {	// Fail if we're past the first game (inter alia).
+			if (buf_to_load === buf || off > 3) {										// Fail if we're parsing the raw buffer or are past the first game.
 				ret.add_errors(err);
 				break;
-			} else {																// Try loading the raw buf without conversion.
-				loading_from_raw = true;
+			} else {																	// Try loading the raw buf without conversion.
+				buf_to_load = buf;
 			}
 		}
 	}

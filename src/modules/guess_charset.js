@@ -15,9 +15,9 @@ const decoders = require("./decoders");
 
 const candidates = [		// In priority order - ties are won by the earlier candidate.
 	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	needs_kana: false},
-	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	needs_kana: true},		// Without the kana requirement, GBK
-	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	needs_kana: false},		// text can decode "cleanly" as EUC-JP.
-	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	needs_kana: false},
+	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	needs_kana: true},		// Note kana requirement: else GBK text can decode as EUC-JP.
+	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	needs_kana: false},
+	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	needs_kana: false},		// Note: GBK is a superset of GB2312.
 	{charset: "big5",			kana: -2,	hangul: -2,		han:  2,	needs_kana: false},
 	{charset: "windows-1252",	kana: -2,	hangul: -2,		han: -2,	needs_kana: false},
 ];
@@ -31,8 +31,7 @@ function guess_charset(buf) {
 		if (!decoders.available(candidate.charset)) {
 			continue;
 		}
-		let s = decoders.get_decoder(candidate.charset).decode(buf);
-		let score = score_string(s, candidate);
+		let score = score_buf(buf, candidate);
 		if (score > best_score) {
 			best = candidate.charset;
 			best_score = score;
@@ -42,12 +41,14 @@ function guess_charset(buf) {
 	return best;				// Can still be null
 }
 
-function score_string(s, candidate) {
+function score_buf(buf, candidate) {
 
 	let score = 0;
 	let kana_seen = false;
 	let prev_was_latin = false;
 	let prev_was_letter = false;
+
+	let s = decoders.get_decoder(candidate.charset).decode(buf);
 
 	for (let ch of s) {
 
