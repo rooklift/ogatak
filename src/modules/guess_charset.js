@@ -24,7 +24,7 @@ const candidates = [		// In priority order - ties are won by the earlier candida
 
 const CLOSER_SCORE = 6;
 
-function guess_charset(buf, limit = 65536) {
+function guess_charset(buf, limit) {
 
 	if (buf.length > limit) {
 		buf = buf.subarray(0, limit);
