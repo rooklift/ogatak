@@ -71,7 +71,7 @@ function load_sgf(buf) {
 			if (guessed_charset && decoders.available(guessed_charset)) {
 				try {
 					buf_to_load = convert_buf(buf, guessed_charset);
-					console.log(`load_sgf(): converting buf from guessed charset ${guessed_charset}`);
+					console.log(`load_sgf(): converted buf from guessed charset ${guessed_charset}`);
 					detected_charset = guessed_charset;
 				} catch (err) {
 					// Pass?
