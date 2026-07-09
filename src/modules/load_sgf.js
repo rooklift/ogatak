@@ -26,7 +26,7 @@ const TEST_LIMIT = 65536;
 
 // ------------------------------------------------------------------------------------------------
 
-function load_sgf(buf, pasted = false) {
+function load_sgf(buf, force_utf8 = false) {
 
 	let ret = new_load_results();
 
@@ -47,7 +47,7 @@ function load_sgf(buf, pasted = false) {
 
 	// Often the root node will declare a charset...
 
-	if (!pasted && buf_to_load === buf) {
+	if (!force_utf8 && buf_to_load === buf) {
 		try {
 			let root = load_sgf_recursive(buf, off, null, true).root;
 			let ca = root.get("CA");
@@ -63,7 +63,7 @@ function load_sgf(buf, pasted = false) {
 
 	// If we still don't know the charset, or we detected UTF-8 via a CA property (which could be lying)...
 
-	if (!pasted && buf_to_load === buf) {
+	if (!force_utf8 && buf_to_load === buf) {
 		if (!is_valid_utf8(buf, TEST_LIMIT)) {											// We only try a charset conversion if it clearly isn't UTF-8.
 			let guessed_charset = guess_charset(buf, TEST_LIMIT);
 			if (guessed_charset && decoders.available(guessed_charset)) {
