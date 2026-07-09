@@ -187,7 +187,7 @@ let hub_main_props = {
 
 	// Loading.....................................................................................
 
-	load_from_buffer: function(buf, type, filepath, known_utf8 = false) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
+	load_from_buffer: function(buf, type, filepath, known_utf8 = false) {		// filepath is passed solely so we can store it in the root.
 
 		let load_results = null;
 
