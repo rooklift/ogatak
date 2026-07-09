@@ -539,7 +539,7 @@ function menu_build() {
 					click: () => {
 						win.webContents.send("call", {
 							fn: "load_sgf_from_string",
-							args: [electron.clipboard.readText()]
+							args: [electron.clipboard.readText(), true]
 						});
 					}
 				},

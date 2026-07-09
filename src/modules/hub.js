@@ -187,11 +187,11 @@ let hub_main_props = {
 
 	// Loading.....................................................................................
 
-	load_from_buffer: function(buf, type, filepath) {		// filepath is solely used so we can store it in the root; we have already loaded the buf.
+	load_from_buffer: function(buf, type, filepath, pasted = false) {	// filepath is solely used so we can store it in the root; we have already loaded the buf.
 
 		let load_results = null;
 
-		if (type === "sgf") load_results = load_sgf(buf);
+		if (type === "sgf") load_results = load_sgf(buf, pasted);
 		if (type === "ngf") load_results = load_ngf(buf);
 		if (type === "gib") load_results = load_gib(buf);
 		if (type === "ugi") load_results = load_ugi(buf);
@@ -217,12 +217,12 @@ let hub_main_props = {
 		return load_results;
 	},
 
-	load_sgf_from_string: function(s) {
+	load_sgf_from_string: function(s, pasted = false) {
 		if (typeof s !== "string") {
 			return;
 		}
 		let buf = Buffer.from(s);
-		let load_results = this.load_from_buffer(buf, "sgf", "");
+		let load_results = this.load_from_buffer(buf, "sgf", "", pasted);
 		this.finish_load(load_results);
 	},
 
