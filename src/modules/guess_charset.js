@@ -58,9 +58,12 @@ function score_buf(buf, candidate) {
 
 	let score = 0;
 	let kana_seen = false;
+	let rank_seen = false;
 	let prev_was_latin = false;
 	let prev_was_letter = false;
 	let prev_was_backslash = false;
+
+	let rank_tag_progress = 0;
 
 	let s = decoders.get_decoder(candidate.charset).decode(buf);
 
@@ -68,6 +71,22 @@ function score_buf(buf, candidate) {
 
 		let cp = ch.codePointAt(0);
 		let this_is_latin = false;
+
+		if (rank_tag_progress === 0) {
+			rank_tag_progress = (ch === "B" || ch === "W") ? 1 : 0;
+		} else if (rank_tag_progress === 1) {
+			rank_tag_progress = (ch === "R") ? 2 : 0;
+		} else if (rank_tag_progress === 2) {
+			rank_tag_progress = (ch === "[") ? 3 : 0;
+		} else if (rank_tag_progress === 3) {
+			if (["初", "一", "二", "三", "四", "五", "六", "七", "八", "九"].includes(ch)) {
+				score += 20;
+				rank_seen = true;
+				rank_tag_progress = 4;										// i.e. stop caring about this. We do it once only.
+			} else {
+				rank_tag_progress = 0;
+			}
+		}
 
 		if (cp === 93 && !prev_was_backslash) {								// Unescaped ] characters. As a special case, score these.
 			score += CLOSER_SCORE;
@@ -102,7 +121,7 @@ function score_buf(buf, candidate) {
 		prev_was_backslash = cp === 92;
 	}
 
-	if (candidate.needs_kana && !kana_seen) {
+	if (candidate.needs_kana && (!kana_seen && !rank_seen)) {
 		return 0;
 	}
 
