@@ -82,8 +82,10 @@ function score_buf(buf, candidate) {
 			if (["初", "一", "二", "三", "四", "五", "六", "七", "八", "九"].includes(ch)) {
 				score += 20;
 				rank_seen = true;
+				rank_tag_progress = 4;										// i.e. stop caring about this. We do it once only.
+			} else {
+				rank_tag_progress = 0;
 			}
-			rank_tag_progress = 4;											// i.e. stop caring about this. We do it once only.
 		}
 
 		if (cp === 93 && !prev_was_backslash) {								// Unescaped ] characters. As a special case, score these.
