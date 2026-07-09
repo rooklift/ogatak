@@ -15,7 +15,7 @@ const decoders = require("./decoders");
 
 const candidates = [		// In priority order - ties are won by the earlier candidate.
 	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
-	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: true},		// Note kana requirement: else GBK text can decode as EUC-JP.
+	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: true},		// Needs kana, else GBK text can decode as EUC-JP.
 	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	cyrillic: -2,	needs_kana: false},
 	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},		// Note: GBK is a superset of GB2312.
 	{charset: "big5",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
