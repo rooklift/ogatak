@@ -22,6 +22,8 @@ const util = require("util");
 
 const strict_utf8_decoder = new util.TextDecoder("utf-8", {fatal: true});
 
+const TEST_LIMIT = 65536
+
 // ------------------------------------------------------------------------------------------------
 
 function load_sgf(buf) {
@@ -62,8 +64,8 @@ function load_sgf(buf) {
 	// If we still don't know the charset, or we detected UTF-8 via a CA property (which could be lying)...
 
 	if (buf_to_load === buf) {
-		if (!is_valid_utf8(buf)) {														// We only try a charset conversion if it clearly isn't UTF-8.
-			let guessed_charset = guess_charset(buf);
+		if (!is_valid_utf8(buf, TEST_LIMIT)) {											// We only try a charset conversion if it clearly isn't UTF-8.
+			let guessed_charset = guess_charset(buf, TEST_LIMIT);
 			if (guessed_charset && decoders.available(guessed_charset)) {
 				try {
 					buf_to_load = convert_buf(buf, guessed_charset);
@@ -248,12 +250,22 @@ function is_utf8_alias(s) {
 	return s === "utf8" || s === "utf-8" || s === "ascii" || s === "us-ascii";		// I guess.
 }
 
-function is_valid_utf8(buf) {
+function is_valid_utf8(buf, limit) {
+	if (buf.length > limit) {
+		buf = buf.subarray(0, limit);
+	}
 	try {
-		strict_utf8_decoder.decode(buf);
+		strict_utf8_decoder.decode(buf, {stream: true});
 		return true;
 	} catch (err) {
 		return false;
+	} finally {
+		try {
+			strict_utf8_decoder.decode();						// flush: resets internal state (needed due to stream mode).
+		} catch (err) {
+			// Pass. The flush throws if the stream ended mid-character or after an
+			// error; but either way the decoder is now reset, which is all we need.
+		}
 	}
 }
 
@@ -266,5 +278,7 @@ function convert_buf(buf, source_encoding) {
 	let ret = Buffer.from(s, "UTF-8");
 	return ret;
 }
+
+
 
 module.exports = load_sgf;
