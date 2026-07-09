@@ -46,9 +46,16 @@ function load_sgf(buf) {
 	// Often the root node will declare a charset...
 
 	if (buf_to_load === buf) {
+		let ca = "";
 		try {
 			let root = load_sgf_recursive(buf, off, null, true).root;
-			let ca = root.get("CA");
+			ca = root.get("CA");
+		} catch (err) {
+			// The parse of the root failed. This could be due to a ] byte in an awkward place.
+			// Try searching the start of the raw buffer to find a CA value...
+			ca = scan_for_ca(buf);
+		}
+		try {
 			if (ca && !is_utf8_alias(ca) && decoders.available(ca)) {
 				buf_to_load = convert_buf(buf, ca);
 				console.log(`load_sgf(): converted buf from declared CA: ${ca}`);
@@ -106,7 +113,7 @@ function load_sgf(buf) {
 	return ret;
 }
 
-function load_sgf_recursive(buf, i, parent_of_local_root, one_node_only) {
+function load_sgf_recursive(buf, i, parent_of_local_root, root_ca_extraction) {
 
 	let root = null;
 	let node = null;
@@ -153,6 +160,9 @@ function load_sgf_recursive(buf, i, parent_of_local_root, one_node_only) {
 				let key_string = key.string();
 				let value_string = value.string();
 				node.add_value(key_string, value_string);
+				if (root_ca_extraction && key_string === "CA") {
+					return {root: node, offset: i};
+				}
 			} else {
 				value.push(c);
 			}
@@ -190,7 +200,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, one_node_only) {
 			} else if (c === 40) {						// that is (
 				if (!node) {
 					throw new Error("SGF load error: new subtree started but node was nil");
-				} else if (one_node_only) {
+				} else if (root_ca_extraction) {
 					return {root: node, offset: i};
 				}
 				i = load_sgf_recursive(buf, i, node, false).offset;
@@ -204,7 +214,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, one_node_only) {
 				if (!root) {
 					root = new_node(parent_of_local_root);
 					node = root;
-				} else if (one_node_only) {
+				} else if (root_ca_extraction) {
 					return {root: node, offset: i};
 				} else {
 					node = new_node(node);
@@ -251,6 +261,19 @@ function is_valid_utf8(buf) {
 	} catch (err) {
 		return false;
 	}
+}
+
+function scan_for_ca(buf) {
+	for (let i = 0; i < buf.length - 4 && i < 1024; i++) {
+		if (buf[i] === 67 && buf[i + 1] === 65 && buf[i + 2] === 91) {				// That is CA[
+			for (let j = i + 3; j < buf.length && j < i + 48; j++) {
+				if (buf[j] === 93) {												// That is ]
+					return buf.slice(i + 3, j).toString();
+				}
+			}
+		}
+	}
+	return "";
 }
 
 function convert_buf(buf, source_encoding) {
