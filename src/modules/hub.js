@@ -221,8 +221,8 @@ let hub_main_props = {
 		if (typeof s !== "string") {
 			return;
 		}
-		let buf = Buffer.from(s);								// Since s was a string, buf is always valid UTF-8, and any CA
-		let load_results = this.load_from_buffer(buf, "sgf", "", true);		// property in it describes some other bytes we don't have.
+		let buf = Buffer.from(s);											// Since s was a string, buf is always UTF-8, and any CA property
+		let load_results = this.load_from_buffer(buf, "sgf", "", true);		// describes some other bytes we don't have. The true arg handles this.
 		this.finish_load(load_results);
 	},
 
