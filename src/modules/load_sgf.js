@@ -46,22 +46,16 @@ function load_sgf(buf) {
 	// Often the root node will declare a charset...
 
 	if (buf_to_load === buf) {
-		let ca = "";
 		try {
 			let root = load_sgf_recursive(buf, off, null, true).root;
-			ca = root.get("CA");
-		} catch (err) {
-			// The parse of the root failed. This could be due to a ] byte in an awkward place.
-			// Try searching the start of the raw buffer to find a CA value...
-			ca = scan_for_ca(buf);
-		}
-		try {
+			let ca = root.get("CA");
 			if (ca && !is_utf8_alias(ca) && decoders.available(ca)) {
 				buf_to_load = convert_buf(buf, ca);
 				console.log(`load_sgf(): converted buf from declared CA: ${ca}`);
 			}
 		} catch (err) {
-			// Pass?
+			// Pass. Note that the parse of the root might fail precisely because we haven't decoded it and there's
+			// a stray ] character due to the encoding. We can hope to rescue this below by guessing the charset.
 		}
 	}
 
