@@ -22,10 +22,23 @@ const candidates = [		// In priority order - ties are won by the earlier candida
 	{charset: "windows-1252",	kana: -2,	hangul: -2,		han: -2,	needs_kana: false},
 ];
 
+const CLOSER_SCORE = 6;
+
 function guess_charset(buf) {
 
 	let best = null;
 	let best_score = 0;
+
+	// We now adjust the minimal acceptable score to count apparently meaningful ] characters,
+	// we don't expect to lose too many of these...
+
+	let prev_was_backslash = false;
+	for (let c of buf) {
+		if (c === 93 && !prev_was_backslash) {
+			best_score += CLOSER_SCORE;
+		}
+		prev_was_backslash = c === 92;
+	}
 
 	for (let candidate of candidates) {
 		if (!decoders.available(candidate.charset)) {
@@ -47,6 +60,7 @@ function score_buf(buf, candidate) {
 	let kana_seen = false;
 	let prev_was_latin = false;
 	let prev_was_letter = false;
+	let prev_was_backslash = false;
 
 	let s = decoders.get_decoder(candidate.charset).decode(buf);
 
@@ -55,7 +69,9 @@ function score_buf(buf, candidate) {
 		let cp = ch.codePointAt(0);
 		let this_is_latin = false;
 
-		if (cp === 0xfffd) {												// Replacement character, i.e. the decoder rejected some bytes.
+		if (cp === 93 && !prev_was_backslash) {								// Unescaped ] characters. As a special case, score these.
+			score += CLOSER_SCORE;
+		} else if (cp === 0xfffd) {											// Replacement character, i.e. the decoder rejected some bytes.
 			score -= 12;
 		} else if (cp < 32 && cp !== 9 && cp !== 10 && cp !== 13) {			// C0 control characters, except tab / LF / CR.
 			score -= 6;
@@ -83,6 +99,7 @@ function score_buf(buf, candidate) {
 
 		prev_was_latin = this_is_latin;
 		prev_was_letter = (cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122);
+		prev_was_backslash = cp === 92;
 	}
 
 	if (candidate.needs_kana && !kana_seen) {
