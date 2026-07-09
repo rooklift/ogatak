@@ -259,7 +259,7 @@ function is_valid_utf8(buf, limit = 65536) {
 		return false;
 	} finally {
 		try {
-			strict_utf8_decoder.decode();						// flush: resets internal state
+			strict_utf8_decoder.decode();						// flush: resets internal state (needed due to stream mode).
 		} catch (err) {
 			// Pass. The flush throws if the stream ended mid-character or after an
 			// error; but either way the decoder is now reset, which is all we need.
