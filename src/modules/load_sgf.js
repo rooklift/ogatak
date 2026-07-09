@@ -257,19 +257,6 @@ function is_valid_utf8(buf) {
 	}
 }
 
-function scan_for_ca(buf) {
-	for (let i = 0; i < buf.length - 4 && i < 1024; i++) {
-		if (buf[i] === 67 && buf[i + 1] === 65 && buf[i + 2] === 91) {				// That is CA[
-			for (let j = i + 3; j < buf.length && j < i + 48; j++) {
-				if (buf[j] === 93) {												// That is ]
-					return buf.slice(i + 3, j).toString();
-				}
-			}
-		}
-	}
-	return "";
-}
-
 function convert_buf(buf, source_encoding) {
 
 	// Converts a buffer from some encoding to a UTF-8 encoded buffer.
