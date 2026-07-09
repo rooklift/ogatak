@@ -51,7 +51,7 @@ function load_sgf(buf) {
 			let ca = root.get("CA");
 			if (ca && !is_utf8_alias(ca) && decoders.available(ca)) {
 				buf = convert_buf(buf, ca);
-				console.log(`load_sgf(): converted buf from declared CA: ${err.charset}`);
+				console.log(`load_sgf(): converted buf from declared CA: ${ca}`);
 				detected_charset = true;
 			}
 		} catch (err) {
@@ -63,7 +63,9 @@ function load_sgf(buf) {
 
 	if (!detected_charset) {
 		let buf_to_test = buf.length > 65536 ? buf.slice(0, 65536) : buf;
-		if (!is_valid_utf8(buf_to_test)) {
+		if (is_valid_utf8(buf_to_test)) {
+			detected_charset = true;
+		} else {
 			let guessed_charset = guess_charset(buf);
 			if (guessed_charset && decoders.available(guessed_charset)) {
 				try {
