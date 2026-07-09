@@ -22,7 +22,7 @@ const util = require("util");
 
 const strict_utf8_decoder = new util.TextDecoder("utf-8", {fatal: true});
 
-const TEST_LIMIT = 65536
+const TEST_LIMIT = 65536;
 
 // ------------------------------------------------------------------------------------------------
 
