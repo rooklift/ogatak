@@ -2,7 +2,7 @@
 
 // If something isn't UTF-8, what would it be?
 //
-// Method: decode the whole buffer with each candidate decoder and score the result by what
+// Method: decode some of the buffer with each candidate decoder and score the result by what
 // Unicode characters come out. Text decoded with the right charset produces characters from
 // the script the charset was designed for (e.g. kana for Japanese, hangul for Korean) while
 // text decoded with a wrong charset tends to produce replacement characters, control
@@ -24,7 +24,11 @@ const candidates = [		// In priority order - ties are won by the earlier candida
 
 const CLOSER_SCORE = 6;
 
-function guess_charset(buf) {
+function guess_charset(buf, limit = 65536) {
+
+	if (buf.length > limit) {
+		buf = buf.subarray(0, limit);
+	}
 
 	let best = null;
 	let best_score = 0;
@@ -65,7 +69,9 @@ function score_buf(buf, candidate) {
 
 	let rank_tag_progress = 0;
 
-	let s = decoders.get_decoder(candidate.charset).decode(buf);
+	let dec = decoders.get_decoder(candidate.charset);
+	let s = dec.decode(buf, {stream: true});								// In streaming mode, means partial character at end is ignored.
+	dec.decode();															// Final decode to flush the decoder, leaving it in a clean state.
 
 	for (let ch of s) {
 
