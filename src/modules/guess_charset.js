@@ -71,7 +71,7 @@ function score_buf(buf, candidate) {
 
 	let dec = decoders.get_decoder(candidate.charset);
 	let s = dec.decode(buf, {stream: true});								// In streaming mode, means partial character at end is ignored.
-	dec.decode();															// Final decode to flush the decoder, leaving it in a clean state.
+	dec.decode();															// Final non-streaming decode to flush the decoder, leaving it in a clean state.
 
 	for (let ch of s) {
 
