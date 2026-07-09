@@ -70,6 +70,9 @@ function score_buf(buf, candidate) {
 	let prev_was_backslash = false;
 	let prev_was_cyrillic = false;
 	let prev_was_cyrillic_lower = false;
+	let prev_was_hangul = false;
+	let prev_was_han = false;
+	let prev_char_score = 0;
 
 	let rank_tag_progress = 0;
 
@@ -83,6 +86,16 @@ function score_buf(buf, candidate) {
 		let this_is_latin = false;
 		let this_is_cyrillic = false;
 		let this_is_cyrillic_lower = false;
+		let this_is_hangul = false;
+		let this_is_han = false;
+		let this_char_score = 0;											// What this char scored, recorded for possible retraction below.
+
+		if (prev_char_score > 0 && ((cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122))) {
+			score -= prev_char_score;										// A CJK or Cyrillic character directly followed by an ASCII letter
+		}																	// is how a word-initial accented Latin byte looks when decoded by
+																			// the wrong charset, which either eats the following letter too
+																			// (e.g. windows-1252 "École" as GBK is "臉ole") or not (windows-1252
+																			// "Þór" as windows-1251 is "Юуr"), so retract the score it received.
 
 		if (rank_tag_progress === 0) {
 			rank_tag_progress = (ch === "B" || ch === "W") ? 1 : 0;
@@ -112,11 +125,21 @@ function score_buf(buf, candidate) {
 			score += candidate.kana;
 			kana_seen = true;
 		} else if ((cp >= 0xac00 && cp <= 0xd7a3) || (cp >= 0x1100 && cp <= 0x11ff) || (cp >= 0x3130 && cp <= 0x318f)) {	// Hangul.
-			score += candidate.hangul;
-		} else if (cp >= 0x4e00 && cp <= 0x9fff) {							// CJK ideographs. An ideograph right after an ASCII letter
-			if (!prev_was_letter) {											// is how accented Latin bytes look when decoded as a CJK
-				score += candidate.han;										// charset (e.g. windows-1252 "Müller" as GBK is "M黮ler"),
-			}																// so those don't score.
+			this_is_hangul = true;											// Hangul adjacent to an ideograph is a sign of a wrong decode:
+			if (prev_was_han) {												// real Korean text is nearly all hangul (with hanja, if any, set
+				score -= 4;													// off in clusters like names), whereas GBK / Big5 bytes decoded
+			} else {														// as EUC-KR give the two scripts chaotically interleaved.
+				score += candidate.hangul;
+				this_char_score = candidate.hangul;
+			}
+		} else if (cp >= 0x4e00 && cp <= 0x9fff) {							// CJK ideographs. An ideograph right after an ASCII letter is how
+			this_is_han = true;												// accented Latin bytes look when decoded as a CJK charset (e.g.
+			if (prev_was_hangul) {											// windows-1252 "Müller" as GBK is "M黮ler") so those don't score,
+				score -= 4;													// and one right after hangul is penalised as described above.
+			} else if (!prev_was_letter) {
+				score += candidate.han;
+				this_char_score = candidate.han;
+			}
 		} else if (cp >= 0x0400 && cp <= 0x045f) {							// Cyrillic. The two Cyrillic charsets have opposite case layouts,
 			this_is_cyrillic = true;										// so each decodes typical (mostly lowercase) text in the other as
 			this_is_cyrillic_lower = (cp >= 0x0430);						// mostly UPPERCASE -- hence only lowercase gets the full score.
@@ -125,8 +148,10 @@ function score_buf(buf, candidate) {
 			} else if (!prev_was_letter) {									// so such flips are penalised. (The prev_was_letter check is as
 				if (this_is_cyrillic_lower && prev_was_cyrillic) {			// for ideographs: e.g. "Müller" as windows-1251 is "Mьller".)
 					score += candidate.cyrillic;							// Also, the full score needs a Cyrillic run: real Russian text
-				} else {													// comes in whole words of it, whereas stray accented Latin
-					score += Math.min(candidate.cyrillic, 1);				// letters decoded as Cyrillic are isolated singles.
+					this_char_score = candidate.cyrillic;					// comes in whole words of it, whereas stray accented Latin
+				} else {													// letters decoded as Cyrillic are isolated singles.
+					score += Math.min(candidate.cyrillic, 1);
+					this_char_score = Math.min(candidate.cyrillic, 1);
 				}
 			}
 		} else if (cp >= 0x2500 && cp <= 0x25ff) {							// Box drawing and geometric shapes, a sign of a wrong decode
@@ -135,6 +160,7 @@ function score_buf(buf, candidate) {
 			score -= 2;
 		} else if ((cp >= 0x3000 && cp <= 0x303f) || (cp >= 0xff00 && cp <= 0xff60) || (cp >= 0xffe0 && cp <= 0xffe6)) {	// CJK punctuation and fullwidth forms.
 			score += 1;
+			this_char_score = 1;
 		} else if (cp >= 0xa0 && cp <= 0x2ff) {								// Latin supplements. Isolated accented letters are a good sign;
 			this_is_latin = true;											// long runs of them are how CJK bytes look when decoded as
 			if (!prev_was_latin) {											// windows-1252, so only score the first in each run.
@@ -147,6 +173,9 @@ function score_buf(buf, candidate) {
 		prev_was_backslash = cp === 92;
 		prev_was_cyrillic = this_is_cyrillic;
 		prev_was_cyrillic_lower = this_is_cyrillic_lower;
+		prev_was_hangul = this_is_hangul;
+		prev_was_han = this_is_han;
+		prev_char_score = this_char_score;
 	}
 
 	if (candidate.needs_kana && (!kana_seen && !rank_seen)) {
