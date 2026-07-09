@@ -62,12 +62,29 @@ function score_buf(buf, candidate) {
 	let prev_was_letter = false;
 	let prev_was_backslash = false;
 
+	let rank_tag_progress = 0;
+
 	let s = decoders.get_decoder(candidate.charset).decode(buf);
 
 	for (let ch of s) {
 
 		let cp = ch.codePointAt(0);
 		let this_is_latin = false;
+
+		if (rank_tag_progress === 0 && (ch === "B" || ch === "W")) {
+			rank_tag_progress++;
+		} else if (rank_tag_progress === 1 && (ch === "R")) {
+			rank_tag_progress++;
+		} else if (rank_tag_progress === 2 && (ch === "[")) {
+			rank_tag_progress++;
+		}
+
+		if (rank_tag_progress === 3) {										// This character can be expected to be a number...
+			if (["初", "一", "二", "三", "四", "五", "六", "七", "八", "九"].includes(ch)) {
+				score += 20;
+			}
+			rank_tag_progress = 0;
+		}
 
 		if (cp === 93 && !prev_was_backslash) {								// Unescaped ] characters. As a special case, score these.
 			score += CLOSER_SCORE;
