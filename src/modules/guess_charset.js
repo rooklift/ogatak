@@ -26,6 +26,8 @@ const candidates = [		// In priority order - ties are won by the earlier candida
 
 const CLOSER_SCORE = 6;
 
+const CYRILLIC_VOWELS = "аеиоуыэюяёєіїАЕИОУЫЭЮЯЁЄІЇ";		// Including the Ukrainian vowels.
+
 function guess_charset(buf, limit) {
 
 	if (buf.length > limit) {
@@ -47,9 +49,6 @@ function guess_charset(buf, limit) {
 	}
 
 	for (let candidate of candidates) {
-		if (!config["charset_" + candidate.charset]) {
-			continue;
-		}
 		if (!decoders.available(candidate.charset)) {
 			continue;
 		}
@@ -77,6 +76,11 @@ function score_buf(buf, candidate) {
 	let prev_was_han = false;
 	let prev_char_score = 0;
 
+	let cyrillic_run_length = 0;			// State for the current unbroken run of Cyrillic letters,
+	let cyrillic_run_score = 0;				// so that runs without vowels can have their score retracted.
+	let cyrillic_run_vowel = false;
+	let cyrillic_upper_streak = 0;			// Consecutive uppercase Cyrillic letters just seen.
+
 	let rank_tag_progress = 0;
 
 	let dec = decoders.get_decoder(candidate.charset);
@@ -95,10 +99,11 @@ function score_buf(buf, candidate) {
 
 		if (prev_char_score > 0 && ((cp >= 65 && cp <= 90) || (cp >= 97 && cp <= 122))) {
 			score -= prev_char_score;										// A CJK or Cyrillic character directly followed by an ASCII letter
-		}																	// is how a word-initial accented Latin byte looks when decoded by
-																			// the wrong charset, which either eats the following letter too
-																			// (e.g. windows-1252 "École" as GBK is "臉ole") or not (windows-1252
-																			// "Þór" as windows-1251 is "Юуr"), so retract the score it received.
+			if (prev_was_cyrillic) {										// is how a word-initial accented Latin byte looks when decoded by
+				cyrillic_run_score -= prev_char_score;						// the wrong charset, which either eats the following letter too
+			}																// (e.g. windows-1252 "École" as GBK is "臉ole") or not (windows-1252
+		}																	// "Þór" as windows-1251 is "Юуr"), so retract the score it received.
+																			// (The run score is adjusted too, so it can't be retracted twice.)
 
 		if (rank_tag_progress === 0) {
 			rank_tag_progress = (ch === "B" || ch === "W") ? 1 : 0;
@@ -146,16 +151,29 @@ function score_buf(buf, candidate) {
 		} else if (cp >= 0x0400 && cp <= 0x045f) {							// Cyrillic. The two Cyrillic charsets have opposite case layouts,
 			this_is_cyrillic = true;										// so each decodes typical (mostly lowercase) text in the other as
 			this_is_cyrillic_lower = (cp >= 0x0430);						// mostly UPPERCASE -- hence only lowercase gets the full score.
-			if (!this_is_cyrillic_lower && prev_was_cyrillic_lower) {		// Real Cyrillic text never flips to uppercase mid-word, but CJK
-				score -= 6;													// bytes decoded as a Cyrillic charset give randomly mixed case,
-			} else if (!prev_was_letter) {									// so such flips are penalised. (The prev_was_letter check is as
-				if (this_is_cyrillic_lower && prev_was_cyrillic) {			// for ideographs: e.g. "Müller" as windows-1251 is "Mьller".)
-					score += candidate.cyrillic;							// Also, the full score needs a Cyrillic run: real Russian text
-					this_char_score = candidate.cyrillic;					// comes in whole words of it, whereas stray accented Latin
-				} else {													// letters decoded as Cyrillic are isolated singles.
+			if (!this_is_cyrillic_lower && prev_was_cyrillic_lower) {		// Case-mixing anomalies -- a flip to uppercase mid-word, or
+				score -= 6;													// capitals running into lowercase -- are penalised: real text
+			} else if (this_is_cyrillic_lower && cyrillic_upper_streak >= 2) {	// never does either, but wrongly-decoded bytes give randomly
+				score -= 6;													// mixed case.
+			} else if (cyrillic_run_length === 1) {							// Scoring starts at a run's second letter and reaches full
+				score += Math.min(candidate.cyrillic, 1);					// strength on lowercase from its third: real Russian text comes
+				this_char_score = Math.min(candidate.cyrillic, 1);			// in whole words, whereas accented Latin or CJK bytes decoded as
+			} else if (cyrillic_run_length >= 2) {							// Cyrillic give isolated letters and short fragments. (This also
+				if (this_is_cyrillic_lower) {								// covers e.g. "Müller" as windows-1251 being "Mьller": the ASCII
+					score += candidate.cyrillic;							// letter before ь means ь starts a run, so it doesn't score.)
+					this_char_score = candidate.cyrillic;
+				} else {
 					score += Math.min(candidate.cyrillic, 1);
 					this_char_score = Math.min(candidate.cyrillic, 1);
 				}
+			}
+			cyrillic_run_length++;
+			cyrillic_upper_streak = this_is_cyrillic_lower ? 0 : cyrillic_upper_streak + 1;
+			if (this_char_score > 0) {
+				cyrillic_run_score += this_char_score;
+			}
+			if (CYRILLIC_VOWELS.includes(ch)) {
+				cyrillic_run_vowel = true;
 			}
 		} else if (cp >= 0x2500 && cp <= 0x25ff) {							// Box drawing and geometric shapes, a sign of a wrong decode
 			score -= 2;														// (KOI8-R is full of them).
@@ -164,11 +182,21 @@ function score_buf(buf, candidate) {
 		} else if ((cp >= 0x3000 && cp <= 0x303f) || (cp >= 0xff00 && cp <= 0xff60) || (cp >= 0xffe0 && cp <= 0xffe6)) {	// CJK punctuation and fullwidth forms.
 			score += 1;
 			this_char_score = 1;
-		} else if (cp >= 0xa0 && cp <= 0x2ff) {								// Latin supplements. Isolated accented letters are a good sign;
-			this_is_latin = true;											// long runs of them are how CJK bytes look when decoded as
-			if (!prev_was_latin) {											// windows-1252, so only score the first in each run.
-				score += 1;
-			}
+		} else if (cp >= 0xc0 && cp <= 0x2ff) {								// Accented Latin letters. Isolated ones are a good sign; long
+			this_is_latin = true;											// runs of them are how CJK bytes look when decoded as
+			if (!prev_was_latin) {											// windows-1252, so only score the first in each run. The signs
+				score += 1;													// in 0xA0-0xBF (© ° µ ¶ etc) don't score: they're exactly what
+			}																// stray CJK bytes decode to, so they're not evidence of anything.
+		}
+
+		if (!this_is_cyrillic && cyrillic_run_length > 0) {					// End of a run of Cyrillic letters: a "word" of 3+ letters with
+			if (cyrillic_run_length >= 3 && !cyrillic_run_vowel) {			// no vowel in it is not really Cyrillic text (real words always
+				score -= cyrillic_run_score;								// have vowels) but is typical of CJK or other non-Cyrillic bytes
+			}																// decoded as a Cyrillic charset, so retract the run's score.
+			cyrillic_run_length = 0;
+			cyrillic_run_score = 0;
+			cyrillic_run_vowel = false;
+			cyrillic_upper_streak = 0;
 		}
 
 		prev_was_latin = this_is_latin;
@@ -179,6 +207,10 @@ function score_buf(buf, candidate) {
 		prev_was_hangul = this_is_hangul;
 		prev_was_han = this_is_han;
 		prev_char_score = this_char_score;
+	}
+
+	if (cyrillic_run_length >= 3 && !cyrillic_run_vowel) {					// The same check, in case the text ended mid-run.
+		score -= cyrillic_run_score;
 	}
 
 	if (candidate.needs_kana && (!kana_seen && !rank_seen)) {
