@@ -2447,7 +2447,7 @@ function menu_build() {
 						{
 							label: "latin1",
 							type: "checkbox",
-							checked: config["charset_latin1"],
+							checked: config.charset_latin1,
 							click: () => {
 								win.webContents.send("toggle", "charset_latin1");
 							}
