@@ -156,8 +156,9 @@ translations[`English`] = {
 		MENU_AUTOSCROLL: `Autoscroll`,
 		MENU_AUTOSCROLL_DELAY: `Autoscroll delay`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Load games at final position`,
-		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Prefer Tygem handicap-3 layout`,				// Tygem (and Fox) place 3rd handicap stone in top left.
+		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Guess rules from komi on load`,				// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_GUESS_SGF_CHARSETS: `Autodetect SGF charsets`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Enable hardware acceleration for GUI`,
 		MENU_CONFIRM_QUIT: `Confirm before quitting`,
 
@@ -384,6 +385,7 @@ translations[`Français`] = {
 		MENU_AUTOSCROLL_DELAY: `Délai de défilement automatique`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Ouvrir le fichier à la position finale`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
+		MENU_GUESS_SGF_CHARSETS: `Détection automatique des encodages SGF`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Accélération matérielle pour l'application`,
 		MENU_CONFIRM_QUIT: `Confirmer avant de quitter`,
@@ -602,6 +604,7 @@ translations[`русский`] = {
 		MENU_AUTOSCROLL_DELAY: `Задержка автоматической прокрутки`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Конечная позиция после загрузки файла`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Угадывать правила по коми`,
+		MENU_GUESS_SGF_CHARSETS: `Автоопределение кодировок SGF`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Расположение трёх камней форы как на Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Включить аппаратное ускорение для графического интерфейса`,
 		MENU_CONFIRM_QUIT: `Подтверждать перед выходом`,
@@ -816,6 +819,7 @@ translations[`繁體中文`] = {
 		MENU_AUTOSCROLL_DELAY: `播放延遲（秒）`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
+		MENU_GUESS_SGF_CHARSETS: `自動偵測 SGF 字元編碼`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬體加速圖形界面`,
 		MENU_CONFIRM_QUIT: `退出前確認`,
@@ -1032,6 +1036,7 @@ translations[`简体中文`] = {
 		MENU_AUTOSCROLL_DELAY: `播放延迟（秒）`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以终局状态载入棋谱`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以载入棋谱的贴目猜测规则`,
+		MENU_GUESS_SGF_CHARSETS: `自动检测 SGF 字符编码`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城风格布置让三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬件加速图形界面`,
 		MENU_CONFIRM_QUIT: `退出前确认`,
@@ -1248,6 +1253,7 @@ translations[`한국어`] = {
 		MENU_AUTOSCROLL_DELAY: `스크롤 지연시간`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `대국 불러올때 마지막 수 위치로`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `불러오는 대국의 덤 값으로 규칙 추측`,			// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_GUESS_SGF_CHARSETS: `SGF 문자 인코딩 자동 감지`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치 (접바둑)`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI에 하드웨어 가속 사용`,
 		MENU_CONFIRM_QUIT: `종료 전에 확인`,
@@ -1475,6 +1481,7 @@ translations[`日本語`] = {
 		MENU_AUTOSCROLL_DELAY: `自動再生の間隔`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `棋譜を最終局面で開く`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `読み込み時にコミからルールを推測`,				// 6.5 --> Japanese, 7.5 --> Chinese.
+		MENU_GUESS_SGF_CHARSETS: `SGF の文字コードを自動判別`,
 		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,			// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーションを有効にする`,
 		MENU_CONFIRM_QUIT: `終了前に確認する`,

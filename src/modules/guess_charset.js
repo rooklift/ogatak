@@ -47,6 +47,9 @@ function guess_charset(buf, limit) {
 	}
 
 	for (let candidate of candidates) {
+		if (!config["charset_" + candidate.charset]) {
+			continue;
+		}
 		if (!decoders.available(candidate.charset)) {
 			continue;
 		}

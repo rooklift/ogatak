@@ -2383,6 +2383,17 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT"),
+					type: "checkbox",
+					checked: config.tygem_3,
+					click: () => {
+						win.webContents.send("toggle", "tygem_3");
+					}
+				},
+				{
+					type: "separator",
+				},
+				{
 					label: translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD"),
 					type: "checkbox",
 					checked: config.guess_ruleset,
@@ -2391,12 +2402,73 @@ function menu_build() {
 					}
 				},
 				{
-					label: translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT"),
-					type: "checkbox",
-					checked: config.tygem_3,
-					click: () => {
-						win.webContents.send("toggle", "tygem_3");
-					}
+					label: translate("MENU_GUESS_SGF_CHARSETS"),
+					submenu: [
+						{
+							label: "shift_jis",
+							type: "checkbox",
+							checked: config.charset_shift_jis,
+							click: () => {
+								win.webContents.send("toggle", "charset_shift_jis");
+							}
+						},
+						{
+							label: "euc-jp",
+							type: "checkbox",
+							checked: config["charset_euc-jp"],
+							click: () => {
+								win.webContents.send("toggle", "charset_euc-jp");
+							}
+						},
+						{
+							label: "euc-kr",
+							type: "checkbox",
+							checked: config["charset_euc-kr"],
+							click: () => {
+								win.webContents.send("toggle", "charset_euc-kr");
+							}
+						},
+						{
+							label: "gbk",
+							type: "checkbox",
+							checked: config.charset_gbk,
+							click: () => {
+								win.webContents.send("toggle", "charset_gbk");
+							}
+						},
+						{
+							label: "big5",
+							type: "checkbox",
+							checked: config.charset_big5,
+							click: () => {
+								win.webContents.send("toggle", "charset_big5");
+							}
+						},
+						{
+							label: "windows-1252",
+							type: "checkbox",
+							checked: config["charset_windows-1252"],
+							click: () => {
+								win.webContents.send("toggle", "charset_windows-1252");
+							}
+						},
+						{
+							label: "windows-1251",
+							type: "checkbox",
+							checked: config["charset_windows-1251"],
+							click: () => {
+								win.webContents.send("toggle", "charset_windows-1251");
+							}
+						},
+						{
+							label: "koi8-r",
+							type: "checkbox",
+							checked: config["charset_koi8-r"],
+							click: () => {
+								win.webContents.send("toggle", "charset_koi8-r");
+							}
+						},
+					]
 				},
 				{
 					type: "separator",

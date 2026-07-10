@@ -137,6 +137,15 @@ exports.defaults = {
 
 	"read_only_paths": [],
 
+	"charset_shift_jis": true,					// Note that the charset names should match exactly their
+	"charset_euc-jp": true,						// names in guess_charset.js but with charset_ prefix.
+	"charset_euc-kr": true,
+	"charset_gbk": true,
+	"charset_big5": true,
+	"charset_windows-1252": true,
+	"charset_windows-1251": true,
+	"charset_koi8-r": true,
+
 	"midgame_training": null,					// Secret feature (must be turned on via console each time).
 
 	"sgf_folder": "",
