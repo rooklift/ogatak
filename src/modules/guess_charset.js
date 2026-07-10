@@ -19,7 +19,7 @@ const candidates = [		// In priority order - ties are won by the earlier candida
 	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	cyrillic: -2,	needs_kana: false},
 	{charset: "gbk",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},		// Note: GBK is a superset of GB2312.
 	{charset: "big5",			kana: -2,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
-	{charset: "windows-1252",	kana: -2,	hangul: -2,		han: -2,	cyrillic: -2,	needs_kana: false},		// Before the Cyrillic charsets, so that a lone
+	{charset: "latin1",			kana: -2,	hangul: -2,		han: -2,	cyrillic: -2,	needs_kana: false},		// Before the Cyrillic charsets, so that a lone
 	{charset: "windows-1251",	kana: -2,	hangul: -2,		han: -2,	cyrillic:  3,	needs_kana: false},		// accented letter (which ties) stays Latin.
 	{charset: "koi8-r",			kana: -2,	hangul: -2,		han: -2,	cyrillic:  3,	needs_kana: false},
 ];
@@ -106,7 +106,7 @@ function score_buf(buf, candidate) {
 			score -= prev_char_score;										// A CJK or Cyrillic character directly followed by an ASCII letter
 			if (prev_was_cyrillic) {										// is how a word-initial accented Latin byte looks when decoded by
 				cyrillic_run_score -= prev_char_score;						// the wrong charset, which either eats the following letter too
-			}																// (e.g. windows-1252 "École" as GBK is "臉ole") or not (windows-1252
+			}																// (e.g. latin1 "École" as GBK is "臉ole") or not (latin1
 		}																	// "Þór" as windows-1251 is "Юуr"), so retract the score it received.
 																			// (The run score is adjusted too, so it can't be retracted twice.)
 
@@ -147,7 +147,7 @@ function score_buf(buf, candidate) {
 			}
 		} else if (cp >= 0x4e00 && cp <= 0x9fff) {							// CJK ideographs. An ideograph right after an ASCII letter is how
 			this_is_han = true;												// accented Latin bytes look when decoded as a CJK charset (e.g.
-			if (prev_was_hangul) {											// windows-1252 "Müller" as GBK is "M黮ler") so those don't score,
+			if (prev_was_hangul) {											// latin1 "Müller" as GBK is "M黮ler") so those don't score,
 				score -= 4;													// and one right after hangul is penalised as described above.
 			} else if (!prev_was_letter) {
 				score += candidate.han;
@@ -189,7 +189,7 @@ function score_buf(buf, candidate) {
 			this_char_score = 1;
 		} else if (cp >= 0xc0 && cp <= 0x2ff) {								// Accented Latin letters. Isolated ones are a good sign; long
 			this_is_latin = true;											// runs of them are how CJK bytes look when decoded as
-			if (!prev_was_latin) {											// windows-1252, so only score the first in each run. The signs
+			if (!prev_was_latin) {											// latin1, so only score the first in each run. The signs
 				score += 1;													// in 0xA0-0xBF (© ° µ ¶ etc) don't score: they're exactly what
 			}																// stray CJK bytes decode to, so they're not evidence of anything.
 		}

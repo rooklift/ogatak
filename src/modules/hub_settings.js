@@ -51,7 +51,7 @@ const togglechecks = {
 	"charset_euc-kr":		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "euc-kr"],
 	charset_gbk:			[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "gbk"],
 	charset_big5:			[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "big5"],
-	"charset_windows-1252":	[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "windows-1252"],
+	charset_latin1:			[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "latin1"],
 	"charset_windows-1251":	[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "windows-1251"],
 	"charset_koi8-r":		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "koi8-r"],
 	enable_hw_accel:		[translate("MENU_MISC"), translate("MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI")],

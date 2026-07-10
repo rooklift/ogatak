@@ -142,7 +142,7 @@ exports.defaults = {
 	"charset_euc-kr": true,
 	"charset_gbk": true,
 	"charset_big5": true,
-	"charset_windows-1252": true,
+	"charset_latin1": true,
 	"charset_windows-1251": true,
 	"charset_koi8-r": true,
 

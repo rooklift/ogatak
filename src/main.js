@@ -2445,11 +2445,11 @@ function menu_build() {
 							}
 						},
 						{
-							label: "windows-1252",
+							label: "latin1",
 							type: "checkbox",
-							checked: config["charset_windows-1252"],
+							checked: config["charset_latin1"],
 							click: () => {
-								win.webContents.send("toggle", "charset_windows-1252");
+								win.webContents.send("toggle", "charset_latin1");
 							}
 						},
 						{
