@@ -123,14 +123,14 @@ translations[`English`] = {
 			MENU_GRAPH_WINRATE: `Winrate`,
 			MENU_GRAPH_SCORE: `Score`,
 		MENU_BLACK_POV_ALWAYS: `Black score always`,
-		MENU_COORDINATES: `Coordinates`,
-		MENU_STONE_COUNTS: `Stone counts`,
 		MENU_CANDIDATE_MOVES: `Candidate moves`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...only when pondering`,
 		MENU_WITH_PV_MOUSEOVER: `...with PV mouseover`,
 		MENU_FADE_BY_VISITS: `...fade by visits`,
 		MENU_MOUSEOVER_DELAY: `Wait before showing PV`,
 		MENU_NEXT_MOVE_MARKERS: `Next move markers`,
+		MENU_COORDINATES: `Coordinates`,
+		MENU_STONE_COUNTS: `Stone counts`,
 		MENU_COLOURS: `Colours`,
 
 	MENU_SIZES: `Sizes`,
@@ -350,8 +350,6 @@ translations[`Français`] = {
 		MENU_GRAPH: `Graphique`,
 			MENU_GRAPH_WINRATE: `Prognostic`,
 			MENU_GRAPH_SCORE: `Score`,
-		MENU_COORDINATES: `Coordonnés`,
-		MENU_STONE_COUNTS: `Pierre compte`,
 		MENU_BLACK_POV_ALWAYS: `Afficher le score noir, toujours`,
 		MENU_CANDIDATE_MOVES: `Coups recommandés`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...seulement en pensant`,
@@ -359,6 +357,8 @@ translations[`Français`] = {
 		MENU_FADE_BY_VISITS: `...avec décoloration`,
 		MENU_MOUSEOVER_DELAY: `Délai de survol de la souris`,
 		MENU_NEXT_MOVE_MARKERS: `Coups suivants`,
+		MENU_COORDINATES: `Coordonnés`,
+		MENU_STONE_COUNTS: `Pierre compte`,
 		MENU_COLOURS: `Couleurs`,
 
 	MENU_SIZES: `Grandeur`,
@@ -384,9 +384,9 @@ translations[`Français`] = {
 		MENU_AUTOSCROLL: `Défilement automatique`,
 		MENU_AUTOSCROLL_DELAY: `Délai de défilement automatique`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Ouvrir le fichier à la position finale`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Utilisez komi pour deviner les règles`,
 		MENU_GUESS_SGF_CHARSETS: `Détection automatique des encodages SGF`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Préférez le placement handicap-3 de Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Accélération matérielle pour l'application`,
 		MENU_CONFIRM_QUIT: `Confirmer avant de quitter`,
 
@@ -569,8 +569,6 @@ translations[`русский`] = {
 		MENU_GRAPH: `График`,
 			MENU_GRAPH_WINRATE: `Шанс победы`,
 			MENU_GRAPH_SCORE: `Счёт`,
-		MENU_COORDINATES: `Координаты`,
-		MENU_STONE_COUNTS: `Количество камней`,
 		MENU_BLACK_POV_ALWAYS: `Всегда за чёрных`,
 		MENU_CANDIDATE_MOVES: `Предложение хода`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...только при активном анализе`,
@@ -578,6 +576,8 @@ translations[`русский`] = {
 		MENU_FADE_BY_VISITS: `...цвет по количеству посещений`,
 		MENU_MOUSEOVER_DELAY: `Задержка при наведении курсора`,
 		MENU_NEXT_MOVE_MARKERS: `Показывать следующий ход`,
+		MENU_COORDINATES: `Координаты`,
+		MENU_STONE_COUNTS: `Количество камней`,
 		MENU_COLOURS: `Цвета`,
 
 	MENU_SIZES: `Размер`,
@@ -603,9 +603,9 @@ translations[`русский`] = {
 		MENU_AUTOSCROLL: `Автоматическая прокрутка`,
 		MENU_AUTOSCROLL_DELAY: `Задержка автоматической прокрутки`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `Конечная позиция после загрузки файла`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Расположение трёх камней форы как на Tygem`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `Угадывать правила по коми`,
 		MENU_GUESS_SGF_CHARSETS: `Автоопределение кодировок SGF`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `Расположение трёх камней форы как на Tygem`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `Включить аппаратное ускорение для графического интерфейса`,
 		MENU_CONFIRM_QUIT: `Подтверждать перед выходом`,
 
@@ -784,8 +784,6 @@ translations[`繁體中文`] = {
 		MENU_GRAPH: `分析圖`,
 			MENU_GRAPH_WINRATE: `勝率`,
 			MENU_GRAPH_SCORE: `領先目數`,
-		MENU_COORDINATES: `顯示座標`,
-		MENU_STONE_COUNTS: `顯示棋子數`,
 		MENU_BLACK_POV_ALWAYS: `總是顯示黑棋觀點`,
 		MENU_CANDIDATE_MOVES: `顯示後選手`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...僅分析時顯示後選手`,
@@ -793,6 +791,8 @@ translations[`繁體中文`] = {
 		MENU_FADE_BY_VISITS: `...淡化低訪問數後選手`,
 		MENU_MOUSEOVER_DELAY: `主變化顯示延遲（秒）`,
 		MENU_NEXT_MOVE_MARKERS: `標示下一手`,
+		MENU_COORDINATES: `顯示座標`,
+		MENU_STONE_COUNTS: `顯示棋子數`,
 		MENU_COLOURS: `顏色配置`,
 
 	MENU_SIZES: `尺寸大小`,
@@ -818,9 +818,9 @@ translations[`繁體中文`] = {
 		MENU_AUTOSCROLL: `自動播放`,
 		MENU_AUTOSCROLL_DELAY: `播放延遲（秒）`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以終局狀態載入棋譜`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以載入棋譜的貼目猜測規則`,
 		MENU_GUESS_SGF_CHARSETS: `自動偵測 SGF 字元編碼`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城風格佈置讓三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬體加速圖形界面`,
 		MENU_CONFIRM_QUIT: `退出前確認`,
 
@@ -1001,8 +1001,6 @@ translations[`简体中文`] = {
 		MENU_GRAPH: `分析图`,
 			MENU_GRAPH_WINRATE: `胜率`,
 			MENU_GRAPH_SCORE: `领先目数`,
-		MENU_COORDINATES: `显示坐标`,
-		MENU_STONE_COUNTS: `显示棋子数`,
 		MENU_BLACK_POV_ALWAYS: `总是显示黑棋观点`,
 		MENU_CANDIDATE_MOVES: `显示变化`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...仅分析时显示变化`,
@@ -1010,6 +1008,8 @@ translations[`简体中文`] = {
 		MENU_FADE_BY_VISITS: `...淡化低分析数变化`,
 		MENU_MOUSEOVER_DELAY: `主变化显示延迟（秒）`,
 		MENU_NEXT_MOVE_MARKERS: `标记下一手`,
+		MENU_COORDINATES: `显示坐标`,
+		MENU_STONE_COUNTS: `显示棋子数`,
 		MENU_COLOURS: `顏色配置`,
 
 	MENU_SIZES: `尺寸大小`,
@@ -1035,9 +1035,9 @@ translations[`简体中文`] = {
 		MENU_AUTOSCROLL: `自动播放`,
 		MENU_AUTOSCROLL_DELAY: `播放延迟（秒）`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `以终局状态载入棋谱`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城风格布置让三子棋`,
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `以载入棋谱的贴目猜测规则`,
 		MENU_GUESS_SGF_CHARSETS: `自动检测 SGF 字符编码`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `以弈城风格布置让三子棋`,
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `使用硬件加速图形界面`,
 		MENU_CONFIRM_QUIT: `退出前确认`,
 
@@ -1144,7 +1144,7 @@ translations[`한국어`] = {
 
 	MENU_TREE: `수순`,
 
-		MENU_PLAY_BEST_MOVE: `최선 수`,					// Only works if some analysis already exists for the position.
+		MENU_PLAY_BEST_MOVE: `최선 수`,						// Only works if some analysis already exists for the position.
 		MENU_PASS: `쉼`,
 		MENU_ROOT: `처음`,
 		MENU_END: `끝`,
@@ -1219,14 +1219,14 @@ translations[`한국어`] = {
 			MENU_GRAPH_WINRATE: `승률`,
 			MENU_GRAPH_SCORE: `점수`,
 		MENU_BLACK_POV_ALWAYS: `항상 흑 기준`,
-		MENU_COORDINATES: `좌표`,
-		MENU_STONE_COUNTS: `돌 갯수 (잡은 돌 대신)`,
 		MENU_CANDIDATE_MOVES: `후보 수순`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...생각 중에만 표시`,
 		MENU_WITH_PV_MOUSEOVER: `...마우스 위치시 표시`,
 		MENU_FADE_BY_VISITS: `...visits 기준 선명도`,
 		MENU_MOUSEOVER_DELAY: `후보수 표시 지연`,
 		MENU_NEXT_MOVE_MARKERS: `후보수 마크`,
+		MENU_COORDINATES: `좌표`,
+		MENU_STONE_COUNTS: `돌 갯수 (잡은 돌 대신)`,
 		MENU_COLOURS: `색상`,
 
 	MENU_SIZES: `크기`,
@@ -1252,9 +1252,9 @@ translations[`한국어`] = {
 		MENU_AUTOSCROLL: `자동 스크롤`,
 		MENU_AUTOSCROLL_DELAY: `스크롤 지연시간`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `대국 불러올때 마지막 수 위치로`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치 (접바둑)`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `불러오는 대국의 덤 값으로 규칙 추측`,			// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_GUESS_SGF_CHARSETS: `SGF 문자 인코딩 자동 감지`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `타이젬 방식 3점 배치 (접바둑)`,				// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI에 하드웨어 가속 사용`,
 		MENU_CONFIRM_QUIT: `종료 전에 확인`,
 
@@ -1447,14 +1447,14 @@ translations[`日本語`] = {
 			MENU_GRAPH_WINRATE: `勝率`,
 			MENU_GRAPH_SCORE: `目差`,
 		MENU_BLACK_POV_ALWAYS: `常に黒視点の目差`,
-		MENU_COORDINATES: `座標`,
-		MENU_STONE_COUNTS: `石数を表示`,
 		MENU_CANDIDATE_MOVES: `候補手`,
 		MENU_NO_PONDER_NO_CANDIDATES: `...解析中のみ`,
 		MENU_WITH_PV_MOUSEOVER: `...マウスオーバーで読み筋を表示`,
 		MENU_FADE_BY_VISITS: `...探索数に応じて薄くする`,
 		MENU_MOUSEOVER_DELAY: `読み筋を表示するまでの時間`,
 		MENU_NEXT_MOVE_MARKERS: `次の一手マーカー`,
+		MENU_COORDINATES: `座標`,
+		MENU_STONE_COUNTS: `石数を表示`,
 		MENU_COLOURS: `配色`,
 
 	MENU_SIZES: `サイズ`,
@@ -1480,9 +1480,9 @@ translations[`日本語`] = {
 		MENU_AUTOSCROLL: `自動再生`,
 		MENU_AUTOSCROLL_DELAY: `自動再生の間隔`,
 		MENU_LOAD_GAMES_AT_FINAL_POSITION: `棋譜を最終局面で開く`,
+		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,			// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_GUESS_RULES_FROM_KOMI_ON_LOAD: `読み込み時にコミからルールを推測`,				// 6.5 --> Japanese, 7.5 --> Chinese.
 		MENU_GUESS_SGF_CHARSETS: `SGF の文字コードを自動判別`,
-		MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT: `3子の置き石を東洋囲碁式に配置`,			// Tygem (and Fox) place 3rd handicap stone in top left.
 		MENU_ENABLE_HARDWARE_ACCELERATION_FOR_GUI: `GUI のハードウェアアクセラレーションを有効にする`,
 		MENU_CONFIRM_QUIT: `終了前に確認する`,
 
