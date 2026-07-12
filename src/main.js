@@ -2405,6 +2405,14 @@ function menu_build() {
 					label: translate("MENU_GUESS_SGF_CHARSETS"),
 					submenu: [
 						{
+							label: "utf-8",
+							type: "checkbox",
+							checked: config["charset_utf-8"],
+							click: () => {
+								win.webContents.send("toggle", "charset_utf-8");
+							}
+						},
+						{
 							label: "shift_jis",
 							type: "checkbox",
 							checked: config.charset_shift_jis,

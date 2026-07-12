@@ -46,6 +46,7 @@ const togglechecks = {
 	load_at_end:			[translate("MENU_MISC"), translate("MENU_LOAD_GAMES_AT_FINAL_POSITION")],
 	guess_ruleset:			[translate("MENU_MISC"), translate("MENU_GUESS_RULES_FROM_KOMI_ON_LOAD")],
 	tygem_3:				[translate("MENU_MISC"), translate("MENU_PREFER_TYGEM_HANDICAP_3_LAYOUT")],
+	"charset_utf-8":		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "utf-8"],
 	charset_shift_jis:		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "shift_jis"],
 	"charset_euc-jp":		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "euc-jp"],
 	"charset_euc-kr":		[translate("MENU_MISC"), translate("MENU_GUESS_SGF_CHARSETS"), "euc-kr"],

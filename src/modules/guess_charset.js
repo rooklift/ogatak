@@ -2,6 +2,10 @@
 
 // If something isn't UTF-8, what would it be?
 //
+// Note that UTF-8 itself is a candidate: we only get called when the buffer is not fully
+// valid UTF-8, but a few corrupt bytes in an otherwise-UTF-8 file (or a stray latin1 byte
+// pasted into one) shouldn't fool us into destructively converting it as something else.
+//
 // Method: decode some of the buffer with each candidate decoder and score the result by what
 // Unicode characters come out. Text decoded with the right charset produces characters from
 // the script the charset was designed for (e.g. kana for Japanese, hangul for Korean,
@@ -14,6 +18,7 @@
 const decoders = require("./decoders");
 
 const candidates = [		// In priority order - ties are won by the earlier candidate.
+	{charset: "utf-8",			kana:  6,	hangul:  3,		han:  2,	cyrillic:  3,	needs_kana: false,	multibyte: 2},
 	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
 	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: true},		// Needs kana, else GBK text can decode as EUC-JP.
 	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	cyrillic: -2,	needs_kana: false},
@@ -110,6 +115,11 @@ function score_buf(buf, candidate) {
 		}																	// "Þór" as windows-1251 is "Юуr"), so retract the score it received.
 																			// (The run score is adjusted too, so it can't be retracted twice.)
 
+		if (candidate.multibyte && cp >= 0x80 && cp !== 0xfffd) {			// Every successfully decoded multibyte character is evidence in
+			score += candidate.multibyte;									// itself for the UTF-8 candidate: UTF-8's strict byte structure
+		}																	// means legacy text virtually never forms valid sequences by
+																			// chance. Without this, mojibake can outscore the truth, e.g.
+																			// UTF-8 hanzi read as GBK give 3 valid ideographs per 2 real ones.
 		if (rank_tag_progress === 0) {
 			rank_tag_progress = (ch === "B" || ch === "W") ? 1 : 0;
 		} else if (rank_tag_progress === 1) {

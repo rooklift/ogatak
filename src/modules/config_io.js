@@ -137,8 +137,9 @@ exports.defaults = {
 
 	"read_only_paths": [],
 
-	"charset_shift_jis": true,					// Note that the charset names should match exactly their
-	"charset_euc-jp": true,						// names in guess_charset.js but with charset_ prefix.
+	"charset_utf-8": true,						// Note that the charset names should match exactly their
+	"charset_shift_jis": true,					// names in guess_charset.js but with charset_ prefix.
+	"charset_euc-jp": true,
 	"charset_euc-kr": true,
 	"charset_gbk": true,
 	"charset_big5": true,
