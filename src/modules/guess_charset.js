@@ -137,7 +137,7 @@ function score_buf(buf, candidate) {
 				rank_tag_progress = 0;
 			}
 		} else if (rank_tag_progress === 4) {
-			if (["段", "级", "級"].includes(ch)) {
+			if (["段", "级", "級", "단", "급"].includes(ch)) {
 				score += 20;
 				rank_seen = true;
 				rank_tag_progress = -1;
