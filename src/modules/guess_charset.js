@@ -18,7 +18,7 @@
 const decoders = require("./decoders");
 
 const candidates = [		// In priority order - ties are won by the earlier candidate.
-	{charset: "utf-8",			kana:  6,	hangul:  3,		han:  2,	cyrillic:  3,	needs_kana: false,	multibyte: 2},
+	{charset: "utf-8",			kana:  6,	hangul:  3,		han:  2,	cyrillic:  3,	needs_kana: false,	multibyte: 4},
 	{charset: "shift_jis",		kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: false},
 	{charset: "euc-jp",			kana:  6,	hangul: -2,		han:  2,	cyrillic: -2,	needs_kana: true},		// Needs kana, else GBK text can decode as EUC-JP.
 	{charset: "euc-kr",			kana: -2,	hangul:  3,		han: -1,	cyrillic: -2,	needs_kana: false},
@@ -139,7 +139,10 @@ function score_buf(buf, candidate) {
 		if (cp === 93 && !prev_was_backslash) {								// Unescaped ] characters. As a special case, score these.
 			score += CLOSER_SCORE;
 		} else if (cp === 0xfffd) {											// Replacement character, i.e. the decoder rejected some bytes.
-			score -= 12;
+			score -= (candidate.multibyte ? 4 : 12);						// Every buffer we see is invalid UTF-8 by definition, so the UTF-8
+																			// candidate is always due some of these: it gets a discount, so that
+																			// a mostly-ASCII file with a few mangled names can still count its
+																			// valid characters for more than its corrupt bytes.
 		} else if (cp < 32 && cp !== 9 && cp !== 10 && cp !== 13) {			// C0 control characters, except tab / LF / CR.
 			score -= 6;
 		} else if (cp >= 0x80 && cp <= 0x9f) {								// C1 control characters.
