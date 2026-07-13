@@ -130,7 +130,19 @@ function score_buf(buf, candidate) {
 			if (["初", "一", "二", "三", "四", "五", "六", "七", "八", "九"].includes(ch)) {
 				score += 20;
 				rank_seen = true;
-				rank_tag_progress = 4;										// i.e. stop caring about this. We do it once only.
+				rank_tag_progress = -1;										// i.e. stop caring about this. We do it once only.
+			} else if ("123456789".includes(ch)) {
+				rank_tag_progress = 4;
+			} else {
+				rank_tag_progress = 0;
+			}
+		} else if (rank_tag_progress === 4) {
+			if (ch === "段" || ch === "级") {
+				score += 20;
+				rank_seen = true;
+				rank_tag_progress = -1;
+			} else if ("1234567890".includes(ch)) {
+				// Pass. Stay in this state.
 			} else {
 				rank_tag_progress = 0;
 			}
