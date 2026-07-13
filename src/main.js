@@ -2413,6 +2413,17 @@ function menu_build() {
 							}
 						},
 						{
+							label: "latin1",
+							type: "checkbox",
+							checked: config.charset_latin1,
+							click: () => {
+								win.webContents.send("toggle", "charset_latin1");
+							}
+						},
+						{
+							type: "separator",
+						},
+						{
 							label: "shift_jis",
 							type: "checkbox",
 							checked: config.charset_shift_jis,
@@ -2453,12 +2464,7 @@ function menu_build() {
 							}
 						},
 						{
-							label: "latin1",
-							type: "checkbox",
-							checked: config.charset_latin1,
-							click: () => {
-								win.webContents.send("toggle", "charset_latin1");
-							}
+							type: "separator",
 						},
 						{
 							label: "windows-1251",
