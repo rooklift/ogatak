@@ -36,8 +36,8 @@ for key, value in zips.items():
 	if os.path.exists(os.path.join(build_dir, "electron")):
 		os.rename(os.path.join(build_dir, "electron"), os.path.join(build_dir, "ogatak"))
 
-	# We can and maybe should...
-
+	# We could and maybe should...
+	"""
 	if key == "windows":
 		electron_exe = os.path.join(build_dir, "ogatak.exe")
 		print("Running rcedit...")
@@ -50,3 +50,4 @@ for key, value in zips.items():
 			"--set-file-version", version,
 			"--set-product-version", version
 		], check=True)
+	"""
