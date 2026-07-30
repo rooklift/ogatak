@@ -15,6 +15,22 @@ function init() {
 
 let comment_drawer_prototype = {
 
+	needs_state_fix: function() {
+
+		// i.e. hidden when it should be visible, or vice versa.
+		// We rely on readOnly being correlated with the other relevant stuff e.g. display = "block".
+
+		if (config.comment_box_height <= 0 && !this.textarea.readOnly) {
+			return true;
+		}
+
+		if (config.comment_box_height > 0 && this.textarea.readOnly) {
+			return true;
+		}
+
+		return false;
+	},
+
 	draw: function(node) {
 
 		let s = "";

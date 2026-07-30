@@ -222,7 +222,9 @@ module.exports = {
 		case "comment_box_height":
 
 			tree_drawer.weak_draw = true;			// Because the tree drawer actually controls the height of the comments.
-			comment_drawer.draw(this.node);
+			if (comment_drawer.needs_state_fix()) {
+				comment_drawer.draw(this.node);
+			}
 			break;
 
 		case "analysis_pv_len":
