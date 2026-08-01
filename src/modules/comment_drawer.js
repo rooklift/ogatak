@@ -2,6 +2,7 @@
 
 function init() {
 	let ret = Object.assign(Object.create(comment_drawer_prototype), {
+		gridder: document.getElementById("gridder_tree_comments"),
 		textarea: document.getElementById("comments"),
 		handle: document.getElementById("commentshandle"),
 		handle_dragging: false,							// Used in __start_spinners.js. These 4 are for the
@@ -10,6 +11,7 @@ function init() {
 		handle_drag_start_height: 0,					// so there's no jump on grabbing the handle.
 	});
 	ret.set_font_size(config.info_font_size);
+	ret.apply_height();
 	return ret;
 }
 
@@ -55,6 +57,10 @@ let comment_drawer_prototype = {
 
 	set_font_size: function(value) {
 		this.textarea.style["font-size"] = value.toString() + "px";
+	},
+
+	apply_height: function() {							// Apply config.comment_box_height
+		this.gridder.style["grid-template-rows"] = `minmax(0, 1fr) min-content minmax(0, ${Math.max(0, config.comment_box_height)}px)`;
 	}
 };
 

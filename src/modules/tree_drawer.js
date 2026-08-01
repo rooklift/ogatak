@@ -38,7 +38,7 @@ let tree_drawer_prototype = {
 
 		this.call_count++;
 
-		if (!this.must_draw && !this.weak_draw && this.call_count % 10 !== 0) {
+		if (!this.must_draw && !this.weak_draw && this.call_count % 5 !== 0) {
 			return;
 		}
 
