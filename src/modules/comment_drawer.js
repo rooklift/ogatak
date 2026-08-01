@@ -60,7 +60,7 @@ let comment_drawer_prototype = {
 	},
 
 	apply_height: function() {							// Apply config.comment_box_height
-		this.gridder.style["grid-template-rows"] = `minmax(0, 1fr) min-content ${Math.max(0, config.comment_box_height)}px`;
+		this.gridder.style["grid-template-rows"] = `minmax(0, 1fr) min-content minmax(0, ${Math.max(0, config.comment_box_height)}px)`;
 	}
 };
 

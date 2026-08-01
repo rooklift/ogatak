@@ -46,7 +46,7 @@ body {
 	grid-area: t_c;
 	height: 100vh;
 	grid-template-columns: 1fr;
-	grid-template-rows: minmax(0, 1fr) min-content 256px;		/* Last row is set from JS (comment_drawer) to match config.comment_box_height */
+	grid-template-rows: minmax(0, 1fr) min-content minmax(0, 256px);	/* Last row is set from JS (comment_drawer) to match config.comment_box_height */
 	grid-template-areas:
 		"tree"
 		"chandle"
