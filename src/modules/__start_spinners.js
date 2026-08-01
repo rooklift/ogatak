@@ -144,7 +144,7 @@
 		hub.set("comment_box_height", height);
 		comment_drawer.pending_handle_drag_y = null;
 	}
-	setTimeout(handle_comment_drag_spinner, 5);
+	setTimeout(handle_comment_drag_spinner, 13);
 })();
 
 // ------------------------------------------------------------------------------------------------
