@@ -126,7 +126,7 @@
 (function handle_grapher_drag_spinner() {
 	if (typeof grapher.pending_handle_drag_x === "number") {
 		let width = Math.round(grapher.handle_drag_start_width + grapher.pending_handle_drag_x - grapher.handle_drag_start_x);
-		let max_width = Math.round(window.innerWidth - grapher.canvas.getBoundingClientRect().left - grapher.handle.offsetWidth);	// So the handle itself stays onscreen.
+		let max_width = Math.round(window.innerWidth - grapher.canvas.getBoundingClientRect().left - grapher.handle.offsetWidth);	// So the handle stays onscreen.
 		if (width > max_width) width = max_width;
 		if (width < 40) width = 0;			// Below 40, the grapher is too_small_to_draw() anyway (24 + its two 8px x offsets).
 		hub.set("graph_width", width);
