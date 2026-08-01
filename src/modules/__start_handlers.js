@@ -174,7 +174,7 @@ comment_drawer.handle.addEventListener("mousedown", (event) => {
 	}
 	comment_drawer.handle_dragging = true;
 	comment_drawer.handle_drag_start_y = event.clientY;
-	comment_drawer.handle_drag_start_height = config.comment_box_height;
+	comment_drawer.handle_drag_start_height = comment_drawer.textarea.offsetHeight;		// Rather than config.comment_box_height, which can exceed the displayed height.
 	document.body.classList.add("row_dragging");
 });
 
