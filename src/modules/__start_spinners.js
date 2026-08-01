@@ -123,8 +123,7 @@
 // since the drag started, applied to the size at that time. Note that small values snap to 0,
 // which is the "hidden" state for both the graph and the comment box.
 
-(function handle_drag_spinner() {
-
+(function handle_grapher_drag_spinner() {
 	if (typeof grapher.pending_handle_drag_x === "number") {
 		let width = Math.round(grapher.handle_drag_start_width + grapher.pending_handle_drag_x - grapher.handle_drag_start_x);
 		let max_width = Math.round(window.innerWidth - grapher.canvas.getBoundingClientRect().left - grapher.handle.offsetWidth);	// So the handle itself stays onscreen.
@@ -133,7 +132,10 @@
 		hub.set("graph_width", width);
 		grapher.pending_handle_drag_x = null;
 	}
+	setTimeout(handle_grapher_drag_spinner, 11);
+})();
 
+(function handle_comment_drag_spinner() {
 	if (typeof comment_drawer.pending_handle_drag_y === "number") {
 		let height = Math.round(comment_drawer.handle_drag_start_height + comment_drawer.handle_drag_start_y - comment_drawer.pending_handle_drag_y);
 		let max_height = Math.round(window.innerHeight - tree_drawer.canvas.getBoundingClientRect().top - comment_drawer.handle.offsetHeight);
@@ -142,8 +144,7 @@
 		hub.set("comment_box_height", height);
 		comment_drawer.pending_handle_drag_y = null;
 	}
-
-	setTimeout(handle_drag_spinner, config.mousemove_delay);
+	setTimeout(handle_comment_drag_spinner, 5);
 })();
 
 // ------------------------------------------------------------------------------------------------
