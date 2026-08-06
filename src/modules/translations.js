@@ -65,6 +65,8 @@ translations[`English`] = {
 		MENU_PROMOTE_LINE_TO_MAIN_LINE: `Promote line to main line`,
 		MENU_DELETE_NODE: `Delete node`,
 		MENU_DELETE_ALL_PREVIOUS_FORKS: `Delete all previous forks`,
+		MENU_NEXT_MISTAKE: `Next Mistake`,
+		MENU_PREVIOUS_MISTAKE: `Previous Mistake`,
 
 	MENU_TOOLS: `Tools`,
 
