@@ -172,6 +172,7 @@ translations[`English`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `Snappy node switch hack`,							// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `Show config file`,
 		MENU_TOGGLE_DEV_TOOLS: `Toggle dev tools`,
+		MENU_SCREENSHOT: `Screenshot (board)`,
 
 	MENU_LANGUAGE: `Language`,
 
@@ -400,6 +401,7 @@ translations[`Français`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `Kludge pour réactivité`,
 		MENU_SHOW_CONFIG_FILE: `Afficher le fichier de configuration`,
 		MENU_TOGGLE_DEV_TOOLS: `Outils de développement`,
+		MENU_SCREENSHOT: `Capture d'écran (goban)`,
 
 	MENU_LANGUAGE: `Langue`,
 
@@ -619,6 +621,7 @@ translations[`русский`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `Быстрое переключение узлов`,
 		MENU_SHOW_CONFIG_FILE: `Показать файл настроек`,
 		MENU_TOGGLE_DEV_TOOLS: `Инструменты разработчика`,
+		MENU_SCREENSHOT: `Скриншот (доска)`,
 
 	MENU_LANGUAGE: `Язык`,
 
@@ -834,6 +837,7 @@ translations[`繁體中文`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `快速的訊息交換`,
 		MENU_SHOW_CONFIG_FILE: `顯示設定檔`,
 		MENU_TOGGLE_DEV_TOOLS: `顯示網頁開發工具`,
+		MENU_SCREENSHOT: `截圖（棋盤）`,
 
 	MENU_LANGUAGE: `語言`,
 
@@ -1051,6 +1055,7 @@ translations[`简体中文`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `快速信息交换`,
 		MENU_SHOW_CONFIG_FILE: `显示配置文件`,
 		MENU_TOGGLE_DEV_TOOLS: `显示网页开发工具`,
+		MENU_SCREENSHOT: `截图（棋盘）`,
 
 	MENU_LANGUAGE: `语言`,
 
@@ -1268,6 +1273,7 @@ translations[`한국어`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `빠른 노드 전환 사용`,								// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `설정 파일 보기`,
 		MENU_TOGGLE_DEV_TOOLS: `개발자 도구 토글`,
+		MENU_SCREENSHOT: `스크린샷 (바둑판)`,
 
 	MENU_LANGUAGE: `언어`,
 
@@ -1496,6 +1502,7 @@ translations[`日本語`] = {
 		MENU_SNAPPY_NODE_SWITCH_HACK: `高速ノード切り替えハック`,							// Uses a slightly dubious trick to make things more responsive.
 		MENU_SHOW_CONFIG_FILE: `設定ファイルを表示`,
 		MENU_TOGGLE_DEV_TOOLS: `開発者ツールの切り替え`,
+		MENU_SCREENSHOT: `スクリーンショット（碁盤）`,
 
 	MENU_LANGUAGE: `言語`,
 

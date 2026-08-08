@@ -2566,6 +2566,15 @@ function menu_build() {
 					accelerator: "CommandOrControl+Shift+I",
 					role: "toggledevtools"
 				},
+				{
+					type: "separator",
+				},
+				{
+					label: translate("MENU_SCREENSHOT"),
+					click: () => {
+						win.webContents.send("call", "screenshot");
+					}
+				},
 			]
 		},
 
