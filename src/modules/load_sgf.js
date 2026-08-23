@@ -118,6 +118,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, root_ca_extraction) {
 	let node = null;
 	let tree_started = false;
 	let inside_value = false;
+	let last_was_subtree = false;
 
 	let value = new_byte_pusher("UTF-8");
 	let key = new_byte_pusher("ascii");
@@ -203,6 +204,7 @@ function load_sgf_recursive(buf, i, parent_of_local_root, root_ca_extraction) {
 					return {root: node, offset: i};
 				}
 				i = load_sgf_recursive(buf, i, node, false).offset;
+				last_was_subtree = true;
 				// We don't add 1 because our loop will do i++ now.
 			} else if (c === 41) {						// that is )
 				if (!root) {
@@ -216,8 +218,15 @@ function load_sgf_recursive(buf, i, parent_of_local_root, root_ca_extraction) {
 				} else if (root_ca_extraction) {
 					return {root: node, offset: i};
 				} else {
-					node = new_node(node);
+					let branch_point = node;
+					node = new_node(branch_point);
+					if (last_was_subtree) {
+						// Flat dialect: trunk resumes after a variation -- make it the main line.
+						branch_point.children.pop();
+						branch_point.children.unshift(node);
+					}
 				}
+				last_was_subtree = false;
 				key.reset();
 				keycomplete = false;
 			} else if (c >= 65 && c <= 90) {			// that is A-Z
