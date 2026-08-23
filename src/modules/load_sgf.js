@@ -218,12 +218,12 @@ function load_sgf_recursive(buf, i, parent_of_local_root, root_ca_extraction) {
 				} else if (root_ca_extraction) {
 					return {root: node, offset: i};
 				} else {
-					let branch_point = node;
-					node = new_node(branch_point);
+					node = new_node(node);
 					if (last_was_subtree) {
-						// Flat dialect: trunk resumes after a variation -- make it the main line.
-						branch_point.children.pop();
-						branch_point.children.unshift(node);
+						// Rare "flat" dialect (A (C) B) instead of (A (B) (C)).
+						// Make this node the main line as the file probably intends.
+						node.parent.children.pop();
+						node.parent.children.unshift(node);
 					}
 				}
 				last_was_subtree = false;
