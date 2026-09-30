@@ -535,6 +535,7 @@ let board_drawer_prototype = {
 			}
 		}
 
+		this.plan_move_numbers(node);					// Should be first, so any other planned object at the same point wins.
 		this.plan_ko_marker(node);
 		this.plan_avoid_markers();
 		this.plan_previous_markers(node);
@@ -888,6 +889,10 @@ let board_drawer_prototype = {
 
 	plan_previous_markers: function(node) {
 
+		if (config.show_move_numbers && config.show_move_numbers_count !== 0) {		// Move numbers replace the marker.
+			return;
+		}
+
 		let moves_played = node.all_values("B").concat(node.all_values("W"));
 
 		for (let s of moves_played) {			// Probably just one (but illegal SGF is possible).
@@ -993,6 +998,95 @@ let board_drawer_prototype = {
 					}
 				}
 			}
+		}
+	},
+
+	plan_move_numbers: function(node) {
+
+		if (!config.show_move_numbers) {
+			return;
+		}
+
+		if (node.has_key("AB") || node.has_key("AW") || node.has_key("AE")) {
+			return;
+		}
+
+		let history = node.history();
+		let last = history.length - 1;
+
+		if (last < 1) {
+			return;
+		}
+
+		// On the main line, numbers match node.depth, as shown in the graph.
+		// Off the main line, numbering starts from the move that left the main line.
+
+		let base_index = 0;							// The node that counts as move 0.
+
+		for (let i = 1; i <= last; i++) {
+			if (history[i].parent.children[0] !== history[i]) {
+				base_index = i - 1;
+				break;
+			}
+		}
+
+		let start = base_index + 1;
+		let end = last;
+
+		// Nothing up to the most recent node that edits the board with AB / AW / AE is numbered.
+		// Off the main line, numbering also restarts from there.
+
+		for (let i = last - 1; i >= start; i--) {
+			if (history[i].has_key("AB") || history[i].has_key("AW") || history[i].has_key("AE")) {
+				start = i + 1;
+				if (!node.is_main_line()) {
+					base_index = i;
+				}
+				break;
+			}
+		}
+
+		if (end < start) {
+			return;
+		}
+
+		let n_setting = config.show_move_numbers_count;
+
+		if (n_setting >= 0 && (end - start + 1) > n_setting) {
+			start = end - n_setting + 1;
+		}
+
+		for (let i = start; i <= end; i++) {
+
+			let h_node = history[i];
+
+			let s = "";
+
+			for (let key of ["B", "W"]) {
+				let moves = h_node.all_values(key);
+				if (moves.length > 0) {
+					s = moves[0];
+					break;
+				}
+			}
+
+			if (s.length !== 2) {
+				continue;
+			}
+
+			let x = s.charCodeAt(0) - 97;
+			let y = s.charCodeAt(1) - 97;
+
+			if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+				continue;
+			}
+
+			let display_number = i - base_index;
+
+			this.needed_marks[x][y] = {
+				type: "label",
+				text: display_number.toString(),
+			};
 		}
 	},
 

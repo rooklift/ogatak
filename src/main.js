@@ -1699,6 +1699,14 @@ function menu_build() {
 					}
 				},
 				{
+					label: translate("MENU_SHOW_MOVE_NUMBERS"),
+					type: "checkbox",
+					checked: config.show_move_numbers,
+					click: () => {
+						win.webContents.send("toggle", "show_move_numbers");
+					}
+				},
+				{
 					type: "separator",
 				},
 				{
