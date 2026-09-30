@@ -129,7 +129,7 @@ translations[`English`] = {
 		MENU_FADE_BY_VISITS: `...fade by visits`,
 		MENU_MOUSEOVER_DELAY: `Wait before showing PV`,
 		MENU_NEXT_MOVE_MARKERS: `Next move markers`,
-		MENU_SHOW_MOVE_NUMBERS: `Show move numbers`,
+		MENU_SHOW_MOVE_NUMBERS: `Move numbers`,
 		MENU_COORDINATES: `Coordinates`,
 		MENU_STONE_COUNTS: `Stone counts`,
 		MENU_COLOURS: `Colours`,
