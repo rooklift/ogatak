@@ -537,9 +537,12 @@ function menu_build() {
 					label: translate("MENU_PASTE_SGF"),
 					accelerator: "CommandOrControl+Shift+V",
 					click: () => {
-						win.webContents.send("call", {
-							fn: "load_sgf_from_string",
-							args: [electron.clipboard.readText()]
+						// electron.clipboard.readText() may or may not return a promise (Electron 44+ does)
+						Promise.resolve(electron.clipboard.readText()).then((s) => {
+							win.webContents.send("call", {
+								fn: "load_sgf_from_string",
+								args: [s]
+							});
 						});
 					}
 				},
