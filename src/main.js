@@ -302,6 +302,12 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 		});
 	});
 
+	electron.ipcMain.on("set_clipboard_text", (event, text) => {
+		if (typeof text === "string") {
+			electron.clipboard.writeText(text);
+		}
+	});
+
 	electron.Menu.setApplicationMenu(menu);
 	menu_is_set = true;
 
@@ -544,6 +550,13 @@ function menu_build() {
 								args: [s]
 							});
 						});
+					}
+				},
+				{
+					label: translate("MENU_COPY_SGF"),
+					accelerator: "CommandOrControl+Shift+C",
+					click: () => {
+						win.webContents.send("call", "sgf_to_clipboard");
 					}
 				},
 				{
