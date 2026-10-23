@@ -187,6 +187,7 @@ let hub_main_props = {
 
 	sgf_to_clipboard: function() {
 		ipcRenderer.send("set_clipboard_text", tree_string(this.node));
+		toast(translate("ALERT_COPIED_SGF"), 1600);
 	},
 
 	// Loading.....................................................................................
