@@ -145,6 +145,9 @@ electron.app.whenReady().then(() => {					// If "ready" event already happened, 
 			// Create a setTimeout that will make the app close without the renderer's help if it takes too long (due to a crash)...
 
 			setTimeout(() => {
+				if (win.isDestroyed()) {				// Conceivable if the main process is very slow to halt for some reason.
+					return;
+				}
 				console.log("Renderer seems unresponsive, quitting anyway.");
 				have_received_terminate = true;
 				win.close();
