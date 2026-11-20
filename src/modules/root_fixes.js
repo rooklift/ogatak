@@ -196,7 +196,7 @@ function delay_root_move(root) {
 	for (let child of orig_children) {
 		child.parent = inserted_node;
 	}
-	for (let key of ["B", "CR", "LB", "MA", "PL", "SQ", "TR", "W"]) {
+	for (let key of ["B", "CR", "LB", "MA", "OGSC", "PL", "SBKV", "SQ", "TR", "W"]) {
 		if (root.has_key(key)) {
 			for (let value of root.all_values(key)) {
 				inserted_node.add_value(key, value);
