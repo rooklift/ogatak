@@ -1,7 +1,7 @@
 "use strict";
 
 const new_node = require("./node");
-const {replace_all} = require("./utils");
+const {points_list, replace_all} = require("./utils");
 
 function apply_komi_fix(root) {
 
@@ -158,7 +158,9 @@ function advance_depth_1_setup(root) {
 
 function fix_singleton_handicap(root) {
 
-	if (root.all_values("AB").length !== 1) {
+	let ab_points = root.all_values("AB").flatMap(z => points_list(z));
+
+	if (ab_points.length !== 1) {
 		return;
 	}
 
@@ -174,7 +176,7 @@ function fix_singleton_handicap(root) {
 		}
 	}
 
-	root.set("B", root.get("AB"));
+	root.set("B", ab_points[0]);
 	root.delete_key("AB");
 }
 
